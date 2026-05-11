@@ -45,3 +45,5 @@ src/
 
 01 Hook · 02 Pain · 03 Dream · 04 Mechanism · 05 Proof · 06 Authority ·
 07 Offer · 08 Scarcity · 09 Disqualifier · 10 Paths · 11 Magnet · 12 Close.
+
+<!-- redeploy-trigger: 2026-05-11T14:55:30.779767+00:00 -->
