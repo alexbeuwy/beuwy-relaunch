@@ -3,21 +3,75 @@
 @tailwind utilities;
 
 :root {
-  --bg-base: #1A0404;
-  --bg-raised: #210606;
-  --bg-elevated: #2A0808;
-  --ink-yellow: #F7E99A;
-  --ink-cream: #F2EFE1;
+  /* Beuwy brand palette */
+  --bg-base: #1A0404;        /* = brand bordeaux-ink */
+  --bg-raised: #210606;      /* = brand superdark */
+  --bg-elevated: #3A0808;    /* = brand bordeaux (was #2A0808) */
+  --ink-yellow: #F7E99A;     /* = brand yellow */
+  --ink-cream: #FFFDF3;      /* = brand cream (was #F2EFE1) */
   --ink-muted: #C2B89F;
   --ink-dim: #8A8068;
   --line-subtle: rgba(247, 233, 154, 0.08);
   --line-medium: rgba(247, 233, 154, 0.16);
   --line-strong: #F7E99A;
-  --accent-red: #FF7A78;
+  --accent-red: #FF5F5F;     /* = brand signal (was #FF7A78) */
 
   /* Geist sets --font-geist-sans + --font-geist-mono; alias for stable refs */
   --font-body: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* transitions-dev — semantic timing/curve tokens */
+  --resize-dur: 300ms;
+  --resize-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --digit-dur: 500ms;
+  --digit-distance: 8px;
+  --digit-stagger: 70ms;
+  --digit-blur: 2px;
+  --digit-ease: cubic-bezier(0.34, 1.45, 0.64, 1);
+  --digit-dir-x: 0;
+  --digit-dir-y: 1;
+  --badge-slide-dur: 260ms;
+  --badge-pop-dur: 500ms;
+  --badge-pop-close-dur: 180ms;
+  --badge-fade-dur: 400ms;
+  --badge-fade-close-dur: 180ms;
+  --badge-blur: 2px;
+  --badge-offset-x: -8.2px;
+  --badge-offset-y: 12.4px;
+  --badge-slide-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --badge-pop-ease: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --badge-close-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --text-swap-dur: 200ms;
+  --text-swap-translate-y: 8px;
+  --text-swap-blur: 2px;
+  --text-swap-ease: ease-out;
+  --dropdown-open-dur: 250ms;
+  --dropdown-close-dur: 150ms;
+  --dropdown-pre-scale: 0.97;
+  --dropdown-closing-scale: 0.99;
+  --dropdown-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --panel-open-dur: 400ms;
+  --panel-close-dur: 350ms;
+  --panel-translate-y: 100px;
+  --panel-blur: 2px;
+  --panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --page-slide-dur: 200ms;
+  --page-fade-dur: 200ms;
+  --page-slide-distance: 8px;
+  --page-blur: 3px;
+  --page-stagger: 0ms;
+  --page-exit-enabled: 1;
+  --page-slide-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --page-fade-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --icon-swap-dur: 200ms;
+  --icon-swap-blur: 2px;
+  --icon-swap-start-scale: 0.25;
+  --icon-swap-ease: ease-in-out;
 }
 
 * {
@@ -107,13 +161,39 @@ body {
   background-position: 0 0, 1px 2px;
 }
 
-/* Rise reveal */
+/* Rise reveal — legacy CSS-only utility, kept for static markup */
 @keyframes rise {
   0% { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 .rise {
   animation: rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scroll reveal — transitions-dev panel-reveal feel.
+   <Reveal> renders <div data-reveal data-shown="false|true" style="--reveal-delay">.
+   IntersectionObserver flips data-shown when the element enters the viewport. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(var(--panel-blur));
+  transition:
+    opacity var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
+    transform var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
+    filter var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+[data-reveal][data-shown="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* Marquee — kept available, not used on landing anymore */
