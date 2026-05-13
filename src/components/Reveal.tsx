@@ -2,6 +2,10 @@
 
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+/**
+ * Scroll-triggered reveal — uses transitions-dev panel-reveal feel:
+ * translateY + blur, brand easing, respects prefers-reduced-motion.
+ */
 export function Reveal({
   children,
   delay = 0,
@@ -33,13 +37,14 @@ export function Reveal({
   return (
     <div
       ref={ref}
+      data-reveal
+      data-shown={shown ? "true" : "false"}
       className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "translateY(0)" : "translateY(14px)",
-        transition: `opacity 700ms cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 700ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-        willChange: "opacity, transform",
-      }}
+      style={
+        {
+          "--reveal-delay": `${delay}ms`,
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>

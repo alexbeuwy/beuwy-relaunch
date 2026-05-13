@@ -7,17 +7,15 @@ const config: Config = {
       colors: {
         // beuwy brand
         bg: {
-          base: "#1A0404", // page background, slightly darker than #210606
-          raised: "#210606", // surface raised (the user's "super dark red BG")
-          elevated: "#2A0808", // a touch higher for hover/cards on cards
+          base: "#1A0404",     // = brand bordeaux-ink
+          raised: "#210606",   // = brand superdark
+          elevated: "#3A0808", // = brand bordeaux
         },
         ink: {
-          // primary brand accent
           yellow: "#F7E99A",
           yellowDim: "#D9CC85",
           yellowSoft: "#F7E99A",
-          // text on dark
-          cream: "#F2EFE1",
+          cream: "#FFFDF3",    // = brand cream
           muted: "#C2B89F",
           dim: "#8A8068",
         },
@@ -27,7 +25,7 @@ const config: Config = {
           strong: "#F7E99A",
         },
         accent: {
-          red: "#FF5A67",
+          red: "#FF5F5F",      // = brand signal
         },
       },
       fontFamily: {
