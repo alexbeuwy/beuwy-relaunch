@@ -121,7 +121,16 @@ export function Editor({
               letterSpacing: "-0.01em",
             }}
           >
-            <span style={{ color: "var(--ink-yellow)" }}>●</span>{" "}
+            <span
+              className="editor-live-dot"
+              style={{
+                color: "var(--ink-yellow)",
+                display: "inline-block",
+                borderRadius: "50%",
+              }}
+            >
+              ●
+            </span>{" "}
             {(name || "DESIGN").toUpperCase()}.md{" "}
             <span style={{ color: "var(--ink-dim)" }}>· UTF-8 · LF · YAML</span>
           </span>
