@@ -347,8 +347,18 @@ export default function HomePage() {
                     color: "var(--ink-yellow)",
                     lineHeight: 0.95,
                   }}
+                  aria-label={s.n}
                 >
-                  {s.n}
+                  {s.n.split("").map((ch, i) => (
+                    <span
+                      key={i}
+                      className="t-digit"
+                      style={{ "--digit-index": i } as React.CSSProperties}
+                      aria-hidden
+                    >
+                      {ch === " " ? " " : ch}
+                    </span>
+                  ))}
                 </p>
                 <p
                   className="mt-3"
