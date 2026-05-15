@@ -11,8 +11,16 @@ export default function HomePage() {
       {/* ============================================================
           01 — HOOK
          ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px]">
-        <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
+      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden">
+        {/* Dark-luxe "dominant object mass" — typographic wordmark anchored top-right.
+            Swap to a real photo by dropping public/hero/stage.jpg + uncommenting the <img>. */}
+        <div
+          aria-hidden
+          className="hero-object-mass font-display"
+        >
+          beuwy
+        </div>
+        <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
           <Reveal>
             <div className="flex flex-wrap items-center gap-2 mb-7">
               <span className="chip">
@@ -44,7 +52,7 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <Reveal delay={140}>
+          <Reveal delay={140} variant="mask">
             <h1
               className="h-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] leading-[0.98] max-w-[1100px]"
               style={{ letterSpacing: "-0.025em" }}

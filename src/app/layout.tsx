@@ -5,6 +5,8 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { SpotlightTracker } from "@/components/SpotlightTracker";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -43,6 +45,8 @@ export default function RootLayout({
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />
+        <SmoothScroll />
+        <SpotlightTracker />
         <main id="main" className="relative z-[2]">{children}</main>
         <Footer />
       </body>

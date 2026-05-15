@@ -72,6 +72,12 @@
   --icon-swap-blur: 2px;
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
+
+  /* dark-luxe — specular sheen + cursor spotlight tokens */
+  --sheen-dur: 700ms;
+  --sheen-color: rgba(247, 233, 154, 0.18);
+  --spotlight-color: rgba(247, 233, 154, 0.10);
+  --spotlight-size: 180px;
 }
 
 * {
@@ -138,10 +144,38 @@ body {
   font-feature-settings: "tnum";
 }
 
-/* Divider */
+/* Editorial-premium chapter label letter-by-letter reveal.
+   Each .ch starts hidden + offset; data-shown=true on the parent stages them
+   in using --char-index for stagger. The .num + space stay static. */
+[data-chapter-label] .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(1px);
+  transition:
+    opacity 240ms var(--text-swap-ease),
+    transform 240ms var(--text-swap-ease),
+    filter 240ms var(--text-swap-ease);
+  transition-delay: calc(var(--char-index, 0) * 18ms);
+  will-change: opacity, transform, filter;
+}
+[data-chapter-label][data-shown="true"] .ch {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-chapter-label] .ch {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+/* Divider — base (gradient override below in dark-luxe section) */
 .hr-line {
   height: 1px;
-  background: var(--line-subtle);
   width: 100%;
 }
 
@@ -188,11 +222,31 @@ body {
   transform: translateY(0);
   filter: blur(0);
 }
+
+/* Mask reveal — gsap-explore / text-masking; horizontal wipe used on h-display headlines. */
+[data-reveal-mask] {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    opacity var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
+    clip-path var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
+  will-change: opacity, clip-path;
+}
+[data-reveal-mask][data-shown="true"] {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     transition-duration: 0.01ms !important;
     transform: none !important;
     filter: none !important;
+  }
+  [data-reveal-mask] {
+    transition-duration: 0.01ms !important;
+    clip-path: inset(0) !important;
+    opacity: 1 !important;
   }
 }
 
@@ -210,6 +264,8 @@ body {
    ---------------------------------------------------------- */
 
 .btn-primary {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -236,6 +292,24 @@ body {
   user-select: none;
   will-change: transform;
 }
+/* Specular sweep — dark-luxe / react-bits glare-hover */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    var(--sheen-color) 50%,
+    transparent 70%
+  );
+  transform: translateX(-110%);
+  transition: transform var(--sheen-dur) var(--resize-ease);
+  z-index: 0;
+}
+.btn-primary:hover::before { transform: translateX(110%); }
+.btn-primary > * { position: relative; z-index: 1; }
 .btn-primary:hover {
   background: #FBF1B6;
   transform: translateY(-1px);
@@ -388,8 +462,9 @@ body {
   }
 }
 
-/* Cards — card-resize hover */
+/* Cards — card-resize hover + cursor-tracked spotlight (dark-luxe / aceternity card-spotlight) */
 .card {
+  position: relative;
   background: var(--bg-raised);
   border: 1px solid var(--line-subtle);
   border-radius: 12px;
@@ -400,7 +475,25 @@ body {
     box-shadow var(--resize-dur) var(--resize-ease),
     background var(--resize-dur) var(--resize-ease);
   will-change: transform;
+  isolation: isolate;
 }
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--resize-dur) var(--resize-ease);
+  background: radial-gradient(
+    var(--spotlight-size) circle at var(--mx, 50%) var(--my, 50%),
+    var(--spotlight-color),
+    transparent 60%
+  );
+  z-index: 0;
+}
+.card > * { position: relative; z-index: 1; }
+.card:hover::before { opacity: 1; }
 .card:hover {
   border-color: var(--line-medium);
   transform: translateY(-3px);
@@ -413,9 +506,27 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Section dividers */
+/* Section dividers — dark-luxe luminous hairline rail */
 .section-divider {
-  border-top: 1px solid var(--line-subtle);
+  border-top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--line-medium) 20%,
+    var(--line-medium) 80%,
+    transparent 100%
+  );
+}
+.hr-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--line-subtle) 18%,
+    var(--line-medium) 50%,
+    var(--line-subtle) 82%,
+    transparent 100%
+  );
 }
 
 /* Editor lines — uses geist-mono now */
@@ -440,25 +551,32 @@ body {
 .code-line .comment { color: var(--ink-dim); font-style: italic; }
 .code-line .punc { color: var(--ink-muted); }
 
-/* Slow ambient glow behind hero — sits in fixed pointer-events-none layer */
+/* Dark-luxe "stage lamp" — one focal light source behind the hero.
+   Replaces the wandering ambient-blob orb (dark-luxe forbids ambient orb wallpaper). */
 .ambient-blob {
   position: fixed;
   z-index: 0;
-  width: 60vmax;
-  height: 60vmax;
   pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(circle at center,
-    rgba(247, 233, 154, 0.08) 0%,
-    rgba(247, 233, 154, 0.02) 30%,
-    transparent 60%);
-  filter: blur(40px);
-  animation: drift 28s ease-in-out infinite alternate;
-  will-change: transform;
+  top: -10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 95vh;
+  background:
+    radial-gradient(ellipse 35% 60% at 50% 28%, rgba(247, 233, 154, 0.10), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 50% 0%, rgba(255, 248, 220, 0.06), transparent 65%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  filter: blur(28px);
+  animation: stage-lamp-breathe 9s ease-in-out infinite;
+  will-change: opacity;
 }
-@keyframes drift {
-  0% { transform: translate(-20vw, -10vh); }
-  100% { transform: translate(20vw, 10vh); }
+@keyframes stage-lamp-breathe {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob { animation: none; }
 }
 
 /* Nav link — text-swap-style hover/active */
@@ -511,6 +629,48 @@ select:focus {
   transition: border-color var(--resize-dur) var(--resize-ease);
 }
 
+/* Dark-luxe / editorial-premium hero object mass.
+   Giant Fraunces wordmark anchored right-of-fold as the "dominant object mass"
+   per dark-luxe/Hero Direction. Pointer-events: none, dimmed to ~7%. */
+.hero-object-mass {
+  position: absolute;
+  top: clamp(48px, 12vh, 120px);
+  right: clamp(-2vw, -4vw, -6vw);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(160px, 28vw, 420px);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  color: var(--ink-yellow);
+  opacity: 0.055;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+  white-space: nowrap;
+}
+
+/* dark-luxe — scroll-reactive top rail. Idle is invisible; after 8 px scroll
+   the header darkens, blurs the page behind it, and reveals a hairline. */
+[data-nav] {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--resize-dur) var(--resize-ease),
+    backdrop-filter var(--resize-dur) var(--resize-ease),
+    -webkit-backdrop-filter var(--resize-dur) var(--resize-ease),
+    border-color var(--resize-dur) var(--resize-ease);
+}
+[data-nav][data-scrolled="true"] {
+  background: rgba(26, 4, 4, 0.72);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--line-subtle);
+}
+
 /* Editor live indicator — pop-in feel on first paint, soft pulse after */
 .editor-live-dot {
   animation:
@@ -532,8 +692,25 @@ select:focus {
 /* Number pop-in — drives stat counters when revealed.
    Wrap each digit in a <span class="t-digit"> and toggle data-shown on the wrapper. */
 [data-shown="true"] .t-digit {
-  animation: t-digit-pop var(--digit-dur) var(--digit-ease) both;
-  animation-delay: calc(var(--digit-index, 0) * var(--digit-stagger));
+  animation:
+    t-digit-pop var(--digit-dur) var(--digit-ease) both,
+    t-digit-sheen 4.2s ease-in-out infinite;
+  animation-delay:
+    calc(var(--digit-index, 0) * var(--digit-stagger)),
+    calc(var(--digit-dur) + var(--digit-index, 0) * var(--digit-stagger));
+  background: linear-gradient(
+    110deg,
+    var(--ink-yellow) 0%,
+    var(--ink-yellow) 40%,
+    #FBF1B6 50%,
+    var(--ink-yellow) 60%,
+    var(--ink-yellow) 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 .t-digit {
   display: inline-block;
@@ -543,7 +720,7 @@ select:focus {
     calc(var(--digit-dir-y) * var(--digit-distance))
   );
   filter: blur(var(--digit-blur));
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity, filter, background-position;
 }
 @keyframes t-digit-pop {
   0% {
@@ -559,6 +736,11 @@ select:focus {
     transform: translate(0, 0);
     filter: blur(0);
   }
+}
+/* Metallic sheen — react-bits/metallic-paint on the proof-stack glyphs. */
+@keyframes t-digit-sheen {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .chip .dot,
