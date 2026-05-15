@@ -72,6 +72,12 @@
   --icon-swap-blur: 2px;
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
+
+  /* dark-luxe — specular sheen + cursor spotlight tokens */
+  --sheen-dur: 700ms;
+  --sheen-color: rgba(247, 233, 154, 0.18);
+  --spotlight-color: rgba(247, 233, 154, 0.10);
+  --spotlight-size: 180px;
 }
 
 * {
@@ -138,10 +144,9 @@ body {
   font-feature-settings: "tnum";
 }
 
-/* Divider */
+/* Divider — base (gradient override below in dark-luxe section) */
 .hr-line {
   height: 1px;
-  background: var(--line-subtle);
   width: 100%;
 }
 
@@ -188,11 +193,31 @@ body {
   transform: translateY(0);
   filter: blur(0);
 }
+
+/* Mask reveal — gsap-explore / text-masking; horizontal wipe used on h-display headlines. */
+[data-reveal-mask] {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    opacity var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
+    clip-path var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
+  will-change: opacity, clip-path;
+}
+[data-reveal-mask][data-shown="true"] {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     transition-duration: 0.01ms !important;
     transform: none !important;
     filter: none !important;
+  }
+  [data-reveal-mask] {
+    transition-duration: 0.01ms !important;
+    clip-path: inset(0) !important;
+    opacity: 1 !important;
   }
 }
 
@@ -210,6 +235,8 @@ body {
    ---------------------------------------------------------- */
 
 .btn-primary {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -236,6 +263,24 @@ body {
   user-select: none;
   will-change: transform;
 }
+/* Specular sweep — dark-luxe / react-bits glare-hover */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    var(--sheen-color) 50%,
+    transparent 70%
+  );
+  transform: translateX(-110%);
+  transition: transform var(--sheen-dur) var(--resize-ease);
+  z-index: 0;
+}
+.btn-primary:hover::before { transform: translateX(110%); }
+.btn-primary > * { position: relative; z-index: 1; }
 .btn-primary:hover {
   background: #FBF1B6;
   transform: translateY(-1px);
@@ -388,8 +433,9 @@ body {
   }
 }
 
-/* Cards — card-resize hover */
+/* Cards — card-resize hover + cursor-tracked spotlight (dark-luxe / aceternity card-spotlight) */
 .card {
+  position: relative;
   background: var(--bg-raised);
   border: 1px solid var(--line-subtle);
   border-radius: 12px;
@@ -400,7 +446,25 @@ body {
     box-shadow var(--resize-dur) var(--resize-ease),
     background var(--resize-dur) var(--resize-ease);
   will-change: transform;
+  isolation: isolate;
 }
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--resize-dur) var(--resize-ease);
+  background: radial-gradient(
+    var(--spotlight-size) circle at var(--mx, 50%) var(--my, 50%),
+    var(--spotlight-color),
+    transparent 60%
+  );
+  z-index: 0;
+}
+.card > * { position: relative; z-index: 1; }
+.card:hover::before { opacity: 1; }
 .card:hover {
   border-color: var(--line-medium);
   transform: translateY(-3px);
@@ -413,9 +477,27 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Section dividers */
+/* Section dividers — dark-luxe luminous hairline rail */
 .section-divider {
-  border-top: 1px solid var(--line-subtle);
+  border-top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--line-medium) 20%,
+    var(--line-medium) 80%,
+    transparent 100%
+  );
+}
+.hr-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--line-subtle) 18%,
+    var(--line-medium) 50%,
+    var(--line-subtle) 82%,
+    transparent 100%
+  );
 }
 
 /* Editor lines — uses geist-mono now */

@@ -44,7 +44,7 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <Reveal delay={140}>
+          <Reveal delay={140} variant="mask">
             <h1
               className="h-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] leading-[0.98] max-w-[1100px]"
               style={{ letterSpacing: "-0.025em" }}
