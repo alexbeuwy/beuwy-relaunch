@@ -147,29 +147,29 @@ body {
 /* Editorial-premium chapter label letter-by-letter reveal.
    Each .ch starts hidden + offset; data-shown=true on the parent stages them
    in using --char-index for stagger. The .num + space stay static. */
-.js-ready [data-chapter-label] .ch {
+/* Chapter label letter stagger — fail-open: visible by default, animation only
+   triggers when JS sets data-state="hidden" then "shown". */
+[data-chapter-label] .ch {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(4px);
-  filter: blur(1px);
   transition:
     opacity 240ms var(--text-swap-ease),
     transform 240ms var(--text-swap-ease),
     filter 240ms var(--text-swap-ease);
   transition-delay: calc(var(--char-index, 0) * 18ms);
-  will-change: opacity, transform, filter;
 }
-.js-ready [data-chapter-label][data-shown="true"] .ch {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+[data-chapter-label][data-state="hidden"] .ch {
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(1px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .js-ready [data-chapter-label] .ch {
+  [data-chapter-label] .ch {
+    transition: none !important;
+  }
+  [data-chapter-label][data-state="hidden"] .ch {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-    transition: none !important;
   }
 }
 
@@ -204,49 +204,45 @@ body {
   animation: rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Scroll reveal — transitions-dev panel-reveal feel.
-   Fail-open: only hide when html.js-ready is set (synchronous inline script in
-   layout.tsx). If JS doesn't run, everything stays visible. */
-.js-ready [data-reveal] {
+/* Scroll reveal — TRULY fail-open.
+   - SSR + no-JS:           data-state="ssr"     -> visible (no hide rule applies)
+   - JS detects in-view:    data-state="shown"   -> visible
+   - JS detects below-fold: data-state="hidden"  -> hidden + transition primed
+   When data-state flips hidden -> shown, the transition plays.
+   Critical: NO global hide rule on [data-reveal] alone — fail-open by default. */
+
+[data-reveal][data-state="hidden"] {
   opacity: 0;
   transform: translateY(24px);
   filter: blur(var(--panel-blur));
+}
+[data-reveal] {
   transition:
     opacity var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
     transform var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
     filter var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
-  will-change: opacity, transform, filter;
-}
-.js-ready [data-reveal][data-shown="true"] {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
 }
 
-/* Mask reveal — gsap-explore / text-masking; horizontal wipe used on h-display headlines. */
-.js-ready [data-reveal-mask] {
+[data-reveal-mask][data-state="hidden"] {
   opacity: 0;
   clip-path: inset(0 100% 0 0);
+}
+[data-reveal-mask] {
   transition:
     opacity var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms),
     clip-path var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
-  will-change: opacity, clip-path;
-}
-.js-ready [data-reveal-mask][data-shown="true"] {
-  opacity: 1;
-  clip-path: inset(0 0 0 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js-ready [data-reveal] {
-    transition-duration: 0.01ms !important;
+  [data-reveal], [data-reveal-mask] {
+    transition: none !important;
+  }
+  [data-reveal][data-state="hidden"],
+  [data-reveal-mask][data-state="hidden"] {
+    opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-  }
-  .js-ready [data-reveal-mask] {
-    transition-duration: 0.01ms !important;
-    clip-path: inset(0) !important;
-    opacity: 1 !important;
+    clip-path: none !important;
   }
 }
 
@@ -558,6 +554,70 @@ body {
     radial-gradient(120% 80% at 50% 0%, rgba(247,233,154,0.04), transparent 65%),
     var(--bg-elevated);
 }
+
+/* Inverted contrast band — yellow stage, bordeaux text. One per page max.
+   Used on the Magnet CTA to break the bordeaux rhythm with a stop-point. */
+.section-band-bright {
+  background: var(--ink-yellow);
+  color: var(--bg-base);
+}
+.section-band-bright .h-display,
+.section-band-bright .h-display em,
+.section-band-bright .h-display .em {
+  color: var(--bg-base) !important;
+}
+.section-band-bright .eyebrow,
+.section-band-bright .eyebrow .num {
+  color: var(--bg-base) !important;
+  opacity: 0.7;
+}
+.section-band-bright p,
+.section-band-bright span:not(.dot):not([class*="btn-"]):not([aria-hidden]),
+.section-band-bright em {
+  color: var(--bg-base) !important;
+}
+.section-band-bright em {
+  color: var(--bg-raised) !important;
+}
+.section-band-bright .btn-primary {
+  background: var(--bg-base);
+  color: var(--ink-yellow);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 0 0 1px rgba(26,4,4,0.4),
+    0 14px 28px -16px rgba(26,4,4,0.4);
+}
+.section-band-bright .btn-primary:hover {
+  background: #2a0c0c;
+  color: var(--ink-yellow);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 0 0 1px rgba(26,4,4,0.6),
+    0 18px 38px -16px rgba(26,4,4,0.4);
+}
+.section-band-bright .btn-secondary {
+  color: var(--bg-base);
+  box-shadow: inset 0 0 0 1px rgba(26,4,4,0.25);
+}
+.section-band-bright .btn-secondary:hover {
+  background: rgba(26,4,4,0.06);
+  color: var(--bg-base);
+  box-shadow: inset 0 0 0 1px rgba(26,4,4,0.55);
+}
+.section-band-bright .chip {
+  background: var(--bg-base);
+  color: var(--ink-yellow);
+  border-color: rgba(26,4,4,0.3);
+}
+.section-band-bright .chip .dot { background: var(--ink-yellow); }
+.section-band-bright .card {
+  background: rgba(26,4,4,0.06);
+  border-color: rgba(26,4,4,0.18);
+  color: var(--bg-base);
+}
+.section-band-bright .card:hover {
+  border-color: rgba(26,4,4,0.4);
+}
 .hr-line {
   background: linear-gradient(
     90deg,
@@ -729,9 +789,23 @@ select:focus {
   50% { box-shadow: 0 0 0 5px rgba(247, 233, 154, 0); }
 }
 
-/* Number pop-in + metallic sheen — drives stat counters when revealed.
-   Fail-open: only scoped to .js-ready so digits stay visible in flat yellow if JS fails. */
-.js-ready [data-shown="true"] .t-digit {
+/* Stat counter digits — fail-open: visible in flat yellow by default.
+   When a parent flips to data-shown="true" or data-state="shown" the digits
+   pop in and start a slow metallic sheen sweep. */
+.t-digit {
+  display: inline-block;
+  color: var(--ink-yellow);
+}
+[data-state="hidden"] .t-digit {
+  opacity: 0;
+  transform: translate(
+    calc(var(--digit-dir-x) * var(--digit-distance)),
+    calc(var(--digit-dir-y) * var(--digit-distance))
+  );
+  filter: blur(var(--digit-blur));
+}
+[data-shown="true"] .t-digit,
+[data-state="shown"] .t-digit {
   animation:
     t-digit-pop var(--digit-dur) var(--digit-ease) both,
     t-digit-sheen 4.2s ease-in-out infinite;
@@ -751,18 +825,6 @@ select:focus {
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-}
-.t-digit {
-  display: inline-block;
-  color: var(--ink-yellow);
-}
-.js-ready .t-digit {
-  opacity: 0;
-  transform: translate(
-    calc(var(--digit-dir-x) * var(--digit-distance)),
-    calc(var(--digit-dir-y) * var(--digit-distance))
-  );
-  filter: blur(var(--digit-blur));
   will-change: transform, opacity, filter, background-position;
 }
 @keyframes t-digit-pop {

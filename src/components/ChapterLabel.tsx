@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+type State = "ssr" | "hidden" | "shown";
+
 /**
- * Editorial-premium chapter opener — splits text into letters and animates
- * opacity + translateY per letter when entering the viewport. Used only on
- * section chapter labels (e.g. "01 Pain · 2026/01"), never on body copy.
+ * Editorial-premium chapter opener — fail-open: SSR renders visible.
+ * After mount, hides briefly + IntersectionObserver fades each letter in.
+ * If JS errors, content stays visible (no blank chapter label ever).
  */
 export function ChapterLabel({
   num,
@@ -17,15 +19,26 @@ export function ChapterLabel({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [shown, setShown] = useState(false);
+  const [state, setState] = useState<State>("ssr");
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+
+    const rect = node.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const inViewport = rect.top < vh && rect.bottom > 0;
+
+    if (inViewport) {
+      setState("shown");
+      return;
+    }
+
+    setState("hidden");
     const obs = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
-          setShown(true);
+          setState("shown");
           obs.disconnect();
         }
       },
@@ -42,7 +55,7 @@ export function ChapterLabel({
       ref={ref}
       className={`eyebrow ${className}`}
       data-chapter-label
-      data-shown={shown ? "true" : "false"}
+      data-state={state}
     >
       <span className="num" data-chapter-num>
         {num}
@@ -54,7 +67,7 @@ export function ChapterLabel({
           style={{ "--char-index": i } as React.CSSProperties}
           aria-hidden
         >
-          {ch === " " ? " " : ch}
+          {ch === " " ? " " : ch}
         </span>
       ))}
     </span>
