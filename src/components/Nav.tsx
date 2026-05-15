@@ -18,7 +18,7 @@ export function Nav() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -26,13 +26,9 @@ export function Nav() {
 
   return (
     <header
-      className="fixed top-0 inset-x-0 z-50 transition-colors"
-      style={{
-        background: scrolled ? "rgba(26,4,4,0.78)" : "transparent",
-        backdropFilter: scrolled ? "saturate(140%) blur(14px)" : "none",
-        WebkitBackdropFilter: scrolled ? "saturate(140%) blur(14px)" : "none",
-        borderBottom: scrolled ? "1px solid var(--line-subtle)" : "1px solid transparent",
-      }}
+      data-nav
+      data-scrolled={scrolled ? "true" : "false"}
+      className="fixed top-0 inset-x-0 z-50"
     >
       <a href="#main" className="skip-link">
         Zum Inhalt springen

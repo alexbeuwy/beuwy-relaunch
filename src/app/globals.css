@@ -522,25 +522,32 @@ body {
 .code-line .comment { color: var(--ink-dim); font-style: italic; }
 .code-line .punc { color: var(--ink-muted); }
 
-/* Slow ambient glow behind hero — sits in fixed pointer-events-none layer */
+/* Dark-luxe "stage lamp" — one focal light source behind the hero.
+   Replaces the wandering ambient-blob orb (dark-luxe forbids ambient orb wallpaper). */
 .ambient-blob {
   position: fixed;
   z-index: 0;
-  width: 60vmax;
-  height: 60vmax;
   pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(circle at center,
-    rgba(247, 233, 154, 0.08) 0%,
-    rgba(247, 233, 154, 0.02) 30%,
-    transparent 60%);
-  filter: blur(40px);
-  animation: drift 28s ease-in-out infinite alternate;
-  will-change: transform;
+  top: -10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 95vh;
+  background:
+    radial-gradient(ellipse 35% 60% at 50% 28%, rgba(247, 233, 154, 0.10), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 50% 0%, rgba(255, 248, 220, 0.06), transparent 65%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  filter: blur(28px);
+  animation: stage-lamp-breathe 9s ease-in-out infinite;
+  will-change: opacity;
 }
-@keyframes drift {
-  0% { transform: translate(-20vw, -10vh); }
-  100% { transform: translate(20vw, 10vh); }
+@keyframes stage-lamp-breathe {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob { animation: none; }
 }
 
 /* Nav link — text-swap-style hover/active */
@@ -593,6 +600,26 @@ select:focus {
   transition: border-color var(--resize-dur) var(--resize-ease);
 }
 
+/* dark-luxe — scroll-reactive top rail. Idle is invisible; after 8 px scroll
+   the header darkens, blurs the page behind it, and reveals a hairline. */
+[data-nav] {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--resize-dur) var(--resize-ease),
+    backdrop-filter var(--resize-dur) var(--resize-ease),
+    -webkit-backdrop-filter var(--resize-dur) var(--resize-ease),
+    border-color var(--resize-dur) var(--resize-ease);
+}
+[data-nav][data-scrolled="true"] {
+  background: rgba(26, 4, 4, 0.72);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--line-subtle);
+}
+
 /* Editor live indicator — pop-in feel on first paint, soft pulse after */
 .editor-live-dot {
   animation:
@@ -614,8 +641,25 @@ select:focus {
 /* Number pop-in — drives stat counters when revealed.
    Wrap each digit in a <span class="t-digit"> and toggle data-shown on the wrapper. */
 [data-shown="true"] .t-digit {
-  animation: t-digit-pop var(--digit-dur) var(--digit-ease) both;
-  animation-delay: calc(var(--digit-index, 0) * var(--digit-stagger));
+  animation:
+    t-digit-pop var(--digit-dur) var(--digit-ease) both,
+    t-digit-sheen 4.2s ease-in-out infinite;
+  animation-delay:
+    calc(var(--digit-index, 0) * var(--digit-stagger)),
+    calc(var(--digit-dur) + var(--digit-index, 0) * var(--digit-stagger));
+  background: linear-gradient(
+    110deg,
+    var(--ink-yellow) 0%,
+    var(--ink-yellow) 40%,
+    #FBF1B6 50%,
+    var(--ink-yellow) 60%,
+    var(--ink-yellow) 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 .t-digit {
   display: inline-block;
@@ -625,7 +669,7 @@ select:focus {
     calc(var(--digit-dir-y) * var(--digit-distance))
   );
   filter: blur(var(--digit-blur));
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity, filter, background-position;
 }
 @keyframes t-digit-pop {
   0% {
@@ -641,6 +685,11 @@ select:focus {
     transform: translate(0, 0);
     filter: blur(0);
   }
+}
+/* Metallic sheen — react-bits/metallic-paint on the proof-stack glyphs. */
+@keyframes t-digit-sheen {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .chip .dot,
