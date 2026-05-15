@@ -6,7 +6,6 @@ import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
-import { SmoothScroll } from "@/components/SmoothScroll";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -42,20 +41,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}>
-      <head>
-        {/* Fail-open: if any client component throws and Reveal's IntersectionObserver
-            never flips data-shown, content stays visible instead of stuck at opacity:0.
-            CSS reveal rules are scoped to html.js-ready, set synchronously here. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js-ready');",
-          }}
-        />
-      </head>
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />
-        <SmoothScroll />
         <SpotlightTracker />
         <main id="main" className="relative z-[2]">{children}</main>
         <Footer />

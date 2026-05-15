@@ -833,7 +833,7 @@ export default function HomePage() {
         chapter="10 Magnet"
         title="Kostenlos · 60 Sekunden"
         date="2026 / 10"
-        tone="elevated"
+        tone="bright"
       >
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">

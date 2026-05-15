@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ChapterLabel } from "./ChapterLabel";
 
-type Tone = "base" | "raised" | "elevated";
+type Tone = "base" | "raised" | "elevated" | "bright";
 
 export function Section({
   id,
