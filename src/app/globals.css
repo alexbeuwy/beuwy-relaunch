@@ -147,7 +147,7 @@ body {
 /* Editorial-premium chapter label letter-by-letter reveal.
    Each .ch starts hidden + offset; data-shown=true on the parent stages them
    in using --char-index for stagger. The .num + space stay static. */
-[data-chapter-label] .ch {
+.js-ready [data-chapter-label] .ch {
   display: inline-block;
   opacity: 0;
   transform: translateY(4px);
@@ -159,13 +159,13 @@ body {
   transition-delay: calc(var(--char-index, 0) * 18ms);
   will-change: opacity, transform, filter;
 }
-[data-chapter-label][data-shown="true"] .ch {
+.js-ready [data-chapter-label][data-shown="true"] .ch {
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-chapter-label] .ch {
+  .js-ready [data-chapter-label] .ch {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -205,9 +205,9 @@ body {
 }
 
 /* Scroll reveal — transitions-dev panel-reveal feel.
-   <Reveal> renders <div data-reveal data-shown="false|true" style="--reveal-delay">.
-   IntersectionObserver flips data-shown when the element enters the viewport. */
-[data-reveal] {
+   Fail-open: only hide when html.js-ready is set (synchronous inline script in
+   layout.tsx). If JS doesn't run, everything stays visible. */
+.js-ready [data-reveal] {
   opacity: 0;
   transform: translateY(24px);
   filter: blur(var(--panel-blur));
@@ -217,14 +217,14 @@ body {
     filter var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
   will-change: opacity, transform, filter;
 }
-[data-reveal][data-shown="true"] {
+.js-ready [data-reveal][data-shown="true"] {
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
 }
 
 /* Mask reveal — gsap-explore / text-masking; horizontal wipe used on h-display headlines. */
-[data-reveal-mask] {
+.js-ready [data-reveal-mask] {
   opacity: 0;
   clip-path: inset(0 100% 0 0);
   transition:
@@ -232,18 +232,18 @@ body {
     clip-path var(--panel-open-dur) var(--panel-ease) var(--reveal-delay, 0ms);
   will-change: opacity, clip-path;
 }
-[data-reveal-mask][data-shown="true"] {
+.js-ready [data-reveal-mask][data-shown="true"] {
   opacity: 1;
   clip-path: inset(0 0 0 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  .js-ready [data-reveal] {
     transition-duration: 0.01ms !important;
     transform: none !important;
     filter: none !important;
   }
-  [data-reveal-mask] {
+  .js-ready [data-reveal-mask] {
     transition-duration: 0.01ms !important;
     clip-path: inset(0) !important;
     opacity: 1 !important;
@@ -506,9 +506,18 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Section dividers — dark-luxe luminous hairline rail */
+/* Section dividers — dark-luxe luminous hairline rail.
+   Moved to a top-edge ::before pseudo so it sits inside each .section-band. */
 .section-divider {
   border-top: 0;
+  position: relative;
+}
+.section-divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -517,6 +526,37 @@ body {
     var(--line-medium) 80%,
     transparent 100%
   );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* dark-luxe "material bands" — stepped dark surfaces per section.
+   Tones alternate down the page to create stage composition and avoid
+   the kit-fingerprint of identical paddings + identical background. */
+.section-band {
+  position: relative;
+  isolation: isolate;
+}
+.section-band::after {
+  /* Soft inset top/bottom highlight so adjacent bands feel stage-lit rather
+     than abruptly color-blocked. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(247, 233, 154, 0.025),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+.section-band > * { position: relative; z-index: 1; }
+
+.section-band-base { background: var(--bg-base); }
+.section-band-raised { background: var(--bg-raised); }
+.section-band-elevated {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(247,233,154,0.04), transparent 65%),
+    var(--bg-elevated);
 }
 .hr-line {
   background: linear-gradient(
@@ -689,9 +729,9 @@ select:focus {
   50% { box-shadow: 0 0 0 5px rgba(247, 233, 154, 0); }
 }
 
-/* Number pop-in — drives stat counters when revealed.
-   Wrap each digit in a <span class="t-digit"> and toggle data-shown on the wrapper. */
-[data-shown="true"] .t-digit {
+/* Number pop-in + metallic sheen — drives stat counters when revealed.
+   Fail-open: only scoped to .js-ready so digits stay visible in flat yellow if JS fails. */
+.js-ready [data-shown="true"] .t-digit {
   animation:
     t-digit-pop var(--digit-dur) var(--digit-ease) both,
     t-digit-sheen 4.2s ease-in-out infinite;
@@ -714,6 +754,9 @@ select:focus {
 }
 .t-digit {
   display: inline-block;
+  color: var(--ink-yellow);
+}
+.js-ready .t-digit {
   opacity: 0;
   transform: translate(
     calc(var(--digit-dir-x) * var(--digit-distance)),
