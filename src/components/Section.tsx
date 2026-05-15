@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ChapterLabel } from "./ChapterLabel";
 
 export function Section({
   id,
@@ -17,6 +18,9 @@ export function Section({
   className?: string;
   divider?: boolean;
 }) {
+  const chapterNum = chapter ? chapter.split(" ")[0] : "";
+  const chapterRest = chapter ? chapter.split(" ").slice(1).join(" ") : "";
+
   return (
     <section
       id={id}
@@ -25,12 +29,7 @@ export function Section({
       <div className="mx-auto max-w-[1240px] px-6 lg:px-10 py-[72px] md:py-[112px]">
         {(chapter || title || date) && (
           <div className="flex flex-wrap items-center gap-3 mb-[36px]">
-            {chapter && (
-              <span className="eyebrow">
-                <span className="num">{chapter.split(" ")[0]}</span>{" "}
-                {chapter.split(" ").slice(1).join(" ")}
-              </span>
-            )}
+            {chapter && <ChapterLabel num={chapterNum} rest={chapterRest} />}
             {title && (
               <span className="eyebrow" style={{ color: "var(--ink-cream)" }}>
                 · {title}

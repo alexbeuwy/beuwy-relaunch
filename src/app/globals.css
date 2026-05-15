@@ -144,6 +144,35 @@ body {
   font-feature-settings: "tnum";
 }
 
+/* Editorial-premium chapter label letter-by-letter reveal.
+   Each .ch starts hidden + offset; data-shown=true on the parent stages them
+   in using --char-index for stagger. The .num + space stay static. */
+[data-chapter-label] .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(1px);
+  transition:
+    opacity 240ms var(--text-swap-ease),
+    transform 240ms var(--text-swap-ease),
+    filter 240ms var(--text-swap-ease);
+  transition-delay: calc(var(--char-index, 0) * 18ms);
+  will-change: opacity, transform, filter;
+}
+[data-chapter-label][data-shown="true"] .ch {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-chapter-label] .ch {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
 /* Divider — base (gradient override below in dark-luxe section) */
 .hr-line {
   height: 1px;
@@ -598,6 +627,28 @@ select:focus {
 /* Section dividers — animated subtle on hover/parent reveal */
 .section-divider {
   transition: border-color var(--resize-dur) var(--resize-ease);
+}
+
+/* Dark-luxe / editorial-premium hero object mass.
+   Giant Fraunces wordmark anchored right-of-fold as the "dominant object mass"
+   per dark-luxe/Hero Direction. Pointer-events: none, dimmed to ~7%. */
+.hero-object-mass {
+  position: absolute;
+  top: clamp(48px, 12vh, 120px);
+  right: clamp(-2vw, -4vw, -6vw);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(160px, 28vw, 420px);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  color: var(--ink-yellow);
+  opacity: 0.055;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+  white-space: nowrap;
 }
 
 /* dark-luxe — scroll-reactive top rail. Idle is invisible; after 8 px scroll
