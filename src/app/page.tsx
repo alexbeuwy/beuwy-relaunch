@@ -11,7 +11,7 @@ export default function HomePage() {
       {/* ============================================================
           01 — HOOK
          ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden">
+      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
         {/* Dark-luxe "dominant object mass" — typographic wordmark anchored top-right.
             Swap to a real photo by dropping public/hero/stage.jpg + uncommenting the <img>. */}
         <div
@@ -104,7 +104,7 @@ export default function HomePage() {
       {/* ============================================================
           02 — PAIN AGITATE (Diagnose-Tabelle)
          ============================================================ */}
-      <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01">
+      <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01" tone="raised">
         <Reveal>
           <p
             className="mb-5 max-w-[680px] text-[16px] leading-[1.5]"
@@ -244,6 +244,7 @@ export default function HomePage() {
         chapter="02 Dream"
         title="So sieht es aus, wenn es funktioniert"
         date="2026 / 02"
+        tone="base"
       >
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-6 order-2 md:order-1">
@@ -282,6 +283,7 @@ export default function HomePage() {
         chapter="03 Mechanism"
         title="Wie wir das bauen"
         date="2026 / 03"
+        tone="raised"
       >
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[920px]">
@@ -313,6 +315,7 @@ export default function HomePage() {
         chapter="04 Proof"
         title="Was im Maschinenraum lief"
         date="2026 / 04"
+        tone="elevated"
       >
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1100px]">
@@ -457,6 +460,7 @@ export default function HomePage() {
         chapter="05 Authority"
         title="Kein Account Manager. Kein Pitch-Deck-Theater."
         date="2026 / 05"
+        tone="base"
       >
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
@@ -584,6 +588,7 @@ export default function HomePage() {
         chapter="06 Offer"
         title="Was du in 10 Tagen bekommst"
         date="2026 / 06"
+        tone="elevated"
       >
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
@@ -663,6 +668,7 @@ export default function HomePage() {
         title="Verfügbarkeit"
         date="2026 / 07"
         divider={true}
+        tone="raised"
       >
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
@@ -705,6 +711,7 @@ export default function HomePage() {
         chapter="08 Disqualifier"
         title="Was wir nicht machen"
         date="2026 / 08"
+        tone="base"
       >
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
@@ -778,6 +785,7 @@ export default function HomePage() {
         chapter="09 Paths"
         title="Wo willst du starten"
         date="2026 / 09"
+        tone="raised"
       >
         <Reveal>
           <HeadlineDisplay size="md" className="max-w-[840px]">
@@ -825,6 +833,7 @@ export default function HomePage() {
         chapter="10 Magnet"
         title="Kostenlos · 60 Sekunden"
         date="2026 / 10"
+        tone="elevated"
       >
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
@@ -857,7 +866,7 @@ export default function HomePage() {
       {/* ============================================================
           12 — BIG CTA
          ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[112px] md:pb-[160px] section-divider">
+      <section className="relative pt-[112px] md:pt-[160px] pb-[112px] md:pb-[160px] section-divider section-band section-band-base">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
             <span className="eyebrow">

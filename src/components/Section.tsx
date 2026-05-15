@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { ChapterLabel } from "./ChapterLabel";
 
+type Tone = "base" | "raised" | "elevated";
+
 export function Section({
   id,
   chapter,
@@ -9,6 +11,7 @@ export function Section({
   children,
   className = "",
   divider = true,
+  tone = "base",
 }: {
   id?: string;
   chapter?: string;
@@ -17,6 +20,7 @@ export function Section({
   children: ReactNode;
   className?: string;
   divider?: boolean;
+  tone?: Tone;
 }) {
   const chapterNum = chapter ? chapter.split(" ")[0] : "";
   const chapterRest = chapter ? chapter.split(" ").slice(1).join(" ") : "";
@@ -24,7 +28,10 @@ export function Section({
   return (
     <section
       id={id}
-      className={`relative ${divider ? "section-divider" : ""} ${className}`}
+      data-tone={tone}
+      className={`section-band section-band-${tone} relative ${
+        divider ? "section-divider" : ""
+      } ${className}`}
     >
       <div className="mx-auto max-w-[1240px] px-6 lg:px-10 py-[72px] md:py-[112px]">
         {(chapter || title || date) && (
