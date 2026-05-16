@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Editor } from "@/components/Editor";
+import { InteractiveCode } from "@/components/InteractiveCode";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata = {
@@ -52,9 +53,28 @@ export default function SystemPage() {
         </div>
       </section>
 
-      <Section chapter="01 Editor" title="So sieht's aus" date="2026 / 01">
+      <Section chapter="01 Editor" title="So sieht's aus" date="2026 / 01" tone="raised">
         <Reveal>
           <Editor height={520} interactive />
+        </Reveal>
+
+        <Reveal delay={80}>
+          <div className="mt-10">
+            <p
+              style={{
+                color: "var(--ink-dim)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+              }}
+            >
+              Klick eine Zeile — die anderen dimmen weg, die Bedeutung wird sichtbar.
+            </p>
+            <div className="mt-5">
+              <InteractiveCode height={560} />
+            </div>
+          </div>
         </Reveal>
         <Reveal delay={120}>
           <div className="mt-10 grid md:grid-cols-4 gap-5">
@@ -102,7 +122,7 @@ export default function SystemPage() {
         </Reveal>
       </Section>
 
-      <Section chapter="02 Layer" title="Was die Agenten lesen" date="2026 / 02">
+      <Section chapter="02 Layer" title="Was die Agenten lesen" date="2026 / 02" tone="base">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[920px]">
             Eine Quelle. <em className="font-display italic">Fünf</em> Konsumenten.

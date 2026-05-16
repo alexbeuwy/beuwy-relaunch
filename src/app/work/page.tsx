@@ -107,7 +107,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <Section chapter="01 Selected" title="Cases" date="2017 / live">
+      <Section chapter="01 Selected" title="Cases" date="2017 / live" tone="raised">
         <div className="space-y-6">
           {cases.map((c, i) => (
             <Reveal key={c.id} delay={i * 40}>
@@ -203,7 +203,7 @@ export default function WorkPage() {
         </div>
       </Section>
 
-      <Section chapter="02 Next" title="Was wir 2026 → 2030 bauen" date="2026 / next">
+      <Section chapter="02 Next" title="Was wir 2026 → 2030 bauen" date="2026 / next" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
             AI · Agenten · Software · Fintech · Proptech · DefTech ·{" "}

@@ -43,7 +43,7 @@ export default function ManifestoPage() {
         </div>
       </section>
 
-      <Section chapter="01 These" title="Worum es geht" date="2026 / 01">
+      <Section chapter="01 These" title="Worum es geht" date="2026 / 01" tone="raised">
         {[
           {
             t: "Feature-Krise",
@@ -113,7 +113,7 @@ export default function ManifestoPage() {
         ))}
       </Section>
 
-      <Section chapter="02 Praxis" title="Wie wir es lösen" date="2026 / 02">
+      <Section chapter="02 Praxis" title="Wie wir es lösen" date="2026 / 02" tone="bright">
         <Reveal>
           <blockquote
             className="font-display max-w-[1000px]"

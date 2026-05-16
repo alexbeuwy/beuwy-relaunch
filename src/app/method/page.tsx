@@ -39,7 +39,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      <Section chapter="01 Phasen" title="Wie es läuft" date="2026 / 01">
+      <Section chapter="01 Phasen" title="Wie es läuft" date="2026 / 01" tone="raised">
         <div className="space-y-3">
           {[
             {
@@ -128,7 +128,7 @@ export default function MethodPage() {
         </div>
       </Section>
 
-      <Section chapter="02 Plan" title="Tag für Tag, was passiert" date="2026 / 02">
+      <Section chapter="02 Plan" title="Tag für Tag, was passiert" date="2026 / 02" tone="base">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[920px]">
             Zehn Tage. Zehn{" "}
@@ -210,7 +210,7 @@ export default function MethodPage() {
         </div>
       </Section>
 
-      <Section chapter="03 Pricing" title="Was es kostet" date="2026 / 03">
+      <Section chapter="03 Pricing" title="Was es kostet" date="2026 / 03" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[940px]">
             Festpreis. Festumfang. Fester{" "}

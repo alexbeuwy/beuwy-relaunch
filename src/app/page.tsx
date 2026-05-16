@@ -4,6 +4,8 @@ import { Editor } from "@/components/Editor";
 import { EmailMockup } from "@/components/EmailMockup";
 import { LogoWall, Testimonials } from "@/components/LogoWall";
 import { Reveal } from "@/components/Reveal";
+import { CountUp } from "@/components/CountUp";
+import { HeroGraphic } from "@/components/HeroGraphic";
 
 export default function HomePage() {
   return (
@@ -12,14 +14,8 @@ export default function HomePage() {
           01 — HOOK
          ============================================================ */}
       <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
-        {/* Dark-luxe "dominant object mass" — typographic wordmark anchored top-right.
-            Swap to a real photo by dropping public/hero/stage.jpg + uncommenting the <img>. */}
-        <div
-          aria-hidden
-          className="hero-object-mass font-display"
-        >
-          beuwy
-        </div>
+        {/* Sneaky hero graphic — animated constellation. */}
+        <HeroGraphic />
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
           <Reveal>
             <div className="flex flex-wrap items-center gap-2 mb-7">
@@ -334,13 +330,13 @@ export default function HomePage() {
           </p>
         </Reveal>
 
-        {/* Counter wall — replaces 3 generic cards */}
+        {/* Counter wall — count-up on enter, sneaky-fast easeOutCubic */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
           {[
-            { n: "€160M", l: "KKR Joint Venture (Vision · 2023)", src: "öffentlich, vision.de" },
-            { n: "2.240", l: "Königswege Partner (vs. 170 in 2017)", src: "cash-online 2024" },
-            { n: "315", l: "Wohnungen (acta · 2023–2025)", src: "intern, Ø Ticket €153.842" },
-            { n: "1M+", l: "PURELEI Follower (seit 2018)", src: "Instagram public" },
+            { prefix: "€", value: 160, suffix: "M", display: "€160M", l: "KKR Joint Venture (Vision · 2023)", src: "öffentlich, vision.de" },
+            { prefix: "", value: 2240, suffix: "", display: "2.240", l: "Königswege Partner (vs. 170 in 2017)", src: "cash-online 2024" },
+            { prefix: "", value: 315, suffix: "", display: "315", l: "Wohnungen (acta · 2023–2025)", src: "intern, Ø Ticket €153.842" },
+            { prefix: "", value: 1, suffix: "M+", display: "1M+", l: "PURELEI Follower (seit 2018)", src: "Instagram public" },
           ].map((s) => (
             <Reveal key={s.l}>
               <div
@@ -357,19 +353,11 @@ export default function HomePage() {
                     letterSpacing: "-0.025em",
                     color: "var(--ink-yellow)",
                     lineHeight: 0.95,
+                    fontVariantNumeric: "tabular-nums",
                   }}
-                  aria-label={s.n}
+                  aria-label={s.display}
                 >
-                  {s.n.split("").map((ch, i) => (
-                    <span
-                      key={i}
-                      className="t-digit"
-                      style={{ "--digit-index": i } as React.CSSProperties}
-                      aria-hidden
-                    >
-                      {ch === " " ? " " : ch}
-                    </span>
-                  ))}
+                  <CountUp prefix={s.prefix} to={s.value} suffix={s.suffix} duration={1700} />
                 </p>
                 <p
                   className="mt-3"
