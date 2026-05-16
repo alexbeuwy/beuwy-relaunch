@@ -14,14 +14,43 @@ export default function HomePage() {
           01 — HOOK
          ============================================================ */}
       <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
-        {/* Sneaky hero graphic — animated constellation. */}
+        {/* Ambient hero video — translucent matte loop, masked into a radial fade. */}
+        <div className="hero-video-wrap" aria-hidden>
+          <video
+            className="hero-video"
+            src="/assets/hero-loop.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          />
+          <div className="hero-video-overlay" />
+        </div>
+
+        {/* Glow orbs floating behind the headline */}
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-yellow"
+          style={{ top: "12%", left: "-8%", width: 520, height: 520 }}
+        />
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-red"
+          style={{ top: "55%", right: "-12%", width: 460, height: 460, animationDelay: "-6s" }}
+        />
+
+        {/* Sneaky hero graphic — animated constellation, sits above the orbs. */}
         <HeroGraphic />
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
           <Reveal>
             <div className="flex flex-wrap items-center gap-2 mb-7">
               <span className="chip">
                 <span className="dot" />
-                <span>Q3/2026 · 2 Slots offen</span>
+                <span>Q3/2026 · noch 2 Slots</span>
+              </span>
+              <span className="chip" style={{ color: "var(--ink-yellow)" }}>
+                Ab €25.000 · Festpreis
               </span>
               <span
                 style={{
@@ -31,68 +60,63 @@ export default function HomePage() {
                   textTransform: "uppercase",
                 }}
               >
-                Operator-led Studio · seit 2017
+                seit 2017
               </span>
             </div>
           </Reveal>
 
-          <Reveal delay={60}>
-            <p
-              className="max-w-[820px] text-[17px] md:text-[19px] leading-[1.45] mb-6"
-              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
-            >
-              Weißt du, warum manche Marken von ChatGPT, Claude &amp; Co. empfohlen werden — und
-              manche frühere Marktführer{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>unsichtbar</em>{" "}
-              werden?
-            </p>
-          </Reveal>
-
           <Reveal delay={140} variant="mask">
-            <h1
-              className="h-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              2026: Dein nächster Kunde fragt nicht{" "}
-              <em className="font-display italic">Google</em>.
+            <h1 className="h-display-xl max-w-[1100px]">
+              Bald fragt dein Kunde nicht mehr <em>Google</em>.
               <br />
-              Er fragt <em className="font-display italic">Claude</em>.
+              Er fragt <em className="gradient-text">einen KI-Agenten</em>.
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p
-              className="mt-7 max-w-[660px] text-[17px] md:text-[19px] leading-[1.55]"
-              style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
+              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
+              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Empfehlungen, SEO, Paid — alles trägt weiter. Aber die Antwort, die ein Agent gibt,
-              wird zur ersten Filterstufe. Wir bauen die Marke, die ein Agent{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>versteht</em>.
-              Brand · Site · Agent-Layer — ein System, in{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>10 Tagen</em> live.
+              Wir bauen die Marke, die der Agent <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>empfiehlt</em>.
+              Brand, Website, KI-Sichtbarkeit — alles in <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>10 Tagen</em> live.
             </p>
           </Reveal>
 
-          <Reveal delay={240}>
+          <Reveal delay={220}>
+            <p
+              className="mt-5 max-w-[640px] text-[15px] leading-[1.5]"
+              style={{ color: "var(--ink-muted)" }}
+            >
+              Ein Festpreis. Ein Ansprechpartner. Drei Sachen, die du am Tag 10 in der Hand hast.
+              Kein Discovery-Theater. Antwort auf deine Anfrage in &lt; 6 Stunden — auch ein ehrliches Nein.
+            </p>
+          </Reveal>
+
+          <Reveal delay={280}>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link href="/anfrage" className="btn-primary">
-                Brief schicken
+                Jetzt Slot sichern
                 <span aria-hidden>→</span>
               </Link>
               <Link href="#mechanismus" className="btn-secondary">
-                Wie funktioniert das
+                Wie das funktioniert
                 <span aria-hidden>↓</span>
               </Link>
             </div>
           </Reveal>
 
-          <Reveal delay={320}>
-            <p
-              className="mt-12 text-[12px]"
+          <Reveal delay={360}>
+            <div
+              className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
               style={{ color: "var(--ink-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}
             >
-              €300M+ Client Outcomes · 4× Kategorie-Sieger · Ø Reply &lt; 6h
-            </p>
+              <span>€300M+ Kunden-Outcome</span>
+              <span>·</span>
+              <span>4× Kategorie-Sieger</span>
+              <span>·</span>
+              <span>Ø Antwort &lt; 6h</span>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -102,29 +126,25 @@ export default function HomePage() {
          ============================================================ */}
       <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01" tone="raised">
         <Reveal>
-          <p
-            className="mb-5 max-w-[680px] text-[16px] leading-[1.5]"
-            style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-          >
-            Frag dich ehrlich: Wie viele deiner letzten zehn Kunden kamen über{" "}
-            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Zufall</em>?
-          </p>
+          <span className="eyebrow-rule">
+            <span className="num">85 %</span> deiner Pipeline = Zufall
+          </span>
         </Reveal>
         <Reveal delay={60}>
-          <HeadlineDisplay size="lg" className="max-w-[1100px]">
-            Dein bester Monat: <em className="font-display italic">eine</em> Empfehlung.
+          <h2 className="h-display-xl max-w-[1100px] mt-6">
+            Dein bester Monat: <em>eine</em> Empfehlung.
             <br />
-            Dein Q3 stirbt, weil <em className="font-display italic">zwei</em> ausblieben.
-          </HeadlineDisplay>
+            Dein Q3 stirbt, wenn <em className="gradient-text">zwei ausbleiben</em>.
+          </h2>
         </Reveal>
         <Reveal delay={80}>
           <p
-            className="mt-6 text-[17px] leading-[1.55] max-w-[640px]"
-            style={{ color: "var(--ink-muted)" }}
+            className="mt-7 text-[19px] leading-[1.5] max-w-[640px]"
+            style={{ color: "var(--ink-cream)" }}
           >
-            85 % deiner Pipeline lebt von Zufall. Den Rest hält ein CRM zusammen, das kein Agent
-            lesen kann. Eine Diagnose mit fünf Punkten —{" "}
-            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>ehrlich</em>:
+            85 % deiner Kunden kommen über Empfehlungen. Wenn die wegfallen — ist die Pipeline leer.
+            <br />
+            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Hier sind die 5 Stellen, wo es brennt:</em>
           </p>
         </Reveal>
 
@@ -313,6 +333,11 @@ export default function HomePage() {
         date="2026 / 04"
         tone="elevated"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-yellow"
+          style={{ top: "10%", right: "-10%", width: 540, height: 540, opacity: 0.55 }}
+        />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1100px]">
             Wir bauten die <em className="font-display italic">Brand-Systeme</em>, die
@@ -339,13 +364,7 @@ export default function HomePage() {
             { prefix: "", value: 1, suffix: "M+", display: "1M+", l: "PURELEI Follower (seit 2018)", src: "Instagram public" },
           ].map((s) => (
             <Reveal key={s.l}>
-              <div
-                className="p-6 h-full rounded-[12px]"
-                style={{
-                  background: "var(--bg-raised)",
-                  border: "1px solid var(--line-subtle)",
-                }}
-              >
+              <div className="glass p-6 h-full">
                 <p
                   className="font-display"
                   style={{
@@ -578,6 +597,11 @@ export default function HomePage() {
         date="2026 / 06"
         tone="elevated"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-red"
+          style={{ top: "20%", left: "-10%", width: 480, height: 480, opacity: 0.4 }}
+        />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
             Ein Festpreis. Ein Operator. Drei Auslieferungen —{" "}
@@ -823,6 +847,11 @@ export default function HomePage() {
         date="2026 / 10"
         tone="bright"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-cream"
+          style={{ top: "30%", right: "-8%", width: 420, height: 420, opacity: 0.7 }}
+        />
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
             <Reveal>
@@ -1034,13 +1063,7 @@ function MechanismFlow() {
       <div className="grid md:grid-cols-3 gap-0 md:gap-6 relative">
         {layers.map((l, i) => (
           <div key={l.num} className="relative">
-            <div
-              className="rounded-[12px] p-6 h-full"
-              style={{
-                background: "var(--bg-base)",
-                border: "1px solid var(--line-subtle)",
-              }}
-            >
+            <div className="glass p-6 h-full">
               <div className="flex items-center justify-between">
                 <span
                   className="font-display"

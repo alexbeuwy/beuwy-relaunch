@@ -78,6 +78,16 @@
   --sheen-color: rgba(247, 233, 154, 0.18);
   --spotlight-color: rgba(247, 233, 154, 0.10);
   --spotlight-size: 180px;
+
+  /* glassmorphism + glow */
+  --glass-bg: rgba(33, 6, 6, 0.55);
+  --glass-bg-bright: rgba(255, 253, 243, 0.06);
+  --glass-border: rgba(247, 233, 154, 0.14);
+  --glass-shadow: 0 24px 56px -28px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(247, 233, 154, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-hover: 0 32px 72px -28px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(247, 233, 154, 0.18), 0 0 28px rgba(247, 233, 154, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --glow-yellow: radial-gradient(circle at center, rgba(247, 233, 154, 0.22), transparent 60%);
+  --glow-red: radial-gradient(circle at center, rgba(255, 95, 95, 0.18), transparent 60%);
+  --glow-cream: radial-gradient(circle at center, rgba(255, 253, 243, 0.10), transparent 60%);
 }
 
 * {
@@ -1293,3 +1303,177 @@ select:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   GLASSMORPHISM + GLOW + VIDEO — state-of-the-art lightweight Wow
+   ============================================================ */
+
+/* Frosted-glass card. Layer over an .glow-* orb for max wow. */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  box-shadow: var(--glass-shadow);
+  transition:
+    transform var(--resize-dur) var(--resize-ease),
+    box-shadow var(--resize-dur) var(--resize-ease),
+    border-color var(--resize-dur) var(--resize-ease);
+  position: relative;
+  isolation: isolate;
+}
+.glass::before {
+  /* top inner highlight rim */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(247, 233, 154, 0.06), transparent 35%);
+  z-index: 0;
+}
+.glass > * { position: relative; z-index: 1; }
+.glass:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(247, 233, 154, 0.32);
+}
+
+/* Glass variant on bright bg */
+.section-band-bright .glass {
+  background: rgba(255, 253, 243, 0.45);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-color: rgba(26, 4, 4, 0.16);
+  box-shadow: 0 24px 56px -28px rgba(26, 4, 4, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  color: var(--bg-base);
+}
+
+/* Floating glow orbs — drop these inside .section-band with relative+overflow */
+.glow-orb {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+  opacity: 0.7;
+  border-radius: 50%;
+  animation: glow-orb-drift 18s ease-in-out infinite alternate;
+}
+.glow-orb-yellow { background: var(--glow-yellow); }
+.glow-orb-red { background: var(--glow-red); }
+.glow-orb-cream { background: var(--glow-cream); }
+@keyframes glow-orb-drift {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.55; }
+  50%  { opacity: 0.85; }
+  100% { transform: translate(40px, -30px) scale(1.15); opacity: 0.6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-orb { animation: none; }
+}
+
+/* Hero video — full-bleed, lightweight, masked into a vertical fade */
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  filter: contrast(105%) saturate(115%) hue-rotate(-5deg);
+  mask-image: radial-gradient(ellipse 75% 70% at 60% 40%, #000 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 60% 40%, #000 50%, transparent 100%);
+}
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(26, 4, 4, 0.3) 0%, transparent 30%, transparent 70%, rgba(26, 4, 4, 0.85) 100%),
+    linear-gradient(90deg, var(--bg-base) 0%, transparent 40%, transparent 70%, rgba(26, 4, 4, 0.5) 100%);
+}
+
+/* On-point per-block: hero-style display headline. Use .h-display-xl on the
+   ONE primary statement per section so the eye lands on it first. */
+.h-display-xl {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(40px, 6.5vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.028em;
+  color: var(--ink-yellow);
+  text-wrap: balance;
+}
+.h-display-xl em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Animated gradient text — for that one statement that needs to shine */
+.gradient-text {
+  background: linear-gradient(
+    110deg,
+    var(--ink-yellow) 0%,
+    #FBF1B6 30%,
+    var(--ink-yellow) 60%,
+    #D9CC85 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text-shimmer 6s ease-in-out infinite;
+}
+@keyframes gradient-text-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text { animation: none; background-position: 0% 50%; }
+}
+
+/* Stronger section-band contrast — vertical edge fades between bands */
+.section-band + .section-band::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Magnetic-feel button — adds a subtle scale-up on parent hover */
+.magnetic-hover { transition: transform var(--resize-dur) var(--resize-ease); }
+.magnetic-hover:hover { transform: scale(1.03); }
+
+/* Eye-guide eyebrow with a leading rule + tnum num */
+.eyebrow-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 510;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.eyebrow-rule::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--ink-yellow);
+  flex-shrink: 0;
+}
+.eyebrow-rule .num { color: var(--ink-yellow); font-variant-numeric: tabular-nums; }
