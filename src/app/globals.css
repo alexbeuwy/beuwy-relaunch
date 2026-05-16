@@ -618,6 +618,276 @@ body {
 .section-band-bright .card:hover {
   border-color: rgba(26,4,4,0.4);
 }
+
+/* ============================================================
+   FUNNEL FORM — Typeform/Perspective-style multi-step click funnel
+   ============================================================ */
+.funnel {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.funnel-progress {
+  position: relative;
+  height: 2px;
+  background: var(--line-subtle);
+  border-radius: 1px;
+  margin-bottom: 56px;
+  overflow: visible;
+}
+.funnel-progress-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--ink-yellow);
+  border-radius: 1px;
+  transition: width 420ms var(--panel-ease);
+}
+.funnel-progress-label {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+.funnel-step-shell {
+  position: relative;
+  min-height: 420px;
+}
+.funnel-step {
+  animation: funnel-step-in 420ms var(--panel-ease) both;
+}
+@keyframes funnel-step-in {
+  from { opacity: 0; transform: translateY(12px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.funnel-step-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-yellow);
+  margin-bottom: 16px;
+}
+.funnel-step-question {
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--ink-yellow);
+  margin: 0;
+}
+.funnel-step-sub {
+  margin-top: 14px;
+  color: var(--ink-muted);
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 640px;
+}
+.funnel-step-body { margin-top: 36px; }
+
+/* Card-pick grid (steps 0–2) */
+.funnel-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .funnel-card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.funnel-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 10px;
+  padding: 24px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-subtle);
+  border-radius: 14px;
+  cursor: pointer;
+  color: var(--ink-cream);
+  transition:
+    transform var(--resize-dur) var(--resize-ease),
+    border-color var(--resize-dur) var(--resize-ease),
+    background var(--resize-dur) var(--resize-ease),
+    box-shadow var(--resize-dur) var(--resize-ease);
+  position: relative;
+  isolation: isolate;
+}
+.funnel-card:hover {
+  border-color: var(--line-medium);
+  transform: translateY(-3px);
+  background: rgba(247,233,154,0.03);
+  box-shadow: 0 24px 48px -28px rgba(33,6,6,0.7);
+}
+.funnel-card:active { transform: translateY(-1px) scale(0.99); }
+.funnel-card[data-selected="true"] {
+  border-color: var(--ink-yellow);
+  background: rgba(247,233,154,0.05);
+}
+.funnel-card-label {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--ink-yellow);
+  line-height: 1.05;
+}
+.funnel-card-sub {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+.funnel-card-arrow {
+  font-size: 18px;
+  color: var(--ink-yellow);
+  margin-top: 6px;
+  align-self: flex-end;
+  opacity: 0.5;
+  transition: transform var(--resize-dur) var(--resize-ease), opacity var(--resize-dur) var(--resize-ease);
+}
+.funnel-card:hover .funnel-card-arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* Text + email steps */
+.funnel-textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: 20px 22px;
+  background: var(--bg-raised);
+  color: var(--ink-cream);
+  font-size: 17px;
+  line-height: 1.5;
+  border: 1px solid var(--line-subtle);
+  border-radius: 14px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  transition: border-color var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.funnel-textarea:focus {
+  border-color: rgba(247,233,154,0.45);
+  box-shadow: 0 0 0 3px rgba(247,233,154,0.08);
+}
+.funnel-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 540px;
+}
+.funnel-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.funnel-label-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.funnel-input {
+  padding: 14px 16px;
+  background: var(--bg-raised);
+  color: var(--ink-cream);
+  font-size: 17px;
+  border: 1px solid var(--line-subtle);
+  border-radius: 12px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.funnel-input:focus {
+  border-color: rgba(247,233,154,0.45);
+  box-shadow: 0 0 0 3px rgba(247,233,154,0.08);
+}
+.funnel-error {
+  margin-top: 16px;
+  color: var(--accent-red);
+  font-size: 14px;
+}
+.funnel-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.funnel-back, .funnel-next {
+  cursor: pointer;
+}
+.funnel-next:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.funnel-shortcut {
+  margin-top: 36px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Confirmation */
+.funnel-done {
+  max-width: 720px;
+  margin: 0 auto;
+  animation: funnel-step-in 600ms var(--panel-ease) both;
+}
+.funnel-done-h {
+  margin-top: 18px;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--ink-yellow);
+}
+.funnel-done-p {
+  margin-top: 24px;
+  color: var(--ink-muted);
+  font-size: 17px;
+  line-height: 1.55;
+}
+.funnel-done-summary {
+  margin-top: 36px;
+  padding: 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-subtle);
+  border-radius: 12px;
+  font-size: 14px;
+}
+.funnel-done-summary summary {
+  cursor: pointer;
+  color: var(--ink-yellow);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.funnel-done-summary dl {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px 18px;
+}
+.funnel-done-summary dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+.funnel-done-summary dd {
+  color: var(--ink-cream);
+  line-height: 1.5;
+}
 .hr-line {
   background: linear-gradient(
     90deg,
