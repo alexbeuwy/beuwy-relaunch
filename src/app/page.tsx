@@ -6,6 +6,7 @@ import { LogoWall, Testimonials } from "@/components/LogoWall";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { HeroGraphic } from "@/components/HeroGraphic";
+import { HeroVideo } from "@/components/HeroVideo";
 
 export default function HomePage() {
   return (
@@ -14,17 +15,9 @@ export default function HomePage() {
           01 — HOOK
          ============================================================ */}
       <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
-        {/* Ambient hero video — translucent matte loop, masked into a radial fade. */}
+        {/* Ambient hero video — perfect-loop crossfade via two offset copies. */}
         <div className="hero-video-wrap" aria-hidden>
-          <video
-            className="hero-video"
-            src="/assets/hero-loop.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-          />
+          <HeroVideo src="/assets/hero-loop.mp4" />
           <div className="hero-video-overlay" />
         </div>
 

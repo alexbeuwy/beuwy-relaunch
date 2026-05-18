@@ -1392,6 +1392,36 @@ select:focus {
   mask-image: radial-gradient(ellipse 75% 70% at 60% 40%, #000 50%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 75% 70% at 60% 40%, #000 50%, transparent 100%);
 }
+
+/* Dual-video crossfade — perfect loop without re-encoding the mp4.
+   Both copies play; CSS opacity-animation matches video duration so we always
+   crossfade through whichever copy is closest to its loop boundary. */
+.hero-video-a,
+.hero-video-b {
+  animation-duration: var(--video-dur, 6s);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.hero-video-a { animation-name: hero-video-cross-a; }
+.hero-video-b { animation-name: hero-video-cross-b; }
+@keyframes hero-video-cross-a {
+  0%   { opacity: 0.42; }
+  42%  { opacity: 0.42; }
+  50%  { opacity: 0;    }
+  92%  { opacity: 0;    }
+  100% { opacity: 0.42; }
+}
+@keyframes hero-video-cross-b {
+  0%   { opacity: 0;    }
+  42%  { opacity: 0;    }
+  50%  { opacity: 0.42; }
+  92%  { opacity: 0.42; }
+  100% { opacity: 0;    }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-b { display: none; }
+  .hero-video-a { animation: none; opacity: 0.42; }
+}
 .hero-video-overlay {
   position: absolute;
   inset: 0;
