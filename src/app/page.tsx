@@ -6,7 +6,7 @@ import { LogoWall, Testimonials } from "@/components/LogoWall";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { HeroGraphic } from "@/components/HeroGraphic";
-import { HeroVideo } from "@/components/HeroVideo";
+import { ScrollScrubVideo } from "@/components/ScrollScrubVideo";
 
 export default function HomePage() {
   return (
@@ -14,28 +14,30 @@ export default function HomePage() {
       {/* ============================================================
           01 — HOOK
          ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
-        {/* Ambient hero video — perfect-loop crossfade via two offset copies. */}
-        <div className="hero-video-wrap" aria-hidden>
-          <HeroVideo src="/assets/hero-loop.mp4" />
-          <div className="hero-video-overlay" />
-        </div>
+      <section className="scroll-scrub-wrap section-band section-band-base">
+        <div className="scroll-scrub-sticky">
+          {/* Scroll-scrubbed video — currentTime driven by scroll progress.
+              mp4 is re-encoded with all-keyframes so seeking is buttery. */}
+          <ScrollScrubVideo src="/assets/hero-scrub.mp4" />
+          <div className="scroll-scrub-overlay" aria-hidden />
 
-        {/* Glow orbs floating behind the headline */}
-        <div
-          aria-hidden
-          className="glow-orb glow-orb-yellow"
-          style={{ top: "12%", left: "-8%", width: 520, height: 520 }}
-        />
-        <div
-          aria-hidden
-          className="glow-orb glow-orb-red"
-          style={{ top: "55%", right: "-12%", width: 460, height: 460, animationDelay: "-6s" }}
-        />
+          {/* Glow orbs floating behind the headline */}
+          <div
+            aria-hidden
+            className="glow-orb glow-orb-yellow"
+            style={{ top: "12%", left: "-8%", width: 520, height: 520 }}
+          />
+          <div
+            aria-hidden
+            className="glow-orb glow-orb-red"
+            style={{ top: "55%", right: "-12%", width: 460, height: 460, animationDelay: "-6s" }}
+          />
 
-        {/* Sneaky hero graphic — animated constellation, sits above the orbs. */}
-        <HeroGraphic />
-        <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
+          {/* Sneaky hero graphic — animated constellation, sits above the orbs. */}
+          <HeroGraphic />
+
+          <div className="scroll-scrub-content pt-[112px] md:pt-[160px] pb-[64px] md:pb-[80px]">
+            <div className="mx-auto max-w-[1240px] px-6 lg:px-10 w-full relative z-[1]">
           <Reveal>
             <div className="flex flex-wrap items-center gap-2 mb-7">
               <span className="chip">
@@ -111,6 +113,8 @@ export default function HomePage() {
               <span>Ø Antwort &lt; 6h</span>
             </div>
           </Reveal>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1507,3 +1507,67 @@ select:focus {
   flex-shrink: 0;
 }
 .eyebrow-rule .num { color: var(--ink-yellow); font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   SCROLL-SCRUB VIDEO — Apple/Linear-style pinned video
+   ============================================================ */
+.scroll-scrub-wrap {
+  position: relative;
+  /* tall runway for the scrub. 180vh gives roughly 80vh of pinned scrub
+     before normal scroll resumes. */
+  height: 180vh;
+}
+.scroll-scrub-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.scroll-scrub-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  /* Same tinting as the previous hero-video so the look is consistent. */
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  filter: contrast(108%) saturate(118%) hue-rotate(-5deg);
+  mask-image: radial-gradient(ellipse 80% 75% at 55% 45%, #000 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 55% 45%, #000 50%, transparent 100%);
+}
+.scroll-scrub-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(26,4,4,0.35) 0%, transparent 22%, transparent 70%, rgba(26,4,4,0.92) 100%),
+    linear-gradient(90deg, var(--bg-base) 0%, transparent 38%, transparent 70%, rgba(26,4,4,0.55) 100%);
+}
+/* glow-orbs + HeroGraphic sit between overlay and content (over video, under copy) */
+.scroll-scrub-sticky .glow-orb,
+.scroll-scrub-sticky .hero-graphic {
+  z-index: 1;
+}
+.scroll-scrub-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-scrub-wrap {
+    /* Drop the tall runway so users on reduced-motion don't have a giant
+       sticky scroll-trap. */
+    height: auto;
+    min-height: 100vh;
+  }
+  .scroll-scrub-sticky { position: relative; height: 100vh; }
+}
