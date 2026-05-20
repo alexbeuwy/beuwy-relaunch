@@ -59,6 +59,9 @@ export function Footer() {
         >
           <p style={{ color: "var(--ink-dim)", fontSize: 12, letterSpacing: "0.04em" }}>
             © beuwy 2017–2026 · Operator seit 2009 · Mo–Fr · 09–18 CET · Reply &lt; 6h
+            <span style={{ marginLeft: 10, opacity: 0.6, fontFamily: "var(--font-mono)" }}>
+              build {(process.env.VERCEL_GIT_COMMIT_SHA || "local").slice(0, 7)}
+            </span>
           </p>
           <div className="flex items-center gap-4 text-[12px]" style={{ color: "var(--ink-dim)" }}>
             <Link href="#" className="hover:text-[var(--ink-yellow)]">Impressum</Link>
