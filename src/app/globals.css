@@ -1571,3 +1571,46 @@ select:focus {
   }
   .scroll-scrub-sticky { position: relative; height: 100vh; }
 }
+
+/* Hero scroll hint — nudges the user to scroll so the scrub video plays */
+.hero-scroll-hint {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+.hero-scroll-hint-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.hero-scroll-hint-dot {
+  width: 22px;
+  height: 34px;
+  border: 1px solid var(--line-medium);
+  border-radius: 12px;
+  position: relative;
+}
+.hero-scroll-hint-dot::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 3px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--ink-yellow);
+  transform: translateX(-50%);
+  animation: hero-scroll-bob 1.6s ease-in-out infinite;
+}
+@keyframes hero-scroll-bob {
+  0%, 100% { opacity: 0; transform: translate(-50%, 0); }
+  40% { opacity: 1; }
+  80% { opacity: 0; transform: translate(-50%, 12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint-dot::before { animation: none; opacity: 1; }
+}

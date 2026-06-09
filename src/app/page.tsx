@@ -113,6 +113,13 @@ export default function HomePage() {
               <span>Ø Antwort &lt; 6h</span>
             </div>
           </Reveal>
+
+          <Reveal delay={440}>
+            <div className="hero-scroll-hint" aria-hidden>
+              <span className="hero-scroll-hint-text">Scroll</span>
+              <span className="hero-scroll-hint-dot" />
+            </div>
+          </Reveal>
             </div>
           </div>
         </div>
