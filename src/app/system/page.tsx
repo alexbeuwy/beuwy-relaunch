@@ -20,23 +20,20 @@ export default function SystemPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1
-              className="h-display mt-7 text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
+              className="h-display-xl mt-7 max-w-[1100px]"
             >
-              Brands, die <em className="font-display italic">Agenten</em> verstehen.
+              Eine <em>Marke</em>. Fünf Agents.
+              <br />
+              <em className="gradient-text">Eine Quelle.</em>
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p
-              className="mt-7 max-w-[680px] text-[17px] leading-[1.55]"
-              style={{ color: "var(--ink-muted)" }}
+              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
+              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Bis 2030 wird jede Seite deiner Website von einem Modell entworfen — und so auch der
-              nächste Deck, die nächste E-Mail, der nächste Produkt-Screen. Andere Agenturen wählen
-              noch Hochglanz-Papier. Wir liefern ein{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>DESIGN.md</em>{" "}
-              mit jedem Engagement: maschinenlesbare Tokens, Voice Charter, Forbidden Phrases,
-              Motion Rules.
+              Deine Brand als Code: <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>DESIGN.md</em>.
+              Claude, ChatGPT, Cursor, v0, Perplexity lesen dieselbe Datei. Konsistenz garantiert.
             </p>
           </Reveal>
           <Reveal delay={240}>

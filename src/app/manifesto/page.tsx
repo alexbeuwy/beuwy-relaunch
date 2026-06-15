@@ -18,26 +18,22 @@ export default function ManifestoPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1
-              className="h-display mt-7 text-[44px] sm:text-[64px] md:text-[96px] leading-[0.96] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
+              className="h-display-xl mt-7 max-w-[1100px]"
             >
-              Bis 2030 shippen alle denselben Agent-Stack.
+              2030: Alle haben denselben Agent.
               <br />
-              Die Kategorie gewinnt der, der die{" "}
-              <em className="font-display italic">Sprache</em> setzt.
+              Kategorie gewinnt, wer die{" "}
+              <em className="gradient-text">Sprache</em> setzt.
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p
-              className="mt-8 max-w-[720px] text-[18px] leading-[1.6]"
-              style={{ color: "var(--ink-muted)" }}
+              className="mt-8 max-w-[720px] text-[19px] md:text-[22px] leading-[1.5]"
+              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Yahoo. Google. ChatGPT. Was Menschen jahrzehntelang über Suchmaschinen gemacht haben,
-              wird morgen Steinzeit sein. Der Assistent — Claude, ChatGPT, Grok — wird per Voice zum
-              Gesprächspartner. Er empfiehlt, vergleicht, vermittelt. Die nächste Milliarde User des
-              Internets sind <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Agenten</em>,
-              und sie beeinflussen Kauf- und Vertrauensentscheidungen{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>maßgeblich</em>.
+              Was Menschen heute googeln, fragen sie morgen ihren KI-Agenten. Er empfiehlt, vergleicht, kauft.
+              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}> Wen der Agent empfiehlt, wird Kategorie.</em>{" "}
+              Wer nicht, wird unsichtbar.
             </p>
           </Reveal>
         </div>

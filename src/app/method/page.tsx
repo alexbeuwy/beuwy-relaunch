@@ -18,22 +18,20 @@ export default function MethodPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1
-              className="h-display mt-7 text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
+              className="h-display-xl mt-7 max-w-[1100px]"
             >
-              Drei bis fünf <em className="font-display italic">Tage</em>.
+              10 Tage. <em>Festpreis</em>.
               <br />
-              Nicht drei bis fünf <em className="font-display italic">Monate</em>.
+              <em className="gradient-text">Live.</em>
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p
-              className="mt-7 max-w-[640px] text-[17px] leading-[1.55]"
-              style={{ color: "var(--ink-muted)" }}
+              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
+              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Ein Operator, ein Festpreis, ein Liefertag. Keine Discovery-Phase, keine
-              Stakeholder-Karusselle, keine Mockup-Galerien. Wir bauen das System, das du in 10 Tagen
-              live hast.
+              Ein Operator, ein Preis, ein Liefertag. <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Du machst Q4</em>,
+              wir bauen Marke + Website + Agent-Sichtbarkeit. Kein Discovery-Theater.
             </p>
           </Reveal>
         </div>
