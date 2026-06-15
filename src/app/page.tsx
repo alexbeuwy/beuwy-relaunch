@@ -393,14 +393,7 @@ export default function HomePage() {
             <Reveal key={s.l}>
               <div className="glass p-6 h-full">
                 <p
-                  className="font-display"
-                  style={{
-                    fontSize: 48,
-                    letterSpacing: "-0.025em",
-                    color: "var(--ink-yellow)",
-                    lineHeight: 0.95,
-                    fontVariantNumeric: "tabular-nums",
-                  }}
+                  className="stat-num-display"
                   aria-label={s.display}
                 >
                   <CountUp prefix={s.prefix} to={s.value} suffix={s.suffix} duration={1700} />

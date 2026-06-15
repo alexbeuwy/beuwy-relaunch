@@ -6,15 +6,28 @@ import Link from "next/link";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 
+type Dimension = "positioning" | "voice" | "agent_layer" | "trust" | "pricing" | "conversion";
+type DimResult = { score: number; finding: string; fix: string };
 type AuditResult = {
   domain: string;
-  score: number;
-  visibility: string;
-  weaknesses: string[];
-  recommendations: string[];
+  screenshot_url: string;
+  overall_score: number;
+  one_liner: string;
+  dimensions: Record<Dimension, DimResult>;
   source: "anthropic" | "stub";
   generated_at: string;
 };
+
+const DIM_META: Record<Dimension, { label: string; sub: string }> = {
+  positioning: { label: "Positionierung", sub: "Unterscheidbare These?" },
+  voice: { label: "Voice", sub: "Klingt nach dir oder nach SaaS-Output?" },
+  agent_layer: { label: "Agent-Layer", sub: "schema.org · llms.txt · semantic HTML" },
+  trust: { label: "Trust", sub: "Cases · Zahlen · Founder-Footprint" },
+  pricing: { label: "Pricing", sub: "Transparent oder 'Contact us'?" },
+  conversion: { label: "Conversion", sub: "Action-spezifische CTA?" },
+};
+
+const DIM_ORDER: Dimension[] = ["positioning", "voice", "agent_layer", "trust", "pricing", "conversion"];
 
 export default function AuditPage() {
   return (
@@ -32,7 +45,6 @@ function AuditInner() {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // auto-run when arriving with ?domain=
   useEffect(() => {
     if (initial && !result && !loading) {
       run();
@@ -58,7 +70,7 @@ function AuditInner() {
       }
       const data = (await r.json()) as AuditResult;
       setResult(data);
-    } catch (err) {
+    } catch {
       setError("Netzwerk-Fehler. Bitte erneut versuchen.");
     } finally {
       setLoading(false);
@@ -67,7 +79,7 @@ function AuditInner() {
 
   return (
     <>
-      <section className="pt-[140px] md:pt-[180px] pb-[40px]">
+      <section className="section-band section-band-base pt-[140px] md:pt-[180px] pb-[40px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
             <span className="eyebrow">
@@ -75,27 +87,23 @@ function AuditInner() {
             </span>
           </Reveal>
           <Reveal delay={80}>
-            <h1
-              className="h-display mt-7 text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              Was sagt ChatGPT über{" "}
-              <em className="font-display italic">deine</em> Marke?
+            <h1 className="h-display-xl mt-7 max-w-[1100px]">
+              Was sagt Claude über <em className="gradient-text">deine</em> Marke?
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p
-              className="mt-7 max-w-[640px] text-[17px] leading-[1.55]"
-              style={{ color: "var(--ink-muted)" }}
+              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
+              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Trag deine Domain ein. Wir fragen Claude live, wie sichtbar du in der Agent-Ära
-              bist — und liefern drei Schwächen plus drei Sofort-Fixes. Kostenlos, kein Login.
+              Domain rein, 60 Sekunden warten. Wir liefern <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>6 Dimensionen</em>,
+              Score pro Dimension, Evidence + sofort-Fix. Kostenlos, kein Login.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <Section chapter="01 Form" title="Domain eingeben" date="2026 / 01" divider={false}>
+      <Section chapter="01 Form" title="Domain eingeben" date="2026 / 01" tone="raised" divider={false}>
         <form onSubmit={run} className="max-w-[680px]">
           <label
             style={{
@@ -132,15 +140,12 @@ function AuditInner() {
               }}
             />
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? "Frage Claude..." : "Audit starten"}
+              {loading ? "Claude analysiert…" : "Audit starten"}
               <span aria-hidden>→</span>
             </button>
           </div>
           {error && (
-            <p
-              className="mt-3"
-              style={{ color: "var(--accent-red,#FF5A67)", fontSize: 13 }}
-            >
+            <p className="mt-3" style={{ color: "var(--accent-red,#FF5A67)", fontSize: 13 }}>
               {error}
             </p>
           )}
@@ -154,17 +159,33 @@ function AuditInner() {
 
 function Result({ result }: { result: AuditResult }) {
   return (
-    <div className="mt-16">
-      <div className="grid md:grid-cols-12 gap-8 items-start">
-        {/* Score panel */}
-        <div className="md:col-span-4">
-          <div
-            className="rounded-[12px] p-7"
-            style={{
-              background: "var(--bg-raised)",
-              border: "1px solid var(--line-subtle)",
-            }}
-          >
+    <div className="mt-16 space-y-10">
+      {/* Header row: Screenshot + Score + One-liner */}
+      <div className="grid md:grid-cols-12 gap-6 items-stretch">
+        <div className="md:col-span-5">
+          <div className="audit-screenshot-frame">
+            <div className="audit-screenshot-chrome">
+              <span className="audit-dot" style={{ background: "#3a1212" }} />
+              <span className="audit-dot" style={{ background: "#3a1212" }} />
+              <span className="audit-dot" style={{ background: "#3a1212" }} />
+              <span className="audit-url">{result.domain}</span>
+            </div>
+            <div className="audit-screenshot-canvas">
+              {/* plain img so missing/blocked screenshot just collapses */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={result.screenshot_url}
+                alt={`Screenshot von ${result.domain}`}
+                className="audit-screenshot-img"
+                loading="lazy"
+              />
+              <span className="audit-screenshot-watermark">analysiert</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="md:col-span-7 flex flex-col gap-6">
+          <div className="glass p-7">
             <span
               style={{
                 color: "var(--ink-dim)",
@@ -175,20 +196,12 @@ function Result({ result }: { result: AuditResult }) {
             >
               AGENT-VISIBILITY-SCORE
             </span>
-            <p
-              className="font-display mt-4"
-              style={{
-                fontSize: 88,
-                letterSpacing: "-0.025em",
-                color: "var(--ink-yellow)",
-                lineHeight: 0.9,
-              }}
-            >
-              {result.score}
-              <span style={{ fontSize: 32, color: "var(--ink-muted)" }}>/100</span>
+            <p className="audit-score">
+              {result.overall_score}
+              <span className="audit-score-suffix">/100</span>
             </p>
             <p
-              className="mt-3"
+              className="mt-2"
               style={{
                 color: "var(--ink-cream)",
                 fontFamily: "var(--font-mono)",
@@ -198,8 +211,31 @@ function Result({ result }: { result: AuditResult }) {
             >
               für {result.domain}
             </p>
+          </div>
+          <div className="glass p-7">
+            <span
+              style={{
+                color: "var(--ink-dim)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.06em",
+              }}
+            >
+              SO LIEST CLAUDE DEINE MARKE
+            </span>
             <p
-              className="mt-5"
+              className="mt-3 font-display"
+              style={{
+                fontSize: 22,
+                lineHeight: 1.3,
+                letterSpacing: "-0.015em",
+                color: "var(--ink-yellow)",
+              }}
+            >
+              {result.one_liner}
+            </p>
+            <p
+              className="mt-4"
               style={{
                 color: "var(--ink-dim)",
                 fontSize: 11,
@@ -208,135 +244,140 @@ function Result({ result }: { result: AuditResult }) {
             >
               {result.source === "anthropic"
                 ? "Live von Claude · " + new Date(result.generated_at).toLocaleString("de-DE")
-                : "Stub-Response · API-Key fehlt"}
+                : "Stub-Response · ANTHROPIC_API_KEY noch nicht gesetzt"}
             </p>
-          </div>
-        </div>
-
-        {/* Visibility + lists */}
-        <div className="md:col-span-8 space-y-8">
-          <div>
-            <p
-              className="font-display"
-              style={{
-                fontSize: 24,
-                letterSpacing: "-0.02em",
-                color: "var(--ink-yellow)",
-                lineHeight: 1.2,
-              }}
-            >
-              Sichtbarkeit
-            </p>
-            <p
-              className="mt-3 max-w-[640px]"
-              style={{ color: "var(--ink-muted)", fontSize: 15, lineHeight: "24px" }}
-            >
-              {result.visibility}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <p
-                style={{
-                  color: "var(--accent-red,#FF5A67)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.06em",
-                }}
-              >
-                ✕ DREI SCHWÄCHEN
-              </p>
-              <ul className="mt-3 space-y-3">
-                {result.weaknesses.map((w, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span
-                      style={{
-                        color: "var(--ink-dim)",
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 12,
-                        minWidth: 18,
-                      }}
-                    >
-                      0{i + 1}
-                    </span>
-                    <span style={{ color: "var(--ink-cream)", fontSize: 14, lineHeight: "22px" }}>
-                      {w}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p
-                style={{
-                  color: "var(--ink-yellow)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.06em",
-                }}
-              >
-                ✓ DREI SOFORT-FIXES
-              </p>
-              <ul className="mt-3 space-y-3">
-                {result.recommendations.map((r, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span
-                      style={{
-                        color: "var(--ink-yellow)",
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 12,
-                        minWidth: 18,
-                      }}
-                    >
-                      0{i + 1}
-                    </span>
-                    <span style={{ color: "var(--ink-cream)", fontSize: 14, lineHeight: "22px" }}>
-                      {r}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div
-            className="rounded-[12px] p-6"
-            style={{
-              background: "var(--bg-raised)",
-              border: "1px solid var(--line-subtle)",
-            }}
-          >
-            <p
-              className="font-display"
-              style={{
-                fontSize: 22,
-                letterSpacing: "-0.02em",
-                color: "var(--ink-yellow)",
-                lineHeight: 1.2,
-              }}
-            >
-              Willst du das in <em className="font-display italic">10 Tagen</em> live haben?
-            </p>
-            <p
-              className="mt-3 max-w-[560px]"
-              style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}
-            >
-              Der Audit ist der erste Touchpoint. Wir setzen dieselben Fixes als
-              Brand-System + Live-Site + Agent-Layer um. Festpreis, 10 Tage, ein Operator.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Brief schicken
-                <span aria-hidden>→</span>
-              </Link>
-              <Link href="/method" className="btn-secondary">
-                Methode lesen
-              </Link>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Dimensions grid */}
+      <div>
+        <p
+          style={{
+            color: "var(--ink-dim)",
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          6 Dimensionen · Score · Evidence · Fix
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          {DIM_ORDER.map((key) => {
+            const d = result.dimensions[key];
+            const meta = DIM_META[key];
+            return (
+              <div key={key} className="glass p-6 audit-dim-card" data-score={d.score}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p
+                      className="font-display"
+                      style={{
+                        fontSize: 22,
+                        letterSpacing: "-0.015em",
+                        color: "var(--ink-yellow)",
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {meta.label}
+                    </p>
+                    <p
+                      className="mt-1"
+                      style={{
+                        color: "var(--ink-dim)",
+                        fontSize: 12,
+                        fontFamily: "var(--font-mono)",
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {meta.sub}
+                    </p>
+                  </div>
+                  <ScoreBadge score={d.score} />
+                </div>
+                <p
+                  className="mt-5"
+                  style={{
+                    color: "var(--ink-cream)",
+                    fontSize: 14,
+                    lineHeight: "22px",
+                  }}
+                >
+                  {d.finding}
+                </p>
+                <div
+                  className="mt-5 pt-4"
+                  style={{ borderTop: "1px solid var(--line-subtle)" }}
+                >
+                  <p
+                    style={{
+                      color: "var(--ink-yellow)",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 10,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    ↳ Fix
+                  </p>
+                  <p
+                    className="mt-1"
+                    style={{
+                      color: "var(--ink-cream)",
+                      fontSize: 14,
+                      fontWeight: 510,
+                      lineHeight: "20px",
+                    }}
+                  >
+                    {d.fix}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="glass p-7 md:p-10">
+        <p
+          className="font-display"
+          style={{
+            fontSize: 28,
+            letterSpacing: "-0.02em",
+            color: "var(--ink-yellow)",
+            lineHeight: 1.15,
+          }}
+        >
+          Diese 6 Fixes umsetzen? <em className="font-display italic">10 Tage</em>. Festpreis. Live.
+        </p>
+        <p
+          className="mt-3 max-w-[640px]"
+          style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}
+        >
+          Der Audit ist der Diagnose-Touchpoint. Wir setzen die Fixes als Brand-System +
+          Live-Site + Agent-Layer um. Ein Operator, ein Festpreis, ein Liefertag.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link href="/anfrage" className="btn-primary">
+            Slot sichern
+            <span aria-hidden>→</span>
+          </Link>
+          <Link href="/method" className="btn-secondary">
+            Methode lesen
+          </Link>
+        </div>
+      </div>
     </div>
+  );
+}
+
+function ScoreBadge({ score }: { score: number }) {
+  const cls = score >= 8 ? "good" : score >= 5 ? "ok" : "bad";
+  return (
+    <span className={`audit-score-badge audit-score-${cls}`} aria-label={`Score ${score} von 10`}>
+      <span className="audit-score-num">{score}</span>
+      <span className="audit-score-denom">/10</span>
+    </span>
   );
 }

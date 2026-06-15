@@ -1801,3 +1801,141 @@ select:focus {
   letter-spacing: -0.01em;
   pointer-events: none;
 }
+
+/* ============================================================
+   AUDIT — screenshot frame, score badges, big sans-serif numbers
+   ============================================================ */
+.audit-screenshot-frame {
+  background: var(--bg-raised);
+  border: 1px solid var(--line-medium);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 24px 56px -28px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(247,233,154,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.audit-screenshot-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--line-subtle);
+}
+.audit-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.audit-url {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+.audit-screenshot-canvas {
+  position: relative;
+  background: var(--bg-elevated);
+  aspect-ratio: 1280 / 720;
+  overflow: hidden;
+}
+.audit-screenshot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.audit-screenshot-watermark {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 233, 154, 0.85);
+  background: rgba(26, 4, 4, 0.78);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(247, 233, 154, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* Big audit score — SANS-SERIF on purpose (Geist), tabular numerals */
+.audit-score {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(64px, 8vw, 120px);
+  letter-spacing: -0.04em;
+  color: var(--ink-yellow);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  margin-top: 16px;
+}
+.audit-score-suffix {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.28em;
+  color: var(--ink-muted);
+  margin-left: 4px;
+  letter-spacing: 0;
+}
+
+/* Dimension cards */
+.audit-dim-card { position: relative; }
+
+.audit-score-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.audit-score-num {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+.audit-score-denom {
+  font-size: 11px;
+  opacity: 0.6;
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+.audit-score-good {
+  background: rgba(247, 233, 154, 0.16);
+  color: var(--ink-yellow);
+  border: 1px solid rgba(247, 233, 154, 0.36);
+}
+.audit-score-ok {
+  background: rgba(247, 233, 154, 0.06);
+  color: var(--ink-cream);
+  border: 1px solid var(--line-medium);
+}
+.audit-score-bad {
+  background: rgba(255, 95, 95, 0.08);
+  color: var(--accent-red);
+  border: 1px solid rgba(255, 95, 95, 0.36);
+}
+
+/* Big stat numbers — SANS-SERIF (Geist) on purpose: serif is reserved for
+   headlines. Numbers want geometric clarity. */
+.stat-num-display {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 56px;
+  letter-spacing: -0.04em;
+  color: var(--ink-yellow);
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 768px) {
+  .stat-num-display { font-size: 64px; }
+}
