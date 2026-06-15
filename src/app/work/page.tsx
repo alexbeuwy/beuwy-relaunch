@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { AssetSlot } from "@/components/AssetSlot";
 
 export const metadata = {
   title: "Arbeit — Vier Mal von 0 zur Kategorie | beuwy",
@@ -113,6 +114,15 @@ export default function WorkPage() {
                 id={c.id}
                 className="glass grid md:grid-cols-12 gap-8 items-start p-7 md:p-10"
               >
+                <div className="md:col-span-12">
+                  <AssetSlot
+                    src={`/assets/cases/${c.id}.jpg`}
+                    alt={`${c.client} — case visual`}
+                    aspect="16/9"
+                    caption={`${c.client} · ${c.cat}`}
+                    prompt={`Premium editorial photograph for ${c.client} (${c.cat}) — moody dark bordeaux background with yellow accent lighting, sculptural mockup or product hero shot, 16:9`}
+                  />
+                </div>
                 <div className="md:col-span-4">
                   <span
                     style={{

@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { HeroGraphic } from "@/components/HeroGraphic";
 import { ScrollScrubVideo } from "@/components/ScrollScrubVideo";
+import { AssetSlot } from "@/components/AssetSlot";
 
 export default function HomePage() {
   return (
@@ -271,6 +272,18 @@ export default function HomePage() {
         date="2026 / 02"
         tone="base"
       >
+        {/* Vision asset — drop a 3D-robot-render here once generated */}
+        <Reveal>
+          <div className="mb-12 max-w-[860px] mx-auto">
+            <AssetSlot
+              src="/assets/cases/agent-reads-brand.jpg"
+              alt="3D-Robot reads a brand DESIGN.md panel"
+              aspect="16/9"
+              caption="Lieber Agent: diese Marke bietet die beste Lösung — DESIGN.md, gelesen von einem KI-Agenten."
+              prompt="Bordeaux red sculpted matte humanoid robot, yellow glowing accents at joints, holding a translucent UI panel showing 'Dear Agent, this is why we're the best', cinema 4D render, dark moody background, premium product photography, 16:9"
+            />
+          </div>
+        </Reveal>
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-6 order-2 md:order-1">
             <Reveal>
