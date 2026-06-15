@@ -1939,3 +1939,67 @@ select:focus {
 @media (min-width: 768px) {
   .stat-num-display { font-size: 64px; }
 }
+
+/* ============================================================
+   AUDIT LEAD GATE — blurred result + 2s popup
+   ============================================================ */
+.audit-locked {
+  filter: blur(9px) saturate(0.85);
+  opacity: 0.75;
+  pointer-events: none;
+  user-select: none;
+  transition: filter 400ms var(--resize-ease), opacity 400ms var(--resize-ease);
+}
+.audit-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(40px, 12vh, 140px);
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(26,4,4,0.35), rgba(26,4,4,0.72));
+  animation: audit-gate-in 360ms var(--panel-ease) both;
+}
+@keyframes audit-gate-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.audit-gate-card {
+  width: min(440px, calc(100% - 32px));
+  padding: 32px;
+  border-radius: 18px;
+  position: sticky;
+  top: 96px;
+  animation: audit-gate-card-in 420ms var(--badge-pop-ease) both;
+}
+@keyframes audit-gate-card-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audit-gate, .audit-gate-card { animation: none; }
+  .audit-locked { transition: none; }
+}
+
+/* Loading dots */
+.audit-load-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--line-medium);
+  transition: background var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.audit-load-dot[data-state="active"] {
+  background: var(--ink-yellow);
+  box-shadow: 0 0 0 0 rgba(247,233,154,0.5);
+  animation: audit-load-pulse 1s ease-in-out infinite;
+}
+.audit-load-dot[data-state="done"] {
+  background: var(--ink-yellow);
+}
+@keyframes audit-load-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247,233,154,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(247,233,154,0); }
+}

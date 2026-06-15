@@ -42,6 +42,7 @@ type AuditResult = {
   one_liner: string;
   dimensions: Record<Dimension, DimResult>;
   source: "anthropic" | "stub";
+  note?: string;
   generated_at: string;
 };
 
@@ -71,12 +72,18 @@ export async function POST(req: Request) {
     .replace(/\/.*$/, "")
     .toLowerCase();
 
-  // Free, no-key screenshot service — embeds in result card.
-  const screenshot_url = `https://image.thum.io/get/png/maxAge/24/width/1280/https://${domain}`;
+  // Fast, no-key screenshot: Microlink embed returns the PNG directly (302).
+  // Loaded lazily on the client AFTER the lead gate, so cold-generation
+  // latency is fully hidden behind the form step.
+  const screenshot_url = `https://api.microlink.io/?url=${encodeURIComponent(
+    "https://" + domain
+  )}&screenshot=true&embed=screenshot.url&meta=false&viewport.width=1280&viewport.height=800`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return NextResponse.json(makeStub(domain, screenshot_url));
+    const stub = makeStub(domain, screenshot_url);
+    stub.note = "Demo-Analyse — Live-Analyse aktiviert sich, sobald der API-Key hinterlegt ist.";
+    return NextResponse.json(stub);
   }
 
   try {
@@ -116,9 +123,17 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
     });
 
     if (!r.ok) {
+      // Never leak raw API errors to the UI. Map to a clean note, keep the
+      // demo data so the experience stays intact.
       const errText = await r.text().catch(() => "");
       const stub = makeStub(domain, screenshot_url);
-      stub.one_liner = `(Anthropic-API-Fehler ${r.status} — Fallback unten). ${errText.slice(0, 120)}`;
+      if (r.status === 400 && /credit balance/i.test(errText)) {
+        stub.note = "Demo-Analyse — Live-Kontingent vorübergehend erschöpft.";
+      } else if (r.status === 429) {
+        stub.note = "Demo-Analyse — gerade hohe Last, gleich wieder live.";
+      } else {
+        stub.note = "Demo-Analyse — Live-Analyse temporär nicht erreichbar.";
+      }
       return NextResponse.json(stub);
     }
 
@@ -134,7 +149,7 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
       parsed = JSON.parse(cleaned);
     } catch {
       const stub = makeStub(domain, screenshot_url);
-      stub.one_liner = "(Claude-Response konnte nicht geparst werden — Fallback unten)";
+      stub.note = "Demo-Analyse — Antwort konnte nicht verarbeitet werden.";
       return NextResponse.json(stub);
     }
 
@@ -165,7 +180,7 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
     return NextResponse.json(result);
   } catch (err) {
     const stub = makeStub(domain, screenshot_url);
-    stub.one_liner = "(Network-Fehler beim Anthropic-Call — Fallback-Daten unten)";
+    stub.note = "Demo-Analyse — Netzwerk-Fehler.";
     return NextResponse.json(stub);
   }
 }
@@ -219,7 +234,7 @@ function makeStub(domain: string, screenshot_url: string): AuditResult {
       (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].score, 0) / DIM_ORDER.length) * 10
     ),
     one_liner:
-      `${domain} liest sich aus LLM-Sicht wie ein generisches Tool in einer überfüllten Kategorie — keine erkennbare These, kein Agent-Layer, austauschbar. (Stub-Daten — sobald ANTHROPIC_API_KEY gesetzt ist, läuft die Live-Analyse.)`,
+      `${domain} liest sich aus LLM-Sicht wie ein generisches Tool in einer überfüllten Kategorie — keine erkennbare These, kein Agent-Layer, austauschbar.`,
     dimensions,
     source: "stub",
     generated_at: new Date().toISOString(),
