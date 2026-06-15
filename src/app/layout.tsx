@@ -6,6 +6,8 @@ import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
+import { CursorTrail } from "@/components/CursorTrail";
+import { MagneticButtons } from "@/components/MagneticButtons";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -45,6 +47,8 @@ export default function RootLayout({
         <div className="ambient-blob" aria-hidden />
         <Nav />
         <SpotlightTracker />
+        <CursorTrail />
+        <MagneticButtons />
         <main id="main" className="relative z-[2]">{children}</main>
         <Footer />
       </body>

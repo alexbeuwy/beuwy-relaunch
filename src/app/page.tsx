@@ -129,6 +129,11 @@ export default function HomePage() {
           02 — PAIN AGITATE (Diagnose-Tabelle)
          ============================================================ */}
       <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01" tone="raised">
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-red"
+          style={{ top: "20%", right: "-12%", width: 420, height: 420, opacity: 0.35 }}
+        />
         <Reveal>
           <span className="eyebrow-rule">
             <span className="num">85 %</span> deiner Pipeline = Zufall
@@ -305,6 +310,11 @@ export default function HomePage() {
         date="2026 / 03"
         tone="raised"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-yellow"
+          style={{ top: "15%", left: "-10%", width: 480, height: 480, opacity: 0.4 }}
+        />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[920px]">
             <em className="font-display italic">Ein</em> System.{" "}
@@ -803,6 +813,11 @@ export default function HomePage() {
         date="2026 / 09"
         tone="raised"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-yellow"
+          style={{ top: "20%", right: "-10%", width: 460, height: 460, opacity: 0.45 }}
+        />
         <Reveal>
           <HeadlineDisplay size="md" className="max-w-[840px]">
             Drei Türen. Such dir <em className="font-display italic">eine</em> aus.

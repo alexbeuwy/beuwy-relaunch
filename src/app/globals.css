@@ -1614,3 +1614,72 @@ select:focus {
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-hint-dot::before { animation: none; opacity: 1; }
 }
+
+/* ============================================================
+   WOW-LEVEL-2 — cursor trail, scroll progress, magnetic CTAs
+   ============================================================ */
+
+/* Yellow lerped cursor halo — sits above everything but pointer-events:none */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 280px;
+  margin: -140px 0 0 -140px;
+  pointer-events: none;
+  z-index: 200;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(247, 233, 154, 0.18) 0%,
+    rgba(247, 233, 154, 0.06) 25%,
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 200ms var(--resize-ease);
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .cursor-trail { display: none; }
+}
+
+/* Page scroll progress — thin yellow rail inside Nav */
+.scroll-progress {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(247, 233, 154, 0.08);
+  overflow: hidden;
+  z-index: 1;
+}
+.scroll-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--ink-yellow) 0%,
+    #FBF1B6 50%,
+    var(--ink-yellow) 100%
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+  box-shadow: 0 0 12px rgba(247, 233, 154, 0.5);
+  will-change: transform;
+}
+
+/* Magnetic effect on .btn-primary — toggled by MagneticButtons.tsx via .magnetic */
+.btn-primary.magnetic {
+  transform: translate3d(var(--magnetic-x, 0), var(--magnetic-y, 0), 0);
+  transition: transform 280ms var(--resize-ease), background var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.btn-primary.magnetic:hover {
+  transform: translate3d(var(--magnetic-x, 0), calc(var(--magnetic-y, 0px) - 1px), 0);
+}
+.btn-primary.magnetic:active {
+  transform: translate3d(var(--magnetic-x, 0), var(--magnetic-y, 0), 0) scale(0.985);
+}

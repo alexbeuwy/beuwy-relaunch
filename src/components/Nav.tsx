@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
+import { ScrollProgress } from "./ScrollProgress";
 import { useEffect, useState } from "react";
 
 const links: { label: string; href: string }[] = [
@@ -74,6 +75,7 @@ export function Nav() {
           </Link>
         </div>
       </div>
+      <ScrollProgress />
     </header>
   );
 }
