@@ -10,22 +10,81 @@ import { NextResponse } from "next/server";
  *   ANTHROPIC_API_KEY    — pflicht für live (Claude Opus 4.7 oder höher)
  */
 
-const SYSTEM_PROMPT = `Du bist Senior Brand- und Conversion-Analyst für die Agent-Ära.
-Du analysierst eine Domain in genau 6 Dimensionen. Jede Dimension wird mit
-1-10 Punkten bewertet, einer 1-Satz-Begründung mit konkretem Evidence-Beleg
-("auf der Hero steht…", "im Footer fehlt…"), und genau 1 sofort umsetzbaren
-Fix-Vorschlag in 5-12 Wörtern.
+const SYSTEM_PROMPT = `Du bist das beuwy-Agenten-Analyse-Panel — ein Senior Brand- und Conversion-Analyst für die Agent-Ära, der quer über Claude, ChatGPT, Codex, Gemini, Grok, DeepSeek und Perplexity denkt.
+
+Du bekommst den TATSÄCHLICHEN Seiteninhalt (Title, Meta, Headlines, Text-Snippets) einer Domain. Du analysierst in genau 6 Dimensionen. Jede Dimension: 1-10 Punkte, eine 1-2-Satz-Begründung MIT konkretem Beleg AUS DEM ECHTEN INHALT, und genau 1 sofort umsetzbarer Fix in 5-12 Wörtern.
+
+ABSOLUT PFLICHT für Glaubwürdigkeit:
+- Zitiere in MINDESTENS 2 der 6 findings eine echte Headline / einen echten Satz der Seite WÖRTLICH in »Anführungszeichen«. Beispiel: »Die Hero sagt »AI-powered platform for teams« — das matcht mit 50 Wettbewerbern.«
+- Beziehe dich konkret auf das, was wirklich da steht (oder fehlt). Niemals generisch. Wenn ein llms.txt / schema fehlt, sag das. Wenn die H1 stark ist, lobe sie konkret.
+- Jede Begründung muss sich lesen, als hätte ein Mensch die Seite WIRKLICH geöffnet.
 
 Die 6 Dimensionen:
-1) positioning   – Hat die Marke eine erkennbare, unterscheidbare These? Oder ist sie ein "AI for X"-Klon?
-2) voice         – Klingt die Marke wie ein bestimmtes Unternehmen? Oder wie ein generischer SaaS-Output?
-3) agent_layer   – Ist die Site maschinenlesbar (schema.org, llms.txt, semantisches HTML, klare Headlines)? Wird ein LLM die Marke als plausible Antwort in der Kategorie nennen?
-4) trust         – Cases mit harten Zahlen, Founder-Footprint, Social Proof, Zitate? Oder Lorem-Ipsum-Testimonials?
-5) pricing       – Ist Pricing sichtbar/transparent? Oder "Contact us" — Reibung vor Wertversprechen?
-6) conversion    – Ist die CTA klar, sofort sichtbar, action-spezifisch? Oder generisches "Learn More" am Ende?
+1) positioning   – Hat die Marke eine erkennbare, unterscheidbare These? Oder ein "AI for X"-Klon? (Zitiere die Hero-Headline.)
+2) voice         – Klingt die Marke nach einem bestimmten Unternehmen oder nach generischem SaaS-Output? (Zitiere eine echte Formulierung.)
+3) agent_layer   – Maschinenlesbar (schema.org, llms.txt, semantic HTML, klare Headlines)? Würde ein LLM die Marke als Top-3-Antwort der Kategorie nennen?
+4) trust         – Cases mit harten Zahlen, Founder-Footprint, echte Quotes? Oder Lorem-Ipsum?
+5) pricing       – Pricing sichtbar/transparent oder "Contact us"?
+6) conversion    – CTA klar, action-spezifisch, sofort sichtbar? Oder generisches "Learn More"? (Zitiere die echte CTA.)
 
-Schreib auf Deutsch. Knapp, scharf, kein Marketing-Slang.
-Keine Floskeln wie "könnte verbessert werden". Sei konkret und nenne Belege.`;
+Schreib auf Deutsch. Knapp, scharf, kein Marketing-Slang. Keine Floskeln wie "könnte verbessert werden". Sei konkret und belege alles.`;
+
+/**
+ * Fetch the live page and extract the signal a real analyst would skim:
+ * title, meta description, h1/h2/h3 text, button/cta labels, and whether
+ * machine-readable hints (llms.txt hint, json-ld) are present.
+ */
+async function fetchPageContext(domain: string): Promise<string> {
+  try {
+    const res = await fetch(`https://${domain}`, {
+      headers: { "user-agent": "Mozilla/5.0 (compatible; beuwy-audit/1.0)" },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return `(Seite antwortete mit Status ${res.status} — Analyse auf Basis der Domain.)`;
+    const html = await res.text();
+    const slice = html.slice(0, 400_000);
+
+    const pick = (re: RegExp, max = 12) => {
+      const out: string[] = [];
+      let m: RegExpExecArray | null;
+      const r = new RegExp(re.source, "gi");
+      while ((m = r.exec(slice)) && out.length < max) {
+        const t = m[1]
+          .replace(/<[^>]+>/g, " ")
+          .replace(/&[a-z]+;/gi, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+        if (t && t.length > 1 && t.length < 200) out.push(t);
+      }
+      return out;
+    };
+
+    const title = (slice.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").replace(/\s+/g, " ").trim();
+    const desc =
+      slice.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1] ||
+      slice.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i)?.[1] ||
+      "";
+    const h1 = pick(/<h1[^>]*>([\s\S]*?)<\/h1>/, 6);
+    const h2 = pick(/<h2[^>]*>([\s\S]*?)<\/h2>/, 14);
+    const ctas = pick(/<(?:button|a)[^>]*>([\s\S]*?)<\/(?:button|a)>/, 24).filter(
+      (t) => t.length < 40 && /\b(start|jetzt|demo|kontakt|sign|get|book|buy|try|kaufen|anfrage|los|mehr|contact|learn)\b/i.test(t)
+    );
+    const hasJsonLd = /application\/ld\+json/i.test(slice);
+    const hasLlms = /llms\.txt/i.test(slice);
+
+    return [
+      `TITLE: ${title || "—"}`,
+      `META: ${desc || "—"}`,
+      `H1: ${h1.join(" | ") || "—"}`,
+      `H2: ${h2.join(" | ") || "—"}`,
+      `CTA-LABELS: ${[...new Set(ctas)].slice(0, 10).join(" | ") || "—"}`,
+      `JSON-LD vorhanden: ${hasJsonLd ? "ja" : "nein"}`,
+      `llms.txt erwähnt: ${hasLlms ? "ja" : "nein"}`,
+    ].join("\n");
+  } catch {
+    return "(Seite nicht erreichbar — Analyse auf Basis der Domain + Kategorie-Heuristik.)";
+  }
+}
 
 type Dimension = "positioning" | "voice" | "agent_layer" | "trust" | "pricing" | "conversion";
 
@@ -86,6 +145,9 @@ export async function POST(req: Request) {
     return NextResponse.json(stub);
   }
 
+  // Crawl the real page so the agents can quote actual headlines.
+  const pageContext = await fetchPageContext(domain);
+
   try {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -95,13 +157,20 @@ export async function POST(req: Request) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        model: "claude-opus-4-7",
-        max_tokens: 2400,
+        model: "claude-sonnet-4-6",
+        max_tokens: 2600,
         system: SYSTEM_PROMPT,
         messages: [
           {
             role: "user",
             content: `Analysiere die Marke unter https://${domain}
+
+HIER IST DER ECHTE SEITENINHALT, DEN DIE AGENTEN GECRAWLT HABEN:
+"""
+${pageContext}
+"""
+
+Nutze AUSSCHLIESSLICH diesen echten Inhalt für deine Belege. Zitiere mindestens 2 echte Headlines/Sätze wörtlich in »Anführungszeichen«.
 
 Liefere reines JSON in genau diesem Shape:
 {

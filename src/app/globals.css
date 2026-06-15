@@ -2082,3 +2082,273 @@ select:focus {
 }
 /* sans-serif stat numbers on cream */
 .section-band-cream .stat-num-display { color: #B23A48; }
+
+/* ============================================================
+   MODEL PANEL — beuwy-Agenten multi-model chips
+   ============================================================ */
+.model-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.model-panel-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.model-panel-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.model-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: var(--ink-cream);
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(247, 233, 154, 0.05);
+  border: 1px solid var(--line-medium);
+  transition: border-color var(--resize-dur) var(--resize-ease), background var(--resize-dur) var(--resize-ease);
+}
+.model-chip:hover {
+  border-color: rgba(247, 233, 154, 0.4);
+  background: rgba(247, 233, 154, 0.1);
+}
+.model-panel[data-light="true"] .model-panel-label { color: rgba(26,4,4,0.5); }
+.model-panel[data-light="true"] .model-chip {
+  color: var(--bg-base);
+  background: rgba(26, 4, 4, 0.05);
+  border-color: rgba(26, 4, 4, 0.18);
+}
+
+/* ============================================================
+   AUDIT CLOSE — DIY vs done-for-you
+   ============================================================ */
+.audit-close-col {
+  border-radius: 14px;
+  padding: 24px;
+}
+.audit-close-diy {
+  background: rgba(255, 95, 95, 0.04);
+  border: 1px solid rgba(255, 95, 95, 0.16);
+}
+.audit-close-pro {
+  background: rgba(247, 233, 154, 0.06);
+  border: 1px solid rgba(247, 233, 154, 0.32);
+}
+.audit-close-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.audit-close-tag-diy {
+  color: var(--accent-red);
+  background: rgba(255, 95, 95, 0.1);
+  border: 1px solid rgba(255, 95, 95, 0.3);
+}
+.audit-close-tag-pro {
+  color: var(--ink-yellow);
+  background: rgba(247, 233, 154, 0.1);
+  border: 1px solid rgba(247, 233, 154, 0.36);
+}
+.audit-close-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.audit-close-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+.audit-close-list li strong { color: var(--ink-yellow); font-weight: 600; }
+.audit-close-diy .audit-close-list li::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-red);
+  font-size: 12px;
+}
+.audit-close-pro .audit-close-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ink-yellow);
+  font-size: 12px;
+}
+
+/* ============================================================
+   AUDIT PREVIEW — teaser mock in the Magnet section
+   ============================================================ */
+.audit-preview {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+/* On the bright (yellow) magnet band, give the preview a dark body so it
+   reads as a real product screenshot, not part of the page. */
+.section-band-bright .audit-preview {
+  background: var(--bg-raised);
+  border: 1px solid rgba(26,4,4,0.18);
+  box-shadow: 0 30px 70px -34px rgba(26,4,4,0.5);
+}
+.audit-preview-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--line-subtle);
+}
+.audit-preview-url {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.audit-preview-live {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-yellow);
+}
+.audit-preview-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-yellow);
+  animation: chip-dot-pulse 1.6s ease-in-out infinite;
+}
+.audit-preview-body {
+  position: relative;
+  padding: 24px;
+  background: linear-gradient(180deg, var(--bg-raised) 0%, #1F0606 100%);
+}
+.audit-preview-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.audit-preview-mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.audit-preview-score {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 64px;
+  letter-spacing: -0.04em;
+  color: var(--ink-yellow);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  margin-top: 8px;
+  animation: audit-preview-pop 600ms var(--badge-pop-ease) both;
+}
+.audit-preview-score-suffix {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--ink-muted);
+  margin-left: 2px;
+}
+@keyframes audit-preview-pop {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.audit-preview-quote {
+  margin-top: 8px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink-cream);
+}
+.audit-preview-bars {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.audit-preview-bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 42px;
+  align-items: center;
+  gap: 12px;
+}
+.audit-preview-bar-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.audit-preview-bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(247, 233, 154, 0.08);
+  overflow: hidden;
+}
+.audit-preview-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  transform-origin: left center;
+  animation: audit-preview-bar 900ms var(--panel-ease) both;
+}
+.audit-preview-bar-fill[data-tier="good"] { background: var(--ink-yellow); }
+.audit-preview-bar-fill[data-tier="ok"] { background: #D9CC85; }
+.audit-preview-bar-fill[data-tier="bad"] { background: var(--accent-red); }
+@keyframes audit-preview-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.audit-preview-bar-score {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-cream);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+/* scanning line sweeping down — "analysis happening" */
+.audit-preview-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(247,233,154,0.12), transparent);
+  animation: audit-preview-scan 3.2s ease-in-out infinite;
+}
+@keyframes audit-preview-scan {
+  0% { transform: translateY(-40px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(320px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audit-preview-scanline,
+  .audit-preview-bar-fill,
+  .audit-preview-score,
+  .audit-preview-live-dot { animation: none; }
+  .audit-preview-bar-fill { transform: scaleX(1); }
+}

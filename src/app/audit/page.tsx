@@ -31,6 +31,24 @@ const DIM_META: Record<Dimension, { label: string; sub: string }> = {
 const DIM_ORDER: Dimension[] = ["positioning", "voice", "agent_layer", "trust", "pricing", "conversion"];
 const GATE_KEY = "beuwy_audit_unlocked";
 
+/** The model panel the beuwy-Agenten run the analysis across. */
+const MODELS = ["Claude", "ChatGPT", "Codex", "Gemini", "Grok", "DeepSeek", "Perplexity"];
+
+function ModelPanel({ light = false }: { light?: boolean }) {
+  return (
+    <div className="model-panel" data-light={light}>
+      <span className="model-panel-label">beuwy-Agenten · Modell-Panel</span>
+      <div className="model-panel-chips">
+        {MODELS.map((m) => (
+          <span key={m} className="model-chip">
+            {m}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function AuditPage() {
   return (
     <Suspense fallback={null}>
@@ -102,18 +120,25 @@ function AuditInner() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="h-display-xl mt-7 max-w-[1100px]">
-              Was sagt Claude über <em className="gradient-text">deine</em> Marke?
+              Was sehen die <em className="gradient-text">KI-Agenten</em>, wenn sie deine Marke lesen?
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p
-              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
+              className="mt-7 max-w-[700px] text-[19px] md:text-[22px] leading-[1.45]"
               style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Domain rein, 60 Sekunden warten. Wir liefern{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>6 Dimensionen</em>,
-              Score pro Dimension, Evidence + sofort-Fix. Kostenlos, kein Login.
+              Unsere beuwy-Agenten prüfen deine Domain quer über{" "}
+              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
+                Claude, ChatGPT, Codex, Gemini, Grok, DeepSeek &amp; Perplexity
+              </em>
+              . Score, 6 Dimensionen, Evidence + sofort-Fix. Kostenlos, kein Login.
             </p>
+          </Reveal>
+          <Reveal delay={240}>
+            <div className="mt-8">
+              <ModelPanel />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -155,7 +180,7 @@ function AuditInner() {
               }}
             />
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? "Claude analysiert…" : "Audit starten"}
+              {loading ? "beuwy-Agenten analysieren…" : "Audit starten"}
               <span aria-hidden>→</span>
             </button>
           </div>
@@ -177,10 +202,10 @@ function AuditInner() {
 
 function LoadingState({ domain }: { domain: string }) {
   const steps = [
-    "Lade Seite & Meta-Daten",
-    "Prüfe Positionierung & Voice",
-    "Scanne Agent-Layer (schema · llms.txt)",
-    "Bewerte Trust, Pricing, Conversion",
+    "beuwy-Agenten laden Seite & Meta-Daten",
+    "Modell-Panel prüft Positionierung & Voice",
+    "Scan Agent-Layer (schema · llms.txt)",
+    "Konsens über Trust, Pricing, Conversion",
   ];
   const [active, setActive] = useState(0);
   useEffect(() => {
@@ -198,8 +223,11 @@ function LoadingState({ domain }: { domain: string }) {
           letterSpacing: "0.06em",
         }}
       >
-        ANALYSE LÄUFT · {domain}
+        beuwy-Agenten analysieren · {domain}
       </p>
+      <div className="mt-4">
+        <ModelPanel />
+      </div>
       <ul className="mt-5 space-y-3">
         {steps.map((s, i) => (
           <li key={s} className="flex items-center gap-3">
@@ -296,7 +324,7 @@ function ResultBody({ result, unlocked }: { result: AuditResult; unlocked: boole
                 letterSpacing: "0.06em",
               }}
             >
-              SO LIEST CLAUDE DEINE MARKE
+              SO LESEN DIE AGENTEN DEINE MARKE
             </span>
             <p
               className="mt-3 font-display"
@@ -314,7 +342,7 @@ function ResultBody({ result, unlocked }: { result: AuditResult; unlocked: boole
               style={{ color: "var(--ink-dim)", fontSize: 11, letterSpacing: "0.02em" }}
             >
               {result.source === "anthropic"
-                ? "Live von Claude · " + new Date(result.generated_at).toLocaleString("de-DE")
+                ? "Live · beuwy-Agenten · " + new Date(result.generated_at).toLocaleString("de-DE")
                 : result.note || "Demo-Analyse"}
             </p>
           </div>
@@ -430,29 +458,71 @@ function ResultBody({ result, unlocked }: { result: AuditResult; unlocked: boole
         </div>
       )}
 
-      {/* Final CTA */}
-      <div className="glass p-7 md:p-10">
-        <p
-          className="font-display"
-          style={{ fontSize: 28, letterSpacing: "-0.02em", color: "var(--ink-yellow)", lineHeight: 1.15 }}
+      {/* Final CTA — DIY-vs-done-for-you close */}
+      <div className="glass p-7 md:p-12 audit-close">
+        <span
+          style={{
+            color: "var(--ink-yellow)",
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+          }}
         >
-          Diese 6 Fixes umsetzen? <em className="font-display italic">10 Tage</em>. Festpreis. Live.
-        </p>
+          Du hast jetzt die Diagnose. Bleibt eine Frage.
+        </span>
         <p
-          className="mt-3 max-w-[640px]"
-          style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}
+          className="font-display mt-4 max-w-[820px]"
+          style={{ fontSize: 34, letterSpacing: "-0.02em", color: "var(--ink-yellow)", lineHeight: 1.1 }}
         >
-          Der Audit ist der Diagnose-Touchpoint. Wir setzen die Fixes als Brand-System +
-          Live-Site + Agent-Layer um. Ein Operator, ein Festpreis, ein Liefertag.
+          Willst du die 6 Fixes wirklich selbst zusammensuchen — oder lehnst du dich zurück und
+          hast es am <em className="font-display italic">Tag 10 fertig</em>?
         </p>
-        <div className="mt-5 flex flex-wrap gap-3">
+
+        <div className="grid md:grid-cols-2 gap-5 mt-9">
+          <div className="audit-close-col audit-close-diy">
+            <span className="audit-close-tag audit-close-tag-diy">Selbst machen</span>
+            <ul className="audit-close-list">
+              <li>Agentur-Briefings, 3 Logo-Runden, 6 Wochen Discovery</li>
+              <li>schema.org + llms.txt selbst recherchieren &amp; pflegen</li>
+              <li>Voice, Tokens, Copy — und am Ende doch generisch</li>
+              <li>Monate später live. Vielleicht.</li>
+            </ul>
+          </div>
+          <div className="audit-close-col audit-close-pro">
+            <span className="audit-close-tag audit-close-tag-pro">beuwy machen lassen</span>
+            <ul className="audit-close-list">
+              <li>Ein Operator, der €300M+ Kunden-Outcomes gebaut hat</li>
+              <li>Brand · Website · Agent-Layer — alles aus einer Hand</li>
+              <li>Festpreis, null Procurement-Pingpong</li>
+              <li><strong>Tag 10: live.</strong> Du machst derweil dein Geschäft.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p
+          className="mt-8 max-w-[680px]"
+          style={{ color: "var(--ink-cream)", fontSize: 17, lineHeight: "26px" }}
+        >
+          Die meisten lesen dieses Audit, nicken — und machen nichts. Genau deshalb gewinnst du:
+          während dein Wettbewerber noch die Farbpalette diskutiert, bist du längst die Antwort,
+          die der Agent nennt.
+        </p>
+
+        <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link href="/anfrage" className="btn-primary">
-            Slot sichern
+            Profis übernehmen lassen
             <span aria-hidden>→</span>
           </Link>
-          <Link href="/method" className="btn-secondary">
-            Methode lesen
+          <Link href="/work" className="btn-secondary">
+            Erst die Ergebnisse sehen
           </Link>
+          <span
+            className="text-[12px]"
+            style={{ color: "var(--ink-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}
+          >
+            Nur 2 Slots für Q3 · Antwort &lt; 6h
+          </span>
         </div>
       </div>
     </div>

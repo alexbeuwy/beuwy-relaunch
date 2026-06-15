@@ -8,6 +8,7 @@ import { CountUp } from "@/components/CountUp";
 import { HeroGraphic } from "@/components/HeroGraphic";
 import { ScrollScrubVideo } from "@/components/ScrollScrubVideo";
 import { AssetSlot } from "@/components/AssetSlot";
+import { AuditPreview } from "@/components/AuditPreview";
 
 export default function HomePage() {
   return (
@@ -129,7 +130,7 @@ export default function HomePage() {
       {/* ============================================================
           02 — PAIN AGITATE (Diagnose-Tabelle)
          ============================================================ */}
-      <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01" tone="raised">
+      <Section id="pain" tone="raised">
         <div
           aria-hidden
           className="glow-orb glow-orb-red"
@@ -265,13 +266,7 @@ export default function HomePage() {
       {/* ============================================================
           03 — DREAM STATE — the LIGHT editorial moment
          ============================================================ */}
-      <Section
-        id="dream"
-        chapter="02 Dream"
-        title="So fühlt sich der gewonnene Markt an"
-        date="2026 / 02"
-        tone="cream"
-      >
+      <Section id="dream" tone="cream">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
             Bald nennt der Agent <em className="font-display italic">dich</em> —
@@ -310,13 +305,7 @@ export default function HomePage() {
       {/* ============================================================
           04 — MECHANISM
          ============================================================ */}
-      <Section
-        id="mechanismus"
-        chapter="03 Mechanism"
-        title="Wie wir das bauen"
-        date="2026 / 03"
-        tone="raised"
-      >
+      <Section id="mechanismus" tone="raised">
         <div
           aria-hidden
           className="glow-orb glow-orb-yellow"
@@ -347,13 +336,7 @@ export default function HomePage() {
       {/* ============================================================
           05 — PROOF STACK
          ============================================================ */}
-      <Section
-        id="proof"
-        chapter="04 Proof"
-        title="Was im Maschinenraum lief"
-        date="2026 / 04"
-        tone="elevated"
-      >
+      <Section id="proof" tone="elevated">
         <div
           aria-hidden
           className="glow-orb glow-orb-yellow"
@@ -535,13 +518,7 @@ export default function HomePage() {
       {/* ============================================================
           07 — OFFER
          ============================================================ */}
-      <Section
-        id="offer"
-        chapter="05 Offer"
-        title="Was du am Tag 10 in der Hand hast"
-        date="2026 / 05"
-        tone="cream"
-      >
+      <Section id="offer" tone="cream">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
             Am Tag 10: Marke, Website und KI-Sichtbarkeit —{" "}
@@ -614,14 +591,7 @@ export default function HomePage() {
       {/* ============================================================
           08 — SCARCITY
          ============================================================ */}
-      <Section
-        id="scarcity"
-        chapter="07 Scarcity"
-        title="Was deine Wartezeit kostet"
-        date="2026 / 07"
-        divider={true}
-        tone="elevated"
-      >
+      <Section id="scarcity" divider={true} tone="elevated">
         <div
           aria-hidden
           className="glow-orb glow-orb-red"
@@ -664,13 +634,7 @@ export default function HomePage() {
       {/* ============================================================
           09 — DISQUALIFIER
          ============================================================ */}
-      <Section
-        id="disqualifier"
-        chapter="06 Fit"
-        title="Für wen das hier nicht ist"
-        date="2026 / 06"
-        tone="raised"
-      >
+      <Section id="disqualifier" tone="raised">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
             Wenn du Logo-Runden und Discovery-Phasen suchst,
@@ -739,40 +703,39 @@ export default function HomePage() {
       {/* ============================================================
           08 — LEAD MAGNET (free audit, low-friction entry)
          ============================================================ */}
-      <Section
-        id="magnet"
-        chapter="08 Magnet"
-        title="Der kostenlose erste Schritt"
-        date="2026 / 08"
-        tone="bright"
-      >
+      <Section id="magnet" tone="bright">
         <div
           aria-hidden
           className="glow-orb glow-orb-cream"
           style={{ top: "30%", right: "-8%", width: 420, height: 420, opacity: 0.7 }}
         />
         <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
+          <div className="md:col-span-5">
             <Reveal>
               <HeadlineDisplay size="lg">
-                In 60 Sekunden weißt du, was Claude über{" "}
-                <em className="font-display italic">dich</em> sagt.
+                In 15 Sekunden siehst du, was die{" "}
+                <em className="font-display italic">Agenten</em> über dich sagen.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
               <p
-                className="mt-6 text-[17px] leading-[1.55] max-w-[560px]"
+                className="mt-6 text-[17px] leading-[1.55] max-w-[460px]"
                 style={{ color: "var(--ink-muted)" }}
               >
-                Domain rein. Du bekommst Score, sechs Dimensionen und sofort-Fixes — live von Claude.
-                Kein Login, kostenlos. Der ehrlichste erste Blick auf deine Agent-Sichtbarkeit.
+                Domain rein. Score, sechs Dimensionen, sofort-Fixes — die beuwy-Agenten prüfen quer
+                über Claude, ChatGPT, Gemini, Grok, DeepSeek &amp; Perplexity. Kein Login, kostenlos.
               </p>
+            </Reveal>
+            <Reveal delay={140}>
+              <div className="mt-7">
+                <AuditForm />
+              </div>
             </Reveal>
           </div>
 
-          <div className="md:col-span-5">
+          <div className="md:col-span-7">
             <Reveal delay={120}>
-              <AuditForm />
+              <AuditPreview />
             </Reveal>
           </div>
         </div>
@@ -784,13 +747,8 @@ export default function HomePage() {
       <section className="relative pt-[112px] md:pt-[160px] pb-[112px] md:pb-[160px] section-divider section-band section-band-base">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
-            <span className="eyebrow">
-              <span className="num">09</span> Close · 2026 / 09
-            </span>
-          </Reveal>
-          <Reveal delay={60}>
             <p
-              className="mt-7 max-w-[820px] text-[17px] md:text-[19px] leading-[1.45]"
+              className="max-w-[820px] text-[17px] md:text-[19px] leading-[1.45]"
               style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
             >
               Was glaubst du — wie viele deiner Wettbewerber lesen das hier gerade auch?
