@@ -2003,3 +2003,82 @@ select:focus {
   0%, 100% { box-shadow: 0 0 0 0 rgba(247,233,154,0.5); }
   50% { box-shadow: 0 0 0 6px rgba(247,233,154,0); }
 }
+
+/* ============================================================
+   CREAM BAND — the editorial LIGHT section (breaks dark monotony)
+   ============================================================ */
+.section-band-cream {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(247, 233, 154, 0.18), transparent 60%),
+    linear-gradient(180deg, #FFFDF3 0%, #F6EFDD 100%);
+  color: var(--bg-base);
+}
+/* Headlines + display on cream -> bordeaux ink */
+.section-band-cream .h-display,
+.section-band-cream .h-display-xl,
+.section-band-cream .h-display em,
+.section-band-cream .h-display-xl em {
+  color: var(--bg-base);
+}
+/* gradient-text shimmer would be invisible on light; force a deep red */
+.section-band-cream .gradient-text {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #B23A48;
+  animation: none;
+}
+.section-band-cream .h-display em,
+.section-band-cream .h-display-xl em {
+  color: #B23A48;
+}
+/* eyebrow + labels */
+.section-band-cream .eyebrow,
+.section-band-cream .eyebrow .num,
+.section-band-cream .eyebrow-rule {
+  color: rgba(26, 4, 4, 0.55);
+}
+.section-band-cream .eyebrow .num,
+.section-band-cream .eyebrow-rule .num { color: #B23A48; }
+.section-band-cream .eyebrow-rule::before { background: #B23A48; }
+.section-band-cream [data-chapter-label] .num { color: #B23A48; }
+.section-band-cream [data-chapter-label],
+.section-band-cream [data-chapter-label] .ch { color: rgba(26,4,4,0.6); }
+/* body text */
+.section-band-cream p { color: rgba(26, 4, 4, 0.72); }
+.section-band-cream p em { color: #B23A48; font-style: italic; }
+/* the section title chip after chapter */
+.section-band-cream .eyebrow[style] { color: var(--bg-base) !important; }
+/* glass cards on cream -> translucent white */
+.section-band-cream .glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-color: rgba(26, 4, 4, 0.12);
+  box-shadow: 0 24px 56px -30px rgba(26, 4, 4, 0.28), inset 0 1px 0 rgba(255,255,255,0.6);
+  color: var(--bg-base);
+}
+.section-band-cream .glass p { color: rgba(26, 4, 4, 0.72); }
+/* divider rail on cream */
+.section-band-cream.section-divider::before {
+  background: linear-gradient(90deg, transparent, rgba(26,4,4,0.14) 20%, rgba(26,4,4,0.14) 80%, transparent);
+}
+.section-band-cream::after {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(26,4,4,0.08);
+}
+/* buttons on cream */
+.section-band-cream .btn-primary {
+  background: var(--bg-base);
+  color: var(--ink-yellow);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(26,4,4,0.3), 0 14px 28px -16px rgba(26,4,4,0.35);
+}
+.section-band-cream .btn-primary:hover { background: #2a0c0c; }
+.section-band-cream .btn-secondary {
+  color: var(--bg-base);
+  box-shadow: inset 0 0 0 1px rgba(26,4,4,0.25);
+}
+.section-band-cream .btn-secondary:hover {
+  background: rgba(26,4,4,0.06);
+  color: var(--bg-base);
+}
+/* sans-serif stat numbers on cream */
+.section-band-cream .stat-num-display { color: #B23A48; }

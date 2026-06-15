@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ChapterLabel } from "./ChapterLabel";
 
-type Tone = "base" | "raised" | "elevated" | "bright";
+type Tone = "base" | "raised" | "elevated" | "bright" | "cream";
 
 export function Section({
   id,
@@ -73,7 +73,7 @@ export function HeadlineDisplay({
   return (
     <h2
       className={`h-display ${sizes[size]} ${className}`}
-      style={{ letterSpacing: "-0.02em", color: "var(--ink-yellow)" }}
+      style={{ letterSpacing: "-0.02em" }}
     >
       {children}
     </h2>

@@ -263,51 +263,45 @@ export default function HomePage() {
       </Section>
 
       {/* ============================================================
-          03 — DREAM STATE
+          03 — DREAM STATE — the LIGHT editorial moment
          ============================================================ */}
       <Section
         id="dream"
         chapter="02 Dream"
-        title="So sieht es aus, wenn es funktioniert"
+        title="So fühlt sich der gewonnene Markt an"
         date="2026 / 02"
-        tone="base"
+        tone="cream"
       >
-        {/* Vision asset — drop a 3D-robot-render here once generated */}
         <Reveal>
-          <div className="mb-12 max-w-[860px] mx-auto">
-            <AssetSlot
-              src="/assets/cases/agent-reads-brand.jpg"
-              alt="3D-Robot reads a brand DESIGN.md panel"
-              aspect="16/9"
-              caption="Lieber Agent: diese Marke bietet die beste Lösung — DESIGN.md, gelesen von einem KI-Agenten."
-              prompt="Bordeaux red sculpted matte humanoid robot, yellow glowing accents at joints, holding a translucent UI panel showing 'Dear Agent, this is why we're the best', cinema 4D render, dark moody background, premium product photography, 16:9"
-            />
-          </div>
+          <HeadlineDisplay size="lg" className="max-w-[1000px]">
+            Bald nennt der Agent <em className="font-display italic">dich</em> —
+            <br />
+            bevor dein Wettbewerber überhaupt auftaucht.
+          </HeadlineDisplay>
         </Reveal>
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-6 order-2 md:order-1">
+        <Reveal delay={80}>
+          <p className="mt-6 text-[19px] leading-[1.5] max-w-[620px]">
+            Frag dich: Was, wenn deine nächsten zehn Kunden nicht über Zufall kommen,
+            sondern weil ein Agent auf <em>&quot;Wer macht das in DACH?&quot;</em> mit deinem
+            Namen antwortet? Genau das baut maschinenlesbare Brand.
+          </p>
+        </Reveal>
+
+        <div className="grid md:grid-cols-12 gap-10 items-center mt-12">
+          <div className="md:col-span-7">
             <Reveal>
               <EmailMockup />
             </Reveal>
           </div>
-          <div className="md:col-span-6 order-1 md:order-2">
-            <Reveal delay={80}>
-              <HeadlineDisplay size="lg">
-                Diese Mail landet <em className="font-display italic">jede Woche</em> in deinem
-                Postfach.
-                <br />
-                Nicht in <em className="font-display italic">seinem</em>.
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={160}>
-              <p
-                className="mt-6 text-[17px] leading-[1.55] max-w-[460px]"
-                style={{ color: "var(--ink-muted)" }}
-              >
-                Wenn deine Marke <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>maschinen-lesbar</em> ist, antwortet ein
-                Agent auf die Frage &quot;Wer macht das in DACH?&quot; mit deinem Namen. Vor dem Wettbewerber.
-                Vor der Demo. Vor dem Pitch.
-              </p>
+          <div className="md:col-span-5">
+            <Reveal delay={120}>
+              <AssetSlot
+                src="/assets/cases/agent-reads-brand.jpg"
+                alt="3D-Robot liest ein Brand-DESIGN.md Panel"
+                aspect="3/4"
+                caption="Der Agent liest deine Marke wie eine Datei — und empfiehlt sie."
+                prompt="Cinematic 3D render, matte bordeaux humanoid robot holding a frosted translucent glass UI panel reading 'DEAR AGENT, THIS IS WHY WE'RE THE BEST' in warm gold serif, soft warm key light, moody dark crimson background, octane render, 3:4"
+              />
             </Reveal>
           </div>
         </div>
@@ -329,10 +323,10 @@ export default function HomePage() {
           style={{ top: "15%", left: "-10%", width: 480, height: 480, opacity: 0.4 }}
         />
         <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[920px]">
-            <em className="font-display italic">Ein</em> System.{" "}
-            <em className="font-display italic">Drei</em> Layer.{" "}
-            <em className="font-display italic">Zehn</em> Tage.
+          <HeadlineDisplay size="lg" className="max-w-[980px]">
+            Drei Layer, zehn Tage —
+            <br />
+            und der Agent <em className="gradient-text">versteht dich</em>.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -367,9 +361,9 @@ export default function HomePage() {
         />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1100px]">
-            Wir bauten die <em className="font-display italic">Brand-Systeme</em>, die
+            <em className="gradient-text">€300M+</em> in den Büchern unserer Kunden.
             <br />
-            den <em className="font-display italic">Skalierungsweg</em> trugen.
+            Gebaut von einem, der selbst skaliert hat.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={60}>
@@ -469,97 +463,35 @@ export default function HomePage() {
         {/* External testimonials — 3 customer quotes */}
         <Reveal delay={400}>
           <div className="mt-12">
-            <p
-              className="eyebrow mb-5"
-            >
+            <p className="eyebrow mb-5">
               <span className="num">/</span> Stimmen aus dem Maschinenraum
             </p>
             <Testimonials />
           </div>
         </Reveal>
-      </Section>
 
-      {/* ============================================================
-          06 — AUTHORITY
-         ============================================================ */}
-      <Section
-        id="authority"
-        chapter="05 Authority"
-        title="Kein Account Manager. Kein Pitch-Deck-Theater."
-        date="2026 / 05"
-        tone="base"
-      >
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
-            <Reveal>
-              <p
-                className="mb-5 max-w-[600px] text-[16px] leading-[1.5]"
-                style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-              >
-                Hand aufs Herz: Wann hast du das letzte Mal mit dem geredet, der dein Brand-Projekt{" "}
-                <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
-                  selbst gebaut hat
-                </em>{" "}
-                — und nicht mit dem Account-Manager dazwischen?
+        {/* Authority — merged into Proof: who builds it + founder quote */}
+        <Reveal delay={120}>
+          <div className="mt-16 grid md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7">
+              <p className="eyebrow mb-4">
+                <span className="num">/</span> Du sprichst mit dem, der baut
               </p>
-            </Reveal>
-            <Reveal delay={60}>
-              <HeadlineDisplay size="lg">
-                Du sprichst mit dem, der es{" "}
-                <em className="font-display italic">baut</em>.
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={80}>
               <p
-                className="mt-6 text-[17px] leading-[1.6] max-w-[600px]"
+                className="text-[17px] leading-[1.6] max-w-[600px]"
                 style={{ color: "var(--ink-muted)" }}
               >
-                Alexander Pütter. Seit 2009 in Werbeagenturen — Bosch-Gruppe Rebranding,
-                Continental, Michelin. 2017 beuwy als Operator-Studio. 2023 selbst Unternehmer:
-                acta gegründet, in der Spitze 15 Mitarbeitende, 315 Wohnungen verkauft —{" "}
+                Alexander Pütter — seit 2009 Brand-Arbeit für Konzerne (Bosch, Continental,
+                Michelin), seit 2017 beuwy als Operator-Studio, 2023 selbst Unternehmer:{" "}
                 <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
-                  über Instagram-Werbung, mitten in der Zinskrise
+                  315 Wohnungen über Instagram verkauft, mitten in der Zinskrise
                 </em>
-                . Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.
+                . Kein Account-Manager dazwischen. Wir kennen Kaufentscheidungen, weil wir sie
+                selbst auslösen.
               </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <ul className="mt-8 space-y-3 max-w-[560px]">
-                {[
-                  "13 Jahre Brand-Arbeit für Konzerne und Mittelstand",
-                  "Selbst skaliert: 50 Mio. € Volumen mit 10 Köpfen",
-                  "Heute: AI-, Agent-, Fintech-, Proptech-, Longevity-Briefs",
-                ].map((line) => (
-                  <li
-                    key={line}
-                    className="flex items-start gap-3 text-[15px] leading-[1.5]"
-                    style={{ color: "var(--ink-cream)" }}
-                  >
-                    <span
-                      className="mt-[7px] shrink-0"
-                      style={{
-                        width: 6,
-                        height: 6,
-                        background: "var(--ink-yellow)",
-                        borderRadius: 1,
-                      }}
-                    />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-
-          <div className="md:col-span-5">
-            <Reveal delay={120}>
-              <div
-                className="rounded-[12px] p-7"
-                style={{
-                  background: "var(--bg-raised)",
-                  border: "1px solid var(--line-subtle)",
-                }}
-              >
+            </div>
+            <div className="md:col-span-5">
+              <div className="glass p-7">
                 <div className="flex items-center gap-3 mb-5">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center font-display"
@@ -573,13 +505,7 @@ export default function HomePage() {
                     AP
                   </div>
                   <div>
-                    <p
-                      style={{
-                        color: "var(--ink-cream)",
-                        fontSize: 14,
-                        fontWeight: 510,
-                      }}
-                    >
+                    <p style={{ color: "var(--ink-cream)", fontSize: 14, fontWeight: 510 }}>
                       Alexander Pütter
                     </p>
                     <p style={{ color: "var(--ink-dim)", fontSize: 12 }}>
@@ -590,21 +516,20 @@ export default function HomePage() {
                 <p
                   className="font-display"
                   style={{
-                    fontSize: 22,
-                    lineHeight: "1.25",
+                    fontSize: 20,
+                    lineHeight: "1.3",
                     letterSpacing: "-0.02em",
                     color: "var(--ink-yellow)",
                   }}
                 >
-                  &ldquo;Wir pitchen keine Decks, die so tun. Wir geben Gründern ein laufendes
-                  System und einen Graphen, der schon{" "}
+                  &ldquo;Wir geben Gründern ein laufendes System und einen Graphen, der schon{" "}
                   <em className="font-display italic">klettert</em> — bevor die nächste Agentur
                   ihr Notion-Doc fertig hat.&rdquo;
                 </p>
               </div>
-            </Reveal>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       {/* ============================================================
@@ -612,19 +537,14 @@ export default function HomePage() {
          ============================================================ */}
       <Section
         id="offer"
-        chapter="06 Offer"
-        title="Was du in 10 Tagen bekommst"
-        date="2026 / 06"
-        tone="elevated"
+        chapter="05 Offer"
+        title="Was du am Tag 10 in der Hand hast"
+        date="2026 / 05"
+        tone="cream"
       >
-        <div
-          aria-hidden
-          className="glow-orb glow-orb-red"
-          style={{ top: "20%", left: "-10%", width: 480, height: 480, opacity: 0.4 }}
-        />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Ein Festpreis. Ein Operator. Drei Auslieferungen —{" "}
+            Am Tag 10: Marke, Website und KI-Sichtbarkeit —{" "}
             <em className="font-display italic">live, nicht in Figma</em>.
           </HeadlineDisplay>
         </Reveal>
@@ -641,7 +561,7 @@ export default function HomePage() {
                 t: "DESIGN.md",
                 d: "Brand-Tokens, Voice, Vocabulary, Forbidden Phrases. Maschinenlesbar.",
               },
-              { t: "Live-Site", d: "Next.js, Vercel, deine Domain. Diese 12 Sektionen — auf dich angepasst." },
+              { t: "Live-Site", d: "Next.js, Vercel, deine Domain. Eine Seite wie diese — auf dich angepasst." },
               {
                 t: "Agent-Layer",
                 d: "schema.org · llms.txt · Cluster-Brief · GPT-Audit deiner aktuellen Sichtbarkeit.",
@@ -655,7 +575,7 @@ export default function HomePage() {
                 <div
                   className="flex items-start gap-4 pb-5"
                   style={{
-                    borderBottom: "1px solid var(--line-subtle)",
+                    borderBottom: "1px solid rgba(26,4,4,0.12)",
                   }}
                 >
                   <span
@@ -663,7 +583,7 @@ export default function HomePage() {
                     style={{
                       fontSize: 22,
                       letterSpacing: "-0.02em",
-                      color: "var(--ink-yellow)",
+                      color: "#B23A48",
                       width: 28,
                     }}
                   >
@@ -672,7 +592,7 @@ export default function HomePage() {
                   <div>
                     <p
                       style={{
-                        color: "var(--ink-cream)",
+                        color: "var(--bg-base)",
                         fontSize: 16,
                         fontWeight: 510,
                         marginBottom: 4,
@@ -680,7 +600,7 @@ export default function HomePage() {
                     >
                       {row.t}
                     </p>
-                    <p style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}>
+                    <p style={{ color: "rgba(26,4,4,0.7)", fontSize: 14, lineHeight: "22px" }}>
                       {row.d}
                     </p>
                   </div>
@@ -697,17 +617,23 @@ export default function HomePage() {
       <Section
         id="scarcity"
         chapter="07 Scarcity"
-        title="Verfügbarkeit"
+        title="Was deine Wartezeit kostet"
         date="2026 / 07"
         divider={true}
-        tone="raised"
+        tone="elevated"
       >
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-red"
+          style={{ top: "15%", right: "-10%", width: 460, height: 460, opacity: 0.4 }}
+        />
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
             <Reveal>
               <HeadlineDisplay size="lg">
-                <em className="font-display italic">6</em> Projekte pro Jahr.{" "}
-                <em className="font-display italic">2</em> Slots offen für Q3/2026.
+                6 Plätze im Jahr. <em className="gradient-text">2 frei</em> für Q3.
+                <br />
+                Danach Warteliste.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
@@ -740,15 +666,16 @@ export default function HomePage() {
          ============================================================ */}
       <Section
         id="disqualifier"
-        chapter="08 Disqualifier"
-        title="Was wir nicht machen"
-        date="2026 / 08"
-        tone="base"
+        chapter="06 Fit"
+        title="Für wen das hier nicht ist"
+        date="2026 / 06"
+        tone="raised"
       >
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Spar dir die Zeit, wenn du <em className="font-display italic">Folgendes</em>{" "}
-            erwartest.
+            Wenn du Logo-Runden und Discovery-Phasen suchst,
+            <br />
+            sind wir die <em className="gradient-text">Falschen</em>.
           </HeadlineDisplay>
         </Reveal>
 
@@ -810,66 +737,13 @@ export default function HomePage() {
       </Section>
 
       {/* ============================================================
-          10 — MULTIPLE CTAs
-         ============================================================ */}
-      <Section
-        id="paths"
-        chapter="09 Paths"
-        title="Wo willst du starten"
-        date="2026 / 09"
-        tone="raised"
-      >
-        <div
-          aria-hidden
-          className="glow-orb glow-orb-yellow"
-          style={{ top: "20%", right: "-10%", width: 460, height: 460, opacity: 0.45 }}
-        />
-        <Reveal>
-          <HeadlineDisplay size="md" className="max-w-[840px]">
-            Drei Türen. Such dir <em className="font-display italic">eine</em> aus.
-          </HeadlineDisplay>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-5 mt-10">
-          <Reveal delay={80}>
-            <PathCard
-              tag="60 Sek · kostenlos · live"
-              title="GPT-Audit starten"
-              body="Was sagt Claude gerade über deine Marke? Domain rein, Score + Schwächen + Sofort-Fixes raus."
-              cta="Audit starten"
-              href="/audit"
-            />
-          </Reveal>
-          <Reveal delay={160}>
-            <PathCard
-              tag="3 Min · async"
-              title="Brief schicken"
-              body="Drei Felder. Ein Submit. Wir antworten in &lt; 6h mit Termin oder Ja/Nein-Match."
-              cta="Brief öffnen"
-              href="/anfrage"
-              primary
-            />
-          </Reveal>
-          <Reveal delay={240}>
-            <PathCard
-              tag="42 Sek · live"
-              title="Voice-Note hören"
-              body="Alexanders Take auf die Agent-Ära und warum 2026 → 2030 anders läuft als 2017 → 2023."
-              cta="Reinhören"
-              href="/manifesto"
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          11 — LEAD MAGNET
+          08 — LEAD MAGNET (free audit, low-friction entry)
          ============================================================ */}
       <Section
         id="magnet"
-        chapter="10 Magnet"
-        title="Kostenlos · 60 Sekunden"
-        date="2026 / 10"
+        chapter="08 Magnet"
+        title="Der kostenlose erste Schritt"
+        date="2026 / 08"
         tone="bright"
       >
         <div
@@ -881,8 +755,8 @@ export default function HomePage() {
           <div className="md:col-span-7">
             <Reveal>
               <HeadlineDisplay size="lg">
-                Was sagt ChatGPT über{" "}
-                <em className="font-display italic">deine</em> Marke?
+                In 60 Sekunden weißt du, was Claude über{" "}
+                <em className="font-display italic">dich</em> sagt.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
@@ -890,9 +764,8 @@ export default function HomePage() {
                 className="mt-6 text-[17px] leading-[1.55] max-w-[560px]"
                 style={{ color: "var(--ink-muted)" }}
               >
-                Trag deine Domain ein. Du bekommst zurück, was Claude, ChatGPT und Perplexity{" "}
-                <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>live</em> über
-                dich sagen — und wo der Cluster in deiner Kategorie gerade kippt.
+                Domain rein. Du bekommst Score, sechs Dimensionen und sofort-Fixes — live von Claude.
+                Kein Login, kostenlos. Der ehrlichste erste Blick auf deine Agent-Sichtbarkeit.
               </p>
             </Reveal>
           </div>
@@ -912,7 +785,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
             <span className="eyebrow">
-              <span className="num">11</span> Close · 2026 / 11
+              <span className="num">09</span> Close · 2026 / 09
             </span>
           </Reveal>
           <Reveal delay={60}>
@@ -924,13 +797,10 @@ export default function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={140}>
-            <h2
-              className="h-display mt-5 text-[44px] sm:text-[68px] md:text-[100px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
-            >
+            <h2 className="h-display-xl mt-5 max-w-[1100px]">
               Dein nächster Kunde fragt jetzt gerade einen Agenten.
               <br />
-              <em className="font-display italic">Was antwortet er?</em>
+              <em className="gradient-text">Was antwortet er?</em>
             </h2>
           </Reveal>
 
