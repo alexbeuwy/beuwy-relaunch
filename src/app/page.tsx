@@ -752,7 +752,7 @@ function AuditForm() {
     <form
       action="/audit"
       method="get"
-      className="rounded-[12px] p-2"
+      className="audit-form-pill rounded-[12px] p-2"
       style={{
         background: "var(--bg-raised)",
         border: "1px solid var(--line-subtle)",
@@ -764,7 +764,7 @@ function AuditForm() {
           name="domain"
           required
           placeholder="deine-marke.de"
-          className="flex-1 px-4 py-3 rounded-[10px]"
+          className="audit-form-input flex-1 px-4 py-3 rounded-[10px]"
           style={{
             background: "transparent",
             color: "var(--ink-cream)",
@@ -780,10 +780,10 @@ function AuditForm() {
         </button>
       </div>
       <p
-        className="px-2 py-3"
-        style={{ color: "var(--ink-dim)", fontSize: 11, letterSpacing: "0.04em" }}
+        className="audit-form-hint px-2 py-3"
+        style={{ fontSize: 11, letterSpacing: "0.04em" }}
       >
-        60 Sek · kein Login · Antwort direkt von Claude · live
+        15 Sek · kein Login · live von den beuwy-Agenten
       </p>
     </form>
   );

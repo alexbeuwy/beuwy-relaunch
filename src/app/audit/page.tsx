@@ -240,53 +240,69 @@ function AuditInner() {
 }
 
 function LoadingState({ domain }: { domain: string }) {
-  const steps = [
-    "beuwy-Agenten laden Seite & Meta-Daten",
-    "Modell-Panel prüft Positionierung & Voice",
-    "Scan Agent-Layer (schema · llms.txt)",
-    "Konsens über Trust, Pricing, Conversion",
+  // Rotating witty status lines — feel alive during the 10-20s model call.
+  const quips = [
+    "Öffne die Seite wie ein neuer Besucher…",
+    "Lese die Hero-Headline…",
+    "Vergleiche mit ~50 Wettbewerbern der Kategorie…",
+    "Frage Claude: würdest du diese Marke empfehlen?",
+    "Frage ChatGPT dasselbe…",
+    "Gemini & Grok geben ihren Senf dazu…",
+    "Suche nach llms.txt und schema.org…",
+    "Prüfe, ob ein Agent hier etwas zum Zitieren findet…",
+    "Zähle die „AI-powered“-Floskeln…",
+    "Bewerte Trust, Pricing, Conversion…",
+    "Suche die eine These, die hängenbleibt…",
+    "Schreibe die priorisierten Fixes…",
+    "Rechne den projizierten Score…",
+    "Fast fertig — poliere die Ergebnisse…",
   ];
-  const [active, setActive] = useState(0);
+  const [progress, setProgress] = useState(4);
+  const [quip, setQuip] = useState(0);
+
+  // Fictional-but-believable progress that eases toward ~94% and waits there
+  // until the real result replaces this component (then it unmounts).
   useEffect(() => {
-    const t = setInterval(() => setActive((a) => Math.min(a + 1, steps.length - 1)), 900);
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const elapsed = (now - start) / 1000;
+      // approach 94% asymptotically over ~18s
+      const p = 94 * (1 - Math.exp(-elapsed / 7));
+      setProgress(Math.min(94, Math.max(4, p)));
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => setQuip((q) => (q + 1) % quips.length), 1500);
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="mt-12 audit-loading glass max-w-[640px]">
       <div className="audit-loading-sweep" aria-hidden />
       <div className="audit-loading-orb" aria-hidden />
-      <p
-        style={{
-          color: "var(--ink-dim)",
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.06em",
-        }}
-      >
-        beuwy-Agenten analysieren · {domain}
+
+      <div className="audit-loading-head">
+        <p className="audit-loading-label">beuwy-Agenten analysieren · {domain}</p>
+        <p className="audit-loading-pct">{Math.round(progress)}%</p>
+      </div>
+
+      <div className="audit-loading-bar" aria-hidden>
+        <div className="audit-loading-bar-fill" style={{ width: `${progress}%` }} />
+      </div>
+
+      <p className="audit-loading-quip" key={quip}>
+        {quips[quip]}
       </p>
-      <div className="mt-4">
+
+      <div className="mt-6">
         <ModelPanel />
       </div>
-      <ul className="mt-6 space-y-3 relative z-[1]">
-        {steps.map((s, i) => (
-          <li key={s} className="flex items-center gap-3">
-            <span
-              className="audit-load-dot"
-              data-state={i < active ? "done" : i === active ? "active" : "idle"}
-            />
-            <span
-              style={{
-                color: i <= active ? "var(--ink-cream)" : "var(--ink-dim)",
-                fontSize: 14,
-              }}
-            >
-              {s}
-            </span>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

@@ -3052,3 +3052,96 @@ select:focus {
   font-size: 22px;
   padding-bottom: 6px;
 }
+
+/* ============================================================
+   FIX: AuditPreview is a DARK card sitting on the bright (yellow)
+   Magnet band. The band's global 'color: bordeaux !important' text
+   overrides bleed into it -> dark-on-dark, invisible until selected.
+   Re-assert the dark-theme ink colors inside the preview (higher
+   specificity than the band's `.section-band-bright p/span/em`).
+   ============================================================ */
+.section-band-bright .audit-preview .audit-preview-quote,
+.section-band-bright .audit-preview .audit-preview-bar-score {
+  color: var(--ink-cream) !important;
+}
+.section-band-bright .audit-preview .audit-preview-mono,
+.section-band-bright .audit-preview .audit-preview-url,
+.section-band-bright .audit-preview .audit-preview-bar-label,
+.section-band-bright .audit-preview .audit-preview-score-current,
+.section-band-bright .audit-preview .audit-preview-score-suffix {
+  color: var(--ink-muted) !important;
+}
+.section-band-bright .audit-preview .audit-preview-live,
+.section-band-bright .audit-preview .audit-preview-mono-future,
+.section-band-bright .audit-preview .audit-preview-score,
+.section-band-bright .audit-preview .audit-preview-arrow {
+  color: var(--ink-yellow) !important;
+}
+/* score-current italic em / quote em etc. inside preview must stay light */
+.section-band-bright .audit-preview em { color: var(--ink-yellow) !important; }
+
+/* AuditForm pill on the bright band: re-assert dark-theme text */
+.audit-form-hint { color: var(--ink-dim); }
+.section-band-bright .audit-form-pill .audit-form-hint { color: var(--ink-dim) !important; }
+.section-band-bright .audit-form-pill .audit-form-input { color: var(--ink-cream) !important; }
+
+/* ============================================================
+   AUDIT PRELOADER — percentage + rotating quips
+   ============================================================ */
+.audit-loading-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.audit-loading-label {
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.audit-loading-pct {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  color: var(--ink-yellow);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.audit-loading-bar {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(247, 233, 154, 0.08);
+  overflow: hidden;
+}
+.audit-loading-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--ink-yellow), #FBF1B6);
+  box-shadow: 0 0 14px rgba(247, 233, 154, 0.5);
+  transition: width 240ms linear;
+}
+.audit-loading-quip {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  min-height: 24px;
+  color: var(--ink-cream);
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  animation: audit-quip-in 400ms var(--panel-ease) both;
+}
+@keyframes audit-quip-in {
+  from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audit-loading-quip { animation: none; }
+  .audit-loading-bar-fill { transition: none; }
+}
