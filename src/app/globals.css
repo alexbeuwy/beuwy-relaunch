@@ -2532,3 +2532,227 @@ select:focus {
   text-transform: uppercase;
   color: var(--ink-dim);
 }
+
+/* ============================================================
+   HERO CLEAN — Apple-aufgeräumt, audit-first conversion
+   ============================================================ */
+.hero-clean { position: relative; }
+
+.hero-eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(247, 233, 154, 0.06);
+  border: 1px solid rgba(247, 233, 154, 0.2);
+  color: var(--ink-cream);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.hero-eyebrow-chip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-yellow);
+  animation: chip-dot-pulse 1.6s ease-in-out infinite;
+}
+
+/* Hero headline — deliberately smaller than .h-display-xl (Apple-clean) */
+.hero-headline {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(38px, 5vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  color: var(--ink-yellow);
+  text-wrap: balance;
+}
+.hero-headline em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-sub {
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.45;
+  letter-spacing: -0.011em;
+  color: var(--ink-cream);
+  text-wrap: balance;
+}
+
+/* Audit pill: prominent inline form, the primary CTA */
+.hero-audit { max-width: 620px; }
+.hero-audit-form {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(33, 6, 6, 0.7);
+  border: 1px solid rgba(247, 233, 154, 0.18);
+  border-radius: 999px;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 18px 48px -28px rgba(0, 0, 0, 0.6);
+  transition: border-color var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.hero-audit-form:focus-within {
+  border-color: rgba(247, 233, 154, 0.45);
+  box-shadow: 0 18px 48px -28px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(247, 233, 154, 0.1);
+}
+.hero-audit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--ink-dim);
+}
+.hero-audit-input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--ink-cream);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.005em;
+  min-width: 0;
+  width: 100%;
+  padding: 0 4px;
+}
+.hero-audit-input::placeholder { color: var(--ink-dim); }
+.hero-audit-cta {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.hero-audit-hint {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.hero-secondary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+.hero-secondary-link {
+  color: var(--ink-cream);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(247, 233, 154, 0.3);
+  padding-bottom: 1px;
+  transition: color var(--text-swap-dur) var(--text-swap-ease), border-color var(--text-swap-dur) var(--text-swap-ease);
+}
+.hero-secondary-link:hover {
+  color: var(--ink-yellow);
+  border-color: var(--ink-yellow);
+}
+.hero-secondary-link span[aria-hidden] {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform var(--resize-dur) var(--resize-ease);
+}
+.hero-secondary-link:hover span[aria-hidden] { transform: translateX(2px); }
+.hero-secondary-sep { color: var(--ink-dim); }
+.hero-secondary-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ============================================================
+   H-DISPLAY-MD — quieter than -xl, for non-hero section headlines
+   ============================================================ */
+.h-display-md {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(32px, 4.5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink-yellow);
+  text-wrap: balance;
+}
+.h-display-md em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ============================================================
+   IDENTIFICATION — "Für dich, wenn..." replaces the Disqualifier
+   ============================================================ */
+.identification-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line-subtle);
+}
+@media (min-width: 768px) {
+  .identification-grid { grid-template-columns: 1fr 1fr; }
+}
+.identification-card {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line-subtle);
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  align-items: start;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .identification-card { padding: 28px; }
+  .identification-card:nth-child(odd) { border-right: 1px solid var(--line-subtle); }
+}
+.identification-num {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  color: var(--ink-yellow);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.identification-title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: -0.018em;
+  color: var(--ink-cream);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.identification-body {
+  margin-top: 8px;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  grid-column: 2;
+}
+.identification-kicker {
+  margin-top: 36px;
+  max-width: 680px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-yellow);
+}
+.identification-kicker em {
+  font-style: italic;
+  background: linear-gradient(110deg, var(--ink-yellow), #FBF1B6 50%, var(--ink-yellow));
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text-shimmer 6s ease-in-out infinite;
+}

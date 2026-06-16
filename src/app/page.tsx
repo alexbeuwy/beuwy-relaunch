@@ -6,7 +6,6 @@ import { LogoWall, Testimonials } from "@/components/LogoWall";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { HeroGraphic } from "@/components/HeroGraphic";
-import { ScrollScrubVideo } from "@/components/ScrollScrubVideo";
 import { AssetSlot } from "@/components/AssetSlot";
 import { AuditPreview } from "@/components/AuditPreview";
 
@@ -14,116 +13,86 @@ export default function HomePage() {
   return (
     <>
       {/* ============================================================
-          01 — HOOK
+          01 — HERO — Apple-clean, audit-first conversion
          ============================================================ */}
-      <section className="scroll-scrub-wrap section-band section-band-base">
-        <div className="scroll-scrub-sticky">
-          {/* Scroll-scrubbed video — currentTime driven by scroll progress.
-              mp4 is re-encoded with all-keyframes so seeking is buttery. */}
-          <ScrollScrubVideo src="/assets/hero-scrub.mp4" />
-          <div className="scroll-scrub-overlay" aria-hidden />
+      <section className="hero-clean section-band section-band-base relative overflow-hidden">
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-yellow"
+          style={{ top: "10%", left: "-10%", width: 560, height: 560 }}
+        />
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-red"
+          style={{ top: "55%", right: "-12%", width: 460, height: 460, animationDelay: "-6s" }}
+        />
+        <HeroGraphic />
 
-          {/* Glow orbs floating behind the headline */}
-          <div
-            aria-hidden
-            className="glow-orb glow-orb-yellow"
-            style={{ top: "12%", left: "-8%", width: 520, height: 520 }}
-          />
-          <div
-            aria-hidden
-            className="glow-orb glow-orb-red"
-            style={{ top: "55%", right: "-12%", width: 460, height: 460, animationDelay: "-6s" }}
-          />
-
-          {/* Sneaky hero graphic — animated constellation, sits above the orbs. */}
-          <HeroGraphic />
-
-          <div className="scroll-scrub-content pt-[112px] md:pt-[160px] pb-[64px] md:pb-[80px]">
-            <div className="mx-auto max-w-[1240px] px-6 lg:px-10 w-full relative z-[1]">
+        <div className="mx-auto max-w-[1240px] px-6 lg:px-10 pt-[120px] md:pt-[168px] pb-[88px] md:pb-[120px] relative z-[1]">
           <Reveal>
-            <div className="flex flex-wrap items-center gap-2 mb-7">
-              <span className="chip">
-                <span className="dot" />
-                <span>Q3/2026 · noch 2 Slots</span>
-              </span>
-              <span className="chip" style={{ color: "var(--ink-yellow)" }}>
-                Ab €25.000 · Festpreis
-              </span>
-              <span
-                style={{
-                  color: "var(--ink-dim)",
-                  fontSize: 11,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                seit 2017
-              </span>
-            </div>
+            <span className="hero-eyebrow-chip">
+              <span className="dot" />
+              Für Marken, die mehr sind als ihre Website zeigt
+            </span>
           </Reveal>
 
-          <Reveal delay={140} variant="mask">
-            <h1 className="h-display-xl max-w-[1100px]">
-              Bald fragt dein Kunde nicht mehr <em>Google</em>.
+          <Reveal delay={120} variant="mask">
+            <h1 className="hero-headline mt-7 max-w-[1100px]">
+              Dein Produkt ist besser.
               <br />
-              Er fragt <em className="gradient-text">einen KI-Agenten</em>.
+              Wir sorgen dafür, dass <em className="gradient-text">alle</em> es erfahren —
+              auch die KI.
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
-            <p
-              className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
-              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
-            >
-              Wir bauen die Marke, die der Agent <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>empfiehlt</em>.
-              Brand, Website, KI-Sichtbarkeit — alles in <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>10 Tagen</em> live.
+            <p className="hero-sub mt-7 max-w-[640px]">
+              Premium-Design, das die Branche verwirrt — bis alle kopieren. Auf dem Agent-Layer,
+              den andere erst 2027 verstehen.
             </p>
           </Reveal>
 
           <Reveal delay={220}>
-            <p
-              className="mt-5 max-w-[640px] text-[15px] leading-[1.5]"
-              style={{ color: "var(--ink-muted)" }}
-            >
-              Ein Festpreis. Ein Ansprechpartner. Drei Sachen, die du am Tag 10 in der Hand hast.
-              Kein Discovery-Theater. Antwort auf deine Anfrage in &lt; 6 Stunden — auch ein ehrliches Nein.
-            </p>
+            <div className="hero-audit mt-9">
+              <form action="/audit" method="get" className="hero-audit-form" role="search">
+                <span className="hero-audit-icon" aria-hidden>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="domain"
+                  required
+                  placeholder="deine-marke.de"
+                  className="hero-audit-input"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                <button type="submit" className="btn-primary hero-audit-cta">
+                  Marke prüfen
+                  <span aria-hidden>→</span>
+                </button>
+              </form>
+              <p className="hero-audit-hint">
+                15 Sek · was Claude, ChatGPT, Gemini &amp; Co. gerade über dich sagen · kostenlos, kein Login
+              </p>
+            </div>
           </Reveal>
 
-          <Reveal delay={280}>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Jetzt Slot sichern
+          <Reveal delay={300}>
+            <div className="hero-secondary mt-10">
+              <Link href="/anfrage" className="hero-secondary-link">
+                Oder direkt Brief schicken
                 <span aria-hidden>→</span>
               </Link>
-              <Link href="#mechanismus" className="btn-secondary">
-                Wie das funktioniert
-                <span aria-hidden>↓</span>
-              </Link>
+              <span className="hero-secondary-sep" aria-hidden>·</span>
+              <span className="hero-secondary-meta">Ø Antwort &lt; 6h</span>
+              <span className="hero-secondary-sep" aria-hidden>·</span>
+              <span className="hero-secondary-meta">Q3/2026 · 2 Slots</span>
             </div>
           </Reveal>
-
-          <Reveal delay={360}>
-            <div
-              className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
-              style={{ color: "var(--ink-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}
-            >
-              <span>€300M+ Kunden-Outcome</span>
-              <span>·</span>
-              <span>4× Kategorie-Sieger</span>
-              <span>·</span>
-              <span>Ø Antwort &lt; 6h</span>
-            </div>
-          </Reveal>
-
-          <Reveal delay={440}>
-            <div className="hero-scroll-hint" aria-hidden>
-              <span className="hero-scroll-hint-text">Scroll</span>
-              <span className="hero-scroll-hint-dot" />
-            </div>
-          </Reveal>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -138,24 +107,23 @@ export default function HomePage() {
         />
         <Reveal>
           <span className="eyebrow-rule">
-            <span className="num">85 %</span> deiner Pipeline = Zufall
+            <span className="num">85 %</span> deiner Pipeline = Empfehlungen
           </span>
         </Reveal>
         <Reveal delay={60}>
-          <h2 className="h-display-xl max-w-[1100px] mt-6">
-            Dein bester Monat: <em>eine</em> Empfehlung.
+          <h2 className="h-display-md max-w-[920px] mt-6">
+            Dein Potential ist da.
             <br />
-            Dein Q3 stirbt, wenn <em className="gradient-text">zwei ausbleiben</em>.
+            <em className="gradient-text">Deine Website</em> zeigt es nicht.
           </h2>
         </Reveal>
         <Reveal delay={80}>
           <p
-            className="mt-7 text-[19px] leading-[1.5] max-w-[640px]"
-            style={{ color: "var(--ink-cream)" }}
+            className="mt-6 text-[17px] leading-[1.5] max-w-[600px]"
+            style={{ color: "var(--ink-muted)" }}
           >
-            85 % deiner Kunden kommen über Empfehlungen. Wenn die wegfallen — ist die Pipeline leer.
-            <br />
-            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Hier sind die 5 Stellen, wo es brennt:</em>
+            Die meisten Marken da draußen sind besser, als ihre Online-Repräsentation glaubt machen lässt.
+            Hier sind die fünf Stellen, an denen das auffällt — sobald ein Agent sucht.
           </p>
         </Reveal>
 
@@ -632,72 +600,68 @@ export default function HomePage() {
       </Section>
 
       {/* ============================================================
-          09 — DISQUALIFIER
+          07 — IDENTIFICATION (was: Disqualifier — flipped to positive)
          ============================================================ */}
       <Section id="disqualifier" tone="raised">
         <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Wenn du Logo-Runden und Discovery-Phasen suchst,
+          <span className="eyebrow-rule">
+            <span className="num">Für</span> dich, wenn du dich hier wiedererkennst
+          </span>
+        </Reveal>
+        <Reveal delay={60}>
+          <h2 className="h-display-md max-w-[1000px] mt-6">
+            Dein Produkt verdient ein Schaufenster,
             <br />
-            sind wir die <em className="gradient-text">Falschen</em>.
-          </HeadlineDisplay>
+            das seiner <em className="gradient-text">Qualität</em> entspricht.
+          </h2>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-5 mt-10 max-w-[920px]">
+        <div className="identification-grid mt-12">
           {[
             {
-              h: "Logo-Varianten in einem Pitch",
-              s: "Wir bauen Systeme — nicht Mockups. Drei Logos präsentieren ist Schauspiel, kein Handwerk. Wenn du das willst, sind wir die falsche Adresse.",
+              n: "01",
+              t: "Du siehst dein Potential nicht abgebildet",
+              s: "Was du anbietest, ist objektiv besser als das, was deine Website rüberbringt. Du weißt es. Deine besten Kunden wissen es. Der Markt erfährt es nicht.",
             },
             {
-              h: "Stundensätze, Discovery-Phasen, AGB-Anhänge",
-              s: "Festpreis. Festumfang. Fester Liefertag. Procurement-Pingpong, 19 Stakeholder-Interviews, sechs-Wochen-Discovery — machen wir nicht.",
+              n: "02",
+              t: "Frühere Agenturen haben „einfach irgendwas“ gemacht",
+              s: "Drei Logos, vier Mockup-Runden, am Ende ein Stilbruch zwischen Hero und Footer. Du hast bezahlt — und musst trotzdem selbst nacharbeiten.",
+            },
+            {
+              n: "03",
+              t: "Du grübelst seit Tagen über den einen Satz",
+              s: "Wie bricht man eigentlich runter, was das Produkt ausmacht? Du hast 14 Versionen, keine zündet, der Pitch wird immer länger statt schärfer.",
+            },
+            {
+              n: "04",
+              t: "Du willst die Sprache deiner Kategorie setzen",
+              s: "Nicht der nächste Klon werden, der „AI-powered Solutions for X“ sagt. Sondern derjenige, dessen Worte die Wettbewerber sechs Monate später übernehmen.",
+            },
+            {
+              n: "05",
+              t: "Du planst längst für die Agent-Ära",
+              s: "Während andere noch SEO-Schlagwörter für 2013 pflegen, willst du die Marke sein, die Claude, ChatGPT &amp; Co. als Erste empfehlen — strukturiert lesbar, klar positioniert, glaubwürdig belegt.",
             },
           ].map((item, i) => (
-            <Reveal key={item.h} delay={80 + i * 80}>
-              <div
-                className="card h-full"
-                style={{
-                  background: "transparent",
-                  border: "1px solid var(--line-subtle)",
-                  padding: "28px",
-                }}
-              >
-                <span
-                  style={{
-                    color: "var(--accent-red,#FF5A67)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 12,
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  ✕ NICHT
-                </span>
+            <Reveal key={item.n} delay={i * 60}>
+              <div className="identification-card">
+                <span className="identification-num">{item.n}</span>
+                <p className="identification-title">{item.t}</p>
                 <p
-                  className="font-display mt-3"
-                  style={{
-                    fontSize: 22,
-                    letterSpacing: "-0.02em",
-                    color: "var(--ink-yellow)",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {item.h}
-                </p>
-                <p
-                  className="mt-3"
-                  style={{
-                    color: "var(--ink-muted)",
-                    fontSize: 14,
-                    lineHeight: "22px",
-                  }}
-                >
-                  {item.s}
-                </p>
+                  className="identification-body"
+                  dangerouslySetInnerHTML={{ __html: item.s }}
+                />
               </div>
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={400}>
+          <p className="identification-kicker">
+            Wenn du an <em>einer</em> dieser Stellen genickt hast, sind wir wahrscheinlich dein Team.
+          </p>
+        </Reveal>
       </Section>
 
       {/* ============================================================
@@ -747,30 +711,22 @@ export default function HomePage() {
       <section className="relative pt-[112px] md:pt-[160px] pb-[112px] md:pb-[160px] section-divider section-band section-band-base">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
-            <p
-              className="max-w-[820px] text-[17px] md:text-[19px] leading-[1.45]"
-              style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-            >
-              Was glaubst du — wie viele deiner Wettbewerber lesen das hier gerade auch?
-            </p>
-          </Reveal>
-          <Reveal delay={140}>
-            <h2 className="h-display-xl mt-5 max-w-[1100px]">
+            <h2 className="h-display-md max-w-[980px]">
               Dein nächster Kunde fragt jetzt gerade einen Agenten.
               <br />
               <em className="gradient-text">Was antwortet er?</em>
             </h2>
           </Reveal>
 
-          <Reveal delay={160}>
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+          <Reveal delay={120}>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link href="/anfrage" className="btn-primary">
                 Brief schicken
                 <span aria-hidden>→</span>
               </Link>
-              <a href="mailto:hi@beuwy.com" className="btn-secondary">
-                hi@beuwy.com
-              </a>
+              <Link href="/audit" className="audit-close-link">
+                Erst die Marke prüfen →
+              </Link>
               <span
                 className="ml-2 text-[12px]"
                 style={{
