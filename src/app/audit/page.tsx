@@ -7,13 +7,16 @@ import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 
 type Dimension = "positioning" | "voice" | "agent_layer" | "trust" | "pricing" | "conversion";
-type DimResult = { score: number; finding: string; fix: string };
+type DimResult = { score: number; projected_score: number; finding: string; fix: string };
+type KeyAction = { title: string; detail: string; impact: "low" | "medium" | "high"; effort: string };
 type AuditResult = {
   domain: string;
   screenshot_url: string;
   overall_score: number;
+  projected_score: number;
   one_liner: string;
   dimensions: Record<Dimension, DimResult>;
+  key_actions: KeyAction[];
   source: "anthropic" | "stub";
   note?: string;
   generated_at: string;
@@ -353,33 +356,11 @@ function ResultBody({
       {/* Header row: Score + One-liner (screenshot moved below, loads after unlock) */}
       <div className="grid md:grid-cols-12 gap-6 items-stretch">
         <div className="md:col-span-5">
-          <div className="glass p-7 h-full flex flex-col justify-center">
-            <span
-              style={{
-                color: "var(--ink-dim)",
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.06em",
-              }}
-            >
-              AGENT-VISIBILITY-SCORE
-            </span>
-            <p className="audit-score">
-              {result.overall_score}
-              <span className="audit-score-suffix">/100</span>
-            </p>
-            <p
-              className="mt-2"
-              style={{
-                color: "var(--ink-cream)",
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                letterSpacing: "0.04em",
-              }}
-            >
-              für {result.domain}
-            </p>
-          </div>
+          <ScoreImprovement
+            current={result.overall_score}
+            projected={result.projected_score}
+            domain={result.domain}
+          />
         </div>
         <div className="md:col-span-7">
           <div className="glass p-7 h-full">
@@ -465,6 +446,7 @@ function ResultBody({
                 <p className="mt-5" style={{ color: "var(--ink-cream)", fontSize: 14, lineHeight: "22px" }}>
                   {d.finding}
                 </p>
+                <DimProjection current={d.score} projected={d.projected_score} />
                 <div className="mt-5 pt-4" style={{ borderTop: "1px solid var(--line-subtle)" }}>
                   <p
                     style={{
@@ -489,6 +471,11 @@ function ResultBody({
           })}
         </div>
       </div>
+
+      {/* Key Actions — prioritized, page-specific recommendations */}
+      {result.key_actions && result.key_actions.length > 0 && (
+        <KeyActions actions={result.key_actions} />
+      )}
 
       {/* Screenshot — only mounts (and therefore loads) after unlock. Late on purpose. */}
       {unlocked && (
@@ -782,5 +769,167 @@ function ScoreBadge({ score }: { score: number }) {
       <span className="audit-score-num">{score}</span>
       <span className="audit-score-denom">/10</span>
     </span>
+  );
+}
+
+/**
+ * Animated current -> projected score card for the page-overall.
+ * Bar fills to projected width, with a subtle "current" marker; the big number
+ * counts up from current to projected on mount.
+ */
+function ScoreImprovement({
+  current,
+  projected,
+  domain,
+}: {
+  current: number;
+  projected: number;
+  domain: string;
+}) {
+  const [displayed, setDisplayed] = useState(current);
+  const tier = projected >= 80 ? "good" : projected >= 60 ? "ok" : "bad";
+
+  useEffect(() => {
+    const start = performance.now();
+    const duration = 1800;
+    const delay = 600;
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.max(0, Math.min(1, (now - start - delay) / duration));
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplayed(Math.round(current + (projected - current) * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [current, projected]);
+
+  return (
+    <div className="glass score-improvement h-full" data-tier={tier}>
+      <div className="score-improvement-head">
+        <span className="score-improvement-eyebrow">Agent-Visibility-Score · Projection</span>
+        <span className="score-improvement-domain">{domain}</span>
+      </div>
+
+      <div className="score-improvement-figures">
+        <div className="score-improvement-current">
+          <span className="score-improvement-tag">Jetzt</span>
+          <span className="score-improvement-value">{current}</span>
+        </div>
+        <span className="score-improvement-arrow" aria-hidden>
+          <svg width="26" height="14" viewBox="0 0 26 14" fill="none">
+            <path d="M1 7h22m0 0-5-5m5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <div className="score-improvement-future">
+          <span className="score-improvement-tag score-improvement-tag-future">Mit 6 Fixes</span>
+          <span className="score-improvement-value-future audit-score">
+            {displayed}
+            <span className="audit-score-suffix">/100</span>
+          </span>
+        </div>
+      </div>
+
+      <div className="score-improvement-track">
+        <div
+          className="score-improvement-fill-current"
+          style={{ width: `${current}%` }}
+          aria-hidden
+        />
+        <div
+          className="score-improvement-fill-future"
+          style={{ width: `${projected}%`, animationDelay: "0.4s" }}
+          aria-hidden
+        />
+        <div
+          className="score-improvement-marker"
+          style={{ left: `${current}%` }}
+          aria-hidden
+        />
+      </div>
+
+      <p className="score-improvement-kicker">
+        Mit den priorisierten Fixes unten erreicht{" "}
+        <strong>{domain}</strong> einen projizierten Score von{" "}
+        <strong>{projected}/100</strong> — sichtbar als Top-3-Antwort der eigenen Kategorie.
+      </p>
+    </div>
+  );
+}
+
+/** Per-dimension current -> projected bar. */
+function DimProjection({ current, projected }: { current: number; projected: number }) {
+  const projTier = projected >= 8 ? "good" : projected >= 5 ? "ok" : "bad";
+  return (
+    <div className="dim-projection" aria-hidden>
+      <span className="dim-projection-track">
+        <span
+          className="dim-projection-fill-current"
+          style={{ width: `${current * 10}%` }}
+        />
+        <span
+          className={`dim-projection-fill-future dim-projection-tier-${projTier}`}
+          style={{ width: `${projected * 10}%` }}
+        />
+      </span>
+      <span className="dim-projection-meta">
+        <span className="dim-projection-meta-now">{current}</span>
+        <span className="dim-projection-meta-arrow">→</span>
+        <span className="dim-projection-meta-future">{projected}/10</span>
+      </span>
+    </div>
+  );
+}
+
+function KeyActions({ actions }: { actions: KeyAction[] }) {
+  return (
+    <div>
+      <p
+        style={{
+          color: "var(--ink-dim)",
+          fontFamily: "var(--font-mono)",
+          fontSize: 11,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+      >
+        Key Actions · priorisiert nach Impact
+      </p>
+      <p
+        className="font-display mt-2"
+        style={{
+          fontSize: 28,
+          letterSpacing: "-0.02em",
+          color: "var(--ink-yellow)",
+          lineHeight: 1.15,
+          maxWidth: 720,
+        }}
+      >
+        Die <em className="font-display italic">3-5 Hebel</em>, die deinen Score
+        am stärksten bewegen.
+      </p>
+      <div className="key-actions mt-7">
+        {actions.map((a, i) => (
+          <div key={i} className="key-action" data-impact={a.impact}>
+            <div className="key-action-num">{String(i + 1).padStart(2, "0")}</div>
+            <div className="key-action-body">
+              <div className="key-action-head">
+                <p className="key-action-title">{a.title}</p>
+                <div className="key-action-tags">
+                  <span className={`key-action-impact key-action-impact-${a.impact}`}>
+                    Impact {a.impact === "high" ? "hoch" : a.impact === "medium" ? "mittel" : "niedrig"}
+                  </span>
+                  <span className="key-action-effort">{a.effort}</span>
+                </div>
+              </div>
+              <p
+                className="key-action-detail"
+                dangerouslySetInnerHTML={{ __html: a.detail }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

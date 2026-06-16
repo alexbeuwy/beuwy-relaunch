@@ -12,12 +12,16 @@ import { NextResponse } from "next/server";
 
 const SYSTEM_PROMPT = `Du bist das beuwy-Agenten-Analyse-Panel — ein Senior Brand- und Conversion-Analyst für die Agent-Ära, der quer über Claude, ChatGPT, Codex, Gemini, Grok, DeepSeek und Perplexity denkt.
 
-Du bekommst den TATSÄCHLICHEN Seiteninhalt (Title, Meta, Headlines, Text-Snippets) einer Domain. Du analysierst in genau 6 Dimensionen. Jede Dimension: 1-10 Punkte, eine 1-2-Satz-Begründung MIT konkretem Beleg AUS DEM ECHTEN INHALT, und genau 1 sofort umsetzbarer Fix in 5-12 Wörtern.
+Du bekommst den TATSÄCHLICHEN Seiteninhalt (Title, Meta, Headlines, Text-Snippets) einer Domain. Du lieferst:
+(a) 6 Dimensionen — je 1-10 Punkte + 1-2-Satz finding (mit Evidence) + 1 fix in 5-12 Wörtern + projected_score nach Umsetzung (1-10).
+(b) Eine Liste von 3-5 KEY ACTIONS — die priorisierten, individuell aus der Seite abgeleiteten Schritte (kein generisches Bla), je mit impact (low/medium/high) und effort (Tage).
 
 ABSOLUT PFLICHT für Glaubwürdigkeit:
 - Zitiere in MINDESTENS 2 der 6 findings eine echte Headline / einen echten Satz der Seite WÖRTLICH in »Anführungszeichen«. Beispiel: »Die Hero sagt »AI-powered platform for teams« — das matcht mit 50 Wettbewerbern.«
 - Beziehe dich konkret auf das, was wirklich da steht (oder fehlt). Niemals generisch. Wenn ein llms.txt / schema fehlt, sag das. Wenn die H1 stark ist, lobe sie konkret.
 - Jede Begründung muss sich lesen, als hätte ein Mensch die Seite WIRKLICH geöffnet.
+- projected_score: realistisch, in der Regel 7-9 nach Umsetzung (nicht stumpf 10/10).
+- KEY ACTIONS müssen auf den ECHTEN Befund der Seite zugeschnitten sein. Keine Schablonen. Beispiel: nicht "Voice Charter erstellen", sondern "Die »AI-powered platform«-Hero durch These ersetzen: »Die Operator-Spur für Real-Estate« (oder ähnlich auf Basis ihres Produkts)."
 
 Die 6 Dimensionen:
 1) positioning   – Hat die Marke eine erkennbare, unterscheidbare These? Oder ein "AI for X"-Klon? (Zitiere die Hero-Headline.)
@@ -90,16 +94,26 @@ type Dimension = "positioning" | "voice" | "agent_layer" | "trust" | "pricing" |
 
 type DimResult = {
   score: number;
+  projected_score: number;
   finding: string;
   fix: string;
+};
+
+type KeyAction = {
+  title: string;
+  detail: string;
+  impact: "low" | "medium" | "high";
+  effort: string; // e.g. "0.5d", "1-2d"
 };
 
 type AuditResult = {
   domain: string;
   screenshot_url: string;
   overall_score: number;
+  projected_score: number;
   one_liner: string;
   dimensions: Record<Dimension, DimResult>;
+  key_actions: KeyAction[];
   source: "anthropic" | "stub";
   note?: string;
   generated_at: string;
@@ -174,15 +188,19 @@ Nutze AUSSCHLIESSLICH diesen echten Inhalt für deine Belege. Zitiere mindestens
 
 Liefere reines JSON in genau diesem Shape:
 {
-  "one_liner": "<ein Satz: dieser Satz fasst die Marke aus LLM-Sicht zusammen — wie ein Modell sie beschreiben würde>",
+  "one_liner": "<ein Satz: so beschreibt ein LLM die Marke aktuell aus Sicht der Kategorie>",
   "dimensions": {
-    "positioning":  { "score": <1-10>, "finding": "<1 Satz mit Evidence>", "fix": "<5-12 Wörter Fix>" },
-    "voice":        { "score": <1-10>, "finding": "...", "fix": "..." },
-    "agent_layer":  { "score": <1-10>, "finding": "...", "fix": "..." },
-    "trust":        { "score": <1-10>, "finding": "...", "fix": "..." },
-    "pricing":      { "score": <1-10>, "finding": "...", "fix": "..." },
-    "conversion":   { "score": <1-10>, "finding": "...", "fix": "..." }
-  }
+    "positioning":  { "score": <1-10>, "projected_score": <1-10 nach Fix>, "finding": "<1 Satz mit Evidence>", "fix": "<5-12 Wörter Fix>" },
+    "voice":        { "score": <1-10>, "projected_score": <1-10>, "finding": "...", "fix": "..." },
+    "agent_layer":  { "score": <1-10>, "projected_score": <1-10>, "finding": "...", "fix": "..." },
+    "trust":        { "score": <1-10>, "projected_score": <1-10>, "finding": "...", "fix": "..." },
+    "pricing":      { "score": <1-10>, "projected_score": <1-10>, "finding": "...", "fix": "..." },
+    "conversion":   { "score": <1-10>, "projected_score": <1-10>, "finding": "...", "fix": "..." }
+  },
+  "key_actions": [
+    { "title": "<3-7 Wörter, konkret auf DIESE Seite>", "detail": "<1-2 Sätze, mit Evidence aus der Seite>", "impact": "high"|"medium"|"low", "effort": "<z.B. 0.5d oder 1-2d>" }
+    // 3-5 Einträge, priorisiert (high impact zuerst)
+  ]
 }
 
 Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
@@ -209,7 +227,11 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
     const data = (await r.json()) as { content?: Array<{ type: string; text?: string }> };
     const text = data.content?.find((c) => c.type === "text")?.text || "";
 
-    let parsed: { one_liner?: string; dimensions?: Record<Dimension, DimResult> } = {};
+    let parsed: {
+      one_liner?: string;
+      dimensions?: Record<Dimension, DimResult>;
+      key_actions?: KeyAction[];
+    } = {};
     try {
       const cleaned = text
         .replace(/^```(?:json)?/i, "")
@@ -225,8 +247,14 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
     const dims = parsed.dimensions || ({} as Record<Dimension, DimResult>);
     const dimensions = DIM_ORDER.reduce<Record<Dimension, DimResult>>((acc, k) => {
       const d = dims[k];
+      const score = typeof d?.score === "number" ? Math.max(1, Math.min(10, d.score)) : 5;
+      const projected =
+        typeof d?.projected_score === "number"
+          ? Math.max(score, Math.min(10, d.projected_score))
+          : Math.min(10, score + 4);
       acc[k] = {
-        score: typeof d?.score === "number" ? Math.max(1, Math.min(10, d.score)) : 5,
+        score,
+        projected_score: projected,
         finding: d?.finding || "—",
         fix: d?.fix || "—",
       };
@@ -236,13 +264,30 @@ Kein Markdown, keine Erklärung außerhalb des JSON. Streng JSON-konform.`,
     const overall_score = Math.round(
       (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].score, 0) / DIM_ORDER.length) * 10
     );
+    const projected_score = Math.round(
+      (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].projected_score, 0) / DIM_ORDER.length) * 10
+    );
+
+    const key_actions = Array.isArray(parsed.key_actions)
+      ? parsed.key_actions
+          .slice(0, 5)
+          .filter((a): a is KeyAction => !!a && typeof a.title === "string" && typeof a.detail === "string")
+          .map((a) => ({
+            title: a.title,
+            detail: a.detail,
+            impact: (["low", "medium", "high"].includes(a.impact) ? a.impact : "medium") as KeyAction["impact"],
+            effort: typeof a.effort === "string" ? a.effort : "1d",
+          }))
+      : [];
 
     const result: AuditResult = {
       domain,
       screenshot_url,
       overall_score,
+      projected_score,
       one_liner: parsed.one_liner || "—",
       dimensions,
+      key_actions,
       source: "anthropic",
       generated_at: new Date().toISOString(),
     };
@@ -264,47 +309,89 @@ function makeStub(domain: string, screenshot_url: string): AuditResult {
     pricing: 3 + ((seed >> 3) % 4),
     conversion: 4 + ((seed >> 1) % 4),
   };
+  const proj = (s: number) => Math.min(10, s + 4);
   const dimensions: Record<Dimension, DimResult> = {
     positioning: {
       score: baseScores.positioning,
+      projected_score: proj(baseScores.positioning),
       finding: "Hero benutzt 'AI-powered platform for…' – Pattern-Match mit 50+ Wettbewerbern.",
       fix: "Eine kategoriebildende These auf den Hero",
     },
     voice: {
       score: baseScores.voice,
+      projected_score: proj(baseScores.voice),
       finding: "Voice fühlt sich generisch SaaS an. Keine Founder-Stimme. Keine Voice-Charter abrufbar.",
       fix: "Voice-Charter + 12 Forbidden Phrases",
     },
     agent_layer: {
       score: baseScores.agent_layer,
+      projected_score: proj(baseScores.agent_layer),
       finding: "Kein llms.txt, kein schema.org/Organization, semantic HTML schwach. LLM hat nichts zum Zitieren.",
       fix: "llms.txt + schema.org + DESIGN.md ins Repo",
     },
     trust: {
       score: baseScores.trust,
+      projected_score: proj(baseScores.trust),
       finding: "Logos ohne Kontext. Keine harten Zahlen. Kein Founder-Footprint.",
       fix: "Drei Cases mit ehrlichen KPIs in den Hero",
     },
     pricing: {
       score: baseScores.pricing,
+      projected_score: proj(baseScores.pricing),
       finding: "'Contact Sales' statt sichtbarem Preis. Reibung vor Wert.",
       fix: "Festpreis-Range sichtbar machen",
     },
     conversion: {
       score: baseScores.conversion,
+      projected_score: proj(baseScores.conversion),
       finding: "Generisches 'Learn More'. Keine Slot-Verknappung, kein klares Next-Action.",
       fix: "CTA: konkret + Verknappung sichtbar",
     },
   };
+  const overall = Math.round(
+    (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].score, 0) / DIM_ORDER.length) * 10
+  );
+  const projected = Math.round(
+    (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].projected_score, 0) / DIM_ORDER.length) * 10
+  );
+  const key_actions: KeyAction[] = [
+    {
+      title: "These auf der Hero schärfen",
+      detail:
+        "»AI-powered platform«-Floskel durch eine kategoriebildende These ersetzen, die ein LLM als Antwort zitieren kann.",
+      impact: "high",
+      effort: "0.5d",
+    },
+    {
+      title: "Agent-Layer ergänzen",
+      detail:
+        "llms.txt + schema.org/Organization + Article-Schema. Damit Claude, ChatGPT &amp; Co. überhaupt etwas zum Zitieren haben.",
+      impact: "high",
+      effort: "1d",
+    },
+    {
+      title: "Drei Cases mit harten KPIs in den Hero",
+      detail:
+        "Eine spezifische Zahl pro Case (Outcome, Zeitraum, Quelle). Keine Logos ohne Kontext.",
+      impact: "medium",
+      effort: "0.5d",
+    },
+    {
+      title: "Pricing-Sichtbarkeit",
+      detail: "Festpreis-Range oder Spannbreite sichtbar machen. „Contact Sales“ erst nach Wertversprechen.",
+      impact: "medium",
+      effort: "0.5d",
+    },
+  ];
   return {
     domain,
     screenshot_url,
-    overall_score: Math.round(
-      (DIM_ORDER.reduce((sum, k) => sum + dimensions[k].score, 0) / DIM_ORDER.length) * 10
-    ),
+    overall_score: overall,
+    projected_score: projected,
     one_liner:
       `${domain} liest sich aus LLM-Sicht wie ein generisches Tool in einer überfüllten Kategorie — keine erkennbare These, kein Agent-Layer, austauschbar.`,
     dimensions,
+    key_actions,
     source: "stub",
     generated_at: new Date().toISOString(),
   };

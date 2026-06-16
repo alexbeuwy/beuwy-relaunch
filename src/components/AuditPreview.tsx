@@ -26,11 +26,18 @@ export function AuditPreview() {
       </div>
       <div className="audit-preview-body">
         <div className="audit-preview-top">
-          <div>
-            <span className="audit-preview-mono">AGENT-VISIBILITY-SCORE</span>
-            <p className="audit-preview-score">
-              47<span className="audit-preview-score-suffix">/100</span>
-            </p>
+          <div className="audit-preview-score-row">
+            <div>
+              <span className="audit-preview-mono">JETZT</span>
+              <p className="audit-preview-score-current">47</p>
+            </div>
+            <span className="audit-preview-arrow" aria-hidden>→</span>
+            <div>
+              <span className="audit-preview-mono audit-preview-mono-future">Mit 6 Fixes</span>
+              <p className="audit-preview-score">
+                88<span className="audit-preview-score-suffix">/100</span>
+              </p>
+            </div>
           </div>
           <div className="audit-preview-verdict">
             <span className="audit-preview-mono">SO LESEN DICH DIE AGENTEN</span>
