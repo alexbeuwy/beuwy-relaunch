@@ -3125,7 +3125,11 @@ select:focus {
   border-radius: 3px;
   background: linear-gradient(90deg, var(--ink-yellow), #FBF1B6);
   box-shadow: 0 0 14px rgba(247, 233, 154, 0.5);
-  transition: width 240ms linear;
+  /* No CSS transition: width is driven by rAF (~60fps) every frame, so a
+     transition would make the bar chase a moving target and lag behind the
+     percentage — the number stays accurate while the bar only jumps at the end.
+     Direct per-frame width = perfect lockstep with the percent. */
+  will-change: width;
 }
 .audit-loading-quip {
   position: relative;
