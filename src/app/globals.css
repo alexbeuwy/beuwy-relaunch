@@ -2352,3 +2352,183 @@ select:focus {
   .audit-preview-live-dot { animation: none; }
   .audit-preview-bar-fill { transform: scaleX(1); }
 }
+
+/* ============================================================
+   AUDIT LOADING — sweeping light point, no boring spinner
+   ============================================================ */
+.audit-loading {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 16px;
+}
+.audit-loading-sweep {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(247, 233, 154, 0.04) 30%,
+    rgba(247, 233, 154, 0.16) 50%,
+    rgba(247, 233, 154, 0.04) 70%,
+    transparent 100%
+  );
+  filter: blur(8px);
+  animation: audit-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes audit-sweep {
+  0%   { left: -40%; }
+  100% { left: 100%; }
+}
+/* Roaming light orb in the upper-right — like a spotlight scanning */
+.audit-loading-orb {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(247, 233, 154, 0.35), transparent 60%);
+  filter: blur(28px);
+  pointer-events: none;
+  animation: audit-orb-roam 6s ease-in-out infinite;
+}
+@keyframes audit-orb-roam {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  33%      { transform: translate(-180px, 40px) scale(1.15); opacity: 1; }
+  66%      { transform: translate(-60px, 180px) scale(0.95); opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audit-loading-sweep, .audit-loading-orb { animation: none; }
+}
+
+/* ============================================================
+   AUDIT SHARE — copy link / mail / linkedin / whatsapp
+   ============================================================ */
+.audit-share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: rgba(247, 233, 154, 0.04);
+  border: 1px solid var(--line-subtle);
+}
+.audit-share-meta { min-width: 0; flex: 1 1 280px; }
+.audit-share-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+.audit-share-url {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-cream);
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.audit-share-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.audit-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-base);
+  color: var(--ink-cream);
+  border: 1px solid var(--line-medium);
+  font-size: 12px;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--resize-dur) var(--resize-ease),
+    background var(--resize-dur) var(--resize-ease),
+    color var(--resize-dur) var(--resize-ease);
+}
+.audit-share-btn:hover {
+  border-color: var(--ink-yellow);
+  color: var(--ink-yellow);
+  background: rgba(247, 233, 154, 0.06);
+}
+.audit-share-btn:active { transform: scale(0.98); }
+.audit-share-btn svg { display: block; flex-shrink: 0; color: var(--ink-yellow); }
+
+/* ============================================================
+   AUDIT CLOSE — fix button colors + structured copy
+   ============================================================ */
+.audit-close-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-yellow);
+}
+.audit-close-headline {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 40px);
+  letter-spacing: -0.02em;
+  color: var(--ink-yellow);
+  line-height: 1.1;
+  text-wrap: balance;
+  max-width: 820px;
+  margin-top: 16px;
+}
+.audit-close-headline em {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(110deg, var(--ink-yellow), #FBF1B6 50%, var(--ink-yellow));
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text-shimmer 6s ease-in-out infinite;
+}
+.audit-close-kicker {
+  margin-top: 32px;
+  max-width: 680px;
+  color: var(--ink-cream);
+  font-size: 17px;
+  line-height: 1.55;
+}
+/* Fix: secondary CTA in the close block was unreadable on glass —
+   replace with a high-contrast inline link instead of btn-secondary. */
+.audit-close-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-yellow);
+  font-size: 14px;
+  font-weight: 510;
+  border-bottom: 1px solid rgba(247, 233, 154, 0.4);
+  padding-bottom: 2px;
+  text-decoration: none;
+  transition: border-color var(--text-swap-dur) var(--text-swap-ease), color var(--text-swap-dur) var(--text-swap-ease);
+}
+.audit-close-link:hover {
+  color: #FBF1B6;
+  border-color: #FBF1B6;
+}
+.audit-close-meta {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}

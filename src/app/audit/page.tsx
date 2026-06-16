@@ -65,6 +65,7 @@ function AuditInner() {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [unlocked, setUnlocked] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && localStorage.getItem(GATE_KEY) === "1") {
@@ -72,15 +73,16 @@ function AuditInner() {
     }
   }, []);
 
+  // Auto-run when arriving with ?domain=  — pass the value directly so we
+  // don't race the `domain` state setter.
   useEffect(() => {
-    if (initial && !result && !loading) {
-      run();
+    if (initial) {
+      runWith(initial);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initial]);
 
-  async function run(e?: React.FormEvent) {
-    if (e) e.preventDefault();
+  async function runWith(d: string) {
     setError(null);
     setLoading(true);
     setResult(null);
@@ -88,7 +90,7 @@ function AuditInner() {
       const r = await fetch("/api/audit", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ domain }),
+        body: JSON.stringify({ domain: d }),
       });
       if (!r.ok) {
         const j = await r.json().catch(() => ({}));
@@ -97,6 +99,12 @@ function AuditInner() {
       }
       const data = (await r.json()) as AuditResult;
       setResult(data);
+      // Reflect the analyzed domain in the URL so reload + back-button work.
+      if (typeof window !== "undefined") {
+        const next = new URL(window.location.href);
+        next.searchParams.set("domain", data.domain);
+        window.history.replaceState(null, "", next.toString());
+      }
     } catch {
       setError("Netzwerk-Fehler. Bitte erneut versuchen.");
     } finally {
@@ -104,10 +112,30 @@ function AuditInner() {
     }
   }
 
+  function run(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    runWith(domain);
+  }
+
   function onUnlock() {
     setUnlocked(true);
     if (typeof window !== "undefined") localStorage.setItem(GATE_KEY, "1");
   }
+
+  function shareCopy() {
+    if (typeof window === "undefined") return;
+    navigator.clipboard?.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    });
+  }
+  const shareUrl =
+    typeof window !== "undefined"
+      ? window.location.origin + "/audit?domain=" + encodeURIComponent(domain || result?.domain || "")
+      : "";
+  const shareSubject = result
+    ? `Agent-Audit für ${result.domain} — Score ${result.overall_score}/100`
+    : "Agent-Audit von beuwy";
 
   return (
     <>
@@ -191,9 +219,17 @@ function AuditInner() {
           )}
         </form>
 
-        {loading && <LoadingState domain={domain} />}
+        {loading && <LoadingState domain={domain || initial} />}
         {result && (
-          <Result result={result} unlocked={unlocked} onUnlock={onUnlock} />
+          <Result
+            result={result}
+            unlocked={unlocked}
+            onUnlock={onUnlock}
+            shareUrl={shareUrl}
+            shareSubject={shareSubject}
+            onCopy={shareCopy}
+            copied={copied}
+          />
         )}
       </Section>
     </>
@@ -214,7 +250,9 @@ function LoadingState({ domain }: { domain: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="mt-12 glass p-7 max-w-[560px]">
+    <div className="mt-12 audit-loading glass max-w-[640px]">
+      <div className="audit-loading-sweep" aria-hidden />
+      <div className="audit-loading-orb" aria-hidden />
       <p
         style={{
           color: "var(--ink-dim)",
@@ -228,7 +266,7 @@ function LoadingState({ domain }: { domain: string }) {
       <div className="mt-4">
         <ModelPanel />
       </div>
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-6 space-y-3 relative z-[1]">
         {steps.map((s, i) => (
           <li key={s} className="flex items-center gap-3">
             <span
@@ -254,10 +292,18 @@ function Result({
   result,
   unlocked,
   onUnlock,
+  shareUrl,
+  shareSubject,
+  onCopy,
+  copied,
 }: {
   result: AuditResult;
   unlocked: boolean;
   onUnlock: () => void;
+  shareUrl: string;
+  shareSubject: string;
+  onCopy: () => void;
+  copied: boolean;
 }) {
   const [showGate, setShowGate] = useState(false);
 
@@ -270,7 +316,14 @@ function Result({
   return (
     <div className="mt-16 relative">
       <div className={unlocked ? "" : "audit-locked"} aria-hidden={!unlocked && showGate}>
-        <ResultBody result={result} unlocked={unlocked} />
+        <ResultBody
+          result={result}
+          unlocked={unlocked}
+          shareUrl={shareUrl}
+          shareSubject={shareSubject}
+          onCopy={onCopy}
+          copied={copied}
+        />
       </div>
 
       {!unlocked && showGate && (
@@ -280,7 +333,21 @@ function Result({
   );
 }
 
-function ResultBody({ result, unlocked }: { result: AuditResult; unlocked: boolean }) {
+function ResultBody({
+  result,
+  unlocked,
+  shareUrl,
+  shareSubject,
+  onCopy,
+  copied,
+}: {
+  result: AuditResult;
+  unlocked: boolean;
+  shareUrl: string;
+  shareSubject: string;
+  onCopy: () => void;
+  copied: boolean;
+}) {
   return (
     <div className="space-y-10">
       {/* Header row: Score + One-liner (screenshot moved below, loads after unlock) */}
@@ -458,74 +525,134 @@ function ResultBody({ result, unlocked }: { result: AuditResult; unlocked: boole
         </div>
       )}
 
+      {/* Share row */}
+      <div className="audit-share">
+        <div className="audit-share-meta">
+          <span className="audit-share-label">Dein Audit-Link · teilbar</span>
+          <code className="audit-share-url">{shareUrl}</code>
+        </div>
+        <div className="audit-share-actions">
+          <button type="button" onClick={onCopy} className="audit-share-btn" aria-label="Link kopieren">
+            <ShareIcon kind="link" />
+            <span>{copied ? "Kopiert!" : "Link kopieren"}</span>
+          </button>
+          <a
+            className="audit-share-btn"
+            href={`mailto:?subject=${encodeURIComponent(shareSubject)}&body=${encodeURIComponent(
+              shareSubject + "\n\n" + shareUrl
+            )}`}
+            aria-label="Per E-Mail teilen"
+          >
+            <ShareIcon kind="mail" />
+            <span>Mail</span>
+          </a>
+          <a
+            className="audit-share-btn"
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Auf LinkedIn teilen"
+          >
+            <ShareIcon kind="linkedin" />
+            <span>LinkedIn</span>
+          </a>
+          <a
+            className="audit-share-btn"
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareSubject + " — " + shareUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Per WhatsApp teilen"
+          >
+            <ShareIcon kind="whatsapp" />
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
       {/* Final CTA — DIY-vs-done-for-you close */}
       <div className="glass p-7 md:p-12 audit-close">
-        <span
-          style={{
-            color: "var(--ink-yellow)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-          }}
-        >
-          Du hast jetzt die Diagnose. Bleibt eine Frage.
+        <span className="audit-close-eyebrow">
+          Du hast die Diagnose. Bleibt eine Frage.
         </span>
-        <p
-          className="font-display mt-4 max-w-[820px]"
-          style={{ fontSize: 34, letterSpacing: "-0.02em", color: "var(--ink-yellow)", lineHeight: 1.1 }}
-        >
-          Willst du die 6 Fixes wirklich selbst zusammensuchen — oder lehnst du dich zurück und
-          hast es am <em className="font-display italic">Tag 10 fertig</em>?
+        <p className="audit-close-headline">
+          Willst du diese 6 Fixes wirklich selbst zusammensuchen — oder lehnst du dich zurück und
+          hast es am <em>Tag 10 fertig</em>?
         </p>
 
         <div className="grid md:grid-cols-2 gap-5 mt-9">
           <div className="audit-close-col audit-close-diy">
-            <span className="audit-close-tag audit-close-tag-diy">Selbst machen</span>
+            <span className="audit-close-tag audit-close-tag-diy">Selbst lösen</span>
             <ul className="audit-close-list">
-              <li>Agentur-Briefings, 3 Logo-Runden, 6 Wochen Discovery</li>
-              <li>schema.org + llms.txt selbst recherchieren &amp; pflegen</li>
-              <li>Voice, Tokens, Copy — und am Ende doch generisch</li>
-              <li>Monate später live. Vielleicht.</li>
+              <li>3 Korrektur-Runden, bis die Agentur endlich normal arbeitet — mehr Kopfschmerzen als Output</li>
+              <li>Irgendeinem Mitarbeiter in die Hand drücken — viel verbrannte Arbeitszeit, am Ende doch nichts Spitzenmäßiges</li>
+              <li>schema.org, llms.txt, Voice-Charter selbst recherchieren und pflegen</li>
+              <li>6-Wochen-Discovery, 19 Stakeholder-Calls, Folie 23 — Monate später vielleicht live</li>
+              <li>Im Q4 immer noch nicht in den Antworten der Agenten</li>
             </ul>
           </div>
           <div className="audit-close-col audit-close-pro">
             <span className="audit-close-tag audit-close-tag-pro">beuwy machen lassen</span>
             <ul className="audit-close-list">
-              <li>Ein Operator, der €300M+ Kunden-Outcomes gebaut hat</li>
-              <li>Brand · Website · Agent-Layer — alles aus einer Hand</li>
-              <li>Festpreis, null Procurement-Pingpong</li>
-              <li><strong>Tag 10: live.</strong> Du machst derweil dein Geschäft.</li>
+              <li>Ein Operator, der €300M+ Kunden-Outcome gebaut hat — direkt an deinem Brief</li>
+              <li>Brand · Website · Agent-Layer — alles aus einer Hand, kein Pingpong</li>
+              <li>Festpreis, kein Discovery-Theater, keine Stundenzettel</li>
+              <li><strong>Tag 10: live.</strong> Du machst derweil dein eigentliches Geschäft</li>
+              <li>Cited in den Top-3 deiner Kategorie — bevor dein Wettbewerber überhaupt anfängt</li>
             </ul>
           </div>
         </div>
 
-        <p
-          className="mt-8 max-w-[680px]"
-          style={{ color: "var(--ink-cream)", fontSize: 17, lineHeight: "26px" }}
-        >
+        <p className="audit-close-kicker">
           Die meisten lesen dieses Audit, nicken — und machen nichts. Genau deshalb gewinnst du:
           während dein Wettbewerber noch die Farbpalette diskutiert, bist du längst die Antwort,
           die der Agent nennt.
         </p>
 
-        <div className="mt-7 flex flex-wrap items-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link href="/anfrage" className="btn-primary">
             Profis übernehmen lassen
             <span aria-hidden>→</span>
           </Link>
-          <Link href="/work" className="btn-secondary">
-            Erst die Ergebnisse sehen
+          <Link href="/work" className="audit-close-link">
+            Erst die Ergebnisse sehen →
           </Link>
-          <span
-            className="text-[12px]"
-            style={{ color: "var(--ink-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}
-          >
-            Nur 2 Slots für Q3 · Antwort &lt; 6h
-          </span>
         </div>
+        <p className="audit-close-meta">
+          Nur 2 Slots für Q3/2026 · Antwort &lt; 6h · Mo–Fr 09–18 CET
+        </p>
       </div>
     </div>
+  );
+}
+
+function ShareIcon({ kind }: { kind: "link" | "mail" | "linkedin" | "whatsapp" }) {
+  const common = { width: 14, height: 14, fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (kind === "link")
+    return (
+      <svg viewBox="0 0 24 24" {...common} aria-hidden>
+        <path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" />
+        <path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" />
+      </svg>
+    );
+  if (kind === "mail")
+    return (
+      <svg viewBox="0 0 24 24" {...common} aria-hidden>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m3 7 9 6 9-6" />
+      </svg>
+    );
+  if (kind === "linkedin")
+    return (
+      <svg viewBox="0 0 24 24" {...common} aria-hidden>
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M7 10v7M7 7v.01M11 17v-4a3 3 0 0 1 6 0v4M11 11v6" />
+      </svg>
+    );
+  return (
+    <svg viewBox="0 0 24 24" {...common} aria-hidden>
+      <path d="M21 12a9 9 0 1 1-3.4-7l3.4-1-1 3.4A9 9 0 0 1 21 12Z" />
+      <path d="M8.5 9.5c.5 3 3 5.5 6 6l1.5-1.5-2.5-1-1 .5c-.8-.4-1.6-1.2-2-2l.5-1-1-2.5L8.5 9.5Z" />
+    </svg>
   );
 }
 
