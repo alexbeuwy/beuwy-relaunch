@@ -3,7 +3,6 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 
 type Dimension = "positioning" | "voice" | "agent_layer" | "trust" | "pricing" | "conversion";
@@ -142,99 +141,80 @@ function AuditInner() {
 
   return (
     <>
-      <section className="section-band section-band-base pt-[140px] md:pt-[180px] pb-[40px]">
+      <section className="section-band section-band-base pt-[104px] md:pt-[120px] pb-[24px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
             <span className="eyebrow">
-              <span className="num">/</span> Audit · 60 Sek
+              <span className="num">/</span> Audit · 15 Sek
             </span>
           </Reveal>
           <Reveal delay={80}>
-            <h1 className="h-display-xl mt-7 max-w-[1100px]">
-              Was sehen die <em className="gradient-text">KI-Agenten</em>, wenn sie deine Marke lesen?
+            <h1 className="audit-hero-h1 mt-5 max-w-[860px]">
+              Was sehen die <em className="gradient-text">KI-Agenten</em> über deine Marke?
             </h1>
           </Reveal>
-          <Reveal delay={160}>
+          <Reveal delay={140}>
             <p
-              className="mt-7 max-w-[700px] text-[19px] md:text-[22px] leading-[1.45]"
-              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
+              className="mt-4 max-w-[620px] text-[16px] md:text-[17px] leading-[1.45]"
+              style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
             >
-              Unsere beuwy-Agenten prüfen deine Domain quer über{" "}
+              Domain rein. Die beuwy-Agenten prüfen quer über{" "}
               <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
-                Claude, ChatGPT, Codex, Gemini, Grok, DeepSeek &amp; Perplexity
+                Claude, ChatGPT, Gemini, Grok, DeepSeek &amp; Perplexity
               </em>
-              . Score, 6 Dimensionen, Evidence + sofort-Fix. Kostenlos, kein Login.
+              . Score, 6 Dimensionen, sofort-Fixes. Kostenlos, kein Login.
             </p>
           </Reveal>
-          <Reveal delay={240}>
-            <div className="mt-8">
-              <ModelPanel />
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
-      <Section chapter="01 Form" title="Domain eingeben" date="2026 / 01" tone="raised" divider={false}>
-        <form onSubmit={run} className="max-w-[680px]">
-          <label
-            style={{
-              color: "var(--ink-dim)",
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-            }}
-          >
-            Deine Domain
-          </label>
-          <div
-            className="mt-3 rounded-[12px] p-2 flex items-stretch gap-2"
-            style={{
-              background: "var(--bg-raised)",
-              border: "1px solid var(--line-subtle)",
-            }}
-          >
-            <input
-              type="text"
-              value={domain}
-              onChange={(e) => setDomain(e.target.value)}
-              required
-              placeholder="deine-marke.de"
-              className="flex-1 px-4 py-3 rounded-[10px]"
-              style={{
-                background: "transparent",
-                color: "var(--ink-cream)",
-                fontSize: 15,
-                outline: "none",
-                border: "1px solid var(--line-subtle)",
-                fontFamily: "var(--font-mono)",
-              }}
-            />
-            <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? "beuwy-Agenten analysieren…" : "Audit starten"}
-              <span aria-hidden>→</span>
-            </button>
-          </div>
+          <Reveal delay={200}>
+            <form onSubmit={run} className="audit-domain-form mt-7 max-w-[620px]">
+              <span className="audit-domain-icon" aria-hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                required
+                placeholder="deine-marke.de"
+                className="audit-domain-input"
+                autoComplete="off"
+                spellCheck={false}
+              />
+              <button type="submit" className="btn-primary audit-domain-cta" disabled={loading}>
+                {loading ? "Analysiert…" : "Audit starten"}
+                <span aria-hidden>→</span>
+              </button>
+            </form>
+          </Reveal>
           {error && (
-            <p className="mt-3" style={{ color: "var(--accent-red,#FF5F5F)", fontSize: 13 }}>
+            <p className="mt-3 max-w-[620px]" style={{ color: "var(--accent-red,#FF5F5F)", fontSize: 13 }}>
               {error}
             </p>
           )}
-        </form>
 
-        {loading && <LoadingState domain={domain || initial} />}
-        {result && (
-          <Result
-            result={result}
-            unlocked={unlocked}
-            onUnlock={onUnlock}
-            shareUrl={shareUrl}
-            shareSubject={shareSubject}
-            onCopy={shareCopy}
-            copied={copied}
-          />
-        )}
-      </Section>
+          {loading && <LoadingState domain={domain || initial} />}
+        </div>
+      </section>
+
+      {result && (
+        <section className="section-band section-band-raised pt-[8px] pb-[64px] md:pb-[96px]">
+          <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
+            <Result
+              result={result}
+              unlocked={unlocked}
+              onUnlock={onUnlock}
+              shareUrl={shareUrl}
+              shareSubject={shareSubject}
+              onCopy={shareCopy}
+              copied={copied}
+            />
+          </div>
+        </section>
+      )}
     </>
   );
 }

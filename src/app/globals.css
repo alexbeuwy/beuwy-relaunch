@@ -3149,3 +3149,61 @@ select:focus {
   .audit-loading-quip { animation: none; }
   .audit-loading-bar-fill { transition: none; }
 }
+
+/* ============================================================
+   AUDIT HERO — compact so the live test is above the fold
+   ============================================================ */
+.audit-hero-h1 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  color: var(--ink-yellow);
+  text-wrap: balance;
+}
+.audit-hero-h1 em { font-style: italic; font-weight: 400; }
+
+.audit-domain-form {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(33, 6, 6, 0.7);
+  border: 1px solid rgba(247, 233, 154, 0.18);
+  border-radius: 999px;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 18px 48px -28px rgba(0, 0, 0, 0.6);
+  transition: border-color var(--resize-dur) var(--resize-ease), box-shadow var(--resize-dur) var(--resize-ease);
+}
+.audit-domain-form:focus-within {
+  border-color: rgba(247, 233, 154, 0.45);
+  box-shadow: 0 18px 48px -28px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(247, 233, 154, 0.1);
+}
+.audit-domain-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--ink-dim);
+}
+.audit-domain-input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--ink-cream);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.005em;
+  min-width: 0;
+  width: 100%;
+  padding: 0 4px;
+}
+.audit-domain-input::placeholder { color: var(--ink-dim); }
+.audit-domain-cta { height: 42px; padding: 0 20px; font-size: 14px; }
+
+/* loading panel sits right under the form now — trim its top margin */
+.audit-loading { margin-top: 28px; }
