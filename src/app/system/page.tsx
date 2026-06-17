@@ -4,6 +4,7 @@ import { Section, HeadlineDisplay } from "@/components/Section";
 import { Editor } from "@/components/Editor";
 import { InteractiveCode } from "@/components/InteractiveCode";
 import { Reveal } from "@/components/Reveal";
+import { AssetSlot } from "@/components/AssetSlot";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
@@ -317,7 +318,17 @@ export default function SystemPage() {
             </Reveal>
           </div>
 
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 space-y-5">
+            <Reveal delay={140}>
+              <AssetSlot
+                src="/assets/operator/alexander-puetter.jpg"
+                alt="Alexander Pütter — Founder & Operator von beuwy"
+                aspect="4/3"
+                caption="Alexander Pütter · Operator · Heidelberg"
+                prompt="Editorial founder portrait, late-30s/40s German man, three-quarter angle, calm confident expression, looking slightly off-camera. Warm low-key studio light, deep bordeaux/oxblood background (#1A0404), soft golden rim light. Premium, cinematic, high-end magazine cover quality. Subtle film grain. Not corporate-stocky."
+                priority
+              />
+            </Reveal>
             <Reveal delay={180}>
               <div className="glass p-7 md:p-8">
                 <div className="flex items-center gap-4 mb-6">
@@ -574,15 +585,94 @@ export default function SystemPage() {
           ))}
         </div>
 
+        {/* Geld-zurück-Garantie — risk fully on us, tied to delivery (not results) */}
+        <Reveal delay={240}>
+          <div
+            className="mt-8 rounded-[16px] p-8 md:p-10 grid md:grid-cols-12 gap-8 items-center"
+            style={{
+              background: "var(--ink-yellow)",
+              color: "var(--bg-base)",
+              boxShadow: "0 26px 60px -32px rgba(247,233,154,0.4)",
+            }}
+          >
+            <div className="md:col-span-8">
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 11,
+                  letterSpacing: "0.1em",
+                  background: "var(--bg-base)",
+                  color: "var(--ink-yellow)",
+                  padding: "5px 12px",
+                  borderRadius: 999,
+                  textTransform: "uppercase",
+                }}
+              >
+                Geld-zurück-Garantie
+              </span>
+              <p
+                className="font-display mt-5"
+                style={{
+                  fontSize: 40,
+                  letterSpacing: "-0.025em",
+                  color: "var(--bg-base)",
+                  lineHeight: 1.02,
+                }}
+              >
+                Tag 10 — oder Geld zurück.
+              </p>
+              <p
+                className="mt-4 max-w-[600px] text-[16px] leading-[1.6]"
+                style={{ color: "rgba(33,6,6,0.82)" }}
+              >
+                Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain,
+                bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes.
+                <em style={{ fontStyle: "italic", color: "var(--bg-base)" }}> Die Deadline ist unser Risiko — nicht deins.</em>
+              </p>
+            </div>
+            <div className="md:col-span-4 flex md:justify-end">
+              <div
+                className="rounded-full flex flex-col items-center justify-center text-center shrink-0"
+                style={{
+                  width: 148,
+                  height: 148,
+                  border: "2px solid var(--bg-base)",
+                  color: "var(--bg-base)",
+                }}
+              >
+                <span
+                  className="font-display"
+                  style={{ fontSize: 38, lineHeight: 1, letterSpacing: "-0.03em" }}
+                >
+                  Tag 10
+                </span>
+                <span
+                  className="mt-1"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "rgba(33,6,6,0.7)",
+                  }}
+                >
+                  live oder 0 €
+                </span>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         <Reveal delay={300}>
           <p
-            className="mt-10 max-w-[720px] text-[14px] leading-[1.6]"
+            className="mt-8 max-w-[720px] text-[14px] leading-[1.6]"
             style={{
               color: "var(--ink-dim)",
               fontFamily: "var(--font-mono)",
               letterSpacing: "0.01em",
             }}
           >
+            Die Garantie gilt für die <em style={{ color: "var(--ink-cream)", fontStyle: "italic" }}>Auslieferung</em>, nicht für Rankings oder Umsatz.
             Brand-Arbeit ist ein Faktor neben Produkt, Markttiming und Sales. Wir garantieren das System,
             die Auslieferung am Tag 10 und die Begleitung danach — keine Rankings, keine Umsatzzahlen.
             Wer das tut, lügt.

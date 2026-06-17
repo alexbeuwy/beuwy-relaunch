@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes: MetadataRoute.Sitemap = [
     { url: `${BASE}/`,         lastModified, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE}/method`,    lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/sichtbar`,  lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/work`,      lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/system`,    lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/manifesto`, lastModified, changeFrequency: "yearly",  priority: 0.6 },

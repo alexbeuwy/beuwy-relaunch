@@ -219,7 +219,147 @@ export default function MethodPage() {
         </div>
       </Section>
 
-      <Section chapter="03 Pricing" title="Was es kostet" date="2026 / 03" tone="elevated">
+      <Section chapter="03 Tempo" title="Warum 10 Tage kein Risiko sind" date="2026 / 03" tone="raised">
+        <Reveal>
+          <HeadlineDisplay size="lg" className="max-w-[960px]">
+            Schnell heißt nicht hektisch.
+            <br />
+            Schnell heißt <em className="font-display italic">vorbereitet</em>.
+          </HeadlineDisplay>
+        </Reveal>
+        <Reveal delay={80}>
+          <p
+            className="mt-6 text-[17px] leading-[1.55] max-w-[680px]"
+            style={{ color: "var(--ink-muted)" }}
+          >
+            Agenturen sind langsam, weil sie bei null anfangen, im Komitee entscheiden und nach dem
+            Kickoff an Junioren übergeben. Wir sind schnell aus den umgekehrten Gründen — nicht trotz
+            Qualität, sondern wegen ihr.
+          </p>
+        </Reveal>
+
+        <div className="mt-12 grid md:grid-cols-2 gap-5">
+          {[
+            {
+              t: "Kein Discovery-Theater",
+              d: "Kein sechswöchiger, bezahlter Workshop, an dessen Ende ein Foliensatz steht. Wir kommen am Tag 1 mit einer Hypothese — du sagst Ja oder Nein.",
+            },
+            {
+              t: "Ein Operator baut",
+              d: "Keine Übergabe an Junioren, kein Account-Manager als Telefonzentrale. Der, der den ersten Call führt, schreibt auch die letzte Zeile Code.",
+            },
+            {
+              t: "System statt Nullpunkt",
+              d: "Tokens, Motion-Rules, Agent-Layer-Patterns existieren. Wir kalibrieren sie auf deine Marke — wir erfinden sie nicht jedes Mal neu.",
+            },
+            {
+              t: "Entscheidung in einer Hand",
+              d: "Keine 19 Stakeholder, keine Freigabe-Schleifen über drei Wochen. Founder-led entscheidet in Stunden, nicht in Sprints.",
+            },
+          ].map((r) => (
+            <Reveal key={r.t}>
+              <div className="card h-full">
+                <p
+                  className="font-display"
+                  style={{
+                    fontSize: 24,
+                    letterSpacing: "-0.02em",
+                    color: "var(--ink-yellow)",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {r.t}
+                </p>
+                <p
+                  className="mt-3"
+                  style={{ color: "var(--ink-muted)", fontSize: 15, lineHeight: "24px" }}
+                >
+                  {r.d}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Decision matrix — beuwy vs. the alternatives */}
+        <Reveal delay={120}>
+          <p
+            className="mt-16 mb-5 eyebrow"
+            style={{ color: "var(--ink-dim)" }}
+          >
+            <span className="num">/</span> Der ehrliche Vergleich
+          </p>
+        </Reveal>
+        <Reveal delay={160}>
+          <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+            <table
+              className="w-full border-collapse"
+              style={{ minWidth: 720, fontSize: 14 }}
+            >
+              <thead>
+                <tr>
+                  {["", "beuwy", "Klassische Agentur", "Freelancer", "Inhouse-Hire"].map((h, i) => (
+                    <th
+                      key={h || "crit"}
+                      className="text-left align-bottom py-4 px-4"
+                      style={{
+                        borderBottom: "1px solid var(--line-medium)",
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 12,
+                        letterSpacing: "0.04em",
+                        color: i === 1 ? "var(--ink-yellow)" : "var(--ink-dim)",
+                        fontWeight: i === 1 ? 600 : 400,
+                        background: i === 1 ? "rgba(247,233,154,0.06)" : "transparent",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { c: "Zeit bis live", v: ["10 Werktage", "8–16 Wochen", "Unklar, oft offen", "3–6 Monate Ramp-up"] },
+                  { c: "Preis", v: ["Festpreis, vorab", "Tagessatz + Scope-Creep", "Günstig, aber Risiko", "Gehalt + Lohnnebenkosten"] },
+                  { c: "Wer baut", v: ["Senior-Operator direkt", "Junior nach Kickoff", "Eine Person, ein Skill", "Du musst führen"] },
+                  { c: "Agent-Layer", v: ["Inklusive", "Kennt den Begriff selten", "Selten Thema", "Aufbau-Projekt"] },
+                  { c: "Wer trägt das Risiko", v: ["Wir — Tag 10 oder Geld zurück", "Du", "Du", "Fehlbesetzung kostet dich"] },
+                ].map((row) => (
+                  <tr key={row.c}>
+                    <td
+                      className="py-4 px-4 align-top"
+                      style={{
+                        borderBottom: "1px solid var(--line-subtle)",
+                        color: "var(--ink-cream)",
+                        fontWeight: 510,
+                      }}
+                    >
+                      {row.c}
+                    </td>
+                    {row.v.map((cell, i) => (
+                      <td
+                        key={i}
+                        className="py-4 px-4 align-top"
+                        style={{
+                          borderBottom: "1px solid var(--line-subtle)",
+                          color: i === 0 ? "var(--ink-yellow)" : "var(--ink-muted)",
+                          background: i === 0 ? "rgba(247,233,154,0.06)" : "transparent",
+                          fontWeight: i === 0 ? 510 : 400,
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Reveal>
+      </Section>
+
+      <Section chapter="04 Pricing" title="Was es kostet" date="2026 / 04" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[940px]">
             Festpreis. Festumfang. Fester{" "}
@@ -278,7 +418,82 @@ export default function MethodPage() {
             </Reveal>
           </div>
         </div>
+
+        {/* Guarantee echo — the risk reversal, linked to the full contract */}
+        <Reveal delay={200}>
+          <Link
+            href="/system#contract"
+            className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-[14px] px-6 py-5 group"
+            style={{
+              background: "rgba(247,233,154,0.06)",
+              border: "1px solid var(--line-medium)",
+            }}
+          >
+            <span
+              className="font-display"
+              style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink-yellow)" }}
+            >
+              Tag 10 — oder Geld zurück.
+            </span>
+            <span style={{ color: "var(--ink-muted)", fontSize: 15, lineHeight: 1.5 }}>
+              Live am zehnten Werktag, sonst voller Festpreis zurück. Die Deadline ist unser Risiko.
+            </span>
+            <span
+              className="ml-auto group-hover:text-[var(--ink-yellow)] transition-colors"
+              style={{ color: "var(--ink-cream)", fontSize: 13 }}
+            >
+              Liefervertrag lesen →
+            </span>
+          </Link>
+        </Reveal>
       </Section>
+
+      {/* ---------- Final CTA ---------- */}
+      <section className="py-[100px] md:py-[128px]" style={{ background: "var(--bg-base)" }}>
+        <div className="mx-auto max-w-[1240px] px-6 lg:px-10 text-center">
+          <Reveal>
+            <HeadlineDisplay size="lg" className="mx-auto max-w-[840px]">
+              Dein Q4 läuft.
+              <br />
+              <em className="gradient-text">Soll deine Marke mitlaufen?</em>
+            </HeadlineDisplay>
+          </Reveal>
+          <Reveal delay={80}>
+            <p
+              className="mt-6 mx-auto max-w-[560px] text-[17px] leading-[1.55]"
+              style={{ color: "var(--ink-muted)" }}
+            >
+              Schick uns deinen Brief. Du bekommst die Zahl und einen Liefertermin in ≤ 6 Stunden —
+              keine Discovery-Schleife, kein Verkaufsgespräch mit drei Folgeterminen.
+            </p>
+          </Reveal>
+          <Reveal delay={140}>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/anfrage" className="btn-primary">
+                Slot sichern
+                <span aria-hidden>→</span>
+              </Link>
+              <Link href="/audit" className="btn-secondary">
+                Erst Audit ansehen
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <p
+              className="mt-7"
+              style={{
+                color: "var(--ink-dim)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 12,
+                letterSpacing: "0.06em",
+              }}
+            >
+              2 Slots offen · Q3/2026 · Antwort in ≤ 6h
+            </p>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }
