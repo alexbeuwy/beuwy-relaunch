@@ -209,6 +209,43 @@
       }
     },
     {
+      "type": "Faq",
+      "props": {
+        "id": "Faq-1",
+        "eyebrow": "Bevor du den Brief schickst",
+        "title_top": "Die Fragen, die",
+        "title_emphasis": "jeder Founder",
+        "title_bottom": "an dieser Stelle stellt.",
+        "items": [
+          {
+            "q": "Was kostet ein Engagement?",
+            "a": "Festpreis pro Slot — eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie im ersten Call, nachdem wir deinen Brief gelesen haben. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen Preis ausspuckt."
+          },
+          {
+            "q": "Wirklich live in 10 Tagen?",
+            "a": "Ja. Zehn Werktage von Brief bis Live-System auf deiner Domain. Das geht, weil ein Operator durcharbeitet statt 19 Stakeholder zu interviewen — und weil wir mit einem festen Format starten, nicht mit einem leeren Figma."
+          },
+          {
+            "q": "Ich habe schon eine Website. Fangt ihr bei null an?",
+            "a": "Wir bauen die Struktur neu — auf dem Agent-Layer, den deine aktuelle Seite nicht hat. Deine Inhalte, Assets und alles, was funktioniert, fließen ein. Du verlierst nichts Gutes; du verlierst den Stilbruch zwischen Hero und Footer."
+          },
+          {
+            "q": "Wer arbeitet an meinem Projekt?",
+            "a": "Der Operator, mit dem du sprichst, ist der Operator, der baut. Kein Account-Manager als Telefonzentrale, keine Junior-Übergabe nach dem Kickoff. Du redest direkt mit Alexander."
+          },
+          {
+            "q": "Was ist dieser „Agent-Layer“ konkret?",
+            "a": "Eine maschinenlesbare Repräsentation deiner Marke: schema.org-Structured-Data, llms.txt, ein DESIGN.md mit Voice und Tokens, ein Cluster-Brief. Damit Claude, ChatGPT, Gemini und Perplexity dich korrekt verstehen und zuerst nennen — nicht den Wettbewerber, der noch SEO für 2013 pflegt."
+          },
+          {
+            "q": "Garantiert ihr Rankings oder Ergebnisse?",
+            "a": "Nein — und jeder, der das tut, lügt. Brand ist ein Faktor; Produkt, Timing und Sales sind die anderen. Wir garantieren das System, die Auslieferung am Tag 10 und 30 Tage Compound-Standby. Was wir gebaut haben, zeigen wir mit Quellen — was wir nicht beeinflusst haben, behaupten wir nicht."
+          }
+        ],
+        "tone": "raised"
+      }
+    },
+    {
       "type": "BigCta",
       "props": {
         "id": "BigCta-1",

@@ -154,6 +154,36 @@ export const homepageBreadcrumbLd = {
   ],
 };
 
+/**
+ * Build a schema.org FAQPage from {q,a} items. The answer text may contain
+ * light HTML (the FaqBlock renders it via dangerouslySetInnerHTML), so we
+ * strip tags + decode the few entities we actually use for the structured-
+ * data `text` field, which expects plain text. Returns null for an empty
+ * list so callers can conditionally render.
+ */
+export function faqPageLd(items: { q?: string; a?: string }[]) {
+  const clean = (s: string) =>
+    s
+      .replace(/<[^>]+>/g, "")
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, "&")
+      .replace(/&nbsp;/g, " ")
+      .trim();
+
+  const entries = items.filter((it) => it.q && it.a);
+  if (entries.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: entries.map((it) => ({
+      "@type": "Question",
+      name: clean(it.q!),
+      acceptedAnswer: { "@type": "Answer", text: clean(it.a!) },
+    })),
+  };
+}
+
 export function breadcrumbLd(items: { name: string; href: string }[]) {
   return {
     "@context": "https://schema.org",

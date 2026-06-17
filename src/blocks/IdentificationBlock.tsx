@@ -16,7 +16,7 @@ export type IdentificationBlockProps = {
 export function IdentificationBlock(props: IdentificationBlockProps) {
   const cards = props.cards ?? [];
   return (
-    <Section id="disqualifier" tone="raised">
+    <Section id="disqualifier" tone="cream">
       <Reveal>
         <span className="eyebrow-rule">
           <span className="num">{props.eyebrow_num}</span> {props.eyebrow_text}

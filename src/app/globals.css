@@ -581,9 +581,13 @@ body {
   color: var(--bg-base) !important;
   opacity: 0.7;
 }
-.section-band-bright p,
-.section-band-bright span:not(.dot):not([class*="btn-"]):not([aria-hidden]),
-.section-band-bright em {
+/* The bright (yellow) band forces text to bordeaux — but the AuditPreview is a
+   deliberately DARK product-mock sitting inside it. Exclude any audit-preview-*
+   element so its own dark-theme ink colors apply (otherwise its span labels —
+   higher-specificity than per-class overrides — render dark-on-dark). */
+.section-band-bright p:not([class*="audit-preview"]),
+.section-band-bright span:not(.dot):not([class*="btn-"]):not([aria-hidden]):not([class*="audit-preview"]),
+.section-band-bright em:not([class*="audit-preview"]) {
   color: var(--bg-base) !important;
 }
 .section-band-bright em {
@@ -2793,6 +2797,28 @@ select:focus {
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: gradient-text-shimmer 6s ease-in-out infinite;
+}
+
+/* Identification on the CREAM band — flip to bordeaux ink, gold accents to the
+   cream-band red (#B23A48), and hairlines to dark so the 5-card grid reads on
+   light. Breaks up the run of dark bordeaux sections in the page's back half. */
+.section-band-cream .h-display-md { color: var(--bg-base); }
+.section-band-cream .identification-grid { border-top-color: rgba(26, 4, 4, 0.12); }
+.section-band-cream .identification-card { border-bottom-color: rgba(26, 4, 4, 0.12); }
+@media (min-width: 768px) {
+  .section-band-cream .identification-card:nth-child(odd) {
+    border-right-color: rgba(26, 4, 4, 0.12);
+  }
+}
+.section-band-cream .identification-num { color: #B23A48; }
+.section-band-cream .identification-title { color: var(--bg-base); }
+.section-band-cream .identification-body { color: rgba(26, 4, 4, 0.72); }
+.section-band-cream .identification-kicker { color: #B23A48; }
+.section-band-cream .identification-kicker em {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #B23A48;
+  animation: none;
 }
 
 /* ============================================================

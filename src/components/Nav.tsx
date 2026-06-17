@@ -11,7 +11,6 @@ const links: { label: string; href: string }[] = [
   { label: "Arbeit", href: "/work" },
   { label: "System", href: "/system" },
   { label: "Manifest", href: "/manifesto" },
-  { label: "Audit", href: "/audit" },
 ];
 
 export function Nav() {
@@ -59,12 +58,36 @@ export function Nav() {
 
         <div className="flex items-center gap-3">
           <Link
+            href="/audit"
+            aria-current={pathname.startsWith("/audit") ? "page" : undefined}
+            className="hidden md:inline-flex btn-secondary"
+            style={{ height: 36, padding: "0 15px", fontSize: 13 }}
+          >
+            <span
+              aria-hidden
+              style={{ display: "inline-flex", marginRight: 2 }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+            </span>
+            Website-Check
+          </Link>
+          <Link
             href="/anfrage"
             className="hidden sm:inline-flex btn-primary"
             style={{ height: 36, padding: "0 16px", fontSize: 13 }}
           >
             Brief schicken
             <span aria-hidden>→</span>
+          </Link>
+          <Link
+            href="/audit"
+            className="md:hidden text-[13px] font-[510]"
+            style={{ color: "var(--ink-muted)" }}
+          >
+            Check
           </Link>
           <Link
             href="/anfrage"
