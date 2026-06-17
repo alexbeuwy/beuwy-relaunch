@@ -1,0 +1,183 @@
+{
+  "hero": {
+    "eyebrow": "Für Marken, die mehr sind als ihre Website zeigt",
+    "title_top": "Dein Produkt ist besser.",
+    "title_mid_before": "Wir sorgen dafür, dass",
+    "title_emphasis": "alle",
+    "title_mid_after": "es erfahren — auch die KI.",
+    "subtitle": "Premium-Design, das die Branche verwirrt — bis alle kopieren. Auf dem Agent-Layer, den andere erst 2027 verstehen.",
+    "audit_placeholder": "deine-marke.de",
+    "audit_cta": "Marke prüfen",
+    "audit_hint": "15 Sek · was Claude, ChatGPT, Gemini & Co. gerade über dich sagen · kostenlos, kein Login",
+    "secondary_link_label": "Oder direkt Brief schicken",
+    "meta_response": "Ø Antwort < 6h",
+    "meta_slots": "Q3/2026 · 2 Slots"
+  },
+  "pain": {
+    "eyebrow_num": "85 %",
+    "eyebrow_text": "deiner Pipeline = Empfehlungen",
+    "title_top": "Dein Potential ist da.",
+    "title_emphasis": "Deine Website",
+    "title_bottom": "zeigt es nicht.",
+    "description": "Die meisten Marken da draußen sind besser, als ihre Online-Repräsentation glauben macht. Hier sind die fünf Stellen, an denen das auffällt — sobald ein Agent sucht.",
+    "rows": [
+      { "k": "Pipeline-Herkunft", "now": "85 % Empfehlung + Zufall", "after": "Inbound aus Suche + Agent + Voice" },
+      { "k": "Sichtbarkeit in LLMs", "now": "Du tauchst nicht auf", "after": "Cited in Top-3 für deine Kategorie" },
+      { "k": "Brand-Quelle", "now": "Figma-Datei · 14 Versionen", "after": "DESIGN.md · machine-readable" },
+      { "k": "Pricing-Druck", "now": "Race-to-zero gegen GPT-Wrapper", "after": "Premium-Preis getragen von Premium-Brand" },
+      { "k": "Founder-Story", "now": "&quot;The Stripe for X&quot;", "after": "Eine These, die im Partner-Meeting reisst" }
+    ]
+  },
+  "dream": {
+    "title_top": "Bald nennt der Agent",
+    "title_emphasis": "dich",
+    "title_bottom": "— bevor dein Wettbewerber überhaupt auftaucht.",
+    "description": "Frag dich: Was, wenn deine nächsten zehn Kunden nicht über Zufall kommen, sondern weil ein Agent auf <em>&quot;Wer macht das in DACH?&quot;</em> mit deinem Namen antwortet? Genau das baut maschinenlesbare Brand.",
+    "image_src": "/assets/cases/agent-reads-brand.jpg",
+    "image_alt": "3D-Robot liest ein Brand-DESIGN.md Panel",
+    "image_caption": "Der Agent liest deine Marke wie eine Datei — und empfiehlt sie.",
+    "image_prompt": "Cinematic 3D render, matte bordeaux humanoid robot holding a frosted translucent glass UI panel reading 'DEAR AGENT, THIS IS WHY WE'RE THE BEST' in warm gold serif, soft warm key light, moody dark crimson background, octane render, 3:4"
+  },
+  "mechanism": {
+    "title_top": "Drei Layer, zehn Tage —",
+    "title_bottom_before": "und der Agent",
+    "title_emphasis": "versteht dich",
+    "title_bottom_after": ".",
+    "description": "Keine 6-Wochen-Discovery. Keine 19 Stakeholder-Interviews. Keine Folie 23. Ein Operator, ein Festpreis, drei Auslieferungen — live, nicht in Figma.",
+    "input_chip": "INPUT · dein Brief, deine Marke, dein Markt",
+    "output_chip": "OUTPUT · ein System, Tag 10 live",
+    "output_meta": "inkl. 30 Tage Compound-Standby",
+    "layers": [
+      { "num": "01", "t": "Brand-System", "sub": "DESIGN.md · Voice · Forbidden Phrases", "out": "Maschinenlesbar" },
+      { "num": "02", "t": "Live-Site", "sub": "Next.js · Vercel · deine TLD", "out": "12 Sektionen, indizierbar" },
+      { "num": "03", "t": "Agent-Layer", "sub": "schema.org · llms.txt · Cluster-Brief", "out": "Lesbar für Claude · GPT · Perplexity" }
+    ]
+  },
+  "proof": {
+    "title_emphasis": "€300M+",
+    "title_top_after": "in den Büchern unserer Kunden.",
+    "title_bottom": "Gebaut von einem, der selbst skaliert hat.",
+    "description": "Brand-Arbeit ist ein Faktor. Produkt, Markttiming, Sales — auch. Wir behaupten nicht, den Wachstum allein gemacht zu haben. Wir zeigen, was in unserem Lieferumfang lag.",
+    "counters": [
+      { "prefix": "€", "value": 160, "suffix": "M", "display": "€160M", "label": "KKR Joint Venture (Vision · 2023)", "source": "öffentlich, vision.de" },
+      { "prefix": "", "value": 2240, "suffix": "", "display": "2.240", "label": "Königswege Partner (vs. 170 in 2017)", "source": "cash-online 2024" },
+      { "prefix": "", "value": 315, "suffix": "", "display": "315", "label": "Wohnungen (acta · 2023–2025)", "source": "intern, Ø Ticket €153.842" },
+      { "prefix": "", "value": 1, "suffix": "M+", "display": "1M+", "label": "PURELEI Follower (seit 2018)", "source": "Instagram public" }
+    ],
+    "cases": [
+      {
+        "client": "Vision Real Estate",
+        "years": "2019 → 2023",
+        "kpi": "€160M",
+        "kpiLabel": "KKR Joint Venture",
+        "note": "Wir bauten Brand-Architektur, vision.de und Investor-Narrativ. Drei Gründer wurden 70 Köpfe — der KKR-Deal kam, nachdem die Brand stand.",
+        "href": "/work#vision"
+      },
+      {
+        "client": "Königswege",
+        "years": "2017 → live",
+        "kpi": "170 → 2.240",
+        "kpiLabel": "Partner · cited Top-10 DE",
+        "note": "Relaunch 2020 trug die Skalierung. cash-online Hitliste 2024. Wir bauten Brand, Web-System, Partner-Materialien.",
+        "href": "/work#koenigswege"
+      },
+      {
+        "client": "acta",
+        "years": "2023 → 2025",
+        "kpi": "€48,4M",
+        "kpiLabel": "Volumen über Instagram-Funnel",
+        "note": "Brand-Identität, Paid-Social-System, Funnel. Owner-led, ohne Outside Marketing Team. Ø Ticket €153.842.",
+        "href": "/work#acta"
+      }
+    ],
+    "testimonials_eyebrow": "Stimmen aus dem Maschinenraum",
+    "founder_eyebrow": "Du sprichst mit dem, der baut",
+    "founder_bio": "Alexander Pütter — seit 2009 Brand-Arbeit für Konzerne (Bosch, Continental, Michelin), seit 2017 beuwy als Operator-Studio, 2023 selbst Unternehmer: <em>315 Wohnungen über Instagram verkauft, mitten in der Zinskrise</em>. Kein Account-Manager dazwischen. Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.",
+    "founder_initials": "AP",
+    "founder_name": "Alexander Pütter",
+    "founder_role": "Founder · Operator seit 2009",
+    "founder_quote": "Wir geben Gründern ein laufendes System und einen Graphen, der schon <em>klettert</em> — bevor die nächste Agentur ihr Notion-Doc fertig hat."
+  },
+  "offer": {
+    "title_top": "Am Tag 10: Marke, Website und KI-Sichtbarkeit —",
+    "title_emphasis": "live, nicht in Figma",
+    "title_bottom": ".",
+    "deliverables": [
+      { "t": "DESIGN.md", "d": "Brand-Tokens, Voice, Vocabulary, Forbidden Phrases. Maschinenlesbar." },
+      { "t": "Live-Site", "d": "Next.js, Vercel, deine Domain. Eine Seite wie diese — auf dich angepasst." },
+      { "t": "Agent-Layer", "d": "schema.org · llms.txt · Cluster-Brief · GPT-Audit deiner aktuellen Sichtbarkeit." },
+      { "t": "30 Tage Compounding", "d": "Nach Launch: Experimente, Cohort-Receipts, ein Operator auf Standby." }
+    ]
+  },
+  "scarcity": {
+    "title_top": "6 Plätze im Jahr.",
+    "title_emphasis": "2 frei",
+    "title_mid": "für Q3.",
+    "title_bottom": "Danach Warteliste.",
+    "description": "Q4/2026 startet die Warteliste. Wir nehmen bewusst wenige — weil ein Operator nicht skaliert, indem er 17 Briefs gleichzeitig hält.",
+    "cta_label": "Slot sichern",
+    "cta_href": "/anfrage",
+    "slots": [
+      { "q": "Q1/2026", "state": "shipped" },
+      { "q": "Q2/2026", "state": "shipped" },
+      { "q": "Q3/2026", "state": "open" },
+      { "q": "Q3/2026", "state": "open" },
+      { "q": "Q4/2026", "state": "waitlist" },
+      { "q": "Q4/2026", "state": "waitlist" }
+    ]
+  },
+  "identification": {
+    "eyebrow_num": "Für",
+    "eyebrow_text": "dich, wenn du dich hier wiedererkennst",
+    "title_top": "Dein Produkt verdient ein Schaufenster,",
+    "title_bottom_before": "das seiner",
+    "title_emphasis": "Qualität",
+    "title_bottom_after": "entspricht.",
+    "cards": [
+      {
+        "n": "01",
+        "t": "Du siehst dein Potential nicht abgebildet",
+        "s": "Was du anbietest, ist objektiv besser als das, was deine Website rüberbringt. Du weißt es. Deine besten Kunden wissen es. Der Markt erfährt es nicht."
+      },
+      {
+        "n": "02",
+        "t": "Frühere Agenturen haben „einfach irgendwas“ gemacht",
+        "s": "Drei Logos, vier Mockup-Runden, am Ende ein Stilbruch zwischen Hero und Footer. Du hast bezahlt — und musst trotzdem selbst nacharbeiten."
+      },
+      {
+        "n": "03",
+        "t": "Du grübelst seit Tagen über den einen Satz",
+        "s": "Wie bricht man eigentlich runter, was das Produkt ausmacht? Du hast 14 Versionen, keine zündet, der Pitch wird immer länger statt schärfer."
+      },
+      {
+        "n": "04",
+        "t": "Du willst die Sprache deiner Kategorie setzen",
+        "s": "Nicht der nächste Klon werden, der „AI-powered Solutions for X“ sagt. Sondern derjenige, dessen Worte die Wettbewerber sechs Monate später übernehmen."
+      },
+      {
+        "n": "05",
+        "t": "Du planst längst für die Agent-Ära",
+        "s": "Während andere noch SEO-Schlagwörter für 2013 pflegen, willst du die Marke sein, die Claude, ChatGPT &amp; Co. als Erste empfehlen — strukturiert lesbar, klar positioniert, glaubwürdig belegt."
+      }
+    ],
+    "kicker": "Wenn du an <em>einer</em> dieser Stellen genickt hast, sind wir wahrscheinlich dein Team."
+  },
+  "magnet": {
+    "title_top": "In 15 Sekunden siehst du, was die",
+    "title_emphasis": "Agenten",
+    "title_bottom": "über dich sagen.",
+    "description": "Domain rein. Score, sechs Dimensionen, sofort-Fixes — die beuwy-Agenten prüfen quer über Claude, ChatGPT, Gemini, Grok, DeepSeek & Perplexity. Kein Login, kostenlos.",
+    "audit_placeholder": "deine-marke.de",
+    "audit_cta": "Audit",
+    "audit_hint": "15 Sek · kein Login · live von den beuwy-Agenten"
+  },
+  "bigCta": {
+    "title_top": "Dein nächster Kunde fragt jetzt gerade einen Agenten.",
+    "title_emphasis": "Was antwortet er?",
+    "primary_label": "Brief schicken",
+    "primary_href": "/anfrage",
+    "secondary_label": "Erst die Marke prüfen →",
+    "secondary_href": "/audit",
+    "meta": "Ø Reply < 6h · Mo–Fr 09–18 CET"
+  }
+}

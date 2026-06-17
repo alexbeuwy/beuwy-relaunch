@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts.bak
+
+# tinacms
+# Keep schema artifacts (_graphql.json, _lookup.json, _schema.json, client.ts,
+# types.ts, *.gql, config.prebuild.jsx) so CI can build without re-running
+# tinacms dev. Ignore only the local search-index DB and Tina-build's HTML output.
+/tina/__generated__/db
+/tina/__generated__/.cache
+/tina/tina-lock.json.bak
+/public/admin
