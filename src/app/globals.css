@@ -1248,11 +1248,16 @@ select:focus {
   );
   filter: blur(var(--digit-blur));
 }
+/* taste-skill rule: perpetual micro-interactions only justify themselves for
+   LIVE feeds (status dots, real-time indicators). Stat counters are static
+   numbers — running an infinite metallic sheen on them is motion-without-
+   motivation. One single sweep on reveal is enough to catch the eye; after
+   that the numbers sit calmly in flat gold. */
 [data-shown="true"] .t-digit,
 [data-state="shown"] .t-digit {
   animation:
     t-digit-pop var(--digit-dur) var(--digit-ease) both,
-    t-digit-sheen 4.2s ease-in-out infinite;
+    t-digit-sheen 2.4s ease-out 1 both;
   animation-delay:
     calc(var(--digit-index, 0) * var(--digit-stagger)),
     calc(var(--digit-dur) + var(--digit-index, 0) * var(--digit-stagger));
@@ -2559,19 +2564,52 @@ select:focus {
   animation: chip-dot-pulse 1.6s ease-in-out infinite;
 }
 
-/* Hero headline — deliberately smaller than .h-display-xl (Apple-clean) */
+/* Hero headline — deliberately smaller than .h-display-xl (Apple-clean).
+   One-shot specular sweep on first paint: motivated motion that draws the
+   eye to the primary statement, then settles. NOT infinite — taste-skill
+   "motion must be motivated". Plays once, ~1.4s after load (after the
+   mask-reveal completes), then sits in calm gold. */
 .hero-headline {
   font-family: var(--font-fraunces), Georgia, serif;
   font-weight: 400;
   font-size: clamp(38px, 5vw, 76px);
   line-height: 1.02;
   letter-spacing: -0.028em;
+  /* Italic descenders (y g j p q) need clearance — pb-1 reserve. */
+  padding-bottom: 4px;
+  background: linear-gradient(
+    110deg,
+    var(--ink-yellow) 0%,
+    var(--ink-yellow) 38%,
+    #FBF1B6 50%,
+    var(--ink-yellow) 62%,
+    var(--ink-yellow) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
   color: var(--ink-yellow);
+  -webkit-text-fill-color: transparent;
   text-wrap: balance;
+  animation: hero-headline-sheen 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.4s 1 both;
+  will-change: background-position;
 }
 .hero-headline em {
   font-style: italic;
   font-weight: 400;
+}
+@keyframes hero-headline-sheen {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline {
+    animation: none;
+    background: none;
+    color: var(--ink-yellow);
+    -webkit-text-fill-color: currentColor;
+  }
 }
 
 .hero-sub {
@@ -3207,3 +3245,31 @@ select:focus {
 
 /* loading panel sits right under the form now — trim its top margin */
 .audit-loading { margin-top: 28px; }
+
+/* ============================================================
+   PREFERS-REDUCED-TRANSPARENCY — taste-skill mandatory fallback
+   ============================================================
+   Users (macOS Accessibility, some Windows themes) can opt out of
+   transparency for legibility / motion-sensitivity. backdrop-filter +
+   translucent panels become solid surfaces. Glass everywhere on the
+   site relies on this, so the fallback is centralized here. */
+@media (prefers-reduced-transparency: reduce) {
+  /* Drop every backdrop blur in one shot — any rule that adds blur to a
+     translucent surface is invalidated under this media query. */
+  .glass,
+  .hero-audit-form,
+  .audit-domain-form,
+  .audit-screenshot-watermark,
+  [data-nav][data-scrolled="true"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Replace translucent fills with solid token colors so contrast is
+     preserved without the blur underneath doing the work. */
+  .glass { background: var(--bg-raised); }
+  .section-band-cream .glass { background: #FFFDF3; }
+  .section-band-bright .glass { background: rgba(255, 253, 243, 0.95); }
+  .hero-audit-form,
+  .audit-domain-form { background: var(--bg-raised); }
+  [data-nav][data-scrolled="true"] { background: var(--bg-base); }
+}

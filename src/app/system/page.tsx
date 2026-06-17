@@ -1,18 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Editor } from "@/components/Editor";
 import { InteractiveCode } from "@/components/InteractiveCode";
 import { Reveal } from "@/components/Reveal";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
-export const metadata = {
-  title: "System — DESIGN.md, gelesen von Agenten | beuwy",
+export const metadata: Metadata = {
+  title: "System — DESIGN.md, gelesen von Agenten",
   description:
     "Ein machine-readable Brand-System. DESIGN.md, Voice Charter, Tokens, llms.txt. Claude, ChatGPT, Cursor, v0 und Perplexity lesen dieselbe Quelle.",
+  alternates: { canonical: "/system" },
+  openGraph: {
+    title: "System — DESIGN.md, gelesen von Agenten",
+    description:
+      "Eine Quelle. Claude, ChatGPT, Cursor, v0, Perplexity lesen dieselbe DESIGN.md.",
+    type: "article",
+    url: "https://beuwy.com/system",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function SystemPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "System", href: "/system" }])} />
       <section className="pt-[140px] md:pt-[180px] pb-[64px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>

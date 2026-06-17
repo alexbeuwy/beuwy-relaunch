@@ -1,13 +1,25 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { AssetSlot } from "@/components/AssetSlot";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
-export const metadata = {
-  title: "Arbeit — Vier Mal von 0 zur Kategorie | beuwy",
+export const metadata: Metadata = {
+  title: "Arbeit — Vier Mal von 0 zur Kategorie",
   description:
     "Vision · Königswege · acta · PURELEI. €160M KKR JV · 2.240 Partner · 315 Wohnungen · 1M Follower — eine Hand, seit 2017.",
+  alternates: { canonical: "/work" },
+  openGraph: {
+    title: "Arbeit — Vier Mal von 0 zur Kategorie",
+    description: "Vision · Königswege · acta · PURELEI. €300M+ in den Büchern unserer Kunden.",
+    type: "article",
+    url: "https://beuwy.com/work",
+  },
+  twitter: { card: "summary_large_image" },
 };
+
+const breadcrumb = breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Arbeit", href: "/work" }]);
 
 const cases = [
   {
@@ -81,6 +93,7 @@ const cases = [
 export default function WorkPage() {
   return (
     <>
+      <JsonLd data={breadcrumb} />
       <section className="pt-[140px] md:pt-[180px] pb-[64px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>

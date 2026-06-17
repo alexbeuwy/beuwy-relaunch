@@ -1,15 +1,27 @@
+import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { FunnelForm } from "@/components/FunnelForm";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
-export const metadata = {
-  title: "Brief schicken — Wir antworten in < 6h | beuwy",
+export const metadata: Metadata = {
+  title: "Brief schicken — Wir antworten in < 6h",
   description:
     "Fünf Schritte, ein Submit. Wir antworten in < 6h mit Termin, Festpreis oder ehrlichem Ja/Nein-Match.",
+  alternates: { canonical: "/anfrage" },
+  openGraph: {
+    title: "Brief schicken — Wir antworten in < 6h",
+    description: "Fünf Schritte, ein Submit. Termin, Festpreis oder Ja/Nein-Match in unter 6h.",
+    type: "website",
+    url: "https://beuwy.com/anfrage",
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
 };
 
 export default function AnfragePage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Brief schicken", href: "/anfrage" }])} />
       <section className="section-band section-band-base pt-[140px] md:pt-[180px] pb-[40px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <span className="eyebrow">

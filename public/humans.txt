@@ -1,0 +1,23 @@
+/* TEAM */
+Founder · Operator: Alexander Pütter
+Site: https://beuwy.com/#founder
+Location: Heidelberg · Mannheim · Berlin (DE)
+Since: 2009 (Brand · Konzern), 2017 (beuwy), 2023 (Founder · Real Estate)
+
+/* CONTACT */
+Email: hello@beuwy.com
+Response time: < 6h, Mon–Fri 09–18 CET
+Brief: https://beuwy.com/anfrage
+Audit: https://beuwy.com/audit
+
+/* THANKS */
+This file is dogfood. We sell machine-readable brand layers — so the brand
+itself is machine-readable. See also: /llms.txt (for LLM agents), /sitemap.xml,
+JSON-LD on every page.
+
+/* SITE */
+Last update: 2026
+Language: de-DE (primary), en on request
+Stack: Next.js 15 · React 19 · TypeScript · Tailwind v3 · Puck (visual editor)
+Type: static · server-rendered · git-backed CMS
+Hosted: Vercel · auto-deploy on main

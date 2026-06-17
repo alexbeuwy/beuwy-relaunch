@@ -1,16 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
-export const metadata = {
-  title: "Methode — Brand · Site · Agent-Layer in 10 Tagen | beuwy",
+export const metadata: Metadata = {
+  title: "Methode — 10 Tage, 4 Phasen, ein Operator",
   description:
     "Vier Phasen, ein Operator, ein Festpreis. Frame · Shape · Ship · Compound. Ohne Discovery-Theater, ohne 19 Stakeholder-Interviews.",
+  alternates: { canonical: "/method" },
+  openGraph: {
+    title: "Methode — 10 Tage, 4 Phasen, ein Operator",
+    description: "Frame · Shape · Ship · Compound. Festpreis, ein Operator, drei Auslieferungen.",
+    type: "article",
+    url: "https://beuwy.com/method",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function MethodPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Methode", href: "/method" }])} />
       <section className="pt-[140px] md:pt-[180px] pb-[64px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>

@@ -1,16 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
-export const metadata = {
-  title: "Manifest — 2026 → 2030. Agent-Ära. | beuwy",
+export const metadata: Metadata = {
+  title: "Manifest — 2026 → 2030. Agent-Ära.",
   description:
     "Die Kategorie wird in den drei Sekunden entschieden, bevor die Demo lädt. Unser Manifest für die Agent-Ära.",
+  alternates: { canonical: "/manifesto" },
+  openGraph: {
+    title: "Manifest — 2026 → 2030. Agent-Ära.",
+    description: "Die Kategorie wird in den drei Sekunden entschieden, bevor die Demo lädt.",
+    type: "article",
+    url: "https://beuwy.com/manifesto",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function ManifestoPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Manifest", href: "/manifesto" }])} />
       <section className="pt-[140px] md:pt-[180px] pb-[64px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
