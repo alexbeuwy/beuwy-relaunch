@@ -1,0 +1,63 @@
+{
+  "content": [
+    {
+      "type": "Hero",
+      "props": {
+        "id": "Hero-demo-1",
+        "eyebrow": "Demo-Landingpage — gebaut mit Puck",
+        "title_top": "Drag, Drop, Live.",
+        "title_mid_before": "So baust du",
+        "title_emphasis": "jede neue",
+        "title_mid_after": "Landingpage in Minuten.",
+        "subtitle": "Diese Seite ist mit dem Puck-Editor unter /build/demo entstanden. Probier es aus — ziehe Bloecke um, fuege neue hinzu, speichere.",
+        "audit_placeholder": "deine-marke.de",
+        "audit_cta": "Marke pruefen",
+        "audit_hint": "15 Sek - kostenlos - kein Login",
+        "secondary_link_label": "Oder Brief schicken",
+        "meta_response": "Ø Antwort < 6h",
+        "meta_slots": "Q3 - 2 Slots"
+      }
+    },
+    {
+      "type": "Quote",
+      "props": {
+        "id": "Quote-demo-1",
+        "quote": "Wir geben Gruendern ein laufendes System und einen Graphen, der schon <em>klettert</em> — bevor die naechste Agentur ihr Notion-Doc fertig hat.",
+        "author_name": "Alexander Puetter",
+        "author_role": "Founder · Operator seit 2009",
+        "author_initials": "AP",
+        "tone": "elevated"
+      }
+    },
+    {
+      "type": "Faq",
+      "props": {
+        "id": "Faq-demo-1",
+        "eyebrow": "FAQ",
+        "title_top": "Was du wissen",
+        "title_emphasis": "musst",
+        "title_bottom": "bevor wir starten.",
+        "items": [
+          { "q": "Wie lange dauert ein Engagement?", "a": "10 Werktage von Brief bis Live-System. Danach 30 Tage Standby." },
+          { "q": "Was kostet es?", "a": "Festpreis pro Slot. Wir nennen die Zahl im ersten Call — kein Discovery-Sprint." },
+          { "q": "Wer arbeitet am Projekt?", "a": "Du sprichst direkt mit dem Operator. Kein Account-Manager dazwischen." }
+        ],
+        "tone": "raised"
+      }
+    },
+    {
+      "type": "BigCta",
+      "props": {
+        "id": "BigCta-demo-1",
+        "title_top": "Klingt nach deinem Setup?",
+        "title_emphasis": "Schick einen Brief.",
+        "primary_label": "Brief schicken",
+        "primary_href": "/anfrage",
+        "secondary_label": "Erst die Marke pruefen →",
+        "secondary_href": "/audit",
+        "meta": "Ø Reply < 6h"
+      }
+    }
+  ],
+  "root": { "props": {} }
+}
