@@ -8,52 +8,59 @@ Next.js 15 · TypeScript · Tailwind v3 · `Fraunces 400 (-0.02em)` für Headlin
 
 ```bash
 npm install
-npm run dev   # http://localhost:3000  · Tina-Editor unter /admin/index.html
+npm run dev   # http://localhost:3000  · Visual Editor unter /build
 npm run build # production build
 ```
 
-## Inhalte editieren — TinaCMS
+## Inhalte editieren — Puck Visual Builder
 
-Die Homepage liest ihren Copy aus `content/pages/home.json`. Du editierst sie auf zwei Wegen:
+Jede Seite ist ein Puck-Dokument unter `content/puck/<slug>.json`. Die Homepage ist
+`content/puck/home.json` und wird unter `/` ausgeliefert. Editiert wird per echtem
+Drag-Drop:
 
-**A · Visueller Editor (empfohlen):**
 1. `npm run dev` starten
-2. Browser öffnen: <http://localhost:3000/admin/index.html>
-3. Im Editor auf "Pages → home" klicken — alle Sektionen sind als Felder gegliedert (01 Hero, 02 Pain, …)
-4. Tippen, speichern. Tina schreibt direkt in `content/pages/home.json` auf der Disk.
-5. Commit & push wie gewohnt — Vercel deployt.
+2. Browser öffnen: <http://localhost:3000/build>
+3. Seite wählen (`/  (Homepage)` ist als **LIVE** markiert) → **Edit**
+4. Sektionen mit der Maus ziehen/umsortieren, neue aus der Palette hinzufügen,
+   Felder rechts editieren. **Publish** klicken zum Speichern.
 
-**B · Direkt im JSON (für Schnellfixes):**
-- `content/pages/home.json` öffnen, Wort ändern, speichern. Tina-Schema und Page-Komponente lesen identisch.
+**Persistenz:**
+- **Lokal (`next dev`):** Speichern schreibt direkt `content/puck/<slug>.json` auf die Disk.
+- **Production (Vercel):** Speichern committet die JSON via GitHub-API auf den
+  Deploy-Branch → Vercel deployt automatisch neu. Dafür `GITHUB_TOKEN` setzen
+  (fine-grained PAT, *Contents: Read and write*). Siehe `.env.example`.
 
-**Tina Cloud (optional, für Edit von unterwegs):**
-- Account auf <https://app.tina.io> erstellen, Projekt linken
-- `NEXT_PUBLIC_TINA_CLIENT_ID` und `TINA_TOKEN` als Env-Vars setzen (siehe `.env.example`)
-- Build-Script auf `npm run build:cloud` umstellen — Tina speichert dann in der Cloud, Vercel zieht beim Deploy
+**Neue Landingpage:** Auf `/build` einen Slug eingeben → leerer Editor → bauen →
+Publish. Live unter `/p/<slug>`.
+
+**Zugriffsschutz:** `/build` und `/api/puck/*` sind per HTTP Basic Auth geschützt
+(`EDITOR_USER` / `EDITOR_PASSWORD`). In Production *fail-closed* (ohne gesetzte
+Credentials → 401), in lokalem `next dev` *fail-open* (kein Login nötig).
 
 ## Branch
 
 Dieser Code lebt auf dem Branch `v2-linear-redesign`. Push, in Vercel connecten — fertig.
+Env-Vars in Vercel setzen: `EDITOR_USER`, `EDITOR_PASSWORD`, `GITHUB_TOKEN`.
 
 ## Struktur
 
 ```
 src/
   app/
-    page.tsx          → Landing · 12 Sektionen Sales-Faden (liest content/pages/home.json)
-    method/           → 4-Phasen Methode + Pricing
-    work/             → Case-Studies
-    system/           → DESIGN.md Editor View
-    manifesto/        → Agent-Ära These
-    anfrage/          → Brief / Kontakt
+    page.tsx          → Homepage · rendert content/puck/home.json via Puck <Render> (SSG)
+    build/            → Visual Editor · /build (Liste) + /build/[slug] (Drag-Drop)
+    p/[slug]/         → öffentliches Rendering einer Puck-Page
+    api/puck/[slug]/  → GET/POST Persistenz (Filesystem lokal · Git-commit in Prod)
+    method/ work/ system/ manifesto/ anfrage/
     globals.css       → Tokens + Buttons + Animations
-  components/
-    Logo · Nav · Footer · Section · Editor · EmailMockup · Reveal
+  blocks/             → 15 React-Block-Komponenten (Hero, Pain, Dream, … Faq)
+  puck/config.tsx     → Puck-Registry: mappt Blöcke auf Editor-Felder + Defaults
+  lib/github.ts       → commitFileToGitHub() — GET-sha-then-PUT Contents API
+  middleware.ts       → Basic-Auth-Gate für /build + /api/puck
+  components/         → Logo · Nav · Footer · Section · Editor · EmailMockup · Reveal
 content/
-  pages/home.json     → Source-of-Truth für alle Homepage-Texte (Tina-editierbar)
-tina/
-  config.ts           → Schema der editierbaren Felder pro Sektion
-  __generated__/      → Auto-generierte GraphQL/TS Types (commited)
+  puck/home.json      → Source-of-Truth der Homepage (Puck-Format)
+  puck/<slug>.json    → weitere Landingpages
 ```
 
 ## Design Tokens

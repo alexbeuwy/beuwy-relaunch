@@ -1,6 +1,11 @@
 import type { Config } from "@measured/puck";
 import { HeroBlock } from "@/blocks/HeroBlock";
 import { PainBlock } from "@/blocks/PainBlock";
+import { DreamBlock } from "@/blocks/DreamBlock";
+import { MechanismBlock } from "@/blocks/MechanismBlock";
+import { ProofBlock } from "@/blocks/ProofBlock";
+import { OfferBlock } from "@/blocks/OfferBlock";
+import { ScarcityBlock } from "@/blocks/ScarcityBlock";
 import { IdentificationBlock } from "@/blocks/IdentificationBlock";
 import { MagnetBlock } from "@/blocks/MagnetBlock";
 import { BigCtaBlock } from "@/blocks/BigCtaBlock";
@@ -86,6 +91,198 @@ export const puckConfig: Config = {
       render: ({ puck, editMode, id, ...props }) => <PainBlock {...props} />,
     },
 
+    Dream: {
+      label: "Dream State (Bild + Email-Mockup)",
+      fields: {
+        title_top: { type: "text", label: "Headline Teil 1" },
+        title_emphasis: { type: "text", label: "Italic-Wort" },
+        title_bottom: { type: "text", label: "Headline Teil 2" },
+        description: { type: "textarea", label: "Beschreibung (HTML erlaubt)" },
+        image_src: { type: "text", label: "Bild URL (oder Path)" },
+        image_alt: { type: "text", label: "Alt-Text" },
+        image_caption: { type: "text", label: "Caption" },
+        image_prompt: { type: "textarea", label: "AI-Prompt" },
+      },
+      defaultProps: {
+        title_top: "Bald nennt der Agent",
+        title_emphasis: "dich",
+        title_bottom: "— bevor dein Wettbewerber auftaucht.",
+        description: "",
+        image_src: "",
+        image_alt: "",
+        image_caption: "",
+        image_prompt: "",
+      },
+      render: ({ puck, editMode, id, ...props }) => <DreamBlock {...props} />,
+    },
+
+    Mechanism: {
+      label: "Mechanism (3-Layer-Flow)",
+      fields: {
+        title_top: { type: "text", label: "Headline Zeile 1" },
+        title_bottom_before: { type: "text", label: "Vor Emphasis" },
+        title_emphasis: { type: "text", label: "Goldener Begriff" },
+        title_bottom_after: { type: "text", label: "Nach Emphasis" },
+        description: { type: "textarea", label: "Beschreibung" },
+        input_chip: { type: "text", label: "Input-Chip" },
+        output_chip: { type: "text", label: "Output-Chip" },
+        output_meta: { type: "text", label: "Output-Meta" },
+        layers: {
+          type: "array",
+          label: "Layer (3)",
+          getItemSummary: (item: { t?: string }) => item.t || "Neuer Layer",
+          arrayFields: {
+            num: { type: "text", label: "Nummer (z.B. 01)" },
+            t: { type: "text", label: "Titel" },
+            sub: { type: "text", label: "Untertitel" },
+            out: { type: "text", label: "Output-Label" },
+          },
+          defaultItemProps: { num: "01", t: "", sub: "", out: "" },
+        },
+      },
+      defaultProps: {
+        title_top: "Drei Layer, zehn Tage —",
+        title_bottom_before: "und der Agent",
+        title_emphasis: "versteht dich",
+        title_bottom_after: ".",
+        description: "",
+        input_chip: "INPUT · dein Brief",
+        output_chip: "OUTPUT · Tag 10 live",
+        output_meta: "inkl. 30 Tage Standby",
+        layers: [],
+      },
+      render: ({ puck, editMode, id, ...props }) => <MechanismBlock {...props} />,
+    },
+
+    Proof: {
+      label: "Proof Stack (Counter + Cases + Founder)",
+      fields: {
+        title_emphasis: { type: "text", label: "Goldener Betrag" },
+        title_top_after: { type: "text", label: "Nach Betrag" },
+        title_bottom: { type: "text", label: "Headline Zeile 2" },
+        description: { type: "textarea", label: "Beschreibung" },
+        counters: {
+          type: "array",
+          label: "Counter-Wand",
+          getItemSummary: (item: { label?: string }) => item.label || "Neuer Counter",
+          arrayFields: {
+            prefix: { type: "text", label: "Prefix (€, $)" },
+            value: { type: "number", label: "Endwert (Zahl)" },
+            suffix: { type: "text", label: "Suffix (M, %)" },
+            display: { type: "text", label: "Anzeige (Screenreader)" },
+            label: { type: "text", label: "Label" },
+            source: { type: "text", label: "Quelle" },
+          },
+          defaultItemProps: { prefix: "", value: 0, suffix: "", display: "", label: "", source: "" },
+        },
+        cases: {
+          type: "array",
+          label: "Case Cards",
+          getItemSummary: (item: { client?: string }) => item.client || "Neuer Case",
+          arrayFields: {
+            client: { type: "text", label: "Kunde" },
+            years: { type: "text", label: "Zeitraum" },
+            kpi: { type: "text", label: "KPI (groß)" },
+            kpiLabel: { type: "text", label: "KPI-Label" },
+            note: { type: "textarea", label: "Notiz" },
+            href: { type: "text", label: "Link" },
+          },
+          defaultItemProps: { client: "", years: "", kpi: "", kpiLabel: "", note: "", href: "#" },
+        },
+        testimonials_eyebrow: { type: "text", label: "Testimonials Eyebrow" },
+        founder_eyebrow: { type: "text", label: "Founder Eyebrow" },
+        founder_bio: { type: "textarea", label: "Founder Bio (HTML erlaubt)" },
+        founder_initials: { type: "text", label: "Founder Initialen" },
+        founder_name: { type: "text", label: "Founder Name" },
+        founder_role: { type: "text", label: "Founder Rolle" },
+        founder_quote: { type: "textarea", label: "Founder Zitat (HTML erlaubt)" },
+      },
+      defaultProps: {
+        title_emphasis: "€300M+",
+        title_top_after: "in den Büchern unserer Kunden.",
+        title_bottom: "Gebaut von einem, der selbst skaliert hat.",
+        description: "",
+        counters: [],
+        cases: [],
+        testimonials_eyebrow: "Stimmen aus dem Maschinenraum",
+        founder_eyebrow: "Du sprichst mit dem, der baut",
+        founder_bio: "",
+        founder_initials: "AP",
+        founder_name: "",
+        founder_role: "",
+        founder_quote: "",
+      },
+      render: ({ puck, editMode, id, ...props }) => <ProofBlock {...props} />,
+    },
+
+    Offer: {
+      label: "Offer (Deliverables + Code-Editor)",
+      fields: {
+        title_top: { type: "text", label: "Headline Zeile 1" },
+        title_emphasis: { type: "text", label: "Italic-Phrase" },
+        title_bottom: { type: "text", label: "Headline Zeile 2 (z.B. Punkt)" },
+        deliverables: {
+          type: "array",
+          label: "Deliverables",
+          getItemSummary: (item: { t?: string }) => item.t || "Neues Deliverable",
+          arrayFields: {
+            t: { type: "text", label: "Titel" },
+            d: { type: "textarea", label: "Beschreibung" },
+          },
+          defaultItemProps: { t: "", d: "" },
+        },
+      },
+      defaultProps: {
+        title_top: "Am Tag 10: Marke, Website und KI-Sichtbarkeit —",
+        title_emphasis: "live, nicht in Figma",
+        title_bottom: ".",
+        deliverables: [],
+      },
+      render: ({ puck, editMode, id, ...props }) => <OfferBlock {...props} />,
+    },
+
+    Scarcity: {
+      label: "Scarcity (Slot-Plan)",
+      fields: {
+        title_top: { type: "text", label: "Headline Zeile 1" },
+        title_emphasis: { type: "text", label: "Goldener Begriff" },
+        title_mid: { type: "text", label: "Headline Mid" },
+        title_bottom: { type: "text", label: "Headline Zeile 2" },
+        description: { type: "textarea", label: "Beschreibung" },
+        cta_label: { type: "text", label: "CTA-Label" },
+        cta_href: { type: "text", label: "CTA-Link" },
+        slots: {
+          type: "array",
+          label: "Slot-Plan",
+          getItemSummary: (item: { q?: string }) => item.q || "Neuer Slot",
+          arrayFields: {
+            q: { type: "text", label: "Quartal (z.B. Q3/2026)" },
+            state: {
+              type: "select",
+              label: "Status",
+              options: [
+                { label: "shipped", value: "shipped" },
+                { label: "open", value: "open" },
+                { label: "waitlist", value: "waitlist" },
+              ],
+            },
+          },
+          defaultItemProps: { q: "Q1/2026", state: "open" },
+        },
+      },
+      defaultProps: {
+        title_top: "6 Plätze im Jahr.",
+        title_emphasis: "2 frei",
+        title_mid: "für Q3.",
+        title_bottom: "Danach Warteliste.",
+        description: "",
+        cta_label: "Slot sichern",
+        cta_href: "/anfrage",
+        slots: [],
+      },
+      render: ({ puck, editMode, id, ...props }) => <ScarcityBlock {...props} />,
+    },
+
     Identification: {
       label: "Identification (5-Card Grid)",
       fields: {
@@ -111,7 +308,10 @@ export const puckConfig: Config = {
       defaultProps: {
         eyebrow_num: "Für",
         eyebrow_text: "dich, wenn du dich hier wiedererkennst",
-        title_top: "",
+        title_top: "Dein Produkt verdient ein Schaufenster,",
+        title_bottom_before: "das seiner",
+        title_emphasis: "Qualität",
+        title_bottom_after: "entspricht.",
         cards: [],
         kicker: "",
       },

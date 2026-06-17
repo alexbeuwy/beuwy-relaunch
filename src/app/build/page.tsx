@@ -17,6 +17,11 @@ async function listPuckPages(): Promise<string[]> {
   }
 }
 
+// The homepage lives at content/puck/home.json but is served at "/" (not /p/home).
+function previewHref(slug: string): string {
+  return slug === "home" ? "/" : `/p/${slug}`;
+}
+
 export default async function BuildIndex() {
   const pages = await listPuckPages();
   return (
@@ -38,17 +43,15 @@ export default async function BuildIndex() {
             marginBottom: 24,
           }}
         >
-          / BUILD MODE · PUCK
+          / BUILD MODE · VISUAL EDITOR
         </p>
         <h1 style={{ fontSize: 48, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 12 }}>
           Drag-Drop Page Builder
         </h1>
         <p style={{ color: "rgba(242,235,218,0.7)", fontSize: 17, lineHeight: 1.55, marginBottom: 40 }}>
-          Hier baust du neue Landingpages mit Maus-Drag-Drop. Tina (
-          <Link href="/admin/index.html" style={{ color: "#F7E99A" }}>
-            /admin
-          </Link>
-          ) bleibt für die kanonische Homepage. Puck-Seiten sind unter <code>/p/[slug]</code> live.
+          Jede Seite ist eine Puck-Page. Ziehe Sektionen mit der Maus, füge welche aus
+          der Palette hinzu, sortiere um — und speichere. Speichern committet die Seite
+          nach Git, Vercel deployed automatisch neu.
         </p>
 
         <form
@@ -108,7 +111,7 @@ export default async function BuildIndex() {
             marginBottom: 12,
           }}
         >
-          BESTEHENDE PAGES · {pages.length}
+          PAGES · {pages.length}
         </p>
         {pages.length === 0 ? (
           <p style={{ color: "rgba(242,235,218,0.5)" }}>
@@ -116,42 +119,62 @@ export default async function BuildIndex() {
           </p>
         ) : (
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {pages.map((slug) => (
-              <li
-                key={slug}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "16px 0",
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
-                }}
-              >
-                <span
+            {pages.map((slug) => {
+              const isHome = slug === "home";
+              return (
+                <li
+                  key={slug}
                   style={{
-                    fontFamily: "ui-monospace, monospace",
-                    fontSize: 14,
-                    color: "#F2EBDA",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "16px 0",
+                    borderTop: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  /{slug}
-                </span>
-                <span style={{ display: "flex", gap: 12 }}>
-                  <Link
-                    href={`/p/${slug}`}
-                    style={{ color: "rgba(242,235,218,0.6)", fontSize: 13 }}
-                  >
-                    Preview →
-                  </Link>
-                  <Link
-                    href={`/build/${slug}`}
-                    style={{ color: "#F7E99A", fontSize: 13, fontWeight: 510 }}
-                  >
-                    Edit →
-                  </Link>
-                </span>
-              </li>
-            ))}
+                  <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span
+                      style={{
+                        fontFamily: "ui-monospace, monospace",
+                        fontSize: 14,
+                        color: "#F2EBDA",
+                      }}
+                    >
+                      {isHome ? "/  (Homepage)" : `/${slug}`}
+                    </span>
+                    {isHome && (
+                      <span
+                        style={{
+                          fontFamily: "ui-monospace, monospace",
+                          fontSize: 10,
+                          letterSpacing: "0.06em",
+                          color: "#1A0404",
+                          background: "#F7E99A",
+                          padding: "2px 7px",
+                          borderRadius: 6,
+                        }}
+                      >
+                        LIVE
+                      </span>
+                    )}
+                  </span>
+                  <span style={{ display: "flex", gap: 12 }}>
+                    <Link
+                      href={previewHref(slug)}
+                      style={{ color: "rgba(242,235,218,0.6)", fontSize: 13 }}
+                    >
+                      Preview →
+                    </Link>
+                    <Link
+                      href={`/build/${slug}`}
+                      style={{ color: "#F7E99A", fontSize: 13, fontWeight: 510 }}
+                    >
+                      Edit →
+                    </Link>
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
