@@ -1,5 +1,13 @@
 # Relaunch-Tier — Strategie-Vorschlag (€50k/Monat-Motor)
 
+> **⚠️ ÜBERHOLT (2026-06).** Dieses Doc enthielt zu viele unbelegte Annahmen
+> (erfundene Preis-Modelle, €38k-Prämisse). Es ist durch
+> [`docs/MARKET-FINDINGS.md`](./MARKET-FINDINGS.md) ersetzt — dort stehen nur
+> belegte Zahlen mit Quellen. Dieses Doc bleibt nur als Verlaufs-Archiv stehen.
+> **Nicht mehr als Grundlage verwenden.**
+
+---
+
 > **Status:** Vorschlag zur Entscheidung. Nichts davon ist live, nichts ist
 > gebaut. Wenn du eine Variante absegnest oder anpasst, baue ich.
 >
