@@ -335,6 +335,115 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
       )}
 
       {/* ============================================================
+          AUDIT MAGNET — every case page is also a path to the qualifier
+         ============================================================ */}
+      <Section tone="bright">
+        <div
+          aria-hidden
+          className="glow-orb glow-orb-cream"
+          style={{ top: "20%", right: "-8%", width: 420, height: 420, opacity: 0.7 }}
+        />
+        <div className="grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7">
+            <Reveal>
+              <HeadlineDisplay size="lg" className="max-w-[540px]">
+                Du hast {c.client} gelesen.
+                <br />
+                <em className="font-display italic">Wie sichtbar bist du gerade selbst?</em>
+              </HeadlineDisplay>
+            </Reveal>
+            <Reveal delay={80}>
+              <p
+                className="mt-6 text-[16px] leading-[1.55] max-w-[480px]"
+                style={{ color: "var(--ink-muted)" }}
+              >
+                Domain rein. In 15 Sekunden Score über Claude, ChatGPT, Gemini, Perplexity &amp; Co. —
+                live von den beuwy-Agenten. Kostenlos, kein Login, DSGVO-konform.
+              </p>
+            </Reveal>
+            <Reveal delay={140}>
+              <form
+                action="/audit"
+                method="get"
+                className="mt-7 audit-form-pill rounded-[12px] p-2"
+                style={{
+                  background: "var(--bg-raised)",
+                  border: "1px solid var(--line-subtle)",
+                  maxWidth: 480,
+                }}
+              >
+                <div className="flex items-stretch gap-2">
+                  <input
+                    type="text"
+                    name="domain"
+                    required
+                    placeholder="deine-marke.de"
+                    className="audit-form-input flex-1 px-4 py-3 rounded-[10px]"
+                    style={{
+                      background: "transparent",
+                      color: "var(--ink-cream)",
+                      fontSize: 14,
+                      outline: "none",
+                      border: "1px solid var(--line-subtle)",
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  />
+                  <button type="submit" className="btn-primary" style={{ height: 44 }}>
+                    Audit
+                    <span aria-hidden>→</span>
+                  </button>
+                </div>
+                <p
+                  className="audit-form-hint px-2 py-3"
+                  style={{ fontSize: 11, letterSpacing: "0.04em" }}
+                >
+                  15 Sek · kein Login · live von den beuwy-Agenten
+                </p>
+              </form>
+            </Reveal>
+          </div>
+          <div className="md:col-span-5">
+            <Reveal delay={120}>
+              <div
+                className="rounded-[14px] p-7"
+                style={{
+                  background: "rgba(247,233,154,0.06)",
+                  border: "1px solid var(--line-medium)",
+                }}
+              >
+                <p
+                  className="font-display"
+                  style={{
+                    fontSize: 22,
+                    letterSpacing: "-0.018em",
+                    color: "var(--ink-yellow)",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Wenn der Audit zeigt, dass dein Wettbewerber empfohlen wird statt dir —{" "}
+                  <em className="font-display italic">sprechen wir.</em>
+                </p>
+                <p
+                  className="mt-4 text-[14px] leading-[1.6]"
+                  style={{ color: "var(--ink-cream)" }}
+                >
+                  Festpreis ab 38.000 €. Live in 10 Werktagen. Tag 10 oder Geld zurück.
+                </p>
+                <Link
+                  href="/anfrage"
+                  className="inline-flex items-center gap-2 mt-5 text-[14px]"
+                  style={{ color: "var(--ink-yellow)", fontWeight: 510 }}
+                >
+                  Brief direkt schicken
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </Section>
+
+      {/* ============================================================
           06 — NEIGHBOR CASES + CTA
          ============================================================ */}
       <Section chapter="06 Weiter" title="Andere Cases" date="" tone="base" divider={false}>
