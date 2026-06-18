@@ -393,9 +393,9 @@ export default function MethodPage() {
             <Reveal delay={80}>
               <PricingFlank
                 name="Sprint"
-                price="ab 12.500 €"
+                price="Festpreis"
                 dur="5 Tage"
-                cta="Sprint anfragen"
+                cta="Audit starten"
                 what={[
                   "Eine Sektion (Brand · Site · Agent-Layer)",
                   "Audit + 1 Pivot-Empfehlung",
@@ -406,9 +406,9 @@ export default function MethodPage() {
             <Reveal delay={160}>
               <PricingFlank
                 name="Compound"
-                price="ab 6.500 € / Mo"
-                dur="monatlich"
-                cta="Retainer anfragen"
+                price="Monatlich"
+                dur="Retainer"
+                cta="Audit starten"
                 what={[
                   "Experimente · Lifecycle · Paid",
                   "Cohort-Receipts · Launch-Calendar",
@@ -463,18 +463,18 @@ export default function MethodPage() {
               className="mt-6 mx-auto max-w-[560px] text-[17px] leading-[1.55]"
               style={{ color: "var(--ink-muted)" }}
             >
-              Schick uns deinen Brief. Du bekommst die Zahl und einen Liefertermin in ≤ 6 Stunden —
-              keine Discovery-Schleife, kein Verkaufsgespräch mit drei Folgeterminen.
+              Starte mit dem kostenlosen Audit — du siehst in 15 Sekunden, wie sichtbar du heute für
+              Claude, GPT &amp; Perplexity bist. Wenn das passt, sprechen wir.
             </p>
           </Reveal>
           <Reveal delay={140}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Slot sichern
+              <Link href="/audit" className="btn-primary">
+                Kostenlosen Audit starten
                 <span aria-hidden>→</span>
               </Link>
-              <Link href="/audit" className="btn-secondary">
-                Erst Audit ansehen
+              <Link href="/anfrage" className="btn-secondary">
+                Oder direkt Brief schicken
                 <span aria-hidden>→</span>
               </Link>
             </div>
@@ -570,13 +570,13 @@ function PricingHero() {
         <p
           className="font-display tnum"
           style={{
-            fontSize: 64,
+            fontSize: 52,
             letterSpacing: "-0.025em",
             color: "var(--bg-base)",
             lineHeight: 0.95,
           }}
         >
-          ab 38.000&nbsp;€
+          Festpreis
         </p>
         <p
           style={{
@@ -587,7 +587,7 @@ function PricingHero() {
             marginTop: 6,
           }}
         >
-          10 Tage · Festpreis
+          Zahl in &lt; 6h nach Brief · 10 Tage Liefertermin
         </p>
       </div>
 
@@ -626,7 +626,7 @@ function PricingHero() {
         </div>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
-            href="/anfrage"
+            href="/audit"
             className="btn-secondary"
             style={{
               background: "var(--bg-base)",
@@ -634,11 +634,11 @@ function PricingHero() {
               boxShadow: "none",
             }}
           >
-            Slot sichern
+            Kostenlosen Audit starten
             <span aria-hidden>→</span>
           </Link>
           <Link
-            href="/audit"
+            href="/anfrage"
             style={{
               color: "rgba(33,6,6,0.78)",
               fontSize: 13,
@@ -647,7 +647,7 @@ function PricingHero() {
               textUnderlineOffset: 4,
             }}
           >
-            Erst Audit ansehen
+            Oder Brief schicken
           </Link>
         </div>
       </div>
@@ -729,7 +729,7 @@ function PricingFlank({
         ))}
       </ul>
 
-      <Link href="/anfrage" className="btn-secondary mt-7">
+      <Link href="/audit" className="btn-secondary mt-7">
         {cta}
         <span aria-hidden>→</span>
       </Link>

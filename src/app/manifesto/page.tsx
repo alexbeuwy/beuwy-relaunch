@@ -146,12 +146,12 @@ export default function ManifestoPage() {
 
         <Reveal delay={120}>
           <div className="mt-12 flex flex-wrap items-center gap-3">
-            <Link href="/anfrage" className="btn-primary">
-              Brief schicken
+            <Link href="/audit" className="btn-primary">
+              Kostenlosen Audit starten
               <span aria-hidden>→</span>
             </Link>
-            <Link href="/method" className="btn-secondary">
-              Methode lesen
+            <Link href="/anfrage" className="btn-secondary">
+              Oder Brief schicken
             </Link>
           </div>
         </Reveal>

@@ -50,11 +50,11 @@
       "props": {
         "id": "BigCta-demo-1",
         "title_top": "Klingt nach deinem Setup?",
-        "title_emphasis": "Schick einen Brief.",
-        "primary_label": "Brief schicken",
-        "primary_href": "/anfrage",
-        "secondary_label": "Erst die Marke pruefen →",
-        "secondary_href": "/audit",
+        "title_emphasis": "Starte mit dem Audit.",
+        "primary_label": "Kostenlosen Audit starten",
+        "primary_href": "/audit",
+        "secondary_label": "Oder Brief schicken →",
+        "secondary_href": "/anfrage",
         "meta": "Ø Reply < 6h"
       }
     }

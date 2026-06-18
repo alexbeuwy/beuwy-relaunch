@@ -417,15 +417,15 @@ export default function GoTslPage() {
 
             <p>
               Das ganze Paket — DESIGN.md, Live-Site, Agent-Layer, plus 30 Tage Begleitung nach
-              Launch — kostet <strong>ab 38.000 € als Festpreis</strong>. Eine Zahl. Kein Tagessatz.
-              Kein Scope-Creep. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen
-              Preis ausspuckt.
+              Launch — läuft als <strong>Festpreis pro Slot</strong>. Eine Zahl. Kein Tagessatz. Kein
+              Scope-Creep. Du bekommst sie ≤ 6 Stunden nach Brief-Eingang — nicht nach einem
+              sechswöchigen, bezahlten Discovery-Sprint.
             </p>
 
             <p>
-              Es gibt einen Sprint-Tarif ab 12.500 € (eine Sektion, fünf Tage) und einen Compound-Tarif
-              ab 6.500 € / Monat für die Zeit nach Launch. Aber wer den Brief schickt, sucht meistens
-              das System.
+              Es gibt einen Sprint-Tarif für eine einzelne Sektion (fünf Tage) und einen
+              Compound-Tarif als Monats-Retainer für die Zeit nach Launch. Aber wer den Brief schickt,
+              sucht meistens das System.
             </p>
           </Reveal>
 

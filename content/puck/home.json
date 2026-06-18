@@ -150,8 +150,8 @@
         "title_mid": "für Q3.",
         "title_bottom": "Danach Warteliste.",
         "description": "Q4/2026 startet die Warteliste. Wir nehmen bewusst wenige — weil ein Operator nicht skaliert, indem er 17 Briefs gleichzeitig hält.",
-        "cta_label": "Slot sichern",
-        "cta_href": "/anfrage",
+        "cta_label": "Audit starten",
+        "cta_href": "/audit",
         "slots": [
           { "q": "Q1/2026", "state": "shipped" },
           { "q": "Q2/2026", "state": "shipped" },
@@ -258,10 +258,10 @@
         "id": "BigCta-1",
         "title_top": "Dein nächster Kunde fragt jetzt gerade einen Agenten.",
         "title_emphasis": "Was antwortet er?",
-        "primary_label": "Brief schicken",
-        "primary_href": "/anfrage",
-        "secondary_label": "Erst die Marke prüfen →",
-        "secondary_href": "/audit",
+        "primary_label": "Kostenlosen Audit starten",
+        "primary_href": "/audit",
+        "secondary_label": "Oder Brief schicken →",
+        "secondary_href": "/anfrage",
         "meta": "Ø Reply < 6h · Mo–Fr 09–18 CET"
       }
     }

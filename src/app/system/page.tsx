@@ -825,19 +825,19 @@ export default function SystemPage() {
           </Reveal>
           <Reveal delay={80}>
             <h2 className="h-display-md mt-6 max-w-[980px]">
-              Schick einen Brief.
+              Starte mit dem Audit.
               <br />
-              <em className="gradient-text">Wir antworten in &lt; 6h</em> mit Termin, Festpreis oder ehrlichem Ja/Nein-Match.
+              <em className="gradient-text">In 15 Sekunden</em> siehst du, was die Agenten gerade über deine Marke sagen.
             </h2>
           </Reveal>
           <Reveal delay={140}>
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Brief schicken
+              <Link href="/audit" className="btn-primary">
+                Kostenlosen Audit starten
                 <span aria-hidden>→</span>
               </Link>
-              <Link href="/audit" className="btn-secondary">
-                Erst die Marke prüfen
+              <Link href="/anfrage" className="btn-secondary">
+                Oder direkt Brief schicken
               </Link>
               <span
                 className="ml-2 text-[12px] self-center"

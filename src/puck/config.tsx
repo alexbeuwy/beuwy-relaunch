@@ -52,6 +52,9 @@ export const puckConfig: Config = {
         audit_cta: "Marke prüfen",
         audit_hint: "15 Sek · kostenlos · kein Login",
         secondary_link_label: "Oder direkt Brief schicken",
+        // Note: in Hero, the audit form IS the primary CTA — this secondary link
+        // points to /anfrage. Keep "Brief schicken" here because the Hero already
+        // leads with the audit; this is the alternate path for warm buyers.
         meta_response: "Ø Antwort < 6h",
         meta_slots: "Q3 · 2 Slots",
       },
@@ -290,8 +293,8 @@ export const puckConfig: Config = {
         title_mid: "für Q3.",
         title_bottom: "Danach Warteliste.",
         description: "",
-        cta_label: "Slot sichern",
-        cta_href: "/anfrage",
+        cta_label: "Audit starten",
+        cta_href: "/audit",
         slots: [],
       },
       render: ({ puck, editMode, id, ...props }) => <ScarcityBlock {...props} />,
@@ -369,10 +372,10 @@ export const puckConfig: Config = {
       defaultProps: {
         title_top: "Dein nächster Kunde fragt jetzt gerade einen Agenten.",
         title_emphasis: "Was antwortet er?",
-        primary_label: "Brief schicken",
-        primary_href: "/anfrage",
-        secondary_label: "Erst die Marke prüfen →",
-        secondary_href: "/audit",
+        primary_label: "Kostenlosen Audit starten",
+        primary_href: "/audit",
+        secondary_label: "Oder Brief schicken →",
+        secondary_href: "/anfrage",
         meta: "Ø Reply < 6h",
       },
       render: ({ puck, editMode, id, ...props }) => <BigCtaBlock {...props} />,

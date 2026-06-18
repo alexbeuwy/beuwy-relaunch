@@ -30,7 +30,7 @@ const faq: { q: string; a: string }[] = [
   },
   {
     q: "Was kostet ein Engagement?",
-    a: "Festpreis pro Slot, ab 38.000 €. Eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie nach dem ersten Call — nicht nach einem sechswöchigen, bezahlten Discovery-Sprint.",
+    a: "Festpreis pro Slot — eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie nach dem ersten Call, ≤ 6h nach Brief-Eingang. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen Preis ausspuckt.",
   },
   {
     q: "Garantiert ihr Rankings oder Umsatz?",

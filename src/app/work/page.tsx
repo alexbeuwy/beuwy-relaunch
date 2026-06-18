@@ -180,10 +180,13 @@ export default function WorkPage() {
             zu setzen, nicht das Feature.
           </p>
         </Reveal>
-        <div className="mt-8">
-          <Link href="/anfrage" className="btn-primary">
-            Vielleicht deins? — Brief schicken
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link href="/audit" className="btn-primary">
+            Vielleicht deins? — Audit starten
             <span aria-hidden>→</span>
+          </Link>
+          <Link href="/anfrage" className="btn-secondary">
+            Oder Brief schicken
           </Link>
         </div>
       </Section>

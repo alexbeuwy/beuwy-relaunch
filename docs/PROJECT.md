@@ -8,6 +8,7 @@
 > **Letzte Aktualisierung:** 2026-06 · Branch `claude/beuwy-homepage-redesign-3t2Ao`
 >
 > **Verwandte Docs:**
+> - [`docs/RELAUNCH-TIER-STRATEGY.md`](./RELAUNCH-TIER-STRATEGY.md) — **Strategie-Vorschlag** für den €50k/Monat-Motor (produktisierter „Relaunch"-Tier, Pricing, Scope, Delivery-System, Operator-Last). *Vorschlag — wartet auf Entscheidung.*
 > - [`docs/funnel-strategy.md`](./funnel-strategy.md) — Funnel-Architektur, Schwartz-Stages, A/B-Plan, Beweis-Hygiene, Anti-Patterns
 > - [`README.md`](../README.md) — Quickstart (dev/build) + Puck-Editor-Kurzanleitung
 > - [`public/assets/operator/README.md`](../public/assets/operator/README.md) — Founder-Foto-Drop-Zone

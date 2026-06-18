@@ -427,14 +427,14 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                   className="mt-4 text-[14px] leading-[1.6]"
                   style={{ color: "var(--ink-cream)" }}
                 >
-                  Festpreis ab 38.000 €. Live in 10 Werktagen. Tag 10 oder Geld zurück.
+                  Festpreis pro Slot. Live in 10 Werktagen. Tag 10 oder Geld zurück.
                 </p>
                 <Link
                   href="/anfrage"
                   className="inline-flex items-center gap-2 mt-5 text-[14px]"
                   style={{ color: "var(--ink-yellow)", fontWeight: 510 }}
                 >
-                  Brief direkt schicken
+                  Oder Brief schicken
                   <span aria-hidden>→</span>
                 </Link>
               </div>
@@ -500,13 +500,15 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
 
         <Reveal delay={160}>
           <div className="mt-16 flex flex-wrap items-center gap-3">
-            <Link href="/anfrage" className="btn-primary">
-              Vielleicht deins? — Brief schicken
+            <Link href="/audit" className="btn-primary">
+              Vielleicht deins? — Audit starten
               <span aria-hidden>→</span>
+            </Link>
+            <Link href="/anfrage" className="btn-secondary">
+              Brief schicken
             </Link>
             <Link href="/work" className="btn-secondary">
               Alle Cases
-              <span aria-hidden>→</span>
             </Link>
           </div>
         </Reveal>

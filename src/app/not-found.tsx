@@ -27,15 +27,15 @@ export default function NotFound() {
           style={{ color: "var(--ink-muted)" }}
         >
           Vielleicht ist sie geplant für Q4/2026. Vielleicht hast du dich vertippt. Zurück zur
-          Startseite — oder direkt einen Brief schicken.
+          Startseite — oder direkt den Audit starten.
         </p>
         <div className="mt-8 flex gap-3">
+          <Link href="/audit" className="btn-primary">
+            Kostenlosen Audit starten
+            <span aria-hidden>→</span>
+          </Link>
           <Link href="/" className="btn-secondary">
             Zur Startseite
-          </Link>
-          <Link href="/anfrage" className="btn-primary">
-            Brief schicken
-            <span aria-hidden>→</span>
           </Link>
         </div>
       </div>

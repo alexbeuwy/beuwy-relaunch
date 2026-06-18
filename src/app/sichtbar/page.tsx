@@ -32,8 +32,8 @@ const faq: { q: string; a: string }[] = [
     a: "Nein — und wer das tut, lügt. Brand ist ein Faktor neben Produkt, Timing und Sales. Wir garantieren die Auslieferung am Tag 10 und 30 Tage Begleitung danach. Was wir gebaut haben, zeigen wir mit Quellen. Was wir nicht beeinflusst haben, behaupten wir nicht.",
   },
   {
-    q: "Warum kostet das ab 38.000 €?",
-    a: "Weil ein Operator mit 16 Jahren Brand-Arbeit baut, nicht ein Team aus Junioren. Rechne gegen: eine Agentur über 3 Monate, ein Inhouse-Hire mit Gehalt plus Lohnnebenkosten plus Ramp-up, oder eine veraltete Site, die dich gerade Anfragen kostet. Der Festpreis ist die einzige Zahl, die du an deinen CFO weiterreichst.",
+    q: "Was kostet das?",
+    a: "Festpreis pro Slot — eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie nach dem ersten Call, nachdem wir deinen Brief gelesen haben. Spätestens ≤ 6h nach Brief-Eingang. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen Preis ausspuckt. Rechne gegen: eine Agentur über 3 Monate mit Tagessätzen + Scope-Creep, ein Inhouse-Hire mit Gehalt + Lohnnebenkosten + Ramp-up, oder eine veraltete Site, die dich gerade Anfragen kostet.",
   },
   {
     q: "Was, wenn die KI-Suche doch nicht so schnell kommt?",
@@ -570,9 +570,9 @@ export default function SichtbarPage() {
               <div className="md:col-span-5">
                 <p
                   className="font-display tnum"
-                  style={{ fontSize: 60, letterSpacing: "-0.025em", color: "var(--bg-base)", lineHeight: 0.95 }}
+                  style={{ fontSize: 48, letterSpacing: "-0.025em", color: "var(--bg-base)", lineHeight: 0.95 }}
                 >
-                  ab 38.000&nbsp;€
+                  Festpreis
                 </p>
                 <p
                   style={{
@@ -583,7 +583,7 @@ export default function SichtbarPage() {
                     marginTop: 6,
                   }}
                 >
-                  10 Werktage · Festpreis
+                  Zahl ≤ 6h nach Brief · 10 Werktage Liefertermin
                 </p>
               </div>
               <div className="md:col-span-12">
@@ -620,15 +620,15 @@ export default function SichtbarPage() {
                 </div>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <Link
-                    href="/anfrage"
+                    href="/audit"
                     className="btn-secondary"
                     style={{ background: "var(--bg-base)", color: "var(--ink-yellow)", boxShadow: "none" }}
                   >
-                    Slot sichern
+                    Kostenlosen Audit starten
                     <span aria-hidden>→</span>
                   </Link>
                   <Link
-                    href="/audit"
+                    href="/anfrage"
                     style={{
                       color: "rgba(33,6,6,0.78)",
                       fontSize: 13,
@@ -637,7 +637,7 @@ export default function SichtbarPage() {
                       textUnderlineOffset: 4,
                     }}
                   >
-                    Erst Audit ansehen
+                    Oder Brief schicken
                   </Link>
                 </div>
               </div>
