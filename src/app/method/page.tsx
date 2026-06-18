@@ -5,13 +5,13 @@ import { Reveal } from "@/components/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Methode — 10 Tage, 4 Phasen, ein Operator",
+  title: "So läuft das ab — 10 Werktage, einer baut",
   description:
-    "Vier Phasen, ein Operator, ein Festpreis. Frame · Shape · Ship · Compound. Ohne Discovery-Theater, ohne 19 Stakeholder-Interviews.",
+    "Was an welchem Tag passiert. Vier Phasen, einer baut, ein fester Preis. Ohne wochenlange Workshops, ohne 19 Stakeholder-Termine.",
   alternates: { canonical: "/method" },
   openGraph: {
-    title: "Methode — 10 Tage, 4 Phasen, ein Operator",
-    description: "Frame · Shape · Ship · Compound. Festpreis, ein Operator, drei Auslieferungen.",
+    title: "So läuft das ab — 10 Werktage, einer baut",
+    description: "Vier Phasen, einer baut. Fester Preis. Tag 10 live oder Geld zurück.",
     type: "article",
     url: "https://beuwy.com/method",
   },
@@ -25,15 +25,15 @@ export default function MethodPage() {
       <section className="pt-[140px] md:pt-[180px] pb-[64px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
-            <span className="eyebrow"><span className="num">/</span> Methode · 2026</span>
+            <span className="eyebrow"><span className="num">/</span> So läuft das ab</span>
           </Reveal>
           <Reveal delay={80}>
             <h1
               className="h-display-xl mt-7 max-w-[1100px]"
             >
-              10 Tage. <em>Festpreis</em>.
+              10 Werktage. <em>Fester Preis</em>.
               <br />
-              <em className="gradient-text">Live.</em>
+              <em className="gradient-text">Live auf deiner Domain.</em>
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -41,43 +41,43 @@ export default function MethodPage() {
               className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
               style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Ein Operator, ein Preis, ein Liefertag. <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Du machst Q4</em>,
-              wir bauen Marke + Website + Agent-Sichtbarkeit. Kein Discovery-Theater.
+              Einer baut. Ein Preis. Ein Liefertag. <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Du machst dein Geschäft</em>,
+              ich baue die neue Marke und Website. Keine wochenlangen Workshops.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <Section chapter="01 Phasen" title="Wie es läuft" date="2026 / 01" tone="raised">
+      <Section chapter="01 Ablauf" title="Wie es läuft" date="" tone="raised">
         <div className="space-y-3">
           {[
             {
               n: "01",
-              ph: "Frame",
+              ph: "Briefing",
               wk: "Tag 1–2",
               h: "Eine Frage, zwei Tage.",
-              s: "Wo liegt die Hebel-Wirkung? Kein Miro-Theater. Kein Discovery-Workshop. Wir kommen mit einer Hypothese, du sagst Ja oder Nein.",
+              s: "Wo liegt der Hebel für dich? Kein Workshop, keine Miro-Boards. Ich komme mit einem Vorschlag, du sagst ja oder nein.",
             },
             {
               n: "02",
-              ph: "Shape",
+              ph: "Entwurf",
               wk: "Tag 3–6",
-              h: "End-to-End-Prototyp.",
-              s: "DESIGN.md. Live-Site auf Staging. Voice & Tonalität. Klickbar, opinionated, kein Wireframe-Bullshit. Du siehst Donnerstag, was Donnerstag wird.",
+              h: "Erster klickbarer Entwurf.",
+              s: "Logo-Richtung. Farben. Schriften. Live-Seite auf einer Test-Adresse. Klickbar, mit Meinung. Du siehst Donnerstag, was Donnerstag wird — kein langes Konzept-Papier.",
             },
             {
               n: "03",
-              ph: "Ship",
+              ph: "Bauen + Launch",
               wk: "Tag 7–10",
-              h: "Bauen. Launchen. Instrumentieren.",
-              s: "Auf deine Domain. Mit Analytics, Cohort-Tracking, Agent-Layer. Deine Wettbewerber diskutieren noch die Farbpalette.",
+              h: "Bauen. Live schalten. Messen.",
+              s: "Auf deine Domain. Mit einfacher Statistik (Plausible), Mobil-Tempo geprüft, Google + KI sauber eingestellt.",
             },
             {
               n: "04",
-              ph: "Compound",
+              ph: "14 Tage danach",
               wk: "Tag 11+",
-              h: "Du am Strand.",
-              s: "Laptop offen, Graph klettert. Wir halten den Retainer — Experimente, Lifecycle, Kohorten-Receipts. Auf Wunsch.",
+              h: "Ich bleibe noch da.",
+              s: "Falls nach dem Launch noch was auffällt oder du eine kleine Änderung brauchst — bin ich noch 14 Tage erreichbar. Ohne Extra-Rechnung.",
             },
           ].map((row) => (
             <Reveal key={row.n}>
@@ -137,11 +137,11 @@ export default function MethodPage() {
         </div>
       </Section>
 
-      <Section chapter="02 Plan" title="Tag für Tag, was passiert" date="2026 / 02" tone="base">
+      <Section chapter="02 Plan" title="Was an welchem Tag passiert" date="" tone="base">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[920px]">
             Zehn Tage. Zehn{" "}
-            <em className="font-display italic">Liefergegenstände</em>.
+            <em className="font-display italic">konkrete Sachen</em>.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -149,23 +149,23 @@ export default function MethodPage() {
             className="mt-6 text-[17px] leading-[1.55] max-w-[640px]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Damit du das deinem Vorstand zeigen kannst — und damit du am elften Tag exakt weißt,
-            was du in der Hand hast.
+            Damit du jederzeit weißt, wo wir gerade stehen — und am 11. Tag genau weißt, was du
+            in der Hand hast.
           </p>
         </Reveal>
 
         <div className="mt-12">
           {[
-            { d: "Tag 01", t: "Frame-Call", x: "30 Min Async-Loom oder Live. Wir kommen mit einer Hypothese.", g: "Frame" },
-            { d: "Tag 02", t: "Kategorie-These", x: "Eine Seite: Wer du bist, wer dich kaufen muss, was den Buyer abhält. Zur Freigabe.", g: "Frame" },
-            { d: "Tag 03", t: "Brand-Vokabular", x: "Voice-Charter + 12 Forbidden Phrases. Maschinenlesbar.", g: "Shape" },
-            { d: "Tag 04", t: "DESIGN.md v0.1", x: "Tokens, Tonalität, Motion-Rules. In deinem Repo.", g: "Shape" },
-            { d: "Tag 05", t: "Section-Logik", x: "Welche 12 Sektionen deine Landing trägt. Mit AHA-Punkt pro Sektion.", g: "Shape" },
-            { d: "Tag 06", t: "Live-Site Staging", x: "Klickbar auf Vercel. Inkl. Hero, Proof, Offer. Du siehst Donnerstag, was Donnerstag wird.", g: "Shape" },
-            { d: "Tag 07", t: "Agent-Layer", x: "schema.org, llms.txt, Cluster-Brief. Damit Claude & Co. dich verstehen.", g: "Ship" },
-            { d: "Tag 08", t: "Content-Pass", x: "Final-Copy auf Headlines, Subheads, Microcopy. Auf deine Stimme kalibriert.", g: "Ship" },
-            { d: "Tag 09", t: "Instrumentierung", x: "Plausible/PostHog, Lead-Routing, Calendar-Bridge. Analytics ab Launch.", g: "Ship" },
-            { d: "Tag 10", t: "Launch", x: "DNS-Cutover. Wir bleiben am Standby. 24h-Hypercare.", g: "Ship" },
+            { d: "Tag 01", t: "Briefing-Gespräch", x: "30 Minuten, am Telefon oder als Video. Du erzählst mir, was du machst. Ich komme mit einem ersten Vorschlag.", g: "Briefing" },
+            { d: "Tag 02", t: "Positionierung", x: "Eine Seite: wer du bist, wer dich kaufen soll, warum dich. In klaren deutschen Worten, zur Freigabe.", g: "Briefing" },
+            { d: "Tag 03", t: "Tonalität", x: "Wie deine Marke redet. Beispielsätze, No-Go-Wörter, ein Pitch-Satz. So, dass es auch jemand übernehmen kann, der nicht du ist.", g: "Entwurf" },
+            { d: "Tag 04", t: "Logo + Farben", x: "Erster Entwurf für Logo, Farbpalette (5–6 Farben), Schriften. Hell + dunkel, alles aufeinander abgestimmt.", g: "Entwurf" },
+            { d: "Tag 05", t: "Seitenaufbau", x: "Welche Abschnitte trägt deine Seite? Hero, Beweis, Angebot, FAQ — jeder mit klarem Zweck.", g: "Entwurf" },
+            { d: "Tag 06", t: "Erste klickbare Seite", x: "Live auf einer Test-Adresse. Klickbar, mit ersten Inhalten. Du siehst Donnerstag, was Donnerstag wird.", g: "Entwurf" },
+            { d: "Tag 07", t: "Google + KI vorbereiten", x: "Technik im Hintergrund: damit Google dich findet und ChatGPT & Co. dich nennen können.", g: "Launch" },
+            { d: "Tag 08", t: "Texte feilen", x: "Headlines, Hauptbotschaften, kleine Hinweise — auf deine Stimme abgestimmt. Klares Deutsch, keine Floskeln.", g: "Launch" },
+            { d: "Tag 09", t: "Statistik einrichten", x: "Plausible einbauen, damit du siehst, was auf der Seite passiert. Datenschutzkonform, ohne Cookie-Banner-Stress.", g: "Launch" },
+            { d: "Tag 10", t: "Live schalten", x: "Domain umschalten. Ich bleibe am Tag bereit, falls noch etwas auffällt. 24 Stunden Hypercare.", g: "Launch" },
           ].map((day, i) => (
             <Reveal key={day.d} delay={i * 30}>
               <div
@@ -219,7 +219,7 @@ export default function MethodPage() {
         </div>
       </Section>
 
-      <Section chapter="03 Tempo" title="Warum 10 Tage kein Risiko sind" date="2026 / 03" tone="raised">
+      <Section chapter="03 Tempo" title="Warum 10 Tage kein Risiko sind" date="" tone="raised">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[960px]">
             Schnell heißt nicht hektisch.
@@ -232,8 +232,8 @@ export default function MethodPage() {
             className="mt-6 text-[17px] leading-[1.55] max-w-[680px]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Agenturen sind langsam, weil sie bei null anfangen, im Komitee entscheiden und nach dem
-            Kickoff an Junioren übergeben. Wir sind schnell aus den umgekehrten Gründen — nicht trotz
+            Agenturen sind langsam, weil sie jedes Mal bei null anfangen, im Team entscheiden und nach dem
+            ersten Termin an Junioren weitergeben. Ich bin schnell aus den umgekehrten Gründen — nicht trotz
             Qualität, sondern wegen ihr.
           </p>
         </Reveal>
@@ -241,20 +241,20 @@ export default function MethodPage() {
         <div className="mt-12 grid md:grid-cols-2 gap-5">
           {[
             {
-              t: "Kein Discovery-Theater",
-              d: "Kein sechswöchiger, bezahlter Workshop, an dessen Ende ein Foliensatz steht. Wir kommen am Tag 1 mit einer Hypothese — du sagst Ja oder Nein.",
+              t: "Keine wochenlangen Workshops",
+              d: "Kein sechswöchiger, bezahlter Workshop, an dessen Ende ein PDF steht. Ich komme am Tag 1 mit einem Vorschlag — du sagst ja oder nein.",
             },
             {
-              t: "Ein Operator baut",
-              d: "Keine Übergabe an Junioren, kein Account-Manager als Telefonzentrale. Der, der den ersten Call führt, schreibt auch die letzte Zeile Code.",
+              t: "Einer baut",
+              d: "Keine Übergabe an Junioren, kein Account-Manager als Telefonzentrale. Der, der den ersten Call führt, baut auch die Seite.",
             },
             {
-              t: "System statt Nullpunkt",
-              d: "Tokens, Motion-Rules, Agent-Layer-Patterns existieren. Wir kalibrieren sie auf deine Marke — wir erfinden sie nicht jedes Mal neu.",
+              t: "Eingespieltes System statt Nullpunkt",
+              d: "Layouts, Bausteine, Technik im Hintergrund — alles vorhanden. Ich kalibriere es auf deine Marke. Ich erfinde es nicht jedes Mal neu.",
             },
             {
-              t: "Entscheidung in einer Hand",
-              d: "Keine 19 Stakeholder, keine Freigabe-Schleifen über drei Wochen. Founder-led entscheidet in Stunden, nicht in Sprints.",
+              t: "Du entscheidest, nicht ein Komitee",
+              d: "Keine 19 Stakeholder, keine Freigabe-Schleifen über drei Wochen. Du entscheidest in Stunden, nicht in Sprints.",
             },
           ].map((r) => (
             <Reveal key={r.t}>
@@ -319,11 +319,11 @@ export default function MethodPage() {
               </thead>
               <tbody>
                 {[
-                  { c: "Zeit bis live", v: ["10 Werktage", "8–16 Wochen", "Unklar, oft offen", "3–6 Monate Ramp-up"] },
-                  { c: "Preis", v: ["Festpreis, vorab", "Tagessatz + Scope-Creep", "Günstig, aber Risiko", "Gehalt + Lohnnebenkosten"] },
-                  { c: "Wer baut", v: ["Senior-Operator direkt", "Junior nach Kickoff", "Eine Person, ein Skill", "Du musst führen"] },
-                  { c: "Agent-Layer", v: ["Inklusive", "Kennt den Begriff selten", "Selten Thema", "Aufbau-Projekt"] },
-                  { c: "Wer trägt das Risiko", v: ["Wir — Tag 10 oder Geld zurück", "Du", "Du", "Fehlbesetzung kostet dich"] },
+                  { c: "Zeit bis live", v: ["10 Werktage", "8–16 Wochen", "Unklar, oft offen", "3–6 Monate Einarbeitung"] },
+                  { c: "Preis", v: ["8.900 €, vorab", "Tagessatz + Mehrkosten", "Günstig, aber Risiko", "Gehalt + Nebenkosten"] },
+                  { c: "Wer baut", v: ["Ich, von Anfang bis Ende", "Junior nach dem ersten Call", "Eine Person, eine Stärke", "Du musst führen"] },
+                  { c: "KI + Google", v: ["Gleich richtig drin", "Selten Thema", "Selten Thema", "Du musst es selbst aufbauen"] },
+                  { c: "Wer trägt das Risiko", v: ["Ich — Tag 10 oder Geld zurück", "Du", "Du", "Fehl­besetzung kostet dich"] },
                 ].map((row) => (
                   <tr key={row.c}>
                     <td
@@ -362,8 +362,9 @@ export default function MethodPage() {
       <Section chapter="04 Pricing" title="Was es kostet" date="2026 / 04" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[940px]">
-            Festpreis. Festumfang. Fester{" "}
-            <em className="font-display italic">Liefertag</em>.
+            Eine Zahl. Ein Paket.
+            <br />
+            Ein <em className="font-display italic">Liefertag</em>.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -371,52 +372,14 @@ export default function MethodPage() {
             className="mt-6 text-[17px] leading-[1.55] max-w-[640px]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Drei Pakete. Keine Stundensätze. Keine Discovery-Aufschläge. Du bekommst die Zahl, die du
-            an deinen CFO weiterreichst, in 6h nach Brief-Eingang.
+            Keine Tagessätze. Keine versteckten Kosten. Du weißt vorher, was du bekommst und was du zahlst.
           </p>
         </Reveal>
 
-        {/* Asymmetric pricing: System dominant, Sprint + Compound flanking smaller */}
-        <div
-          className="mt-10 grid gap-5"
-          style={{
-            gridTemplateColumns: "1fr",
-          }}
-        >
-          {/* Hero: System */}
+        <div className="mt-10">
           <Reveal>
             <PricingHero />
           </Reveal>
-
-          {/* Two flanking lighter packages */}
-          <div className="grid md:grid-cols-2 gap-5">
-            <Reveal delay={80}>
-              <PricingFlank
-                name="Sprint"
-                price="Festpreis"
-                dur="5 Tage"
-                cta="Audit starten"
-                what={[
-                  "Eine Sektion (Brand · Site · Agent-Layer)",
-                  "Audit + 1 Pivot-Empfehlung",
-                  "Async Loom + 1 Working Session",
-                ]}
-              />
-            </Reveal>
-            <Reveal delay={160}>
-              <PricingFlank
-                name="Compound"
-                price="Monatlich"
-                dur="Retainer"
-                cta="Audit starten"
-                what={[
-                  "Experimente · Lifecycle · Paid",
-                  "Cohort-Receipts · Launch-Calendar",
-                  "Operator-Standby (≤ 6h Reply)",
-                ]}
-              />
-            </Reveal>
-          </div>
         </div>
 
         {/* Guarantee echo — the risk reversal, linked to the full contract */}
@@ -436,13 +399,13 @@ export default function MethodPage() {
               Tag 10 — oder Geld zurück.
             </span>
             <span style={{ color: "var(--ink-muted)", fontSize: 15, lineHeight: 1.5 }}>
-              Live am zehnten Werktag, sonst voller Festpreis zurück. Die Deadline ist unser Risiko.
+              Live am 10. Werktag, sonst voller Preis zurück. Das Risiko trage ich, nicht du.
             </span>
             <span
               className="ml-auto group-hover:text-[var(--ink-yellow)] transition-colors"
               style={{ color: "var(--ink-cream)", fontSize: 13 }}
             >
-              Liefervertrag lesen →
+              Details lesen →
             </span>
           </Link>
         </Reveal>
@@ -453,9 +416,9 @@ export default function MethodPage() {
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 text-center">
           <Reveal>
             <HeadlineDisplay size="lg" className="mx-auto max-w-[840px]">
-              Dein Q4 läuft.
+              Dein Geschäft läuft.
               <br />
-              <em className="gradient-text">Soll deine Marke mitlaufen?</em>
+              <em className="gradient-text">Soll deine Seite mitlaufen?</em>
             </HeadlineDisplay>
           </Reveal>
           <Reveal delay={80}>
@@ -463,8 +426,8 @@ export default function MethodPage() {
               className="mt-6 mx-auto max-w-[560px] text-[17px] leading-[1.55]"
               style={{ color: "var(--ink-muted)" }}
             >
-              Starte mit dem kostenlosen Audit — du siehst in 15 Sekunden, wie sichtbar du heute für
-              Claude, GPT &amp; Perplexity bist. Wenn das passt, sprechen wir.
+              Schauen wir uns deine Seite erst mal an — in 15 Sekunden, gratis, ohne Login.
+              Du kriegst eine klare Einschätzung: was geht, was nicht. Wenn das passt, sprechen wir.
             </p>
           </Reveal>
           <Reveal delay={140}>
@@ -489,7 +452,7 @@ export default function MethodPage() {
                 letterSpacing: "0.06em",
               }}
             >
-              2 Slots offen · Q3/2026 · Antwort in ≤ 6h
+              2 Plätze frei · Q3/2026 · Antwort in 6 Stunden
             </p>
           </Reveal>
         </div>
@@ -502,10 +465,10 @@ export default function MethodPage() {
 
 function PricingHero() {
   const includes = [
-    "DESIGN.md · Tokens · Voice · Forbidden Phrases",
-    "Live-Site (12 Sektionen, deine Domain, Vercel)",
-    "Agent-Layer · schema.org · llms.txt · Cluster-Brief",
-    "30 Tage Compound-Standby nach Launch",
+    "Logo · 5–6 Farben · Schriften (hell + dunkel)",
+    "Website (6–8 Sektionen, deine Domain)",
+    "Klare deutsche Texte ohne Marketing-Sprech",
+    "Technik für Google + KI + Mobil-Tempo",
   ];
   return (
     <div
@@ -530,7 +493,7 @@ function PricingHero() {
               borderRadius: 999,
             }}
           >
-            EMPFOHLEN
+            DAS PAKET
           </span>
           <span
             style={{
@@ -540,7 +503,7 @@ function PricingHero() {
               letterSpacing: "0.06em",
             }}
           >
-            2 Slots offen · Q3/2026
+            2 Plätze frei · Q3/2026
           </span>
         </div>
         <p
@@ -552,7 +515,7 @@ function PricingHero() {
             lineHeight: 1,
           }}
         >
-          System.
+          Marke + Website.
         </p>
         <p
           className="mt-3 max-w-[480px]"
@@ -562,21 +525,20 @@ function PricingHero() {
             lineHeight: "24px",
           }}
         >
-          Das ganze Paket. Brand · Site · Agent-Layer. Ein Operator, ein Festpreis, ein Liefertag —
-          live am Tag 10.
+          Logo, Farben, Schriften, Texte, Website. Alles aus einer Hand. In 10 Werktagen live auf deiner Domain.
         </p>
       </div>
       <div className="md:col-span-5">
         <p
           className="font-display tnum"
           style={{
-            fontSize: 52,
+            fontSize: 60,
             letterSpacing: "-0.025em",
             color: "var(--bg-base)",
             lineHeight: 0.95,
           }}
         >
-          Festpreis
+          8.900&nbsp;€
         </p>
         <p
           style={{
@@ -587,7 +549,7 @@ function PricingHero() {
             marginTop: 6,
           }}
         >
-          Zahl in &lt; 6h nach Brief · 10 Tage Liefertermin
+          Fester Preis · 10 Werktage · Tag 10 oder Geld zurück
         </p>
       </div>
 
@@ -651,88 +613,6 @@ function PricingHero() {
           </Link>
         </div>
       </div>
-    </div>
-  );
-}
-
-function PricingFlank({
-  name,
-  price,
-  dur,
-  what,
-  cta,
-}: {
-  name: string;
-  price: string;
-  dur: string;
-  what: string[];
-  cta: string;
-}) {
-  return (
-    <div className="card h-full flex flex-col">
-      <div className="flex items-baseline justify-between">
-        <p
-          className="font-display"
-          style={{
-            fontSize: 26,
-            letterSpacing: "-0.02em",
-            color: "var(--ink-yellow)",
-          }}
-        >
-          {name}
-        </p>
-        <span
-          style={{
-            color: "var(--ink-dim)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.06em",
-          }}
-        >
-          {dur}
-        </span>
-      </div>
-      <p
-        className="font-display tnum mt-3"
-        style={{
-          fontSize: 36,
-          letterSpacing: "-0.025em",
-          color: "var(--ink-yellow)",
-          lineHeight: 1,
-        }}
-      >
-        {price}
-      </p>
-
-      <ul className="mt-6 space-y-2 flex-1">
-        {what.map((w) => (
-          <li
-            key={w}
-            className="flex items-start gap-3"
-            style={{
-              color: "var(--ink-cream)",
-              fontSize: 14,
-              lineHeight: "22px",
-            }}
-          >
-            <span
-              className="mt-[7px] shrink-0"
-              style={{
-                width: 5,
-                height: 5,
-                background: "var(--ink-yellow)",
-                borderRadius: 1,
-              }}
-            />
-            {w}
-          </li>
-        ))}
-      </ul>
-
-      <Link href="/audit" className="btn-secondary mt-7">
-        {cta}
-        <span aria-hidden>→</span>
-      </Link>
     </div>
   );
 }

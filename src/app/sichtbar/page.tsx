@@ -7,54 +7,56 @@ import { AssetSlot } from "@/components/AssetSlot";
 import { JsonLd, breadcrumbLd, serviceLd, faqPageLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Sichtbar in der KI-Ära — oder unsichtbar",
+  title: "Mehr Anfragen über deine Website — in 10 Werktagen",
   description:
-    "Bald sucht niemand mehr — man fragt. Empfiehlt die KI dann dich oder deinen Wettbewerber? Marke, Site und Agent-Layer, live in 10 Tagen. Festpreis. Tag 10 oder Geld zurück.",
+    "Eine Marke und Website, die seriös aussieht, bei Google gefunden wird und mehr Anfragen bringt. Logo, Farben, Schriften, Texte und Website — alles aus einer Hand. 8.900 € Festpreis. Tag 10 oder Geld zurück.",
   alternates: { canonical: "/sichtbar" },
   openGraph: {
-    title: "Bald sucht niemand mehr. Man fragt.",
+    title: "Mehr Anfragen über deine Website — in 10 Werktagen",
     description:
-      "Empfiehlt die KI dich — oder deinen Wettbewerber? Marke · Site · Agent-Layer, live in 10 Tagen. Festpreis, Tag 10 oder Geld zurück.",
+      "Marke + Website + klare Texte, aus einer Hand. 8.900 € Festpreis. Tag 10 live oder Geld zurück.",
     type: "website",
     url: "https://beuwy.com/sichtbar",
   },
   twitter: { card: "summary_large_image" },
 };
 
-/* ---------- FAQ — the skeptical buyer's real objections ---------- */
 const faq: { q: string; a: string }[] = [
   {
-    q: "10 Tage — geht da Qualität nicht flöten?",
-    a: "Umgekehrt. Schnell heißt vorbereitet, nicht hektisch. Kein bezahltes Discovery-Theater, keine Junior-Übergabe, kein Komitee. Ein Senior-Operator baut direkt auf einem System, das schon existiert. Die Wochen, die Agenturen verbrauchen, sind Abstimmung — nicht Arbeit.",
+    q: "Was kostet das genau?",
+    a: "8.900 €. Fester Preis. Eine Zahl, kein Tagessatz, keine versteckten Kosten. Du weißt vorher, was du bekommst und was du zahlst.",
   },
   {
-    q: "Garantiert ihr Rankings oder Umsatz?",
-    a: "Nein — und wer das tut, lügt. Brand ist ein Faktor neben Produkt, Timing und Sales. Wir garantieren die Auslieferung am Tag 10 und 30 Tage Begleitung danach. Was wir gebaut haben, zeigen wir mit Quellen. Was wir nicht beeinflusst haben, behaupten wir nicht.",
+    q: "Wirklich in 10 Werktagen?",
+    a: "Ja. Zwei Wochen, dann steht alles auf deiner Domain. Das geht, weil ich an einem Projekt zur Zeit arbeite und mit einem eingespielten System starte — nicht bei null.",
   },
   {
-    q: "Was kostet das?",
-    a: "Festpreis pro Slot — eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie nach dem ersten Call, nachdem wir deinen Brief gelesen haben. Spätestens ≤ 6h nach Brief-Eingang. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen Preis ausspuckt. Rechne gegen: eine Agentur über 3 Monate mit Tagessätzen + Scope-Creep, ein Inhouse-Hire mit Gehalt + Lohnnebenkosten + Ramp-up, oder eine veraltete Site, die dich gerade Anfragen kostet.",
+    q: "Garantierst du, dass ich mehr Kunden bekomme?",
+    a: "Nein — und wer das tut, lügt. Wie viele Kunden kommen, hängt von deinem Produkt, deinem Preis und deinem Verkauf ab. Ich garantiere, dass die Marke und die Seite am Tag 10 fertig auf deiner Domain stehen — oder du bekommst dein Geld zurück.",
   },
   {
-    q: "Was, wenn die KI-Suche doch nicht so schnell kommt?",
-    a: "Dann hast du trotzdem eine schnelle, moderne, indizierbare Website auf deiner Domain — den Standard, den Google seit Jahren belohnt. Der Agent-Layer ist die Versicherung obendrauf, nicht die einzige Wette. Du verlierst nichts, wenn du früh dran bist. Du verlierst alles, wenn du zu spät bist.",
+    q: "Ich habe schon eine Website. Fangen wir bei null an?",
+    a: "Nein. Was gut ist, übernehmen wir. Texte, Bilder, alles was funktioniert, fließt ein. Was nicht passt, fliegt raus. Du verlierst nichts Gutes.",
   },
   {
-    q: "Können wir danach selbst Änderungen machen?",
-    a: "Ja. Die Site liegt in deinem Repo, der Content ist über einen visuellen Editor pflegbar. Keine Geiselhaft beim Dienstleister, kein Stundensatz für jede Komma-Änderung.",
+    q: "Wer arbeitet an meinem Projekt?",
+    a: "Ich. Alexander. Kein Account-Manager dazwischen, keine Übergabe an einen Junior. Du redest mit dem, der auch baut.",
   },
   {
-    q: "Ist das DSGVO-konform aufgesetzt?",
-    a: "Von Anfang an: Impressum, Datenschutz, sichere Hosting-Basis auf Vercel, keine Tracker-Schleudern. Compliance ist eingebauter Standard, keine Dauerbaustelle.",
+    q: "Was ist mit ChatGPT, Google AI und so?",
+    a: "Baue ich gleich richtig mit ein. Heißt: deine Seite ist so aufgestellt, dass auch KI dich nennt, wenn jemand sie fragt. Ist heute ein kleiner Vorteil — wird in den nächsten Jahren wichtiger.",
+  },
+  {
+    q: "Können wir später selbst Sachen ändern?",
+    a: "Ja. Die Seite hat einen einfachen Editor — du kannst Texte und Bilder selbst tauschen. Keine Geiselhaft beim Dienstleister, keine Stundenrechnung für jede Komma-Änderung.",
   },
 ];
 
-/* ---------- Proof — every figure cite-able ---------- */
 const proof: { prefix?: string; value: number; suffix?: string; label: string; source: string }[] = [
-  { prefix: "€", value: 160, suffix: "M", label: "Vision — Markenarchitektur über Jahre", source: "Mandat" },
-  { value: 2240, suffix: "", label: "Königswege — von 170 auf 2.240 Partner", source: "Mandat" },
-  { prefix: "€", value: 48.4, suffix: "M", label: "acta — 315 Wohnungen, Ø Ticket €153.842", source: "2023" },
-  { prefix: "", value: 1, suffix: "M+", label: "PURELEI — Follower seit Erstauftritt", source: "Instagram" },
+  { prefix: "€", value: 160, suffix: "M", label: "Vision · Joint Venture mit KKR", source: "vision.de" },
+  { value: 2240, suffix: "", label: "Königswege · von 170 Partnern", source: "cash-online 2024" },
+  { prefix: "€", value: 48.4, suffix: "M", label: "acta · 315 Wohnungen verkauft", source: "intern, 2023–2025" },
+  { prefix: "", value: 1, suffix: "M+", label: "PURELEI · Follower seit 2018", source: "Instagram public" },
 ];
 
 export default function SichtbarPage() {
@@ -64,7 +66,7 @@ export default function SichtbarPage() {
         data={[
           breadcrumbLd([
             { name: "beuwy", href: "/" },
-            { name: "Sichtbar in der KI-Ära", href: "/sichtbar" },
+            { name: "Mehr Anfragen über deine Website", href: "/sichtbar" },
           ]),
           serviceLd,
           faqPageLd(faq)!,
@@ -72,7 +74,7 @@ export default function SichtbarPage() {
       />
 
       {/* ============================================================
-          HERO — the hook + open loop (Angle 9: "KI frisst die Suche")
+          HERO — customer pain, not AI hype
          ============================================================ */}
       <section className="relative pt-[140px] md:pt-[180px] pb-[72px] overflow-hidden">
         <div
@@ -83,15 +85,15 @@ export default function SichtbarPage() {
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <Reveal>
             <span className="eyebrow">
-              <span className="num">/</span> Für Marken, die in der KI-Ära gefunden werden wollen
+              <span className="num">/</span> Marke + Website · 8.900 € · in 10 Werktagen
             </span>
           </Reveal>
           <Reveal delay={80}>
             <h1 className="h-display-xl mt-7 max-w-[1080px]">
-              Bald sucht niemand mehr.
+              Eine Marke und Website,
               <br />
-              <em className="font-display italic">Man fragt.</em>{" "}
-              <em className="gradient-text">Wirst du empfohlen?</em>
+              die <em className="font-display italic">seriös aussieht</em> —{" "}
+              <em className="gradient-text">und mehr Anfragen bringt.</em>
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -99,16 +101,14 @@ export default function SichtbarPage() {
               className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
               style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              In 18 Monaten entscheidet nicht mehr eine Liste blauer Links, wer dich findet — sondern
-              ein Agent, der <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>eine</em> Antwort gibt.
-              Und in dieser Antwort gibt es keinen zweiten Platz. Die Frage ist nur, mit wessen Marke
-              er trainiert wird.
+              Logo, Farben, Schriften, Texte und Website. Alles aus einer Hand. Du redest direkt mit mir.
+              In 10 Werktagen live auf deiner Domain. Oder du bekommst dein Geld zurück.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link href="/audit" className="btn-primary">
-                Kostenlosen KI-Audit starten
+                Kostenlosen Audit starten
                 <span aria-hidden>→</span>
               </Link>
               <Link href="#operator" className="btn-secondary">
@@ -127,55 +127,52 @@ export default function SichtbarPage() {
                 letterSpacing: "0.06em",
               }}
             >
-              Festpreis · live in 10 Werktagen · Tag 10 oder Geld zurück
+              8.900 € Festpreis · in 10 Werktagen live · Tag 10 oder Geld zurück
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* ============================================================
-          01 — DIE VERSCHIEBUNG — proportionate, proof-backed agitation
+          01 — DIAGNOSE — was wir immer wieder hören
          ============================================================ */}
-      <Section chapter="01 Lage" title="Drei Verschiebungen, gleichzeitig" date="2026 / 01" tone="raised">
+      <Section chapter="01 Was wir hören" title="Was Kunden im ersten Gespräch sagen" date="" tone="raised">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Der Boden bewegt sich.
+            Wenn du dich
             <br />
-            <em className="font-display italic">Mit Zahlen, nicht mit Meinung.</em>
+            <em className="font-display italic">hier wiedererkennst</em>, sind wir richtig für dich.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
           <p className="mt-6 text-[17px] leading-[1.55] max-w-[680px]" style={{ color: "var(--ink-muted)" }}>
-            Kein Weltuntergang, keine Panik. Nur drei Entwicklungen, die belegt sind — und die sich
-            gerade überlagern. Wer sie zusammen liest, sieht das Fenster.
+            Das sind die Sätze, die wir aus jedem ersten Gespräch mitnehmen. In deinen Worten, nicht in
+            unseren. Wenn du an einer Stelle nickst, sind wir wahrscheinlich richtig für dich.
           </p>
         </Reveal>
 
         <div className="mt-12 grid md:grid-cols-3 gap-5">
           {[
             {
-              h: "Die Suche kippt",
-              big: "8 %",
-              bigLabel: "Klickrate, sobald eine KI-Antwort oben steht — ohne KI sind es 15 %.",
-              body: "Der Kanal, auf den du jahrelang gebaut hast, schrumpft strukturell. Die Antwort steht im Ergebnis, der Klick bleibt aus.",
-              src: "Pew Research · Juli 2025 · Gartner prognostiziert −25 % Suchvolumen bis 2026",
+              h: "Wenig Anfragen",
+              big: "01",
+              bigLabel: "Meine Seite bringt fast keine.",
+              body: "Du gehst aus guten Gesprächen, der Buyer schickt den Link an seinen Partner — und dann passiert nichts mehr. Die Seite schließt das Gespräch nicht.",
             },
             {
-              h: "Die KI-Lücke",
-              big: "64 %",
-              bigLabel: "der deutschen Unternehmen nennen sich selbst Digitalisierungs-Nachzügler.",
-              body: "Nur jedes fünfte Unternehmen nutzt KI — bei kleinen Firmen 17 %. Die größte Hürde ist nicht Geld, sondern fehlendes Wissen.",
-              src: "Bitkom · März 2025 · Destatis · November 2024",
+              h: "Google",
+              big: "02",
+              bigLabel: "Werde bei Google kaum gefunden.",
+              body: "Wer dich nicht über eine Empfehlung kennt, findet dich nicht. Du verlierst die Leute, die dich gerade jetzt brauchen würden.",
             },
             {
-              h: "Die Flaute",
-              big: "+10,3 %",
-              bigLabel: "mehr Unternehmensinsolvenzen 2025 — höchster Stand seit 2014.",
-              body: "Zwei Rezessionsjahre in Folge. Wer jetzt modernisiert, steht beim Aufschwung vorn. Wer wartet, wartet allein.",
-              src: "Destatis · 2025/2026",
+              h: "Aussehen",
+              big: "03",
+              bigLabel: "Sieht aus wie von 2012.",
+              body: "Du weißt, dass deine Seite nicht zeigt, wer du heute bist. Und dass das deine Kunden auf dem Handy genauso sehen wie du.",
             },
-          ].map((c, i) => (
-            <Reveal key={c.h} delay={80 + i * 80}>
+          ].map((c) => (
+            <Reveal key={c.h}>
               <div className="card h-full flex flex-col">
                 <span
                   style={{
@@ -190,27 +187,15 @@ export default function SichtbarPage() {
                 </span>
                 <p
                   className="font-display mt-4"
-                  style={{ fontSize: 52, letterSpacing: "-0.03em", color: "var(--ink-yellow)", lineHeight: 1 }}
+                  style={{ fontSize: 44, letterSpacing: "-0.03em", color: "var(--ink-yellow)", lineHeight: 1 }}
                 >
                   {c.big}
                 </p>
-                <p className="mt-3" style={{ color: "var(--ink-cream)", fontSize: 14, fontWeight: 510, lineHeight: 1.4 }}>
+                <p className="mt-3" style={{ color: "var(--ink-cream)", fontSize: 16, fontWeight: 510, lineHeight: 1.4 }}>
                   {c.bigLabel}
                 </p>
                 <p className="mt-4 flex-1" style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}>
                   {c.body}
-                </p>
-                <p
-                  className="mt-5"
-                  style={{
-                    color: "var(--ink-dim)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
-                    letterSpacing: "0.04em",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Quelle · {c.src}
                 </p>
               </div>
             </Reveal>
@@ -219,16 +204,16 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          02 — ES LIEGT NICHT AN DIR — reframe + agency pain
+          02 — DAS PROBLEM IST NICHT DU
          ============================================================ */}
-      <Section chapter="02 Diagnose" title="Warum die alte Lösung nicht mehr greift" date="2026 / 02" tone="base">
+      <Section chapter="02 Diagnose" title="Es liegt nicht an dir" date="" tone="base">
         <div className="grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-7">
             <Reveal>
               <HeadlineDisplay size="lg" className="max-w-[640px]">
                 Du hast nichts falsch gemacht.
                 <br />
-                Die <em className="gradient-text">Regeln</em> haben sich geändert.
+                Deine <em className="gradient-text">Seite</em> arbeitet einfach nicht für dich.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
@@ -237,18 +222,19 @@ export default function SichtbarPage() {
                 style={{ color: "var(--ink-cream)" }}
               >
                 <p>
-                  Die Website, die für Google gebaut wurde, ist für einen Agenten unsichtbar. Er liest
-                  keine schönen Bilder. Er liest Struktur, Quellen, maschinenlesbare Bedeutung — und
-                  davon hat eine klassische Seite nichts.
+                  Die meisten Websites sehen aus wie ein Lebenslauf. Sie listen auf, was die Firma macht.
+                  Sie überzeugen niemanden. Eine gute Seite ist anders: sie führt den Buyer
+                  Schritt für Schritt zu der Antwort <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>„ja, das passt zu uns".</em>
                 </p>
                 <p>
-                  Und die Agentur, die dir <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>drei Monate</em> und
-                  einen fünfstelligen Betrag berechnet, kennt das Wort Agent-Layer nicht. Sie diskutiert
-                  noch die Farbpalette, während deine Kategorie gerade neu sortiert wird.
+                  Und die Agentur, die dir drei Monate und eine fünfstellige Summe berechnet, hat oft drei
+                  Junioren, die parallel an deinem Projekt knabbern. Du wartest, korrigierst, wartest wieder.
+                  Am Ende stehen drei Logos und ein Stilbruch zwischen Hero und Footer.
                 </p>
                 <p style={{ color: "var(--ink-muted)" }}>
-                  Das ist keine Schuld. Das ist Timing. Und Timing ist das Einzige, was man bei diesem
-                  Thema nicht nachkaufen kann.
+                  Mein Modell ist anders: ich arbeite an einem Projekt zur Zeit. Ich habe ein eingespieltes System,
+                  das ich auf dich kalibriere. Du bekommst eine Marke und eine Seite, die zueinander passen.
+                  In zwei Wochen. Zum festen Preis.
                 </p>
               </div>
             </Reveal>
@@ -260,10 +246,10 @@ export default function SichtbarPage() {
                   <span className="num">/</span> Der ehrliche Vergleich
                 </p>
                 {[
-                  { a: "Veraltete Site", b: "von Agenten nicht lesbar" },
-                  { a: "Agentur-Projekt", b: "8–16 Wochen, fünfstellig, du kannst nichts selbst ändern" },
-                  { a: "Inhouse-Hire", b: "Gehalt + Lohnnebenkosten + Monate Ramp-up" },
-                  { a: "beuwy", b: "10 Werktage, Festpreis, Agent-Layer inklusive" },
+                  { a: "Veraltete Seite", b: "verliert Anfragen ohne dass du es merkst" },
+                  { a: "Agentur-Projekt", b: "8–16 Wochen, fünfstellig, viele Schleifen" },
+                  { a: "Eigener Mitarbeiter", b: "Gehalt + Nebenkosten + Monate Einarbeitung" },
+                  { a: "beuwy", b: "10 Werktage, 8.900 € fester Preis, alles aus einer Hand" },
                 ].map((row, i, arr) => {
                   const isLast = i === arr.length - 1;
                   return (
@@ -299,9 +285,9 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          03 — DER OPERATOR — credibility bridge, moved EARLY
+          03 — DER MACHER
          ============================================================ */}
-      <Section id="operator" chapter="03 Vertrauen" title="Wer das baut" date="2026 / 03" tone="elevated">
+      <Section id="operator" chapter="03 Vertrauen" title="Wer das baut" date="" tone="elevated">
         <div
           aria-hidden
           className="glow-orb glow-orb-yellow"
@@ -311,8 +297,9 @@ export default function SichtbarPage() {
           <div className="md:col-span-7">
             <Reveal>
               <HeadlineDisplay size="lg" className="max-w-[640px]">
-                Ich kenne Kauf­entscheidungen bei hohem Ticket nicht aus einer{" "}
-                <em className="font-display italic">Studie</em>.
+                Ich weiß, wie Kunden eine teure Entscheidung treffen —
+                <br />
+                weil ich sie selbst <em className="font-display italic">auslöse</em>.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
@@ -321,19 +308,20 @@ export default function SichtbarPage() {
                 style={{ color: "var(--ink-cream)" }}
               >
                 <p>
-                  Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2009</em> Brand-Arbeit für
-                  Konzerne — Bosch, Continental, Michelin. Seit{" "}
-                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2017</em> beuwy als Operator-Studio.
+                  Ich bin Alex. Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2009</em> mache ich
+                  Marken — zuerst für Konzerne wie Bosch, Continental und Michelin. Seit{" "}
+                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2017</em> mit beuwy für Gründer
+                  und kleine Firmen.
                 </p>
                 <p>
-                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2023</em> selbst Unternehmer:
-                  315 Wohnungen über Instagram verkauft — mitten in der Zinskrise. Volumen €48,4M, ohne
-                  externes Marketing-Team.
+                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2023</em> war ich selbst Unternehmer:
+                  315 Wohnungen über Instagram verkauft, mitten in der Zinskrise. €48,4M Volumen,
+                  ohne externes Marketing-Team.
                 </p>
                 <p style={{ color: "var(--ink-muted)" }}>
-                  Wenn ich dir sage, was in deiner Marke nicht funktioniert, ist das nicht Theorie. Das
-                  ist die letzte Cohort. Kein Account-Manager dazwischen, keine Junior-Übergabe — ein
-                  Brief, eine Antwort, eine Hand.
+                  Wenn ich dir sage, was an deiner Marke gerade nicht funktioniert, ist das keine Theorie.
+                  Das ist die letzte Verkaufsrunde. Kein Account-Manager dazwischen, keine Übergabe an
+                  einen Junior — ein Brief, eine Antwort, eine Hand.
                 </p>
               </div>
             </Reveal>
@@ -342,22 +330,20 @@ export default function SichtbarPage() {
             <Reveal delay={120}>
               <AssetSlot
                 src="/assets/operator/alexander-puetter.jpg"
-                alt="Alexander Pütter — Founder & Operator von beuwy"
+                alt="Alexander Pütter — Macher von beuwy"
                 aspect="4/3"
-                caption="Alexander Pütter · Operator · Heidelberg"
-                prompt="Editorial founder portrait, late-30s/40s German man, three-quarter angle, calm confident expression, looking slightly off-camera. Warm low-key studio light, deep bordeaux/oxblood background (#1A0404), soft golden rim light. Premium, cinematic, high-end magazine cover quality. Subtle film grain. Not corporate-stocky."
+                caption="Alexander Pütter · Heidelberg"
+                prompt="Editorial founder portrait, late-30s/40s German man, three-quarter angle, calm confident expression. Warm low-key studio light, deep bordeaux/oxblood background (#1A0404), soft golden rim light. Magazine cover quality, subtle film grain. Not corporate-stocky."
                 priority
               />
             </Reveal>
             <Reveal delay={180}>
               <div className="glass p-7">
-                <div
-                  className="grid grid-cols-3 gap-4"
-                >
+                <div className="grid grid-cols-3 gap-4">
                   {[
-                    { v: "16+", l: "Jahre Brand" },
-                    { v: "4×", l: "von 0 zur Kategorie" },
-                    { v: "€300M+", l: "Kunden-Volumen" },
+                    { v: "16+", l: "Jahre Erfahrung" },
+                    { v: "4×", l: "Marken neu aufgebaut" },
+                    { v: "€300M+", l: "im Kundenbuch" },
                   ].map((s) => (
                     <div key={s.l}>
                       <p
@@ -389,41 +375,46 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          04 — WIE ES FUNKTIONIERT — transparent mechanism, no "secret"
+          04 — WAS DRIN IST
          ============================================================ */}
-      <Section chapter="04 Mechanismus" title="Kein Geheim-System. Drei Schichten." date="2026 / 04" tone="base">
+      <Section chapter="04 Angebot" title="Was du am Tag 10 hast" date="" tone="base">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[980px]">
-            Damit ein Agent dich empfiehlt, muss er dich erst{" "}
-            <em className="gradient-text">verstehen</em>.
+            Eine fertige Marke und eine{" "}
+            <em className="gradient-text">live Website</em> auf deiner Domain.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
           <p className="mt-6 text-[17px] leading-[1.55] max-w-[680px]" style={{ color: "var(--ink-muted)" }}>
-            Wir bauen genau das — in drei Schichten, jede maschinenlesbar. Nichts davon ist Magie. Es
-            ist Struktur, die die meisten noch nicht legen.
+            Vier Sachen sind drin. Aus einer Hand. Zum festen Preis.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-5">
+        <div className="mt-12 grid md:grid-cols-2 gap-5">
           {[
             {
               n: "01",
-              t: "DESIGN.md",
-              meta: "Tokens · Voice · Forbidden Phrases",
-              d: "Eine maschinenlesbare Quelle für Identität und Sprache. Wenn ein Agent über deine Marke spricht, redet er aus dieser Datei — nicht aus dem, was er zufällig findet.",
+              t: "Marke",
+              meta: "Logo · 5–6 Farben · Schriften",
+              d: "Ein klarer Look, hell und dunkel. So, dass alles bei dir gleich aussieht — heute und nächstes Jahr.",
             },
             {
               n: "02",
-              t: "Live-Site",
-              meta: "Next.js · Vercel · deine Domain",
-              d: "Schnell, indizierbar, mobil, auf deiner TLD. Der Standard, den Google seit Jahren belohnt — und die Basis, auf der der Agent-Layer überhaupt greift.",
+              t: "Website",
+              meta: "schnell · mobil · deine Domain",
+              d: "6–8 Sektionen, fertig zum Online-gehen. Modern wie die Seiten, die du selbst gerne ansiehst.",
             },
             {
               n: "03",
-              t: "Agent-Layer",
-              meta: "schema.org · llms.txt · Cluster-Brief",
-              d: "Lesbar für Claude, GPT, Perplexity, Google AI Overviews. Plus ein GPT-Audit deiner aktuellen Sichtbarkeit — du siehst schwarz auf weiß, wo du heute stehst.",
+              t: "Texte",
+              meta: "klar · deutsch · auf den Punkt",
+              d: "Headlines, Hauptbotschaften, kleine Hinweise. Ohne Marketing-Sprech, ohne englischen Slogan.",
+            },
+            {
+              n: "04",
+              t: "Technik im Hintergrund",
+              meta: "Google · KI · Tempo",
+              d: "Bei Google findbar, auf dem Handy schnell. Plus: gleich richtig aufgestellt, damit auch ChatGPT & Co. dich nennen, wenn das wichtig wird.",
             },
           ].map((d) => (
             <Reveal key={d.t}>
@@ -458,15 +449,15 @@ export default function SichtbarPage() {
           <p className="mt-10 text-[15px] leading-[1.6] max-w-[640px]" style={{ color: "var(--ink-cream)" }}>
             Am Tag 10 steht das alles live auf deiner Domain.{" "}
             <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Nicht in Figma. Nicht in Notion.</em>{" "}
-            Live, indizierbar, agentenlesbar.
+            Wirklich online.
           </p>
         </Reveal>
       </Section>
 
       {/* ============================================================
-          05 — DER BEWEIS — the proof stack that carries the page
+          05 — BEWEIS
          ============================================================ */}
-      <Section chapter="05 Beweis" title="Track-Record mit Quellen" date="2026 / 05" tone="raised">
+      <Section chapter="05 Beweis" title="Was wir bisher gebaut haben" date="" tone="raised">
         <div
           aria-hidden
           className="glow-orb glow-orb-yellow"
@@ -474,15 +465,15 @@ export default function SichtbarPage() {
         />
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Wir antworten mit Tatsachen,
+            Echte Kunden.
             <br />
-            nicht mit <em className="font-display italic">Adjektiven</em>.
+            Echte Zahlen. <em className="font-display italic">Prüfbare Quellen.</em>
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
           <p className="mt-6 text-[17px] leading-[1.55] max-w-[680px]" style={{ color: "var(--ink-muted)" }}>
-            Vier Mal von null zur Kategorie. Jede Zahl ist nachprüfbar — keine anonymen „10.000
-            zufriedenen Kunden".
+            Vier Mal eine Marke neu aufgebaut. Jede Zahl ist nachprüfbar — keine anonymen
+            „10.000 zufriedenen Kunden".
           </p>
         </Reveal>
 
@@ -513,7 +504,7 @@ export default function SichtbarPage() {
             className="inline-flex items-center gap-2 mt-10 group"
             style={{ color: "var(--ink-cream)", fontSize: 15 }}
           >
-            Alle Cases mit Vorher/Nachher
+            Alle Cases mit Vorher / Nachher
             <span aria-hidden className="group-hover:translate-x-1 transition-transform" style={{ color: "var(--ink-yellow)" }}>
               →
             </span>
@@ -522,12 +513,12 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          06 — DAS ANGEBOT — reasoned value, not hyped anchoring
+          06 — DER PREIS
          ============================================================ */}
-      <Section chapter="06 Angebot" title="Was du bekommst" date="2026 / 06" tone="elevated">
+      <Section chapter="06 Preis" title="Was es kostet" date="" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[980px]">
-            Ein Operator. Ein Festpreis.
+            Eine Zahl. Ein Paket.
             <br />
             Ein <em className="gradient-text">Liefertag</em>.
           </HeadlineDisplay>
@@ -555,24 +546,24 @@ export default function SichtbarPage() {
                     borderRadius: 999,
                   }}
                 >
-                  DAS SYSTEM
+                  DAS PAKET
                 </span>
                 <p
                   className="font-display mt-5"
                   style={{ fontSize: 44, letterSpacing: "-0.025em", color: "var(--bg-base)", lineHeight: 1 }}
                 >
-                  Brand · Site · Agent-Layer.
+                  Marke + Website + Texte.
                 </p>
                 <p className="mt-3 max-w-[480px]" style={{ color: "rgba(33,6,6,0.78)", fontSize: 15, lineHeight: "24px" }}>
-                  Das ganze Paket, live am Tag 10. Plus 30 Tage Compound-Standby nach Launch.
+                  Alles aus einer Hand, live am Tag 10. Plus 14 Tage Begleitung nach dem Launch.
                 </p>
               </div>
               <div className="md:col-span-5">
                 <p
                   className="font-display tnum"
-                  style={{ fontSize: 48, letterSpacing: "-0.025em", color: "var(--bg-base)", lineHeight: 0.95 }}
+                  style={{ fontSize: 60, letterSpacing: "-0.025em", color: "var(--bg-base)", lineHeight: 0.95 }}
                 >
-                  Festpreis
+                  8.900&nbsp;€
                 </p>
                 <p
                   style={{
@@ -583,7 +574,7 @@ export default function SichtbarPage() {
                     marginTop: 6,
                   }}
                 >
-                  Zahl ≤ 6h nach Brief · 10 Werktage Liefertermin
+                  Fester Preis · 10 Werktage
                 </p>
               </div>
               <div className="md:col-span-12">
@@ -592,10 +583,10 @@ export default function SichtbarPage() {
                   style={{ borderTop: "1px solid rgba(33,6,6,0.18)" }}
                 >
                   {[
-                    "DESIGN.md · Tokens · Voice · Forbidden Phrases",
-                    "Live-Site (12 Sektionen, deine Domain, Vercel)",
-                    "Agent-Layer · schema.org · llms.txt · Cluster-Brief",
-                    "GPT-Audit + 30 Tage Compound-Standby",
+                    "Logo · 5–6 Farben · Schriften (hell + dunkel)",
+                    "Website (6–8 Sektionen, deine Domain)",
+                    "Klare deutsche Texte ohne Marketing-Sprech",
+                    "Technik für Google + KI + Tempo",
                   ].map((line, i) => (
                     <div
                       key={line}
@@ -647,9 +638,9 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          07 — DIE GARANTIE — risk reversal, tied to delivery
+          07 — GARANTIE
          ============================================================ */}
-      <Section chapter="07 Garantie" title="Das Risiko der Deadline tragen wir" date="2026 / 07" tone="base">
+      <Section chapter="07 Garantie" title="Das Risiko trage ich" date="" tone="base">
         <Reveal>
           <div
             className="rounded-[16px] p-8 md:p-12 grid md:grid-cols-12 gap-8 items-center"
@@ -677,11 +668,11 @@ export default function SichtbarPage() {
                 Tag 10 — oder Geld zurück.
               </p>
               <p className="mt-4 max-w-[600px] text-[16px] leading-[1.6]" style={{ color: "var(--ink-cream)" }}>
-                Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain,
-                bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes.
+                Wenn die Marke und die Website nicht am 10. Werktag live auf deiner Domain stehen,
+                bekommst du den vollen Preis zurück. Ohne Diskussion. Ohne Kleingedrucktes.
               </p>
               <p className="mt-4 max-w-[600px] text-[13px] leading-[1.6]" style={{ color: "var(--ink-dim)", fontFamily: "var(--font-mono)" }}>
-                Gilt für die Auslieferung — nicht für Rankings oder Umsatz. Die garantiert niemand seriös.
+                Die Garantie gilt für die Lieferung — nicht für Anzahl der Anfragen oder Umsatz. Das verspricht niemand seriös.
               </p>
             </div>
             <div className="md:col-span-4 flex md:justify-end">
@@ -711,14 +702,14 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          08 — EINWÄNDE — the objection handling FAQ
+          08 — FAQ
          ============================================================ */}
-      <Section chapter="08 Einwände" title="Was du jetzt denkst" date="2026 / 08" tone="raised">
+      <Section chapter="08 Fragen" title="Was du jetzt denkst" date="" tone="raised">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[900px]">
-            Die Fragen, die du gerade
+            Die Fragen, die du
             <br />
-            <em className="font-display italic">im Kopf hast</em>.
+            <em className="font-display italic">gerade im Kopf hast</em>.
           </HeadlineDisplay>
         </Reveal>
 
@@ -757,22 +748,22 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          09 — SCARCITY — real, not fake
+          09 — VERFÜGBARKEIT
          ============================================================ */}
-      <Section chapter="09 Verfügbarkeit" title="Sechs Mandate pro Jahr" date="2026 / 09" tone="elevated">
+      <Section chapter="09 Verfügbarkeit" title="Wie viele Projekte gleichzeitig" date="" tone="elevated">
         <div className="grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
             <Reveal>
               <HeadlineDisplay size="lg" className="max-w-[600px]">
-                Wir nehmen sechs Mandate.
+                Ich arbeite an einem Projekt zur Zeit.
                 <br />
-                Pro <em className="gradient-text">Jahr</em>.
+                Damit es <em className="gradient-text">schnell</em> wird und gut.
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
               <p className="mt-6 text-[17px] leading-[1.55] max-w-[560px]" style={{ color: "var(--ink-muted)" }}>
-                Kein Funnel-Trick, kein blinkender Countdown. Ein Operator hat genau so viel Kapazität.
-                Wenn der Slot weg ist, ist er weg — und der nächste ist ein Quartal entfernt.
+                Kein Funnel-Trick, kein blinkender Countdown. Ich habe genau so viel Kapazität wie ich
+                habe. Wenn ein Platz weg ist, ist er weg — und der nächste ist ein paar Wochen später.
               </p>
             </Reveal>
           </div>
@@ -783,7 +774,7 @@ export default function SichtbarPage() {
                   2
                 </p>
                 <p className="mt-3" style={{ color: "var(--ink-cream)", fontSize: 15, fontWeight: 510 }}>
-                  Slots offen · Q3/2026
+                  Plätze frei · Q3/2026
                 </p>
                 <p
                   className="mt-2"
@@ -798,31 +789,31 @@ export default function SichtbarPage() {
       </Section>
 
       {/* ============================================================
-          FINAL CTA — + trust signals (Seriosität carries the close)
+          FINAL CTA
          ============================================================ */}
       <section className="py-[100px] md:py-[128px]" style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 text-center">
           <Reveal>
             <HeadlineDisplay size="xl" className="mx-auto max-w-[900px]">
-              Der Agent für deine Kategorie
+              Schauen wir uns deine Seite mal an —
               <br />
-              wird <em className="gradient-text">gerade trainiert</em>.
+              <em className="gradient-text">in 15 Sekunden, ohne Login.</em>
             </HeadlineDisplay>
           </Reveal>
           <Reveal delay={80}>
             <p className="mt-7 mx-auto max-w-[600px] text-[18px] leading-[1.55]" style={{ color: "var(--ink-cream)" }}>
-              Die Frage ist nur, mit wessen Marke. Starte mit dem kostenlosen Audit — du siehst in
-              Minuten, wie sichtbar du heute für Claude, GPT &amp; Perplexity bist.
+              Du gibst deine Domain ein und bekommst eine kurze, klare Einschätzung: was funktioniert,
+              was nicht, wo du gerade Anfragen verlierst. Wenn das passt, sprechen wir.
             </p>
           </Reveal>
           <Reveal delay={140}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <Link href="/audit" className="btn-primary">
-                Kostenlosen KI-Audit starten
+                Kostenlosen Audit starten
                 <span aria-hidden>→</span>
               </Link>
               <Link href="/anfrage" className="btn-secondary">
-                Brief schicken
+                Oder Brief schicken
                 <span aria-hidden>→</span>
               </Link>
             </div>
@@ -838,16 +829,9 @@ export default function SichtbarPage() {
                 lineHeight: 1.7,
               }}
             >
-              Festpreis · Tag 10 oder Geld zurück · DSGVO-konform · keine Kreditkarte für den Audit
+              8.900 € fester Preis · Tag 10 oder Geld zurück · DSGVO-konform
               <br />
-              Referenzen mit Namen: Vision · Königswege · acta · PURELEI · seit 2017 · Heidelberg
-            </p>
-          </Reveal>
-          <Reveal delay={260}>
-            <p className="mt-9 mx-auto max-w-[680px] text-[15px] leading-[1.7] italic" style={{ color: "var(--ink-muted)" }}>
-              P.S. — Es gibt bei einer KI-Antwort keinen zweiten Platz. Wer dort steht, wenn dein
-              Kunde fragt, gewinnt die Anfrage, bevor dein Wettbewerber merkt, dass die Suche sich
-              verschoben hat. Früh dran zu sein kostet wenig. Zu spät kostet die Kategorie.
+              Vision · Königswege · acta · PURELEI · seit 2017 · Heidelberg
             </p>
           </Reveal>
         </div>

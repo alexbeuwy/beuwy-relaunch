@@ -148,7 +148,7 @@ export const cases: CaseStudy[] = [
     before:
       "Frühphase DTC, kein gemeinsames Vokabular über Content, Sales, Influencer-Briefings. Das, was die Founder mündlich konnten, war nirgendwo aufgeschrieben.",
     after:
-      "1M+ Follower auf Instagram. Konstant 20–30 Mio. Ø Umsatz pro Jahr. Ein Voice-System, das ohne den Operator weiterläuft.",
+      "1M+ Follower auf Instagram. Konstant 20–30 Mio. Ø Umsatz pro Jahr. Eine Marken-Stimme, die ohne uns weiterläuft.",
     breakdown: [
       { t: "Brand-Language", d: "Voice-Charter, Forbidden Phrases, Content-Vokabular — übergeben, nicht im Kopf behalten." },
       { t: "Content-System", d: "Ein wiederholbares System für tägliches Content-Volumen, ohne Stilbruch." },

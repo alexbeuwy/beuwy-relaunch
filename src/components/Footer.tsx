@@ -15,24 +15,23 @@ export function Footer() {
               className="font-display text-[28px] md:text-[36px] leading-[1.1] tracking-[-0.02em] max-w-[420px]"
               style={{ color: "var(--ink-yellow)" }}
             >
-              Die <em className="font-display italic">Ära</em> der{" "}
-              <em className="font-display italic">Taste</em>.
+              Marke <em className="font-display italic">und</em> Website.
               <br />
-              Gebaut von einem <em className="font-display italic">Operator</em>.
+              Aus <em className="font-display italic">einer Hand</em>.
             </p>
             <p style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px", maxWidth: 380 }}>
-              beuwy ist seit 2017 ein Operator-led Studio. Heidelberg · Mannheim · Berlin · Remote EU.
+              Seit 2017. Heidelberg · Mannheim · Berlin. Du redest direkt mit Alex — kein Manager dazwischen.
             </p>
           </div>
 
           <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8 text-[14px]">
-            <FooterCol title="Studio">
-              <FooterLink href="/sichtbar">Sichtbar in der KI-Ära</FooterLink>
-              <FooterLink href="/method">Methode</FooterLink>
+            <FooterCol title="beuwy">
+              <FooterLink href="/sichtbar">Mehr Anfragen über deine Seite</FooterLink>
+              <FooterLink href="/system">Das Angebot</FooterLink>
+              <FooterLink href="/method">So läuft das ab</FooterLink>
               <FooterLink href="/work">Arbeit</FooterLink>
-              <FooterLink href="/system">System</FooterLink>
-              <FooterLink href="/manifesto">Manifest</FooterLink>
-              <FooterLink href="/audit">GPT-Audit</FooterLink>
+              <FooterLink href="/manifesto">Warum beuwy</FooterLink>
+              <FooterLink href="/audit">Kostenloser Audit</FooterLink>
             </FooterCol>
             <FooterCol title="Cases">
               <FooterLink href="/work/vision">Vision Real Estate</FooterLink>
@@ -60,7 +59,7 @@ export function Footer() {
           style={{ borderTop: "1px solid var(--line-subtle)" }}
         >
           <p style={{ color: "var(--ink-dim)", fontSize: 12, letterSpacing: "0.04em" }}>
-            © beuwy 2017–2026 · Operator seit 2009 · Mo–Fr · 09–18 CET · Reply &lt; 6h
+            © beuwy 2017–2026 · Alex seit 2009 · Mo–Fr · 09–18 Uhr · Antwort in 6 Stunden
             <span style={{ marginLeft: 10, opacity: 0.6, fontFamily: "var(--font-mono)" }}>
               build {process.env.NEXT_PUBLIC_BUILD_SHA || "local"}
             </span>
@@ -70,7 +69,7 @@ export function Footer() {
             <Link href="#" className="hover:text-[var(--ink-yellow)]">Datenschutz</Link>
             <span className="chip">
               <span className="dot" />
-              <span>Q3/2026 · 2 Slots offen</span>
+              <span>Q3/2026 · 2 Plätze frei</span>
             </span>
           </div>
         </div>

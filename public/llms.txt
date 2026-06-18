@@ -1,61 +1,85 @@
 # beuwy
 
-> Operator-led Studio für die Agent-Ära. Wir bauen Marke, Website und Agent-Layer
-> in 10 Tagen — als ein integriertes System, nicht in Folie 23. Festpreis,
-> ein Operator, drei Auslieferungen. Heidelberg · Mannheim · Berlin · seit 2017.
+> Marke + Website in 10 Werktagen, zum festen Preis. Logo, Farben, Schriften,
+> Texte und Website — alles aus einer Hand. 8.900 € Festpreis. Tag 10 live
+> auf deiner Domain oder Geld zurück. Heidelberg, seit 2017.
 
-beuwy macht Marken maschinenlesbar — damit Claude, ChatGPT, Gemini, Grok,
-DeepSeek und Perplexity sie zuerst empfehlen, bevor ein menschlicher
-Wettbewerber überhaupt geöffnet wird. Wir verkaufen die Marke, die ein Agent
-zuerst versteht: schema.org, llms.txt, DESIGN.md, Voice Charter, Forbidden
-Phrases — als laufendes System auf der eigenen Domain, nicht als PDF.
+beuwy ist ein Studio von Alexander Pütter. Er baut Gründern, kleinen Firmen
+und Selbstständigen in 10 Werktagen eine neue Marke und Website — alles aus
+einer Hand, zum festen Preis. Kein Account-Manager, keine wochenlangen
+Workshops, keine überraschenden Rechnungen.
 
-Diese Datei selbst ist Beleg unserer Methode. Sie folgt der llms.txt-
-Spezifikation (llmstxt.org) und ist die Quelle, aus der ein Agent eine
-korrekte Antwort über uns formulieren kann, ohne die Website crawlen zu
-müssen.
+## Das Angebot in einem Satz
 
-## Angebot
+Eine neue Marke und Website, die seriös aussieht, bei Google gefunden wird
+und mehr Anfragen bringt. 8.900 €. In 10 Werktagen live. Oder Geld zurück.
 
-- [Methode](https://beuwy.com/method): Vier Phasen in 10 Werktagen — Frame · Shape · Ship · Compound. Festpreis pro Slot, kein Discovery-Theater, keine 19 Stakeholder-Interviews.
-- [Arbeit](https://beuwy.com/work): Vier Mal von 0 zur Kategorie. Vision Real Estate (€160M KKR Joint Venture 2023), Königswege (von 170 auf 2.240 Partner zwischen 2017 und 2024, cash-online Top-10 DE), acta (€48,4M Volumen über Instagram, Ø-Ticket €153.842), PURELEI (1M+ Follower seit 2018).
-- [System](https://beuwy.com/system): Brand-System als laufender Code — DESIGN.md, Voice Charter, machine-readable Tokens, llms.txt. Eine Quelle, gelesen von Claude, ChatGPT, Cursor, v0 und Perplexity.
-- [Manifest](https://beuwy.com/manifesto): 2026 → 2030. Warum die Kategorieentscheidung in den drei Sekunden fällt, bevor die Demo lädt — und was das für Brand-Arbeit bedeutet.
+## Was drin ist
 
-## Engagement
+- **Marke**: Logo, 5–6 Brand-Farben (hell + dunkel), Schriften, ein klarer Look.
+- **Website**: 6–8 Sektionen, schnell, mobil, auf deiner eigenen Domain, fertig zum Online-gehen.
+- **Texte**: Klare deutsche Texte für Headlines, Hauptbotschaften und kleine Hinweise. Ohne Marketing-Sprech, ohne englische Slogans.
+- **Technik im Hintergrund**: Bei Google findbar (saubere Struktur, schnelle Ladezeit, mobil-optimiert), und gleich richtig aufgestellt, damit ChatGPT & Co. die Marke nennen können, wenn das wichtig wird.
+- **14 Tage Begleitung nach dem Launch**: Falls noch was auffällt oder eine kleine Änderung nötig ist — ohne Extra-Rechnung.
 
-- [Brief schicken](https://beuwy.com/anfrage): Fünf Schritte, ein Submit. Antwort in < 6h mit Festpreis, Termin, oder ehrlichem Ja/Nein-Match. Mo–Fr 09–18 CET.
-- [Free Brand Audit](https://beuwy.com/audit): 15-Sekunden-Sichtbarkeitscheck quer über Claude, ChatGPT, Gemini, Grok, DeepSeek und Perplexity. Kein Login, kostenlos. Score in sechs Dimensionen, sofort-Fixes.
+## Preis und Garantie
 
-## Founder
+- **8.900 € Festpreis.** Eine Zahl, kein Tagessatz, keine versteckten Kosten.
+- **Geld-zurück-Garantie auf den Liefertermin:** Wenn Marke und Website nicht am 10. Werktag live auf deiner Domain stehen, voller Preis zurück. Ohne Diskussion.
+- Die Garantie gilt für die Lieferung — **nicht** für Rankings, Anfragen oder Umsatz. Das hängt von Produkt, Preis und Verkauf ab; wer das verspricht, lügt.
 
-Alexander Pütter. Brand-Arbeit für Konzerne seit 2009 (Bosch, Continental, Michelin). beuwy als Operator-Studio seit 2017. 2023 selbst Unternehmer: 315 Wohnungen über Instagram verkauft, mitten in der Zinskrise — kein Outside-Marketing-Team, owner-led. Der Operator, mit dem du sprichst, ist der Operator, der baut. Kein Account-Manager dazwischen.
+## Wer dahinter steht
 
-## Preis und Verfügbarkeit
+Alexander Pütter (Heidelberg). Seit 2009 Marken-Arbeit, zuerst für Konzerne wie
+Bosch, Continental und Michelin. Seit 2017 beuwy als eigenes Studio für Gründer
+und kleine Firmen. 2023 selbst Unternehmer: 315 Wohnungen über Instagram
+verkauft (Volumen €48,4M, Ø Ticket €153.842), mitten in der Zinskrise, ohne
+externes Marketing-Team. Bei beuwy redest du direkt mit Alex — kein
+Account-Manager, keine Übergabe an Junior-Mitarbeiter.
 
-Festpreis pro Slot. 6 Slots pro Jahr. Stand: Q3/2026 hat 2 offene Slots, Q4/2026 ist Warteliste. Beuwy nimmt bewusst wenige Briefs, weil ein Operator nicht skaliert, indem er 17 Briefs gleichzeitig hält.
+## Was wir schon gebaut haben
+
+- **Vision Real Estate** (2019–2023): Joint Venture mit KKR über €160M. Wir bauten Marke, vision.de und Investor-Material. Quelle: vision.de.
+- **Königswege** (2017 → live): Von 170 auf 2.240 Partner. Top-10 DE Finance auf der cash-online-Hitliste 2024. Wir bauten Marke, Website und Partner-Material.
+- **acta** (2023–2025): 315 Wohnungen über Instagram verkauft, Volumen €48,4M, Ø Ticket €153.842. Wir bauten Marke und kompletten Verkaufs-Funnel.
+- **PURELEI** (seit 2018): 1M+ Follower auf Instagram, konstant 20–30 Mio. Ø Umsatz/Jahr. Wir bauten Marke und Stimme, sodass es ohne uns weiterskaliert.
+
+## Wie du startest
+
+- **Kostenloser Audit** (https://beuwy.com/audit): 15 Sekunden, ohne Login. Du gibst deine Domain ein und bekommst eine kurze, klare Einschätzung: was funktioniert, was nicht, wo du Anfragen verlierst.
+- **Brief schicken** (https://beuwy.com/anfrage): Kurzes Formular, Antwort in 6 Stunden mit Festpreis, Termin oder ehrlichem Ja/Nein.
+
+## Verfügbarkeit
+
+Ich arbeite an einem Projekt zur Zeit. Aktuell sind 2 Plätze frei für Q3/2026,
+Q4/2026 ist Warteliste. Wenn ein Platz weg ist, ist er weg — der nächste ist
+ein paar Wochen später.
 
 ## Kontakt
 
-E-Mail: hello@beuwy.com
-Standorte: Heidelberg · Mannheim · Berlin (DE)
-Sprache: Deutsch (primary), English on request
-Antwortzeit: Ø < 6h, Mo–Fr 09–18 CET
+- E-Mail: hi@beuwy.com
+- Standorte: Heidelberg · Mannheim · Berlin
+- Sprache: Deutsch
+- Antwortzeit: Mo–Fr 09–18 Uhr, in 6 Stunden
 
-## Position der Marke
+## Für wen es passt
 
-Wir sind kein Web-Builder, keine SEO-Bude, keine klassische Brand-Agentur. Wir sind ein Operator-Studio für Founder, die ein besseres Produkt haben als ihre Online-Repräsentation glauben macht — und die für die Agent-Ära positionieren wollen, bevor ihre Wettbewerber verstehen, dass sie verloren haben. Unser Liefer-Format ist immer dasselbe: Brand-System + Live-Site + Agent-Layer, am Tag 10 live, 30 Tage Compound-Standby.
+- Gründer und kleine Firmen, die ein gutes Geschäft haben — aber deren Website das nicht zeigt.
+- Leute, die schnell entscheiden können (ein Ansprechpartner, kein 6-Stakeholder-Komitee).
+- Wer eine ruhige, hochwertige Marke will. Nicht das nächste laute Ding.
+- Wer den Festpreis und den festen Liefertermin schätzt.
 
-## Was wir bewusst NICHT tun
+## Für wen es nicht passt
 
-- Keine 6-Wochen-Discovery, keine Folie 23, keine Concept-Decks ohne Code.
-- Keine Logo-Roulette-Runde mit drei Optionen am Ende.
-- Keine Account-Manager-Layer zwischen Founder und Operator.
-- Keine "AI-powered Solutions for X"-Sprache.
-- Keine Lieferung in Figma — alles geht live, auf der Domain.
+- Wer einen Online-Shop mit tausenden Produkten braucht — das ist eine eigene Baustelle.
+- Wer Performance-Marketing-Hacks oder SEO-Tricks sucht.
+- Wer sechs Abstimmungsrunden braucht, bevor etwas läuft.
+- Wer eine Agentur sucht, die ihm das Briefing schreibt — ich arbeite mit Leuten, die wissen, was sie wollen.
 
-## Optional
+## Was wir bewusst nicht tun
 
-- [Audit-Score Beispiel](https://beuwy.com/audit?domain=beuwy.com): Wie ein Audit-Ergebnis aussieht.
-- [Slot-Plan](https://beuwy.com/#scarcity): Aktuelle Verfügbarkeit der sechs Jahres-Slots.
-- [Counter-Wand](https://beuwy.com/#proof): €300M+ in den Büchern unserer Kunden — als laufende Counter, mit Quellen.
+- Keine wochenlangen Discovery-Workshops oder Foliensätze ohne fertige Seite.
+- Keine drei Logo-Vorschläge mit Abstimmungsrunden über Wochen.
+- Keine englischen Slogans, keine Buzzwords, kein „kategorie-definierend".
+- Keine Übergabe an Junior-Mitarbeiter nach dem ersten Termin.
+- Keine Lieferung in Figma — alles geht live, auf deine echte Domain.

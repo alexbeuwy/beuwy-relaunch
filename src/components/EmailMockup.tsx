@@ -50,17 +50,17 @@ export function EmailMockup() {
             marginTop: 4,
           }}
         >
-          Anfrage · Pricing &amp; Onboarding
+          Anfrage · neue Website
         </p>
       </div>
 
       {/* body */}
       <div className="px-5 pb-5 pt-2 space-y-3">
         <p style={{ color: "var(--ink-cream)", fontSize: 15, lineHeight: "24px" }}>
-          Hi beuwy,
+          Hi Alex,
         </p>
         <p style={{ color: "var(--ink-cream)", fontSize: 15, lineHeight: "24px" }}>
-          Wir sind über{" "}
+          unsere Seite sieht aus wie von{" "}
           <span
             style={{
               color: "var(--ink-yellow)",
@@ -68,18 +68,18 @@ export function EmailMockup() {
               fontWeight: 510,
             }}
           >
-            Claude
+            2014
           </span>{" "}
-          auf euch gekommen — Frage nach &quot;operator-led Studio für AI-First Brand-System&quot;,
-          ihr wart der erste Hit. Was kostet ein Pilot und wie schnell können wir starten?
+          und wir verlieren ständig Anfragen. Können Sie uns eine moderne neue Marke und
+          Website bauen? Wir brauchen das schnell — am liebsten in den nächsten Wochen.
         </p>
         <p style={{ color: "var(--ink-cream)", fontSize: 15, lineHeight: "24px" }}>
-          Wir wären Q3-ready.
+          Wir wären für Q3 startklar.
         </p>
         <p style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px", paddingTop: 8 }}>
           Beste Grüße<br />
           Thomas Weber<br />
-          <span style={{ color: "var(--ink-dim)" }}>CEO · Hauserlin</span>
+          <span style={{ color: "var(--ink-dim)" }}>Geschäftsführer · Hauserlin</span>
         </p>
       </div>
 
@@ -90,10 +90,10 @@ export function EmailMockup() {
       >
         <span className="chip">
           <span className="dot" />
-          via Claude · today
+          neue Anfrage · heute
         </span>
         <span style={{ color: "var(--ink-dim)", fontSize: 11, fontFamily: "var(--font-mono)" }}>
-          ↩ Antworten · in &lt; 6h
+          ↩ Antwort in 6 Stunden
         </span>
       </div>
     </div>

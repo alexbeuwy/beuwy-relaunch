@@ -22,24 +22,24 @@ type AuditResult = {
 };
 
 const DIM_META: Record<Dimension, { label: string; sub: string }> = {
-  positioning: { label: "Positionierung", sub: "Unterscheidbare These?" },
-  voice: { label: "Voice", sub: "Klingt nach dir oder nach SaaS-Output?" },
-  agent_layer: { label: "Agent-Layer", sub: "schema.org · llms.txt · semantic HTML" },
-  trust: { label: "Trust", sub: "Cases · Zahlen · Founder-Footprint" },
-  pricing: { label: "Pricing", sub: "Transparent oder 'Contact us'?" },
-  conversion: { label: "Conversion", sub: "Action-spezifische CTA?" },
+  positioning: { label: "Positionierung", sub: "Was machst du, für wen, warum dich?" },
+  voice: { label: "Sprache", sub: "Klingt das nach dir oder nach Standard?" },
+  agent_layer: { label: "Google + KI", sub: "Wird die Seite sauber gelesen?" },
+  trust: { label: "Vertrauen", sub: "Echte Kunden, echte Zahlen, ein Gesicht?" },
+  pricing: { label: "Preis", sub: "Transparent oder 'auf Anfrage'?" },
+  conversion: { label: "Anfragen", sub: "Gibt es einen klaren nächsten Schritt?" },
 };
 
 const DIM_ORDER: Dimension[] = ["positioning", "voice", "agent_layer", "trust", "pricing", "conversion"];
 const GATE_KEY = "beuwy_audit_unlocked";
 
-/** The model panel the beuwy-Agenten run the analysis across. */
+/** Welche KI-Modelle wir für den Check nutzen. */
 const MODELS = ["Claude", "ChatGPT", "Codex", "Gemini", "Grok", "DeepSeek", "Perplexity"];
 
 function ModelPanel({ light = false }: { light?: boolean }) {
   return (
     <div className="model-panel" data-light={light}>
-      <span className="model-panel-label">beuwy-Agenten · Modell-Panel</span>
+      <span className="model-panel-label">Geprüft mit diesen KI-Modellen</span>
       <div className="model-panel-chips">
         {MODELS.map((m) => (
           <span key={m} className="model-chip">
@@ -224,7 +224,7 @@ function LoadingState({ domain }: { domain: string }) {
   const quips = [
     "Öffne die Seite wie ein neuer Besucher…",
     "Lese die Hero-Headline…",
-    "Vergleiche mit ~50 Wettbewerbern der Kategorie…",
+    "Vergleiche mit ~50 Wettbewerbern aus deiner Branche…",
     "Frage Claude: würdest du diese Marke empfehlen?",
     "Frage ChatGPT dasselbe…",
     "Gemini & Grok geben ihren Senf dazu…",
@@ -576,11 +576,11 @@ function ResultBody({
           <div className="audit-close-col audit-close-pro">
             <span className="audit-close-tag audit-close-tag-pro">beuwy machen lassen</span>
             <ul className="audit-close-list">
-              <li>Ein Operator, der €300M+ Kunden-Outcome gebaut hat — direkt an deinem Brief</li>
-              <li>Brand · Website · Agent-Layer — alles aus einer Hand, kein Pingpong</li>
-              <li>Festpreis, kein Discovery-Theater, keine Stundenzettel</li>
+              <li>Einer, der €300M+ im Kundenbuch hat — direkt an deinem Brief</li>
+              <li>Marke, Website, Texte — alles aus einer Hand, kein Hin und Her</li>
+              <li>8.900 € fester Preis, keine wochenlangen Workshops, keine Stundenzettel</li>
               <li><strong>Tag 10: live.</strong> Du machst derweil dein eigentliches Geschäft</li>
-              <li>Cited in den Top-3 deiner Kategorie — bevor dein Wettbewerber überhaupt anfängt</li>
+              <li>Eine Seite, die mehr Anfragen bringt — und seriös aussieht</li>
             </ul>
           </div>
         </div>
@@ -845,9 +845,9 @@ function ScoreImprovement({
       </div>
 
       <p className="score-improvement-kicker">
-        Mit den priorisierten Fixes unten erreicht{" "}
-        <strong>{domain}</strong> einen projizierten Score von{" "}
-        <strong>{projected}/100</strong> — sichtbar als Top-3-Antwort der eigenen Kategorie.
+        Mit den Vorschlägen unten kommt{" "}
+        <strong>{domain}</strong> auf einen geschätzten Score von{" "}
+        <strong>{projected}/100</strong> — und wird in der Branche deutlich besser gefunden.
       </p>
     </div>
   );

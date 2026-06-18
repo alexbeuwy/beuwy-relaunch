@@ -1,28 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
-import { Editor } from "@/components/Editor";
-import { InteractiveCode } from "@/components/InteractiveCode";
 import { Reveal } from "@/components/Reveal";
 import { AssetSlot } from "@/components/AssetSlot";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "System — Der Standard für Brands mit hohem Warenkorbwert",
+  title: "Das Angebot — Marke + Website, 8.900 €, in 10 Tagen",
   description:
-    "Operator-led Studio für hochpreisige Marken. Festpreis · 10 Werktage · 30 Tage Standby. Track-Record mit Quellen — Vision €160M, Königswege 2.240 Partner, acta 315 Wohnungen, PURELEI 1M.",
+    "Logo, Farben, Schriften, Texte, fertige Website — alles aus einer Hand. 8.900 € Festpreis, in 10 Werktagen live. Tag 10 oder Geld zurück. Heidelberg, seit 2017.",
   alternates: { canonical: "/system" },
   openGraph: {
-    title: "System — Der Standard für Brands mit hohem Warenkorbwert",
+    title: "Das Angebot — Marke + Website, 8.900 €, in 10 Tagen",
     description:
-      "Festpreis · Tag 10 live · ein Operator, kein Account-Manager. Track-Record mit Quellen.",
+      "Fester Preis. Du redest direkt mit mir. Tag 10 live oder Geld zurück.",
     type: "article",
     url: "https://beuwy.com/system",
   },
   twitter: { card: "summary_large_image" },
 };
 
-/* ---------- Track-Record data — every figure cite-able ---------- */
+/* ---------- Track-Record — every figure cite-able ---------- */
 const trackRecord: {
   client: string;
   period: string;
@@ -35,72 +33,72 @@ const trackRecord: {
     client: "Vision Real Estate",
     period: "2019 → 2023",
     headline: "€160M",
-    detail: "KKR Joint Venture. Wir bauten Brand-Architektur, vision.de und Investor-Narrativ.",
+    detail: "Joint Venture mit KKR. Wir bauten die Marke, vision.de und das Investor-Material.",
     source: "öffentlich · vision.de",
-    href: "/work#vision",
+    href: "/work/vision",
   },
   {
     client: "Königswege",
     period: "2017 → live",
     headline: "170 → 2.240",
-    detail: "Partner-Skalierung. Relaunch 2020 trug die Hitliste. Brand, Web-System, Partner-Materialien.",
+    detail: "Aus 170 Partnern wurden 2.240. Relaunch 2020 trug die Top-10-Hitliste. Wir bauten Marke, Website, Partner-Material.",
     source: "cash-online Hitliste 2024",
-    href: "/work#koenigswege",
+    href: "/work/koenigswege",
   },
   {
     client: "acta",
     period: "2023 → 2025",
     headline: "€48,4M",
-    detail: "Volumen über Instagram-Funnel. 315 Wohnungen, Ø Ticket €153.842, ohne externes Marketing-Team.",
+    detail: "Volumen über einen Instagram-Funnel. 315 Wohnungen, Ø Ticket €153.842, ohne externes Marketing-Team.",
     source: "intern · Owner-led",
-    href: "/work#acta",
+    href: "/work/acta",
   },
   {
     client: "PURELEI",
     period: "seit 2018",
     headline: "1M+",
-    detail: "Follower seit Erstauftritt. Brand-Architektur und kategorie-prägende Voice in einem Massmarkt.",
+    detail: "Follower seit Erstauftritt. Marke und Voice — gebaut, damit es ohne uns weiterläuft.",
     source: "Instagram public",
     href: "/work",
   },
 ];
 
-/* ---------- Delivery contract terms — the risk reversal ---------- */
+/* ---------- Was im Angebot drin ist ---------- */
 const contractTerms: { n: string; t: string; d: string }[] = [
   {
     n: "01",
-    t: "Festpreis pro Slot",
-    d: "Eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie nach dem ersten Call — nicht nach einem sechswöchigen, bezahlten Discovery-Sprint.",
+    t: "Fester Preis: 8.900 €",
+    d: "Eine Zahl. Keine Tagessätze. Keine Nach-Berechnung. Du weißt vorher, was du bekommst und was du zahlst.",
   },
   {
     n: "02",
     t: "10 Werktage von Brief bis Live",
-    d: "Marke, Site und Agent-Layer stehen am Tag 10 auf deiner Domain. Nicht in Figma, nicht in Notion. Live, indizierbar, agentenlesbar.",
+    d: "Marke und Website stehen am Tag 10 auf deiner Domain. Nicht in Figma. Nicht in Notion. Wirklich online.",
   },
   {
     n: "03",
-    t: "30 Tage Compound-Standby",
-    d: "Nach Launch begleitet ein Operator. Experimente, Cohort-Receipts, schnelle Iterationen. Inklusive — kein Retainer dahinter.",
+    t: "14 Tage Begleitung nach dem Launch",
+    d: "Wenn nach dem Launch etwas auffällt oder du eine kleine Änderung brauchst — bin ich da. Ohne Extra-Rechnung.",
   },
   {
     n: "04",
-    t: "Operator-led, eine Hand",
-    d: "Du sprichst direkt mit dem, der baut. Kein Account-Manager als Telefonzentrale, keine Junior-Übergabe nach Kickoff, keine 19 Stakeholder.",
+    t: "Du redest direkt mit mir",
+    d: "Kein Account-Manager dazwischen. Keine Übergabe an einen Junior. Ein Brief, eine Antwort, eine Hand.",
   },
 ];
 
-/* ---------- Qualification — disqualifying is a trust signal ---------- */
+/* ---------- Für wen es passt — und für wen nicht ---------- */
 const forYou: string[] = [
-  "Du verkaufst etwas, das echtes Vertrauen braucht — Premium-Produkte, B2B-Services, Investments, regulierte Branchen.",
-  "Du bist Founder-led oder kleines Team, das schnell entscheiden kann.",
-  "Dein Pipeline-Wert hängt an Empfehlungen, und du willst dieses Glück durch ein System ersetzen.",
-  "Du planst für die Agent-Ära — du willst die Marke sein, die Claude und ChatGPT zuerst nennen.",
+  "Du hast ein Geschäft, das gut ist. Deine Seite zeigt das nicht.",
+  "Du bist Gründer oder ein kleines Team, das schnell entscheiden kann.",
+  "Du willst eine ruhige, hochwertige Marke. Nicht das nächste laute Ding.",
+  "Du willst, dass es schnell geht — und gut wird.",
 ];
 const notForYou: string[] = [
-  "Du verkaufst Volumen-Konsumgüter oder kleine Tickets im Onlineshop.",
-  "Du suchst Performance-Marketing-Hacks oder einen SEO-Trick.",
-  "Du willst sechs Stakeholder-Runden, bevor überhaupt etwas läuft.",
-  "Du suchst eine Agentur, die dir den Brief schreibt — wir arbeiten mit Operatoren, die wissen, was sie wollen.",
+  "Du betreibst einen Online-Shop mit Tausenden Produkten (das ist eigene Baustelle).",
+  "Du suchst Performance-Marketing-Hacks oder SEO-Tricks.",
+  "Du willst sechs Abstimmungsrunden, bevor etwas läuft.",
+  "Du willst eine Agentur, die dir den Brief schreibt — ich arbeite mit Leuten, die wissen, was sie wollen.",
 ];
 
 export default function SystemPage() {
@@ -120,14 +118,14 @@ export default function SystemPage() {
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
           <Reveal>
             <span className="eyebrow-rule">
-              <span className="num">/</span> System · für Mandate ab 50k+
+              <span className="num">/</span> Das Angebot · 8.900 € · 10 Werktage
             </span>
           </Reveal>
           <Reveal delay={80} variant="mask">
             <h1 className="h-display-xl mt-7 max-w-[1140px]">
-              Vertrauen ist ein Produkt.
+              Eine Marke und Website.
               <br />
-              <em className="gradient-text">So bauen wir es.</em>
+              <em className="gradient-text">Fest, fair, fertig.</em>
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -135,19 +133,19 @@ export default function SystemPage() {
               className="mt-8 max-w-[720px] text-[19px] md:text-[21px] leading-[1.5]"
               style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              Bei hohem Warenkorbwert ist die Frage nicht <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>„kann der das?"</em>{" "}
-              sondern <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>„kann ich dem hier mein Mandat anvertrauen?"</em>
-              {" "}— Wir antworten mit Tatsachen, nicht mit Adjektiven: Festpreis, 10 Werktage, ein Operator, ein Track-Record mit Quellen.
+              Logo, Farben, Schriften, Texte, fertige Website — alles aus einer Hand.{" "}
+              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>8.900 € fester Preis.</em>{" "}
+              In 10 Werktagen live auf deiner Domain. Oder du bekommst dein Geld zurück.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Slot prüfen
+              <Link href="/audit" className="btn-primary">
+                Kostenlosen Audit starten
                 <span aria-hidden>→</span>
               </Link>
               <Link href="#contract" className="btn-secondary">
-                Liefervertrag lesen
+                Was du genau bekommst
               </Link>
               <span
                 className="ml-2 text-[12px] self-center"
@@ -158,7 +156,7 @@ export default function SystemPage() {
                   fontFamily: "var(--font-mono)",
                 }}
               >
-                Ø Reply &lt; 6h · 2 Slots frei Q3
+                Antwort in 6 Stunden · 2 Plätze frei Q3
               </span>
             </div>
           </Reveal>
@@ -171,14 +169,14 @@ export default function SystemPage() {
       <Section id="track-record" tone="raised">
         <Reveal>
           <span className="eyebrow-rule">
-            <span className="num">/</span> Track-Record mit Quellen
+            <span className="num">/</span> Was wir bisher gebaut haben
           </span>
         </Reveal>
         <Reveal delay={60}>
           <HeadlineDisplay size="lg" className="mt-6 max-w-[1080px]">
             <em className="gradient-text">€300M+</em> in den Büchern unserer Kunden.
             <br />
-            Gebaut von einem, der selbst skaliert hat.
+            Echte Kunden, echte Zahlen.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -186,8 +184,8 @@ export default function SystemPage() {
             className="mt-6 max-w-[680px] text-[16px] leading-[1.55]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Brand-Arbeit ist ein Faktor. Produkt, Markttiming, Sales — auch. Wir behaupten nicht, das alleine gemacht zu haben.
-            {" "}<em style={{ color: "var(--ink-cream)" }}>Was in unserem Lieferumfang lag, zeigen wir mit Quellen — jede Zahl überprüfbar.</em>
+            Eine Website allein macht kein Wachstum — Produkt, Markt und Verkauf gehören auch dazu. Wir behaupten nicht, das alleine gemacht zu haben.
+            {" "}<em style={{ color: "var(--ink-cream)" }}>Was in unserem Teil lag, zeigen wir mit Quellen. Jede Zahl überprüfbar.</em>
           </p>
         </Reveal>
 
@@ -287,7 +285,7 @@ export default function SystemPage() {
           <div className="md:col-span-7">
             <Reveal delay={60}>
               <HeadlineDisplay size="lg" className="max-w-[680px]">
-                Du sprichst mit dem,
+                Du redest mit dem,
                 <br />
                 der <em className="font-display italic">baut</em>.
               </HeadlineDisplay>
@@ -298,21 +296,21 @@ export default function SystemPage() {
                 style={{ color: "var(--ink-cream)" }}
               >
                 <p>
-                  Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2009</em> Brand-Arbeit für Konzerne —
-                  Bosch, Continental, Michelin. Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2017</em>{" "}
-                  beuwy als Operator-Studio.
+                  Ich bin Alex. Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2009</em> mache ich Marken —
+                  zuerst für Konzerne wie Bosch, Continental und Michelin. Seit <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2017</em>{" "}
+                  mit beuwy für Gründer und kleine Firmen.
                 </p>
                 <p>
-                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2023</em> selbst Unternehmer: 315 Wohnungen über Instagram verkauft —
-                  mitten in der Zinskrise. Volumen €48,4M, Ø Ticket €153.842, ohne externes Marketing-Team.
+                  <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>2023</em> war ich selbst Unternehmer: 315 Wohnungen
+                  über Instagram verkauft — mitten in der Zinskrise. €48,4M Volumen, Ø Ticket €153.842, ohne externes Marketing-Team.
                 </p>
                 <p style={{ color: "var(--ink-muted)" }}>
-                  Das heißt: Ich kenne Kaufentscheidungen bei hohem Ticket nicht aus einer Studie. Ich löse sie selbst aus.
-                  Wenn ich dir sage, was in deiner Marke nicht funktioniert, ist das nicht Theorie — das ist die letzte Cohort.
+                  Das heißt: Ich weiß, wie Kunden eine teure Entscheidung treffen — weil ich sie selbst auslöse.
+                  Wenn ich dir sage, was an deiner Marke gerade nicht funktioniert, ist das keine Theorie. Das ist die letzte Verkaufsrunde.
                 </p>
                 <p>
-                  Kein Account-Manager dazwischen. Keine Junior-Übergabe nach Kickoff. Ein Brief, eine Antwort, eine Hand,
-                  ein Festpreis. <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Das ist das ganze Modell.</em>
+                  Kein Account-Manager dazwischen. Keine Übergabe an einen Junior. Ein Brief, eine Antwort, eine Hand,
+                  ein fester Preis. <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Das ist das ganze Modell.</em>
                 </p>
               </div>
             </Reveal>
@@ -349,7 +347,7 @@ export default function SystemPage() {
                       Alexander Pütter
                     </p>
                     <p style={{ color: "var(--ink-dim)", fontSize: 13, marginTop: 2 }}>
-                      Founder · Operator seit 2009
+                      Macher · Heidelberg · seit 2009
                     </p>
                   </div>
                 </div>
@@ -362,17 +360,17 @@ export default function SystemPage() {
                     color: "var(--ink-yellow)",
                   }}
                 >
-                  &ldquo;Wir geben Gründern ein laufendes System und einen Graphen, der schon{" "}
-                  <em style={{ fontStyle: "italic" }}>klettert</em> — bevor die nächste Agentur ihr Notion-Doc fertig hat.&rdquo;
+                  &ldquo;Ich baue dir die Marke und die Website. Schnell. Zum festen Preis.
+                  Und du redest die ganze Zeit mit mir, nicht mit einem Manager.&rdquo;
                 </p>
                 <div
                   className="mt-7 pt-5 grid grid-cols-3 gap-4"
                   style={{ borderTop: "1px solid var(--line-subtle)" }}
                 >
                   {[
-                    { v: "16+", l: "Jahre Brand" },
-                    { v: "4×", l: "von 0 zur Kategorie" },
-                    { v: "€300M+", l: "Kunden-Volumen" },
+                    { v: "16+", l: "Jahre Erfahrung" },
+                    { v: "4×", l: "Marken neu aufgebaut" },
+                    { v: "€300M+", l: "im Kundenbuch" },
                   ].map((s) => (
                     <div key={s.l}>
                       <p
@@ -409,7 +407,7 @@ export default function SystemPage() {
       </Section>
 
       {/* ============================================================
-          04 — WAS DU AM TAG 10 HAST — the capability, contextualized
+          04 — WAS DU AM TAG 10 HAST
          ============================================================ */}
       <Section id="deliverable" tone="base">
         <Reveal>
@@ -419,8 +417,9 @@ export default function SystemPage() {
         </Reveal>
         <Reveal delay={60}>
           <HeadlineDisplay size="lg" className="mt-6 max-w-[980px]">
-            Eine Datei. Die <em className="font-display italic">Quelle</em>{" "}
-            deiner Marke — für Menschen und Agenten gleichzeitig lesbar.
+            Eine fertige Marke und eine{" "}
+            <em className="font-display italic">live Website</em>{" "}
+            auf deiner Domain.
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -428,57 +427,31 @@ export default function SystemPage() {
             className="mt-6 max-w-[680px] text-[16px] leading-[1.55]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Vorher: 14 Versionen einer Voice-Datei in Figma, drei Logos, ein Stilbruch zwischen Hero und Footer.
+            Vorher: 14 Versionen eines Logos im Mailpostfach, drei verschiedene Stile auf der Seite, du erklärst jedem Mitarbeiter selbst, wie die Marke klingen soll.
             <br />
             <em style={{ color: "var(--ink-cream)", fontStyle: "italic" }}>
-              Nachher: <code style={{ fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--ink-yellow)" }}>DESIGN.md</code> —
-              Brand-Tokens, Voice, Vocabulary, Forbidden Phrases. Eine Quelle.
+              Nachher: ein klares Marken-Handbuch, eine schnelle Seite, klare Texte. Alles aus einer Hand.
             </em>
           </p>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <div className="mt-12">
-            <Editor height={520} interactive />
-          </div>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <div className="mt-12">
-            <p
-              style={{
-                color: "var(--ink-dim)",
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-              }}
-            >
-              Klick eine Zeile — die anderen dimmen weg, die Bedeutung wird sichtbar.
-            </p>
-            <div className="mt-5">
-              <InteractiveCode height={560} />
-            </div>
-          </div>
         </Reveal>
 
         <Reveal delay={200}>
           <div className="mt-14 grid md:grid-cols-3 gap-5">
             {[
               {
-                t: "Brand-System",
-                meta: "DESIGN.md · Voice · Forbidden Phrases",
-                d: "Eine maschinenlesbare Quelle für Identität, Sprache, Tokens. Wenn ein Agent über deine Marke spricht, redet er aus dieser Datei.",
+                t: "Marke",
+                meta: "Logo · 5–6 Farben · Schriften",
+                d: "Ein klarer Look, hell und dunkel. So, dass alles bei dir gleich aussieht — heute und nächstes Jahr.",
               },
               {
-                t: "Live-Site",
-                meta: "Next.js · Vercel · deine TLD",
-                d: "12 Sektionen, indizierbar, auf deiner Domain. Eine Seite wie diese hier — auf deine Marke kalibriert.",
+                t: "Website",
+                meta: "schnell · mobil · deine Domain",
+                d: "6–8 Sektionen, fertig zum Online-gehen. Modern wie die Seiten, die du selbst gerne ansiehst.",
               },
               {
-                t: "Agent-Layer",
-                meta: "schema.org · llms.txt · Cluster-Brief",
-                d: "Lesbar für Claude · GPT · Perplexity. GPT-Audit deiner aktuellen Sichtbarkeit inklusive.",
+                t: "Technik im Hintergrund",
+                meta: "Google · KI · Geschwindigkeit",
+                d: "Bei Google findbar, auf dem Handy schnell, gleich richtig aufgestellt für ChatGPT & Co. — falls das wichtig wird.",
               },
             ].map((d) => (
               <div key={d.t} className="card h-full">
@@ -522,14 +495,14 @@ export default function SystemPage() {
       <Section id="contract" tone="raised">
         <Reveal>
           <span className="eyebrow-rule">
-            <span className="num">/</span> Der Liefervertrag
+            <span className="num">/</span> Was du genau bekommst
           </span>
         </Reveal>
         <Reveal delay={60}>
           <HeadlineDisplay size="lg" className="mt-6 max-w-[1000px]">
-            Was wir versprechen,
+            Vier Sätze.
             <br />
-            in <em className="gradient-text">vier Sätzen</em>.
+            <em className="gradient-text">Kein Kleingedrucktes.</em>
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -537,7 +510,7 @@ export default function SystemPage() {
             className="mt-6 max-w-[640px] text-[16px] leading-[1.55]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Kein Kleingedrucktes nach Mandatsannahme. Diese vier Bedingungen gelten von der ersten Antwort auf deinen Brief.
+            Das hier gilt ab der ersten Antwort auf deinen Brief. Keine Überraschungen später.
           </p>
         </Reveal>
 
@@ -625,9 +598,9 @@ export default function SystemPage() {
                 className="mt-4 max-w-[600px] text-[16px] leading-[1.6]"
                 style={{ color: "rgba(33,6,6,0.82)" }}
               >
-                Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain,
-                bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes.
-                <em style={{ fontStyle: "italic", color: "var(--bg-base)" }}> Die Deadline ist unser Risiko — nicht deins.</em>
+                Wenn die Marke und die Website nicht am 10. Werktag live auf deiner Domain stehen,
+                bekommst du den vollen Preis zurück. Ohne Diskussion. Ohne Kleingedrucktes.
+                <em style={{ fontStyle: "italic", color: "var(--bg-base)" }}> Das Risiko trage ich, nicht du.</em>
               </p>
             </div>
             <div className="md:col-span-4 flex md:justify-end">
@@ -672,10 +645,10 @@ export default function SystemPage() {
               letterSpacing: "0.01em",
             }}
           >
-            Die Garantie gilt für die <em style={{ color: "var(--ink-cream)", fontStyle: "italic" }}>Auslieferung</em>, nicht für Rankings oder Umsatz.
-            Brand-Arbeit ist ein Faktor neben Produkt, Markttiming und Sales. Wir garantieren das System,
-            die Auslieferung am Tag 10 und die Begleitung danach — keine Rankings, keine Umsatzzahlen.
-            Wer das tut, lügt.
+            Die Garantie gilt für die <em style={{ color: "var(--ink-cream)", fontStyle: "italic" }}>Lieferung</em>, nicht dafür,
+            wie viele Kunden du danach bekommst. Wie viele Anfragen kommen, hängt von deinem Produkt, deinem Preis und deinem Verkauf ab.
+            Ich garantiere, dass am Tag 10 alles fertig auf deiner Domain steht — und dass ich danach 14 Tage da bin, falls noch was ist.
+            Wer mehr verspricht, lügt.
           </p>
         </Reveal>
       </Section>
@@ -686,12 +659,12 @@ export default function SystemPage() {
       <Section id="fit" tone="cream">
         <Reveal>
           <span className="eyebrow-rule">
-            <span className="num">/</span> Pass-Check · in zwei Spalten
+            <span className="num">/</span> Passt das?
           </span>
         </Reveal>
         <Reveal delay={60}>
           <h2 className="h-display-md mt-6 max-w-[1000px]">
-            Wir nehmen sechs Mandate pro Jahr.
+            Ich nehme nicht viele Projekte gleichzeitig.
             <br />
             Hier ist, <em className="font-display italic">wann es passt</em> — und wann nicht.
           </h2>
@@ -820,14 +793,14 @@ export default function SystemPage() {
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
           <Reveal>
             <span className="eyebrow-rule">
-              <span className="num">/</span> 6 Plätze im Jahr · 2 frei für Q3
+              <span className="num">/</span> 2 Plätze frei für Q3/2026
             </span>
           </Reveal>
           <Reveal delay={80}>
             <h2 className="h-display-md mt-6 max-w-[980px]">
-              Starte mit dem Audit.
+              Schauen wir uns deine Seite erst mal an.
               <br />
-              <em className="gradient-text">In 15 Sekunden</em> siehst du, was die Agenten gerade über deine Marke sagen.
+              <em className="gradient-text">In 15 Sekunden</em> — gratis, ohne Login.
             </h2>
           </Reveal>
           <Reveal delay={140}>

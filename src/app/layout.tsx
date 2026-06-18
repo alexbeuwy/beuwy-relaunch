@@ -22,18 +22,18 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
   title: {
-    default: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
+    default: "beuwy — Marke + Website in 10 Werktagen, fester Preis",
     template: "%s | beuwy",
   },
   description:
-    "Operator-led Studio für die Agent-Ära. Ein Operator, ein Festpreis, drei Auslieferungen — live in 10 Tagen. Vier Mal von 0 zur Kategorie. Heidelberg · Mannheim · Berlin · seit 2017.",
+    "Eine Marke und Website, die seriös aussieht — und mehr Anfragen bringt. Logo, Farben, Schriften, Texte und Website aus einer Hand. 8.900 € Festpreis, in 10 Werktagen live. Heidelberg, seit 2017.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
+    title: "beuwy — Marke + Website in 10 Werktagen, fester Preis",
     description:
-      "Empfehlungen sind kein Vertrieb. Glück. — Wir bauen die Marke, die ein Agent versteht. Ein Operator, ein Festpreis, 10 Tage.",
+      "Eine Marke und Website, die seriös aussieht — und mehr Anfragen bringt. Alles aus einer Hand. 8.900 € Festpreis. Tag 10 oder Geld zurück.",
     type: "website",
     locale: "de_DE",
     url: "https://beuwy.com",
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
-    description: "Operator-led Studio für die Agent-Ära.",
+    title: "beuwy — Marke + Website in 10 Werktagen",
+    description: "Logo, Farben, Schriften, Texte und Website — aus einer Hand. 8.900 € Festpreis.",
   },
   // robots/sitemap are emitted via app/robots.ts + app/sitemap.ts; surface a
   // few extras here for agent crawlers that look at <meta> too.
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Alexander Pütter", url: "https://beuwy.com/#founder" }],
   creator: "Alexander Pütter",
   publisher: "beuwy",
-  category: "Brand · Site · Agent-Layer",
+  category: "Branding · Webdesign · Relaunch",
 };
 
 export default function RootLayout({

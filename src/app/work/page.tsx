@@ -7,13 +7,13 @@ import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 import { cases } from "@/lib/cases";
 
 export const metadata: Metadata = {
-  title: "Arbeit — Vier Mal von 0 zur Kategorie",
+  title: "Arbeit — vier Marken, die wir mit aufgebaut haben",
   description:
-    "Vision · Königswege · acta · PURELEI. €160M KKR JV · 2.240 Partner · 315 Wohnungen · 1M Follower — eine Hand, seit 2017.",
+    "Vision · Königswege · acta · PURELEI. €160M KKR Joint Venture · 2.240 Partner · 315 Wohnungen · 1M Follower. Eine Hand, seit 2017.",
   alternates: { canonical: "/work" },
   openGraph: {
-    title: "Arbeit — Vier Mal von 0 zur Kategorie",
-    description: "Vision · Königswege · acta · PURELEI. €300M+ in den Büchern unserer Kunden.",
+    title: "Arbeit — vier Marken, die wir mit aufgebaut haben",
+    description: "Vision · Königswege · acta · PURELEI. €300M+ im Kundenbuch.",
     type: "article",
     url: "https://beuwy.com/work",
   },
@@ -35,8 +35,8 @@ export default function WorkPage() {
             <h1
               className="h-display-xl mt-7 max-w-[1100px]"
             >
-              4× von <em className="gradient-text">0</em> zur{" "}
-              <em>Kategorie</em>.
+              Vier Marken — <em className="gradient-text">von unbekannt</em>{" "}
+              zu bekannt.
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -44,14 +44,14 @@ export default function WorkPage() {
               className="mt-7 max-w-[680px] text-[19px] md:text-[22px] leading-[1.45]"
               style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
             >
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>€300M+</em> in den Büchern unserer Kunden.
-              PURELEI · Vision · Königswege · acta — seit 2017 dieselbe Hand am Steuer.
+              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>€300M+</em> im Kundenbuch.
+              PURELEI · Vision · Königswege · acta. Seit 2017 dieselbe Hand am Steuer.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <Section chapter="01 Selected" title="Cases" date="2017 / live" tone="raised">
+      <Section chapter="01 Cases" title="Was wir gebaut haben" date="" tone="raised">
         <div className="space-y-6">
           {cases.map((c, i) => (
             <Reveal key={c.slug} delay={i * 40}>
@@ -162,11 +162,11 @@ export default function WorkPage() {
         </div>
       </Section>
 
-      <Section chapter="02 Next" title="Was wir 2026 → 2030 bauen" date="2026 / next" tone="elevated">
+      <Section chapter="02 Weiter" title="Vielleicht deins?" date="" tone="elevated">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            AI · Agenten · Software · Fintech · Proptech · DefTech ·{" "}
-            <em className="font-display italic">Longevity</em>.
+            Du hast ein gutes Geschäft —{" "}
+            <em className="font-display italic">und eine Seite, die das nicht zeigt?</em>
           </HeadlineDisplay>
         </Reveal>
         <Reveal delay={80}>
@@ -174,15 +174,13 @@ export default function WorkPage() {
             className="mt-6 max-w-[640px] text-[17px] leading-[1.55]"
             style={{ color: "var(--ink-muted)" }}
           >
-            2024 nach intensiver Arbeit mit einem US-AI-Agenten-Startup spannen wir die Fäden in
-            Felder, die in den nächsten fünf Jahren explodieren — und in denen es jetzt darum geht,
-            die <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Sprache</em>{" "}
-            zu setzen, nicht das Feature.
+            Schauen wir uns deine Seite mal an — in 15 Sekunden, gratis, ohne Login. Du kriegst eine
+            klare Einschätzung: was geht, was nicht, wo du gerade Anfragen verlierst.
           </p>
         </Reveal>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link href="/audit" className="btn-primary">
-            Vielleicht deins? — Audit starten
+            Kostenlosen Audit starten
             <span aria-hidden>→</span>
           </Link>
           <Link href="/anfrage" className="btn-secondary">

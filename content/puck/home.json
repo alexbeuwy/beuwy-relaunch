@@ -4,36 +4,36 @@
       "type": "Hero",
       "props": {
         "id": "Hero-1",
-        "eyebrow": "Für Marken, die mehr sind als ihre Website zeigt",
-        "title_top": "Dein Produkt ist besser.",
-        "title_mid_before": "Wir sorgen dafür, dass",
-        "title_emphasis": "alle",
-        "title_mid_after": "es erfahren — auch die KI.",
-        "subtitle": "Premium-Design, das die Branche verwirrt — bis alle kopieren. Auf dem Agent-Layer, den andere erst 2027 verstehen.",
-        "audit_placeholder": "deine-marke.de",
-        "audit_cta": "Marke prüfen",
-        "audit_hint": "15 Sek · was Claude, ChatGPT, Gemini & Co. gerade über dich sagen · kostenlos, kein Login",
+        "eyebrow": "Marke + Website · Festpreis · 10 Tage",
+        "title_top": "Eine Marke und Website,",
+        "title_mid_before": "die",
+        "title_emphasis": "seriös aussieht",
+        "title_mid_after": "— und mehr Anfragen bringt.",
+        "subtitle": "Logo, Farben, Schriften, Texte und Website. Alles aus einer Hand. Du redest direkt mit mir. 8.900 €. In 10 Werktagen live. Oder Geld zurück.",
+        "audit_placeholder": "deine-website.de",
+        "audit_cta": "Website prüfen",
+        "audit_hint": "15 Sek · gratis · kein Login · sag dir in einfachen Worten, was an deiner Seite gut ist und was nicht",
         "secondary_link_label": "Oder direkt Brief schicken",
-        "meta_response": "Ø Antwort < 6h",
-        "meta_slots": "Q3/2026 · 2 Slots"
+        "meta_response": "Antwort in 6 Stunden",
+        "meta_slots": "Q3/2026 · 2 Plätze frei"
       }
     },
     {
       "type": "Pain",
       "props": {
         "id": "Pain-1",
-        "eyebrow_num": "85 %",
-        "eyebrow_text": "deiner Pipeline = Empfehlungen",
-        "title_top": "Dein Potential ist da.",
+        "eyebrow_num": "01",
+        "eyebrow_text": "Wenn dir das bekannt vorkommt",
+        "title_top": "Dein Produkt ist gut.",
         "title_emphasis": "Deine Website",
-        "title_bottom": "zeigt es nicht.",
-        "description": "Die meisten Marken da draußen sind besser, als ihre Online-Repräsentation glauben macht. Hier sind die fünf Stellen, an denen das auffällt — sobald ein Agent sucht.",
+        "title_bottom": "lässt es nicht so aussehen.",
+        "description": "Fünf Sätze, die wir von fast jedem Kunden im ersten Gespräch hören. Wenn du an einer Stelle nickst, sind wir wahrscheinlich richtig für dich.",
         "rows": [
-          { "k": "Pipeline-Herkunft", "now": "85 % Empfehlung + Zufall", "after": "Inbound aus Suche + Agent + Voice" },
-          { "k": "Sichtbarkeit in LLMs", "now": "Du tauchst nicht auf", "after": "Cited in Top-3 für deine Kategorie" },
-          { "k": "Brand-Quelle", "now": "Figma-Datei · 14 Versionen", "after": "DESIGN.md · machine-readable" },
-          { "k": "Pricing-Druck", "now": "Race-to-zero gegen GPT-Wrapper", "after": "Premium-Preis getragen von Premium-Brand" },
-          { "k": "Founder-Story", "now": "&quot;The Stripe for X&quot;", "after": "Eine These, die im Partner-Meeting reisst" }
+          { "k": "Anfragen", "now": "Meine Seite bringt fast keine", "after": "Klare Pfade, klare Texte, mehr Anfragen" },
+          { "k": "Google", "now": "Werde bei Google kaum gefunden", "after": "Schnell, sauber, gut aufgestellt für Google" },
+          { "k": "Aussehen", "now": "Sieht aus wie von 2012", "after": "Modern, ruhig, hochwertig" },
+          { "k": "Wirkung", "now": "Wirkt nicht so seriös wie ich bin", "after": "Erstes Gespräch ist schon halb gewonnen" },
+          { "k": "Mobil", "now": "Auf dem Handy hakt es", "after": "Auf dem Handy genauso gut wie am Rechner" }
         ]
       }
     },
@@ -41,32 +41,32 @@
       "type": "Dream",
       "props": {
         "id": "Dream-1",
-        "title_top": "Bald nennt der Agent",
-        "title_emphasis": "dich",
-        "title_bottom": "— bevor dein Wettbewerber überhaupt auftaucht.",
-        "description": "Frag dich: Was, wenn deine nächsten zehn Kunden nicht über Zufall kommen, sondern weil ein Agent auf <em>&quot;Wer macht das in DACH?&quot;</em> mit deinem Namen antwortet? Genau das baut maschinenlesbare Brand.",
+        "title_top": "Stell dir vor, du schickst den Link",
+        "title_emphasis": "und musst nichts mehr erklären.",
+        "title_bottom": "Die Seite erklärt es selbst.",
+        "description": "Du gehst aus einem guten Termin raus, der Buyer schickt den Link an seinen Partner. Drei Tage später kommt die Antwort: <em>„passt, lass uns loslegen.\"</em> Ohne dass du nochmal nachfasst. Das ist der Job einer guten Website. Genau das bauen wir dir.",
         "image_src": "/assets/cases/agent-reads-brand.jpg",
-        "image_alt": "3D-Robot liest ein Brand-DESIGN.md Panel",
-        "image_caption": "Der Agent liest deine Marke wie eine Datei — und empfiehlt sie.",
-        "image_prompt": "Cinematic 3D render, matte bordeaux humanoid robot holding a frosted translucent glass UI panel reading 'DEAR AGENT, THIS IS WHY WE'RE THE BEST' in warm gold serif, soft warm key light, moody dark crimson background, octane render, 3:4"
+        "image_alt": "Eine ruhige, klare Website auf einem Bildschirm",
+        "image_caption": "So sieht eine Seite aus, die für dich arbeitet.",
+        "image_prompt": "Editorial photograph of a clean, premium website on a laptop, warm low-key light, deep bordeaux background (#1A0404), soft golden rim. Magazine cover quality, subtle film grain, no text legible. 3:4"
       }
     },
     {
       "type": "Mechanism",
       "props": {
         "id": "Mechanism-1",
-        "title_top": "Drei Layer, zehn Tage —",
-        "title_bottom_before": "und der Agent",
-        "title_emphasis": "versteht dich",
-        "title_bottom_after": ".",
-        "description": "Keine 6-Wochen-Discovery. Keine 19 Stakeholder-Interviews. Keine Folie 23. Ein Operator, ein Festpreis, drei Auslieferungen — live, nicht in Figma.",
-        "input_chip": "INPUT · dein Brief, deine Marke, dein Markt",
-        "output_chip": "OUTPUT · ein System, Tag 10 live",
-        "output_meta": "inkl. 30 Tage Compound-Standby",
+        "title_top": "Drei Sachen, ein Preis,",
+        "title_bottom_before": "in",
+        "title_emphasis": "10 Werktagen",
+        "title_bottom_after": "fertig.",
+        "description": "Du musst nicht drei Leute koordinieren. Logo, Website, Texte — alles aus einer Hand. Du brieft mich einmal, ich melde mich am Tag 10 mit der fertigen Seite auf deiner Domain.",
+        "input_chip": "DU GIBST: kurzes Briefing, dein Wunsch, ein paar Beispiele",
+        "output_chip": "DU BEKOMMST: alles fertig, live auf deiner Domain",
+        "output_meta": "Plus 14 Tage Begleitung nach dem Launch",
         "layers": [
-          { "num": "01", "t": "Brand-System", "sub": "DESIGN.md · Voice · Forbidden Phrases", "out": "Maschinenlesbar" },
-          { "num": "02", "t": "Live-Site", "sub": "Next.js · Vercel · deine TLD", "out": "12 Sektionen, indizierbar" },
-          { "num": "03", "t": "Agent-Layer", "sub": "schema.org · llms.txt · Cluster-Brief", "out": "Lesbar für Claude · GPT · Perplexity" }
+          { "num": "01", "t": "Marke", "sub": "Logo · 5–6 Farben · Schriften", "out": "Aussehen, hell und dunkel" },
+          { "num": "02", "t": "Website", "sub": "Schnell · mobil · auf deiner Domain", "out": "6–8 Sektionen, fertig zum Online-gehen" },
+          { "num": "03", "t": "Texte", "sub": "Klar · deutsch · ohne Marketing-Sprech", "out": "Headlines, Texte, kleine Hinweise" }
         ]
       }
     },
@@ -74,68 +74,68 @@
       "type": "Proof",
       "props": {
         "id": "Proof-1",
-        "title_emphasis": "€300M+",
-        "title_top_after": "in den Büchern unserer Kunden.",
-        "title_bottom": "Gebaut von einem, der selbst skaliert hat.",
-        "description": "Brand-Arbeit ist ein Faktor. Produkt, Markttiming, Sales — auch. Wir behaupten nicht, den Wachstum allein gemacht zu haben. Wir zeigen, was in unserem Lieferumfang lag.",
+        "title_emphasis": "Was wir bisher gebaut haben",
+        "title_top_after": ".",
+        "title_bottom": "Mit echten Kunden, echten Zahlen, prüfbaren Quellen.",
+        "description": "Eine Website allein macht kein Wachstum — Produkt, Markt und Verkauf gehören auch dazu. Wir behaupten nicht, das alleine gemacht zu haben. Wir zeigen, was in unserem Teil des Projekts gelaufen ist.",
         "counters": [
-          { "prefix": "€", "value": 160, "suffix": "M", "display": "€160M", "label": "KKR Joint Venture (Vision · 2023)", "source": "öffentlich, vision.de" },
-          { "prefix": "", "value": 2240, "suffix": "", "display": "2.240", "label": "Königswege Partner (vs. 170 in 2017)", "source": "cash-online 2024" },
-          { "prefix": "", "value": 315, "suffix": "", "display": "315", "label": "Wohnungen (acta · 2023–2025)", "source": "intern, Ø Ticket €153.842" },
-          { "prefix": "", "value": 1, "suffix": "M+", "display": "1M+", "label": "PURELEI Follower (seit 2018)", "source": "Instagram public" }
+          { "prefix": "€", "value": 160, "suffix": "M", "display": "€160M", "label": "Vision · Joint Venture mit KKR (2023)", "source": "öffentlich, vision.de" },
+          { "prefix": "", "value": 2240, "suffix": "", "display": "2.240", "label": "Königswege · von 170 Partnern in 2017", "source": "cash-online 2024" },
+          { "prefix": "", "value": 315, "suffix": "", "display": "315", "label": "acta · Wohnungen verkauft (2023–2025)", "source": "intern, Ø Ticket €153.842" },
+          { "prefix": "", "value": 1, "suffix": "M+", "display": "1M+", "label": "PURELEI · Follower seit 2018", "source": "Instagram public" }
         ],
         "cases": [
           {
             "client": "Vision Real Estate",
             "years": "2019 → 2023",
             "kpi": "€160M",
-            "kpiLabel": "KKR Joint Venture",
-            "note": "Wir bauten Brand-Architektur, vision.de und Investor-Narrativ. Drei Gründer wurden 70 Köpfe — der KKR-Deal kam, nachdem die Brand stand.",
-            "href": "/work#vision"
+            "kpiLabel": "Joint Venture mit KKR",
+            "note": "Wir bauten die Marke, vision.de und das Pitch-Material. Aus drei Gründern wurden 70 Mitarbeiter — der KKR-Deal kam, nachdem die Marke stand.",
+            "href": "/work/vision"
           },
           {
             "client": "Königswege",
             "years": "2017 → live",
             "kpi": "170 → 2.240",
-            "kpiLabel": "Partner · cited Top-10 DE",
-            "note": "Relaunch 2020 trug die Skalierung. cash-online Hitliste 2024. Wir bauten Brand, Web-System, Partner-Materialien.",
-            "href": "/work#koenigswege"
+            "kpiLabel": "Partner · Top-10 DE Finance",
+            "note": "Relaunch 2020. Heute Top-10 in der cash-online-Hitliste 2024. Wir bauten Marke, Website und Partner-Material.",
+            "href": "/work/koenigswege"
           },
           {
             "client": "acta",
             "years": "2023 → 2025",
             "kpi": "€48,4M",
-            "kpiLabel": "Volumen über Instagram-Funnel",
-            "note": "Brand-Identität, Paid-Social-System, Funnel. Owner-led, ohne Outside Marketing Team. Ø Ticket €153.842.",
-            "href": "/work#acta"
+            "kpiLabel": "Volumen über Instagram",
+            "note": "Marke, Verkaufs-Funnel auf Instagram, alle Sales-Unterlagen. Owner-led, ohne externes Marketing-Team. Ø Ticket €153.842.",
+            "href": "/work/acta"
           }
         ],
-        "testimonials_eyebrow": "Stimmen aus dem Maschinenraum",
-        "founder_eyebrow": "Du sprichst mit dem, der baut",
-        "founder_bio": "Alexander Pütter — seit 2009 Brand-Arbeit für Konzerne (Bosch, Continental, Michelin), seit 2017 beuwy als Operator-Studio, 2023 selbst Unternehmer: <em>315 Wohnungen über Instagram verkauft, mitten in der Zinskrise</em>. Kein Account-Manager dazwischen. Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.",
+        "testimonials_eyebrow": "Was Kunden sagen",
+        "founder_eyebrow": "Du redest direkt mit mir",
+        "founder_bio": "Alexander Pütter. Seit 2009 mache ich Marken — erst für Konzerne (Bosch, Continental, Michelin), seit 2017 mit beuwy für Gründer und kleine Firmen. 2023 selbst Unternehmer: <em>315 Wohnungen über Instagram verkauft, mitten in der Zinskrise</em>. Kein Account-Manager dazwischen. Ich weiß, wie Kaufentscheidungen entstehen — weil ich sie selbst auslöse.",
         "founder_initials": "AP",
         "founder_name": "Alexander Pütter",
-        "founder_role": "Founder · Operator seit 2009",
-        "founder_quote": "Wir geben Gründern ein laufendes System und einen Graphen, der schon <em>klettert</em> — bevor die nächste Agentur ihr Notion-Doc fertig hat.",
+        "founder_role": "Macher · Heidelberg · seit 2009",
+        "founder_quote": "Ich baue dir die Marke und die Website. Schnell. Zum festen Preis. Und du redest die ganze Zeit mit mir, nicht mit einem Manager.",
         "founder_image": "/assets/operator/alexander-puetter.jpg",
-        "founder_image_alt": "Alexander Pütter — Founder &amp; Operator von beuwy"
+        "founder_image_alt": "Alexander Pütter — Macher von beuwy"
       }
     },
     {
       "type": "Offer",
       "props": {
         "id": "Offer-1",
-        "title_top": "Am Tag 10: Marke, Website und KI-Sichtbarkeit —",
-        "title_emphasis": "live, nicht in Figma",
-        "title_bottom": ".",
+        "title_top": "Was du am Tag 10 hast:",
+        "title_emphasis": "eine fertige Marke",
+        "title_bottom": "und eine Website, die live ist.",
         "deliverables": [
-          { "t": "DESIGN.md", "d": "Brand-Tokens, Voice, Vocabulary, Forbidden Phrases. Maschinenlesbar." },
-          { "t": "Live-Site", "d": "Next.js, Vercel, deine Domain. Eine Seite wie diese — auf dich angepasst." },
-          { "t": "Agent-Layer", "d": "schema.org · llms.txt · Cluster-Brief · GPT-Audit deiner aktuellen Sichtbarkeit." },
-          { "t": "30 Tage Compounding", "d": "Nach Launch: Experimente, Cohort-Receipts, ein Operator auf Standby." }
+          { "t": "Marke", "d": "Logo, 5–6 Farben (hell + dunkel), Schriften, ein klarer Look. So, dass alle bei dir gleich aussieht — heute und nächstes Jahr." },
+          { "t": "Website", "d": "Schnell, mobil, übersichtlich. 6–8 Sektionen, deine Domain, fertig zum Online-gehen. Modern wie die Seiten, die du selbst gerne ansiehst." },
+          { "t": "Texte", "d": "Klare deutsche Texte. Was du verkaufst, wem du hilfst, warum du. Ohne Marketing-Sprech, ohne englischen Slogan." },
+          { "t": "Technik im Hintergrund", "d": "Bei Google findbar. Auf dem Handy schnell. Und gleich richtig aufgestellt, damit auch ChatGPT & Co. dich nennen, wenn das wichtig wird." }
         ],
         "guarantee_title": "Tag 10 — oder Geld zurück.",
-        "guarantee_body": "Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain, bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes. Die Deadline ist unser Risiko.",
+        "guarantee_body": "Wenn die Marke und die Website nicht am 10. Werktag live auf deiner Domain stehen, bekommst du den vollen Preis zurück. Ohne Diskussion. Das Risiko trage ich, nicht du.",
         "guarantee_seal_label": "Tag 10",
         "guarantee_seal_sub": "live oder 0 €",
         "guarantee_href": "/system#contract"
@@ -145,11 +145,11 @@
       "type": "Scarcity",
       "props": {
         "id": "Scarcity-1",
-        "title_top": "6 Plätze im Jahr.",
-        "title_emphasis": "2 frei",
-        "title_mid": "für Q3.",
+        "title_top": "Ich nehme nicht viele Projekte gleichzeitig.",
+        "title_emphasis": "2 Plätze frei",
+        "title_mid": "für Q3/2026.",
         "title_bottom": "Danach Warteliste.",
-        "description": "Q4/2026 startet die Warteliste. Wir nehmen bewusst wenige — weil ein Operator nicht skaliert, indem er 17 Briefs gleichzeitig hält.",
+        "description": "Ich arbeite an einem Projekt zur Zeit. Damit es schnell wird und gut. Wenn ein Platz weg ist, ist er weg — und der nächste ist ein paar Wochen später.",
         "cta_label": "Audit starten",
         "cta_href": "/audit",
         "slots": [
@@ -168,85 +168,85 @@
         "id": "Identification-1",
         "eyebrow_num": "Für",
         "eyebrow_text": "dich, wenn du dich hier wiedererkennst",
-        "title_top": "Dein Produkt verdient ein Schaufenster,",
-        "title_bottom_before": "das seiner",
-        "title_emphasis": "Qualität",
-        "title_bottom_after": "entspricht.",
+        "title_top": "Wenn dein Angebot besser ist",
+        "title_bottom_before": "als das, was deine",
+        "title_emphasis": "Website",
+        "title_bottom_after": "zeigt.",
         "cards": [
           {
             "n": "01",
-            "t": "Du siehst dein Potential nicht abgebildet",
-            "s": "Was du anbietest, ist objektiv besser als das, was deine Website rüberbringt. Du weißt es. Deine besten Kunden wissen es. Der Markt erfährt es nicht."
+            "t": "Deine Website fühlt sich kleiner an als dein Geschäft",
+            "s": "Du weißt, dass du was Gutes machst. Die Seite zeigt das nicht. Du sagst es deinen Kunden im Termin selbst — aber wer nur die Seite sieht, geht weiter."
           },
           {
             "n": "02",
-            "t": "Frühere Agenturen haben „einfach irgendwas“ gemacht",
-            "s": "Drei Logos, vier Mockup-Runden, am Ende ein Stilbruch zwischen Hero und Footer. Du hast bezahlt — und musst trotzdem selbst nacharbeiten."
+            "t": "Du hattest schon mal eine Agentur und es war Stress",
+            "s": "Drei Logo-Vorschläge, vier Korrekturschleifen, am Ende musstest du selbst noch nacharbeiten. Du willst diesmal etwas, das funktioniert — ohne dass du es selbst zu Ende baust."
           },
           {
             "n": "03",
-            "t": "Du grübelst seit Tagen über den einen Satz",
-            "s": "Wie bricht man eigentlich runter, was das Produkt ausmacht? Du hast 14 Versionen, keine zündet, der Pitch wird immer länger statt schärfer."
+            "t": "Du suchst seit Tagen den richtigen Satz",
+            "s": "Wie sagt man kurz, was du machst und warum es besser ist? Du hast 14 Versionen, keine sitzt. Genau das ist Teil meines Jobs."
           },
           {
             "n": "04",
-            "t": "Du willst die Sprache deiner Kategorie setzen",
-            "s": "Nicht der nächste Klon werden, der „AI-powered Solutions for X“ sagt. Sondern derjenige, dessen Worte die Wettbewerber sechs Monate später übernehmen."
+            "t": "Du willst, dass man in deiner Branche zuerst an dich denkt",
+            "s": "Nicht der nächste Klon. Sondern der, dessen Name fällt, wenn jemand fragt: <em>„wer macht das eigentlich gut?\"</em>"
           },
           {
             "n": "05",
-            "t": "Du planst längst für die Agent-Ära",
-            "s": "Während andere noch SEO-Schlagwörter für 2013 pflegen, willst du die Marke sein, die Claude, ChatGPT &amp; Co. als Erste empfehlen — strukturiert lesbar, klar positioniert, glaubwürdig belegt."
+            "t": "Du willst, dass es schnell geht",
+            "s": "Keine sechs Monate Projekt. Keine zehn Meetings. Du brauchst die neue Seite jetzt, weil dein Geschäft jetzt läuft."
           }
         ],
-        "kicker": "Wenn du an <em>einer</em> dieser Stellen genickt hast, sind wir wahrscheinlich dein Team."
+        "kicker": "Wenn du an <em>einer</em> Stelle genickt hast, sind wir wahrscheinlich richtig für dich."
       }
     },
     {
       "type": "Magnet",
       "props": {
         "id": "Magnet-1",
-        "title_top": "In 15 Sekunden siehst du, was die",
-        "title_emphasis": "Agenten",
-        "title_bottom": "über dich sagen.",
-        "description": "Domain rein. Score, sechs Dimensionen, sofort-Fixes — die beuwy-Agenten prüfen quer über Claude, ChatGPT, Gemini, Grok, DeepSeek & Perplexity. Kein Login, kostenlos.",
-        "audit_placeholder": "deine-marke.de",
+        "title_top": "Schauen wir uns deine",
+        "title_emphasis": "Website",
+        "title_bottom": "mal an — in 15 Sekunden.",
+        "description": "Domain rein. Du bekommst eine kurze, klare Einschätzung: Was funktioniert, was nicht, wo du Anfragen verlierst. Kein Login, kostenlos.",
+        "audit_placeholder": "deine-website.de",
         "audit_cta": "Audit",
-        "audit_hint": "15 Sek · kein Login · live von den beuwy-Agenten"
+        "audit_hint": "15 Sekunden · kein Login · klare Antworten in einfachem Deutsch"
       }
     },
     {
       "type": "Faq",
       "props": {
         "id": "Faq-1",
-        "eyebrow": "Bevor du den Brief schickst",
+        "eyebrow": "Bevor du mir schreibst",
         "title_top": "Die Fragen, die",
-        "title_emphasis": "jeder Founder",
-        "title_bottom": "an dieser Stelle stellt.",
+        "title_emphasis": "jeder",
+        "title_bottom": "an dieser Stelle hat.",
         "items": [
           {
-            "q": "Was kostet ein Engagement?",
-            "a": "Festpreis pro Slot — eine Zahl, kein Tagessatz, kein Scope-Creep. Wir nennen sie im ersten Call, nachdem wir deinen Brief gelesen haben. Kein bezahlter Discovery-Sprint, der erst nach sechs Wochen einen Preis ausspuckt."
+            "q": "Was kostet das?",
+            "a": "8.900 €. Fester Preis. Eine Zahl, kein Tagessatz, keine versteckten Kosten. Du weißt vorher, was du bekommst und was du zahlst."
           },
           {
-            "q": "Wirklich live in 10 Tagen?",
-            "a": "Ja. Zehn Werktage von Brief bis Live-System auf deiner Domain. Das geht, weil ein Operator durcharbeitet statt 19 Stakeholder zu interviewen — und weil wir mit einem festen Format starten, nicht mit einem leeren Figma."
+            "q": "Wirklich in 10 Werktagen fertig?",
+            "a": "Ja. Zwei Wochen, dann steht alles auf deiner Domain. Das geht, weil ich an einem Projekt zur Zeit arbeite und weil ich nicht bei null anfange — ich habe ein eingespieltes System, das ich auf dich kalibriere."
           },
           {
-            "q": "Ich habe schon eine Website. Fangt ihr bei null an?",
-            "a": "Wir bauen die Struktur neu — auf dem Agent-Layer, den deine aktuelle Seite nicht hat. Deine Inhalte, Assets und alles, was funktioniert, fließen ein. Du verlierst nichts Gutes; du verlierst den Stilbruch zwischen Hero und Footer."
+            "q": "Garantierst du, dass ich mehr Kunden bekomme?",
+            "a": "Nein — und wer das tut, lügt. Wie viele Kunden kommen, hängt von deinem Produkt, deinem Preis und deinem Verkauf ab. Ich garantiere, dass die Marke und die Seite am Tag 10 fertig auf deiner Domain stehen — oder du bekommst dein Geld zurück."
+          },
+          {
+            "q": "Ich habe schon eine Website. Fangen wir bei null an?",
+            "a": "Nein, was gut ist, übernehmen wir. Texte, Bilder, alles was funktioniert, fließt ein. Was nicht passt, fliegt raus. Du verlierst nichts Gutes."
           },
           {
             "q": "Wer arbeitet an meinem Projekt?",
-            "a": "Der Operator, mit dem du sprichst, ist der Operator, der baut. Kein Account-Manager als Telefonzentrale, keine Junior-Übergabe nach dem Kickoff. Du redest direkt mit Alexander."
+            "a": "Ich. Alexander. Kein Account-Manager dazwischen, keine Junior-Übergabe. Du redest mit dem, der auch baut."
           },
           {
-            "q": "Was ist dieser „Agent-Layer“ konkret?",
-            "a": "Eine maschinenlesbare Repräsentation deiner Marke: schema.org-Structured-Data, llms.txt, ein DESIGN.md mit Voice und Tokens, ein Cluster-Brief. Damit Claude, ChatGPT, Gemini und Perplexity dich korrekt verstehen und zuerst nennen — nicht den Wettbewerber, der noch SEO für 2013 pflegt."
-          },
-          {
-            "q": "Garantiert ihr Rankings oder Ergebnisse?",
-            "a": "Nein — und jeder, der das tut, lügt. Brand ist ein Faktor; Produkt, Timing und Sales sind die anderen. Wir garantieren das System, die Auslieferung am Tag 10 und 30 Tage Compound-Standby. Was wir gebaut haben, zeigen wir mit Quellen — was wir nicht beeinflusst haben, behaupten wir nicht."
+            "q": "Was ist mit ChatGPT, Google AI und so?",
+            "a": "Baue ich gleich richtig mit ein. Das heißt: deine Seite ist so aufgestellt, dass auch KI dich nennt, wenn jemand sie fragt. Ist heute noch ein kleiner Vorteil — wird in den nächsten Jahren wichtiger."
           }
         ],
         "tone": "raised"
@@ -256,13 +256,13 @@
       "type": "BigCta",
       "props": {
         "id": "BigCta-1",
-        "title_top": "Dein nächster Kunde fragt jetzt gerade einen Agenten.",
-        "title_emphasis": "Was antwortet er?",
+        "title_top": "Schreib mir kurz, was du brauchst.",
+        "title_emphasis": "Ich melde mich heute noch zurück.",
         "primary_label": "Kostenlosen Audit starten",
         "primary_href": "/audit",
-        "secondary_label": "Oder Brief schicken →",
+        "secondary_label": "Oder direkt Brief schicken →",
         "secondary_href": "/anfrage",
-        "meta": "Ø Reply < 6h · Mo–Fr 09–18 CET"
+        "meta": "Antwort in 6 Stunden · Mo–Fr 09–18 Uhr"
       }
     }
   ],

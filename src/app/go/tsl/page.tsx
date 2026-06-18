@@ -5,30 +5,20 @@ import { AssetSlot } from "@/components/AssetSlot";
 import { JsonLd, breadcrumbLd, serviceLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Ein Brief an den Founder, dessen Marke besser ist als seine Website",
+  title: "Ein Brief — von Alex an Gründer mit Website-Frust",
   description:
-    "Wenn du das liest, hast du wahrscheinlich gerade einen Pitch gewonnen, den deine Website verloren hätte. Ein Brief von Alexander Pütter — warum das gleich teurer wird, und was wir dagegen tun.",
+    "Eine ehrliche Rechnung, ein klarer Vorschlag. Marke + Website in 10 Werktagen, 8.900 € fester Preis. Tag 10 oder Geld zurück.",
   alternates: { canonical: "/sichtbar" },
-  // Plain text sales letter — paid + DM channel, not for organic index.
   robots: { index: false, follow: true },
   openGraph: {
-    title: "Ein Brief an den Founder, dessen Marke besser ist als seine Website",
-    description:
-      "Warum bald niemand mehr sucht — sondern fragt. Und was du tun kannst, bevor es deinen Wettbewerber empfiehlt.",
+    title: "Ein Brief — von Alex an Gründer mit Website-Frust",
+    description: "Marke + Website in 10 Werktagen, 8.900 € fester Preis. Tag 10 oder Geld zurück.",
     type: "article",
     url: "https://beuwy.com/go/tsl",
   },
   twitter: { card: "summary_large_image" },
 };
 
-/* ============================================================
-   Plain text sales letter — Schwartz stage 4 long-form copy.
-   Cream band, single column, narrow measure, one CTA repeated
-   inline. Borrows the *structural* moves of high-converting
-   text-sales-letters (1 column, monospace meta, founder anchor,
-   open loop, named source proof, single goal) without the
-   ecom-coaching aesthetic that repels DACH high-ACV buyers.
-   ============================================================ */
 export default function GoTslPage() {
   return (
     <>
@@ -36,13 +26,13 @@ export default function GoTslPage() {
         data={[
           breadcrumbLd([
             { name: "beuwy", href: "/" },
-            { name: "Sichtbar in der KI-Ära", href: "/sichtbar" },
+            { name: "Brief von Alex", href: "/sichtbar" },
           ]),
           serviceLd,
         ]}
       />
 
-      {/* Minimal top chrome — date, location, nothing else */}
+      {/* Minimal top chrome */}
       <div
         className="fixed top-0 inset-x-0 z-40 flex items-center justify-between px-6 py-4"
         style={{ background: "var(--ink-cream)", borderBottom: "1px solid rgba(26,4,4,0.08)" }}
@@ -76,7 +66,6 @@ export default function GoTslPage() {
           lineHeight: 1.7,
         }}
       >
-        {/* Header — date + place, like a real letter */}
         <Reveal>
           <p
             style={{
@@ -88,11 +77,10 @@ export default function GoTslPage() {
               marginBottom: 32,
             }}
           >
-            Heidelberg · Werktagsbrief · 2026
+            Heidelberg · 2026
           </p>
         </Reveal>
 
-        {/* Title — letter-like, not headline-y */}
         <Reveal delay={60}>
           <h1
             className="font-display"
@@ -104,110 +92,46 @@ export default function GoTslPage() {
               marginBottom: 28,
             }}
           >
-            An den Founder, dessen Marke besser ist
+            An den Gründer, der genervt ist, dass die eigene Website das Geschäft
             <br />
-            als seine{" "}
-            <em className="font-display italic" style={{ color: "#B23A48" }}>
-              Website.
-            </em>
+            <em className="font-display italic" style={{ color: "#B23A48" }}>kleiner aussehen lässt</em>{" "}
+            als es ist.
           </h1>
         </Reveal>
 
         <Reveal delay={120}>
           <p style={{ color: "rgba(26,4,4,0.6)", fontStyle: "italic", marginBottom: 40 }}>
-            ~ 9 Minuten Lesezeit. Kein Video. Keine Tricks. Eine ehrliche Rechnung.
+            ~ 6 Minuten Lesezeit. Kein Video. Keine Tricks. Eine ehrliche Rechnung.
           </p>
         </Reveal>
 
-        {/* Letter body — sequential persuasion */}
         <div className="tsl-body" style={{ color: "rgba(26,4,4,0.92)" }}>
           <Reveal delay={140}>
             <p>Hi,</p>
 
             <p style={{ marginTop: 24 }}>
-              wenn du das hier liest, hast du wahrscheinlich gerade einen Pitch gewonnen, den deine
-              Website verloren hätte.
+              wenn du das hier liest, hast du wahrscheinlich gerade einen Pitch gewonnen — und drei
+              Tage später hat dir der Buyer nicht geantwortet.
             </p>
 
             <p>
-              Du bist der Founder. Du sitzt im Termin. Du erklärst in zwölf Minuten, warum dein
+              Du bist der Gründer. Du sitzt im Termin. Du erklärst in zwölf Minuten, warum dein
               Produkt anders ist. Es funktioniert.{" "}
               <strong>Drei Tage später schickt der Buyer den Link an seinen Mitgründer.</strong>
             </p>
 
             <p>
               Und genau da fällt es auseinander. Die Website zeigt nicht, was du im Termin gezeigt
-              hast. Der Stilbruch zwischen Hero und Footer liest sich wie zwei verschiedene Firmen.
-              Die KI, die er nebenbei fragt — Claude, ChatGPT, Perplexity —, kennt dich nicht und
-              empfiehlt jemand anderen.
+              hast. Logo, Texte, das Aussehen — alles wirkt kleiner als das, was du im Gespräch
+              gerade hattest. Der Mitgründer schaut zehn Sekunden drauf, geht weiter.
             </p>
           </Reveal>
 
           <Reveal delay={180}>
             <p style={{ marginTop: 36 }}>
-              <em style={{ fontStyle: "italic", color: "#B23A48" }}>Ich will dir keinen Hype verkaufen.</em>{" "}
-              Ich will dir drei Zahlen zeigen, die in den letzten 18 Monaten erschienen sind. Du
-              kannst sie alle selbst nachprüfen — die Quellen stehen darunter.
-            </p>
-          </Reveal>
-
-          {/* Three proof stats — letterhead style, not card grid */}
-          <Reveal delay={220}>
-            <div
-              style={{
-                marginTop: 36,
-                padding: "28px 28px",
-                borderLeft: "3px solid #B23A48",
-                background: "rgba(178,58,72,0.04)",
-              }}
-            >
-              <p style={{ marginTop: 0 }}>
-                <strong style={{ color: "#B23A48", fontSize: 22, letterSpacing: "-0.02em" }}>
-                  → 8 %.
-                </strong>
-                <br />
-                So oft wird heute auf ein Suchergebnis geklickt, sobald oben eine KI-Antwort steht.
-                Ohne KI: 15 %. <em>Halbierung.</em>{" "}
-                <span style={{ color: "rgba(26,4,4,0.55)", fontFamily: "var(--font-mono)", fontSize: 13 }}>
-                  Pew Research, Juli 2025
-                </span>
-              </p>
-
-              <p>
-                <strong style={{ color: "#B23A48", fontSize: 22, letterSpacing: "-0.02em" }}>
-                  → 64 %.
-                </strong>
-                <br />
-                So viele deutsche Unternehmen nennen sich selbst Digital-Nachzügler. Nur jedes
-                fünfte nutzt KI überhaupt. Bei kleinen Firmen sind es 17 %.{" "}
-                <span style={{ color: "rgba(26,4,4,0.55)", fontFamily: "var(--font-mono)", fontSize: 13 }}>
-                  Bitkom + Destatis, 2024–2025
-                </span>
-              </p>
-
-              <p style={{ marginBottom: 0 }}>
-                <strong style={{ color: "#B23A48", fontSize: 22, letterSpacing: "-0.02em" }}>
-                  → −25 %.
-                </strong>
-                <br />
-                Um so viel sinkt das klassische Suchvolumen bis Ende 2026, weil KI-Chatbots die
-                Antworten direkt liefern.{" "}
-                <span style={{ color: "rgba(26,4,4,0.55)", fontFamily: "var(--font-mono)", fontSize: 13 }}>
-                  Gartner, Februar 2024
-                </span>
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={260}>
-            <p style={{ marginTop: 36 }}>
-              Jede einzelne dieser Zahlen für sich ist erklärbar. Übereinander gelegt sind sie eine
-              Verschiebung. <strong>Der Kanal, auf den du jahrelang gebaut hast, schrumpft strukturell.</strong>
-            </p>
-
-            <p>
-              Und die Antwort, die der Agent gibt, hat — im Gegensatz zu Google — keinen zweiten
-              Platz. Es gibt einen Empfohlenen. Den Rest hat der Buyer nie gesehen.
+              <em style={{ fontStyle: "italic", color: "#B23A48" }}>Ich will dir nichts verkaufen, was du nicht brauchst.</em>{" "}
+              Ich erzähle dir, was ich genau anbiete, was es kostet, und was du dafür kriegst.
+              Wenn das passt, sprechen wir. Wenn nicht — auch okay.
             </p>
           </Reveal>
 
@@ -223,26 +147,31 @@ export default function GoTslPage() {
                 color: "var(--bg-base)",
               }}
             >
-              Du hast nichts falsch gemacht. Die Regeln haben sich geändert.
+              Was die meisten machen — und warum es weh tut.
             </h2>
 
             <p>
-              Die Website, die für Google gebaut wurde, ist für einen Agenten unsichtbar. Er liest
-              keine schönen Bilder. Er liest Struktur, Quellen, maschinenlesbare Bedeutung — und
-              davon hat eine klassische Seite nichts.
+              Du gehst zu einer Agentur. Die brauchen drei Monate. Sie wollen 12.000 €. Du kriegst
+              drei Logo-Vorschläge, fünf Korrekturschleifen, und am Ende eine Seite, die zwar
+              hübsch aussieht — aber bei der du selbst noch die Texte umschreiben musst.
             </p>
 
             <p>
-              Die Agentur, die dir drei Monate und einen fünfstelligen Betrag berechnet, kennt das
-              Wort Agent-Layer nicht. Sie diskutiert noch die Farbpalette, während deine Kategorie
-              gerade neu sortiert wird.
+              Oder du holst dir einen Freelancer für 3.500 €. Der kann gut Webflow. Aber das Logo
+              kommt von woanders. Die Texte machst du selbst. Die Marken-Sprache erfindet jeder
+              Mitarbeiter neu. Stilbruch zwischen Hero und Footer.
             </p>
 
             <p>
+              Oder du machst es selbst, abends nach der Arbeit. Drei Monate später hast du
+              irgendwas auf Squarespace stehen, mit dem du nicht zufrieden bist — und du hast
+              drei Monate verloren, in denen du Geschäft hättest machen können.
+            </p>
+
+            <p style={{ marginTop: 28 }}>
               <em style={{ fontStyle: "italic", color: "#B23A48" }}>
-                Das ist keine Schuld. Das ist Timing.
-              </em>{" "}
-              Und Timing ist das Einzige, was man bei diesem Thema nicht nachkaufen kann.
+                Mein Modell ist anders.
+              </em>
             </p>
           </Reveal>
 
@@ -258,33 +187,41 @@ export default function GoTslPage() {
                 color: "var(--bg-base)",
               }}
             >
-              Was wir bauen — in drei Sätzen.
+              Was ich baue — und was es kostet.
             </h2>
 
             <p>
-              Es ist kein Geheim-System. Du sollst es verstehen, bevor du eine Anfrage schickst.
+              Ich baue dir alles in einem: Logo, Farben, Schriften, fertige Website, klare Texte.
+              In 10 Werktagen. Zum festen Preis: <strong>8.900 €.</strong>
             </p>
 
             <p>
-              <strong>Eine Datei</strong> — wir nennen sie DESIGN.md. Maschinenlesbar. Wenn ein Agent
-              über deine Marke spricht, redet er aus dieser Datei. Tokens, Voice, Vocabulary,
-              Forbidden Phrases. Eine Quelle, kein Stilbruch.
+              <strong>Logo, Farben, Schriften.</strong> 5–6 Brand-Farben, hell und dunkel.
+              Schriften, die zueinander passen. Ein klarer Look, den du auch in zwei Jahren noch
+              gerne benutzt.
             </p>
 
             <p>
-              <strong>Eine Website</strong> — auf deiner Domain, schnell, indizierbar, mobil. Der
-              Standard, den Google seit Jahren belohnt. Sie trägt den Rest.
+              <strong>Eine fertige Website auf deiner Domain.</strong> 6–8 Sektionen, schnell, mobil,
+              modern wie die Seiten, die du selbst gerne ansiehst. Bei Google findbar, auf dem
+              Handy schnell.
             </p>
 
             <p>
-              <strong>Ein Agent-Layer</strong> — schema.org-Struktur, llms.txt, ein Cluster-Brief.
-              Lesbar für Claude, GPT, Gemini, Perplexity. Plus ein GPT-Audit deiner aktuellen
-              Sichtbarkeit, damit du schwarz auf weiß siehst, wo du heute stehst.
+              <strong>Klare deutsche Texte.</strong> Headlines, Hauptbotschaften, kleine Hinweise.
+              Auf deine Stimme abgestimmt — ohne Marketing-Sprech, ohne englischen Slogan, ohne
+              „kategorie-definierend".
+            </p>
+
+            <p>
+              <strong>Technik im Hintergrund.</strong> Damit auch ChatGPT und Google AI deine
+              Marke nennen können, wenn das wichtig wird. Heute noch ein kleiner Vorteil — wird
+              in den nächsten Jahren wichtiger.
             </p>
 
             <p style={{ marginTop: 28 }}>
-              Am Tag 10 steht das alles live auf deiner Domain.{" "}
-              <em style={{ fontStyle: "italic", color: "#B23A48" }}>Nicht in Figma. Nicht in Notion.</em>
+              Plus: <strong>14 Tage Begleitung nach dem Launch.</strong> Falls noch was auffällt
+              oder eine kleine Änderung nötig ist — ohne Extra-Rechnung.
             </p>
           </Reveal>
 
@@ -304,12 +241,11 @@ export default function GoTslPage() {
             </h2>
           </Reveal>
 
-          {/* Founder anchor — letter-format, small portrait */}
           <Reveal delay={420}>
             <div style={{ marginTop: 24, marginBottom: 32, maxWidth: 280 }}>
               <AssetSlot
                 src="/assets/operator/alexander-puetter.jpg"
-                alt="Alexander Pütter — Founder & Operator von beuwy"
+                alt="Alexander Pütter — Macher von beuwy"
                 aspect="1/1"
                 caption="Alexander Pütter · Heidelberg"
                 prompt="Editorial founder portrait, square 1:1, late-30s/40s German man, three-quarter angle, calm confident expression, warm low-key studio light, cream/oxblood background, soft golden rim light. Magazine cover quality, subtle film grain, not corporate-stocky."
@@ -319,27 +255,25 @@ export default function GoTslPage() {
 
           <Reveal delay={460}>
             <p>
-              Ich bin Alex. Brand-Arbeit seit 2009, erst für Konzerne (Bosch, Continental,
-              Michelin), seit 2017 mit beuwy als Operator-Studio. Heidelberg.
+              Ich bin Alex. Mache seit 2009 Marken — zuerst für Konzerne wie Bosch, Continental,
+              Michelin. Seit 2017 mit beuwy für Gründer und kleine Firmen. Aus Heidelberg.
             </p>
 
             <p>
               2023 wurde ich selbst Unternehmer:{" "}
               <strong>315 Wohnungen über Instagram verkauft</strong>, mitten in der Zinskrise.
-              Volumen €48,4M. Ø Ticket €153.842. Ohne externes Marketing-Team. Drei
-              Geschäftspartner, owner-led, gegen die Marktstimmung.
+              Volumen 48,4 Millionen Euro. Ø Ticket 153.842 €. Ohne externes Marketing-Team.
             </p>
 
             <p>
-              Ich erzähle dir das, weil es zählt: ich kenne Kaufentscheidungen bei hohem Ticket
-              nicht aus einer Studie. <em style={{ fontStyle: "italic", color: "#B23A48" }}>
-              Ich löse sie selbst aus.</em> Wenn ich dir sage, was in deiner Marke nicht funktioniert,
-              ist das keine Theorie. Das ist die letzte Cohort.
+              Ich erzähle dir das, weil es zählt: Ich weiß, wie Kunden eine teure Entscheidung
+              treffen — <em style={{ fontStyle: "italic", color: "#B23A48" }}>weil ich sie selbst auslöse.</em>{" "}
+              Wenn ich dir sage, was an deiner Marke gerade nicht funktioniert, ist das keine Theorie.
             </p>
 
             <p>
-              Du redest mit dem, der baut. Kein Account-Manager dazwischen, keine Junior-Übergabe
-              nach dem Kickoff, keine 19 Stakeholder.
+              Du redest direkt mit mir. Kein Account-Manager dazwischen. Keine Übergabe an Junior-
+              Mitarbeiter. Ein Brief, eine Antwort, eine Hand.
             </p>
           </Reveal>
 
@@ -359,9 +293,8 @@ export default function GoTslPage() {
             </h2>
 
             <p>
-              Wir behaupten nicht, das Wachstum allein gemacht zu haben — Produkt, Markttiming und
-              Sales sind die anderen Faktoren. Aber hier ist, was in unserem Lieferumfang lag, mit
-              Quelle:
+              Ich behaupte nicht, das Wachstum allein gemacht zu haben — Produkt, Markt und
+              Verkauf gehören auch dazu. Aber hier ist, was in meinem Teil lag:
             </p>
 
             <ul
@@ -376,60 +309,31 @@ export default function GoTslPage() {
               <ProofLi
                 kpi="€160M"
                 client="Vision Real Estate"
-                note="KKR-Joint-Venture. Wir bauten Brand, vision.de und Investor-Narrativ — der Deal kam, nachdem die Marke stand."
+                note="Joint Venture mit KKR. Wir bauten Marke, vision.de und Pitch-Material — der Deal kam, nachdem die Marke stand."
                 href="/work/vision"
               />
               <ProofLi
                 kpi="2.240 Partner"
                 client="Königswege"
-                note="Von 170 in 2017. Cited Top-10 DE auf der cash-online Hitliste 2024."
+                note="Von 170 in 2017. Heute Top-10 DE auf der cash-online-Hitliste 2024."
                 href="/work/koenigswege"
               />
               <ProofLi
                 kpi="315 Wohnungen / €48,4M"
                 client="acta"
-                note="Verkauft über einen Instagram-Funnel, mitten in der Zinskrise. Ø Ticket €153.842, owner-led."
+                note="Verkauft über Instagram-Funnel, mitten in der Zinskrise. Ø Ticket €153.842, ohne externes Marketing-Team."
                 href="/work/acta"
               />
               <ProofLi
                 kpi="1M+ Follower"
                 client="PURELEI"
-                note="Brand-Sprache und Voice-System. 20–30 Mio. Ø Umsatz pro Jahr — das System spricht weiter, wenn die Founder nicht im Raum sind."
+                note="Marke und Stimme. 20–30 Mio. Ø Umsatz pro Jahr — das System spricht weiter, wenn ich nicht im Raum bin."
                 href="/work/purelei"
               />
             </ul>
           </Reveal>
 
-          <Reveal delay={540}>
-            <h2
-              className="font-display"
-              style={{
-                fontSize: 28,
-                letterSpacing: "-0.02em",
-                marginTop: 56,
-                marginBottom: 20,
-                lineHeight: 1.15,
-                color: "var(--bg-base)",
-              }}
-            >
-              Was es kostet, und was du bekommst.
-            </h2>
-
-            <p>
-              Das ganze Paket — DESIGN.md, Live-Site, Agent-Layer, plus 30 Tage Begleitung nach
-              Launch — läuft als <strong>Festpreis pro Slot</strong>. Eine Zahl. Kein Tagessatz. Kein
-              Scope-Creep. Du bekommst sie ≤ 6 Stunden nach Brief-Eingang — nicht nach einem
-              sechswöchigen, bezahlten Discovery-Sprint.
-            </p>
-
-            <p>
-              Es gibt einen Sprint-Tarif für eine einzelne Sektion (fünf Tage) und einen
-              Compound-Tarif als Monats-Retainer für die Zeit nach Launch. Aber wer den Brief schickt,
-              sucht meistens das System.
-            </p>
-          </Reveal>
-
-          {/* Guarantee — letter style, not seal */}
+          {/* GARANTIE */}
           <Reveal delay={580}>
             <div
               style={{
@@ -466,11 +370,11 @@ export default function GoTslPage() {
                 Tag 10 — oder Geld zurück.
               </p>
               <p style={{ color: "var(--ink-cream)", fontSize: 16, lineHeight: 1.6, marginBottom: 0 }}>
-                Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain,
-                bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes.
+                Wenn die Marke und die Website nicht am 10. Werktag live auf deiner Domain stehen,
+                bekommst du den vollen Preis zurück. Ohne Diskussion. Ohne Kleingedrucktes.
                 <br />
                 <em style={{ fontStyle: "italic", color: "rgba(247,233,154,0.7)", fontSize: 14 }}>
-                  Die Garantie gilt für die Auslieferung — nicht für Rankings oder Umsatz. Die
+                  Die Garantie gilt für die Lieferung — nicht für Anfragen oder Umsatz. Das
                   garantiert niemand seriös.
                 </em>
               </p>
@@ -493,19 +397,14 @@ export default function GoTslPage() {
             </h2>
 
             <p>
-              Drei Gründe. Erstens: die Agents werden gerade trainiert. Was sie heute lesen, prägt,
-              wen sie morgen empfehlen. Späte Indexierung ist nicht „nachgeholt" — sie ist verloren.
+              Zwei Gründe. Erstens: Ich nehme nicht viele Projekte gleichzeitig. Q3/2026 sind zwei
+              Plätze frei, Q4 startet die Warteliste. Wenn ein Platz weg ist, ist er weg.
             </p>
 
             <p>
-              Zweitens: wir nehmen <strong>sechs Mandate pro Jahr.</strong> Kein Funnel-Trick, kein
-              blinkender Countdown. Ein Operator hat genau so viel Kapazität. Q3/2026 sind zwei
-              Slots offen, Q4 startet die Warteliste.
-            </p>
-
-            <p>
-              Drittens — und das ist der unbequemste: wer in der Flaute modernisiert, gewinnt im
-              Aufschwung. Wer in der Flaute wartet, wartet allein.
+              Zweitens — und das ist der unbequeme: Jeden Monat, in dem deine alte Seite weiter
+              läuft, lässt du Anfragen liegen. Du siehst es nicht. Sie kommen einfach nicht.
+              Das ist ein stiller Verlust.
             </p>
           </Reveal>
 
@@ -525,15 +424,15 @@ export default function GoTslPage() {
             </h2>
 
             <p>
-              Starte mit dem kostenlosen Audit. In 15 Sekunden siehst du, was Claude, GPT, Gemini
-              und Perplexity heute über deine Marke wissen — und was sie nicht wissen. Keine
-              Kreditkarte, kein Login, DSGVO-konform.
+              Starte mit dem kostenlosen Audit. Du gibst deine Domain ein und bekommst in
+              15 Sekunden eine klare Einschätzung: was funktioniert, was nicht, wo du Anfragen
+              verlierst. Kein Login, kostenlos.
             </p>
 
             <p>
-              Wenn das Ergebnis aussagt, dass dein Wettbewerber an deiner Stelle empfohlen wird,
-              schick uns deinen Brief. Du bekommst die Zahl und einen Liefertermin in unter sechs
-              Stunden — keine Discovery-Schleife, kein Verkaufsgespräch mit drei Folgeterminen.
+              Wenn das Ergebnis aussagt, dass deine Seite Anfragen liegen lässt, schick mir
+              deinen Brief. Du bekommst die Antwort und einen Liefertermin in unter sechs Stunden —
+              keine wochenlange Discovery, kein Verkaufsgespräch mit drei Folgeterminen.
             </p>
 
             <p style={{ marginTop: 28 }}>
@@ -547,12 +446,11 @@ export default function GoTslPage() {
                   fontSize: 19,
                 }}
               >
-                → Kostenlosen KI-Audit jetzt starten
+                → Kostenlosen Audit jetzt starten
               </a>
             </p>
           </Reveal>
 
-          {/* Sign-off */}
           <Reveal delay={700}>
             <p style={{ marginTop: 56 }}>Bis dahin —</p>
             <p
@@ -576,11 +474,10 @@ export default function GoTslPage() {
                 marginTop: 8,
               }}
             >
-              Alexander Pütter · Founder, Operator · beuwy · Heidelberg
+              Alexander Pütter · Macher · beuwy · Heidelberg
             </p>
           </Reveal>
 
-          {/* P.S. — direct response convention, double down on the seal */}
           <Reveal delay={740}>
             <div
               style={{
@@ -591,7 +488,7 @@ export default function GoTslPage() {
             >
               <p>
                 <strong style={{ color: "#B23A48" }}>P.S. —</strong> Die Garantie ist echt. Tag 10
-                live auf deiner Domain, oder voller Festpreis zurück. Es gibt im{" "}
+                live auf deiner Domain, oder voller Preis zurück. Es gibt im{" "}
                 <Link
                   href="/system#contract"
                   style={{
@@ -602,11 +499,11 @@ export default function GoTslPage() {
                 >
                   Liefervertrag
                 </Link>{" "}
-                kein Kleingedrucktes. Die Deadline ist unser Risiko.
+                kein Kleingedrucktes. Das Risiko trage ich, nicht du.
               </p>
               <p style={{ marginTop: 20 }}>
-                <strong style={{ color: "#B23A48" }}>P.P.S. —</strong> Wenn du noch lieber jemanden
-                kennenlernst, bevor du den Brief schickst, geh auf{" "}
+                <strong style={{ color: "#B23A48" }}>P.P.S. —</strong> Wenn du erst mal jemanden
+                kennenlernen willst, bevor du den Brief schickst, geh auf{" "}
                 <Link
                   href="/system#operator"
                   style={{
@@ -617,13 +514,12 @@ export default function GoTslPage() {
                 >
                   /system#operator
                 </Link>{" "}
-                — da steht der Track-Record mit Quellen und mein Foto in groß. Aber das Audit
-                braucht keine Vorstellung. Mach es jetzt.
+                — da steht mein Werdegang und mein Foto. Aber der Audit braucht keine Vorstellung.
+                Mach ihn jetzt.
               </p>
             </div>
           </Reveal>
 
-          {/* Final CTA button — single goal, one action */}
           <Reveal delay={780}>
             <div style={{ marginTop: 48, textAlign: "center" }}>
               <Link
@@ -657,7 +553,6 @@ export default function GoTslPage() {
             </div>
           </Reveal>
 
-          {/* Footer — letter-foot, minimal */}
           <Reveal delay={820}>
             <div
               style={{

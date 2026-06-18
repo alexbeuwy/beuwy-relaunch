@@ -349,7 +349,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
               <HeadlineDisplay size="lg" className="max-w-[540px]">
                 Du hast {c.client} gelesen.
                 <br />
-                <em className="font-display italic">Wie sichtbar bist du gerade selbst?</em>
+                <em className="font-display italic">Wie steht deine eigene Seite gerade da?</em>
               </HeadlineDisplay>
             </Reveal>
             <Reveal delay={80}>
@@ -357,8 +357,8 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                 className="mt-6 text-[16px] leading-[1.55] max-w-[480px]"
                 style={{ color: "var(--ink-muted)" }}
               >
-                Domain rein. In 15 Sekunden Score über Claude, ChatGPT, Gemini, Perplexity &amp; Co. —
-                live von den beuwy-Agenten. Kostenlos, kein Login, DSGVO-konform.
+                Deine Domain rein. Du bekommst in 15 Sekunden eine klare Einschätzung: was funktioniert,
+                was nicht, wo du Anfragen verlierst. Kostenlos, kein Login.
               </p>
             </Reveal>
             <Reveal delay={140}>
@@ -377,7 +377,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                     type="text"
                     name="domain"
                     required
-                    placeholder="deine-marke.de"
+                    placeholder="deine-website.de"
                     className="audit-form-input flex-1 px-4 py-3 rounded-[10px]"
                     style={{
                       background: "transparent",
@@ -397,7 +397,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                   className="audit-form-hint px-2 py-3"
                   style={{ fontSize: 11, letterSpacing: "0.04em" }}
                 >
-                  15 Sek · kein Login · live von den beuwy-Agenten
+                  15 Sek · kein Login · klare Antworten in einfachem Deutsch
                 </p>
               </form>
             </Reveal>
@@ -420,14 +420,14 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                     lineHeight: 1.2,
                   }}
                 >
-                  Wenn der Audit zeigt, dass dein Wettbewerber empfohlen wird statt dir —{" "}
+                  Wenn der Audit zeigt, dass deine Seite Anfragen liegen lässt —{" "}
                   <em className="font-display italic">sprechen wir.</em>
                 </p>
                 <p
                   className="mt-4 text-[14px] leading-[1.6]"
                   style={{ color: "var(--ink-cream)" }}
                 >
-                  Festpreis pro Slot. Live in 10 Werktagen. Tag 10 oder Geld zurück.
+                  8.900 € fester Preis. In 10 Werktagen live. Tag 10 oder Geld zurück.
                 </p>
                 <Link
                   href="/anfrage"

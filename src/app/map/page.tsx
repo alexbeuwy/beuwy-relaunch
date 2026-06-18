@@ -30,12 +30,12 @@ const groups: RouteGroup[] = [
     intent: "Organischer + direkter Traffic. In der Sitemap. Was Crawler und Buyer finden.",
     entries: [
       { path: "/", title: "Home", note: "Puck-driven. content/puck/home.json. Hero · Pain · Dream · Mechanism · Proof · Offer · Scarcity · Identification · Magnet · FAQ · BigCTA.", tag: "indexed" },
-      { path: "/sichtbar", title: "Sichtbar in der KI-Ära", note: "Premium VSL-Landing. Beweis-lastig statt hype-lastig. Hook: KI frisst die Suche. Schwartz Stage 3/4.", tag: "indexed" },
+      { path: "/sichtbar", title: "Mehr Anfragen über deine Seite", note: "Sales-Landing in Klartext. Was Kunden wirklich sagen + Angebot + Garantie. Fokus: Anfragen, nicht KI-Hype.", tag: "indexed" },
       { path: "/method", title: "Methode", note: "Vier Phasen · Tag-für-Tag-Plan · Vergleichsmatrix · Pricing · Garantie-Echo · Final-CTA.", tag: "indexed" },
       { path: "/work", title: "Arbeit (Index)", note: "Alle Cases als Karten mit CTA zu den Detail-Pages.", tag: "indexed" },
       { path: "/system", title: "System", note: "Premium-Tier. Track-Record · Operator · Liefervertrag · Geld-zurück-Seal · Pass-Check.", tag: "indexed" },
       { path: "/manifesto", title: "Manifest", note: "Vision/Thesis für die Agent-Ära 2026–2030.", tag: "indexed" },
-      { path: "/audit", title: "GPT-Audit", note: "Free Brand-Sichtbarkeits-Audit. Lead-Gate. Funnel-Qualifier.", tag: "indexed" },
+      { path: "/audit", title: "Kostenloser Audit", note: "Domain rein, 15 Sek-Auswertung. Lead-Magnet + Qualifier.", tag: "indexed" },
       { path: "/anfrage", title: "Brief schicken", note: "Multi-Step Lead-Formular. End-of-funnel.", tag: "indexed" },
     ],
   },
@@ -53,7 +53,7 @@ const groups: RouteGroup[] = [
     label: "03 Paid / Outbound (noindex)",
     intent: "Für Meta-Ads, YouTube-Pre-Roll, LinkedIn-DMs, Newsletter. robots: noindex, canonical → /sichtbar. Nav-frei via ChromeGate. Nicht in der Sitemap.",
     entries: [
-      { path: "/go/sichtbar", title: "Paid VSL (premium)", note: "Cold-Traffic-Variante von /sichtbar. Single-CTA, Sticky-Mobile, Founder-Video-Slot.", tag: "noindex" },
+      { path: "/go/sichtbar", title: "Paid-Traffic-Version", note: "Cold-Traffic-Variante von /sichtbar. Single-CTA, Sticky-Mobile, Video-Slot.", tag: "noindex" },
       { path: "/go/tsl", title: "Text Sales Letter", note: "Founder-Brief im Cream-Band. Für LinkedIn-DM, Outbound-Email, Newsletter. Schwartz Stage 4/5.", tag: "noindex" },
     ],
   },
