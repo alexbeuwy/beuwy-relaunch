@@ -27,6 +27,7 @@ export function Footer() {
 
           <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8 text-[14px]">
             <FooterCol title="Studio">
+              <FooterLink href="/sichtbar">Sichtbar in der KI-Ära</FooterLink>
               <FooterLink href="/method">Methode</FooterLink>
               <FooterLink href="/work">Arbeit</FooterLink>
               <FooterLink href="/system">System</FooterLink>
@@ -34,10 +35,11 @@ export function Footer() {
               <FooterLink href="/audit">GPT-Audit</FooterLink>
             </FooterCol>
             <FooterCol title="Cases">
-              <FooterLink href="/work#vision">Vision Real Estate</FooterLink>
-              <FooterLink href="/work#koenigswege">Königswege</FooterLink>
-              <FooterLink href="/work#acta">acta</FooterLink>
-              <FooterLink href="/work#purelei">PURELEI</FooterLink>
+              <FooterLink href="/work/vision">Vision Real Estate</FooterLink>
+              <FooterLink href="/work/koenigswege">Königswege</FooterLink>
+              <FooterLink href="/work/acta">acta</FooterLink>
+              <FooterLink href="/work/purelei">PURELEI</FooterLink>
+              <FooterLink href="/work/hellogetsafe">hellogetsafe</FooterLink>
             </FooterCol>
             <FooterCol title="Sag hi">
               <FooterLink href="mailto:hi@beuwy.com">hi@beuwy.com</FooterLink>
