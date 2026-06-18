@@ -1,8 +1,13 @@
-# beuwy — v2 Linear Redesign
+# beuwy — Relaunch
 
 Operator-led Studio · Brand · Site · Agent-Layer in 10 Tagen.
 
-Next.js 15 · TypeScript · Tailwind v3 · `Fraunces 400 (-0.02em)` für Headlines · `Inter` für Body.
+Next.js 15 · TypeScript · Tailwind v3 · `Fraunces 400 (-0.02em)` für Headlines · `Geist Sans` für Body · `Geist Mono` für Meta/Code.
+
+> **📓 Voller Projekt-Kontext (Business-Ziel, Architektur, CMS-Grenzen, Funnel,
+> Playbook, Backlog):** [`docs/PROJECT.md`](./docs/PROJECT.md) — das Master-Dokument.
+> Funnel-Detail: [`docs/funnel-strategy.md`](./docs/funnel-strategy.md).
+> Dieses README ist nur der Dev-Quickstart.
 
 ## Quickstart
 
@@ -65,16 +70,26 @@ content/
 
 ## Design Tokens
 
-- `--bg-base`     #1A0404   (Page background, etwas dunkler als #210606)
-- `--bg-raised`   #210606   (Card surface — beuwy Super-Dark Red)
+Autoritativ: `src/app/globals.css` (`:root`) + `tailwind.config.ts`. Vollständige
+Tabelle in [`docs/PROJECT.md` §8](./docs/PROJECT.md#8--design-system-autoritativ).
+
+- `--bg-base`     #1A0404   (Page background — bordeaux-ink)
+- `--bg-raised`   #210606   (Card surface — superdark)
+- `--bg-elevated` #3A0808   (höchste Elevation — bordeaux)
 - `--ink-yellow`  #F7E99A   (Headlines + Akzent — beuwy Yellow)
-- `--ink-cream`   #F2EFE1   (Body)
+- `--ink-cream`   #FFFDF3   (Body)
 - `--ink-muted`   #C2B89F   (Sekundär)
+- `--ink-dim`     #8A8068   (Meta/Tertiär)
+- `--accent-red`  #FF5F5F   (Signal)
 - `--line-subtle` rgba(247,233,154,0.08)
 
-## Red Thread Sektionen (Landing)
+## Home-Sektionen (Puck-Blöcke, content/puck/home.json)
 
-01 Hook · 02 Pain · 03 Dream · 04 Mechanism · 05 Proof · 06 Authority ·
-07 Offer · 08 Scarcity · 09 Disqualifier · 10 Paths · 11 Magnet · 12 Close.
+01 Hero · 02 Pain · 03 Dream · 04 Mechanism · 05 Proof · 06 Offer ·
+07 Scarcity · 08 Identification · 09 Magnet · 10 Faq · 11 BigCta.
+
+> Hinweis: Nur Home + `/p/<slug>` sind Puck-/CMS-editierbar. Die Sales-/Trust-Seiten
+> (`/sichtbar`, `/method`, `/system`, `/work`, `/work/[slug]`, `/go/*`) sind hardcoded
+> React — siehe [`docs/PROJECT.md` §6](./docs/PROJECT.md#6--das-cms-puck--komplett).
 
 <!-- redeploy-trigger: 2026-05-11T14:55:30.779767+00:00 -->
