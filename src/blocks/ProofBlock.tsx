@@ -3,6 +3,7 @@ import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { LogoWall, Testimonials } from "@/components/LogoWall";
+import { AssetSlot } from "@/components/AssetSlot";
 
 export type ProofCounter = {
   prefix?: string;
@@ -34,6 +35,9 @@ export type ProofBlockProps = {
   founder_name?: string;
   founder_role?: string;
   founder_quote?: string;
+  /** Optional founder portrait. When set, renders the photo above the quote card. */
+  founder_image?: string;
+  founder_image_alt?: string;
 };
 
 export function ProofBlock(props: ProofBlockProps) {
@@ -143,7 +147,17 @@ export function ProofBlock(props: ProofBlockProps) {
               dangerouslySetInnerHTML={{ __html: props.founder_bio ?? "" }}
             />
           </div>
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 space-y-5">
+            {props.founder_image && (
+              <AssetSlot
+                src={props.founder_image}
+                alt={props.founder_image_alt ?? props.founder_name ?? "Founder portrait"}
+                aspect="4/3"
+                caption={`${props.founder_name ?? ""} · Heidelberg`}
+                prompt="Editorial founder portrait, late-30s/40s German man, three-quarter angle, calm confident expression, looking slightly off-camera. Warm low-key studio light, deep bordeaux/oxblood background (#1A0404), soft golden rim light. Premium, cinematic, high-end magazine cover quality. Subtle film grain. Not corporate-stocky."
+                priority
+              />
+            )}
             <div className="glass p-7">
               <div className="flex items-center gap-3 mb-5">
                 <div

@@ -4,6 +4,7 @@ import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { AssetSlot } from "@/components/AssetSlot";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
+import { cases } from "@/lib/cases";
 
 export const metadata: Metadata = {
   title: "Arbeit — Vier Mal von 0 zur Kategorie",
@@ -20,75 +21,6 @@ export const metadata: Metadata = {
 };
 
 const breadcrumb = breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Arbeit", href: "/work" }]);
-
-const cases = [
-  {
-    id: "vision",
-    client: "Vision Real Estate",
-    cat: "Real Estate · DACH",
-    years: "2019 → 2023",
-    kpi: "€160M",
-    kpiLabel: "KKR Joint Venture",
-    headline: "3 Gründer → 70 Mitarbeitende. Brand vor KKR.",
-    body: "Vor dem Rebranding: drei Mitarbeitende, ein lokaler Player. Nach beuwy: 70 Köpfe, eine bundesweit zitierte Brand, CMO-Sitz und ein Joint Venture mit dem größten Private Equity der Welt.",
-    deliverables: ["Brand-Architektur", "vision.de Relaunch", "Investor-Narrativ", "Sales-Material für institutionelle Kapitalgeber"],
-  },
-  {
-    id: "koenigswege",
-    client: "Königswege",
-    cat: "Finanzberatung · DE",
-    years: "2017 → live",
-    kpi: "170 → 2.240",
-    kpiLabel: "Partner · Top-10 DE",
-    headline: "Vom No-Name in die Top-10 DE.",
-    body: "139.774 Kunden. 74 Standorte. Cited Top-10 DE Finance auf der cash-online Hitliste 2024. Der Relaunch 2020 hat das Unternehmen explodieren lassen — von 170 auf 2.240 Partner.",
-    deliverables: ["Brand-Strategie", "Web-System", "Partner-Materialien", "Recruiting-Funnel"],
-  },
-  {
-    id: "acta",
-    client: "acta",
-    cat: "Real Estate · DE",
-    years: "2023 → live",
-    kpi: "315 / €48,4M",
-    kpiLabel: "Wohnungen · Instagram-only",
-    headline: "315 Wohnungen in der Zinskrise. Über Instagram.",
-    body: "Ø Ticket €153.842. Owner-led, zero Outside Marketing Team. Drei Geschäftspartner. 15 Mitarbeitende in der Spitze. Etwas, wofür man vor Jahren ausgelacht worden wäre: Wohnungen über's Internet, teilweise ohne Besichtigung.",
-    deliverables: ["Brand-Identität", "Paid-Social-System", "Funnel-Architektur", "Sales-Enablement"],
-  },
-  {
-    id: "purelei",
-    client: "PURELEI",
-    cat: "DTC · Lifestyle",
-    years: "2018 → live",
-    kpi: "1M+",
-    kpiLabel: "Follower · 20–30 Mio. Ø Umsatz/Jahr",
-    headline: "Founder-led Brand-Build. Aus dem Wohnzimmer.",
-    body: "2018 intensiv mitgebaut, heute fast 1 Mio. Follower auf Instagram und konstant 20–30 Mio. Umsatz pro Jahr. Brand-Sprache, Content-System, Founder-Stimme — eingerichtet, dass es ohne uns weiter skaliert.",
-    deliverables: ["Brand-Language", "Content-System", "Influencer-Brief", "Founder-Voice"],
-  },
-  {
-    id: "hellogetsafe",
-    client: "hellogetsafe",
-    cat: "Insurtech · 2019",
-    years: "2019",
-    kpi: "Pre-Series-A",
-    kpiLabel: "Brand-Build vor Funding",
-    headline: "Die Brand, die der Demo vorausläuft.",
-    body: "Pre-Series-A Brand-Build. Der Wert war: das Pitchdeck hat sich von selbst verkauft, weil die Marke schon stand.",
-    deliverables: ["Brand-Build", "Investor-Materials"],
-  },
-  {
-    id: "snocks",
-    client: "Snocks",
-    cat: "DTC · Apparel",
-    years: "Selected Content",
-    kpi: "—",
-    kpiLabel: "Einzelne Content-Pieces",
-    headline: "Hand-picked Content-Drops.",
-    body: "Einzelne Content-Pieces in einer Phase, in der Snocks selbst dabei war, sein Format zu finden.",
-    deliverables: ["Content-Drops"],
-  },
-];
 
 export default function WorkPage() {
   return (
@@ -122,14 +54,14 @@ export default function WorkPage() {
       <Section chapter="01 Selected" title="Cases" date="2017 / live" tone="raised">
         <div className="space-y-6">
           {cases.map((c, i) => (
-            <Reveal key={c.id} delay={i * 40}>
+            <Reveal key={c.slug} delay={i * 40}>
               <article
-                id={c.id}
+                id={c.slug}
                 className="glass grid md:grid-cols-12 gap-8 items-start p-7 md:p-10"
               >
                 <div className="md:col-span-12">
                   <AssetSlot
-                    src={`/assets/cases/${c.id}.jpg`}
+                    src={`/assets/cases/${c.slug}.jpg`}
                     alt={`${c.client} — case visual`}
                     aspect="16/9"
                     caption={`${c.client} · ${c.cat}`}
@@ -213,6 +145,16 @@ export default function WorkPage() {
                       </li>
                     ))}
                   </ul>
+                  <Link
+                    href={`/work/${c.slug}`}
+                    className="inline-flex items-center gap-2 mt-7 group"
+                    style={{ color: "var(--ink-cream)", fontSize: 14, fontWeight: 510 }}
+                  >
+                    Case mit Vorher / Nachher lesen
+                    <span aria-hidden className="group-hover:translate-x-1 transition-transform" style={{ color: "var(--ink-yellow)" }}>
+                      →
+                    </span>
+                  </Link>
                 </div>
               </article>
             </Reveal>

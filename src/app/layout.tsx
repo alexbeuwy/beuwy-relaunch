@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { ChromeGate } from "@/components/ChromeGate";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
 import { CursorTrail } from "@/components/CursorTrail";
 import { MagneticButtons } from "@/components/MagneticButtons";
@@ -71,12 +72,12 @@ export default function RootLayout({
             route. Dogfoods what we sell. */}
         <JsonLd data={[organizationLd, websiteLd, founderLd]} />
         <div className="ambient-blob" aria-hidden />
-        <Nav />
+        <ChromeGate><Nav /></ChromeGate>
         <SpotlightTracker />
         <CursorTrail />
         <MagneticButtons />
         <main id="main" className="relative z-[2]">{children}</main>
-        <Footer />
+        <ChromeGate><Footer /></ChromeGate>
       </body>
     </html>
   );

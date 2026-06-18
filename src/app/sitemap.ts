@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { cases } from "@/lib/cases";
 
 const BASE = "https://beuwy.com";
 
@@ -18,6 +19,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/manifesto`, lastModified, changeFrequency: "yearly",  priority: 0.6 },
     { url: `${BASE}/anfrage`,   lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/audit`,     lastModified, changeFrequency: "monthly", priority: 0.7 },
+    // Each case study is its own indexable detail page — strong signal for
+    // search + agent crawlers that we have substantive, sourced proof per client.
+    ...cases.map((c) => ({
+      url: `${BASE}/work/${c.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    // /go/* is paid-traffic landing (noindex via per-page robots meta) — kept
+    // out of the sitemap so it doesn't dilute organic crawl priority.
   ];
 
   return routes;

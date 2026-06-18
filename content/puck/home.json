@@ -116,7 +116,9 @@
         "founder_initials": "AP",
         "founder_name": "Alexander Pütter",
         "founder_role": "Founder · Operator seit 2009",
-        "founder_quote": "Wir geben Gründern ein laufendes System und einen Graphen, der schon <em>klettert</em> — bevor die nächste Agentur ihr Notion-Doc fertig hat."
+        "founder_quote": "Wir geben Gründern ein laufendes System und einen Graphen, der schon <em>klettert</em> — bevor die nächste Agentur ihr Notion-Doc fertig hat.",
+        "founder_image": "/assets/operator/alexander-puetter.jpg",
+        "founder_image_alt": "Alexander Pütter — Founder &amp; Operator von beuwy"
       }
     },
     {
@@ -131,7 +133,12 @@
           { "t": "Live-Site", "d": "Next.js, Vercel, deine Domain. Eine Seite wie diese — auf dich angepasst." },
           { "t": "Agent-Layer", "d": "schema.org · llms.txt · Cluster-Brief · GPT-Audit deiner aktuellen Sichtbarkeit." },
           { "t": "30 Tage Compounding", "d": "Nach Launch: Experimente, Cohort-Receipts, ein Operator auf Standby." }
-        ]
+        ],
+        "guarantee_title": "Tag 10 — oder Geld zurück.",
+        "guarantee_body": "Stehen Marke, Site und Agent-Layer nicht am zehnten Werktag live auf deiner Domain, bekommst du den vollen Festpreis zurück. Ohne Diskussion, ohne Kleingedrucktes. Die Deadline ist unser Risiko.",
+        "guarantee_seal_label": "Tag 10",
+        "guarantee_seal_sub": "live oder 0 €",
+        "guarantee_href": "/system#contract"
       }
     },
     {
