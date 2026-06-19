@@ -1,0 +1,1407 @@
+{
+  "source": "wp-rest-api",
+  "fetchedAt": "2026-06-19T11:31:52.964Z",
+  "site": "https://beuwy.com",
+  "items": [
+    {
+      "file": "public/assets/wp/demo-homepage-creative-prototype-uncode-2026-new.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Prototype-Uncode-2026-new.jpg",
+      "alt": "",
+      "title": "Demo media 2025669933",
+      "bytes": 31055
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-marketing-uncode-2026-new.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Marketing-Uncode-2026-new.jpg",
+      "alt": "",
+      "title": "Demo media 658975532",
+      "bytes": 33203
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-hotel-uncode-2026-new.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Hotel-Uncode-2026-new.jpg",
+      "alt": "",
+      "title": "Demo media 1679193106",
+      "bytes": 30918
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-blog-magazine-uncode-2026-new-scaled.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Blog-Magazine-Uncode-2026-new-scaled.jpg",
+      "alt": "",
+      "title": "Demo media 157288744",
+      "bytes": 473657
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-wellness-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Wellness-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1731272189",
+      "bytes": 241525
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-stack-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Stack-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 100947729",
+      "bytes": 77356
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-venture-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Venture-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1395124498",
+      "bytes": 236607
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-saas-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Saas-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1443957680",
+      "bytes": 113064
+    },
+    {
+      "file": "public/assets/wp/7iv08883-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08883-scaled.webp",
+      "alt": "",
+      "title": "7IV08883",
+      "bytes": 336652
+    },
+    {
+      "file": "public/assets/wp/7iv08877-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08877-scaled.webp",
+      "alt": "",
+      "title": "7IV08877",
+      "bytes": 334512
+    },
+    {
+      "file": "public/assets/wp/7iv08876-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08876-scaled.webp",
+      "alt": "",
+      "title": "7IV08876",
+      "bytes": 319930
+    },
+    {
+      "file": "public/assets/wp/7iv08871-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08871-scaled.webp",
+      "alt": "",
+      "title": "7IV08871",
+      "bytes": 260128
+    },
+    {
+      "file": "public/assets/wp/7iv08865-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08865-scaled.webp",
+      "alt": "",
+      "title": "7IV08865",
+      "bytes": 272464
+    },
+    {
+      "file": "public/assets/wp/7iv08862-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08862-scaled.webp",
+      "alt": "",
+      "title": "7IV08862",
+      "bytes": 336040
+    },
+    {
+      "file": "public/assets/wp/7iv08857-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08857-scaled.webp",
+      "alt": "",
+      "title": "7IV08857",
+      "bytes": 332958
+    },
+    {
+      "file": "public/assets/wp/7iv08855-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08855-scaled.webp",
+      "alt": "",
+      "title": "7IV08855",
+      "bytes": 313906
+    },
+    {
+      "file": "public/assets/wp/7iv08854-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08854-scaled.webp",
+      "alt": "",
+      "title": "7IV08854",
+      "bytes": 286036
+    },
+    {
+      "file": "public/assets/wp/7iv08850-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08850-scaled.webp",
+      "alt": "",
+      "title": "7IV08850",
+      "bytes": 163562
+    },
+    {
+      "file": "public/assets/wp/7iv08845-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08845-scaled.webp",
+      "alt": "",
+      "title": "7IV08845",
+      "bytes": 323486
+    },
+    {
+      "file": "public/assets/wp/7iv08840-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08840-scaled.webp",
+      "alt": "",
+      "title": "7IV08840",
+      "bytes": 136038
+    },
+    {
+      "file": "public/assets/wp/7iv08836-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08836-scaled.webp",
+      "alt": "",
+      "title": "7IV08836",
+      "bytes": 132136
+    },
+    {
+      "file": "public/assets/wp/7iv08834-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08834-scaled.webp",
+      "alt": "",
+      "title": "7IV08834",
+      "bytes": 185910
+    },
+    {
+      "file": "public/assets/wp/7iv08833-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08833-scaled.webp",
+      "alt": "",
+      "title": "7IV08833",
+      "bytes": 188720
+    },
+    {
+      "file": "public/assets/wp/7iv08832-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08832-scaled.webp",
+      "alt": "",
+      "title": "7IV08832",
+      "bytes": 183706
+    },
+    {
+      "file": "public/assets/wp/7iv08828-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08828-scaled.webp",
+      "alt": "",
+      "title": "7IV08828",
+      "bytes": 183748
+    },
+    {
+      "file": "public/assets/wp/7iv08826-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08826-scaled.webp",
+      "alt": "",
+      "title": "7IV08826",
+      "bytes": 196438
+    },
+    {
+      "file": "public/assets/wp/7iv08822-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08822-scaled.webp",
+      "alt": "",
+      "title": "7IV08822",
+      "bytes": 182466
+    },
+    {
+      "file": "public/assets/wp/7iv08820-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08820-scaled.webp",
+      "alt": "",
+      "title": "7IV08820",
+      "bytes": 191608
+    },
+    {
+      "file": "public/assets/wp/7iv08818-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08818-scaled.webp",
+      "alt": "",
+      "title": "7IV08818",
+      "bytes": 197536
+    },
+    {
+      "file": "public/assets/wp/7iv08816-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08816-scaled.webp",
+      "alt": "",
+      "title": "7IV08816",
+      "bytes": 172612
+    },
+    {
+      "file": "public/assets/wp/7iv08815-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08815-scaled.webp",
+      "alt": "",
+      "title": "7IV08815",
+      "bytes": 197054
+    },
+    {
+      "file": "public/assets/wp/7iv08809-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08809-scaled.webp",
+      "alt": "",
+      "title": "7IV08809",
+      "bytes": 145240
+    },
+    {
+      "file": "public/assets/wp/7iv08803-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08803-scaled.webp",
+      "alt": "",
+      "title": "7IV08803",
+      "bytes": 140194
+    },
+    {
+      "file": "public/assets/wp/7iv08801-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08801-scaled.webp",
+      "alt": "",
+      "title": "7IV08801",
+      "bytes": 136172
+    },
+    {
+      "file": "public/assets/wp/7iv08797-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08797-scaled.webp",
+      "alt": "",
+      "title": "7IV08797",
+      "bytes": 186210
+    },
+    {
+      "file": "public/assets/wp/7iv08795-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08795-scaled.webp",
+      "alt": "",
+      "title": "7IV08795",
+      "bytes": 179666
+    },
+    {
+      "file": "public/assets/wp/7iv08783-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08783-scaled.webp",
+      "alt": "",
+      "title": "7IV08783",
+      "bytes": 213600
+    },
+    {
+      "file": "public/assets/wp/7iv08780-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08780-scaled.webp",
+      "alt": "",
+      "title": "7IV08780",
+      "bytes": 244038
+    },
+    {
+      "file": "public/assets/wp/7iv08778-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08778-scaled.webp",
+      "alt": "",
+      "title": "7IV08778",
+      "bytes": 183258
+    },
+    {
+      "file": "public/assets/wp/7iv08775-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08775-scaled.webp",
+      "alt": "",
+      "title": "7IV08775",
+      "bytes": 209598
+    },
+    {
+      "file": "public/assets/wp/7iv08769-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08769-scaled.webp",
+      "alt": "",
+      "title": "7IV08769",
+      "bytes": 186606
+    },
+    {
+      "file": "public/assets/wp/7iv08761-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08761-scaled.webp",
+      "alt": "",
+      "title": "7IV08761",
+      "bytes": 198824
+    },
+    {
+      "file": "public/assets/wp/7iv08759-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08759-scaled.webp",
+      "alt": "",
+      "title": "7IV08759",
+      "bytes": 179380
+    },
+    {
+      "file": "public/assets/wp/7iv08755-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08755-scaled.webp",
+      "alt": "",
+      "title": "7IV08755",
+      "bytes": 217192
+    },
+    {
+      "file": "public/assets/wp/7iv08754-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08754-scaled.webp",
+      "alt": "",
+      "title": "7IV08754",
+      "bytes": 204724
+    },
+    {
+      "file": "public/assets/wp/7iv08749-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08749-scaled.webp",
+      "alt": "",
+      "title": "7IV08749",
+      "bytes": 362578
+    },
+    {
+      "file": "public/assets/wp/7iv08747-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08747-scaled.webp",
+      "alt": "",
+      "title": "7IV08747",
+      "bytes": 81466
+    },
+    {
+      "file": "public/assets/wp/7iv08743-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08743-scaled.webp",
+      "alt": "",
+      "title": "7IV08743",
+      "bytes": 63592
+    },
+    {
+      "file": "public/assets/wp/7iv08742-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08742-scaled.webp",
+      "alt": "",
+      "title": "7IV08742",
+      "bytes": 72246
+    },
+    {
+      "file": "public/assets/wp/7iv08741-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08741-scaled.webp",
+      "alt": "",
+      "title": "7IV08741",
+      "bytes": 70524
+    },
+    {
+      "file": "public/assets/wp/7iv08740-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08740-scaled.webp",
+      "alt": "",
+      "title": "7IV08740",
+      "bytes": 73918
+    },
+    {
+      "file": "public/assets/wp/7iv08739-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08739-scaled.webp",
+      "alt": "",
+      "title": "7IV08739",
+      "bytes": 80712
+    },
+    {
+      "file": "public/assets/wp/7iv08736-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08736-scaled.webp",
+      "alt": "",
+      "title": "7IV08736",
+      "bytes": 68612
+    },
+    {
+      "file": "public/assets/wp/7iv08735-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08735-scaled.webp",
+      "alt": "",
+      "title": "7IV08735",
+      "bytes": 88976
+    },
+    {
+      "file": "public/assets/wp/7iv08733-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08733-scaled.webp",
+      "alt": "",
+      "title": "7IV08733",
+      "bytes": 88542
+    },
+    {
+      "file": "public/assets/wp/7iv08730-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08730-scaled.webp",
+      "alt": "",
+      "title": "7IV08730",
+      "bytes": 83140
+    },
+    {
+      "file": "public/assets/wp/7iv08721-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08721-scaled.webp",
+      "alt": "",
+      "title": "7IV08721",
+      "bytes": 83366
+    },
+    {
+      "file": "public/assets/wp/7iv08720-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08720-scaled.webp",
+      "alt": "",
+      "title": "7IV08720",
+      "bytes": 91212
+    },
+    {
+      "file": "public/assets/wp/7iv08712-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08712-scaled.webp",
+      "alt": "",
+      "title": "7IV08712",
+      "bytes": 84096
+    },
+    {
+      "file": "public/assets/wp/7iv08709-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08709-scaled.webp",
+      "alt": "",
+      "title": "7IV08709",
+      "bytes": 90554
+    },
+    {
+      "file": "public/assets/wp/7iv08708-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08708-scaled.webp",
+      "alt": "",
+      "title": "7IV08708",
+      "bytes": 76166
+    },
+    {
+      "file": "public/assets/wp/7iv08704-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08704-scaled.webp",
+      "alt": "",
+      "title": "7IV08704",
+      "bytes": 69694
+    },
+    {
+      "file": "public/assets/wp/7iv08699-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08699-scaled.webp",
+      "alt": "",
+      "title": "7IV08699",
+      "bytes": 99022
+    },
+    {
+      "file": "public/assets/wp/7iv08696-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08696-scaled.webp",
+      "alt": "",
+      "title": "7IV08696",
+      "bytes": 83990
+    },
+    {
+      "file": "public/assets/wp/7iv08695-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08695-scaled.webp",
+      "alt": "",
+      "title": "7IV08695",
+      "bytes": 84468
+    },
+    {
+      "file": "public/assets/wp/7iv08692-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08692-scaled.webp",
+      "alt": "",
+      "title": "7IV08692",
+      "bytes": 87768
+    },
+    {
+      "file": "public/assets/wp/7iv08691-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08691-scaled.webp",
+      "alt": "",
+      "title": "7IV08691",
+      "bytes": 85212
+    },
+    {
+      "file": "public/assets/wp/7iv08688-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08688-scaled.webp",
+      "alt": "",
+      "title": "7IV08688",
+      "bytes": 77900
+    },
+    {
+      "file": "public/assets/wp/7iv08685-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08685-scaled.webp",
+      "alt": "",
+      "title": "7IV08685",
+      "bytes": 90328
+    },
+    {
+      "file": "public/assets/wp/7iv08681-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08681-scaled.webp",
+      "alt": "",
+      "title": "7IV08681",
+      "bytes": 82382
+    },
+    {
+      "file": "public/assets/wp/7iv08679-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08679-scaled.webp",
+      "alt": "",
+      "title": "7IV08679",
+      "bytes": 81914
+    },
+    {
+      "file": "public/assets/wp/7iv08676-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08676-scaled.webp",
+      "alt": "",
+      "title": "7IV08676",
+      "bytes": 89444
+    },
+    {
+      "file": "public/assets/wp/7iv08674-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08674-scaled.webp",
+      "alt": "",
+      "title": "7IV08674",
+      "bytes": 87028
+    },
+    {
+      "file": "public/assets/wp/7iv08671-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08671-scaled.webp",
+      "alt": "",
+      "title": "7IV08671",
+      "bytes": 177698
+    },
+    {
+      "file": "public/assets/wp/7iv08668-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08668-scaled.webp",
+      "alt": "",
+      "title": "7IV08668",
+      "bytes": 107338
+    },
+    {
+      "file": "public/assets/wp/7iv08662-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08662-scaled.webp",
+      "alt": "",
+      "title": "7IV08662",
+      "bytes": 140290
+    },
+    {
+      "file": "public/assets/wp/7iv08659-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08659-scaled.webp",
+      "alt": "",
+      "title": "7IV08659",
+      "bytes": 110640
+    },
+    {
+      "file": "public/assets/wp/7iv08658-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08658-scaled.webp",
+      "alt": "",
+      "title": "7IV08658",
+      "bytes": 111954
+    },
+    {
+      "file": "public/assets/wp/7iv08652-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08652-scaled.webp",
+      "alt": "",
+      "title": "7IV08652",
+      "bytes": 90248
+    },
+    {
+      "file": "public/assets/wp/7iv08651-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08651-scaled.webp",
+      "alt": "",
+      "title": "7IV08651",
+      "bytes": 79338
+    },
+    {
+      "file": "public/assets/wp/7iv08650-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08650-scaled.webp",
+      "alt": "",
+      "title": "7IV08650",
+      "bytes": 61522
+    },
+    {
+      "file": "public/assets/wp/7iv08646-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08646-scaled.webp",
+      "alt": "",
+      "title": "7IV08646",
+      "bytes": 59878
+    },
+    {
+      "file": "public/assets/wp/7iv08643-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08643-scaled.webp",
+      "alt": "",
+      "title": "7IV08643",
+      "bytes": 138394
+    },
+    {
+      "file": "public/assets/wp/7iv08642-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08642-scaled.webp",
+      "alt": "",
+      "title": "7IV08642",
+      "bytes": 126052
+    },
+    {
+      "file": "public/assets/wp/7iv08639-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08639-scaled.webp",
+      "alt": "",
+      "title": "7IV08639",
+      "bytes": 137530
+    },
+    {
+      "file": "public/assets/wp/7iv08635-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08635-scaled.webp",
+      "alt": "",
+      "title": "7IV08635",
+      "bytes": 122140
+    },
+    {
+      "file": "public/assets/wp/7iv08633-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08633-scaled.webp",
+      "alt": "",
+      "title": "7IV08633",
+      "bytes": 112694
+    },
+    {
+      "file": "public/assets/wp/7iv08631-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08631-scaled.webp",
+      "alt": "",
+      "title": "7IV08631",
+      "bytes": 79368
+    },
+    {
+      "file": "public/assets/wp/7iv08628-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08628-scaled.webp",
+      "alt": "",
+      "title": "7IV08628",
+      "bytes": 81046
+    },
+    {
+      "file": "public/assets/wp/7iv08626-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08626-scaled.webp",
+      "alt": "",
+      "title": "7IV08626",
+      "bytes": 81298
+    },
+    {
+      "file": "public/assets/wp/7iv08624-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08624-scaled.webp",
+      "alt": "",
+      "title": "7IV08624",
+      "bytes": 275594
+    },
+    {
+      "file": "public/assets/wp/7iv08622-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08622-scaled.webp",
+      "alt": "",
+      "title": "7IV08622",
+      "bytes": 247290
+    },
+    {
+      "file": "public/assets/wp/7iv08619-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08619-scaled.webp",
+      "alt": "",
+      "title": "7IV08619",
+      "bytes": 254840
+    },
+    {
+      "file": "public/assets/wp/7iv08615-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08615-scaled.webp",
+      "alt": "",
+      "title": "7IV08615",
+      "bytes": 244266
+    },
+    {
+      "file": "public/assets/wp/7iv08610-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08610-scaled.webp",
+      "alt": "",
+      "title": "7IV08610",
+      "bytes": 215002
+    },
+    {
+      "file": "public/assets/wp/7iv08606-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08606-scaled.webp",
+      "alt": "",
+      "title": "7IV08606",
+      "bytes": 260290
+    },
+    {
+      "file": "public/assets/wp/7iv08605-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08605-scaled.webp",
+      "alt": "",
+      "title": "7IV08605",
+      "bytes": 383528
+    },
+    {
+      "file": "public/assets/wp/7iv08601-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08601-scaled.webp",
+      "alt": "",
+      "title": "7IV08601",
+      "bytes": 229492
+    },
+    {
+      "file": "public/assets/wp/7iv08600-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08600-scaled.webp",
+      "alt": "",
+      "title": "7IV08600",
+      "bytes": 138394
+    },
+    {
+      "file": "public/assets/wp/7iv08596-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08596-scaled.webp",
+      "alt": "",
+      "title": "7IV08596",
+      "bytes": 123374
+    },
+    {
+      "file": "public/assets/wp/7iv08591-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08591-scaled.webp",
+      "alt": "",
+      "title": "7IV08591",
+      "bytes": 130550
+    },
+    {
+      "file": "public/assets/wp/7iv08585-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08585-scaled.webp",
+      "alt": "",
+      "title": "7IV08585",
+      "bytes": 113918
+    },
+    {
+      "file": "public/assets/wp/7iv08576-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08576-scaled.webp",
+      "alt": "",
+      "title": "7IV08576",
+      "bytes": 107324
+    },
+    {
+      "file": "public/assets/wp/7iv08572-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08572-scaled.webp",
+      "alt": "",
+      "title": "7IV08572",
+      "bytes": 121520
+    },
+    {
+      "file": "public/assets/wp/7iv08558-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08558-scaled.webp",
+      "alt": "",
+      "title": "7IV08558",
+      "bytes": 202706
+    },
+    {
+      "file": "public/assets/wp/7iv08551-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08551-scaled.webp",
+      "alt": "",
+      "title": "7IV08551",
+      "bytes": 207398
+    },
+    {
+      "file": "public/assets/wp/7iv08549-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08549-scaled.webp",
+      "alt": "",
+      "title": "7IV08549",
+      "bytes": 189942
+    },
+    {
+      "file": "public/assets/wp/7iv08544-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08544-scaled.webp",
+      "alt": "",
+      "title": "7IV08544",
+      "bytes": 196176
+    },
+    {
+      "file": "public/assets/wp/7iv08535-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08535-scaled.webp",
+      "alt": "",
+      "title": "7IV08535",
+      "bytes": 212938
+    },
+    {
+      "file": "public/assets/wp/7iv08528-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08528-scaled.webp",
+      "alt": "",
+      "title": "7IV08528",
+      "bytes": 213122
+    },
+    {
+      "file": "public/assets/wp/7iv08505-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08505-scaled.webp",
+      "alt": "",
+      "title": "7IV08505",
+      "bytes": 257866
+    },
+    {
+      "file": "public/assets/wp/7iv08499-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08499-scaled.webp",
+      "alt": "",
+      "title": "7IV08499",
+      "bytes": 225240
+    },
+    {
+      "file": "public/assets/wp/7iv08471-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08471-scaled.webp",
+      "alt": "",
+      "title": "7IV08471",
+      "bytes": 214638
+    },
+    {
+      "file": "public/assets/wp/7iv08469-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08469-scaled.webp",
+      "alt": "",
+      "title": "7IV08469",
+      "bytes": 156578
+    },
+    {
+      "file": "public/assets/wp/7iv08462-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08462-scaled.webp",
+      "alt": "",
+      "title": "7IV08462",
+      "bytes": 115534
+    },
+    {
+      "file": "public/assets/wp/7iv08454-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08454-scaled.webp",
+      "alt": "",
+      "title": "7IV08454",
+      "bytes": 103386
+    },
+    {
+      "file": "public/assets/wp/7iv08443-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08443-scaled.webp",
+      "alt": "",
+      "title": "7IV08443",
+      "bytes": 150974
+    },
+    {
+      "file": "public/assets/wp/7iv08439-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08439-scaled.webp",
+      "alt": "",
+      "title": "7IV08439",
+      "bytes": 148334
+    },
+    {
+      "file": "public/assets/wp/7iv08435-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08435-scaled.webp",
+      "alt": "",
+      "title": "7IV08435",
+      "bytes": 192334
+    },
+    {
+      "file": "public/assets/wp/7iv08433-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08433-scaled.webp",
+      "alt": "",
+      "title": "7IV08433",
+      "bytes": 143774
+    },
+    {
+      "file": "public/assets/wp/7iv08427-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08427-scaled.webp",
+      "alt": "",
+      "title": "7IV08427",
+      "bytes": 162906
+    },
+    {
+      "file": "public/assets/wp/7iv08423-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08423-scaled.webp",
+      "alt": "",
+      "title": "7IV08423",
+      "bytes": 152254
+    },
+    {
+      "file": "public/assets/wp/7iv08416-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08416-scaled.webp",
+      "alt": "",
+      "title": "7IV08416",
+      "bytes": 112162
+    },
+    {
+      "file": "public/assets/wp/7iv08403-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08403-scaled.webp",
+      "alt": "",
+      "title": "7IV08403",
+      "bytes": 125488
+    },
+    {
+      "file": "public/assets/wp/7iv08396-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08396-scaled.webp",
+      "alt": "",
+      "title": "7IV08396",
+      "bytes": 202890
+    },
+    {
+      "file": "public/assets/wp/7iv08384-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08384-scaled.webp",
+      "alt": "",
+      "title": "7IV08384",
+      "bytes": 199644
+    },
+    {
+      "file": "public/assets/wp/7iv08379-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08379-scaled.webp",
+      "alt": "",
+      "title": "7IV08379",
+      "bytes": 226110
+    },
+    {
+      "file": "public/assets/wp/7iv08371-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08371-scaled.webp",
+      "alt": "",
+      "title": "7IV08371",
+      "bytes": 243154
+    },
+    {
+      "file": "public/assets/wp/7iv08368-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08368-scaled.webp",
+      "alt": "",
+      "title": "7IV08368",
+      "bytes": 200860
+    },
+    {
+      "file": "public/assets/wp/7iv08364-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08364-scaled.webp",
+      "alt": "",
+      "title": "7IV08364",
+      "bytes": 118390
+    },
+    {
+      "file": "public/assets/wp/7iv08360-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08360-scaled.webp",
+      "alt": "",
+      "title": "7IV08360",
+      "bytes": 156510
+    },
+    {
+      "file": "public/assets/wp/7iv08351-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08351-scaled.webp",
+      "alt": "",
+      "title": "7IV08351",
+      "bytes": 168096
+    },
+    {
+      "file": "public/assets/wp/7iv08349-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08349-scaled.webp",
+      "alt": "",
+      "title": "7IV08349",
+      "bytes": 106906
+    },
+    {
+      "file": "public/assets/wp/7iv08332-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08332-scaled.webp",
+      "alt": "",
+      "title": "7IV08332",
+      "bytes": 78628
+    },
+    {
+      "file": "public/assets/wp/7iv08325-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08325-scaled.webp",
+      "alt": "",
+      "title": "7IV08325",
+      "bytes": 109926
+    },
+    {
+      "file": "public/assets/wp/7iv08321-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08321-scaled.webp",
+      "alt": "",
+      "title": "7IV08321",
+      "bytes": 82238
+    },
+    {
+      "file": "public/assets/wp/7iv08315-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08315-scaled.webp",
+      "alt": "",
+      "title": "7IV08315",
+      "bytes": 92202
+    },
+    {
+      "file": "public/assets/wp/7iv08302-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08302-scaled.webp",
+      "alt": "",
+      "title": "7IV08302",
+      "bytes": 100818
+    },
+    {
+      "file": "public/assets/wp/7iv08290-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08290-scaled.webp",
+      "alt": "",
+      "title": "7IV08290",
+      "bytes": 71520
+    },
+    {
+      "file": "public/assets/wp/7iv08285-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08285-scaled.webp",
+      "alt": "",
+      "title": "7IV08285",
+      "bytes": 88338
+    },
+    {
+      "file": "public/assets/wp/7iv08278-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08278-scaled.webp",
+      "alt": "",
+      "title": "7IV08278",
+      "bytes": 70130
+    },
+    {
+      "file": "public/assets/wp/7iv08269-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/04/7IV08269-scaled.webp",
+      "alt": "",
+      "title": "7IV08269",
+      "bytes": 319836
+    },
+    {
+      "file": "public/assets/wp/quotes.png",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/quotes.png",
+      "alt": "",
+      "title": "Demo media 1395558526",
+      "bytes": 8653
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04-07.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04-07.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04-07",
+      "bytes": 875
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04-06.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04-06.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04-06",
+      "bytes": 5732
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04-02.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04-02.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04-02",
+      "bytes": 5755
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04-01.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04-01.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04-01",
+      "bytes": 33533
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-6-kopie.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-6-Kopie.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 6 Kopie",
+      "bytes": 875
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-6-kopie-3.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-6-Kopie-3.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 6 Kopie 3",
+      "bytes": 875
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-6-kopie-2.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-6-Kopie-2.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 6 Kopie 2",
+      "bytes": 875
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-4-kopie.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-4-Kopie.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 4 Kopie",
+      "bytes": 5739
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-4-kopie-4.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-4-Kopie-4.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 4 Kopie 4",
+      "bytes": 5718
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-4-kopie-3.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-4-Kopie-3.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 4 Kopie 3",
+      "bytes": 5732
+    },
+    {
+      "file": "public/assets/wp/saadi-branding_2026_final-04_zeichenflaeche-4-kopie-2.svg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/03/Saadi-Branding_2026_Final-04_Zeichenflaeche-4-Kopie-2.svg",
+      "alt": "",
+      "title": "Saadi-Branding_2026_Final-04_Zeichenfläche 4 Kopie 2",
+      "bytes": 5738
+    },
+    {
+      "file": "public/assets/wp/star.png",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/star.png",
+      "alt": "",
+      "title": "Demo media 1484874650",
+      "bytes": 1492
+    },
+    {
+      "file": "public/assets/wp/letter.png",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/letter.png",
+      "alt": "",
+      "title": "Demo media 25428070",
+      "bytes": 13773
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-shop-landing-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Shop-Landing-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 869362017",
+      "bytes": 53632
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-product-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Product-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 833929056",
+      "bytes": 32042
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-persona-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Persona-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 11779497",
+      "bytes": 47642
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-titles-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Titles-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 780860477",
+      "bytes": 52698
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-freelance-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Freelance-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 213858608",
+      "bytes": 26324
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-minimal-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Minimal-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1068946565",
+      "bytes": 27844
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-agency-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Agency-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 794310441",
+      "bytes": 42566
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-consultants-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Consultants-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 154070031",
+      "bytes": 37743
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-studio-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Studio-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 400352399",
+      "bytes": 50902
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-shop-product-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Shop-Product-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 500630422",
+      "bytes": 36436
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-photographer-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Photographer-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1361936824",
+      "bytes": 39268
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-designers-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Designers-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1383180979",
+      "bytes": 57413
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-corporation-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Corporation-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 172910658",
+      "bytes": 64882
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-studio-new-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Studio-New-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 506412877",
+      "bytes": 37328
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-shop-minimal-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Shop-Minimal-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1932110439",
+      "bytes": 32964
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-essential-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Essential-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 848068704",
+      "bytes": 32495
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-prototype-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Prototype-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 644003673",
+      "bytes": 27632
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-logistic-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Logistic-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 714048654",
+      "bytes": 60422
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-portfolio-cards-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Portfolio-Cards-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 754013088",
+      "bytes": 30310
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-innovators-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Innovators-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 960230844",
+      "bytes": 34608
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-classic-hotel-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Classic-Hotel-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 457880580",
+      "bytes": 97832
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-marketing-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Marketing-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1452272978",
+      "bytes": 38889
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-shop-wines-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Shop-Wines-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1676454863",
+      "bytes": 55934
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-lab-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Lab-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 760320326",
+      "bytes": 37933
+    },
+    {
+      "file": "public/assets/wp/demo-homepage-creative-foundry-uncode-2026.jpg",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2026/05/demo-homepage-Creative-Foundry-Uncode-2026.jpg",
+      "alt": "",
+      "title": "Demo media 1000381390",
+      "bytes": 52011
+    },
+    {
+      "file": "public/assets/wp/home-seite-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Home-Seite-scaled.webp",
+      "alt": "",
+      "title": "Home-Seite",
+      "bytes": 78354
+    },
+    {
+      "file": "public/assets/wp/hero.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Hero.webp",
+      "alt": "",
+      "title": "Hero",
+      "bytes": 206042
+    },
+    {
+      "file": "public/assets/wp/david-linkedin-reue-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/David-LinkedIn-Reue-scaled.webp",
+      "alt": "",
+      "title": "David-LinkedIn-Reue",
+      "bytes": 476638
+    },
+    {
+      "file": "public/assets/wp/background-1-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/background-1-scaled.webp",
+      "alt": "",
+      "title": "background-1",
+      "bytes": 186984
+    },
+    {
+      "file": "public/assets/wp/screen_vision_animation2-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Screen_Vision_Animation2-scaled.webp",
+      "alt": "",
+      "title": "Screen_Vision_Animation2",
+      "bytes": 115118
+    },
+    {
+      "file": "public/assets/wp/screen_vision_animation-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Screen_Vision_Animation-scaled.webp",
+      "alt": "",
+      "title": "Screen_Vision_Animation",
+      "bytes": 70626
+    },
+    {
+      "file": "public/assets/wp/screen_vision_imagefilm2-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Screen_Vision_Imagefilm2-scaled.webp",
+      "alt": "",
+      "title": "Screen_Vision_Imagefilm2",
+      "bytes": 232740
+    },
+    {
+      "file": "public/assets/wp/screen_vision_imagefilm-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Screen_Vision_Imagefilm-scaled.webp",
+      "alt": "",
+      "title": "Screen_Vision_Imagefilm",
+      "bytes": 120124
+    },
+    {
+      "file": "public/assets/wp/getsafe-plakat-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/getsafe-plakat-scaled.webp",
+      "alt": "",
+      "title": "getsafe-plakat",
+      "bytes": 787572
+    },
+    {
+      "file": "public/assets/wp/ipad-pro-mockups-holding-tablet-pack-01-004-1-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/iPad-Pro-Mockups-Holding-Tablet-Pack-01-004-1-scaled.webp",
+      "alt": "",
+      "title": "iPad-Pro-Mockups-Holding-Tablet-Pack-01-004",
+      "bytes": 201486
+    },
+    {
+      "file": "public/assets/wp/riegel-immobilien-plakat2.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/RIEGEL-Immobilien-Plakat2.webp",
+      "alt": "",
+      "title": "RIEGEL-Immobilien-Plakat2",
+      "bytes": 498572
+    },
+    {
+      "file": "public/assets/wp/ipad-pro-mockups-holding-tablet-pack-01-004-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/iPad-Pro-Mockups-Holding-Tablet-Pack-01-004-scaled.webp",
+      "alt": "",
+      "title": "iPad-Pro-Mockups-Holding-Tablet-Pack-01-004",
+      "bytes": 201486
+    },
+    {
+      "file": "public/assets/wp/riegel_storefront_01_color_white-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Riegel_Storefront_01_Color_White-scaled.webp",
+      "alt": "",
+      "title": "Riegel_Storefront_01_Color_White",
+      "bytes": 75020
+    },
+    {
+      "file": "public/assets/wp/vision_mietpool.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Vision_Mietpool.webp",
+      "alt": "",
+      "title": "Vision_Mietpool",
+      "bytes": 278480
+    },
+    {
+      "file": "public/assets/wp/vision-kkr-front-slide-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Vision-KKR-Front-Slide-scaled.webp",
+      "alt": "",
+      "title": "Vision-KKR-Front-Slide",
+      "bytes": 313434
+    },
+    {
+      "file": "public/assets/wp/koenigswege-mockup.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Koenigswege-Mockup.webp",
+      "alt": "",
+      "title": "Koenigswege-Mockup",
+      "bytes": 205066
+    },
+    {
+      "file": "public/assets/wp/riegel-immobilien-plakat.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/RIEGEL-Immobilien-Plakat.webp",
+      "alt": "",
+      "title": "RIEGEL-Immobilien-Plakat",
+      "bytes": 111844
+    },
+    {
+      "file": "public/assets/wp/04_binder-mock-up_outside-spread_top-view-scaled.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/04_Binder-Mock-up_outside-spread_top-view-scaled.webp",
+      "alt": "",
+      "title": "04_Binder Mock-up_outside spread_top view",
+      "bytes": 123914
+    },
+    {
+      "file": "public/assets/wp/marktfuehrer.webp",
+      "url": "https://beuwy.b-cdn.net/wp-content/uploads/2025/11/Marktfuehrer.webp",
+      "alt": "",
+      "title": "Marktfuehrer",
+      "bytes": 96066
+    }
+  ]
+}
