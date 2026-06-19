@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-type Stage = "new" | "rebrand" | "agent-layer";
-type Timing = "now" | "next-q" | "2027";
-type Budget = "under-25" | "25-60" | "60-plus";
+type Variant = "default" | "immobilien";
+
+type Opt = { id: string; label: string; sub: string };
 
 type FunnelData = {
-  stage?: Stage;
-  timing?: Timing;
-  budget?: Budget;
+  stage?: string;
+  timing?: string;
+  budget?: string; // immobilien-Variante: Projektgröße
   brief?: string;
   name?: string;
   email?: string;
@@ -18,25 +18,100 @@ type FunnelData = {
 
 const TOTAL_STEPS = 5;
 
-const STAGE_OPTIONS: { id: Stage; label: string; sub: string }[] = [
-  { id: "new", label: "Komplett neu", sub: "Kein Brand, keine Site, keine Agent-Sichtbarkeit." },
-  { id: "rebrand", label: "Brand steht, Site veraltet", sub: "Logo + Voice sitzen. Site + Funnel sind 2022." },
-  { id: "agent-layer", label: "Site läuft, Agenten fehlen", sub: "Wir sind sichtbar bei Google. Nicht bei Claude/ChatGPT." },
-];
+/* ---------- Option-Sets je Variante ---------- */
+const OPTIONS: Record<Variant, { stage: Opt[]; timing: Opt[]; budget: Opt[] }> = {
+  default: {
+    stage: [
+      { id: "new", label: "Komplett neu", sub: "Kein Brand, keine Site, keine Agent-Sichtbarkeit." },
+      { id: "rebrand", label: "Brand steht, Site veraltet", sub: "Logo + Voice sitzen. Site + Funnel sind 2022." },
+      { id: "agent-layer", label: "Site läuft, Agenten fehlen", sub: "Wir sind sichtbar bei Google. Nicht bei Claude/ChatGPT." },
+    ],
+    timing: [
+      { id: "now", label: "Sofort", sub: "Slot Q3/2026 — Start innerhalb 14 Tagen." },
+      { id: "next-q", label: "Nächstes Quartal", sub: "Slot Q4/2026 — Frame jetzt, Build später." },
+      { id: "2027", label: "Wir planen 2027", sub: "Kein Druck. Wir können trotzdem schon sprechen." },
+    ],
+    budget: [
+      { id: "under-25", label: "< 25.000 €", sub: "Frame oder Audit. Kein 10-Tage-Build." },
+      { id: "25-60", label: "25 – 60.000 €", sub: "Eine Auslieferung. Brand · oder · Site · oder · Agent-Layer." },
+      { id: "60-plus", label: "60.000 € +", sub: "Voller 10-Tage-Build. Alle drei Auslieferungen." },
+    ],
+  },
+  immobilien: {
+    stage: [
+      { id: "planung", label: "In Planung", sub: "Grundstück/Genehmigung steht. Vermarktung noch nicht gestartet." },
+      { id: "vertrieb", label: "Vertrieb läuft", sub: "Verkauf hat begonnen — aber Material und Anfragen stimmen nicht." },
+      { id: "bestand", label: "Bestand / Sanierung", sub: "Wiederverkauf oder Renovierungsobjekt, das vermarktet werden muss." },
+    ],
+    timing: [
+      { id: "sofort", label: "Sofort", sub: "Vertriebsstart steht an. Launch-ready in 4 Wochen." },
+      { id: "next-q", label: "Nächstes Quartal", sub: "Vorlauf da. Frame jetzt, Launch geplant." },
+      { id: "offen", label: "Noch offen", sub: "Wir sondieren. Zeitpunkt steht noch nicht fest." },
+    ],
+    budget: [
+      { id: "le8", label: "bis 8 WE", sub: "Light · 10.000 € netto." },
+      { id: "8-12", label: "8 – 12 WE", sub: "Standard · 12.000 € netto." },
+      { id: "12-plus", label: "12+ WE", sub: "Premium · 20.000 € netto (mit Video)." },
+      { id: "gross", label: "40+ / mehrere Phasen", sub: "Individuell. Zahl in 6 h." },
+    ],
+  },
+};
 
-const TIMING_OPTIONS: { id: Timing; label: string; sub: string }[] = [
-  { id: "now", label: "Sofort", sub: "Slot Q3/2026 — Start innerhalb 14 Tagen." },
-  { id: "next-q", label: "Nächstes Quartal", sub: "Slot Q4/2026 — Frame jetzt, Build später." },
-  { id: "2027", label: "Wir planen 2027", sub: "Kein Druck. Wir können trotzdem schon sprechen." },
-];
+/* ---------- Copy je Variante ---------- */
+type StepCopy = { label: string; q: string; sub: string };
+const COPY: Record<
+  Variant,
+  { s0: StepCopy; s1: StepCopy; s2: StepCopy; s3: StepCopy; briefPlaceholder: string }
+> = {
+  default: {
+    s0: { label: "01 · Stand", q: "Wo stehst du gerade?", sub: "Drei Sätze. Such dir den nächstgelegenen aus." },
+    s1: { label: "02 · Timing", q: "Wann willst du live gehen?", sub: "Wir nehmen 6 Projekte / Jahr. Slots sind harte Slots." },
+    s2: { label: "03 · Budget", q: "Welche Budget-Range?", sub: "Wir sind transparent. Auch wenn es nicht matcht." },
+    s3: {
+      label: "04 · Brief",
+      q: "Worum geht's wirklich?",
+      sub: "2–3 Sätze reichen. Was ist das Problem, was wäre die ideale Lösung, was hindert dich?",
+    },
+    briefPlaceholder:
+      "Z.B.: Wir launchen Series A in Q4, brauchen eine Brand, die Investoren UND Agenten verstehen. Aktuell drei Fragmente, kein roter Faden.",
+  },
+  immobilien: {
+    s0: { label: "01 · Projekt", q: "Wo steht dein Projekt?", sub: "Such dir den nächstgelegenen Stand aus." },
+    s1: { label: "02 · Launch", q: "Wann soll die Vermarktung stehen?", sub: "Launch-ready in 4 Wochen ab Briefing — oder 50% zurück." },
+    s2: { label: "03 · Größe", q: "Wie viele Wohneinheiten?", sub: "Bestimmt das Paket. Alle Preise netto." },
+    s3: {
+      label: "04 · Projekt",
+      q: "Erzähl mir vom Projekt.",
+      sub: "Lage, Einheiten, Stand der Vermarktung — und was bisher hakt.",
+    },
+    briefPlaceholder:
+      "Z.B.: 11 Eigentumswohnungen in Heidelberg-Handschuhsheim, Vertriebsstart Q4. Visualisierungen sind da, aber das Exposé wirkt billig und wir bekommen kaum qualifizierte Anfragen.",
+  },
+};
 
-const BUDGET_OPTIONS: { id: Budget; label: string; sub: string }[] = [
-  { id: "under-25", label: "< 25.000 €", sub: "Frame oder Audit. Kein 10-Tage-Build." },
-  { id: "25-60", label: "25 – 60.000 €", sub: "Eine Auslieferung. Brand · oder · Site · oder · Agent-Layer." },
-  { id: "60-plus", label: "60.000 € +", sub: "Voller 10-Tage-Build. Alle drei Auslieferungen." },
-];
+/* Check-Modus überschreibt nur den Brief-Schritt */
+const CHECK_BRIEF: StepCopy = {
+  label: "04 · Check",
+  q: "Welches Projekt soll ich mir ansehen?",
+  sub: "Link zur Landingpage rein. Das Exposé (PDF) schickst du danach per Mail-Antwort — geht in 48 h ein 15-Min-Video an dich zurück.",
+};
+const CHECK_PLACEHOLDER =
+  "Z.B.: https://landingpage-meines-projekts.de — 14 Wohnungen in Mannheim, Vertrieb läuft seit 8 Wochen, kaum Anfragen. Exposé hänge ich an die Mail.";
 
-export function FunnelForm() {
+export function FunnelForm({
+  variant = "default",
+  check = false,
+  quelle,
+}: {
+  variant?: Variant;
+  check?: boolean;
+  quelle?: string;
+}) {
+  const opts = OPTIONS[variant];
+  const copy = COPY[variant];
+  const briefCopy = check ? CHECK_BRIEF : copy.s3;
+  const briefPlaceholder = check ? CHECK_PLACEHOLDER : copy.briefPlaceholder;
+
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FunnelData>({});
   const [sending, setSending] = useState(false);
@@ -47,16 +122,8 @@ export function FunnelForm() {
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
   // Auto-advance on card-pick steps for that "easy click" feel
-  const pickStage = (stage: Stage) => {
-    setData((d) => ({ ...d, stage }));
-    setTimeout(next, 240);
-  };
-  const pickTiming = (timing: Timing) => {
-    setData((d) => ({ ...d, timing }));
-    setTimeout(next, 240);
-  };
-  const pickBudget = (budget: Budget) => {
-    setData((d) => ({ ...d, budget }));
+  const pick = (field: "stage" | "timing" | "budget", value: string) => {
+    setData((d) => ({ ...d, [field]: value }));
     setTimeout(next, 240);
   };
 
@@ -72,11 +139,11 @@ export function FunnelForm() {
       const res = await fetch("/api/anfrage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, quelle, check, variant }),
       });
       if (!res.ok) throw new Error("Server antwortet nicht.");
       setDone(true);
-    } catch (e) {
+    } catch {
       setError("Konnte nicht senden. Bitte direkt an hi@beuwy.com schicken.");
     } finally {
       setSending(false);
@@ -102,7 +169,7 @@ export function FunnelForm() {
   }, [step, data, done]);
 
   if (done) {
-    return <Confirmation data={data} />;
+    return <Confirmation data={data} opts={opts} check={check} />;
   }
 
   return (
@@ -111,19 +178,15 @@ export function FunnelForm() {
 
       <div className="funnel-step-shell">
         {step === 0 && (
-          <FunnelStep
-            label="01 · Stand"
-            question="Wo stehst du gerade?"
-            sub="Drei Sätze. Such dir den nächstgelegenen aus."
-          >
+          <FunnelStep label={copy.s0.label} question={copy.s0.q} sub={copy.s0.sub}>
             <CardGrid>
-              {STAGE_OPTIONS.map((opt) => (
+              {opts.stage.map((opt) => (
                 <FunnelCard
                   key={opt.id}
                   label={opt.label}
                   sub={opt.sub}
                   selected={data.stage === opt.id}
-                  onClick={() => pickStage(opt.id)}
+                  onClick={() => pick("stage", opt.id)}
                 />
               ))}
             </CardGrid>
@@ -131,19 +194,15 @@ export function FunnelForm() {
         )}
 
         {step === 1 && (
-          <FunnelStep
-            label="02 · Timing"
-            question="Wann willst du live gehen?"
-            sub="Wir nehmen 6 Projekte / Jahr. Slots sind harte Slots."
-          >
+          <FunnelStep label={copy.s1.label} question={copy.s1.q} sub={copy.s1.sub}>
             <CardGrid>
-              {TIMING_OPTIONS.map((opt) => (
+              {opts.timing.map((opt) => (
                 <FunnelCard
                   key={opt.id}
                   label={opt.label}
                   sub={opt.sub}
                   selected={data.timing === opt.id}
-                  onClick={() => pickTiming(opt.id)}
+                  onClick={() => pick("timing", opt.id)}
                 />
               ))}
             </CardGrid>
@@ -151,19 +210,15 @@ export function FunnelForm() {
         )}
 
         {step === 2 && (
-          <FunnelStep
-            label="03 · Budget"
-            question="Welche Budget-Range?"
-            sub="Wir sind transparent. Auch wenn es nicht matcht."
-          >
+          <FunnelStep label={copy.s2.label} question={copy.s2.q} sub={copy.s2.sub}>
             <CardGrid>
-              {BUDGET_OPTIONS.map((opt) => (
+              {opts.budget.map((opt) => (
                 <FunnelCard
                   key={opt.id}
                   label={opt.label}
                   sub={opt.sub}
                   selected={data.budget === opt.id}
-                  onClick={() => pickBudget(opt.id)}
+                  onClick={() => pick("budget", opt.id)}
                 />
               ))}
             </CardGrid>
@@ -171,16 +226,12 @@ export function FunnelForm() {
         )}
 
         {step === 3 && (
-          <FunnelStep
-            label="04 · Brief"
-            question="Worum geht's wirklich?"
-            sub="2–3 Sätze reichen. Was ist das Problem, was wäre die ideale Lösung, was hindert dich?"
-          >
+          <FunnelStep label={briefCopy.label} question={briefCopy.q} sub={briefCopy.sub}>
             <textarea
               autoFocus
               value={data.brief || ""}
               onChange={(e) => setData((d) => ({ ...d, brief: e.target.value }))}
-              placeholder="Z.B.: Wir launchen Series A in Q4, brauchen eine Brand, die Investoren UND Agenten verstehen. Aktuell drei Fragmente, kein roter Faden."
+              placeholder={briefPlaceholder}
               rows={6}
               className="funnel-textarea"
             />
@@ -222,7 +273,7 @@ export function FunnelForm() {
               onBack={back}
               onNext={submit}
               nextDisabled={!data.name || !data.email || sending}
-              nextLabel={sending ? "Wird gesendet…" : "Brief senden"}
+              nextLabel={sending ? "Wird gesendet…" : check ? "Check anfragen" : "Brief senden"}
             />
           </FunnelStep>
         )}
@@ -284,12 +335,7 @@ function FunnelCard({
   onClick: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      data-selected={selected}
-      className="funnel-card"
-    >
+    <button type="button" onClick={onClick} data-selected={selected} className="funnel-card">
       <span className="funnel-card-label h-display">{label}</span>
       <span className="funnel-card-sub">{sub}</span>
       <span className="funnel-card-arrow" aria-hidden>→</span>
@@ -343,12 +389,7 @@ function FunnelNav({
       <button type="button" onClick={onBack} className="btn-secondary funnel-back">
         <span aria-hidden>←</span> Zurück
       </button>
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={nextDisabled}
-        className="btn-primary funnel-next"
-      >
+      <button type="button" onClick={onNext} disabled={nextDisabled} className="btn-primary funnel-next">
         {nextLabel}
         <span aria-hidden>→</span>
       </button>
@@ -356,34 +397,65 @@ function FunnelNav({
   );
 }
 
-function Confirmation({ data }: { data: FunnelData }) {
+function Confirmation({
+  data,
+  opts,
+  check,
+}: {
+  data: FunnelData;
+  opts: { stage: Opt[]; timing: Opt[]; budget: Opt[] };
+  check: boolean;
+}) {
+  const stageLabel = opts.stage.find((o) => o.id === data.stage)?.label;
+  const timingLabel = opts.timing.find((o) => o.id === data.timing)?.label;
+  const budgetLabel = opts.budget.find((o) => o.id === data.budget)?.label;
   return (
     <div className="funnel-done">
       <span className="eyebrow">
-        <span className="num">✓</span> Brief eingegangen
+        <span className="num">✓</span> {check ? "Check angefragt" : "Brief eingegangen"}
       </span>
       <h2 className="h-display funnel-done-h">
         Danke, {data.name?.split(" ")[0] || "schön dich zu hören"}.
         <br />
-        Wir antworten in <em className="font-display italic">&lt; 6h</em>.
+        {check ? (
+          <>
+            Dein Video kommt in <em className="font-display italic">48 h</em>.
+          </>
+        ) : (
+          <>
+            Wir antworten in <em className="font-display italic">&lt; 6h</em>.
+          </>
+        )}
       </h2>
       <p className="funnel-done-p">
-        Mo–Fr, 09–18 CET. Direkt mit Termin, Festpreis-Range — oder ehrlichem Nicht-passt.
-        Du hast den Brief auch in deinem Postfach: kurz drauf antworten, falls etwas fehlt.
+        {check ? (
+          <>
+            Antworte kurz auf die Bestätigungs-Mail und häng dein Exposé (PDF) an. Du bekommst in 48 h ein
+            15-Min-Video: was zieht, was bremst, wo du Leads verlierst. Kein Verkaufsdruck danach.
+          </>
+        ) : (
+          <>
+            Mo–Fr, 09–18 CET. Direkt mit Termin, Festpreis-Range — oder ehrlichem Nicht-passt. Du hast den Brief auch
+            in deinem Postfach: kurz drauf antworten, falls etwas fehlt.
+          </>
+        )}
       </p>
       <details className="funnel-done-summary">
         <summary>Dein Brief im Überblick</summary>
         <dl>
           <dt>Stand</dt>
-          <dd>{STAGE_OPTIONS.find((o) => o.id === data.stage)?.label}</dd>
+          <dd>{stageLabel}</dd>
           <dt>Timing</dt>
-          <dd>{TIMING_OPTIONS.find((o) => o.id === data.timing)?.label}</dd>
-          <dt>Budget</dt>
-          <dd>{BUDGET_OPTIONS.find((o) => o.id === data.budget)?.label}</dd>
+          <dd>{timingLabel}</dd>
+          <dt>Größe / Budget</dt>
+          <dd>{budgetLabel}</dd>
           <dt>Brief</dt>
           <dd>{data.brief}</dd>
           <dt>Kontakt</dt>
-          <dd>{data.name} · {data.email}{data.phone ? ` · ${data.phone}` : ""}</dd>
+          <dd>
+            {data.name} · {data.email}
+            {data.phone ? ` · ${data.phone}` : ""}
+          </dd>
         </dl>
       </details>
     </div>

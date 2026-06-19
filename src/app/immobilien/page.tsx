@@ -462,8 +462,83 @@ export default function ImmobilienPage() {
           ))}
         </div>
 
+        {/* ---- Add-ons ---- */}
         <Reveal delay={240}>
-          <p className="mt-10 text-[14px] leading-[1.6] max-w-[680px]" style={{ color: "var(--ink-dim)", fontFamily: "var(--font-mono)" }}>
+          <div className="mt-20 pt-12" style={{ borderTop: "1px solid var(--line-subtle)" }}>
+            <p className="eyebrow">
+              <span className="num">+</span> Optional dazu
+            </p>
+            <h3 className="font-display mt-5 max-w-[760px]" style={{ fontSize: 30, letterSpacing: "-0.025em", lineHeight: 1.1 }}>
+              Drei Module, die den Verkauf <em className="font-display italic" style={{ color: "var(--ink-yellow)" }}>weiter</em> tragen.
+            </h3>
+            <p className="mt-4 max-w-[640px] text-[15px] leading-[1.6]" style={{ color: "var(--ink-muted)" }}>
+              Das Paket bringt dich launch-ready. Diese Module sind für alle, die mehr wollen als „live" — laufende
+              Anfragen, fehlende Visualisierungen, Begleitung bis zum letzten Verkauf.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-9 grid md:grid-cols-3 gap-5">
+          {[
+            {
+              tag: "Performance",
+              name: "Anzeigen-Schaltung",
+              price: "ab 1.500 € / Mon.",
+              note: "+ Werbebudget",
+              body: "Ich schalte und steuere die Kampagnen selbst — Instagram + Meta, mit dem Lead-Funnel, mit dem ich bei acta 315 Wohnungen verkauft habe. Inkl. Lead-Routing und wöchentlichem Reporting.",
+            },
+            {
+              tag: "Visuals",
+              name: "3D-Renderings & Verkaufs-Visuals",
+              price: "auf Anfrage",
+              note: "pro Motiv",
+              body: "Kein Render-Studio, keine fertigen Visualisierungen? Aus Grundrissen und Architektur-Plänen entstehen foto-realistische Innen- und Außen-Visuals — schnell genug für den Vertriebsstart.",
+            },
+            {
+              tag: "Retainer",
+              name: "Vermarktungs-Begleitung",
+              price: "ab 2.000 € / Mon.",
+              note: "monatlich kündbar",
+              body: "Ich bleibe, bis das Projekt verkauft ist. Neue Motive, A/B-Tests auf der Landingpage, Anpassung des Exposés an die Restanten — statt einmal liefern und weg sein.",
+            },
+          ].map((a) => (
+            <Reveal key={a.name}>
+              <div className="card h-full flex flex-col">
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--ink-yellow)",
+                  }}
+                >
+                  + {a.tag}
+                </span>
+                <p
+                  className="font-display mt-4"
+                  style={{ fontSize: 21, letterSpacing: "-0.02em", color: "var(--ink-cream)", lineHeight: 1.2 }}
+                >
+                  {a.name}
+                </p>
+                <p className="mt-3 flex-1" style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}>
+                  {a.body}
+                </p>
+                <div className="mt-6 pt-4" style={{ borderTop: "1px solid var(--line-subtle)" }}>
+                  <span className="font-display" style={{ fontSize: 22, color: "var(--ink-yellow)", letterSpacing: "-0.02em" }}>
+                    {a.price}
+                  </span>
+                  <span className="ml-2" style={{ color: "var(--ink-dim)", fontFamily: "var(--font-mono)", fontSize: 11 }}>
+                    {a.note}
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={240}>
+          <p className="mt-12 text-[14px] leading-[1.6] max-w-[680px]" style={{ color: "var(--ink-dim)", fontFamily: "var(--font-mono)" }}>
             Größeres Projekt (40+ Einheiten, mehrere Bauphasen, internationales Marketing)? Schick uns einen Brief, wir nennen
             dir eine konkrete Zahl in 6 Stunden.
           </p>
@@ -568,6 +643,18 @@ export default function ImmobilienPage() {
             Eine Vermarktung allein macht kein Projekt. Lage, Preis, Bauqualität, Vertriebsteam gehören auch dazu.
             Wir behaupten nicht, das alleine gemacht zu haben — wir zeigen, was in unserem Teil lag.
           </p>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div className="mt-12">
+            <AssetSlot
+              src="/assets/cases/acta.jpg"
+              alt="acta — Objektvermarktung über Instagram"
+              aspect="16/9"
+              caption="acta · 315 Wohnungen über Instagram verkauft · €48,4M · 2023–2025"
+              prompt="Premium German residential development marketing visual: modern multi-family apartment building, warm golden-hour light, editorial real-estate photography. Deep bordeaux/oxblood color grade (#1A0404) with golden highlights. Instagram-grade, high-end, cinematic. Not stocky."
+            />
+          </div>
         </Reveal>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-12">

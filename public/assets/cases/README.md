@@ -16,7 +16,7 @@ change needed.
 |-------------|--------------------|--------|-------|
 | Vision RE   | `vision.jpg`       | 16/9   | KKR JV / corporate moody. |
 | Königswege  | `koenigswege.jpg`  | 16/9   | Finance editorial. |
-| acta        | `acta.jpg`         | 16/9   | Real estate Instagram hero. |
+| acta        | `acta.jpg`         | 16/9   | Real estate Instagram hero. Auch auf /immobilien (Beweis-Sektion). |
 | PURELEI     | `purelei.jpg`      | 16/9   | Lifestyle / founder portrait. |
 | hellogetsafe| `hellogetsafe.jpg` | 16/9   | Insurtech pre-Series-A. |
 | Snocks      | `snocks.jpg`       | 16/9   | DTC content hero. |

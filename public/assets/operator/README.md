@@ -11,6 +11,7 @@ Datei da ist, ersetzt das Foto den Platzhalter automatisch.
 Verwendet auf:
 - /system  (Sektion „Der Operator")
 - /sichtbar (Sektion „Wer das baut")
+- /immobilien (Sektion „Wer das macht")
 
 ## Empfohlene Specs
 - Querformat 4:3 (z. B. 1600×1200), unter ~400 KB optimiert (jpg/webp)

@@ -18,27 +18,65 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function AnfragePage() {
+export default async function AnfragePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ quelle?: string }>;
+}) {
+  const { quelle } = await searchParams;
+  const isImmo = quelle?.startsWith("immobilien") ?? false;
+  const isCheck = quelle === "immobilien-check";
+  const variant = isImmo ? "immobilien" : "default";
+
+  const hero = isCheck
+    ? {
+        eyebrow: "Vermarktungs-Check · gratis",
+        h: (
+          <>
+            Fünf Klicks. <em className="font-display italic">15-Min-Video</em> in 48 h.
+          </>
+        ),
+        sub: "Schick mir Landingpage + Exposé von einem laufenden oder geplanten Projekt. Du bekommst ein ehrliches Video-Feedback zurück: was zieht, was bremst, wo du Leads verlierst. Kein Verkaufsdruck danach.",
+      }
+    : isImmo
+    ? {
+        eyebrow: "Objektvermarktung · 2026",
+        h: (
+          <>
+            Fünf Klicks. <em className="font-display italic">Festpreis</em> in &lt; 6h.
+          </>
+        ),
+        sub: "Ich arbeite an einem Projekt zur Zeit. Such dir den nächst-passenden Stand aus — du bekommst Termin, Festpreis oder ein ehrliches Nicht-passt. Launch-ready in 4 Wochen oder 50% zurück.",
+      }
+    : {
+        eyebrow: "Brief · 2026",
+        h: (
+          <>
+            Fünf Klicks. <em className="font-display italic">Ehrliche</em> Antwort in &lt; 6h.
+          </>
+        ),
+        sub: "Wir nehmen 6 Projekte / Jahr. Q3/2026 hat noch 2 Slots. Such dir die nächst-passende Antwort aus — wir antworten mit Termin, Festpreis-Range oder klarem Nicht-passt.",
+      };
+
   return (
     <>
       <JsonLd data={breadcrumbLd([{ name: "beuwy", href: "/" }, { name: "Brief schicken", href: "/anfrage" }])} />
       <section className="section-band section-band-base pt-[140px] md:pt-[180px] pb-[40px]">
         <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
           <span className="eyebrow">
-            <span className="num">/</span> Brief · 2026
+            <span className="num">/</span> {hero.eyebrow}
           </span>
           <h1
             className="h-display mt-7 text-[44px] sm:text-[64px] md:text-[80px] leading-[0.98] max-w-[1100px]"
             style={{ letterSpacing: "-0.025em" }}
           >
-            Fünf Klicks. <em className="font-display italic">Ehrliche</em> Antwort in &lt; 6h.
+            {hero.h}
           </h1>
           <p
             className="mt-7 max-w-[640px] text-[17px] leading-[1.55]"
             style={{ color: "var(--ink-muted)" }}
           >
-            Wir nehmen 6 Projekte / Jahr. Q3/2026 hat noch 2 Slots. Such dir die nächst-passende
-            Antwort aus — wir antworten mit Termin, Festpreis-Range oder klarem Nicht-passt.
+            {hero.sub}
           </p>
         </div>
       </section>
@@ -50,7 +88,7 @@ export default function AnfragePage() {
         date="2026 / 01"
         tone="raised"
       >
-        <FunnelForm />
+        <FunnelForm variant={variant} check={isCheck} quelle={quelle} />
 
         <div
           className="mt-[88px] grid md:grid-cols-12 gap-10 pt-10"
@@ -69,11 +107,24 @@ export default function AnfragePage() {
               Was danach passiert
             </p>
             <ul className="mt-5 space-y-5">
-              {[
-                { n: "01", h: "< 6 h: Antwort", s: "Termin, Festpreis-Range oder ehrliches Nicht-passt." },
-                { n: "02", h: "Tag 1–2: Frame Call", s: "30 Minuten Loom oder Live. Wir kommen mit einer Hypothese." },
-                { n: "03", h: "Tag 3+: Live-Build", s: "Wenn es matcht, starten wir spätestens 14 Tage nach dem Frame." },
-              ].map((row) => (
+              {(isCheck
+                ? [
+                    { n: "01", h: "48 h: Dein Video", s: "15 Min Loom — was im Exposé und auf der Landingpage zieht und was bremst." },
+                    { n: "02", h: "Kein Druck", s: "Sagst du „passt nicht“, lassen wir es. Sagst du „weiter“, reden wir über dein Projekt." },
+                    { n: "03", h: "Optional: Festpreis", s: "Wenn es passt, kommt ein konkretes Paket — Light, Standard oder Premium." },
+                  ]
+                : isImmo
+                ? [
+                    { n: "01", h: "< 6 h: Antwort", s: "Termin, Festpreis nach Projektgröße oder ehrliches Nicht-passt." },
+                    { n: "02", h: "Tag 1–2: Frame Call", s: "30 Minuten. Du zeigst das Projekt, ich komme mit einer Vermarktungs-Hypothese." },
+                    { n: "03", h: "Launch in 4 Wochen", s: "Wenn es matcht, steht Marke + Landingpage + Exposé in 4 Wochen — oder 50% zurück." },
+                  ]
+                : [
+                    { n: "01", h: "< 6 h: Antwort", s: "Termin, Festpreis-Range oder ehrliches Nicht-passt." },
+                    { n: "02", h: "Tag 1–2: Frame Call", s: "30 Minuten Loom oder Live. Wir kommen mit einer Hypothese." },
+                    { n: "03", h: "Tag 3+: Live-Build", s: "Wenn es matcht, starten wir spätestens 14 Tage nach dem Frame." },
+                  ]
+              ).map((row) => (
                 <li key={row.n} className="flex items-start gap-4">
                   <span
                     className="font-display shrink-0"

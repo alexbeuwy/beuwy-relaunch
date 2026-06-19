@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
   // eslint-disable-next-line no-console
   console.log("[anfrage]", {
     at: new Date().toISOString(),
+    quelle: body.quelle ?? "direkt",
+    variant: body.variant ?? "default",
+    check: body.check === true,
     stage: body.stage,
     timing: body.timing,
     budget: body.budget,
