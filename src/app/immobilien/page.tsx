@@ -289,11 +289,10 @@ export default function ImmobilienPage() {
           <div className="md:col-span-5 space-y-5">
             <Reveal delay={120}>
               <AssetSlot
-                src="/assets/operator/alexander-puetter.jpg"
-                alt="Alexander Pütter — Macher von beuwy"
+                src="/assets/operator/founder.webp"
+                alt="Alexander — Macher von beuwy"
                 aspect="4/3"
-                caption="Alexander Pütter · Heidelberg"
-                prompt="Editorial founder portrait, late-30s/40s German man, three-quarter angle, calm confident expression. Warm low-key studio light, deep bordeaux/oxblood background (#1A0404), soft golden rim light. Magazine cover quality, subtle film grain. Not corporate-stocky."
+                caption="Alexander · Heidelberg"
                 priority
               />
             </Reveal>
@@ -633,7 +632,7 @@ export default function ImmobilienPage() {
       <Section chapter="05 Beweis" title="Cases mit Quellen" date="" tone="base">
         <Reveal>
           <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Drei Projekte. Drei Größen.
+            Echte Projekte. Echte Arbeit.
             <br />
             <em className="font-display italic">Jede Zahl mit Quelle</em>.
           </HeadlineDisplay>
@@ -645,17 +644,40 @@ export default function ImmobilienPage() {
           </p>
         </Reveal>
 
-        <Reveal delay={120}>
-          <div className="mt-12">
+        <div className="mt-12 grid md:grid-cols-2 gap-4">
+          <Reveal delay={120}>
             <AssetSlot
-              src="/assets/cases/acta.jpg"
-              alt="acta — Objektvermarktung über Instagram"
+              src="/assets/cases/vision-kkr.webp"
+              alt="Vision Real Estate — Investoren-Präsentation für KKR"
               aspect="16/9"
-              caption="acta · 315 Wohnungen über Instagram verkauft · €48,4M · 2023–2025"
-              prompt="Premium German residential development marketing visual: modern multi-family apartment building, warm golden-hour light, editorial real-estate photography. Deep bordeaux/oxblood color grade (#1A0404) with golden highlights. Instagram-grade, high-end, cinematic. Not stocky."
+              caption="Vision · Pitch-Marke für das €160M-Joint-Venture mit KKR"
             />
-          </div>
-        </Reveal>
+          </Reveal>
+          <Reveal delay={180}>
+            <AssetSlot
+              src="/assets/cases/riegel-plakat.webp"
+              alt="Riegel Immobilien — Plakatkampagne"
+              aspect="16/9"
+              caption="Riegel Immobilien · Out-of-Home-Kampagne (Regionale Immobilienexpertise)"
+            />
+          </Reveal>
+          <Reveal delay={240}>
+            <AssetSlot
+              src="/assets/cases/vision-markt.webp"
+              alt="Vision — Wohnungsmarkt-Analyse Rhein-Neckar"
+              aspect="16/9"
+              caption="Vision · Markt-Analyse Rhein-Main / Rhein-Neckar (Heidelberg, Mannheim, Frankfurt)"
+            />
+          </Reveal>
+          <Reveal delay={300}>
+            <AssetSlot
+              src="/assets/cases/riegel-storefront.webp"
+              alt="Riegel Immobilien — Marken-Signage"
+              aspect="16/9"
+              caption="Riegel Immobilien · Marke & Leuchtschild am Standort"
+            />
+          </Reveal>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-12">
           {[

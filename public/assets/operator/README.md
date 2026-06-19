@@ -1,6 +1,10 @@
 # Operator-Portrait — Drop-Zone
 
-Lege hier das echte Founder-Portrait ab:
+`founder.webp` ist gesetzt — importiert von beuwy.com (Bordeaux-Studio-Portrait,
+markenkonform) und auf /immobilien als Operator-Bild verdrahtet. Wenn du ein
+echtes Foto von dir hast, ersetze einfach `founder.webp` (4:3, < 400 KB).
+
+Für /system und /sichtbar liegt der historische Drop-Pfad weiterhin bei:
 
     public/assets/operator/alexander-puetter.jpg
 
