@@ -33,6 +33,15 @@ const UA =
 
 const IMG_EXT = new Set(["jpg", "jpeg", "png", "webp", "avif", "gif", "svg"]);
 
+/**
+ * Junk-Filter: Uncode-Theme-Demos, generische 3D-Clipart-Deko und die große
+ * Lifestyle-Fotostrecke (7IV0xxxx Sony-Dump) fliegen raus — die fressen nur
+ * das File-Budget und sind für die Vermarktungs-Seite nicht relevant.
+ * Match gegen den bereinigten Dateinamen (safeName).
+ */
+const EXCLUDE_RE =
+  /(^|[-_])(demo|uncode|placeholder|lorem|sample)([-_.]|$)|^7iv0\d|^(hero|marktfuehrer|star|quotes|letter|background-1)\.|icon|sprite|favicon/i;
+
 const fetchBuf = async (url) => {
   const res = await fetch(url, { headers: { "User-Agent": UA }, redirect: "follow" });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
@@ -202,6 +211,13 @@ async function viaSitemap() {
 async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
+  // Verzeichnis zuerst leeren (außer README), damit ein Re-Run einen sauberen
+  // Endzustand erzeugt und alte Junk-Dateien wieder verschwinden.
+  for (const f of fs.readdirSync(OUT_DIR)) {
+    if (f.toLowerCase() === "readme.md") continue;
+    fs.rmSync(path.join(OUT_DIR, f), { force: true });
+  }
+
   let collected;
   try {
     console.log(`trying WP REST API at ${SITE}/wp-json/wp/v2/media …`);
@@ -219,13 +235,16 @@ async function main() {
     if (sm.items.length) collected = { source: "sitemap-scrape", items: sm.items };
   }
 
-  // normalize URLs + dedupe + cap + filter
+  // normalize URLs + junk-filter + dedupe + cap
+  const before = collected.items.length;
   let items = collected.items
     .map((it) => ({ ...it, url: normalizeUrl(it.url) }))
     .filter((it) => it.url && IMG_EXT.has(ext(it.url)))
+    .filter((it) => !EXCLUDE_RE.test(safeName(it.url)))
     .filter((it, i, a) => a.findIndex((b) => safeName(b.url) === safeName(it.url)) === i)
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
     .slice(0, MAX_FILES);
+  console.log(`filtered ${before} → ${items.length} (junk + dupes removed)`);
 
   console.log(`downloading ${items.length} unique images → ${OUT_DIR}`);
 

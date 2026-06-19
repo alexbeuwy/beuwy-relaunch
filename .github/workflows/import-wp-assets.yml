@@ -10,7 +10,7 @@ on:
       max_files:
         description: "Hard cap on number of files"
         required: false
-        default: "200"
+        default: "250"
   push:
     paths:
       - "scripts/import-wp-assets.js"
@@ -36,7 +36,7 @@ jobs:
       - name: Import WP media
         env:
           WP_SITE_URL: ${{ inputs.site_url || 'https://beuwy.com' }}
-          MAX_FILES: ${{ inputs.max_files || '200' }}
+          MAX_FILES: ${{ inputs.max_files || '250' }}
         run: node scripts/import-wp-assets.js
 
       - name: Commit + push
@@ -44,11 +44,11 @@ jobs:
           SITE_URL: ${{ inputs.site_url || 'https://beuwy.com' }}
         run: |
           if [ -z "$(git status --porcelain public/assets/wp)" ]; then
-            echo "no new files — nothing to commit"
+            echo "no changes — nothing to commit"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/assets/wp
-          git commit -m "chore(assets): import WP media from $SITE_URL"
+          git add -A public/assets/wp
+          git commit -m "chore(assets): re-import WP media from $SITE_URL (junk gefiltert)"
           git push
