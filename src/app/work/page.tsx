@@ -61,7 +61,7 @@ export default function WorkPage() {
               >
                 <div className="md:col-span-12">
                   <AssetSlot
-                    src={`/assets/cases/${c.slug}.jpg`}
+                    src={`/assets/cases/${c.slug}.webp`}
                     alt={`${c.client} — case visual`}
                     aspect="16/9"
                     caption={`${c.client} · ${c.cat}`}

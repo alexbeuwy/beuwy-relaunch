@@ -101,7 +101,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
       <Section chapter="01 Visual" title={c.client} date={c.years} tone="raised">
         <Reveal>
           <AssetSlot
-            src={`/assets/cases/${c.slug}-hero.jpg`}
+            src={`/assets/cases/${c.slug}-hero.webp`}
             alt={`${c.client} — visual hero`}
             aspect="16/9"
             caption={`${c.client} · ${c.cat}`}
