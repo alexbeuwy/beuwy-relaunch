@@ -31,6 +31,7 @@ const groups: RouteGroup[] = [
     entries: [
       { path: "/", title: "Home", note: "Puck-driven. content/puck/home.json. Hero · Pain · Dream · Mechanism · Proof · Offer · Scarcity · Identification · Magnet · FAQ · BigCTA.", tag: "indexed" },
       { path: "/sichtbar", title: "Mehr Anfragen über deine Seite", note: "Sales-Landing in Klartext. Was Kunden wirklich sagen + Angebot + Garantie. Fokus: Anfragen, nicht KI-Hype.", tag: "indexed" },
+      { path: "/immobilien", title: "Objektvermarktung (Pivot-Test)", note: "Test-Seite für Bauträger/Projektentwickler. Drei Tier (10k/12k/20k), acta als Held, Vermarktungs-Check als Lead-Magnet. Bewusst NICHT im Nav/Footer — saubere A/B-Messung gegen /sichtbar.", tag: "indexed" },
       { path: "/method", title: "Methode", note: "Vier Phasen · Tag-für-Tag-Plan · Vergleichsmatrix · Pricing · Garantie-Echo · Final-CTA.", tag: "indexed" },
       { path: "/work", title: "Arbeit (Index)", note: "Alle Cases als Karten mit CTA zu den Detail-Pages.", tag: "indexed" },
       { path: "/system", title: "System", note: "Premium-Tier. Track-Record · Operator · Liefervertrag · Geld-zurück-Seal · Pass-Check.", tag: "indexed" },
