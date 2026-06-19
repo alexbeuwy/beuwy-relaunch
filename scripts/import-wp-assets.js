@@ -41,10 +41,24 @@ const fetchBuf = async (url) => {
 const fetchText = async (url) => (await fetchBuf(url)).toString("utf-8");
 const fetchJson = async (url) => JSON.parse(await fetchText(url));
 
+const normalizeUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith("//")) return "https:" + url;
+  if (url.startsWith("/")) return SITE.replace(/\/$/, "") + url;
+  if (!/^https?:\/\//i.test(url)) return null;
+  return url;
+};
+
 const safeName = (url) => {
-  const u = new URL(url);
-  const base = path.basename(u.pathname).split("?")[0].toLowerCase();
-  return base.replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "image";
+  const n = normalizeUrl(url);
+  if (!n) return "image";
+  try {
+    const u = new URL(n);
+    const base = path.basename(u.pathname).split("?")[0].toLowerCase();
+    return base.replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "image";
+  } catch {
+    return "image";
+  }
 };
 
 const ext = (url) => {
@@ -166,14 +180,11 @@ async function viaSitemap() {
     for (const m of html.matchAll(/<meta[^>]+(?:property|name)=["'](?:og:image|twitter:image)["'][^>]+content=["']([^"']+)["']/gi)) {
       urls.push(m[1]);
     }
-    for (let u of urls) {
-      try {
-        if (u.startsWith("//")) u = "https:" + u;
-        else if (u.startsWith("/")) u = SITE + u;
-        if (!u.startsWith("http")) continue;
-        if (!IMG_EXT.has(ext(u))) continue;
-        items.push({ url: u, alt: "", title: "", date: "" });
-      } catch {}
+    for (const raw of urls) {
+      const u = normalizeUrl(raw);
+      if (!u) continue;
+      if (!IMG_EXT.has(ext(u))) continue;
+      items.push({ url: u, alt: "", title: "", date: "" });
     }
   }
   // dedupe by filename
@@ -208,9 +219,10 @@ async function main() {
     if (sm.items.length) collected = { source: "sitemap-scrape", items: sm.items };
   }
 
-  // dedupe + cap + filter
+  // normalize URLs + dedupe + cap + filter
   let items = collected.items
-    .filter((it) => IMG_EXT.has(ext(it.url)))
+    .map((it) => ({ ...it, url: normalizeUrl(it.url) }))
+    .filter((it) => it.url && IMG_EXT.has(ext(it.url)))
     .filter((it, i, a) => a.findIndex((b) => safeName(b.url) === safeName(it.url)) === i)
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
     .slice(0, MAX_FILES);
