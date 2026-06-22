@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { RevenueCalculator } from "@/components/RevenueCalculator";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
@@ -379,6 +380,24 @@ export default function MethodPage() {
         <div className="mt-10">
           <Reveal>
             <PricingHero />
+          </Reveal>
+        </div>
+
+        {/* Price reframe — turn "8.900 €" from a cost into a payback. Pure
+            Hormozi: the price stops being a number, becomes a return. */}
+        <div className="mt-14">
+          <Reveal>
+            <p className="eyebrow"><span className="num">/</span> Rechne selbst nach</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <HeadlineDisplay size="md" className="mt-5 max-w-[860px]">
+              8.900 € klingt nach viel. <em className="font-display italic">Bis du das hier rechnest.</em>
+            </HeadlineDisplay>
+          </Reveal>
+          <Reveal delay={160}>
+            <div className="mt-8">
+              <RevenueCalculator />
+            </div>
           </Reveal>
         </div>
 

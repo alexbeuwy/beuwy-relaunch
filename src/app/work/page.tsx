@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { AssetSlot } from "@/components/AssetSlot";
+import { CasePlate } from "@/components/CasePlate";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 import { cases } from "@/lib/cases";
 
@@ -60,13 +61,24 @@ export default function WorkPage() {
                 className="glass grid md:grid-cols-12 gap-8 items-start p-7 md:p-10"
               >
                 <div className="md:col-span-12">
-                  <AssetSlot
-                    src={`/assets/cases/${c.slug}.webp`}
-                    alt={`${c.client} — case visual`}
-                    aspect="16/9"
-                    caption={`${c.client} · ${c.cat}`}
-                    prompt={`Premium editorial photograph for ${c.client} (${c.cat}) — moody dark bordeaux background with yellow accent lighting, sculptural mockup or product hero shot, 16:9`}
-                  />
+                  {c.visual === "plate" ? (
+                    <CasePlate
+                      client={c.client}
+                      kpi={c.kpi}
+                      kpiLabel={c.kpiLabel}
+                      cat={c.cat}
+                      logoSrc={c.plateLogo}
+                      caption={`${c.client} · ${c.cat}`}
+                    />
+                  ) : (
+                    <AssetSlot
+                      src={`/assets/cases/${c.slug}.webp`}
+                      alt={`${c.client} — case visual`}
+                      aspect="16/9"
+                      caption={`${c.client} · ${c.cat}`}
+                      prompt={`Premium editorial photograph for ${c.client} (${c.cat}) — moody dark bordeaux background with yellow accent lighting, sculptural mockup or product hero shot, 16:9`}
+                    />
+                  )}
                 </div>
                 <div className="md:col-span-4">
                   <span

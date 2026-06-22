@@ -32,6 +32,7 @@ export function Footer() {
               <FooterLink href="/work">Arbeit</FooterLink>
               <FooterLink href="/manifesto">Warum beuwy</FooterLink>
               <FooterLink href="/audit">Kostenloser Audit</FooterLink>
+              <FooterLink href="/rechner">Was kostet dich deine Seite?</FooterLink>
             </FooterCol>
             <FooterCol title="Cases">
               <FooterLink href="/work/vision">Vision Real Estate</FooterLink>

@@ -42,6 +42,15 @@ export type CaseStudy = {
   sources: CaseSource[];
   /** Optional one-line takeaway pulled from the work. */
   quote?: string;
+
+  /**
+   * Visual treatment for /work index + detail hero:
+   *  - "photo" (default): real image at /assets/cases/<slug>.webp + <slug>-hero.webp
+   *  - "plate": designed KPI tile (CasePlate) — used when no honest photo exists.
+   */
+  visual?: "photo" | "plate";
+  /** Optional real logo for a CasePlate (e.g. /assets/cases/purelei-logo.svg). */
+  plateLogo?: string;
 };
 
 export const cases: CaseStudy[] = [
@@ -131,6 +140,7 @@ export const cases: CaseStudy[] = [
       { label: "Ø Ticket €153.842 — abgeleitet aus €48,4M / 315 Wohnungen" },
     ],
     quote: "Wir kennen Kaufentscheidungen bei hohem Ticket nicht aus der Studie. Wir lösen sie selbst aus.",
+    visual: "plate",
   },
   {
     slug: "purelei",
@@ -160,6 +170,8 @@ export const cases: CaseStudy[] = [
       { label: "Branchenberichte 2022–2024 (DTC-Umsatzgrößenordnung)" },
     ],
     quote: "Skaliert, weil das System die Founder-Stimme weiterspricht, wenn die Founder nicht im Raum sind.",
+    visual: "plate",
+    plateLogo: "/assets/cases/purelei-logo.svg",
   },
   {
     slug: "hellogetsafe",
@@ -205,6 +217,7 @@ export const cases: CaseStudy[] = [
       { t: "Content-Drops", d: "Hand-ausgewählte, einzelne Pieces — keine Retainer-Logik, keine laufende Begleitung." },
     ],
     sources: [],
+    visual: "plate",
   },
 ];
 

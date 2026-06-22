@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Section, HeadlineDisplay } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { AssetSlot } from "@/components/AssetSlot";
+import { CasePlate } from "@/components/CasePlate";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 import { cases, caseBySlug } from "@/lib/cases";
 
@@ -100,14 +101,25 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
          ============================================================ */}
       <Section chapter="01 Visual" title={c.client} date={c.years} tone="raised">
         <Reveal>
-          <AssetSlot
-            src={`/assets/cases/${c.slug}-hero.webp`}
-            alt={`${c.client} — visual hero`}
-            aspect="16/9"
-            caption={`${c.client} · ${c.cat}`}
-            priority
-            prompt={`Premium editorial hero image for ${c.client} (${c.cat}, ${c.years}). Moody dark bordeaux background with warm yellow accent lighting, sculptural product or brand mockup centered. 16:9. Cinematic, magazine cover quality, subtle film grain, not corporate-stocky.`}
-          />
+          {c.visual === "plate" ? (
+            <CasePlate
+              client={c.client}
+              kpi={c.kpi}
+              kpiLabel={c.kpiLabel}
+              cat={c.cat}
+              logoSrc={c.plateLogo}
+              caption={`${c.client} · ${c.cat}`}
+            />
+          ) : (
+            <AssetSlot
+              src={`/assets/cases/${c.slug}-hero.webp`}
+              alt={`${c.client} — visual hero`}
+              aspect="16/9"
+              caption={`${c.client} · ${c.cat}`}
+              priority
+              prompt={`Premium editorial hero image for ${c.client} (${c.cat}, ${c.years}). Moody dark bordeaux background with warm yellow accent lighting, sculptural product or brand mockup centered. 16:9. Cinematic, magazine cover quality, subtle film grain, not corporate-stocky.`}
+            />
+          )}
         </Reveal>
       </Section>
 
