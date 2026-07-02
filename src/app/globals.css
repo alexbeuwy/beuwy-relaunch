@@ -3631,3 +3631,144 @@ select:focus {
   text-transform: uppercase;
   color: var(--ink-dim);
 }
+
+/* ============================================================
+   Die beuwy-Kanone  (/spiel)
+   ============================================================ */
+.bgame {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg-base);
+  cursor: crosshair;
+}
+.bgame canvas { display: block; }
+.bgame-loading {
+  display: grid;
+  place-items: center;
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.bgame-hud-left {
+  position: absolute;
+  top: 96px;
+  left: clamp(16px, 4vw, 40px);
+  z-index: 3;
+  pointer-events: none;
+}
+.bgame-score-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.bgame-score {
+  display: block;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1;
+  color: var(--ink-yellow);
+  font-variant-numeric: tabular-nums;
+}
+.bgame-toasts {
+  position: absolute;
+  top: 96px;
+  right: clamp(16px, 4vw, 40px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+  max-width: min(70vw, 420px);
+}
+.bgame-toast {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  color: var(--ink-cream);
+  animation: bgame-toast-in 220ms cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+@keyframes bgame-toast-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.bgame-mute {
+  position: absolute;
+  bottom: clamp(16px, 3vw, 28px);
+  left: clamp(16px, 4vw, 40px);
+  z-index: 3;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 9999px;
+  width: 42px;
+  height: 42px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: border-color 200ms ease;
+}
+.bgame-mute:hover { border-color: var(--line-medium); }
+.bgame-cta {
+  position: absolute;
+  bottom: clamp(16px, 3vw, 28px);
+  right: clamp(16px, 4vw, 40px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.bgame-cta > span {
+  font-size: 13px;
+  color: var(--ink-muted);
+  max-width: 22ch;
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .bgame-cta > span { display: none; }
+}
+.bgame-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(80% 80% at 50% 40%, rgba(26, 4, 4, 0.25), rgba(26, 4, 4, 0.75));
+}
+.bgame-overlay-card {
+  max-width: 560px;
+  padding: clamp(28px, 5vw, 44px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.bgame-title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  color: var(--ink-yellow);
+  font-size: clamp(34px, 6vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+.bgame-sub {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  max-width: 42ch;
+}
+.bgame-controls {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}

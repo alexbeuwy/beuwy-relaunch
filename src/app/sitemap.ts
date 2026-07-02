@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/anfrage`,   lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/audit`,     lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/rechner`,   lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/spiel`,     lastModified, changeFrequency: "yearly",  priority: 0.4 },
     // Each case study is its own indexable detail page — strong signal for
     // search + agent crawlers that we have substantive, sourced proof per client.
     ...cases.map((c) => ({

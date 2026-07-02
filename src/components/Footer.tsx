@@ -33,6 +33,7 @@ export function Footer() {
               <FooterLink href="/manifesto">Warum beuwy</FooterLink>
               <FooterLink href="/audit">Kostenloser Audit</FooterLink>
               <FooterLink href="/rechner">Was kostet dich deine Seite?</FooterLink>
+              <FooterLink href="/spiel">Die beuwy-Kanone (Spiel)</FooterLink>
             </FooterCol>
             <FooterCol title="Cases">
               <FooterLink href="/work/vision">Vision Real Estate</FooterLink>
