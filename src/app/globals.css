@@ -3772,3 +3772,132 @@ select:focus {
   letter-spacing: 0.06em;
   color: var(--ink-dim);
 }
+
+/* ============================================================
+   beuwy-Kanone v2: Vignette, Timer, Combo, Popups, Over-Screen
+   ============================================================ */
+/* Vignette + warmes Bodenlicht als CSS-Compositing statt GPU-Pass */
+.bgame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 100% at 50% 42%, transparent 55%, rgba(26, 4, 4, 0.55) 100%),
+    radial-gradient(80% 34% at 50% 104%, rgba(247, 233, 154, 0.09), transparent 70%);
+}
+.bgame-pops {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bgame-pop {
+  position: absolute;
+  transform: translate(-50%, 0);
+  opacity: 0;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-yellow);
+  text-shadow: 0 2px 12px rgba(26, 4, 4, 0.9);
+  white-space: nowrap;
+}
+.bgame-timer {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.bgame-timer > span {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+  color: var(--ink-cream);
+  font-variant-numeric: tabular-nums;
+}
+.bgame-timer > em {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.bgame-combo {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-yellow);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 200ms ease, transform 260ms cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+.bgame-combo[data-active="true"] {
+  opacity: 1;
+  transform: scale(1);
+  animation: bgame-combo-pop 320ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+@keyframes bgame-combo-pop {
+  0% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.bgame-combo-track {
+  display: block;
+  width: 64px;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(247, 233, 154, 0.15);
+  overflow: hidden;
+}
+.bgame-combo-bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--ink-yellow);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.bgame-toast--big {
+  font-size: 16px;
+  padding: 12px 22px;
+  border-color: rgba(247, 233, 154, 0.45);
+  color: var(--ink-yellow);
+}
+.bgame-record {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-yellow);
+  animation: bgame-combo-pop 400ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+.bgame-over-points {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(56px, 9vw, 96px);
+  line-height: 1;
+  color: var(--ink-yellow);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.bgame-over-meta {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.bgame-over-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
