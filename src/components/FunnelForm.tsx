@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type Variant = "default" | "immobilien";
+type Variant = "default" | "immobilien" | "makler";
 
 type Opt = { id: string; label: string; sub: string };
 
@@ -55,6 +55,23 @@ const OPTIONS: Record<Variant, { stage: Opt[]; timing: Opt[]; budget: Opt[] }> =
       { id: "gross", label: "40+ / mehrere Phasen", sub: "Individuell. Zahl in 6 h." },
     ],
   },
+  makler: {
+    stage: [
+      { id: "onoffice", label: "onOffice", sub: "Du pflegst deine Objekte schon in onOffice." },
+      { id: "flowfact", label: "FlowFact", sub: "Du nutzt FlowFact statt onOffice." },
+      { id: "andere", label: "Anderes oder keins", sub: "Anderes System, eine Excel-Liste oder noch gar nichts." },
+    ],
+    timing: [
+      { id: "sofort", label: "Sofort", sub: "Du willst die Demo so schnell wie möglich sehen." },
+      { id: "naechstes-quartal", label: "Nächstes Quartal", sub: "Vorlauf ist da, der Launch steht aber schon fest." },
+      { id: "offen", label: "Noch offen", sub: "Du sondierst erst, ob das Portal zu dir passt." },
+    ],
+    budget: [
+      { id: "unter-10", label: "Unter 10", sub: "Kleines, aktives Portfolio." },
+      { id: "10-30", label: "10 bis 30", sub: "Solide Anzahl laufender Objekte." },
+      { id: "ueber-30", label: "Über 30", sub: "Großes Portfolio, viel zu zeigen." },
+    ],
+  },
 };
 
 /* ---------- Copy je Variante ---------- */
@@ -86,6 +103,17 @@ const COPY: Record<
     },
     briefPlaceholder:
       "Z.B.: 11 Eigentumswohnungen in Heidelberg-Handschuhsheim, Vertriebsstart Q4. Visualisierungen sind da, aber das Exposé wirkt billig und wir bekommen kaum qualifizierte Anfragen.",
+  },
+  makler: {
+    s0: { label: "01 · System", q: "Welches System nutzt du?", sub: "Damit wir wissen, wie wir deine Objekte anbinden." },
+    s1: { label: "02 · Timing", q: "Wann soll deine Demo stehen?", sub: "Wir bauen ein Portal zur Zeit. Slots sind harte Slots." },
+    s2: { label: "03 · Objekte", q: "Wie viele Objekte hast du gerade aktiv?", sub: "Bestimmt, wie viel wir für die Demo synchronisieren." },
+    s3: {
+      label: "04 · Brief",
+      q: "Kurz zu dir und deinen Objekten.",
+      sub: "2 bis 3 Sätze reichen. Wer du bist, wo du sitzt, was für Objekte du vermarktest.",
+    },
+    briefPlaceholder: "Kurz: wer bist du, welche Stadt, was für Objekte?",
   },
 };
 

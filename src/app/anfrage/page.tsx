@@ -26,7 +26,8 @@ export default async function AnfragePage({
   const { quelle } = await searchParams;
   const isImmo = quelle?.startsWith("immobilien") ?? false;
   const isCheck = quelle === "immobilien-check";
-  const variant = isImmo ? "immobilien" : "default";
+  const isMakler = quelle === "makler";
+  const variant = isMakler ? "makler" : isImmo ? "immobilien" : "default";
 
   const hero = isCheck
     ? {
@@ -37,6 +38,18 @@ export default async function AnfragePage({
           </>
         ),
         sub: "Schick mir Landingpage + Exposé von einem laufenden oder geplanten Projekt. Du bekommst ein ehrliches Video-Feedback zurück: was zieht, was bremst, wo du Leads verlierst. Kein Verkaufsdruck danach.",
+      }
+    : isMakler
+    ? {
+        eyebrow: "Makler-Portal · 2026",
+        h: (
+          <>
+            Schick mir deine Objektliste.
+            <br />
+            Du bekommst eine <em className="font-display italic">Demo</em>, keine Rechnung.
+          </>
+        ),
+        sub: "Fünf Klicks, dann siehst du, ob und wie schnell wir deine Objekte auf dein eigenes Portal bringen.",
       }
     : isImmo
     ? {
@@ -112,6 +125,12 @@ export default async function AnfragePage({
                     { n: "01", h: "48 h: Dein Video", s: "15 Min Loom — was im Exposé und auf der Landingpage zieht und was bremst." },
                     { n: "02", h: "Kein Druck", s: "Sagst du „passt nicht“, lassen wir es. Sagst du „weiter“, reden wir über dein Projekt." },
                     { n: "03", h: "Optional: Festpreis", s: "Wenn es passt, kommt ein konkretes Paket — Light, Standard oder Premium." },
+                  ]
+                : isMakler
+                ? [
+                    { n: "01", h: "< 6 h: Antwort", s: "Wir bestätigen den Eingang und sagen dir, was wir noch von dir brauchen." },
+                    { n: "02", h: "Tag 1 bis 2: Anbindung", s: "Wir ziehen deine echten Objekte aus onOffice oder deiner Liste." },
+                    { n: "03", h: "Tag 7: Deine Demo", s: "Du siehst deine eigene Seite mit deinen echten Objekten, bevor du zahlst." },
                   ]
                 : isImmo
                 ? [

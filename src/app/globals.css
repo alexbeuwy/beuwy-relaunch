@@ -3901,3 +3901,48 @@ select:focus {
   gap: 10px;
   justify-content: center;
 }
+
+/* ============================================================
+   MAKLER (/makler): small additive touches, prefix .makler-*
+   ============================================================ */
+
+/* Hover-lift on the Beweis showcase images. Pass as AssetSlot className. */
+.makler-hover-lift {
+  transition:
+    transform var(--resize-dur) var(--resize-ease),
+    box-shadow var(--resize-dur) var(--resize-ease);
+}
+.makler-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 56px -26px rgba(0, 0, 0, 0.65);
+}
+
+/* Vertical hairline milestone list (Ablauf section). */
+.makler-timeline {
+  position: relative;
+}
+.makler-timeline-rail {
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--line-medium), var(--line-subtle));
+}
+.makler-timeline-item {
+  position: relative;
+  padding-left: 40px;
+}
+.makler-timeline-item + .makler-timeline-item {
+  margin-top: 40px;
+}
+.makler-timeline-marker {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ink-yellow);
+  box-shadow: 0 0 0 4px var(--bg-raised), 0 0 14px rgba(247, 233, 154, 0.4);
+}

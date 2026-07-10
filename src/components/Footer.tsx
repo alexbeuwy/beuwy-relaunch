@@ -26,6 +26,7 @@ export function Footer() {
 
           <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8 text-[14px]">
             <FooterCol title="beuwy">
+              <FooterLink href="/makler">Portal für Makler</FooterLink>
               <FooterLink href="/sichtbar">Mehr Anfragen über deine Seite</FooterLink>
               <FooterLink href="/system">Das Angebot</FooterLink>
               <FooterLink href="/method">So läuft das ab</FooterLink>
