@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^149.0.0",
     "geist": "^1.7.0",
     "next": "^15.5.18",
+    "playwright-core": "^1.61.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

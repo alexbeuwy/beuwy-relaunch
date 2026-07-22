@@ -22,7 +22,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 - [x] **P2 · Seitenskelett + Copy v1:** page.tsx neu — 8 Sektionen nach Masterplan §5
   mit finaler Copy (Hero-Kernsatz "Die erste Empfehlung kommt heute von Google und
   ChatGPT…", Anti-Slop-Regeln 1–10 einhalten). Statisch zuerst, Interaktionen später.
-- [ ] **P3 · Tool-Backend:** /api/audit v2 — (a) Screenshot-Route mit playwright-core
+- [x] **P3 · Tool-Backend:** /api/audit v2 — (a) Screenshot-Route mit playwright-core
   + @sparticuz/chromium (npm install nötig), (b) deterministische Checks
   (schema.org, llms.txt, OG, Title/Meta, robots), (c) Claude-Analyse MIT echtem
   Seiteninhalt (HTML-Text extrahieren, an Claude geben), Streaming-fähige
@@ -115,6 +115,18 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   selbst"). Diagnose-Preis 1.990 € steht im FAQ (Default, Alex bestätigt noch).
   Offen für P5-Feinschliff: Kosten-Sektion Zeile 2 ggf. konkreter (Branchen-
   Beispiel), Proof-Karten Zitat-Slots.
+- **P3 (00:55):** Backend v2 live — /api/audit/scan (SSRF-Guard, Seiten-Fetch,
+  9 deterministische Checks, Text-Extraktion, Screenshot best-effort mit hartem
+  25s-Race) + /api/audit/analyze (claude-sonnet-5 mit echtem Seiteninhalt +
+  Checks als Kontext, Befunde in Geschäfts-Sprache). Alte /api/audit-Route weg,
+  AuditTool auf Zwei-Phasen-Flow (zeigt Screenshot + Checks sofort, Analyse
+  folgt). serverExternalPackages für @sparticuz/chromium gesetzt. Smoke-Test
+  lokal: Scan OK (riegel.vercel.app → techScore 100, alle 9 Checks korrekt),
+  Claude-Analyse lokal ohne Key = Demo-Pfad (auf Vercel ist der Key gesetzt).
+  ACHTUNG P11: Screenshot funktioniert LOKAL nicht (Session-Proxy resettet
+  Chromium-CONNECT, reine Dev-Eigenheit) — auf dem Vercel-Preview unbedingt
+  live verifizieren (@sparticuz-Pfad, dort kein Proxy). Falls dort auch leer:
+  chromium.args prüfen / headless:"shell"-Variante testen.
 - **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert

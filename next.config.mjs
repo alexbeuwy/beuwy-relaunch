@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ["@sparticuz/chromium", "playwright-core"],
   async redirects() {
     // One-Pager-Konsolidierung (Masterplan §5): alte Unterseiten -> Anker
     return [
