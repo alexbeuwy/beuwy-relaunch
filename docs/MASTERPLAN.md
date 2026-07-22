@@ -14,15 +14,17 @@ sorgt, dass Google und ChatGPT ein Unternehmen empfehlen** — Marke, Website, T
 CRM-Anbindung, AI-Sichtbarkeit, gedacht vom Vertriebsprozess her. Denkt wie ein
 Berater, liefert wie ein Produkt.
 
-**Ehrliche Zielrechnung (CFO-Review eingearbeitet):**
-- **Base Case, Monat 6: 2–3 Projekte/Monat à 16–28k + wachsender Retainer-Sockel
-  ≈ 50–90k Umsatz/Monat — solo machbar.**
-- **6–7 Projekte/Monat ist das Team-Szenario** (110–180k Umsatz, ~3–5 FTE-Äquivalente)
-  mit definierten Hiring-Gates: Redakteur ab 3 Projekten/Monat, PM/Client-Ops ab 4,
-  zweiter AI-Builder ab 5. Es bleibt das 12-Monats-Ziel — aber als geplante
-  Investition, nicht als Solo-Illusion.
+**Zielrechnung (Operator-Ansage 23.07., ersetzt die CFO-Schätzung):**
+- **Delivery ist kein Engpass: Alexander liefert 6–7 Projekte/Monat solo** — die
+  AI-Produktionsstraße ist mit Riegel/Saadi erprobt, er kennt seine realen Stunden.
+  Die generische 45–75h-Schätzung aus dem CFO-Review ist damit vom Tisch.
+- **Der Engpass liegt zu 100 % in der Pipeline.** 6–7 Abschlüsse/Monat à 16–28k
+  (= 110–180k Umsatz) brauchen **~20–25 gehaltene, qualifizierte Gespräche/Monat.**
+  Jede Zeile dieses Plans ist daran zu messen, ob sie Gespräche erzeugt.
+- Hiring bleibt optional (Gates in §7) — erst wenn Alexander selbst den Engpass
+  spürt, nicht vorher.
 
-Wichtigster Grundsatz aus dem Review: **Erst validieren, dann skalieren.** Bevor 100
+Wichtigster Grundsatz bleibt: **Erst validieren, dann skalieren.** Bevor 100+
 Looms/Monat rausgehen, beweisen 25 Stück in zwei Wochen, dass der Ansatz kalt
 konvertiert (Go/Kill-Kriterien in Abschnitt 4). Und der wärmste Kanal — Intros über
 Riegel & Saadi — kostet null Nachtstunden und kommt zuerst.
@@ -111,8 +113,15 @@ Wochen — Abschlüsse kommen 1–2 Monate nach dem Gespräch.
 | **Base (realistisch)** | 8–12 % | 40–50 % | 3–4 | **0,7–1** |
 | Bull (nach Einschleifen + warmen Signalen) | 12–18 % | 50 % | 5–7 | 1,5–2 |
 
-Konsequenz: **Kanal A allein trägt das Ziel nicht.** Er ist der planbare Sockel und
-die Lernmaschine — aber die Rechnung braucht alle drei Kanäle plus Retainer-Sockel.
+Konsequenz: **Kanal A allein trägt 6–7/Monat nicht — das Ziel braucht alle Kanäle
+gleichzeitig und auf Volumen.** Die Soll-Rechnung für 20–25 qualifizierte
+Gespräche/Monat (Reifezustand, Monat 4–6):
+- Kanal A (Looms, 100–150/Monat): 4–8 Gespräche
+- Kanal B (Referral-Engine: jeder Kickoff erzeugt 2–3 Intro-Bitten + Provision):
+  6–10 Gespräche — **wird bei 6–7 Projekten/Monat zum stärksten Kanal**, weil
+  jeder Abschluss neue Wärme produziert (Compounding)
+- Inbound (Tool + GEO + sichtbare Flagship-Cases): 3–6 Gespräche
+- Netzwerk-Reaktivierung (Bestand seit 2009/2017): 2–4 Gespräche
 
 ### Rechtlicher Rahmen (neu, kritisch)
 Cold-E-Mail ist in DE auch B2B nach **UWG §7 Abs. 2** ohne Einwilligung unzulässig —
@@ -161,19 +170,23 @@ dass Sie das nicht brauchen").
 Thumbnail: seine Website, nicht nur Alexanders Gesicht. Follow-ups bringen je einen
 NEUEN Befund, nie "wollte nachfassen".
 
-### Zeitbudget-Probe (die v1 nie gemacht hat)
-5 Looms/Tag ≈ 50h/Monat + Gespräche/Diagnosen/Angebote ≈ 40–60h = **~100h Vertrieb**.
-Bei ~180 verfügbaren Stunden bleiben ~80h Delivery → deckt 1–2 parallele Projekte.
-Deshalb Base Case 2–3/Monat und Hiring-Gates (Abschnitt 7). Loom-Volumen wird der
-Delivery-Last angepasst (Wochen mit 2 Kickoffs = 2 Looms/Tag, nicht 5).
+### Zeitbudget (Operator-Ansage: Delivery deckelt nicht)
+Da 6–7 Projekte/Monat solo lieferbar sind, ist Vertrieb der priorisierte
+Zeitblock: 5 Looms/Tag (~50h/Monat) + Gespräche/Diagnosen/Angebote (~40–60h)
+sind dauerhaft haltbar. Einzige Messgröße, die das absichert: Stunden-Tracking
+pro Projekt (§7) — nicht aus Zweifel, sondern damit der Preis bei Volumen die
+Marge trägt.
 
-### Ramp-Plan (ehrlich, mit Entscheidungs-Lag)
-| Monat | Fokus | Abschlüsse (Base) | Umsatz kumuliert wachsend |
+### Ramp-Plan (pipeline-getrieben, mit Entscheidungs-Lag von 6–10 Wochen)
+| Monat | Fokus | Abschlüsse | Umsatz/Monat |
 |---|---|---|---|
-| 1 | Validierungs-Gate, Kanal B ernten | 1–2 (warm) | 20–45k |
-| 2–3 | Kanal A einschleifen, erste Kalt-Abschlüsse (Lag!) | 2–3 | 35–70k/Monat |
-| 4–6 | Referral-Maschine + Retainer-Sockel + ggf. 1. Hire | 2–3 + Retainer | 50–90k/Monat |
-| 7–12 | Team-Szenario je nach Gate-Erfüllung | 4–7 | 70–180k/Monat |
+| 1 | Validierungs-Gate (25 Looms), Kanal B ernten, Netzwerk reaktivieren | 2–3 (warm) | 35–70k |
+| 2–3 | Kanal A auf 100+ Looms, Referral-Deal ab jedem Kickoff, erste Kalt-Abschlüsse (Lag!) | 3–5 | 50–110k |
+| 4–6 | Alle Kanäle parallel + Inbound zieht an + Retainer-Sockel | **6–7** | 110–180k |
+Bedingung für Monat 4–6: Das Compounding aus Kanal B muss zünden (jeder
+Abschluss → 2–3 neue warme Kontakte). Zündet es nicht, ist die Lücke nur über
+mehr Loom-Volumen oder bessere Quoten schließbar — das zeigt das Validierungs-
+Gate nach 2 Wochen.
 
 ## 5. Landingpage (heute Nacht) — Konzept
 
@@ -237,12 +250,13 @@ dann steigen Preise oder sinkt Scope, BEVOR multipliziert wird.
 - **Systembibliothek statt Neuanfang:** Sektions-/Tool-Bibliothek (Rechner-Framework,
   Portal-Template, onOffice/CRM-Konnektoren, GEO-Seitengenerator). Jedes Projekt
   senkt die Stunden des nächsten.
-- **Realistischer Solo-Deckel: 2–3 Projekte/Monat** (mit vollem Vertriebsprogramm
-  eher 2). Steady-State bei 6–7 Starts/Monat = 7–9 parallele Projekte — das ist eine
-  Boutique mit 3,5–5 FTE, nicht ein Operator mit Claude.
-- **Hiring-Gates (geplante Investition statt Panikreaktion):** Freelance-Redakteur
-  ab 3 Projekten/Monat · PM/Client-Ops ab 4 (Engpass ist Projektsteuerung, nicht
-  Lektorat) · zweiter AI-Builder ab 5.
+- **Solo-Kapazität: 6–7 Projekte/Monat (Operator-Ansage, mit Riegel/Saadi
+  erprobt).** Die CFO-Schätzung (Deckel bei 2–3) ist damit überschrieben — sie
+  bleibt nur als Frühwarnsignal dokumentiert: Wenn Kundenkommunikation/Freigaben
+  bei Volumen doch zum Engpass werden, greifen die Gates unten.
+- **Hiring-Gates (optional, nur bei gespürtem Engpass):** Freelance-Redakteur,
+  PM/Client-Ops, zweiter AI-Builder — in dieser Reihenfolge, ausgelöst durch
+  Alexanders eigene Wahrnehmung, nicht durch Projektzahl.
 - **Cashflow:** 40/40/20, Anzahlung finanziert Freelancer vor. Der wahre
   Solo-Killer ist Liquidität, nicht Auslastung.
 - **AI ist Vorsprung, kein Burggraben:** In 12–18 Monaten kann jede Agentur 200
