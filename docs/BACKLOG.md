@@ -41,6 +41,18 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Aufklapper + FAQPage-Schema), CTA-Sektion (einzige invertierte Gelb-Sektion).
   /impressum + /datenschutz (Daten in MASTERPLAN §5; Datenschutz: Vercel-Hosting,
   Audit-Tool-Verarbeitung, Anthropic-API als Auftragsverarbeiter erwähnen).
+- [ ] **P6b · Buchungssystem aus Riegel portieren (Alex' Wunsch, ersetzt
+  Calendly/mailto als CTA):** Quelle liegt geklont unter /workspace/riegel —
+  `src/components/booking-tool.tsx` (562 Z.), `src/app/termin/page.tsx`,
+  `src/app/api/booking/route.ts` + libs `email.ts`, `rate-limit.ts`,
+  `supabase-server.ts`. Nach beuwy portieren als /termin + CTA-Ziel #kontakt:
+  Anlässe anpassen (Systemgespräch 30 min · Diagnose-Rückfrage · Bestandskunde),
+  nur Video/Telefon (kein Vor-Ort-Ortsfeld), Empfänger ap@beuwy.com,
+  beuwy-Brand-Styling (Typo-Tokens!), E-Mail-Layout-Logo/Farben auf beuwy.
+  Resend/Supabase sind ohne Keys crash-frei (Mail wird dann nicht versendet) —
+  benötigte Env-Vars (RESEND_API_KEY, EMAIL_TO, ggf. Supabase) im Morgenreport
+  auflisten. Supabase-Persistenz: nur wenn ohne eigenes Projekt sinnvoll
+  abbildbar, sonst mail-only + TODO.
 - [ ] **P7 · GEO-Layer:** metadata (Title/Description/OG), OG-Image (statisch
   generiert), schema.org Organization + WebSite + ProfessionalService + FAQPage,
   /llms.txt, sitemap.ts, robots.ts.
@@ -88,5 +100,11 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   **Achtung für P2:** page.tsx ist noch die ALTE 12-Sektionen-Seite — Anker
   #proof/#system/#prozess/#faq/#kontakt/#tool existieren erst mit dem Neubau.
   ChapterLabel/SpotlightTracker/Editor/EmailMockup/LogoWall werden nach P2
-  vermutlich ungenutzt → dann löschen. CTA-Ziel vorerst mailto:ap@beuwy.com
-  (Calendly/cal.com-Link von Alex unbekannt — im Morgenreport erfragen).
+  vermutlich ungenutzt → dann löschen. CTA-Ziel: bis P6b mailto:ap@beuwy.com,
+  danach das portierte Buchungssystem (/termin). Alex' Ansage 00:10: KEIN
+  Calendly — Buchungssystem aus dem Riegel-Projekt übernehmen (→ P6b).
+- **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
+  Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
+  trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert
+  den Cron bei Bedarf). Beide werden im M1-Abschluss gelöscht.
+  Riegel-Repo geklont: /workspace/riegel (shallow).
