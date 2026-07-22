@@ -19,7 +19,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   `--ink-yellow-hover`), Section.tsx auf 1120px/py-24, Fraunces-Font prüfen/laden.
   Alte Seiten löschen: /method, /system, /manifesto, /work, /audit, /anfrage
   (Redirects in next.config auf /#sektion). Nav + Footer auf One-Pager umbauen.
-- [ ] **P2 · Seitenskelett + Copy v1:** page.tsx neu — 8 Sektionen nach Masterplan §5
+- [x] **P2 · Seitenskelett + Copy v1:** page.tsx neu — 8 Sektionen nach Masterplan §5
   mit finaler Copy (Hero-Kernsatz "Die erste Empfehlung kommt heute von Google und
   ChatGPT…", Anti-Slop-Regeln 1–10 einhalten). Statisch zuerst, Interaktionen später.
 - [ ] **P3 · Tool-Backend:** /api/audit v2 — (a) Screenshot-Route mit playwright-core
@@ -103,6 +103,18 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   vermutlich ungenutzt → dann löschen. CTA-Ziel: bis P6b mailto:ap@beuwy.com,
   danach das portierte Buchungssystem (/termin). Alex' Ansage 00:10: KEIN
   Calendly — Buchungssystem aus dem Riegel-Projekt übernehmen (→ P6b).
+- **P2 (00:35):** page.tsx neu — 8 Sektionen (hero+tool / kosten / proof /
+  system / prozess / founder / faq / kontakt-invert). AuditTool.tsx als
+  funktionale Basis (volle Choreografie → P4). Section.tsx vereinfacht
+  (SectionHead mit festem Rhythmus), HeadlineDisplay entfernt. Neue CSS:
+  hero-lamp, cta-invert, btn-inverse, faq-item (native details, P6 rüstet um),
+  is-*-Modifier + .panel statt Inline-Styles. Editor/EmailMockup/LogoWall/
+  ChapterLabel gelöscht. Layout-Metadata auf neue Positionierung. Build grün.
+  WICHTIG: Knappheits-Zeile "max. 2 Systemstarts/Monat" bewusst NICHT gebaut —
+  widerspricht Alex' 6-7-Ansage; stattdessen Operator-Argument ("baut Alexander
+  selbst"). Diagnose-Preis 1.990 € steht im FAQ (Default, Alex bestätigt noch).
+  Offen für P5-Feinschliff: Kosten-Sektion Zeile 2 ggf. konkreter (Branchen-
+  Beispiel), Proof-Karten Zitat-Slots.
 - **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert

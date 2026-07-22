@@ -220,6 +220,89 @@ body {
   color: var(--ink-yellow);
 }
 
+/* Hero stage lamp — einziger erlaubter Flächen-Gradient (DESIGN-DIRECTION 2.3) */
+.hero-lamp {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 0%,
+    rgba(247, 233, 154, 0.07),
+    transparent 70%
+  );
+}
+
+/* CTA-Invert — die exakt eine gelbe Fläche der Seite */
+.cta-invert {
+  background: var(--ink-yellow);
+}
+.cta-invert-ink,
+.cta-invert-ink em {
+  color: var(--bg-base) !important;
+}
+.btn-inverse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 24px;
+  background: var(--bg-base);
+  color: var(--ink-cream);
+  border-radius: 9999px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--resize-dur) var(--resize-ease),
+    box-shadow var(--resize-dur) var(--resize-ease);
+}
+.btn-inverse:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px -16px rgba(26, 4, 4, 0.55);
+}
+.btn-inverse:active {
+  transform: scale(0.985);
+  transition-duration: 90ms;
+}
+.btn-inverse:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ink-yellow), 0 0 0 4px var(--bg-base);
+}
+.btn-inverse > [aria-hidden] {
+  transition: transform var(--icon-swap-dur) var(--icon-swap-ease);
+}
+.btn-inverse:hover > [aria-hidden] {
+  transform: translateX(2px);
+}
+
+/* FAQ — native details, P6 rüstet auf interpolate-size-Accordion um */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item[open] summary [aria-hidden] {
+  transform: rotate(45deg);
+}
+.faq-item summary [aria-hidden] {
+  display: inline-block;
+  transition: transform var(--icon-swap-dur) var(--icon-swap-ease);
+}
+
+/* Semantische Farb-/Flächen-Modifier — statt Inline-Styles (Anti-Slop-Regel 10) */
+.is-cream { color: var(--ink-cream); }
+.is-muted { color: var(--ink-muted); }
+.is-dim { color: var(--ink-dim); }
+.is-accent { color: var(--ink-yellow); }
+.is-fail { color: var(--accent-red); }
+.panel {
+  background: var(--bg-raised);
+  border: 1px solid rgba(247, 233, 154, 0.14);
+}
+.panel-inner { background: var(--bg-elevated); }
+.hairline { border-color: rgba(247, 233, 154, 0.14); }
+
 /* Eyebrow / chapter label — jetzt Mono (DESIGN-DIRECTION: label-Token) */
 .eyebrow {
   font-family: var(--font-mono), ui-monospace, monospace;

@@ -1,916 +1,332 @@
 import Link from "next/link";
-import { Section, HeadlineDisplay } from "@/components/Section";
-import { Editor } from "@/components/Editor";
-import { EmailMockup } from "@/components/EmailMockup";
-import { LogoWall, Testimonials } from "@/components/LogoWall";
+import { Section, SectionHead } from "@/components/Section";
+import { AuditTool } from "@/components/AuditTool";
 import { Reveal } from "@/components/Reveal";
 
 export default function HomePage() {
   return (
     <>
-      {/* ============================================================
-          01 — HOOK
-         ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[72px] md:pb-[120px] overflow-hidden section-band section-band-base">
-        {/* Dark-luxe "dominant object mass" — typographic wordmark anchored top-right.
-            Swap to a real photo by dropping public/hero/stage.jpg + uncommenting the <img>. */}
-        <div
-          aria-hidden
-          className="hero-object-mass font-display"
-        >
-          beuwy
-        </div>
-        <div className="mx-auto max-w-[1240px] px-6 lg:px-10 relative z-[1]">
-          <Reveal>
-            <div className="flex flex-wrap items-center gap-2 mb-7">
-              <span className="chip">
-                <span className="dot" />
-                <span>Q3/2026 · 2 Slots offen</span>
-              </span>
-              <span
-                style={{
-                  color: "var(--ink-dim)",
-                  fontSize: 11,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Operator-led Studio · seit 2017
-              </span>
+      {/* 01 — HERO + TOOL */}
+      <section className="section-band section-band-base relative overflow-hidden">
+        <div className="hero-lamp" aria-hidden />
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-24 relative z-[1]">
+          <div className="mx-auto max-w-[720px] text-center">
+            <Reveal>
+              <p className="t-label">
+                Digitale Vertriebssysteme · Finance &amp; Real Estate
+              </p>
+            </Reveal>
+            <Reveal delay={60}>
+              <h1 className="t-display mt-4">
+                Die erste <em>Empfehlung</em> kommt heute von Google und ChatGPT.
+              </h1>
+            </Reveal>
+            <Reveal delay={120}>
+              <p className="t-body-lg mt-5 mx-auto max-w-[560px]">
+                Wir bauen Finanz- und Immobilienunternehmen das Vertriebssystem,
+                das dafür sorgt, dass beide auf Sie zeigen.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={200}>
+            <div className="mt-12">
+              <AuditTool />
             </div>
           </Reveal>
 
-          <Reveal delay={60}>
-            <p
-              className="max-w-[820px] text-[17px] md:text-[19px] leading-[1.45] mb-6"
-              style={{ color: "var(--ink-cream)", letterSpacing: "-0.011em" }}
-            >
-              Weißt du, warum manche Marken von ChatGPT, Claude &amp; Co. empfohlen werden — und
-              manche frühere Marktführer{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>unsichtbar</em>{" "}
-              werden?
-            </p>
-          </Reveal>
-
-          <Reveal delay={140} variant="mask">
-            <h1
-              className="h-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              2026: Dein nächster Kunde fragt nicht{" "}
-              <em className="font-display italic">Google</em>.
-              <br />
-              Er fragt <em className="font-display italic">Claude</em>.
-            </h1>
-          </Reveal>
-
-          <Reveal delay={160}>
-            <p
-              className="mt-7 max-w-[660px] text-[17px] md:text-[19px] leading-[1.55]"
-              style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-            >
-              Empfehlungen, SEO, Paid — alles trägt weiter. Aber die Antwort, die ein Agent gibt,
-              wird zur ersten Filterstufe. Wir bauen die Marke, die ein Agent{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>versteht</em>.
-              Brand · Site · Agent-Layer — ein System, in{" "}
-              <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>10 Tagen</em> live.
-            </p>
-          </Reveal>
-
-          <Reveal delay={240}>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Brief schicken
-                <span aria-hidden>→</span>
-              </Link>
-              <Link href="#mechanismus" className="btn-secondary">
-                Wie funktioniert das
-                <span aria-hidden>↓</span>
-              </Link>
-            </div>
-          </Reveal>
-
-          <Reveal delay={320}>
-            <p
-              className="mt-12 text-[12px]"
-              style={{ color: "var(--ink-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}
-            >
-              €300M+ Client Outcomes · 4× Kategorie-Sieger · Ø Reply &lt; 6h
+          <Reveal delay={280}>
+            <p className="t-data text-center mt-8">
+              Systeme hinter RIEGEL Immobilien · SAADI AG · Königswege · acta
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ============================================================
-          02 — PAIN AGITATE (Diagnose-Tabelle)
-         ============================================================ */}
-      <Section id="pain" chapter="01 Pain" title="Wo es weh tut" date="2026 / 01" tone="raised">
-        <Reveal>
-          <p
-            className="mb-5 max-w-[680px] text-[16px] leading-[1.5]"
-            style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-          >
-            Frag dich ehrlich: Wie viele deiner letzten zehn Kunden kamen über{" "}
-            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>Zufall</em>?
-          </p>
-        </Reveal>
-        <Reveal delay={60}>
-          <HeadlineDisplay size="lg" className="max-w-[1100px]">
-            Dein bester Monat: <em className="font-display italic">eine</em> Empfehlung.
-            <br />
-            Dein Q3 stirbt, weil <em className="font-display italic">zwei</em> ausblieben.
-          </HeadlineDisplay>
-        </Reveal>
-        <Reveal delay={80}>
-          <p
-            className="mt-6 text-[17px] leading-[1.55] max-w-[640px]"
-            style={{ color: "var(--ink-muted)" }}
-          >
-            85 % deiner Pipeline lebt von Zufall. Den Rest hält ein CRM zusammen, das kein Agent
-            lesen kann. Eine Diagnose mit fünf Punkten —{" "}
-            <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>ehrlich</em>:
-          </p>
-        </Reveal>
+      {/* 02 — STATUS-QUO-KOSTEN */}
+      <Section id="kosten" tone="raised">
+        <SectionHead
+          eyebrow="01 · Was sich geändert hat"
+          title={
+            <>
+              Der Weg zum Auftrag beginnt nicht mehr auf Ihrer{" "}
+              <em>Website</em>.
+            </>
+          }
+          intro="Eigentümer und Anleger prüfen Anbieter zuerst in Google-AI-Übersichten und Chat-Assistenten. Wer dort nicht vorkommt, verliert Aufträge unbemerkt."
+        />
+        <div className="grid md:grid-cols-12 gap-8 items-start">
+          <div className="md:col-span-7">
+            <ol className="space-y-4">
+              {[
+                {
+                  k: "Früher",
+                  v: "Suche → zehn blaue Links → Ihre Website → Anruf.",
+                },
+                {
+                  k: "Heute",
+                  v: "Frage an Google oder ChatGPT → eine Antwort mit zwei, drei Namen → Anruf beim Erstgenannten.",
+                },
+                {
+                  k: "Konsequenz",
+                  v: "Die Antwort der Maschine ist die neue erste Filterstufe. Sie findet statt, bevor Sie vom Interessenten erfahren.",
+                },
+              ].map((row) => (
+                <li key={row.k} className="flex gap-4 pb-4 border-b hairline">
+                  <span className="t-label shrink-0 w-28 pt-1">{row.k}</span>
+                  <p className="t-body is-cream">{row.v}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="md:col-span-5">
+            <div className="panel rounded-2xl p-6">
+              <p className="t-score">58,5&nbsp;%</p>
+              <p className="t-body mt-3 is-cream">
+                der Google-Suchen enden bereits ohne Klick auf eine Website.
+              </p>
+              <p className="t-data mt-4">Quelle · SparkToro/Datos, 2024</p>
+            </div>
+          </div>
+        </div>
+      </Section>
 
-        <div
-          className="mt-10 rounded-[12px] overflow-hidden"
-          style={{
-            background: "var(--bg-raised)",
-            border: "1px solid var(--line-subtle)",
-          }}
-        >
+      {/* 03 — PROOF */}
+      <Section id="proof" tone="base">
+        <SectionHead
+          eyebrow="02 · Referenzen"
+          title={
+            <>
+              Zwei Systeme, die es <em>beweisen</em>.
+            </>
+          }
+          intro="Beide live, beide im Vertrieb im Einsatz, beide von einem Operator gebaut."
+        />
+        <div className="grid md:grid-cols-2 gap-5">
+          <CaseCard
+            client="RIEGEL Immobilien"
+            branch="Immobilienmakler · Rhein-Neckar"
+            href="https://riegel.vercel.app"
+            facts={[
+              "207 Unterseiten · Preisatlas für 33 Städte",
+              "Immobilien-Rechner: Bewertung in 60 Sekunden",
+              "onOffice-Anbindung · Portal · Terminbuchung",
+            ]}
+            mechanic="Der Rechner holt die Eigentümer-Anfrage, die Standortseiten machen Riegel zur zitierbaren Antwort, onOffice macht daraus einen Vertriebsprozess."
+          />
+          <CaseCard
+            client="SAADI AG"
+            branch="Wohnungsprivatisierung · Mannheim"
+            href="https://saadi-ag.vercel.app"
+            facts={[
+              "Vertriebspartner-Funnel mit Qualifizierungslogik",
+              "Produkt-Strecken mit Gutachten & Prospekt-Standards",
+              "ImmoCampus als zweite Rekrutierungs-Rampe",
+            ]}
+            mechanic="Die Partner-Strecke qualifiziert Vertriebe, disqualifiziert früh — und rekrutiert dadurch planbar statt zufällig."
+          />
+        </div>
+        <p className="t-data mt-8">
+          Davor · Vision Real Estate (KKR-Joint-Venture 2023, vision.de) ·
+          Königswege (170 → 2.240 Partner, cash-online 2024) · acta (48,4 M€
+          Volumen über Social-Funnel, intern)
+        </p>
+      </Section>
+
+      {/* 04 — DAS SYSTEM */}
+      <Section id="system" tone="raised">
+        <SectionHead
+          eyebrow="03 · Das System"
+          title={
+            <>
+              Eine Website verkauft nicht. Ein <em>System</em> schon.
+            </>
+          }
+          intro="Vier Ebenen, die ineinandergreifen — gedacht von Ihrem Vertriebsprozess her, nicht von der Startseite."
+        />
+        <div className="space-y-4">
           {[
             {
-              k: "Pipeline-Herkunft",
-              now: "85 % Empfehlung + Zufall",
-              after: "Inbound aus Suche + Agent + Voice",
+              num: "01",
+              t: "Marke",
+              d: "Eine Positionierung, die ein Kunde nachsprechen und eine Maschine zitieren kann.",
+              ex: "SAADI · „Produktgeber, keine Verkäufer“ — ein Satz, den Partner weitertragen",
             },
             {
-              k: "Sichtbarkeit in LLMs",
-              now: "Du tauchst nicht auf",
-              after: "Cited in Top-3 für deine Kategorie",
+              num: "02",
+              t: "Website + Werkzeuge",
+              d: "Rechner, Portale, Buchung: Werkzeuge, die dem Besucher sofort etwas geben — und Ihnen die Anfrage.",
+              ex: "RIEGEL · Immorechner, 60 Sekunden, ohne Anmeldung",
             },
             {
-              k: "Brand-Quelle",
-              now: "Figma-Datei · 14 Versionen",
-              after: "DESIGN.md · machine-readable",
+              num: "03",
+              t: "AI-Sichtbarkeit",
+              d: "Strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden.",
+              ex: "RIEGEL · Preisatlas + 200 Standortseiten als zitierbare Datenquelle",
             },
             {
-              k: "Pricing-Druck",
-              now: "Race-to-zero gegen GPT-Wrapper",
-              after: "Premium-Preis getragen von Premium-Brand",
+              num: "04",
+              t: "Prozess + CRM",
+              d: "Jede Anfrage landet dort, wo Ihr Vertrieb arbeitet — nicht in einem Posteingang.",
+              ex: "RIEGEL · onOffice-Anbindung · SAADI · Partner-Qualifizierungsstrecke",
             },
-            {
-              k: "Founder-Story",
-              now: "&quot;The Stripe for X&quot;",
-              after: "Eine These, die im Partner-Meeting reisst",
-            },
-          ].map((row, i) => (
-            <Reveal key={row.k} delay={i * 60}>
-              <div
-                className="grid grid-cols-12 gap-4 px-5 py-4 items-center"
-                style={{
-                  borderTop: i === 0 ? "none" : "1px solid var(--line-subtle)",
-                }}
-              >
-                <div className="col-span-12 md:col-span-4">
-                  <span
-                    style={{
-                      color: "var(--ink-dim)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 11,
-                      letterSpacing: "0.06em",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p
-                    className="mt-1"
-                    style={{
-                      color: "var(--ink-cream)",
-                      fontSize: 15,
-                      fontWeight: 510,
-                    }}
-                  >
-                    {row.k}
-                  </p>
+          ].map((l) => (
+            <Reveal key={l.num}>
+              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
+                <div className="md:col-span-4 flex items-baseline gap-4">
+                  <span className="t-data">{l.num}</span>
+                  <h3 className="t-h3">{l.t}</h3>
                 </div>
-                <div className="col-span-12 md:col-span-4">
-                  <span
-                    style={{
-                      color: "var(--accent-red,#FF5A67)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 10,
-                      letterSpacing: "0.08em",
-                    }}
-                  >
-                    JETZT
-                  </span>
-                  <p
-                    className="mt-1"
-                    style={{ color: "var(--ink-muted)", fontSize: 14 }}
-                    dangerouslySetInnerHTML={{ __html: row.now }}
-                  />
-                </div>
-                <div className="col-span-12 md:col-span-4">
-                  <span
-                    style={{
-                      color: "var(--ink-yellow)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 10,
-                      letterSpacing: "0.08em",
-                    }}
-                  >
-                    NACH BEUWY
-                  </span>
-                  <p
-                    className="mt-1"
-                    style={{ color: "var(--ink-cream)", fontSize: 14, fontWeight: 510 }}
-                  >
-                    {row.after}
-                  </p>
-                </div>
+                <p className="t-body md:col-span-5">{l.d}</p>
+                <p className="t-data md:col-span-3">{l.ex}</p>
               </div>
             </Reveal>
           ))}
         </div>
       </Section>
 
-      {/* ============================================================
-          03 — DREAM STATE
-         ============================================================ */}
-      <Section
-        id="dream"
-        chapter="02 Dream"
-        title="So sieht es aus, wenn es funktioniert"
-        date="2026 / 02"
-        tone="base"
-      >
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-6 order-2 md:order-1">
-            <Reveal>
-              <EmailMockup />
-            </Reveal>
-          </div>
-          <div className="md:col-span-6 order-1 md:order-2">
-            <Reveal delay={80}>
-              <HeadlineDisplay size="lg">
-                Diese Mail landet <em className="font-display italic">jede Woche</em> in deinem
-                Postfach.
-                <br />
-                Nicht in <em className="font-display italic">seinem</em>.
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={160}>
-              <p
-                className="mt-6 text-[17px] leading-[1.55] max-w-[460px]"
-                style={{ color: "var(--ink-muted)" }}
-              >
-                Wenn deine Marke <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>maschinen-lesbar</em> ist, antwortet ein
-                Agent auf die Frage &quot;Wer macht das in DACH?&quot; mit deinem Namen. Vor dem Wettbewerber.
-                Vor der Demo. Vor dem Pitch.
-              </p>
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          04 — MECHANISM
-         ============================================================ */}
-      <Section
-        id="mechanismus"
-        chapter="03 Mechanism"
-        title="Wie wir das bauen"
-        date="2026 / 03"
-        tone="raised"
-      >
-        <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[920px]">
-            <em className="font-display italic">Ein</em> System.{" "}
-            <em className="font-display italic">Drei</em> Layer.{" "}
-            <em className="font-display italic">Zehn</em> Tage.
-          </HeadlineDisplay>
-        </Reveal>
-        <Reveal delay={80}>
-          <p
-            className="mt-6 text-[17px] leading-[1.55] max-w-[640px]"
-            style={{ color: "var(--ink-muted)" }}
-          >
-            Keine 6-Wochen-Discovery. Keine 19 Stakeholder-Interviews. Keine Folie 23. Ein Operator,
-            ein Festpreis, drei Auslieferungen — live, nicht in Figma.
-          </p>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <MechanismFlow />
-        </Reveal>
-      </Section>
-
-      {/* ============================================================
-          05 — PROOF STACK
-         ============================================================ */}
-      <Section
-        id="proof"
-        chapter="04 Proof"
-        title="Was im Maschinenraum lief"
-        date="2026 / 04"
-        tone="elevated"
-      >
-        <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[1100px]">
-            Wir bauten die <em className="font-display italic">Brand-Systeme</em>, die
-            <br />
-            den <em className="font-display italic">Skalierungsweg</em> trugen.
-          </HeadlineDisplay>
-        </Reveal>
-        <Reveal delay={60}>
-          <p
-            className="mt-6 max-w-[700px] text-[16px] leading-[1.55]"
-            style={{ color: "var(--ink-muted)" }}
-          >
-            Brand-Arbeit ist ein Faktor. Produkt, Markttiming, Sales — auch. Wir behaupten nicht,
-            den Wachstum allein gemacht zu haben. Wir zeigen, was in unserem Lieferumfang lag.
-          </p>
-        </Reveal>
-
-        {/* Counter wall — replaces 3 generic cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
+      {/* 05 — PROZESS */}
+      <Section id="prozess" tone="base">
+        <SectionHead
+          eyebrow="04 · Prozess"
+          title={
+            <>
+              Erst die <em>Diagnose</em>, dann das System.
+            </>
+          }
+          intro="Festpreis, fester Umfang, ein Ansprechpartner — der, der es baut."
+        />
+        <div className="grid md:grid-cols-3 gap-5">
           {[
-            { n: "€160M", l: "KKR Joint Venture (Vision · 2023)", src: "öffentlich, vision.de" },
-            { n: "2.240", l: "Königswege Partner (vs. 170 in 2017)", src: "cash-online 2024" },
-            { n: "315", l: "Wohnungen (acta · 2023–2025)", src: "intern, Ø Ticket €153.842" },
-            { n: "1M+", l: "PURELEI Follower (seit 2018)", src: "Instagram public" },
+            {
+              num: "01",
+              t: "Systemgespräch",
+              meta: "30 Minuten · kostenlos",
+              d: "Ihr Vertriebsweg, der Check Ihrer Website, eine ehrliche Einschätzung. Danach wissen Sie, ob eine Diagnose sinnvoll ist — auch wenn wir nie zusammenarbeiten.",
+            },
+            {
+              num: "02",
+              t: "Diagnose",
+              meta: "1.990 € · voll angerechnet",
+              d: "Ein Dokument über Ihren digitalen Vertriebsweg: wo Anfragen entstehen, wo sie verloren gehen, was das System leisten muss. Es gehört Ihnen — samt Systemvorschlag in drei Ausbaustufen.",
+            },
+            {
+              num: "03",
+              t: "Systembau",
+              meta: "3–5 Wochen · ab 16.000 €",
+              d: "Marke, Website, Werkzeuge, CRM-Anbindung, AI-Sichtbarkeit — live, nicht als Konzept. Danach Betrieb und Ausbau, wenn Sie wollen.",
+            },
           ].map((s) => (
-            <Reveal key={s.l}>
-              <div
-                className="p-6 h-full rounded-[12px]"
-                style={{
-                  background: "var(--bg-raised)",
-                  border: "1px solid var(--line-subtle)",
-                }}
-              >
-                <p
-                  className="font-display"
-                  style={{
-                    fontSize: 48,
-                    letterSpacing: "-0.025em",
-                    color: "var(--ink-yellow)",
-                    lineHeight: 0.95,
-                  }}
-                  aria-label={s.n}
-                >
-                  {s.n.split("").map((ch, i) => (
-                    <span
-                      key={i}
-                      className="t-digit"
-                      style={{ "--digit-index": i } as React.CSSProperties}
-                      aria-hidden
-                    >
-                      {ch === " " ? " " : ch}
-                    </span>
-                  ))}
-                </p>
-                <p
-                  className="mt-3"
-                  style={{
-                    color: "var(--ink-cream)",
-                    fontSize: 14,
-                    fontWeight: 510,
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {s.l}
-                </p>
-                <p
-                  className="mt-3"
-                  style={{
-                    color: "var(--ink-dim)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 11,
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  Quelle · {s.src}
-                </p>
+            <Reveal key={s.num}>
+              <div className="panel rounded-2xl p-6 h-full">
+                <div className="flex items-baseline justify-between">
+                  <span className="t-data">{s.num}</span>
+                  <span className="t-label">{s.meta}</span>
+                </div>
+                <h3 className="t-h3 mt-4">{s.t}</h3>
+                <p className="t-body mt-3">{s.d}</p>
               </div>
             </Reveal>
           ))}
         </div>
+        <p className="t-body mt-8 max-w-[560px] is-cream">
+          Jedes System baut Alexander Pütter selbst. Sie sprechen zu keinem
+          Zeitpunkt mit einem Account-Manager.
+        </p>
+      </Section>
 
-        {/* Inline cases */}
-        <div className="grid md:grid-cols-3 gap-5 mt-8">
-          <Reveal delay={80}>
-            <CaseCard
-              client="Vision Real Estate"
-              years="2019 → 2023"
-              kpi="€160M"
-              kpiLabel="KKR Joint Venture"
-              note="Wir bauten Brand-Architektur, vision.de und Investor-Narrativ. Drei Gründer wurden 70 Köpfe — der KKR-Deal kam, nachdem die Brand stand."
-              href="/work#vision"
+      {/* 06 — FOUNDER */}
+      <Section id="founder" tone="raised">
+        <div className="grid md:grid-cols-12 gap-10 items-start">
+          <div className="md:col-span-7">
+            <SectionHead
+              eyebrow="05 · Wer baut"
+              title={
+                <>
+                  Sie sprechen mit dem, der es <em>baut</em>.
+                </>
+              }
             />
-          </Reveal>
-          <Reveal delay={160}>
-            <CaseCard
-              client="Königswege"
-              years="2017 → live"
-              kpi="170 → 2.240"
-              kpiLabel="Partner · cited Top-10 DE"
-              note="Relaunch 2020 trug die Skalierung. cash-online Hitliste 2024. Wir bauten Brand, Web-System, Partner-Materialien."
-              href="/work#koenigswege"
-            />
-          </Reveal>
-          <Reveal delay={240}>
-            <CaseCard
-              client="acta"
-              years="2023 → 2025"
-              kpi="€48,4M"
-              kpiLabel="Volumen über Instagram-Funnel"
-              note="Brand-Identität, Paid-Social-System, Funnel. Owner-led, ohne Outside Marketing Team. Ø Ticket €153.842."
-              href="/work#acta"
-            />
-          </Reveal>
-        </div>
-
-        {/* Logo wall — 10 brands as typographic representation */}
-        <Reveal delay={320}>
-          <div className="mt-16">
-            <LogoWall />
-          </div>
-        </Reveal>
-
-        {/* External testimonials — 3 customer quotes */}
-        <Reveal delay={400}>
-          <div className="mt-12">
-            <p
-              className="eyebrow mb-5"
-            >
-              <span className="num">/</span> Stimmen aus dem Maschinenraum
+            <p className="t-body-lg max-w-[560px]">
+              Alexander Pütter arbeitet seit 2009 an Marken — erst für
+              Bosch-Gruppe, Continental und Michelin, seit 2017 mit beuwy für
+              inhabergeführte Unternehmen. 2023 hat er acta mitgegründet und den
+              Vertrieb selbst skaliert: 315 verkaufte Wohnungen über einen
+              Social-Media-Funnel, mitten in der Zinskrise.
             </p>
-            <Testimonials />
+            <p className="t-body-lg mt-5 max-w-[560px] is-cream">
+              Wir kennen Kaufentscheidungen, weil wir sie{" "}
+              <em className="font-display italic is-accent">selbst</em> auslösen.
+            </p>
           </div>
-        </Reveal>
-      </Section>
-
-      {/* ============================================================
-          06 — AUTHORITY
-         ============================================================ */}
-      <Section
-        id="authority"
-        chapter="05 Authority"
-        title="Kein Account Manager. Kein Pitch-Deck-Theater."
-        date="2026 / 05"
-        tone="base"
-      >
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
-            <Reveal>
-              <p
-                className="mb-5 max-w-[600px] text-[16px] leading-[1.5]"
-                style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-              >
-                Hand aufs Herz: Wann hast du das letzte Mal mit dem geredet, der dein Brand-Projekt{" "}
-                <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
-                  selbst gebaut hat
-                </em>{" "}
-                — und nicht mit dem Account-Manager dazwischen?
-              </p>
-            </Reveal>
-            <Reveal delay={60}>
-              <HeadlineDisplay size="lg">
-                Du sprichst mit dem, der es{" "}
-                <em className="font-display italic">baut</em>.
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={80}>
-              <p
-                className="mt-6 text-[17px] leading-[1.6] max-w-[600px]"
-                style={{ color: "var(--ink-muted)" }}
-              >
-                Alexander Pütter. Seit 2009 in Werbeagenturen — Bosch-Gruppe Rebranding,
-                Continental, Michelin. 2017 beuwy als Operator-Studio. 2023 selbst Unternehmer:
-                acta gegründet, in der Spitze 15 Mitarbeitende, 315 Wohnungen verkauft —{" "}
-                <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>
-                  über Instagram-Werbung, mitten in der Zinskrise
-                </em>
-                . Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.
-              </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <ul className="mt-8 space-y-3 max-w-[560px]">
-                {[
-                  "13 Jahre Brand-Arbeit für Konzerne und Mittelstand",
-                  "Selbst skaliert: 50 Mio. € Volumen mit 10 Köpfen",
-                  "Heute: AI-, Agent-, Fintech-, Proptech-, Longevity-Briefs",
-                ].map((line) => (
-                  <li
-                    key={line}
-                    className="flex items-start gap-3 text-[15px] leading-[1.5]"
-                    style={{ color: "var(--ink-cream)" }}
-                  >
-                    <span
-                      className="mt-[7px] shrink-0"
-                      style={{
-                        width: 6,
-                        height: 6,
-                        background: "var(--ink-yellow)",
-                        borderRadius: 1,
-                      }}
-                    />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-
           <div className="md:col-span-5">
-            <Reveal delay={120}>
-              <div
-                className="rounded-[12px] p-7"
-                style={{
-                  background: "var(--bg-raised)",
-                  border: "1px solid var(--line-subtle)",
-                }}
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center font-display"
-                    style={{
-                      background: "var(--bg-elevated)",
-                      color: "var(--ink-yellow)",
-                      fontSize: 18,
-                      letterSpacing: "-0.02em",
-                    }}
-                  >
-                    AP
-                  </div>
-                  <div>
-                    <p
-                      style={{
-                        color: "var(--ink-cream)",
-                        fontSize: 14,
-                        fontWeight: 510,
-                      }}
-                    >
-                      Alexander Pütter
-                    </p>
-                    <p style={{ color: "var(--ink-dim)", fontSize: 12 }}>
-                      Founder · Operator seit 2009
-                    </p>
-                  </div>
+            <div className="panel rounded-2xl p-6 space-y-4">
+              {[
+                { k: "2009–2017", v: "Markenarbeit · Bosch-Gruppe, Continental, Michelin" },
+                { k: "seit 2017", v: "beuwy · Systeme für Finance & Real Estate" },
+                { k: "2023–2025", v: "acta · 315 Wohnungen, Ø Ticket 153.842 € (intern)" },
+              ].map((row) => (
+                <div key={row.k} className="flex gap-4 pb-4 border-b hairline last:border-b-0 last:pb-0">
+                  <span className="t-data shrink-0 w-24">{row.k}</span>
+                  <p className="t-small is-cream">{row.v}</p>
                 </div>
-                <p
-                  className="font-display"
-                  style={{
-                    fontSize: 22,
-                    lineHeight: "1.25",
-                    letterSpacing: "-0.02em",
-                    color: "var(--ink-yellow)",
-                  }}
-                >
-                  &ldquo;Wir pitchen keine Decks, die so tun. Wir geben Gründern ein laufendes
-                  System und einen Graphen, der schon{" "}
-                  <em className="font-display italic">klettert</em> — bevor die nächste Agentur
-                  ihr Notion-Doc fertig hat.&rdquo;
-                </p>
-              </div>
-            </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </Section>
 
-      {/* ============================================================
-          07 — OFFER
-         ============================================================ */}
-      <Section
-        id="offer"
-        chapter="06 Offer"
-        title="Was du in 10 Tagen bekommst"
-        date="2026 / 06"
-        tone="elevated"
-      >
-        <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Ein Festpreis. Ein Operator. Drei Auslieferungen —{" "}
-            <em className="font-display italic">live, nicht in Figma</em>.
-          </HeadlineDisplay>
-        </Reveal>
-
-        <div className="grid md:grid-cols-12 gap-10 mt-10 items-start">
-          <div className="md:col-span-7">
-            <Reveal delay={80}>
-              <Editor height={420} />
-            </Reveal>
-          </div>
-          <div className="md:col-span-5 space-y-5">
-            {[
-              {
-                t: "DESIGN.md",
-                d: "Brand-Tokens, Voice, Vocabulary, Forbidden Phrases. Maschinenlesbar.",
-              },
-              { t: "Live-Site", d: "Next.js, Vercel, deine Domain. Diese 12 Sektionen — auf dich angepasst." },
-              {
-                t: "Agent-Layer",
-                d: "schema.org · llms.txt · Cluster-Brief · GPT-Audit deiner aktuellen Sichtbarkeit.",
-              },
-              {
-                t: "30 Tage Compounding",
-                d: "Nach Launch: Experimente, Cohort-Receipts, ein Operator auf Standby.",
-              },
-            ].map((row, i) => (
-              <Reveal key={row.t} delay={120 + i * 60}>
-                <div
-                  className="flex items-start gap-4 pb-5"
-                  style={{
-                    borderBottom: "1px solid var(--line-subtle)",
-                  }}
-                >
-                  <span
-                    className="font-display shrink-0"
-                    style={{
-                      fontSize: 22,
-                      letterSpacing: "-0.02em",
-                      color: "var(--ink-yellow)",
-                      width: 28,
-                    }}
-                  >
-                    0{i + 1}
-                  </span>
-                  <div>
-                    <p
-                      style={{
-                        color: "var(--ink-cream)",
-                        fontSize: 16,
-                        fontWeight: 510,
-                        marginBottom: 4,
-                      }}
-                    >
-                      {row.t}
-                    </p>
-                    <p style={{ color: "var(--ink-muted)", fontSize: 14, lineHeight: "22px" }}>
-                      {row.d}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          08 — SCARCITY
-         ============================================================ */}
-      <Section
-        id="scarcity"
-        chapter="07 Scarcity"
-        title="Verfügbarkeit"
-        date="2026 / 07"
-        divider={true}
-        tone="raised"
-      >
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
-            <Reveal>
-              <HeadlineDisplay size="lg">
-                <em className="font-display italic">6</em> Projekte pro Jahr.{" "}
-                <em className="font-display italic">2</em> Slots offen für Q3/2026.
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={80}>
-              <p
-                className="mt-6 text-[17px] leading-[1.55] max-w-[560px]"
-                style={{ color: "var(--ink-muted)" }}
-              >
-                Q4/2026 startet die Warteliste. Wir nehmen bewusst wenige — weil ein Operator nicht
-                skaliert, indem er 17 Briefs gleichzeitig hält.
-              </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <Link href="/anfrage" className="btn-primary mt-8">
-                Slot sichern
-                <span aria-hidden>→</span>
-              </Link>
-            </Reveal>
-          </div>
-
-          <div className="md:col-span-5">
-            <Reveal delay={120}>
-              <SlotGrid />
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          09 — DISQUALIFIER
-         ============================================================ */}
-      <Section
-        id="disqualifier"
-        chapter="08 Disqualifier"
-        title="Was wir nicht machen"
-        date="2026 / 08"
-        tone="base"
-      >
-        <Reveal>
-          <HeadlineDisplay size="lg" className="max-w-[1000px]">
-            Spar dir die Zeit, wenn du <em className="font-display italic">Folgendes</em>{" "}
-            erwartest.
-          </HeadlineDisplay>
-        </Reveal>
-
-        <div className="grid md:grid-cols-2 gap-5 mt-10 max-w-[920px]">
-          {[
-            {
-              h: "Logo-Varianten in einem Pitch",
-              s: "Wir bauen Systeme — nicht Mockups. Drei Logos präsentieren ist Schauspiel, kein Handwerk. Wenn du das willst, sind wir die falsche Adresse.",
-            },
-            {
-              h: "Stundensätze, Discovery-Phasen, AGB-Anhänge",
-              s: "Festpreis. Festumfang. Fester Liefertag. Procurement-Pingpong, 19 Stakeholder-Interviews, sechs-Wochen-Discovery — machen wir nicht.",
-            },
-          ].map((item, i) => (
-            <Reveal key={item.h} delay={80 + i * 80}>
-              <div
-                className="card h-full"
-                style={{
-                  background: "transparent",
-                  border: "1px solid var(--line-subtle)",
-                  padding: "28px",
-                }}
-              >
-                <span
-                  style={{
-                    color: "var(--accent-red,#FF5A67)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 12,
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  ✕ NICHT
+      {/* 07 — FAQ */}
+      <Section id="faq" tone="base">
+        <SectionHead
+          eyebrow="06 · Fragen"
+          title={
+            <>
+              Die Fragen, die im ersten Gespräch <em>immer</em> kommen.
+            </>
+          }
+        />
+        <div className="max-w-[760px]">
+          {FAQ_ITEMS.map((f) => (
+            <details key={f.q} className="faq-item group border-b hairline py-5">
+              <summary className="t-h3 cursor-pointer list-none flex items-baseline justify-between gap-6">
+                {f.q}
+                <span className="t-data shrink-0" aria-hidden>
+                  +
                 </span>
-                <p
-                  className="font-display mt-3"
-                  style={{
-                    fontSize: 22,
-                    letterSpacing: "-0.02em",
-                    color: "var(--ink-yellow)",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {item.h}
-                </p>
-                <p
-                  className="mt-3"
-                  style={{
-                    color: "var(--ink-muted)",
-                    fontSize: 14,
-                    lineHeight: "22px",
-                  }}
-                >
-                  {item.s}
-                </p>
-              </div>
-            </Reveal>
+              </summary>
+              <p className="t-body mt-3 max-w-[560px]">{f.a}</p>
+            </details>
           ))}
         </div>
       </Section>
 
-      {/* ============================================================
-          10 — MULTIPLE CTAs
-         ============================================================ */}
-      <Section
-        id="paths"
-        chapter="09 Paths"
-        title="Wo willst du starten"
-        date="2026 / 09"
-        tone="raised"
-      >
-        <Reveal>
-          <HeadlineDisplay size="md" className="max-w-[840px]">
-            Drei Türen. Such dir <em className="font-display italic">eine</em> aus.
-          </HeadlineDisplay>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-5 mt-10">
-          <Reveal delay={80}>
-            <PathCard
-              tag="60 Sek · kostenlos · live"
-              title="GPT-Audit starten"
-              body="Was sagt Claude gerade über deine Marke? Domain rein, Score + Schwächen + Sofort-Fixes raus."
-              cta="Audit starten"
-              href="/audit"
-            />
-          </Reveal>
-          <Reveal delay={160}>
-            <PathCard
-              tag="3 Min · async"
-              title="Brief schicken"
-              body="Drei Felder. Ein Submit. Wir antworten in &lt; 6h mit Termin oder Ja/Nein-Match."
-              cta="Brief öffnen"
-              href="/anfrage"
-              primary
-            />
-          </Reveal>
-          <Reveal delay={240}>
-            <PathCard
-              tag="42 Sek · live"
-              title="Voice-Note hören"
-              body="Alexanders Take auf die Agent-Ära und warum 2026 → 2030 anders läuft als 2017 → 2023."
-              cta="Reinhören"
-              href="/manifesto"
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          11 — LEAD MAGNET
-         ============================================================ */}
-      <Section
-        id="magnet"
-        chapter="10 Magnet"
-        title="Kostenlos · 60 Sekunden"
-        date="2026 / 10"
-        tone="bright"
-      >
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
-            <Reveal>
-              <HeadlineDisplay size="lg">
-                Was sagt ChatGPT über{" "}
-                <em className="font-display italic">deine</em> Marke?
-              </HeadlineDisplay>
-            </Reveal>
-            <Reveal delay={80}>
-              <p
-                className="mt-6 text-[17px] leading-[1.55] max-w-[560px]"
-                style={{ color: "var(--ink-muted)" }}
-              >
-                Trag deine Domain ein. Du bekommst zurück, was Claude, ChatGPT und Perplexity{" "}
-                <em style={{ color: "var(--ink-yellow)", fontStyle: "italic" }}>live</em> über
-                dich sagen — und wo der Cluster in deiner Kategorie gerade kippt.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="md:col-span-5">
-            <Reveal delay={120}>
-              <AuditForm />
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================================
-          12 — BIG CTA
-         ============================================================ */}
-      <section className="relative pt-[112px] md:pt-[160px] pb-[112px] md:pb-[160px] section-divider section-band section-band-base">
-        <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
+      {/* 08 — CTA (einzige invertierte Gelb-Sektion) */}
+      <section id="kontakt" className="cta-invert">
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
           <Reveal>
-            <span className="eyebrow">
-              <span className="num">11</span> Close · 2026 / 11
-            </span>
-          </Reveal>
-          <Reveal delay={60}>
-            <p
-              className="mt-7 max-w-[820px] text-[17px] md:text-[19px] leading-[1.45]"
-              style={{ color: "var(--ink-muted)", letterSpacing: "-0.011em" }}
-            >
-              Was glaubst du — wie viele deiner Wettbewerber lesen das hier gerade auch?
-            </p>
-          </Reveal>
-          <Reveal delay={140}>
-            <h2
-              className="h-display mt-5 text-[44px] sm:text-[68px] md:text-[100px] leading-[0.98] max-w-[1100px]"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              Dein nächster Kunde fragt jetzt gerade einen Agenten.
-              <br />
-              <em className="font-display italic">Was antwortet er?</em>
+            <h2 className="t-h2 cta-invert-ink mx-auto max-w-[640px]">
+              Der nächste Schritt ist ein Gespräch, kein Pitch.
             </h2>
           </Reveal>
-
+          <Reveal delay={80}>
+            <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[480px]">
+              30 Minuten, Video oder Telefon. Sie gehen mit einer ehrlichen
+              Einschätzung raus — auch wenn wir nie zusammenarbeiten.
+            </p>
+          </Reveal>
           <Reveal delay={160}>
-            <div className="mt-10 flex flex-wrap items-center gap-3">
-              <Link href="/anfrage" className="btn-primary">
-                Brief schicken
-                <span aria-hidden>→</span>
-              </Link>
-              <a href="mailto:hi@beuwy.com" className="btn-secondary">
-                hi@beuwy.com
-              </a>
-              <span
-                className="ml-2 text-[12px]"
-                style={{
-                  color: "var(--ink-dim)",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                }}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="mailto:ap@beuwy.com?subject=Systemgespr%C3%A4ch"
+                className="btn-inverse"
               >
-                Ø Reply &lt; 6h · Mo–Fr 09–18 CET
-              </span>
+                Systemgespräch anfragen
+                <span aria-hidden>→</span>
+              </a>
+              <Link href="/#tool" className="cta-invert-ink t-small underline underline-offset-4">
+                Oder zuerst den Website-Check machen
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -919,525 +335,67 @@ export default function HomePage() {
   );
 }
 
-/* ---------- subcomponents ---------- */
-
-function AuditForm() {
-  return (
-    <form
-      action="/audit"
-      method="get"
-      className="rounded-[12px] p-2"
-      style={{
-        background: "var(--bg-raised)",
-        border: "1px solid var(--line-subtle)",
-      }}
-    >
-      <div className="flex items-stretch gap-2">
-        <input
-          type="text"
-          name="domain"
-          required
-          placeholder="deine-marke.de"
-          className="flex-1 px-4 py-3 rounded-[10px]"
-          style={{
-            background: "transparent",
-            color: "var(--ink-cream)",
-            fontSize: 14,
-            outline: "none",
-            border: "1px solid var(--line-subtle)",
-            fontFamily: "var(--font-mono)",
-          }}
-        />
-        <button type="submit" className="btn-primary" style={{ height: 44 }}>
-          Audit
-          <span aria-hidden>→</span>
-        </button>
-      </div>
-      <p
-        className="px-2 py-3"
-        style={{ color: "var(--ink-dim)", fontSize: 11, letterSpacing: "0.04em" }}
-      >
-        60 Sek · kein Login · Antwort direkt von Claude · live
-      </p>
-    </form>
-  );
-}
-
-function Stat({ n, l }: { n: string; l: string }) {
-  return (
-    <div
-      className="p-4 rounded-[10px]"
-      style={{
-        background: "var(--bg-raised)",
-        border: "1px solid var(--line-subtle)",
-      }}
-    >
-      <p
-        className="font-display"
-        style={{
-          fontSize: 32,
-          letterSpacing: "-0.02em",
-          color: "var(--ink-yellow)",
-          lineHeight: 1,
-        }}
-      >
-        {n}
-      </p>
-      <p
-        className="mt-2"
-        style={{
-          color: "var(--ink-muted)",
-          fontSize: 12,
-          letterSpacing: "0.02em",
-          lineHeight: 1.4,
-        }}
-      >
-        {l}
-      </p>
-    </div>
-  );
-}
-
-function MechanismFlow() {
-  const layers = [
-    {
-      num: "01",
-      t: "Brand-System",
-      sub: "DESIGN.md · Voice · Forbidden Phrases",
-      out: "Maschinenlesbar",
-    },
-    {
-      num: "02",
-      t: "Live-Site",
-      sub: "Next.js · Vercel · deine TLD",
-      out: "12 Sektionen, indizierbar",
-    },
-    {
-      num: "03",
-      t: "Agent-Layer",
-      sub: "schema.org · llms.txt · Cluster-Brief",
-      out: "Lesbar für Claude · GPT · Perplexity",
-    },
-  ];
-  return (
-    <div
-      className="mt-12 rounded-[16px] p-6 md:p-10 relative overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(180deg, var(--bg-raised) 0%, #1F0606 100%)",
-        border: "1px solid var(--line-subtle)",
-      }}
-    >
-      {/* Input row */}
-      <div className="flex items-center gap-3 mb-8">
-        <span
-          className="chip"
-          style={{
-            background: "var(--bg-elevated)",
-            color: "var(--ink-cream)",
-          }}
-        >
-          <span className="dot" />
-          INPUT · dein Brief, deine Marke, dein Markt
-        </span>
-      </div>
-
-      {/* 3 Layer */}
-      <div className="grid md:grid-cols-3 gap-0 md:gap-6 relative">
-        {layers.map((l, i) => (
-          <div key={l.num} className="relative">
-            <div
-              className="rounded-[12px] p-6 h-full"
-              style={{
-                background: "var(--bg-base)",
-                border: "1px solid var(--line-subtle)",
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <span
-                  className="font-display"
-                  style={{
-                    fontSize: 22,
-                    letterSpacing: "-0.02em",
-                    color: "var(--ink-yellow)",
-                  }}
-                >
-                  {l.num}
-                </span>
-                <span
-                  style={{
-                    color: "var(--ink-dim)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  LAYER
-                </span>
-              </div>
-              <p
-                className="font-display mt-4"
-                style={{
-                  fontSize: 28,
-                  letterSpacing: "-0.02em",
-                  color: "var(--ink-yellow)",
-                  lineHeight: 1.1,
-                }}
-              >
-                {l.t}
-              </p>
-              <p
-                className="mt-3"
-                style={{
-                  color: "var(--ink-muted)",
-                  fontSize: 13,
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "-0.005em",
-                }}
-              >
-                {l.sub}
-              </p>
-              <div
-                className="mt-5 pt-4"
-                style={{ borderTop: "1px solid var(--line-subtle)" }}
-              >
-                <span
-                  style={{
-                    color: "var(--ink-yellow)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  → OUTPUT
-                </span>
-                <p
-                  className="mt-1"
-                  style={{ color: "var(--ink-cream)", fontSize: 14, fontWeight: 510 }}
-                >
-                  {l.out}
-                </p>
-              </div>
-            </div>
-            {/* Arrow between */}
-            {i < layers.length - 1 && (
-              <div
-                className="hidden md:flex absolute top-1/2 -right-6 -translate-y-1/2 items-center justify-center w-12 h-12 z-10"
-              >
-                <span
-                  className="font-display"
-                  style={{
-                    fontSize: 32,
-                    color: "var(--ink-yellow)",
-                    lineHeight: 1,
-                  }}
-                >
-                  →
-                </span>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Output row */}
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <span
-          className="chip"
-          style={{
-            background: "var(--ink-yellow)",
-            color: "var(--bg-base)",
-            border: "1px solid var(--ink-yellow)",
-            fontWeight: 510,
-          }}
-        >
-          OUTPUT · ein System, Tag 10 live
-        </span>
-        <span
-          style={{
-            color: "var(--ink-dim)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.04em",
-          }}
-        >
-          inkl. 30 Tage Compound-Standby
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function MechCard({
-  num,
-  title,
-  tag,
-  body,
-}: {
-  num: string;
-  title: string;
-  tag: string;
-  body: string;
-}) {
-  return (
-    <div className="card h-full">
-      <div className="flex items-center justify-between">
-        <span
-          className="font-display"
-          style={{
-            fontSize: 22,
-            letterSpacing: "-0.02em",
-            color: "var(--ink-yellow)",
-          }}
-        >
-          {num}
-        </span>
-        <span
-          style={{
-            color: "var(--ink-dim)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.04em",
-          }}
-        >
-          {tag}
-        </span>
-      </div>
-      <p
-        className="font-display mt-4"
-        style={{
-          fontSize: 26,
-          letterSpacing: "-0.02em",
-          color: "var(--ink-yellow)",
-          lineHeight: 1.15,
-        }}
-      >
-        {title}
-      </p>
-      <p
-        className="mt-3"
-        style={{
-          color: "var(--ink-muted)",
-          fontSize: 14,
-          lineHeight: "22px",
-        }}
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
-    </div>
-  );
-}
+const FAQ_ITEMS = [
+  {
+    q: "Was kostet ein Vertriebssystem?",
+    a: "Projekte beginnen bei 16.000 € — als Festpreis mit drei Ausbaustufen, Zahlungsplan 40/40/20. Zum Vergleich: weniger als ein halbes Jahresgehalt eines Vertriebsmitarbeiters, für ein System, das nicht kündigt.",
+  },
+  {
+    q: "Wie lange dauert der Bau?",
+    a: "Drei bis fünf Wochen vom Kickoff bis zum Livegang — inklusive Inhalte, Werkzeuge und CRM-Anbindung. Möglich ist das, weil wir mit AI-gestützter Produktion arbeiten und auf eine erprobte Systembibliothek aufsetzen.",
+  },
+  {
+    q: "Warum keine klassische Agentur?",
+    a: "Agenturen verkaufen Kampagnen und Stunden. Wir denken wie Berater — erst die Diagnose Ihres Vertriebsprozesses — und liefern wie ein Produkt: Festpreis, fester Umfang, live. Und Sie sprechen mit dem, der es baut.",
+  },
+  {
+    q: "Was heißt „AI“ hier konkret?",
+    a: "Drei Dinge. Erstens Sichtbarkeit: strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden. Zweitens Produktion: AI-gestützter Bau — deshalb der Festpreis. Drittens Prozesse: Automationen dort, wo Ihr Vertrieb Zeit verliert.",
+  },
+  {
+    q: "Was passiert im Systemgespräch?",
+    a: "30 Minuten, Video oder Telefon. Wir schauen gemeinsam auf Ihren Vertriebsweg und den Check Ihrer Website. Danach wissen Sie, ob eine Diagnose sinnvoll ist — es ist ein Gespräch, kein getarnter Pitch.",
+  },
+  {
+    q: "Und die Diagnose?",
+    a: "Ein bezahltes Dokument (1.990 €), das Ihnen gehört: Ihr digitaler Vertriebsweg, die Lücken, der Systemvorschlag in drei Ausbaustufen. Beauftragen Sie das System, wird die Diagnose voll angerechnet.",
+  },
+];
 
 function CaseCard({
   client,
-  years,
-  kpi,
-  kpiLabel,
-  note,
+  branch,
   href,
+  facts,
+  mechanic,
 }: {
   client: string;
-  years: string;
-  kpi: string;
-  kpiLabel: string;
-  note: string;
+  branch: string;
   href: string;
+  facts: string[];
+  mechanic: string;
 }) {
   return (
-    <Link href={href} className="card block h-full group">
-      <span
-        style={{
-          color: "var(--ink-dim)",
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.06em",
-        }}
-      >
-        {client.toUpperCase()} · {years}
-      </span>
-      <p
-        className="font-display mt-4"
-        style={{
-          fontSize: 44,
-          letterSpacing: "-0.025em",
-          color: "var(--ink-yellow)",
-          lineHeight: 1,
-        }}
-      >
-        {kpi}
-      </p>
-      <p
-        className="mt-2"
-        style={{
-          color: "var(--ink-cream)",
-          fontSize: 14,
-          fontWeight: 510,
-        }}
-      >
-        {kpiLabel}
-      </p>
-      <p
-        className="mt-4"
-        style={{
-          color: "var(--ink-muted)",
-          fontSize: 14,
-          lineHeight: "22px",
-        }}
-      >
-        {note}
-      </p>
-      <span
-        className="inline-block mt-6 text-[13px] group-hover:text-[var(--ink-yellow)] transition-colors"
-        style={{ color: "var(--ink-cream)" }}
-      >
-        Case lesen →
-      </span>
-    </Link>
-  );
-}
-
-function SlotGrid() {
-  const slots = [
-    { q: "Q1/2026", state: "shipped" },
-    { q: "Q2/2026", state: "shipped" },
-    { q: "Q3/2026", state: "open" },
-    { q: "Q3/2026", state: "open" },
-    { q: "Q4/2026", state: "waitlist" },
-    { q: "Q4/2026", state: "waitlist" },
-  ];
-  const stateMeta: Record<string, { label: string; color: string }> = {
-    shipped: { label: "shipped", color: "var(--ink-dim)" },
-    open: { label: "open", color: "var(--ink-yellow)" },
-    waitlist: { label: "waitlist", color: "var(--ink-muted)" },
-  };
-  return (
-    <div
-      className="rounded-[12px] p-5"
-      style={{
-        background: "var(--bg-raised)",
-        border: "1px solid var(--line-subtle)",
-      }}
-    >
-      <p
-        style={{
-          color: "var(--ink-dim)",
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.06em",
-          marginBottom: 14,
-        }}
-      >
-        SLOT-PLAN · 6 / Jahr
-      </p>
-      <div className="grid grid-cols-2 gap-2">
-        {slots.map((s, i) => {
-          const m = stateMeta[s.state];
-          return (
-            <div
-              key={i}
-              className="flex items-center justify-between py-3 px-3 rounded-[8px]"
-              style={{
-                background: s.state === "open" ? "rgba(247,233,154,0.06)" : "transparent",
-                border:
-                  s.state === "open"
-                    ? "1px solid rgba(247,233,154,0.32)"
-                    : "1px solid var(--line-subtle)",
-              }}
-            >
-              <span
-                style={{
-                  color: "var(--ink-cream)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 13,
-                }}
-              >
-                {s.q}
-              </span>
-              <span
-                style={{
-                  color: m.color,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.04em",
-                }}
-              >
-                {m.label}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function PathCard({
-  tag,
-  title,
-  body,
-  cta,
-  href,
-  primary,
-}: {
-  tag: string;
-  title: string;
-  body: string;
-  cta: string;
-  href: string;
-  primary?: boolean;
-}) {
-  return (
-    <Link
+    <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="card block h-full group"
-      style={
-        primary
-          ? {
-              background: "var(--ink-yellow)",
-              color: "var(--bg-base)",
-              border: "1px solid var(--ink-yellow)",
-            }
-          : undefined
-      }
     >
-      <span
-        style={{
-          color: primary ? "var(--bg-base)" : "var(--ink-dim)",
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.06em",
-          opacity: primary ? 0.7 : 1,
-        }}
-      >
-        {tag}
-      </span>
-      <p
-        className="font-display mt-4"
-        style={{
-          fontSize: 26,
-          letterSpacing: "-0.02em",
-          color: primary ? "var(--bg-base)" : "var(--ink-yellow)",
-          lineHeight: 1.15,
-        }}
-      >
-        {title}
-      </p>
-      <p
-        className="mt-3"
-        style={{
-          color: primary ? "rgba(33,6,6,0.78)" : "var(--ink-muted)",
-          fontSize: 14,
-          lineHeight: "22px",
-        }}
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
-      <span
-        className="inline-block mt-6 text-[13px] font-[510]"
-        style={{
-          color: primary ? "var(--bg-base)" : "var(--ink-cream)",
-        }}
-      >
-        {cta} →
-      </span>
-    </Link>
+      <div className="flex items-baseline justify-between gap-4">
+        <h3 className="t-h3">{client}</h3>
+        <span className="t-data">live ↗</span>
+      </div>
+      <p className="t-data mt-1">{branch}</p>
+      <ul className="mt-5 space-y-2">
+        {facts.map((f) => (
+          <li key={f} className="t-small is-cream flex gap-2">
+            <span className="t-data shrink-0">·</span>
+            {f}
+          </li>
+        ))}
+      </ul>
+      <p className="t-body mt-5">{mechanic}</p>
+    </a>
   );
 }

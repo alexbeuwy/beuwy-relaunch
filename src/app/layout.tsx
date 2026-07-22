@@ -17,20 +17,21 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
-  title: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
+  title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
   description:
-    "Operator-led Studio für die Agent-Ära. Ein Operator, ein Festpreis, drei Auslieferungen — live in 10 Tagen. Vier Mal von 0 zur Kategorie. Heidelberg · Mannheim · Berlin · seit 2017.",
+    "beuwy baut das Vertriebssystem hinter wachsenden Finanz- und Immobilienunternehmen: Marke, Website, Werkzeuge, CRM-Anbindung und AI-Sichtbarkeit. Gebaut, nicht nur beraten — von Alexander Pütter.",
   openGraph: {
-    title: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
+    title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
     description:
-      "Empfehlungen sind kein Vertrieb. Glück. — Wir bauen die Marke, die ein Agent versteht. Ein Operator, ein Festpreis, 10 Tage.",
+      "Die erste Empfehlung kommt heute von Google und ChatGPT. Wir bauen das System, das dafür sorgt, dass beide auf Sie zeigen.",
     type: "website",
     locale: "de_DE",
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Brand · Site · Agent-Layer in 10 Tagen",
-    description: "Operator-led Studio für die Agent-Ära.",
+    title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
+    description:
+      "Die erste Empfehlung kommt heute von Google und ChatGPT. Wir bauen das System, das dafür sorgt, dass beide auf Sie zeigen.",
   },
 };
 
