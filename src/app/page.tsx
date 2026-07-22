@@ -10,7 +10,7 @@ export default function HomePage() {
       <section className="section-band section-band-base relative overflow-hidden">
         <div className="hero-lamp" aria-hidden />
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-24 relative z-[1]">
-          <div className="mx-auto max-w-[720px] text-center">
+          <div className="mx-auto max-w-[880px] text-center">
             <Reveal>
               <p className="t-label">
                 Digitale Vertriebssysteme · Finance &amp; Real Estate

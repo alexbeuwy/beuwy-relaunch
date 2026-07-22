@@ -28,7 +28,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Seiteninhalt (HTML-Text extrahieren, an Claude geben), Streaming-fähige
   Statusschritte (Route aufteilen: /api/audit/scan + /api/audit/analyze).
   Timeout-/Fehlerpfade sauber. maxDuration beachten (Vercel Hobby: 60s).
-- [ ] **P4 · Tool-Frontend:** Hero-Panel nach DESIGN-DIRECTION §3 — Fokus-Ring,
+- [x] **P4 · Tool-Frontend:** Hero-Panel nach DESIGN-DIRECTION §3 — Fokus-Ring,
   Text-Swap-Submit, Status-Bühne mit Badge-Pop-Checkliste, Screenshot-Scan-Reveal
   (clip-path + Scanlinie + Sheen), Score-Count-up (t-digit), Ergebnis-Split 55/45,
   BorderBeam nur während Analyse (npm install border-beam; falls Paket
@@ -127,6 +127,16 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Chromium-CONNECT, reine Dev-Eigenheit) — auf dem Vercel-Preview unbedingt
   live verifizieren (@sparticuz-Pfad, dort kein Proxy). Falls dort auch leer:
   chromium.args prüfen / headless:"shell"-Variante testen.
+- **P4 (01:40):** Volle Tool-Choreografie: Status-Bühne (grid-rows-Transition,
+  Zeilen per Badge-Pop mit --line-index-Stagger, echte Fakten statt Spinner),
+  Screenshot-Scan-Reveal (clip-path top→bottom 700ms + Scanlinie + genau ein
+  Sheen-Sweep, getriggert via img.onLoad), Score-Digit-Stagger (eigene
+  .score-digit ohne Endlos-Sheen), Panel-Expansion 680→960px via data-stage,
+  eigener conic-gradient-BorderBeam (läuft NUR bei data-busy; kein npm-Paket
+  nötig). prefers-reduced-motion: alles instant. Hero-H1-Container auf 880px
+  (2 Zeilen statt 3 bei 1440), Mobile-Form stapelt. Screenshots geprüft
+  (1440 + 390, im Scratchpad). Build grün. BorderBeam-Paket von Alex' Liste
+  damit obsolet. Lokal weiterhin ohne Screenshot (Proxy) — P11 prüft live.
 - **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert

@@ -290,6 +290,202 @@ body {
   transition: transform var(--icon-swap-dur) var(--icon-swap-ease);
 }
 
+/* ----------------------------------------------------------
+   WEBSITE-CHECK CHOREOGRAFIE — P4, DESIGN-DIRECTION §3.
+   Alle Animationen zustandsgebunden (Anti-Slop-Regel 9):
+   Beam nur bei data-busy, Reveal nur einmal, kein Idle-Loop.
+   ---------------------------------------------------------- */
+
+.audit-panel {
+  position: relative;
+  transition: max-width var(--panel-open-dur) var(--panel-ease);
+}
+.audit-panel[data-stage="done"] {
+  max-width: 960px;
+}
+
+/* BorderBeam — Statusanzeige während der Analyse, nicht Deko */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.audit-beam {
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--resize-ease);
+}
+.audit-panel[data-busy="true"] .audit-beam {
+  opacity: 1;
+}
+.audit-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 290deg,
+    rgba(247, 233, 154, 0.85) 330deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: audit-beam-spin 2.4s linear infinite;
+  animation-play-state: paused;
+}
+.audit-panel[data-busy="true"] .audit-beam::before {
+  animation-play-state: running;
+}
+@keyframes audit-beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Status-Bühne — klappt unter dem Input auf (grid-rows-Transition) */
+.audit-stagewrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--panel-open-dur) var(--panel-ease);
+}
+.audit-stagewrap[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.audit-stagewrap > div {
+  overflow: hidden;
+}
+
+/* Status-Zeilen treffen einzeln ein (Badge-Pop) */
+.audit-status-line {
+  opacity: 0;
+  transform: translateY(6px) scale(0.98);
+  filter: blur(var(--badge-blur));
+  animation: audit-line-in var(--badge-pop-dur) var(--badge-pop-ease) both;
+  animation-delay: calc(var(--line-index, 0) * 80ms);
+}
+@keyframes audit-line-in {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Screenshot-Scan-Reveal — Dokument unter dem Scanner */
+.shot-frame {
+  position: relative;
+  overflow: hidden;
+}
+.shot-reveal {
+  clip-path: inset(0 0 100% 0);
+  filter: blur(12px);
+  transform: scale(1.02);
+}
+.shot-reveal[data-revealed="true"] {
+  clip-path: inset(0 0 0% 0);
+  filter: blur(0);
+  transform: scale(1);
+  transition:
+    clip-path 700ms var(--panel-ease),
+    filter 700ms var(--panel-ease),
+    transform 700ms var(--panel-ease);
+}
+.shot-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--ink-yellow);
+  box-shadow: 0 0 12px rgba(247, 233, 154, 0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+.shot-frame[data-revealed="true"] .shot-scanline {
+  animation: shot-scan 700ms var(--panel-ease) both;
+}
+@keyframes shot-scan {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+/* Danach genau EIN Specular-Sweep */
+.shot-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    var(--sheen-color) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+}
+.shot-frame[data-revealed="true"] .shot-sheen {
+  animation: shot-sheen-sweep var(--sheen-dur) var(--resize-ease) 750ms 1 both;
+}
+@keyframes shot-sheen-sweep {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* Score-Ziffern — Pop mit Stagger, kein Endlos-Sheen */
+.score-digit {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(var(--digit-blur));
+  animation: t-digit-pop var(--digit-dur) var(--digit-ease) both;
+  animation-delay: calc(var(--digit-index, 0) * var(--digit-stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audit-panel,
+  .audit-stagewrap {
+    transition: none !important;
+  }
+  .audit-status-line,
+  .score-digit {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .shot-reveal {
+    clip-path: none !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .shot-scanline,
+  .shot-sheen,
+  .audit-beam::before {
+    animation: none !important;
+  }
+}
+
 /* Semantische Farb-/Flächen-Modifier — statt Inline-Styles (Anti-Slop-Regel 10) */
 .is-cream { color: var(--ink-cream); }
 .is-muted { color: var(--ink-muted); }
