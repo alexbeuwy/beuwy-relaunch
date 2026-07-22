@@ -9,7 +9,8 @@ const config: Config = {
         bg: {
           base: "#1A0404",     // = brand bordeaux-ink
           raised: "#210606",   // = brand superdark
-          elevated: "#3A0808", // = brand bordeaux
+          elevated: "#2B0808", // nur Innenflächen (DESIGN-DIRECTION 2.3)
+          hover: "#3A0808",    // Hover-/Border-Ton
         },
         ink: {
           yellow: "#F7E99A",
@@ -29,12 +30,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // headlines: Fraunces (the "Frances" the user referred to)
+        // headlines: Fraunces, nur als Display >= 32px
         display: ["var(--font-fraunces)", "Georgia", "serif"],
-        // body: Inter
-        body: ["var(--font-inter)", "system-ui", "sans-serif"],
-        // for the editor / code surface
-        mono: ["var(--font-jetbrains)", "SFMono-Regular", "ui-monospace", "monospace"],
+        body: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "SFMono-Regular", "ui-monospace", "monospace"],
       },
       letterSpacing: {
         display: "-0.02em",

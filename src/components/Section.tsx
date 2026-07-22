@@ -33,7 +33,7 @@ export function Section({
         divider ? "section-divider" : ""
       } ${className}`}
     >
-      <div className="mx-auto max-w-[1240px] px-6 lg:px-10 py-[72px] md:py-[112px]">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
         {(chapter || title || date) && (
           <div className="flex flex-wrap items-center gap-3 mb-[36px]">
             {chapter && <ChapterLabel num={chapterNum} rest={chapterRest} />}
@@ -65,17 +65,10 @@ export function HeadlineDisplay({
   className?: string;
 }) {
   const sizes: Record<string, string> = {
-    xl: "text-[44px] md:text-[80px] leading-[0.96]",
-    lg: "text-[36px] md:text-[64px] leading-[1.0]",
-    md: "text-[28px] md:text-[44px] leading-[1.05]",
-    sm: "text-[22px] md:text-[32px] leading-[1.1]",
+    xl: "t-display",
+    lg: "t-h2",
+    md: "t-h2",
+    sm: "t-h3",
   };
-  return (
-    <h2
-      className={`h-display ${sizes[size]} ${className}`}
-      style={{ letterSpacing: "-0.02em", color: "var(--ink-yellow)" }}
-    >
-      {children}
-    </h2>
-  );
+  return <h2 className={`${sizes[size]} ${className}`}>{children}</h2>;
 }

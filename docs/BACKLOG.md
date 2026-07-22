@@ -14,7 +14,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Strang 1 — Produkt
 
-- [ ] **P1 · Fundament:** globals.css auf Token-System der DESIGN-DIRECTION
+- [x] **P1 · Fundament:** globals.css auf Token-System der DESIGN-DIRECTION
   umbauen (9 Typo-Tokens als Utility-Klassen, Farb-Korrekturen `--bg-elevated:#2B0808`,
   `--ink-yellow-hover`), Section.tsx auf 1120px/py-24, Fraunces-Font prüfen/laden.
   Alte Seiten löschen: /method, /system, /manifesto, /work, /audit, /anfrage
@@ -78,4 +78,15 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Notizen zwischen Iterationen
 
-- (leer — hier schreibt jede Iteration ihren Stand rein)
+- **P1 (23:55):** Typo-Tokens als `.t-*`-Klassen in globals.css, `--bg-elevated`
+  → #2B0808 (+`--bg-hover`, `--ink-yellow-hover`), `interpolate-size` auf :root,
+  `.h-display`/HeadlineDisplay auf Cream, `.eyebrow` auf Mono. Section auf
+  1120px/py-24. Alte Seiten gelöscht (/method /system /manifesto /work /anfrage
+  /audit) + Redirects in next.config.mjs auf Anker. Nav (4 Anker + CTA
+  "Systemgespräch" → /#kontakt) und Footer (Riegel/Saadi-Links, /impressum,
+  /datenschutz, keine Fake-Claims mehr) neu. Build grün.
+  **Achtung für P2:** page.tsx ist noch die ALTE 12-Sektionen-Seite — Anker
+  #proof/#system/#prozess/#faq/#kontakt/#tool existieren erst mit dem Neubau.
+  ChapterLabel/SpotlightTracker/Editor/EmailMockup/LogoWall werden nach P2
+  vermutlich ungenutzt → dann löschen. CTA-Ziel vorerst mailto:ap@beuwy.com
+  (Calendly/cal.com-Link von Alex unbekannt — im Morgenreport erfragen).
