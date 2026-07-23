@@ -1126,30 +1126,67 @@ body {
     var(--bg-elevated);
 }
 
-/* Inverted contrast band — yellow stage, bordeaux text. One per page max.
-   Used on the Magnet CTA to break the bordeaux rhythm with a stop-point. */
+/* ----------------------------------------------------------
+   INVERTED BAND — gelbe Bühne, dunkler Inhalt. Rhythmus-Kontrast
+   zu den bordeauxfarbenen Sektionen (Alex' Wunsch: mehrere davon).
+   Token-vollständig: alle .t-* / .is-* Tokens flippen auf Dunkel.
+   ---------------------------------------------------------- */
 .section-band-bright {
-  background: var(--ink-yellow);
+  background:
+    radial-gradient(ellipse 55% 70% at 50% -12%, #FBF1B6, transparent 62%),
+    var(--ink-yellow);
   color: var(--bg-base);
 }
-.section-band-bright .h-display,
-.section-band-bright .h-display em,
-.section-band-bright .h-display .em {
-  color: var(--bg-base) !important;
+/* Überschriften + Betonungen → Bordeaux (auf Gelb kann em nicht gelb sein) */
+.section-band-bright .t-display,
+.section-band-bright .t-h2,
+.section-band-bright .t-h3,
+.section-band-bright .t-stat,
+.section-band-bright .t-display em,
+.section-band-bright .t-h2 em,
+.section-band-bright .em-cream,
+.section-band-bright .is-cream,
+.section-band-bright .is-accent {
+  color: var(--bg-base);
 }
-.section-band-bright .eyebrow,
-.section-band-bright .eyebrow .num {
-  color: var(--bg-base) !important;
-  opacity: 0.7;
+/* Fließtext → gedämpftes Bordeaux */
+.section-band-bright .t-body-lg,
+.section-band-bright .t-body,
+.section-band-bright .t-small,
+.section-band-bright .is-muted {
+  color: rgba(26, 4, 4, 0.74);
 }
-.section-band-bright p,
-.section-band-bright span:not(.dot):not([class*="btn-"]):not([aria-hidden]),
-.section-band-bright em {
-  color: var(--bg-base) !important;
+/* Meta / Mono / Labels → leiseres Bordeaux */
+.section-band-bright .t-label,
+.section-band-bright .t-data,
+.section-band-bright .is-dim,
+.section-band-bright .eyebrow {
+  color: rgba(26, 4, 4, 0.56);
 }
-.section-band-bright em {
-  color: var(--bg-raised) !important;
+/* Fail-Farbe bleibt semantisch, aber dunkler abgestimmt */
+.section-band-bright .is-fail {
+  color: #9a1a1a;
 }
+/* Hairlines / Divider → dunkel */
+.section-band-bright .hairline,
+.section-band-bright [class*="border-"] {
+  border-color: rgba(26, 4, 4, 0.15);
+}
+.section-band-bright.section-divider::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(26, 4, 4, 0.18) 20%,
+    rgba(26, 4, 4, 0.18) 80%,
+    transparent 100%
+  );
+}
+/* Panels auf Gelb → subtile dunkle Tönung statt eigener Fläche */
+.section-band-bright .panel {
+  background: rgba(26, 4, 4, 0.05);
+  border-color: rgba(26, 4, 4, 0.16);
+}
+/* Buttons: dunkler Fill auf Gelb (die C2A-Ästhetik, die Alex mag) */
 .section-band-bright .btn-primary {
   background: var(--bg-base);
   color: var(--ink-yellow);

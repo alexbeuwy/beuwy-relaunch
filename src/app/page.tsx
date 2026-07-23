@@ -50,8 +50,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 02 — STATUS-QUO-KOSTEN */}
-      <Section id="kosten" tone="raised">
+      {/* 02 — STATUS-QUO-KOSTEN (gelbe Bühne) */}
+      <Section id="kosten" tone="bright">
         <SectionHead
           eyebrow="01 · Was sich geändert hat"
           title={
@@ -144,8 +144,8 @@ export default function HomePage() {
         </p>
       </Section>
 
-      {/* 04 — DAS SYSTEM */}
-      <Section id="system" tone="raised">
+      {/* 04 — DAS SYSTEM (gelbe Bühne) */}
+      <Section id="system" tone="bright">
         <SectionHead
           eyebrow="03 · Das System"
           title={
