@@ -16,9 +16,12 @@ Auslieferung läuft über die Pull-Zone.
    `beuwy-website`). Zugangsdaten liegen NICHT im Repo — nur lokal im
    Session-Scratchpad (`.bunny-env`), und der Schreibschlüssel gehört
    rotiert, sobald der Asset-Workflow steht (er stand einmal im Chat).
-2. **Offen / von Alexander gebraucht:** die öffentliche **Pull-Zone-URL**
-   (z. B. `beuwy-website.b-cdn.net` oder eine Custom-Domain wie
-   `cdn.beuwy.com`). Erst damit lassen sich Assets auf der Seite referenzieren.
+2. **Pull-Zone-URL (von Alex, 23.07.):** `https://beuwy-2.b-cdn.net/` —
+   in next.config.mjs als remotePattern eingetragen; `next/image` kann
+   Assets von dort direkt optimieren. Hinweis: Der Storage-Key aus dem Chat
+   liefert 401 (Zone-Name/Passwort passen nicht zur Pull-Zone) — zum
+   automatischen Platzieren braucht es entweder die korrekten
+   Storage-Zugangsdaten oder einfach die Dateipfade nach dem Upload.
 3. Einbindung: für optimierte Auslieferung `next/image` mit
    `remotePatterns` in `next.config.mjs` (Host = Pull-Zone). Dann werden die
    High-End-Assets an den passenden Stellen platziert:

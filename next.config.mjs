@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    // BunnyCDN Pull-Zone fuer High-End-Assets (docs/ASSETS.md)
+    remotePatterns: [
+      { protocol: "https", hostname: "beuwy-2.b-cdn.net" },
+    ],
+  },
   serverExternalPackages: ["@sparticuz/chromium", "playwright-core", "puppeteer-core"],
   // Sparticuz-Chromium liegt als .br-Binaries in bin/ — Next traced die
   // dynamischen Reads nicht, ohne diese Zeile fehlt Chromium im Bundle.
