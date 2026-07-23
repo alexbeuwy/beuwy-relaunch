@@ -3,10 +3,7 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer
-      className="relative z-[2] mt-24 border-t"
-      style={{ borderColor: "var(--line-subtle)" }}
-    >
+    <footer className="relative z-[2] mt-24 border-t border-line-subtle">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
           <div className="space-y-4 max-w-[420px]">
@@ -37,10 +34,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div
-          className="mt-12 pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
-          style={{ borderTop: "1px solid var(--line-subtle)" }}
-        >
+        <div className="mt-12 pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-t border-line-subtle">
           <p className="t-data">© beuwy · Alexander Pütter · seit 2017</p>
           <p className="t-data">Made in Ludwigshafen</p>
         </div>
@@ -71,8 +65,7 @@ function FooterLink({
     <li>
       <Link
         href={href}
-        className="t-small transition-colors hover:text-[var(--ink-cream)]"
-        style={{ color: "var(--ink-muted)" }}
+        className="t-small is-muted transition-colors hover:text-[var(--ink-cream)]"
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {children}

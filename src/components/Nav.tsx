@@ -45,7 +45,7 @@ export function Nav() {
           ))}
         </nav>
 
-        <Link href="/termin" className="btn-primary" style={{ height: 36, padding: "0 16px", fontSize: 13 }}>
+        <Link href="/termin" className="btn-primary btn-sm">
           Systemgespräch
           <span aria-hidden>→</span>
         </Link>

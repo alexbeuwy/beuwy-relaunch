@@ -89,6 +89,20 @@
   box-sizing: border-box;
 }
 
+/* Anker-Sprünge landen nicht unter der fixen 64px-Nav */
+section[id],
+div[id="tool"] {
+  scroll-margin-top: 88px;
+}
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 html, body {
   background: var(--bg-base);
   color: var(--ink-cream);
@@ -790,6 +804,12 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.22),
     0 0 0 2px var(--bg-base),
     0 0 0 4px var(--ink-yellow);
+}
+
+.btn-sm {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 13px;
 }
 
 .btn-secondary {

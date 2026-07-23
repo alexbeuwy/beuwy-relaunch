@@ -56,7 +56,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 - [x] **P7 · GEO-Layer:** metadata (Title/Description/OG), OG-Image (statisch
   generiert), schema.org Organization + WebSite + ProfessionalService + FAQPage,
   /llms.txt, sitemap.ts, robots.ts.
-- [ ] **P8 · Interaktions-Feinschliff:** Reveal-on-Scroll (fail-open), Hover-Zustände,
+- [x] **P8 · Interaktions-Feinschliff:** Reveal-on-Scroll (fail-open), Hover-Zustände,
   Nav-Scroll-Verhalten, Mikro-Detail-Pass gegen DESIGN-DIRECTION §5, Anti-Slop-Greps
   (Regel 10) als Selbst-Check laufen lassen.
 - [ ] **P9 · QS-Runde:** npm run build, Playwright-Screenshots (390px, 768px, 1440px),
@@ -69,12 +69,12 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Strang 2 — Vertrieb (parallel per Subagent möglich)
 
-- [~] **S1 · docs/sales/loom-drehbuch.md:** 4-min-Drehbuch aus Masterplan §4
+- [x] **S1 · docs/sales/loom-drehbuch.md:** 4-min-Drehbuch aus Masterplan §4
   ausformuliert (wortwörtliche Musterformulierungen, Setup-Checkliste OBS/A7III,
   Thumbnail-Regel, Follow-up-Sequenz mit je neuem Befund).
-- [~] **S2 · docs/sales/nachrichten-riegel-saadi.md:** Je 1 Intro-Bitte + 1
+- [x] **S2 · docs/sales/nachrichten-riegel-saadi.md:** Je 1 Intro-Bitte + 1
   Zitat-Bitte (O-Ton für Landingpage), kurz, kopierfertig, in Alex' Ton.
-- [~] **S3 · docs/sales/linkedin-vorlagen.md:** UWG-konforme Sequenz (Connect-Note,
+- [x] **S3 · docs/sales/linkedin-vorlagen.md:** UWG-konforme Sequenz (Connect-Note,
   Post-Accept-Message mit Loom-Link, 2 Follow-ups mit je neuem Befund).
 - [~] **S4 · docs/sales/zielliste.md:** ~50 Firmen Finance/RE DACH (Makler mit
   Portfolio, Finanzvertriebe, Vermögensverwalter, Bauträger, PropTechs) mit
@@ -90,6 +90,12 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Notizen zwischen Iterationen
 
+- **P8+S1-3 (03:55):** S1-S3 committet (drei Dateien in docs/sales/).
+  P8: Inline-Styles Footer/Nav bereinigt (btn-sm-Utility), scroll-margin-top
+  88px für Anker + smooth scroll (reduced-motion: auto). Verbleibende
+  style={{}}: Logo (strukturell), BookingTool-Progress (dynamische Breite),
+  opengraph-image (Satori braucht inline), --line/--digit-index (CSS-Vars) —
+  alles legitime Ausnahmen. S4-Zielliste läuft noch.
 - **03:40:** S1-S3 (ein Subagent) und S4 (Research-Subagent) laufen im
   Hintergrund und schreiben nach docs/sales/ — NICHT doppelt bearbeiten;
   nächste Iteration committet die Ergebnisse, sobald die Dateien da sind.
