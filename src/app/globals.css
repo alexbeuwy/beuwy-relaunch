@@ -367,6 +367,11 @@ body {
 .hero-chrome-url {
   color: rgba(255, 253, 243, 0.7);
 }
+/* Split-Hero: H1 teilt sich die Breite mit der Referenz-Plate —
+   kleinere Obergrenze, damit sie in max. 3 Zeilen sitzt */
+.hero-split .t-display {
+  font-size: clamp(36px, 3.8vw, 52px);
+}
 
 /* Founder-Plate — licht-modelliertes Studio-Portrait, gerahmt wie die
    Proof-Plates (Rim-Light + Glare beim Hover) */

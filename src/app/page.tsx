@@ -54,7 +54,7 @@ export default async function HomePage() {
         <div className="hero-lamp" aria-hidden />
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-20 relative z-[1]">
           <div className="grid md:grid-cols-12 gap-10 items-center">
-            <div className="md:col-span-6">
+            <div className="md:col-span-6 hero-split">
               <Reveal>
                 <p className="t-label">{c["hero.eyebrow"]}</p>
               </Reveal>
