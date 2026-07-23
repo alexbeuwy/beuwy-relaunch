@@ -17,29 +17,73 @@ Die Besitzer sind meist inhabergeführte Finanz-/Immobilien-/Dienstleistungs-Unt
 (Inhaber 45-60, wenig Geduld, verlustavers).
 
 Bewerte aus Sicht eines Kaufinteressenten, der zuerst Google-AI-Übersichten und
-Chat-Assistenten (ChatGPT, Perplexity) fragt, bevor er anruft.
-
-Gib GENAU dieses JSON zurück, nichts sonst:
-{
-  "score": <0-100, Gesamtsichtbarkeit, ehrlich, konsistent mit den Kategorien>,
-  "visibility": "<2-3 Sätze, direkt an den Inhaber (Sie-Form), was die Maschine über ihn denkt>",
-  "categories": [
-    {"id":"sichtbarkeit","label":"Auffindbarkeit bei KI & Google","score":<0-100>,"reason":"<1 Satz>"},
-    {"id":"positionierung","label":"Klarheit des Angebots","score":<0-100>,"reason":"<1 Satz>"},
-    {"id":"vertrauen","label":"Vertrauens- & Kompetenzsignale","score":<0-100>,"reason":"<1 Satz>"},
-    {"id":"conversion","label":"Nächster Schritt für Besucher","score":<0-100>,"reason":"<1 Satz>"}
-  ],
-  "findings": [
-    {"title":"<3-6 Wörter>","cost":"<1 Satz: was es das Unternehmen kostet, Geschäftssprache>","fix":"<1-2 Sätze konkrete Empfehlung>","effort":"<S|M|L>","impact":<1-3>}
-  ]
-}
+Chat-Assistenten (ChatGPT, Perplexity) fragt, bevor er anruft. Liefere dein
+Ergebnis über das Tool submit_analysis.
 
 Regeln:
-- categories: exakt diese 4, in dieser Reihenfolge.
+- categories: exakt die 4 vorgegebenen, in dieser Reihenfolge.
 - findings: 5 bis 7 Stück, sortiert nach impact absteigend, dann effort aufsteigend.
 - cost NIE in Technik-Jargon. Schlecht: "llms.txt fehlt". Gut: "Wer ChatGPT nach
   Anbietern in Ihrer Region fragt, bekommt Ihre Wettbewerber genannt — nicht Sie."
 - Deutsch, Sie-Form, präzise, keine Übertreibung, keine erfundenen Zahlen, keine Emojis.`;
+
+/* Tool-Schema: Die API erzwingt valides JSON — kein String-Parsing nötig. */
+const ANALYSIS_TOOL = {
+  name: "submit_analysis",
+  description: "Liefert das strukturierte Analyse-Ergebnis ab.",
+  input_schema: {
+    type: "object",
+    required: ["score", "visibility", "categories", "findings"],
+    properties: {
+      score: { type: "integer", minimum: 0, maximum: 100 },
+      visibility: {
+        type: "string",
+        description: "2-3 Sätze, Sie-Form, was die Maschine über den Inhaber denkt",
+      },
+      categories: {
+        type: "array",
+        minItems: 4,
+        maxItems: 4,
+        items: {
+          type: "object",
+          required: ["id", "label", "score", "reason"],
+          properties: {
+            id: {
+              type: "string",
+              enum: ["sichtbarkeit", "positionierung", "vertrauen", "conversion"],
+            },
+            label: { type: "string" },
+            score: { type: "integer", minimum: 0, maximum: 100 },
+            reason: { type: "string", description: "1 Satz" },
+          },
+        },
+      },
+      findings: {
+        type: "array",
+        minItems: 5,
+        maxItems: 7,
+        items: {
+          type: "object",
+          required: ["title", "cost", "fix", "effort", "impact"],
+          properties: {
+            title: { type: "string", description: "3-6 Wörter" },
+            cost: { type: "string", description: "1 Satz Geschäftssprache: was es kostet" },
+            fix: { type: "string", description: "1-2 Sätze konkrete Empfehlung" },
+            effort: { type: "string", enum: ["S", "M", "L"] },
+            impact: { type: "integer", minimum: 1, maximum: 3 },
+          },
+        },
+      },
+    },
+  },
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  sichtbarkeit: "Auffindbarkeit bei KI & Google",
+  positionierung: "Klarheit des Angebots",
+  vertrauen: "Vertrauens- & Kompetenzsignale",
+  conversion: "Nächster Schritt für Besucher",
+};
 
 export async function POST(req: Request) {
   let body: {
@@ -91,6 +135,8 @@ export async function POST(req: Request) {
         model: "claude-sonnet-5",
         max_tokens: 2400,
         system: SYSTEM_PROMPT,
+        tools: [ANALYSIS_TOOL],
+        tool_choice: { type: "tool", name: "submit_analysis" },
         messages: [
           {
             role: "user",
@@ -116,33 +162,19 @@ ${pageText || "(kein Text extrahierbar)"}
     }
 
     const data = (await r.json()) as {
-      content?: Array<{ type: string; text?: string }>;
+      content?: Array<{ type: string; input?: unknown }>;
     };
-    const text = data.content?.find((c) => c.type === "text")?.text || "";
-    // Robust: erstes vollständiges JSON-Objekt extrahieren (Modelle setzen
-    // gelegentlich Text oder Fences um das JSON).
-    const start = text.indexOf("{");
-    const end = text.lastIndexOf("}");
-    const cleaned =
-      start >= 0 && end > start ? text.slice(start, end + 1) : text.trim();
-
-    let parsed: {
+    const toolUse = data.content?.find((c) => c.type === "tool_use");
+    if (!toolUse || typeof toolUse.input !== "object" || toolUse.input === null) {
+      console.error("[analyze] Kein tool_use-Block in der Antwort");
+      return NextResponse.json({ error: "analysis_failed" }, { status: 502 });
+    }
+    const parsed = toolUse.input as {
       score?: number;
       visibility?: string;
       categories?: Array<{ id?: string; label?: string; score?: number; reason?: string }>;
       findings?: Array<{ title?: string; cost?: string; fix?: string; effort?: string; impact?: number }>;
     };
-    try {
-      parsed = JSON.parse(cleaned);
-    } catch (e) {
-      console.error(
-        "[analyze] JSON-Parse fehlgeschlagen:",
-        e instanceof Error ? e.message : e,
-        "| Antwort-Anfang:",
-        text.slice(0, 200)
-      );
-      return NextResponse.json({ error: "analysis_failed" }, { status: 502 });
-    }
 
     const clampScore = (n: unknown) =>
       Math.min(100, Math.max(0, Math.round(Number(n) || 0)));
@@ -156,7 +188,7 @@ ${pageText || "(kein Text extrahierbar)"}
       visibility: (parsed.visibility || "—").slice(0, 900),
       categories: (parsed.categories || []).slice(0, 4).map((c) => ({
         id: String(c.id || "").slice(0, 30),
-        label: String(c.label || "").slice(0, 60),
+        label: String(c.label || CATEGORY_LABELS[String(c.id)] || "").slice(0, 60),
         score: clampScore(c.score),
         reason: String(c.reason || "").slice(0, 240),
       })),
