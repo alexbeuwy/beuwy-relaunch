@@ -325,6 +325,49 @@ body {
   }
 }
 
+/* Tier-Cards — Pricing mit ungleicher Gewichtung (T2 erhöht = Ziel-Paket) */
+.tier-card {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(247, 233, 154, 0.14);
+  background: var(--bg-raised);
+  padding: 28px;
+  transition:
+    border-color var(--resize-dur) var(--resize-ease),
+    transform var(--resize-dur) var(--resize-ease);
+}
+.tier-card:hover {
+  border-color: rgba(247, 233, 154, 0.3);
+  transform: translateY(-2px);
+}
+.tier-card-hero {
+  background: var(--bg-elevated);
+  border-color: rgba(247, 233, 154, 0.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 243, 0.08),
+    0 24px 48px -24px rgba(0, 0, 0, 0.5);
+}
+.tier-badge {
+  position: absolute;
+  top: -11px;
+  left: 24px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: var(--ink-yellow);
+  color: var(--bg-base);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tier-card .t-stat {
+  font-size: 32px;
+}
+.hero-chrome-url {
+  color: rgba(255, 253, 243, 0.7);
+}
+
 /* Founder-Plate — licht-modelliertes Studio-Portrait, gerahmt wie die
    Proof-Plates (Rim-Light + Glare beim Hover) */
 .founder-plate {

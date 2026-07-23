@@ -3,141 +3,207 @@ import Image from "next/image";
 import { Section, SectionHead } from "@/components/Section";
 import { AuditTool } from "@/components/AuditTool";
 import { Reveal } from "@/components/Reveal";
+import { HeroHeadline } from "@/components/HeroHeadline";
+import { rich, lines } from "@/components/RichText";
+import { getContent } from "@/lib/content";
 
-export default function HomePage() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const c = await getContent();
+
+  const jsonLd = buildJsonLd(c);
+  const tiers = [
+    {
+      id: "fundament",
+      name: c["pricing.tier1_name"],
+      result: c["pricing.tier1_result"],
+      price: c["pricing.tier1_price"],
+      features: lines(c["pricing.tier1_features"]),
+      badge: null as string | null,
+    },
+    {
+      id: "vertriebssystem",
+      name: c["pricing.tier2_name"],
+      result: c["pricing.tier2_result"],
+      price: c["pricing.tier2_price"],
+      features: lines(c["pricing.tier2_features"]),
+      badge: c["pricing.tier2_badge"] || null,
+    },
+    {
+      id: "betriebssystem",
+      name: c["pricing.tier3_name"],
+      result: c["pricing.tier3_result"],
+      price: c["pricing.tier3_price"],
+      features: lines(c["pricing.tier3_features"]),
+      badge: null as string | null,
+    },
+  ];
+
   return (
     <>
       {/* Strukturierte Daten — einzige erlaubte dangerouslySetInnerHTML-Stelle
-          (JSON.stringify über statische Daten, kein Nutzer-Input). */}
+          (JSON.stringify über CMS-/Code-Daten, kein Nutzer-Input). */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* 01 — HERO + TOOL */}
+
+      {/* 01 — HERO · proof-first: Kernsatz links, klickbare Live-Referenz rechts */}
       <section className="section-band section-band-base relative overflow-hidden">
         <div className="hero-lamp" aria-hidden />
-        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-24 relative z-[1]">
-          <div className="mx-auto max-w-[1000px] text-center">
-            <Reveal>
-              <p className="t-label">
-                Digitale Vertriebssysteme · Finance &amp; Real Estate
-              </p>
-            </Reveal>
-            <Reveal delay={60}>
-              <h1 className="t-display mt-4">
-                Die erste <em>Empfehlung</em> kommt heute von Google und&nbsp;ChatGPT.
-              </h1>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="t-body-lg mt-5 mx-auto max-w-[560px]">
-                Wir bauen Finanz- und Immobilienunternehmen das Vertriebssystem,
-                das dafür sorgt, dass beide auf Sie zeigen.
-              </p>
-            </Reveal>
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-20 relative z-[1]">
+          <div className="grid md:grid-cols-12 gap-10 items-center">
+            <div className="md:col-span-6">
+              <Reveal>
+                <p className="t-label">{c["hero.eyebrow"]}</p>
+              </Reveal>
+              <Reveal delay={60}>
+                <HeroHeadline
+                  variants={{
+                    default: {
+                      title: c["hero.title"],
+                      subtitle: c["hero.subtitle"],
+                    },
+                    ad: {
+                      title: c["heroad.title"],
+                      subtitle: c["heroad.subtitle"],
+                    },
+                    video: {
+                      title: c["herovideo.title"],
+                      subtitle: c["herovideo.subtitle"],
+                    },
+                  }}
+                />
+              </Reveal>
+              <Reveal delay={140}>
+                <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <Link href="/termin" className="btn-primary">
+                    {c["cta.primary"]}
+                    <span aria-hidden>→</span>
+                  </Link>
+                  <a href="#tool" className="btn-secondary">
+                    Sichtbarkeits-Check
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+
+            <div className="md:col-span-6">
+              <Reveal delay={200}>
+                <a
+                  href="https://riegel.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group"
+                >
+                  <figure className="case-plate">
+                    <div className="case-chrome">
+                      <span className="case-dot" aria-hidden />
+                      <span className="case-dot" aria-hidden />
+                      <span className="case-dot" aria-hidden />
+                      <span className="t-data ml-1 truncate hero-chrome-url">
+                        riegel.vercel.app
+                      </span>
+                    </div>
+                    <Image
+                      src="/proof/riegel.jpg"
+                      alt="Live-Referenz: RIEGEL Immobilien"
+                      width={1280}
+                      height={800}
+                      className="case-shot"
+                      priority
+                      sizes="(max-width: 768px) 90vw, 540px"
+                    />
+                    <span className="case-glare" aria-hidden />
+                  </figure>
+                  <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
+                    <span className="t-data">{c["hero.plate_context"]}</span>
+                    <span className="t-data is-accent">{c["hero.plate_hint"]} ↗</span>
+                  </div>
+                </a>
+              </Reveal>
+            </div>
           </div>
 
-          <Reveal delay={200}>
-            <div className="mt-12">
-              <AuditTool />
-            </div>
-          </Reveal>
-
           <Reveal delay={280}>
-            <p className="t-data text-center mt-8">
-              Systeme hinter RIEGEL Immobilien · SAADI AG · Königswege · acta
-            </p>
+            <p className="t-data text-center mt-12">{c["hero.proof_line"]}</p>
           </Reveal>
         </div>
       </section>
 
-      {/* 02 — STATUS-QUO-KOSTEN (gelbe Bühne) */}
+      {/* 02 — SICHTBARKEITS-CHECK */}
+      <Section id="check" tone="raised">
+        <SectionHead
+          eyebrow={c["check.eyebrow"]}
+          title={rich(c["check.title"])}
+          intro={c["check.intro"]}
+        />
+        <AuditTool />
+      </Section>
+
+      {/* 03 — STATUS-QUO-KOSTEN (Gelb-Bühne) */}
       <Section id="kosten" tone="bright">
         <SectionHead
-          eyebrow="01 · Was sich geändert hat"
-          title={
-            <>
-              Der Weg zum Auftrag beginnt nicht mehr auf Ihrer{" "}
-              <em className="em-cream">Website</em>.
-            </>
-          }
-          intro="Eigentümer und Anleger prüfen Anbieter zuerst in Google-AI-Übersichten und Chat-Assistenten. Wer dort nicht vorkommt, verliert Aufträge unbemerkt."
+          eyebrow={c["kosten.eyebrow"]}
+          title={rich(c["kosten.title"])}
+          intro={c["kosten.intro"]}
         />
         <div className="grid md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7">
             <ol className="space-y-4">
-              {[
-                {
-                  k: "Früher",
-                  v: "Suche → zehn blaue Links → Ihre Website → Anruf.",
-                },
-                {
-                  k: "Heute",
-                  v: "Frage an Google oder ChatGPT → eine Antwort mit zwei, drei Namen → Anruf beim Erstgenannten.",
-                },
-                {
-                  k: "Konsequenz",
-                  v: "Die Antwort der Maschine ist die neue erste Filterstufe. Sie findet statt, bevor Sie vom Interessenten erfahren.",
-                },
-              ].map((row) => (
-                <li key={row.k} className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline">
-                  <span className="t-label shrink-0 md:w-28 pt-1">{row.k}</span>
-                  <p className="t-body is-cream">{row.v}</p>
+              {[1, 2, 3].map((n) => (
+                <li
+                  key={n}
+                  className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline"
+                >
+                  <span className="t-label shrink-0 md:w-28 pt-1">
+                    {c[`kosten.row${n}_label`]}
+                  </span>
+                  <p className="t-body is-cream">{c[`kosten.row${n}_text`]}</p>
                 </li>
               ))}
             </ol>
+            <p className="t-body mt-6 max-w-[560px]">{c["kosten.agentur"]}</p>
           </div>
           <div className="md:col-span-5">
             <div className="panel rounded-2xl p-6">
               <p className="t-stat">
-                58,5<span className="t-data"> %</span>
+                {c["kosten.stat"]}
+                <span className="t-data"> %</span>
               </p>
-              <p className="t-body mt-3 is-cream">
-                der Google-Suchen enden bereits ohne Klick auf eine Website.
-              </p>
-              <p className="t-data mt-4">Quelle · SparkToro/Datos, 2024</p>
+              <p className="t-body mt-3 is-cream">{c["kosten.stat_text"]}</p>
+              <p className="t-data mt-4">{c["kosten.stat_source"]}</p>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* 03 — PROOF */}
+      {/* 04 — REFERENZEN */}
       <Section id="proof" tone="base">
         <SectionHead
-          eyebrow="02 · Referenzen"
-          title={
-            <>
-              Zwei Systeme, die es <em>beweisen</em>.
-            </>
-          }
-          intro="Beide live, beide im Vertrieb im Einsatz, beide von einem Operator gebaut."
+          eyebrow={c["proof.eyebrow"]}
+          title={rich(c["proof.title"])}
+          intro={c["proof.intro"]}
         />
         <div className="grid md:grid-cols-2 gap-5">
           <CaseCard
             client="RIEGEL Immobilien"
-            branch="Immobilienmakler · Rhein-Neckar"
+            branch={c["proof.riegel_branch"]}
             href="https://riegel.vercel.app"
             image={{ src: "/proof/riegel.jpg", alt: "Startseite von RIEGEL Immobilien" }}
-            facts={[
-              "207 Unterseiten · Preisatlas für 33 Städte",
-              "Immobilien-Rechner: Bewertung in 60 Sekunden",
-              "onOffice-Anbindung · Portal · Terminbuchung",
-            ]}
-            mechanic="Der Rechner holt die Eigentümer-Anfrage, die Standortseiten machen Riegel zur zitierbaren Antwort, onOffice macht daraus einen Vertriebsprozess."
+            facts={lines(c["proof.riegel_facts"])}
+            mechanic={c["proof.riegel_mechanic"]}
           />
           <CaseCard
             client="SAADI AG"
-            branch="Wohnungsprivatisierung · Mannheim"
+            branch={c["proof.saadi_branch"]}
             href="https://saadi-ag.vercel.app"
             image={{ src: "/proof/saadi.jpg", alt: "Startseite der SAADI AG" }}
-            facts={[
-              "Vertriebspartner-Funnel mit Qualifizierungslogik",
-              "Produkt-Strecken mit Gutachten & Prospekt-Standards",
-              "ImmoCampus als zweite Rekrutierungs-Rampe",
-            ]}
-            mechanic="Die Partner-Strecke qualifiziert Vertriebe, disqualifiziert früh — und rekrutiert dadurch planbar statt zufällig."
+            facts={lines(c["proof.saadi_facts"])}
+            mechanic={c["proof.saadi_mechanic"]}
           />
         </div>
-        {/* Legacy-Proof: echte Kunden-Logos (BunnyCDN), cream-monochrom vereinheitlicht */}
         <div className="logo-rail mt-10" aria-label="Frühere Kunden">
           {[
             { src: "https://beuwy-2.b-cdn.net/studio/1778235632911-Vision_Blue_2021_digital.svg", alt: "Vision Real Estate" },
@@ -151,145 +217,117 @@ export default function HomePage() {
             <img key={l.alt} src={l.src} alt={l.alt} className="logo-rail-item" loading="lazy" />
           ))}
         </div>
-        <p className="t-data mt-4">
-          Davor · Vision Real Estate (KKR-Joint-Venture 2023, vision.de) ·
-          Königswege (170 → 2.240 Partner, cash-online 2024) · acta (48,4 M€
-          Volumen über Social-Funnel, intern)
-        </p>
+        <p className="t-data mt-4">{c["proof.legacy_line"]}</p>
       </Section>
 
-      {/* 04 — DAS SYSTEM (gelbe Bühne) */}
+      {/* 05 — LEISTUNGSPAKETE (Anker + Decoy, T2 erhöht) */}
+      <Section id="pakete" tone="raised">
+        <SectionHead
+          eyebrow={c["pricing.eyebrow"]}
+          title={rich(c["pricing.title"])}
+          intro={c["pricing.intro"]}
+        />
+        <div className="grid md:grid-cols-3 gap-5 items-stretch">
+          {tiers.map((t, i) => (
+            <Reveal key={t.id} delay={i * 70}>
+              <div
+                className={`tier-card h-full flex flex-col ${t.badge ? "tier-card-hero" : ""}`}
+              >
+                {t.badge && <span className="tier-badge">{t.badge}</span>}
+                <h3 className="t-h3">{t.name}</h3>
+                <p className="t-small mt-2">{t.result}</p>
+                <p className="t-stat mt-5">{t.price}</p>
+                <ul className="mt-5 space-y-2 flex-1">
+                  {t.features.map((f) => (
+                    <li key={f} className="t-small is-cream flex gap-2">
+                      <span className="t-data shrink-0">·</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Link
+                    href="/termin"
+                    className={t.badge ? "btn-primary w-full justify-center" : "btn-secondary w-full justify-center"}
+                  >
+                    {c["pricing.cta"]}
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-8 grid md:grid-cols-2 gap-x-10 gap-y-2 max-w-[880px]">
+          <p className="t-small is-cream">{c["pricing.speed"]}</p>
+          <p className="t-small is-cream">{c["pricing.effort"]}</p>
+          <p className="t-small">{c["pricing.garantie1"]}</p>
+          <p className="t-small">{c["pricing.garantie2"]}</p>
+        </div>
+        <p className="t-data mt-6 max-w-[720px]">{c["pricing.agentur_vergleich"]}</p>
+      </Section>
+
+      {/* 06 — ARBEITSWEISE (Gelb-Bühne) */}
       <Section id="system" tone="bright">
         <SectionHead
-          eyebrow="03 · Das System"
-          title={
-            <>
-              Eine Website verkauft nicht. Ein <em>System</em> schon.
-            </>
-          }
-          intro="Vier Ebenen, die ineinandergreifen — gedacht von Ihrem Vertriebsprozess her, nicht von der Startseite."
+          eyebrow={c["system.eyebrow"]}
+          title={rich(c["system.title"])}
+          intro={c["system.intro"]}
         />
         <div className="space-y-4">
-          {[
-            {
-              num: "01",
-              t: "Marke",
-              d: "Eine Positionierung, die ein Kunde nachsprechen und eine Maschine zitieren kann.",
-              ex: "SAADI · „Produktgeber, keine Verkäufer“ — ein Satz, den Partner weitertragen",
-            },
-            {
-              num: "02",
-              t: "Website + Werkzeuge",
-              d: "Rechner, Portale, Buchung: Werkzeuge, die dem Besucher sofort etwas geben — und Ihnen die Anfrage.",
-              ex: "RIEGEL · Immorechner, 60 Sekunden, ohne Anmeldung",
-            },
-            {
-              num: "03",
-              t: "AI-Sichtbarkeit",
-              d: "Strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden.",
-              ex: "RIEGEL · Preisatlas + Standortseiten als zitierbare Datenquelle",
-            },
-            {
-              num: "04",
-              t: "Prozess + CRM",
-              d: "Jede Anfrage landet dort, wo Ihr Vertrieb arbeitet — nicht in einem Posteingang.",
-              ex: "RIEGEL · onOffice-Anbindung · SAADI · Partner-Qualifizierungsstrecke",
-            },
-          ].map((l) => (
-            <Reveal key={l.num}>
+          {[1, 2, 3, 4].map((n) => (
+            <Reveal key={n}>
               <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
                 <div className="md:col-span-4 flex items-baseline gap-4">
-                  <span className="t-data">{l.num}</span>
-                  <h3 className="t-h3">{l.t}</h3>
+                  <span className="t-data">0{n}</span>
+                  <h3 className="t-h3">{c[`system.row${n}_title`]}</h3>
                 </div>
-                <p className="t-body md:col-span-5">{l.d}</p>
-                <p className="t-data md:col-span-3">{l.ex}</p>
+                <p className="t-body md:col-span-5">{c[`system.row${n}_text`]}</p>
+                <p className="t-data md:col-span-3">{c[`system.row${n}_example`]}</p>
               </div>
             </Reveal>
           ))}
         </div>
       </Section>
 
-      {/* 05 — PROZESS */}
+      {/* 07 — PROZESS & QUALIFIZIERUNG */}
       <Section id="prozess" tone="base">
         <SectionHead
-          eyebrow="04 · Prozess"
-          title={
-            <>
-              Erst die <em>Diagnose</em>, dann das System.
-            </>
-          }
-          intro="Festpreis, fester Umfang, ein Ansprechpartner — der, der es baut."
+          eyebrow={c["process.eyebrow"]}
+          title={rich(c["process.title"])}
+          intro={c["process.intro"]}
         />
         <div className="space-y-0">
-          {[
-            {
-              num: "01",
-              t: "Systemgespräch",
-              meta: "30 Minuten · kostenlos",
-              d: "Ihr Vertriebsweg, der Check Ihrer Website, eine ehrliche Einschätzung. Danach wissen Sie, ob eine Diagnose sinnvoll ist — auch wenn wir nie zusammenarbeiten.",
-            },
-            {
-              num: "02",
-              t: "Diagnose",
-              meta: "1.990 € · voll angerechnet",
-              d: "Ein Dokument über Ihren digitalen Vertriebsweg: wo Anfragen entstehen, wo sie verloren gehen, was das System leisten muss. Es gehört Ihnen — samt Systemvorschlag in drei Ausbaustufen.",
-            },
-            {
-              num: "03",
-              t: "Systembau",
-              meta: "3–5 Wochen · ab 16.000 €",
-              d: "Marke, Website, Werkzeuge, CRM-Anbindung, AI-Sichtbarkeit — live, nicht als Konzept. Danach Betrieb und Ausbau, wenn Sie wollen.",
-            },
-          ].map((step) => (
-            <Reveal key={step.num}>
+          {[1, 2, 3].map((n) => (
+            <Reveal key={n}>
               <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
                 <div className="md:col-span-3 flex items-baseline gap-4">
-                  <span className="t-data">{step.num}</span>
-                  <h3 className="t-h3">{step.t}</h3>
+                  <span className="t-data">0{n}</span>
+                  <h3 className="t-h3">{c[`process.step${n}_title`]}</h3>
                 </div>
-                <p className="t-body md:col-span-6">{step.d}</p>
-                <p className="t-data md:col-span-3 md:text-right">{step.meta}</p>
+                <p className="t-body md:col-span-6">{c[`process.step${n}_text`]}</p>
+                <p className="t-data md:col-span-3 md:text-right">
+                  {c[`process.step${n}_meta`]}
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
+        <p className="t-body mt-8 max-w-[560px] is-cream">{c["process.capacity"]}</p>
       </Section>
 
-      {/* 06 — FOUNDER · Studio-Portrait als licht-modellierte Plate (BunnyCDN) */}
+      {/* 08 — FOUNDER */}
       <Section id="founder" tone="raised">
         <div className="grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-7">
-            <SectionHead
-              eyebrow="05 · Wer baut"
-              title={
-                <>
-                  Sie sprechen mit dem, der es <em className="em-cream">baut</em>.
-                </>
-              }
-            />
-            <p className="t-body-lg max-w-[560px]">
-              Alexander Pütter arbeitet seit 2009 an Marken — erst für
-              Bosch-Gruppe, Continental und Michelin, seit 2017 mit beuwy für
-              inhabergeführte Unternehmen. 2023 hat er acta mitgegründet und den
-              Vertrieb selbst skaliert: 315 verkaufte Wohnungen über einen
-              Social-Media-Funnel, mitten in der Zinskrise.
-            </p>
-            <p className="t-body-lg mt-5 max-w-[560px] is-cream">
-              Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.
-            </p>
+            <SectionHead eyebrow={c["founder.eyebrow"]} title={rich(c["founder.title"])} />
+            <p className="t-body-lg max-w-[560px]">{c["founder.text1"]}</p>
+            <p className="t-body-lg mt-5 max-w-[560px] is-cream">{c["founder.text2"]}</p>
+            <p className="t-body mt-5 max-w-[560px]">{c["founder.solo"]}</p>
             <div className="mt-8 max-w-[560px]">
-              {[
-                { k: "2009–2017", v: "Markenarbeit · Bosch-Gruppe, Continental, Michelin" },
-                { k: "seit 2017", v: "beuwy · Systeme für Finance & Real Estate" },
-                { k: "2023–2025", v: "acta · 315 Wohnungen, Ø Ticket 153.842 € (intern)" },
-              ].map((row) => (
-                <div
-                  key={row.k}
-                  className="flex flex-col md:flex-row gap-1 md:gap-4 py-3 border-t hairline"
-                >
-                  <span className="t-data shrink-0 md:w-24">{row.k}</span>
-                  <p className="t-small is-cream">{row.v}</p>
+              {[1, 2, 3].map((n) => (
+                <div key={n} className="py-3 border-t hairline">
+                  <p className="t-data">{c[`founder.fact${n}`]}</p>
                 </div>
               ))}
             </div>
@@ -306,62 +344,56 @@ export default function HomePage() {
               />
               <span className="case-glare" aria-hidden />
             </figure>
-            <figcaption className="t-data mt-3">
-              Alexander Pütter · Ludwigshafen am Rhein
-            </figcaption>
+            <figcaption className="t-data mt-3">{c["founder.caption"]}</figcaption>
           </div>
         </div>
       </Section>
 
-      {/* 07 — FAQ */}
+      {/* 09 — FAQ */}
       <Section id="faq" tone="base">
-        <SectionHead
-          eyebrow="06 · Fragen"
-          title={
-            <>
-              Die Fragen, die im ersten Gespräch <em className="em-cream">immer</em> kommen.
-            </>
-          }
-        />
+        <SectionHead eyebrow={c["faq.eyebrow"]} title={rich(c["faq.title"])} />
         <div className="max-w-[760px]">
-          {FAQ_ITEMS.map((f) => (
-            <details key={f.q} className="faq-item group border-b hairline py-5">
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <details key={n} className="faq-item group border-b hairline py-5">
               <summary className="t-h3 cursor-pointer list-none flex items-baseline justify-between gap-6">
-                {f.q}
+                {c[`faq.q${n}`]}
                 <span className="t-data shrink-0" aria-hidden>
                   +
                 </span>
               </summary>
-              <p className="t-body mt-3 max-w-[560px]">{f.a}</p>
+              <p className="t-body mt-3 max-w-[560px]">{c[`faq.a${n}`]}</p>
             </details>
           ))}
         </div>
       </Section>
 
-      {/* 08 — CTA (einzige invertierte Gelb-Sektion) */}
+      {/* 10 — CTA (Gelb-Bühne, Qualifizierungs-Frame) */}
       <section id="kontakt" className="cta-invert">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
           <Reveal>
-            <h2 className="t-h2 cta-invert-ink mx-auto max-w-[640px]">
-              Der nächste Schritt ist ein Gespräch, kein Pitch.
-            </h2>
+            <h2 className="t-h2 cta-invert-ink mx-auto max-w-[640px]">{c["cta.title"]}</h2>
           </Reveal>
           <Reveal delay={80}>
-            <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[480px]">
-              30 Minuten, Video oder Telefon. Sie gehen mit einer ehrlichen
-              Einschätzung raus — auch wenn wir nie zusammenarbeiten.
+            <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[520px]">
+              {c["cta.text"]}
             </p>
           </Reveal>
           <Reveal delay={160}>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link href="/termin" className="btn-inverse">
-                Systemgespräch buchen
+                {c["cta.primary"]}
                 <span aria-hidden>→</span>
               </Link>
-              <Link href="/#tool" className="cta-invert-ink t-small underline underline-offset-4">
-                Oder zuerst: der Website-Check
-              </Link>
+              <a
+                href="mailto:ap@beuwy.com?subject=Video-Analyse%20anfordern&body=Meine%20Domain%3A%20"
+                className="cta-invert-ink t-small underline underline-offset-4"
+              >
+                {c["cta.secondary"]}
+              </a>
             </div>
+          </Reveal>
+          <Reveal delay={220}>
+            <p className="cta-invert-ink t-data mt-5">{c["cta.meta"]}</p>
           </Reveal>
         </div>
       </section>
@@ -369,100 +401,59 @@ export default function HomePage() {
   );
 }
 
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ProfessionalService",
-      "@id": "https://beuwy.com/#org",
-      name: "beuwy",
-      description:
-        "Digitale Vertriebssysteme für Finanz- und Immobilienunternehmen: Marke, Website, Werkzeuge, CRM-Anbindung und AI-Sichtbarkeit — als ein System, zum Festpreis.",
-      url: "https://beuwy.com",
-      email: "ap@beuwy.com",
-      founder: { "@type": "Person", name: "Alexander Pütter" },
-      foundingDate: "2017",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Mendelssohnstraße 52",
-        postalCode: "67061",
-        addressLocality: "Ludwigshafen am Rhein",
-        addressCountry: "DE",
+function buildJsonLd(c: Record<string, string>) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://beuwy.com/#org",
+        name: "beuwy",
+        description:
+          "Verkaufsfertige Portale, Custom CRMs und KI-Automatisierungen als Festpreisprojekte für Finanz-, Immobilien- und Medizinunternehmen.",
+        url: "https://beuwy.com",
+        email: "ap@beuwy.com",
+        founder: { "@type": "Person", name: "Alexander Pütter" },
+        foundingDate: "2017",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Mendelssohnstraße 52",
+          postalCode: "67061",
+          addressLocality: "Ludwigshafen am Rhein",
+          addressCountry: "DE",
+        },
+        areaServed: "DE",
+        priceRange: "ab 7.900 €",
+        knowsAbout: [
+          "Digitale Vertriebssysteme",
+          "KI-Automatisierung",
+          "Custom CRM",
+          "Generative Engine Optimization",
+          "Websites für Immobilienmakler",
+          "Websites für Finanzvertriebe",
+          "CRM-Anbindung (onOffice)",
+        ],
       },
-      areaServed: "DE",
-      priceRange: "ab 16.000 €",
-      knowsAbout: [
-        "Digitale Vertriebssysteme",
-        "AI-Sichtbarkeit / Generative Engine Optimization",
-        "Websites für Immobilienmakler",
-        "Websites für Finanzvertriebe",
-        "CRM-Anbindung (onOffice)",
-        "Markenpositionierung",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://beuwy.com/#website",
-      url: "https://beuwy.com",
-      name: "beuwy",
-      inLanguage: "de",
-      publisher: { "@id": "https://beuwy.com/#org" },
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://beuwy.com/#faq",
-      mainEntity: [
-        {
-          q: "Was kostet ein Vertriebssystem?",
-          a: "Projekte beginnen bei 16.000 € — als Festpreis mit drei Ausbaustufen, Zahlungsplan 40/40/20. Zum Vergleich: weniger als ein halbes Jahresgehalt eines Vertriebsmitarbeiters, für ein System, das nicht kündigt.",
-        },
-        {
-          q: "Wie lange dauert der Bau?",
-          a: "Drei bis fünf Wochen vom Kickoff bis zum Livegang — inklusive Inhalte, Werkzeuge und CRM-Anbindung, dank AI-gestützter Produktion und erprobter Systembibliothek.",
-        },
-        {
-          q: "Warum keine klassische Agentur?",
-          a: "Agenturen verkaufen Kampagnen und Stunden. beuwy denkt wie ein Berater — erst die Diagnose des Vertriebsprozesses — und liefert wie ein Produkt: Festpreis, fester Umfang, live. Sie sprechen mit dem, der es baut.",
-        },
-        {
-          q: "Was heißt AI konkret?",
-          a: "Sichtbarkeit in AI-Antworten (strukturierte Daten, zitierfähige Inhalte), AI-gestützte Produktion (deshalb der Festpreis) und Automationen im Vertriebsprozess.",
-        },
-      ].map((f) => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    },
-  ],
-};
-
-const FAQ_ITEMS = [
-  {
-    q: "Was kostet ein Vertriebssystem?",
-    a: "Projekte beginnen bei 16.000 € — als Festpreis mit drei Ausbaustufen, Zahlungsplan 40/40/20. Zum Vergleich: weniger als ein halbes Jahresgehalt eines Vertriebsmitarbeiters, für ein System, das nicht kündigt.",
-  },
-  {
-    q: "Wie lange dauert der Bau?",
-    a: "Drei bis fünf Wochen vom Kickoff bis zum Livegang — inklusive Inhalte, Werkzeuge und CRM-Anbindung. Möglich ist das, weil wir mit AI-gestützter Produktion arbeiten und auf eine erprobte Systembibliothek aufsetzen.",
-  },
-  {
-    q: "Warum keine klassische Agentur?",
-    a: "Agenturen verkaufen Kampagnen und Stunden. Wir denken wie Berater — erst die Diagnose Ihres Vertriebsprozesses — und liefern wie ein Produkt: Festpreis, fester Umfang, live. Und Sie sprechen mit dem, der es baut.",
-  },
-  {
-    q: "Was heißt „AI“ hier konkret?",
-    a: "Drei Dinge. Erstens Sichtbarkeit: strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden. Zweitens Produktion: AI-gestützter Bau — deshalb der Festpreis. Drittens Prozesse: Automationen dort, wo Ihr Vertrieb Zeit verliert.",
-  },
-  {
-    q: "Was passiert im Systemgespräch?",
-    a: "30 Minuten, Video oder Telefon. Wir schauen gemeinsam auf Ihren Vertriebsweg und den Check Ihrer Website. Danach wissen Sie, ob eine Diagnose sinnvoll ist — es ist ein Gespräch, kein getarnter Pitch.",
-  },
-  {
-    q: "Und die Diagnose?",
-    a: "Ein bezahltes Dokument (1.990 €), das Ihnen gehört: Ihr digitaler Vertriebsweg, die Lücken, der Systemvorschlag in drei Ausbaustufen. Beauftragen Sie das System, wird die Diagnose voll angerechnet.",
-  },
-];
+      {
+        "@type": "WebSite",
+        "@id": "https://beuwy.com/#website",
+        url: "https://beuwy.com",
+        name: "beuwy",
+        inLanguage: "de",
+        publisher: { "@id": "https://beuwy.com/#org" },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://beuwy.com/#faq",
+        mainEntity: [1, 2, 3, 4, 5, 6].map((n) => ({
+          "@type": "Question",
+          name: c[`faq.q${n}`],
+          acceptedAnswer: { "@type": "Answer", text: c[`faq.a${n}`] },
+        })),
+      },
+    ],
+  };
+}
 
 /* quote bleibt leer, bis die O-Töne über Kanal B (Masterplan §4) vorliegen —
    keine erfundenen Kundenstimmen (Anti-Slop-Regel 1). */
@@ -496,9 +487,7 @@ function CaseCard({
           <span className="case-dot" aria-hidden />
           <span className="case-dot" aria-hidden />
           <span className="case-dot" aria-hidden />
-          <span className="t-data ml-1 truncate" style={{ color: "rgba(255,253,243,0.7)" }}>
-            {displayUrl}
-          </span>
+          <span className="t-data ml-1 truncate hero-chrome-url">{displayUrl}</span>
         </div>
         <Image
           src={image.src}
