@@ -83,7 +83,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Abschluss
 
-- [ ] **M1 · Morgenreport:** docs/MORGENREPORT.md — was live ist (Preview-URL),
+- [x] **M1 · Morgenreport:** docs/MORGENREPORT.md — was live ist (Preview-URL),
   was entschieden wurde, Screenshots, offene Fragen aus Masterplan §9,
   priorisierte Nächste-Schritte-Liste für den Tag, Loom-Drehbuch-Verweis.
   Danach: Loop mit stop beenden.
