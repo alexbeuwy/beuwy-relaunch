@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["@sparticuz/chromium", "playwright-core", "puppeteer-core"],
+  // Sparticuz-Chromium liegt als .br-Binaries in bin/ — Next traced die
+  // dynamischen Reads nicht, ohne diese Zeile fehlt Chromium im Bundle.
+  outputFileTracingIncludes: {
+    "/api/audit/scan": ["./node_modules/@sparticuz/chromium/bin/**"],
+  },
   async redirects() {
     // One-Pager-Konsolidierung (Masterplan §5): alte Unterseiten -> Anker
     return [

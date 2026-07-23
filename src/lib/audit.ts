@@ -257,12 +257,20 @@ export async function takeScreenshot(url: string): Promise<string | null> {
   );
   return Promise.race([
     attempt.catch((e) => {
-      console.error(
-        "[screenshot] fehlgeschlagen:",
-        e instanceof Error ? e.message.split("\n").slice(0, 3).join(" | ") : e
-      );
+      const msg =
+        e instanceof Error
+          ? e.message.split("\n").slice(0, 3).join(" | ")
+          : String(e);
+      console.error("[screenshot] fehlgeschlagen:", msg);
+      lastScreenshotError = msg;
       return null;
     }),
     timeout,
   ]);
+}
+
+/** Nur für Debug-Zwecke im Scan-Endpoint (debug:true) — kein Statehandling. */
+export let lastScreenshotError: string | null = null;
+export function getLastScreenshotError() {
+  return lastScreenshotError;
 }

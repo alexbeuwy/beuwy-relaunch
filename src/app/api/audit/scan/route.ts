@@ -7,6 +7,7 @@ import {
   runChecks,
   extractText,
   takeScreenshot,
+  getLastScreenshotError,
 } from "@/lib/audit";
 
 /**
@@ -19,7 +20,7 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  let body: { domain?: string };
+  let body: { domain?: string; debug?: boolean };
   try {
     body = await req.json();
   } catch {
@@ -62,5 +63,8 @@ export async function POST(req: Request) {
     techScore,
     pageText: extractText(page.html),
     generated_at: new Date().toISOString(),
+    ...(body.debug && !screenshot
+      ? { screenshotError: getLastScreenshotError() }
+      : {}),
   });
 }
