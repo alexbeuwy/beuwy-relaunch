@@ -54,6 +54,19 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
+          <h2 className="t-h3">3a. Terminbuchung</h2>
+          <p className="t-body mt-3">
+            Wenn Sie über unser Buchungstool einen Termin anfragen, verarbeiten
+            wir die von Ihnen angegebenen Daten (Anlass, Wunschtermin, Name,
+            E-Mail, ggf. Telefonnummer und Nachricht) zur Vereinbarung und
+            Durchführung des Gesprächs (Art. 6 Abs. 1 lit. b DSGVO). Für den
+            Versand der Bestätigungs-E-Mails setzen wir Resend Inc. (USA) als
+            Auftragsverarbeiter ein; die Übermittlung erfolgt auf Grundlage der
+            EU-Standardvertragsklauseln.
+          </p>
+        </section>
+
+        <section>
           <h2 className="t-h3">4. Kontakt per E-Mail</h2>
           <p className="t-body mt-3">
             Wenn Sie uns per E-Mail kontaktieren, verarbeiten wir Ihre Angaben

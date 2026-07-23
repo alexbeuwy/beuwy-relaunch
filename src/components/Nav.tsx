@@ -45,7 +45,7 @@ export function Nav() {
           ))}
         </nav>
 
-        <Link href="/#kontakt" className="btn-primary" style={{ height: 36, padding: "0 16px", fontSize: 13 }}>
+        <Link href="/termin" className="btn-primary" style={{ height: 36, padding: "0 16px", fontSize: 13 }}>
           Systemgespräch
           <span aria-hidden>→</span>
         </Link>

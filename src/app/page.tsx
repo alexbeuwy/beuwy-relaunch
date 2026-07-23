@@ -317,13 +317,10 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={160}>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="mailto:ap@beuwy.com?subject=Systemgespr%C3%A4ch"
-                className="btn-inverse"
-              >
-                Systemgespräch anfragen
+              <Link href="/termin" className="btn-inverse">
+                Systemgespräch buchen
                 <span aria-hidden>→</span>
-              </a>
+              </Link>
               <Link href="/#tool" className="cta-invert-ink t-small underline underline-offset-4">
                 Oder zuerst den Website-Check machen
               </Link>

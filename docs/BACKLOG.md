@@ -41,7 +41,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Aufklapper + FAQPage-Schema), CTA-Sektion (einzige invertierte Gelb-Sektion).
   /impressum + /datenschutz (Daten in MASTERPLAN §5; Datenschutz: Vercel-Hosting,
   Audit-Tool-Verarbeitung, Anthropic-API als Auftragsverarbeiter erwähnen).
-- [ ] **P6b · Buchungssystem aus Riegel portieren (Alex' Wunsch, ersetzt
+- [x] **P6b · Buchungssystem aus Riegel portieren (Alex' Wunsch, ersetzt
   Calendly/mailto als CTA):** Quelle liegt geklont unter /workspace/riegel —
   `src/components/booking-tool.tsx` (562 Z.), `src/app/termin/page.tsx`,
   `src/app/api/booking/route.ts` + libs `email.ts`, `rate-limit.ts`,

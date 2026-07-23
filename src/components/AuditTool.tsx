@@ -295,7 +295,7 @@ export function AuditTool() {
               {phase === "done" && (
                 <div className="mt-6 flex flex-wrap items-center gap-4 border-t hairline pt-6">
                   <a
-                    href="mailto:ap@beuwy.com?subject=Systemgespr%C3%A4ch"
+                    href={`/termin?domain=${encodeURIComponent(scan.domain)}`}
                     className="btn-primary"
                   >
                     Befunde besprechen
