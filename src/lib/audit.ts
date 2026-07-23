@@ -200,32 +200,42 @@ export function extractText(html: string, maxLen = 4000): string {
     nicht blockieren. */
 export async function takeScreenshot(url: string): Promise<string | null> {
   const attempt = (async () => {
-    const { chromium: pw } = await import("playwright-core");
-    let executablePath: string;
-    let args: string[];
-    let proxy: { server: string } | undefined;
     if (process.env.VERCEL) {
+      // Vercel: puppeteer-core + @sparticuz/chromium — die nativ unterstützte
+      // Paarung (playwright-core scheiterte hier am Launch).
       const chromium = (await import("@sparticuz/chromium")).default;
-      executablePath = await chromium.executablePath();
-      args = chromium.args;
-    } else {
-      // Lokale Dev-Umgebung: vorinstalliertes Chromium + Session-Proxy
-      // (TLS-Interception des Proxys -> Zertifikats-Toleranz NUR lokal).
-      executablePath =
-        process.env.LOCAL_CHROMIUM_PATH || "/opt/pw-browsers/chromium";
-      args = [
+      const puppeteer = await import("puppeteer-core");
+      const browser = await puppeteer.launch({
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+        defaultViewport: { width: 1280, height: 800 },
+        headless: "shell",
+      });
+      try {
+        const page = await browser.newPage();
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 12_000 });
+        await new Promise((r) => setTimeout(r, 1200));
+        const buf = await page.screenshot({ type: "jpeg", quality: 70 });
+        return `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`;
+      } finally {
+        await browser.close().catch(() => {});
+      }
+    }
+
+    // Lokale Dev-Umgebung: vorinstalliertes Playwright-Chromium + Session-Proxy
+    // (TLS-Interception des Proxys -> Zertifikats-Toleranz NUR lokal).
+    const { chromium: pw } = await import("playwright-core");
+    const proxyServer = process.env.HTTPS_PROXY || process.env.https_proxy;
+    const browser = await pw.launch({
+      executablePath:
+        process.env.LOCAL_CHROMIUM_PATH || "/opt/pw-browsers/chromium",
+      args: [
         "--no-sandbox",
         "--disable-dev-shm-usage",
         "--ignore-certificate-errors",
-      ];
-      const proxyServer = process.env.HTTPS_PROXY || process.env.https_proxy;
-      if (proxyServer) proxy = { server: proxyServer };
-    }
-    const browser = await pw.launch({
-      executablePath,
-      args,
+      ],
       headless: true,
-      ...(proxy ? { proxy } : {}),
+      ...(proxyServer ? { proxy: { server: proxyServer } } : {}),
       timeout: 15_000,
     });
     try {
