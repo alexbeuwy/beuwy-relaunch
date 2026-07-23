@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,8 @@ const links: { label: string; href: string }[] = [
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const onTermin = pathname === "/termin";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -45,10 +48,18 @@ export function Nav() {
           ))}
         </nav>
 
-        <Link href="/termin" className="btn-secondary btn-sm">
-          Systemgespräch
-          <span aria-hidden>→</span>
-        </Link>
+        {/* Kein Selbstlink: auf /termin führt der CTA zum Website-Check */}
+        {onTermin ? (
+          <Link href="/#tool" className="btn-secondary btn-sm">
+            Website-Check
+            <span aria-hidden>→</span>
+          </Link>
+        ) : (
+          <Link href="/termin" className="btn-secondary btn-sm">
+            Systemgespräch
+            <span aria-hidden>→</span>
+          </Link>
+        )}
       </div>
     </header>
   );

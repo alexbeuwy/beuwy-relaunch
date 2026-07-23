@@ -737,15 +737,6 @@ body {
   }
 }
 
-/* Marquee — kept available, not used on landing anymore */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.marquee {
-  animation: marquee 40s linear infinite;
-}
-
 /* ----------------------------------------------------------
    BUTTONS — tactile :active feedback per taste-skill rule
    ---------------------------------------------------------- */
@@ -916,45 +907,6 @@ body {
   top: 12px;
 }
 
-/* Chips */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  border-radius: 9999px;
-  background: var(--bg-raised);
-  color: var(--ink-cream);
-  font-size: 12px;
-  font-weight: 510;
-  line-height: 16px;
-  letter-spacing: 0.02em;
-  border: 1px solid var(--line-subtle);
-  transition:
-    background var(--resize-dur) var(--resize-ease),
-    border-color var(--resize-dur) var(--resize-ease),
-    color var(--text-swap-dur) var(--text-swap-ease);
-}
-.chip .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ink-yellow);
-  position: relative;
-  animation: chip-dot-pulse var(--badge-pop-dur) var(--badge-pop-ease) infinite alternate;
-  will-change: transform, box-shadow;
-}
-@keyframes chip-dot-pulse {
-  from {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(247, 233, 154, 0.55);
-  }
-  to {
-    transform: scale(1.18);
-    box-shadow: 0 0 0 6px rgba(247, 233, 154, 0);
-  }
-}
-
 /* Cards — card-resize hover + cursor-tracked spotlight (dark-luxe / aceternity card-spotlight) */
 .card {
   position: relative;
@@ -1101,12 +1053,6 @@ body {
   color: var(--bg-base);
   box-shadow: inset 0 0 0 1px rgba(26,4,4,0.55);
 }
-.section-band-bright .chip {
-  background: var(--bg-base);
-  color: var(--ink-yellow);
-  border-color: rgba(26,4,4,0.3);
-}
-.section-band-bright .chip .dot { background: var(--ink-yellow); }
 .section-band-bright .card {
   background: rgba(26,4,4,0.06);
   border-color: rgba(26,4,4,0.18);
@@ -1267,62 +1213,6 @@ select:focus {
   border-bottom: 1px solid var(--line-subtle);
 }
 
-/* Editor live indicator — pop-in feel on first paint, soft pulse after */
-.editor-live-dot {
-  animation:
-    editor-live-pop var(--badge-pop-dur) var(--badge-pop-ease) both,
-    editor-live-pulse 2.4s ease-in-out infinite;
-  animation-delay: 0ms, var(--badge-pop-dur);
-  will-change: transform, opacity;
-}
-@keyframes editor-live-pop {
-  0% { transform: scale(0); opacity: 0; }
-  60% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-@keyframes editor-live-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 233, 154, 0.45); }
-  50% { box-shadow: 0 0 0 5px rgba(247, 233, 154, 0); }
-}
-
-/* Stat counter digits — fail-open: visible in flat yellow by default.
-   When a parent flips to data-shown="true" or data-state="shown" the digits
-   pop in and start a slow metallic sheen sweep. */
-.t-digit {
-  display: inline-block;
-  color: var(--ink-yellow);
-}
-[data-state="hidden"] .t-digit {
-  opacity: 0;
-  transform: translate(
-    calc(var(--digit-dir-x) * var(--digit-distance)),
-    calc(var(--digit-dir-y) * var(--digit-distance))
-  );
-  filter: blur(var(--digit-blur));
-}
-[data-shown="true"] .t-digit,
-[data-state="shown"] .t-digit {
-  animation:
-    t-digit-pop var(--digit-dur) var(--digit-ease) both,
-    t-digit-sheen 4.2s ease-in-out infinite;
-  animation-delay:
-    calc(var(--digit-index, 0) * var(--digit-stagger)),
-    calc(var(--digit-dur) + var(--digit-index, 0) * var(--digit-stagger));
-  background: linear-gradient(
-    110deg,
-    var(--ink-yellow) 0%,
-    var(--ink-yellow) 40%,
-    #FBF1B6 50%,
-    var(--ink-yellow) 60%,
-    var(--ink-yellow) 100%
-  );
-  background-size: 220% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  will-change: transform, opacity, filter, background-position;
-}
 @keyframes t-digit-pop {
   0% {
     opacity: 0;
@@ -1338,18 +1228,7 @@ select:focus {
     filter: blur(0);
   }
 }
-/* Metallic sheen — react-bits/metallic-paint on the proof-stack glyphs. */
-@keyframes t-digit-sheen {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .chip .dot,
-  .editor-live-dot,
-  [data-shown="true"] .t-digit {
-    animation: none !important;
-  }
-  .t-digit { opacity: 1; transform: none; filter: none; }
   .btn-primary > [aria-hidden],
   .btn-secondary > [aria-hidden] {
     transition-duration: 0.01ms !important;
