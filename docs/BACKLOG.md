@@ -145,7 +145,16 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   inkl. Anthropic als AV, keine Cookies/Tracking — im Morgenreport: anwaltlich
   prüfen lassen). CaseCard hat jetzt quote-Prop (leer bis O-Töne da sind,
   keine erfundenen Stimmen). Sektionen 2-5 Copy gesichtet, keine Änderung
-  nötig. Founder/CTA standen schon aus P2. Build grün (9 Seiten). (In-Memory-Cron war weg):
+  nötig. Founder/CTA standen schon aus P2. Build grün (9 Seiten).
+- **P6b (03:20):** Buchungssystem aus Riegel portiert: /termin + BookingTool
+  (Rail, Progress, Honeypot, Consent, .ics + Google-Kalender, Bestätigung erst
+  nach Übermittlung) + /api/booking (Rate-Limit, Validierung, Resend-Mails;
+  ohne RESEND_API_KEY ehrlicher Demo-Modus mit UI-Hinweis + Server-Log) +
+  lib/email + lib/rate-limit. Anlässe: Systemgespräch 30 / Diagnose 45 /
+  Bestandskunde 30; nur Video/Telefon. CTAs → /termin (AuditTool mit
+  ?domain-Prefill). Datenschutz um Terminbuchung/Resend ergänzt.
+  ENV FÜR ALEX: RESEND_API_KEY + EMAIL_TO=ap@beuwy.com auf Vercel setzen.
+- **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert
   den Cron bei Bedarf). Beide werden im M1-Abschluss gelöscht.
