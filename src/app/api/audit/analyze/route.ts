@@ -89,7 +89,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 1700,
+        max_tokens: 2400,
         system: SYSTEM_PROMPT,
         messages: [
           {
@@ -110,6 +110,8 @@ ${pageText || "(kein Text extrahierbar)"}
     });
 
     if (!r.ok) {
+      const errText = await r.text().catch(() => "");
+      console.error("[analyze] API-Fehler:", r.status, errText.slice(0, 300));
       return NextResponse.json({ error: "analysis_failed" }, { status: 502 });
     }
 
@@ -117,10 +119,12 @@ ${pageText || "(kein Text extrahierbar)"}
       content?: Array<{ type: string; text?: string }>;
     };
     const text = data.content?.find((c) => c.type === "text")?.text || "";
-    const cleaned = text
-      .replace(/^```(?:json)?/i, "")
-      .replace(/```\s*$/, "")
-      .trim();
+    // Robust: erstes vollständiges JSON-Objekt extrahieren (Modelle setzen
+    // gelegentlich Text oder Fences um das JSON).
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    const cleaned =
+      start >= 0 && end > start ? text.slice(start, end + 1) : text.trim();
 
     let parsed: {
       score?: number;
@@ -130,7 +134,13 @@ ${pageText || "(kein Text extrahierbar)"}
     };
     try {
       parsed = JSON.parse(cleaned);
-    } catch {
+    } catch (e) {
+      console.error(
+        "[analyze] JSON-Parse fehlgeschlagen:",
+        e instanceof Error ? e.message : e,
+        "| Antwort-Anfang:",
+        text.slice(0, 200)
+      );
       return NextResponse.json({ error: "analysis_failed" }, { status: 502 });
     }
 
