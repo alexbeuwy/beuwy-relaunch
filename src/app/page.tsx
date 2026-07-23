@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Section, SectionHead } from "@/components/Section";
 import { AuditTool } from "@/components/AuditTool";
 import { Reveal } from "@/components/Reveal";
@@ -115,6 +116,7 @@ export default function HomePage() {
             client="RIEGEL Immobilien"
             branch="Immobilienmakler · Rhein-Neckar"
             href="https://riegel.vercel.app"
+            image={{ src: "/proof/riegel.jpg", alt: "Startseite von RIEGEL Immobilien" }}
             facts={[
               "207 Unterseiten · Preisatlas für 33 Städte",
               "Immobilien-Rechner: Bewertung in 60 Sekunden",
@@ -126,6 +128,7 @@ export default function HomePage() {
             client="SAADI AG"
             branch="Wohnungsprivatisierung · Mannheim"
             href="https://saadi-ag.vercel.app"
+            image={{ src: "/proof/saadi.jpg", alt: "Startseite der SAADI AG" }}
             facts={[
               "Vertriebspartner-Funnel mit Qualifizierungslogik",
               "Produkt-Strecken mit Gutachten & Prospekt-Standards",
@@ -436,6 +439,7 @@ function CaseCard({
   client,
   branch,
   href,
+  image,
   facts,
   mechanic,
   quote,
@@ -443,10 +447,12 @@ function CaseCard({
   client: string;
   branch: string;
   href: string;
+  image: { src: string; alt: string };
   facts: string[];
   mechanic: string;
   quote?: { text: string; name: string };
 }) {
+  const displayUrl = href.replace(/^https?:\/\//, "");
   return (
     <a
       href={href}
@@ -454,7 +460,26 @@ function CaseCard({
       rel="noopener noreferrer"
       className="card block h-full group"
     >
-      <div className="flex items-baseline justify-between gap-4">
+      <figure className="case-plate">
+        <div className="case-chrome">
+          <span className="case-dot" aria-hidden />
+          <span className="case-dot" aria-hidden />
+          <span className="case-dot" aria-hidden />
+          <span className="t-data ml-1 truncate" style={{ color: "rgba(255,253,243,0.7)" }}>
+            {displayUrl}
+          </span>
+        </div>
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={1280}
+          height={800}
+          className="case-shot"
+          sizes="(max-width: 768px) 90vw, 540px"
+        />
+        <span className="case-glare" aria-hidden />
+      </figure>
+      <div className="mt-5 flex items-baseline justify-between gap-4">
         <h3 className="t-h3">{client}</h3>
         <span className="t-data">live ↗</span>
       </div>

@@ -246,27 +246,126 @@ body {
   color: var(--ink-yellow);
 }
 
-/* Hero stage lamp — einziger erlaubter Flächen-Gradient (DESIGN-DIRECTION 2.3) */
+/* Proof-Plate — gerahmter Live-Screenshot (dark-luxe framed media + glare) */
+.case-plate {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(247, 233, 154, 0.14);
+  background: var(--bg-elevated);
+  aspect-ratio: 1.9 / 1;
+}
+.case-chrome {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  background: linear-gradient(to bottom, rgba(26, 4, 4, 0.85), rgba(26, 4, 4, 0));
+}
+.case-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 233, 154, 0.22);
+}
+.case-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: scale(1.001);
+  transition: transform 600ms var(--panel-ease);
+}
+.card:hover .case-shot {
+  transform: scale(1.03);
+}
+/* Rim-Light-Kante oben — „teure" Kante (dark-luxe edge highlight) */
+.case-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 253, 243, 0.14);
+}
+/* Glare-Sweep beim Hover */
+.case-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 253, 243, 0.16) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+}
+.card:hover .case-glare {
+  animation: case-glare-sweep 850ms var(--resize-ease);
+}
+@keyframes case-glare-sweep {
+  to {
+    transform: translateX(120%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-shot,
+  .case-glare {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Hero stage lamp — dark-luxe: eine skulptierte Lichtquelle über der Bühne,
+   die das Tool-Panel als Objekt anleuchtet (kein flacher Wash). */
 .hero-lamp {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 60% 45% at 50% 0%,
-    rgba(247, 233, 154, 0.07),
-    transparent 70%
-  );
+  background:
+    /* enger heller Kern — der Scheinwerfer */
+    radial-gradient(
+      ellipse 34% 30% at 50% 2%,
+      rgba(247, 233, 154, 0.12),
+      transparent 62%
+    ),
+    /* breiter weicher Lichthof */
+    radial-gradient(
+      ellipse 72% 52% at 50% -4%,
+      rgba(247, 233, 154, 0.06),
+      transparent 70%
+    );
 }
 
-/* CTA-Invert — die exakt eine gelbe Fläche der Seite */
+/* CTA-Invert — die exakt eine gelbe Fläche der Seite, als lit material
+   statt Flat-Fill: ein feiner Lichtkegel von oben. */
 .cta-invert {
-  background: var(--ink-yellow);
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse 60% 80% at 50% -10%,
+      #FBF1B6,
+      transparent 60%
+    ),
+    var(--ink-yellow);
 }
 .cta-invert-ink,
 .cta-invert-ink em {
   color: var(--bg-base) !important;
 }
 .btn-inverse {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -285,9 +384,32 @@ body {
     transform var(--resize-dur) var(--resize-ease),
     box-shadow var(--resize-dur) var(--resize-ease);
 }
+/* Specular sweep — heller Glanz über der dunklen Fläche (dark-luxe glare-hover) */
+.btn-inverse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(247, 233, 154, 0.22) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform var(--sheen-dur) var(--resize-ease);
+  z-index: 0;
+}
+.btn-inverse:hover::before {
+  transform: translateX(120%);
+}
+.btn-inverse > * {
+  position: relative;
+  z-index: 1;
+}
 .btn-inverse:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px -16px rgba(26, 4, 4, 0.55);
+  box-shadow: 0 16px 34px -16px rgba(26, 4, 4, 0.6);
 }
 .btn-inverse:active {
   transform: scale(0.985);
