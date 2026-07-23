@@ -137,7 +137,21 @@ export default function HomePage() {
             mechanic="Die Partner-Strecke qualifiziert Vertriebe, disqualifiziert früh — und rekrutiert dadurch planbar statt zufällig."
           />
         </div>
-        <p className="t-data mt-8">
+        {/* Legacy-Proof: echte Kunden-Logos (BunnyCDN), cream-monochrom vereinheitlicht */}
+        <div className="logo-rail mt-10" aria-label="Frühere Kunden">
+          {[
+            { src: "https://beuwy-2.b-cdn.net/studio/1778235632911-Vision_Blue_2021_digital.svg", alt: "Vision Real Estate" },
+            { src: "https://beuwy-2.b-cdn.net/studio/1778235743118-Logo_KW_Koenigswege_long_white_Final.svg", alt: "Königswege" },
+            { src: "https://beuwy-2.b-cdn.net/studio/1778233449613-acta_01_lightBG.svg", alt: "acta" },
+            { src: "https://beuwy-2.b-cdn.net/studio/1778240857276-PURELEI_Logo_V3-400.webp", alt: "PURELEI" },
+            { src: "https://beuwy-2.b-cdn.net/studio/1778240981246-getsafe-400.webp", alt: "Getsafe" },
+            { src: "https://beuwy-2.b-cdn.net/studio/1778240914540-GK_Web_Logos-4-400.webp", alt: "GK" },
+          ].map((l) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={l.alt} src={l.src} alt={l.alt} className="logo-rail-item" loading="lazy" />
+          ))}
+        </div>
+        <p className="t-data mt-4">
           Davor · Vision Real Estate (KKR-Joint-Venture 2023, vision.de) ·
           Königswege (170 → 2.240 Partner, cash-online 2024) · acta (48,4 M€
           Volumen über Social-Funnel, intern)
@@ -242,7 +256,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 06 — FOUNDER */}
+      {/* 06 — FOUNDER · Studio-Portrait als licht-modellierte Plate (BunnyCDN) */}
       <Section id="founder" tone="raised">
         <div className="grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-7">
@@ -264,20 +278,37 @@ export default function HomePage() {
             <p className="t-body-lg mt-5 max-w-[560px] is-cream">
               Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.
             </p>
-          </div>
-          <div className="md:col-span-5">
-            <div className="panel rounded-2xl p-6 space-y-4">
+            <div className="mt-8 max-w-[560px]">
               {[
                 { k: "2009–2017", v: "Markenarbeit · Bosch-Gruppe, Continental, Michelin" },
                 { k: "seit 2017", v: "beuwy · Systeme für Finance & Real Estate" },
                 { k: "2023–2025", v: "acta · 315 Wohnungen, Ø Ticket 153.842 € (intern)" },
               ].map((row) => (
-                <div key={row.k} className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline last:border-b-0 last:pb-0">
+                <div
+                  key={row.k}
+                  className="flex flex-col md:flex-row gap-1 md:gap-4 py-3 border-t hairline"
+                >
                   <span className="t-data shrink-0 md:w-24">{row.k}</span>
                   <p className="t-small is-cream">{row.v}</p>
                 </div>
               ))}
             </div>
+          </div>
+          <div className="md:col-span-5">
+            <figure className="founder-plate">
+              <Image
+                src="https://beuwy-2.b-cdn.net/studio/1777968744430-brown_studio_4-cmpr-1600.webp"
+                alt="Alexander Pütter, Gründer von beuwy"
+                width={1600}
+                height={1600}
+                className="founder-shot"
+                sizes="(max-width: 768px) 90vw, 440px"
+              />
+              <span className="case-glare" aria-hidden />
+            </figure>
+            <figcaption className="t-data mt-3">
+              Alexander Pütter · Ludwigshafen am Rhein
+            </figcaption>
           </div>
         </div>
       </Section>

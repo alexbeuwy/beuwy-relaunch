@@ -325,6 +325,61 @@ body {
   }
 }
 
+/* Founder-Plate — licht-modelliertes Studio-Portrait, gerahmt wie die
+   Proof-Plates (Rim-Light + Glare beim Hover) */
+.founder-plate {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(247, 233, 154, 0.14);
+  background: var(--bg-elevated);
+  aspect-ratio: 4 / 5;
+  isolation: isolate;
+}
+.founder-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transform: scale(1.001);
+  transition: transform 700ms var(--panel-ease);
+}
+.founder-plate:hover .founder-shot {
+  transform: scale(1.025);
+}
+.founder-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 253, 243, 0.16);
+}
+.founder-plate:hover .case-glare {
+  animation: case-glare-sweep 850ms var(--resize-ease);
+}
+
+/* Logo-Rail — Legacy-Kunden, cream-monochrom vereinheitlicht (Palette-Disziplin) */
+.logo-rail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px 40px;
+}
+.logo-rail-item {
+  height: 22px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.42;
+  transition: opacity var(--resize-dur) var(--resize-ease);
+}
+.logo-rail-item:hover {
+  opacity: 0.85;
+}
+
 /* Hero stage lamp — dark-luxe: eine skulptierte Lichtquelle über der Bühne,
    die das Tool-Panel als Objekt anleuchtet (kein flacher Wash). */
 .hero-lamp {

@@ -16,12 +16,22 @@ Auslieferung läuft über die Pull-Zone.
    `beuwy-website`). Zugangsdaten liegen NICHT im Repo — nur lokal im
    Session-Scratchpad (`.bunny-env`), und der Schreibschlüssel gehört
    rotiert, sobald der Asset-Workflow steht (er stand einmal im Chat).
-2. **Pull-Zone-URL (von Alex, 23.07.):** `https://beuwy-2.b-cdn.net/` —
-   in next.config.mjs als remotePattern eingetragen; `next/image` kann
-   Assets von dort direkt optimieren. Hinweis: Der Storage-Key aus dem Chat
-   liefert 401 (Zone-Name/Passwort passen nicht zur Pull-Zone) — zum
-   automatischen Platzieren braucht es entweder die korrekten
-   Storage-Zugangsdaten oder einfach die Dateipfade nach dem Upload.
+2. **Pull-Zone:** `https://beuwy-2.b-cdn.net/` (Storage-Zone
+   `beuwy-website`, Frankfurt/DE) — als remotePattern eingetragen,
+   Zugriff verifiziert.
+
+## Platziert (23.07.)
+
+- **Founder-Portrait** (`studio/…brown_studio_4-cmpr-1600.webp`): Sektion 05
+  „Wer baut" als licht-modellierte Plate (4:5, Rim-Light, Glare-Hover),
+  Fakten-Zeilen links als Ledger. Alternative liegt in `studio/ai/`
+  (founder-portrait, Golden-Hour) — auf Zuruf tauschbar.
+- **Kunden-Logo-Rail** (Vision, Königswege, acta, PURELEI, Getsafe, GK):
+  Proof-Sektion, cream-monochrom via CSS-Filter (Palette-Disziplin),
+  Opacity 0.42 → 0.85 bei Hover; Quellen-Zeile mit Zahlen bleibt darunter.
+- **Logo 2026**: war bereits als Inline-SVG in `Logo.tsx` integriert —
+  identisch mit den CDN-Dateien (`creamwhite` = #FFFDF3, `dark_red` =
+  #3A0808 für gelbe Flächen, falls gebraucht).
 3. Einbindung: für optimierte Auslieferung `next/image` mit
    `remotePatterns` in `next.config.mjs` (Host = Pull-Zone). Dann werden die
    High-End-Assets an den passenden Stellen platziert:
