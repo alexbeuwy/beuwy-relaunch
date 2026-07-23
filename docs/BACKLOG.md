@@ -69,14 +69,14 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Strang 2 — Vertrieb (parallel per Subagent möglich)
 
-- [ ] **S1 · docs/sales/loom-drehbuch.md:** 4-min-Drehbuch aus Masterplan §4
+- [~] **S1 · docs/sales/loom-drehbuch.md:** 4-min-Drehbuch aus Masterplan §4
   ausformuliert (wortwörtliche Musterformulierungen, Setup-Checkliste OBS/A7III,
   Thumbnail-Regel, Follow-up-Sequenz mit je neuem Befund).
-- [ ] **S2 · docs/sales/nachrichten-riegel-saadi.md:** Je 1 Intro-Bitte + 1
+- [~] **S2 · docs/sales/nachrichten-riegel-saadi.md:** Je 1 Intro-Bitte + 1
   Zitat-Bitte (O-Ton für Landingpage), kurz, kopierfertig, in Alex' Ton.
-- [ ] **S3 · docs/sales/linkedin-vorlagen.md:** UWG-konforme Sequenz (Connect-Note,
+- [~] **S3 · docs/sales/linkedin-vorlagen.md:** UWG-konforme Sequenz (Connect-Note,
   Post-Accept-Message mit Loom-Link, 2 Follow-ups mit je neuem Befund).
-- [ ] **S4 · docs/sales/zielliste.md:** ~50 Firmen Finance/RE DACH (Makler mit
+- [~] **S4 · docs/sales/zielliste.md:** ~50 Firmen Finance/RE DACH (Makler mit
   Portfolio, Finanzvertriebe, Vermögensverwalter, Bauträger, PropTechs) mit
   Domain + Quelle + 1-Zeilen-Hypothese, per Research-Subagents. Öffentliche
   Quellen, keine personenbezogenen Daten außer Firma/GF-Name aus Impressum.
@@ -89,6 +89,11 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Danach: Loop mit stop beenden.
 
 ## Notizen zwischen Iterationen
+
+- **03:40:** S1-S3 (ein Subagent) und S4 (Research-Subagent) laufen im
+  Hintergrund und schreiben nach docs/sales/ — NICHT doppelt bearbeiten;
+  nächste Iteration committet die Ergebnisse, sobald die Dateien da sind.
+  Nächstes Bau-Item: P8 (Feinschliff), dann P9/P10/P11.
 
 - **P1 (23:55):** Typo-Tokens als `.t-*`-Klassen in globals.css, `--bg-elevated`
   → #2B0808 (+`--bg-hover`, `--ink-yellow-hover`), `interpolate-size` auf :root,
