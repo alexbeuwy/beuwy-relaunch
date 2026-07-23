@@ -64,7 +64,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Kontrast-Checks, tote Links, Meta-Daten.
 - [x] **P10 · Design-Review-Subagent:** Frische Augen: Subagent bewertet die
   Screenshots hart gegen DESIGN-DIRECTION §4 (10 Regeln einzeln) — Befunde fixen.
-- [ ] **P11 · Live-Verifikation:** Vercel-Preview-URL des Branches holen, Tool live
+- [x] **P11 · Live-Verifikation:** Vercel-Preview-URL des Branches holen, Tool live
   durchspielen (echte Domain testen), Screenshot des Ergebnisses für Morgenreport.
 
 ## Strang 2 — Vertrieb (parallel per Subagent möglich)
@@ -90,6 +90,18 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Notizen zwischen Iterationen
 
+- **P11 (04:25):** DURCHBRUCH: Screenshot läuft auf Vercel — Ursache war
+  fehlendes File-Tracing der Sparticuz-Binaries (outputFileTracingIncludes),
+  dazu puppeteer-core statt playwright-core auf Vercel. End-to-End live
+  verifiziert: riegel.vercel.app → Scan 7,4s mit 104KB-Screenshot, Claude-
+  Analyse 14s echt (Score 88, kluge Befunde). Screenshot als
+  live-shot-riegel.jpg im Scratchpad für den Morgenreport. Aktuellstes
+  READY-Deployment (alle Review-Fixes): beuwy-relaunch-iovj921s9-
+  alexbeuwys-projects.vercel.app (Deployment Protection an — Alex' Vercel-
+  Login genügt). Hero-final-Screenshot geprüft: H1 2-zeilig, Ghost-Nav,
+  Gelb-Budget 2/Viewport. ALLE P- und S-Items fertig — es fehlt nur M1
+  (Morgenreport, 06:45 UTC; one-shot send_later gesetzt, Fallback-Trigger
+  als Backup).
 - **P10+S4 (04:15):** S4 committet (53 Firmen, Top-10 Rhein-Neckar).
   P10-Review: 6 PASS / 4 FAIL — alle Top-5-Fixes umgesetzt: Nav-CTA auf
   btn-secondary (Gelb-Budget), Gelb-Tic in 3 Headlines auf em-cream + gelbes
