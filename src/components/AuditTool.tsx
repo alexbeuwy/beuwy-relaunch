@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 /**
  * Website-Check v4 — Agenten-Orchestrierung (Psychologie- + UX-Audit-Spec):
@@ -504,8 +505,11 @@ export function AuditTool() {
         </div>
       </div>
 
-      {/* Sticky-Recall-Bar — hält den Termin-Impuls beim Weiterscrollen */}
-      {phase === "done" && analysis && scan && !panelVisible && !recallDismissed && (
+      {/* Sticky-Recall-Bar — Portal auf body (Sektionen haben isolation:isolate,
+          spätere Stacking-Contexte würden die fixe Leiste sonst übermalen) */}
+      {phase === "done" && analysis && scan && !panelVisible && !recallDismissed &&
+        typeof document !== "undefined" &&
+        createPortal(
         <div className="recall-bar" role="complementary">
           <p className="t-small is-cream min-w-0 truncate">
             {scan.domain}: <span className="is-accent">{analysis.score}/100</span> — Ihr
@@ -528,8 +532,9 @@ export function AuditTool() {
               ✕
             </button>
           </div>
-        </div>
-      )}
+        </div>,
+          document.body
+        )}
     </>
   );
 }
