@@ -6,6 +6,12 @@ import { Reveal } from "@/components/Reveal";
 export default function HomePage() {
   return (
     <>
+      {/* Strukturierte Daten — einzige erlaubte dangerouslySetInnerHTML-Stelle
+          (JSON.stringify über statische Daten, kein Nutzer-Input). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
       {/* 01 — HERO + TOOL */}
       <section className="section-band section-band-base relative overflow-hidden">
         <div className="hero-lamp" aria-hidden />
@@ -331,6 +337,74 @@ export default function HomePage() {
     </>
   );
 }
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://beuwy.com/#org",
+      name: "beuwy",
+      description:
+        "Digitale Vertriebssysteme für Finanz- und Immobilienunternehmen: Marke, Website, Werkzeuge, CRM-Anbindung und AI-Sichtbarkeit — als ein System, zum Festpreis.",
+      url: "https://beuwy.com",
+      email: "ap@beuwy.com",
+      founder: { "@type": "Person", name: "Alexander Pütter" },
+      foundingDate: "2017",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Mendelssohnstraße 52",
+        postalCode: "67061",
+        addressLocality: "Ludwigshafen am Rhein",
+        addressCountry: "DE",
+      },
+      areaServed: "DE",
+      priceRange: "ab 16.000 €",
+      knowsAbout: [
+        "Digitale Vertriebssysteme",
+        "AI-Sichtbarkeit / Generative Engine Optimization",
+        "Websites für Immobilienmakler",
+        "Websites für Finanzvertriebe",
+        "CRM-Anbindung (onOffice)",
+        "Markenpositionierung",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://beuwy.com/#website",
+      url: "https://beuwy.com",
+      name: "beuwy",
+      inLanguage: "de",
+      publisher: { "@id": "https://beuwy.com/#org" },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://beuwy.com/#faq",
+      mainEntity: [
+        {
+          q: "Was kostet ein Vertriebssystem?",
+          a: "Projekte beginnen bei 16.000 € — als Festpreis mit drei Ausbaustufen, Zahlungsplan 40/40/20. Zum Vergleich: weniger als ein halbes Jahresgehalt eines Vertriebsmitarbeiters, für ein System, das nicht kündigt.",
+        },
+        {
+          q: "Wie lange dauert der Bau?",
+          a: "Drei bis fünf Wochen vom Kickoff bis zum Livegang — inklusive Inhalte, Werkzeuge und CRM-Anbindung, dank AI-gestützter Produktion und erprobter Systembibliothek.",
+        },
+        {
+          q: "Warum keine klassische Agentur?",
+          a: "Agenturen verkaufen Kampagnen und Stunden. beuwy denkt wie ein Berater — erst die Diagnose des Vertriebsprozesses — und liefert wie ein Produkt: Festpreis, fester Umfang, live. Sie sprechen mit dem, der es baut.",
+        },
+        {
+          q: "Was heißt AI konkret?",
+          a: "Sichtbarkeit in AI-Antworten (strukturierte Daten, zitierfähige Inhalte), AI-gestützte Produktion (deshalb der Festpreis) und Automationen im Vertriebsprozess.",
+        },
+      ].map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
 
 const FAQ_ITEMS = [
   {

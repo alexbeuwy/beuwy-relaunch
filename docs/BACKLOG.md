@@ -53,7 +53,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   benötigte Env-Vars (RESEND_API_KEY, EMAIL_TO, ggf. Supabase) im Morgenreport
   auflisten. Supabase-Persistenz: nur wenn ohne eigenes Projekt sinnvoll
   abbildbar, sonst mail-only + TODO.
-- [ ] **P7 · GEO-Layer:** metadata (Title/Description/OG), OG-Image (statisch
+- [x] **P7 · GEO-Layer:** metadata (Title/Description/OG), OG-Image (statisch
   generiert), schema.org Organization + WebSite + ProfessionalService + FAQPage,
   /llms.txt, sitemap.ts, robots.ts.
 - [ ] **P8 · Interaktions-Feinschliff:** Reveal-on-Scroll (fail-open), Hover-Zustände,
@@ -154,6 +154,13 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Bestandskunde 30; nur Video/Telefon. CTAs → /termin (AuditTool mit
   ?domain-Prefill). Datenschutz um Terminbuchung/Resend ergänzt.
   ENV FÜR ALEX: RESEND_API_KEY + EMAIL_TO=ap@beuwy.com auf Vercel setzen.
+- **P7 (03:35):** GEO-Layer live: opengraph-image.tsx (ImageResponse,
+  Kernsatz auf Bordeaux), /llms.txt (Leistungen, Referenzen, Tool, Kontakt),
+  sitemap.ts, robots.ts (api/ disallow), JSON-LD @graph in page.tsx
+  (ProfessionalService + WebSite + FAQPage — einzige erlaubte
+  dangerouslySetInnerHTML-Stelle, statisches JSON). Damit besteht beuwy den
+  eigenen Website-Check: schema.org ✓, FAQ-Schema ✓, llms.txt ✓, OG ✓,
+  robots ✓. Build grün (15 Routen).
 - **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert
