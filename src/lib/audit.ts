@@ -245,5 +245,14 @@ export async function takeScreenshot(url: string): Promise<string | null> {
   const timeout = new Promise<null>((resolve) =>
     setTimeout(() => resolve(null), 25_000)
   );
-  return Promise.race([attempt.catch(() => null), timeout]);
+  return Promise.race([
+    attempt.catch((e) => {
+      console.error(
+        "[screenshot] fehlgeschlagen:",
+        e instanceof Error ? e.message.split("\n").slice(0, 3).join(" | ") : e
+      );
+      return null;
+    }),
+    timeout,
+  ]);
 }
