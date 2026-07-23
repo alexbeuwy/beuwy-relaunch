@@ -362,18 +362,22 @@ const FAQ_ITEMS = [
   },
 ];
 
+/* quote bleibt leer, bis die O-Töne über Kanal B (Masterplan §4) vorliegen —
+   keine erfundenen Kundenstimmen (Anti-Slop-Regel 1). */
 function CaseCard({
   client,
   branch,
   href,
   facts,
   mechanic,
+  quote,
 }: {
   client: string;
   branch: string;
   href: string;
   facts: string[];
   mechanic: string;
+  quote?: { text: string; name: string };
 }) {
   return (
     <a
@@ -396,6 +400,12 @@ function CaseCard({
         ))}
       </ul>
       <p className="t-body mt-5">{mechanic}</p>
+      {quote && (
+        <blockquote className="mt-5 border-t hairline pt-5">
+          <p className="t-body is-cream">„{quote.text}“</p>
+          <footer className="t-data mt-2">— {quote.name}</footer>
+        </blockquote>
+      )}
     </a>
   );
 }

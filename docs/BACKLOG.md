@@ -33,11 +33,11 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   (clip-path + Scanlinie + Sheen), Score-Count-up (t-digit), Ergebnis-Split 55/45,
   BorderBeam nur während Analyse (npm install border-beam; falls Paket
   inkompatibel: eigener conic-gradient-Beam, ~30 Zeilen CSS). reduced-motion.
-- [ ] **P5 · Sektionen 2–5 verfeinern:** Status-quo-Kosten (Verlustaversion),
+- [x] **P5 · Sektionen 2–5 verfeinern:** Status-quo-Kosten (Verlustaversion),
   Proof (Riegel/Saadi 2-up mit Scope-Fakten + Live-Links + Zitat-Platzhalter),
   System (4 Layer an Riegel-Mechanik erklärt), Prozess mit echter Knappheit
   ("max. 2 Systemstarts/Monat" als Satz, kein Slot-Theater).
-- [ ] **P6 · Sektionen 6–8 + Rechtsseiten:** Founder, FAQ (interpolate-size-
+- [x] **P6 · Sektionen 6–8 + Rechtsseiten:** Founder, FAQ (interpolate-size-
   Aufklapper + FAQPage-Schema), CTA-Sektion (einzige invertierte Gelb-Sektion).
   /impressum + /datenschutz (Daten in MASTERPLAN §5; Datenschutz: Vercel-Hosting,
   Audit-Tool-Verarbeitung, Anthropic-API als Auftragsverarbeiter erwähnen).
@@ -137,7 +137,15 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   (2 Zeilen statt 3 bei 1440), Mobile-Form stapelt. Screenshots geprüft
   (1440 + 390, im Scratchpad). Build grün. BorderBeam-Paket von Alex' Liste
   damit obsolet. Lokal weiterhin ohne Screenshot (Proxy) — P11 prüft live.
-- **00:20:** Loop neu armiert nach Session-Neustart (In-Memory-Cron war weg):
+- **P5+P6 (02:35):** Gebatcht, weil Cron-Fires nicht ankommen (nur der
+  Stunden-Heartbeat trägt; ab jetzt zusätzlich send_later-Kette alle 30 min).
+  FAQ auf interpolate-size-Accordion (::details-content block-size Transition,
+  reduced-motion instant). /impressum + /datenschutz live (Daten von
+  beuwy.com/impressum; Datenschutz nennt Vercel-Hosting, Website-Check-Fluss
+  inkl. Anthropic als AV, keine Cookies/Tracking — im Morgenreport: anwaltlich
+  prüfen lassen). CaseCard hat jetzt quote-Prop (leer bis O-Töne da sind,
+  keine erfundenen Stimmen). Sektionen 2-5 Copy gesichtet, keine Änderung
+  nötig. Founder/CTA standen schon aus P2. Build grün (9 Seiten). (In-Memory-Cron war weg):
   Cron-Job 83971490 (13,43 * * * *) + persistenter Fallback-Trigger
   trig_01Du7dKG7GfHPnPfxLm53KGw (25 * * * *, überlebt Neustarts, re-armiert
   den Cron bei Bedarf). Beide werden im M1-Abschluss gelöscht.

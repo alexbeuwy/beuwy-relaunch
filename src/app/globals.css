@@ -278,7 +278,23 @@ body {
   transform: translateX(2px);
 }
 
-/* FAQ — native details, P6 rüstet auf interpolate-size-Accordion um */
+/* FAQ — natives details + interpolate-size: federnde height-auto-Transition
+   (:root hat interpolate-size: allow-keywords). Ältere Browser: instant. */
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--resize-dur) var(--resize-ease),
+    content-visibility var(--resize-dur) allow-discrete;
+}
+.faq-item[open]::details-content {
+  block-size: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content {
+    transition: none;
+  }
+}
 .faq-item summary::-webkit-details-marker {
   display: none;
 }
