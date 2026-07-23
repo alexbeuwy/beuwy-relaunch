@@ -298,7 +298,7 @@ export function AuditTool() {
                     href={`/termin?domain=${encodeURIComponent(scan.domain)}`}
                     className="btn-primary"
                   >
-                    Befunde besprechen
+                    Systemgespräch buchen
                     <span aria-hidden>→</span>
                   </a>
                   <p className="t-data">30 min · kostenlos · kein Pitch</p>

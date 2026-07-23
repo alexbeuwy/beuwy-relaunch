@@ -45,7 +45,7 @@ export function Nav() {
           ))}
         </nav>
 
-        <Link href="/termin" className="btn-primary btn-sm">
+        <Link href="/termin" className="btn-secondary btn-sm">
           Systemgespräch
           <span aria-hidden>→</span>
         </Link>

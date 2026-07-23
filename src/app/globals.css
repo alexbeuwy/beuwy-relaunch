@@ -176,6 +176,9 @@ body {
   font-weight: 400;
   color: var(--ink-yellow);
 }
+.t-display em.em-cream, .t-h2 em.em-cream {
+  color: var(--ink-cream);
+}
 .t-h3 {
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 600;
@@ -223,6 +226,15 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-dim);
+}
+.t-stat {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-yellow);
 }
 .t-score {
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -1153,7 +1165,6 @@ body {
   mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
   filter: blur(28px);
-  animation: stage-lamp-breathe 9s ease-in-out infinite;
   will-change: opacity;
 }
 @keyframes stage-lamp-breathe {

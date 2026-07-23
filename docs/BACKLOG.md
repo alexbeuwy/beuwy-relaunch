@@ -62,7 +62,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 - [x] **P9 · QS-Runde:** npm run build, Playwright-Screenshots (390px, 768px, 1440px),
   visuelle Prüfung gegen DESIGN-DIRECTION (Gelb-Budget! Sektionshöhen!),
   Kontrast-Checks, tote Links, Meta-Daten.
-- [~] **P10 · Design-Review-Subagent:** Frische Augen: Subagent bewertet die
+- [x] **P10 · Design-Review-Subagent:** Frische Augen: Subagent bewertet die
   Screenshots hart gegen DESIGN-DIRECTION §4 (10 Regeln einzeln) — Befunde fixen.
 - [ ] **P11 · Live-Verifikation:** Vercel-Preview-URL des Branches holen, Tool live
   durchspielen (echte Domain testen), Screenshot des Ergebnisses für Morgenreport.
@@ -76,7 +76,7 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
   Zitat-Bitte (O-Ton für Landingpage), kurz, kopierfertig, in Alex' Ton.
 - [x] **S3 · docs/sales/linkedin-vorlagen.md:** UWG-konforme Sequenz (Connect-Note,
   Post-Accept-Message mit Loom-Link, 2 Follow-ups mit je neuem Befund).
-- [~] **S4 · docs/sales/zielliste.md:** ~50 Firmen Finance/RE DACH (Makler mit
+- [x] **S4 · docs/sales/zielliste.md:** ~50 Firmen Finance/RE DACH (Makler mit
   Portfolio, Finanzvertriebe, Vermögensverwalter, Bauträger, PropTechs) mit
   Domain + Quelle + 1-Zeilen-Hypothese, per Research-Subagents. Öffentliche
   Quellen, keine personenbezogenen Daten außer Firma/GF-Name aus Impressum.
@@ -90,6 +90,19 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Notizen zwischen Iterationen
 
+- **P10+S4 (04:15):** S4 committet (53 Firmen, Top-10 Rhein-Neckar).
+  P10-Review: 6 PASS / 4 FAIL — alle Top-5-Fixes umgesetzt: Nav-CTA auf
+  btn-secondary (Gelb-Budget), Gelb-Tic in 3 Headlines auf em-cream + gelbes
+  "selbst" gestrichen, Hero-H1 2-zeilig (1000px + nbsp), Prozess vom 3-up auf
+  Ledger-Zeilen + Dubletten-Satz raus, 58,5% auf neuen t-stat-Token,
+  ambient-blob-Endlos-Animation entfernt, Kosten/Founder-Labels stapeln
+  mobil, 404-Seite auf Tokens, CTA-Verb vereinheitlicht (buchen), 200-vs-207
+  vereinheitlicht. Offen aus Review (bewusst): JSON-LD-dangerouslySetInnerHTML
+  (dokumentierte Ausnahme), Logo-Inline (strukturell), tote Keyframes
+  (chip/editor/marquee/t-digit — Aufräumen optional), Nav-Selbstlink auf
+  /termin (kosmetisch). P11: Screenshot auf Vercel weiter FEHLT trotz
+  puppeteer-core — outputFileTracingIncludes-Fix deployt (908af46), Test mit
+  debug:true steht aus.
 - **P9 (04:05):** Full-Page-Screenshots 1440/768/390 im Scratchpad (qs-*.png),
   selbst geprüft: Stacking, Ton-Wechsel, Gelb-Budget, FAQ, CTA ok. Fixe Nav
   erscheint in Full-Page-Shots mittig = Stitching-Artefakt, kein Bug.

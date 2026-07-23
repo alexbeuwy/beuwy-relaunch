@@ -16,7 +16,7 @@ export default function HomePage() {
       <section className="section-band section-band-base relative overflow-hidden">
         <div className="hero-lamp" aria-hidden />
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-24 relative z-[1]">
-          <div className="mx-auto max-w-[880px] text-center">
+          <div className="mx-auto max-w-[1000px] text-center">
             <Reveal>
               <p className="t-label">
                 Digitale Vertriebssysteme · Finance &amp; Real Estate
@@ -24,7 +24,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={60}>
               <h1 className="t-display mt-4">
-                Die erste <em>Empfehlung</em> kommt heute von Google und ChatGPT.
+                Die erste <em>Empfehlung</em> kommt heute von Google und&nbsp;ChatGPT.
               </h1>
             </Reveal>
             <Reveal delay={120}>
@@ -56,7 +56,7 @@ export default function HomePage() {
           title={
             <>
               Der Weg zum Auftrag beginnt nicht mehr auf Ihrer{" "}
-              <em>Website</em>.
+              <em className="em-cream">Website</em>.
             </>
           }
           intro="Eigentümer und Anleger prüfen Anbieter zuerst in Google-AI-Übersichten und Chat-Assistenten. Wer dort nicht vorkommt, verliert Aufträge unbemerkt."
@@ -78,8 +78,8 @@ export default function HomePage() {
                   v: "Die Antwort der Maschine ist die neue erste Filterstufe. Sie findet statt, bevor Sie vom Interessenten erfahren.",
                 },
               ].map((row) => (
-                <li key={row.k} className="flex gap-4 pb-4 border-b hairline">
-                  <span className="t-label shrink-0 w-28 pt-1">{row.k}</span>
+                <li key={row.k} className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline">
+                  <span className="t-label shrink-0 md:w-28 pt-1">{row.k}</span>
                   <p className="t-body is-cream">{row.v}</p>
                 </li>
               ))}
@@ -87,7 +87,9 @@ export default function HomePage() {
           </div>
           <div className="md:col-span-5">
             <div className="panel rounded-2xl p-6">
-              <p className="t-score">58,5&nbsp;%</p>
+              <p className="t-stat">
+                58,5<span className="t-data"> %</span>
+              </p>
               <p className="t-body mt-3 is-cream">
                 der Google-Suchen enden bereits ohne Klick auf eine Website.
               </p>
@@ -168,7 +170,7 @@ export default function HomePage() {
               num: "03",
               t: "AI-Sichtbarkeit",
               d: "Strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden.",
-              ex: "RIEGEL · Preisatlas + 200 Standortseiten als zitierbare Datenquelle",
+              ex: "RIEGEL · Preisatlas + Standortseiten als zitierbare Datenquelle",
             },
             {
               num: "04",
@@ -202,7 +204,7 @@ export default function HomePage() {
           }
           intro="Festpreis, fester Umfang, ein Ansprechpartner — der, der es baut."
         />
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="space-y-0">
           {[
             {
               num: "01",
@@ -222,23 +224,19 @@ export default function HomePage() {
               meta: "3–5 Wochen · ab 16.000 €",
               d: "Marke, Website, Werkzeuge, CRM-Anbindung, AI-Sichtbarkeit — live, nicht als Konzept. Danach Betrieb und Ausbau, wenn Sie wollen.",
             },
-          ].map((s) => (
-            <Reveal key={s.num}>
-              <div className="panel rounded-2xl p-6 h-full">
-                <div className="flex items-baseline justify-between">
-                  <span className="t-data">{s.num}</span>
-                  <span className="t-label">{s.meta}</span>
+          ].map((step) => (
+            <Reveal key={step.num}>
+              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
+                <div className="md:col-span-3 flex items-baseline gap-4">
+                  <span className="t-data">{step.num}</span>
+                  <h3 className="t-h3">{step.t}</h3>
                 </div>
-                <h3 className="t-h3 mt-4">{s.t}</h3>
-                <p className="t-body mt-3">{s.d}</p>
+                <p className="t-body md:col-span-6">{step.d}</p>
+                <p className="t-data md:col-span-3 md:text-right">{step.meta}</p>
               </div>
             </Reveal>
           ))}
         </div>
-        <p className="t-body mt-8 max-w-[560px] is-cream">
-          Jedes System baut Alexander Pütter selbst. Sie sprechen zu keinem
-          Zeitpunkt mit einem Account-Manager.
-        </p>
       </Section>
 
       {/* 06 — FOUNDER */}
@@ -249,7 +247,7 @@ export default function HomePage() {
               eyebrow="05 · Wer baut"
               title={
                 <>
-                  Sie sprechen mit dem, der es <em>baut</em>.
+                  Sie sprechen mit dem, der es <em className="em-cream">baut</em>.
                 </>
               }
             />
@@ -261,8 +259,7 @@ export default function HomePage() {
               Social-Media-Funnel, mitten in der Zinskrise.
             </p>
             <p className="t-body-lg mt-5 max-w-[560px] is-cream">
-              Wir kennen Kaufentscheidungen, weil wir sie{" "}
-              <em className="font-display italic is-accent">selbst</em> auslösen.
+              Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.
             </p>
           </div>
           <div className="md:col-span-5">
@@ -272,8 +269,8 @@ export default function HomePage() {
                 { k: "seit 2017", v: "beuwy · Systeme für Finance & Real Estate" },
                 { k: "2023–2025", v: "acta · 315 Wohnungen, Ø Ticket 153.842 € (intern)" },
               ].map((row) => (
-                <div key={row.k} className="flex gap-4 pb-4 border-b hairline last:border-b-0 last:pb-0">
-                  <span className="t-data shrink-0 w-24">{row.k}</span>
+                <div key={row.k} className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline last:border-b-0 last:pb-0">
+                  <span className="t-data shrink-0 md:w-24">{row.k}</span>
                   <p className="t-small is-cream">{row.v}</p>
                 </div>
               ))}
@@ -288,7 +285,7 @@ export default function HomePage() {
           eyebrow="06 · Fragen"
           title={
             <>
-              Die Fragen, die im ersten Gespräch <em>immer</em> kommen.
+              Die Fragen, die im ersten Gespräch <em className="em-cream">immer</em> kommen.
             </>
           }
         />
@@ -328,7 +325,7 @@ export default function HomePage() {
                 <span aria-hidden>→</span>
               </Link>
               <Link href="/#tool" className="cta-invert-ink t-small underline underline-offset-4">
-                Oder zuerst den Website-Check machen
+                Oder zuerst: der Website-Check
               </Link>
             </div>
           </Reveal>
