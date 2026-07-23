@@ -59,10 +59,10 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 - [x] **P8 · Interaktions-Feinschliff:** Reveal-on-Scroll (fail-open), Hover-Zustände,
   Nav-Scroll-Verhalten, Mikro-Detail-Pass gegen DESIGN-DIRECTION §5, Anti-Slop-Greps
   (Regel 10) als Selbst-Check laufen lassen.
-- [ ] **P9 · QS-Runde:** npm run build, Playwright-Screenshots (390px, 768px, 1440px),
+- [x] **P9 · QS-Runde:** npm run build, Playwright-Screenshots (390px, 768px, 1440px),
   visuelle Prüfung gegen DESIGN-DIRECTION (Gelb-Budget! Sektionshöhen!),
   Kontrast-Checks, tote Links, Meta-Daten.
-- [ ] **P10 · Design-Review-Subagent:** Frische Augen: Subagent bewertet die
+- [~] **P10 · Design-Review-Subagent:** Frische Augen: Subagent bewertet die
   Screenshots hart gegen DESIGN-DIRECTION §4 (10 Regeln einzeln) — Befunde fixen.
 - [ ] **P11 · Live-Verifikation:** Vercel-Preview-URL des Branches holen, Tool live
   durchspielen (echte Domain testen), Screenshot des Ergebnisses für Morgenreport.
@@ -90,6 +90,10 @@ beuwy.com bleibt unberührt. Keine erfundenen Zahlen/Claims — nur Belegbares.
 
 ## Notizen zwischen Iterationen
 
+- **P9 (04:05):** Full-Page-Screenshots 1440/768/390 im Scratchpad (qs-*.png),
+  selbst geprüft: Stacking, Ton-Wechsel, Gelb-Budget, FAQ, CTA ok. Fixe Nav
+  erscheint in Full-Page-Shots mittig = Stitching-Artefakt, kein Bug.
+  P10-Review-Subagent läuft im Hintergrund auf den Screenshots.
 - **P8+S1-3 (03:55):** S1-S3 committet (drei Dateien in docs/sales/).
   P8: Inline-Styles Footer/Nav bereinigt (btn-sm-Utility), scroll-margin-top
   88px für Anker + smooth scroll (reduced-motion: auto). Verbleibende
