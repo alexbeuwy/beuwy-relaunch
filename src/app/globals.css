@@ -615,6 +615,77 @@ body {
   }
 }
 
+/* Kategorie-Balken im Ergebnis — Ampel über data-tier, Füllung animiert 1× */
+.cat-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(247, 233, 154, 0.1);
+  overflow: hidden;
+}
+.cat-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  width: var(--pct, 0%);
+  background: var(--ink-yellow);
+  animation: cat-grow 700ms var(--panel-ease) both;
+}
+[data-tier="low"] .cat-fill {
+  background: var(--accent-red);
+}
+[data-tier="mid"] .cat-fill {
+  background: #d9cc85;
+}
+@keyframes cat-grow {
+  from {
+    width: 0;
+  }
+}
+
+/* Rest-Befunde: begrenzte Höhe statt endlos wachsendem Panel */
+.audit-findings-scroll {
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Sticky-Recall-Bar — erscheint, wenn das Ergebnis aus dem Viewport scrollt */
+.recall-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: var(--bg-raised);
+  border-top: 1px solid rgba(247, 233, 154, 0.14);
+  animation: recall-in 300ms var(--panel-ease) both;
+}
+@keyframes recall-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+.recall-close {
+  padding: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.recall-close:hover {
+  color: var(--ink-cream);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-fill,
+  .recall-bar {
+    animation: none;
+  }
+}
+
 /* Score-Ziffern — Pop mit Stagger, kein Endlos-Sheen */
 .score-digit {
   display: inline-block;

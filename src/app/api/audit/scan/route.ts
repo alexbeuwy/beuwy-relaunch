@@ -6,8 +6,6 @@ import {
   fileExists,
   runChecks,
   extractText,
-  takeScreenshot,
-  getLastScreenshotError,
 } from "@/lib/audit";
 
 /**
@@ -42,29 +40,25 @@ export async function POST(req: Request) {
     );
   }
 
-  const page = await fetchPage(domain);
+  // Alles von Anfang an parallel — der Scan antwortet in ~1,5-3s.
+  // Der Screenshot läuft NICHT mehr hier (eigene Route, parallel zur Analyse).
+  const [page, llmsTxt, robotsTxt] = await Promise.all([
+    fetchPage(domain),
+    fileExists(domain, "/llms.txt"),
+    fileExists(domain, "/robots.txt"),
+  ]);
   if (!page) {
     return NextResponse.json({ error: "fetch_failed" }, { status: 422 });
   }
-
-  const [llmsTxt, robotsTxt, screenshot] = await Promise.all([
-    fileExists(domain, "/llms.txt"),
-    fileExists(domain, "/robots.txt"),
-    takeScreenshot(page.finalUrl),
-  ]);
 
   const { checks, techScore } = runChecks(page.html, { llmsTxt, robotsTxt });
 
   return NextResponse.json({
     domain,
     finalUrl: page.finalUrl,
-    screenshot,
     checks,
     techScore,
     pageText: extractText(page.html),
     generated_at: new Date().toISOString(),
-    ...(body.debug && !screenshot
-      ? { screenshotError: getLastScreenshotError() }
-      : {}),
   });
 }

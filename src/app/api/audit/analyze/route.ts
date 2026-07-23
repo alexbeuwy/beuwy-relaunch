@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import type { Check } from "@/lib/audit";
 
 /**
- * Schritt 2 des Website-Checks: Claude bewertet auf Basis des ECHTEN
- * Seiteninhalts (nicht nur des Domain-Namens) plus der deterministischen
- * Befunde aus Schritt 1. Befunde in Geschäfts-Sprache, nicht in Technik.
+ * Schritt 2 des Website-Checks (v2): Claude bewertet auf Basis des ECHTEN
+ * Seiteninhalts + der deterministischen Befunde. Liefert Gesamt-Score,
+ * 4 Kategorie-Ratings (die 5. "Technische Basis" rechnet der Client aus den
+ * Checks) und 5-7 priorisierte Befunde in Geschäfts-Sprache.
  */
 
 export const runtime = "nodejs";
@@ -12,24 +13,33 @@ export const maxDuration = 60;
 
 const SYSTEM_PROMPT = `Du bist Analyst für digitale Vertriebssysteme bei beuwy.
 Du bekommst: eine Domain, den Textinhalt ihrer Startseite und technische Befunde.
-Die Besitzer sind meist inhabergeführte Finanz-/Immobilien-/Dienstleistungs-Unternehmen.
+Die Besitzer sind meist inhabergeführte Finanz-/Immobilien-/Dienstleistungs-Unternehmen
+(Inhaber 45-60, wenig Geduld, verlustavers).
 
 Bewerte aus Sicht eines Kaufinteressenten, der zuerst Google-AI-Übersichten und
-Chat-Assistenten fragt:
-1) Würde eine Maschine diese Firma als Antwort auf Fragen ihrer Kategorie nennen?
-2) Ist die Positionierung in einem Satz erkennbar und nachsprechbar?
-3) Gibt die Seite einem Besucher sofort etwas (Werkzeug, Antwort, nächster Schritt)?
+Chat-Assistenten (ChatGPT, Perplexity) fragt, bevor er anruft.
 
-Regeln für deine Ausgabe:
-- score: 0-100, ehrlich, konsistent mit den technischen Befunden.
-- visibility: 2-3 Sätze, direkt an den Inhaber gerichtet (Sie-Form).
-- weaknesses: genau 3, in GESCHÄFTS-Sprache (was es kostet), nicht Technik-Jargon.
-  Schlecht: "llms.txt fehlt". Gut: "Wer ChatGPT nach Anbietern in Ihrer Region
-  fragt, bekommt Ihre Wettbewerber genannt — Sie kommen nicht vor."
-- recommendations: genau 3, konkret umsetzbar, mit grober Aufwandsangabe.
-- Deutsch, präzise, kein Marketing-Slang, keine Übertreibung.
+Gib GENAU dieses JSON zurück, nichts sonst:
+{
+  "score": <0-100, Gesamtsichtbarkeit, ehrlich, konsistent mit den Kategorien>,
+  "visibility": "<2-3 Sätze, direkt an den Inhaber (Sie-Form), was die Maschine über ihn denkt>",
+  "categories": [
+    {"id":"sichtbarkeit","label":"Auffindbarkeit bei KI & Google","score":<0-100>,"reason":"<1 Satz>"},
+    {"id":"positionierung","label":"Klarheit des Angebots","score":<0-100>,"reason":"<1 Satz>"},
+    {"id":"vertrauen","label":"Vertrauens- & Kompetenzsignale","score":<0-100>,"reason":"<1 Satz>"},
+    {"id":"conversion","label":"Nächster Schritt für Besucher","score":<0-100>,"reason":"<1 Satz>"}
+  ],
+  "findings": [
+    {"title":"<3-6 Wörter>","cost":"<1 Satz: was es das Unternehmen kostet, Geschäftssprache>","fix":"<1-2 Sätze konkrete Empfehlung>","effort":"<S|M|L>","impact":<1-3>}
+  ]
+}
 
-Antworte NUR mit JSON: {"score": n, "visibility": "...", "weaknesses": ["...","...","..."], "recommendations": ["...","...","..."]}`;
+Regeln:
+- categories: exakt diese 4, in dieser Reihenfolge.
+- findings: 5 bis 7 Stück, sortiert nach impact absteigend, dann effort aufsteigend.
+- cost NIE in Technik-Jargon. Schlecht: "llms.txt fehlt". Gut: "Wer ChatGPT nach
+  Anbietern in Ihrer Region fragt, bekommt Ihre Wettbewerber genannt — nicht Sie."
+- Deutsch, Sie-Form, präzise, keine Übertreibung, keine erfundenen Zahlen, keine Emojis.`;
 
 export async function POST(req: Request) {
   let body: {
@@ -57,9 +67,9 @@ export async function POST(req: Request) {
       domain,
       score: body.techScore ?? 50,
       visibility:
-        "Demo-Modus: Die AI-Analyse ist hier nicht aktiv. Die technischen Befunde oben sind echt.",
-      weaknesses: [],
-      recommendations: [],
+        "Demo-Modus: Die KI-Analyse ist hier nicht aktiv. Die technischen Befunde oben sind echt.",
+      categories: [],
+      findings: [],
       source: "demo",
       generated_at: new Date().toISOString(),
     });
@@ -79,7 +89,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 1200,
+        max_tokens: 1700,
         system: SYSTEM_PROMPT,
         messages: [
           {
@@ -96,7 +106,7 @@ ${pageText || "(kein Text extrahierbar)"}
           },
         ],
       }),
-      signal: AbortSignal.timeout(45_000),
+      signal: AbortSignal.timeout(50_000),
     });
 
     if (!r.ok) {
@@ -115,8 +125,8 @@ ${pageText || "(kein Text extrahierbar)"}
     let parsed: {
       score?: number;
       visibility?: string;
-      weaknesses?: string[];
-      recommendations?: string[];
+      categories?: Array<{ id?: string; label?: string; score?: number; reason?: string }>;
+      findings?: Array<{ title?: string; cost?: string; fix?: string; effort?: string; impact?: number }>;
     };
     try {
       parsed = JSON.parse(cleaned);
@@ -124,14 +134,29 @@ ${pageText || "(kein Text extrahierbar)"}
       return NextResponse.json({ error: "analysis_failed" }, { status: 502 });
     }
 
+    const clampScore = (n: unknown) =>
+      Math.min(100, Math.max(0, Math.round(Number(n) || 0)));
+    const effort = (e: unknown) =>
+      ["S", "M", "L"].includes(String(e)) ? String(e) : "M";
+    const impact = (i: unknown) => Math.min(3, Math.max(1, Math.round(Number(i) || 2)));
+
     return NextResponse.json({
       domain,
-      score: Math.min(100, Math.max(0, Math.round(parsed.score ?? 50))),
+      score: clampScore(parsed.score ?? 50),
       visibility: (parsed.visibility || "—").slice(0, 900),
-      weaknesses: (parsed.weaknesses || []).slice(0, 3).map((s) => String(s).slice(0, 300)),
-      recommendations: (parsed.recommendations || [])
-        .slice(0, 3)
-        .map((s) => String(s).slice(0, 300)),
+      categories: (parsed.categories || []).slice(0, 4).map((c) => ({
+        id: String(c.id || "").slice(0, 30),
+        label: String(c.label || "").slice(0, 60),
+        score: clampScore(c.score),
+        reason: String(c.reason || "").slice(0, 240),
+      })),
+      findings: (parsed.findings || []).slice(0, 7).map((f) => ({
+        title: String(f.title || "").slice(0, 80),
+        cost: String(f.cost || "").slice(0, 300),
+        fix: String(f.fix || "").slice(0, 300),
+        effort: effort(f.effort),
+        impact: impact(f.impact),
+      })),
       source: "anthropic",
       generated_at: new Date().toISOString(),
     });

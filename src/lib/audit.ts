@@ -44,25 +44,31 @@ export async function assertPublicHost(hostname: string): Promise<void> {
 export async function fetchPage(
   domain: string
 ): Promise<{ html: string; finalUrl: string } | null> {
-  for (const url of [`https://${domain}`, `https://www.${domain}`]) {
-    try {
-      const r = await fetch(url, {
-        redirect: "follow",
-        signal: AbortSignal.timeout(9000),
-        headers: {
-          "user-agent":
-            "Mozilla/5.0 (compatible; beuwy-check/1.0; +https://beuwy.com)",
-          accept: "text/html,application/xhtml+xml",
-        },
-      });
-      if (!r.ok) continue;
-      const html = await r.text();
-      if (html.length > 0) return { html: html.slice(0, 900_000), finalUrl: r.url };
-    } catch {
-      continue;
-    }
+  // domain + www.domain PARALLEL (Promise.any) statt sequenziell —
+  // halbiert die Worst-Case-Latenz des Scans.
+  const attempt = async (url: string) => {
+    const r = await fetch(url, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(9000),
+      headers: {
+        "user-agent":
+          "Mozilla/5.0 (compatible; beuwy-check/1.0; +https://beuwy.com)",
+        accept: "text/html,application/xhtml+xml",
+      },
+    });
+    if (!r.ok) throw new Error(`status_${r.status}`);
+    const html = await r.text();
+    if (!html.length) throw new Error("empty");
+    return { html: html.slice(0, 900_000), finalUrl: r.url };
+  };
+  try {
+    return await Promise.any([
+      attempt(`https://${domain}`),
+      attempt(`https://www.${domain}`),
+    ]);
+  } catch {
+    return null;
   }
-  return null;
 }
 
 export async function fileExists(domain: string, path: string): Promise<boolean> {
@@ -92,7 +98,15 @@ export function runChecks(
   html: string,
   opts: { llmsTxt: boolean; robotsTxt: boolean }
 ): { checks: Check[]; techScore: number } {
-  const pick = (re: RegExp) => html.match(re)?.[1]?.trim() ?? "";
+  const decode = (s: string) =>
+    s
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;|&apos;/g, "'")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&nbsp;/g, " ");
+  const pick = (re: RegExp) => decode(html.match(re)?.[1]?.trim() ?? "");
   const title = pick(/<title[^>]*>([^<]*)<\/title>/i);
   const metaDesc = pick(
     /<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i
