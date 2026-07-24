@@ -40,26 +40,26 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              fontSize: 58,
+              fontSize: 64,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#FFFDF3",
             }}
           >
-            Sie geben zwei Stunden.
+            Der Kunde ruft Sie an.
           </div>
           <div
             style={{
               display: "flex",
-              fontSize: 58,
+              fontSize: 64,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#F7E99A",
             }}
           >
-            Sie bekommen ein Vertriebssystem.
+            Nicht umgekehrt.
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>

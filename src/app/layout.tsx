@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
     description:
-      "Die erste Empfehlung kommt heute von Google und ChatGPT. Wir bauen das System, das dafür sorgt, dass beide auf Sie zeigen.",
+      "Der Kunde ruft Sie an — nicht umgekehrt. beuwy baut das Vertriebssystem dahinter: Anfragen holen, vorqualifizieren, ans CRM übergeben. Festpreis, live in Wochen.",
     type: "website",
     locale: "de_DE",
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
     description:
-      "Die erste Empfehlung kommt heute von Google und ChatGPT. Wir bauen das System, das dafür sorgt, dass beide auf Sie zeigen.",
+      "Der Kunde ruft Sie an — nicht umgekehrt. beuwy baut das Vertriebssystem dahinter: Anfragen holen, vorqualifizieren, ans CRM übergeben. Festpreis, live in Wochen.",
   },
 };
 

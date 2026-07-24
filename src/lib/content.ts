@@ -9,15 +9,15 @@
 
 export const DEFAULTS: Record<string, string> = {
   // ── Hero (Direct/Organic) ──────────────────────────────────────────────
-  "hero.title": "Sie geben zwei Stunden. Sie bekommen ein *Vertriebssystem*.",
+  "hero.title": "Der Kunde ruft Sie an. Nicht *umgekehrt*.",
   "hero.subtitle":
-    "Portal, CRM-Anbindung, KI-Sichtbarkeit — zum Festpreis, live in Wochen. Das Referenzprojekt ist echt: klicken Sie rein.",
+    "beuwy baut das System dahinter: Anfragen holen, vorqualifizieren, ans CRM übergeben — zum Festpreis, live in Wochen. Das Beispiel hier ist echt: klicken Sie rein.",
   "hero.plate_context": "Immobilienmakler · Rhein-Neckar · 16.500 € Festpreis · live",
 
   // ── Hero-Variante Paid Ads (?via=ad) ───────────────────────────────────
-  "heroad.title": "Ein System, das Anfragen *holt*, qualifiziert und in Ihr CRM legt.",
+  "heroad.title": "Warum bekommt Ihr Wettbewerber die Anfragen, die Sie nie *sehen*?",
   "heroad.subtitle":
-    "Zum Festpreis, in Wochen live, gebaut von einer Person. Das Referenzprojekt ist echt — klicken Sie rein.",
+    "58,5 % der Google-Suchen enden ohne Klick — wen die Maschine nennt, der bekommt den Anruf. beuwy macht Sie zur Antwort: Festpreis, live in Wochen.",
 
   // ── Hero-Variante Cold Outreach (?via=video) ───────────────────────────
   "herovideo.title": "Sie kommen aus meinem Video. Hier ist der *Rest*.",
@@ -48,7 +48,7 @@ export const DEFAULTS: Record<string, string> = {
   "kosten.stat_source": "Quelle · SparkToro/Datos, 2024",
 
   // ── Referenzen ─────────────────────────────────────────────────────────
-  "proof.title": "Zwei Systeme, die es *beweisen*.",
+  "proof.title": "Zwei Systeme, die genau das *tun*.",
   "proof.intro": "Beide live, beide im Vertrieb im Einsatz, beide von einer Person gebaut.",
   "proof.riegel_branch": "Immobilienmakler · Rhein-Neckar",
   "proof.riegel_facts":
@@ -69,7 +69,7 @@ export const DEFAULTS: Record<string, string> = {
   // ── Leistungspakete ────────────────────────────────────────────────────
   "pricing.title": "Drei Pakete. Ein *Festpreis*.",
   "pricing.intro":
-    "Der Preis steht fest, bevor Sie zusagen. Was im Paket steht, ist der Lieferumfang — nicht der Einstieg.",
+    "Der Preis steht fest, bevor Sie zusagen. Was im Paket steht, ist der Lieferumfang — kein Lockangebot.",
   "pricing.tier1_name": "Das Fundament",
   "pricing.tier1_result": "Ein Auftritt, der Vertrauen erzeugt — und von Maschinen verstanden wird.",
   "pricing.tier1_price": "7.900 €",
