@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
@@ -7,20 +7,22 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
+/* Headline-Schnitt: Freiburg (lizenziert, self-hosted, Regular-only) */
+const freiburg = localFont({
+  src: "./fonts/freiburg.woff2",
+  variable: "--font-freiburg",
   display: "swap",
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
+  weight: "400",
 });
 
-/* XXL-Headline-Schnitt (Alex' Vorgabe: Inter 800, weiß, 75/90) */
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+/* Puff Balloon Bitmaps — Farb-Bitmapfont, subsettet auf 0-9,.%+€ und von
+   36 MB auf 0,3 MB verkleinert. Nur als Akzent für einzelne Zahlen. */
+const puff = localFont({
+  src: "./fonts/puff-digits.woff2",
+  variable: "--font-puff",
   display: "swap",
-  weight: ["800"],
+  weight: "400",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -49,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable} ${inter.variable}`}>
+    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${freiburg.variable} ${puff.variable}`}>
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />

@@ -153,31 +153,42 @@ body {
    TYPO-TOKENS — DESIGN-DIRECTION 2.1. Die einzigen erlaubten
    Textgrößen der Seite. Keine text-[..px] daneben.
    ---------------------------------------------------------- */
-/* XXL-Schnitt (Alex' Vorgabe) — NUR Hero + große CTA-Blöcke: Inter 800,
+/* XXL-Schnitt — NUR Hero + große CTA-Blöcke: Freiburg (lizenziert),
    weiß, bis 75px, eng gesetzt. Sektionen springen klassisch eine Stufe
-   runter (t-h2). */
+   runter (t-h2). Freiburg ist Regular-only → font-weight 400, sonst
+   verzerrt der Browser mit Faux-Bold. */
 .t-display {
-  font-family: var(--font-inter), Inter, system-ui, sans-serif;
-  font-weight: 800;
+  font-family: var(--font-freiburg), system-ui, sans-serif;
+  font-weight: 400;
   font-size: clamp(44px, 5.2vw, 75px);
   line-height: 1.08;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-h2 {
-  font-family: var(--font-inter), Inter, system-ui, sans-serif;
-  font-weight: 800;
+  font-family: var(--font-freiburg), system-ui, sans-serif;
+  font-weight: 400;
   font-size: clamp(32px, 3.6vw, 52px);
   line-height: 1.12;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-display em, .t-h2 em {
   font-style: normal;
-  font-weight: 800;
+  font-weight: 400;
   color: var(--ink-yellow);
+}
+
+/* Puffballon-Akzent: einzelne Zahlen als Farb-Bitmap (kosten.stat, proof.stat).
+   Bitmapfarben ignorieren CSS-color — funktioniert auf dunkel wie gelb.
+   Doppelklasse, damit sie die t-stat-Familie sicher schlägt. */
+.puff-num,
+.t-stat.puff-num {
+  font-family: var(--font-puff), var(--font-mono), monospace;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 .t-display em.em-cream, .t-h2 em.em-cream {
   color: var(--ink-cream);

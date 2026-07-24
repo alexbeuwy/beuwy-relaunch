@@ -150,7 +150,7 @@ export default async function HomePage() {
           </div>
           <div className="md:col-span-5">
             <div className="panel rounded-2xl p-6">
-              <p className="t-stat">
+              <p className="t-stat puff-num">
                 {c["kosten.stat"]}
                 <span className="t-data"> %</span>
               </p>
@@ -196,7 +196,7 @@ export default async function HomePage() {
         </div>
         <Reveal>
           <div className="mt-10 pt-8 border-t hairline grid md:grid-cols-12 gap-4 md:gap-6 items-baseline">
-            <p className="t-stat md:col-span-3">{c["proof.stat"]}</p>
+            <p className="t-stat puff-num md:col-span-3">{c["proof.stat"]}</p>
             <div className="md:col-span-9">
               <p className="t-body-lg is-cream max-w-[620px]">{c["proof.stat_text"]}</p>
               <p className="t-data mt-2">{c["proof.stat_note"]}</p>
