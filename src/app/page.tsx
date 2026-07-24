@@ -370,7 +370,7 @@ export default async function HomePage() {
       <section id="kontakt" className="cta-invert">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
           <Reveal>
-            <h2 className="t-h2 cta-invert-ink mx-auto max-w-[640px]">{c["cta.title"]}</h2>
+            <h2 className="t-display cta-invert-ink mx-auto max-w-[900px]">{c["cta.title"]}</h2>
           </Reveal>
           <Reveal delay={80}>
             <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[520px]">

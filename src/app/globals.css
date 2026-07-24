@@ -153,22 +153,24 @@ body {
    TYPO-TOKENS — DESIGN-DIRECTION 2.1. Die einzigen erlaubten
    Textgrößen der Seite. Keine text-[..px] daneben.
    ---------------------------------------------------------- */
-/* XXL-Headlines (Alex' Vorgabe): Inter 800, weiß, 75px/90px auf Desktop */
+/* XXL-Schnitt (Alex' Vorgabe) — NUR Hero + große CTA-Blöcke: Inter 800,
+   weiß, bis 75px, eng gesetzt. Sektionen springen klassisch eine Stufe
+   runter (t-h2). */
 .t-display {
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 800;
   font-size: clamp(44px, 5.2vw, 75px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-h2 {
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 800;
-  font-size: clamp(36px, 5vw, 75px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: clamp(32px, 3.6vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
