@@ -40,26 +40,26 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              fontSize: 62,
+              fontSize: 58,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#FFFDF3",
             }}
           >
-            Die erste Empfehlung kommt
+            Sie geben zwei Stunden.
           </div>
           <div
             style={{
               display: "flex",
-              fontSize: 62,
+              fontSize: 58,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#F7E99A",
             }}
           >
-            von Google und ChatGPT.
+            Sie bekommen ein Vertriebssystem.
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>

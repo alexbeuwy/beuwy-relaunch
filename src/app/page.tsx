@@ -125,16 +125,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 02 — SICHTBARKEITS-CHECK */}
-      <Section id="check" tone="raised">
-        <SectionHead
-          title={rich(c["check.title"])}
-          intro={c["check.intro"]}
-        />
-        <AuditTool />
-      </Section>
-
-      {/* 03 — STATUS-QUO-KOSTEN (Gelb-Bühne) */}
+      {/* 02 — STATUS-QUO-KOSTEN (Gelb-Bühne): erst das Problem … */}
       <Section id="kosten" tone="bright">
         <SectionHead
           title={rich(c["kosten.title"])}
@@ -155,7 +146,7 @@ export default async function HomePage() {
                 </li>
               ))}
             </ol>
-            <p className="t-body mt-6 max-w-[560px]">{c["kosten.agentur"]}</p>
+            <p className="t-body mt-6 max-w-[560px]">{c["kosten.bridge"]}</p>
           </div>
           <div className="md:col-span-5">
             <div className="panel rounded-2xl p-6">
@@ -168,6 +159,15 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+      </Section>
+
+      {/* 03 — SICHTBARKEITS-CHECK: … dann die Selbstdiagnose */}
+      <Section id="check" tone="raised">
+        <SectionHead
+          title={rich(c["check.title"])}
+          intro={c["check.intro"]}
+        />
+        <AuditTool />
       </Section>
 
       {/* 04 — REFERENZEN */}
@@ -194,6 +194,15 @@ export default async function HomePage() {
             mechanic={c["proof.saadi_mechanic"]}
           />
         </div>
+        <Reveal>
+          <div className="mt-10 pt-8 border-t hairline grid md:grid-cols-12 gap-4 md:gap-6 items-baseline">
+            <p className="t-stat md:col-span-3">{c["proof.stat"]}</p>
+            <div className="md:col-span-9">
+              <p className="t-body-lg is-cream max-w-[620px]">{c["proof.stat_text"]}</p>
+              <p className="t-data mt-2">{c["proof.stat_note"]}</p>
+            </div>
+          </div>
+        </Reveal>
         <div className="logo-rail mt-10" aria-label="Frühere Kunden">
           {[
             { src: "https://beuwy-2.b-cdn.net/studio/1778235632911-Vision_Blue_2021_digital.svg", alt: "Vision Real Estate" },
@@ -209,7 +218,42 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 05 — LEISTUNGSPAKETE (Anker + Decoy, T2 erhöht) */}
+      {/* 05 — ARBEITSWEISE (Gelb-Bühne) + Mechanik: Wert und Reason-Why VOR dem Preis */}
+      <Section id="system" tone="bright">
+        <SectionHead
+          title={rich(c["system.title"])}
+          intro={c["system.intro"]}
+        />
+        <div className="space-y-4">
+          {[1, 2, 3, 4].map((n) => (
+            <Reveal key={n}>
+              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
+                <div className="md:col-span-4 flex items-baseline gap-4">
+                  <span className="t-data">0{n}</span>
+                  <h3 className="t-h3">{c[`system.row${n}_title`]}</h3>
+                </div>
+                <p className="t-body md:col-span-8 max-w-[560px]">{c[`system.row${n}_text`]}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-16 pt-10 border-t hairline">
+          <h3 className="t-h2 max-w-[720px]">{rich(c["system.mechanik_title"])}</h3>
+          <p className="t-body-lg mt-4 max-w-[560px]">{c["system.mechanik_intro"]}</p>
+          <div className="mt-10 grid md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((n) => (
+              <Reveal key={n} delay={(n - 1) * 70}>
+                <div>
+                  <h4 className="t-h3">{c[`system.mechanik${n}_title`]}</h4>
+                  <p className="t-body mt-3">{c[`system.mechanik${n}_text`]}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* 06 — LEISTUNGSPAKETE (Anker + Decoy, T2 erhöht) — der Preis landet NACH der Mechanik */}
       <Section id="pakete" tone="raised">
         <SectionHead
           title={rich(c["pricing.title"])}
@@ -250,27 +294,6 @@ export default async function HomePage() {
           <p className="t-small is-cream">{c["pricing.garantie1"]}</p>
           <p className="t-small is-cream">{c["pricing.garantie2"]}</p>
           <p className="t-small">{c["pricing.agentur_vergleich"]}</p>
-        </div>
-      </Section>
-
-      {/* 06 — ARBEITSWEISE (Gelb-Bühne) */}
-      <Section id="system" tone="bright">
-        <SectionHead
-          title={rich(c["system.title"])}
-          intro={c["system.intro"]}
-        />
-        <div className="space-y-4">
-          {[1, 2, 3, 4].map((n) => (
-            <Reveal key={n}>
-              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
-                <div className="md:col-span-4 flex items-baseline gap-4">
-                  <span className="t-data">0{n}</span>
-                  <h3 className="t-h3">{c[`system.row${n}_title`]}</h3>
-                </div>
-                <p className="t-body md:col-span-8 max-w-[560px]">{c[`system.row${n}_text`]}</p>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </Section>
 
@@ -360,12 +383,12 @@ export default async function HomePage() {
                 {c["cta.primary"]}
                 <span aria-hidden>→</span>
               </Link>
-              <a
-                href="mailto:ap@beuwy.com?subject=Video-Analyse%20anfordern&body=Meine%20Domain%3A%20"
+              <Link
+                href="/video-analyse"
                 className="cta-invert-ink t-small underline underline-offset-4"
               >
                 {c["cta.secondary"]}
-              </a>
+              </Link>
             </div>
           </Reveal>
           <Reveal delay={220}>

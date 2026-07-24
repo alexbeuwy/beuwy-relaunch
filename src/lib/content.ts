@@ -9,15 +9,15 @@
 
 export const DEFAULTS: Record<string, string> = {
   // ── Hero (Direct/Organic) ──────────────────────────────────────────────
-  "hero.title": "Während Agenturen pitchen, ist Ihr *Portal* live.",
+  "hero.title": "Sie geben zwei Stunden. Sie bekommen ein *Vertriebssystem*.",
   "hero.subtitle":
-    "beuwy liefert verkaufsfertige Systeme zum Festpreis. Sie geben zwei Stunden Input. Den Rest liefern wir.",
+    "Portal, CRM-Anbindung, KI-Sichtbarkeit — zum Festpreis, live in Wochen. Das Referenzprojekt ist echt: klicken Sie rein.",
   "hero.plate_context": "Immobilienmakler · Rhein-Neckar · 16.500 € Festpreis · live",
 
   // ── Hero-Variante Paid Ads (?via=ad) ───────────────────────────────────
-  "heroad.title": "Portal, CRM, KI — zum Festpreis. Live, nicht als *Konzept*.",
+  "heroad.title": "Ein System, das Anfragen *holt*, qualifiziert und in Ihr CRM legt.",
   "heroad.subtitle":
-    "Keine Agentur-Monate. Das Referenzprojekt unten ist echt — klicken Sie rein.",
+    "Zum Festpreis, in Wochen live, gebaut von einer Person. Das Referenzprojekt ist echt — klicken Sie rein.",
 
   // ── Hero-Variante Cold Outreach (?via=video) ───────────────────────────
   "herovideo.title": "Sie kommen aus meinem Video. Hier ist der *Rest*.",
@@ -41,8 +41,8 @@ export const DEFAULTS: Record<string, string> = {
   "kosten.row3_label": "Konsequenz",
   "kosten.row3_text":
     "Die Antwort der Maschine ist die neue erste Filterstufe. Sie findet statt, bevor Sie vom Interessenten erfahren.",
-  "kosten.agentur":
-    "Eine Agentur braucht für ein Projekt dieser Klasse üblicherweise drei bis sechs Monate — Pitch, Workshops, Abstimmungsschleifen. Jeder dieser Monate ist ein Monat, in dem Ihr Rechner keine Anfragen einsammelt und ChatGPT Ihren Wettbewerber empfiehlt.",
+  "kosten.bridge":
+    "Ob Sie in diesen Antworten vorkommen, ist keine Meinungsfrage — es ist messbar. Der Check unten zeigt es Ihnen in 25 Sekunden.",
   "kosten.stat": "58,5",
   "kosten.stat_text": "der Google-Suchen enden bereits ohne Klick auf eine Website.",
   "kosten.stat_source": "Quelle · SparkToro/Datos, 2024",
@@ -60,11 +60,16 @@ export const DEFAULTS: Record<string, string> = {
     "Vertriebspartner-Funnel mit Qualifizierungslogik\nProdukt-Strecken mit Gutachten & Prospekt-Standards\nImmoCampus als zweite Rekrutierungs-Rampe",
   "proof.saadi_mechanic":
     "Die Partner-Strecke qualifiziert Vertriebe, disqualifiziert früh — und rekrutiert dadurch planbar statt zufällig.",
+  "proof.stat": "315",
+  "proof.stat_text":
+    "verkaufte Wohnungen über einen Social-Media-Funnel — mitten in der Zinskrise.",
+  "proof.stat_note":
+    "acta, 2023 mitgegründet: Vertrieb selbst skaliert — von der Person, die auch Ihr System baut.",
 
   // ── Leistungspakete ────────────────────────────────────────────────────
-  "pricing.title": "Drei Pakete. Ein *Festpreis*. Kein Kleingedrucktes.",
+  "pricing.title": "Drei Pakete. Ein *Festpreis*.",
   "pricing.intro":
-    "Sie geben zwei Stunden Input. Den Rest liefern wir — zum Preis, der vorher feststeht.",
+    "Der Preis steht fest, bevor Sie zusagen. Was im Paket steht, ist der Lieferumfang — nicht der Einstieg.",
   "pricing.tier1_name": "Das Fundament",
   "pricing.tier1_result": "Ein Auftritt, der Vertrauen erzeugt — und von Maschinen verstanden wird.",
   "pricing.tier1_price": "7.900 €",
@@ -74,7 +79,7 @@ export const DEFAULTS: Record<string, string> = {
   "pricing.tier2_result": "Ein Portal, das Anfragen erzeugt, qualifiziert und in Ihr CRM übergibt.",
   "pricing.tier2_price": "16.900 €",
   "pricing.tier2_features":
-    "Alles aus dem Fundament\nRechner, Portal oder Funnel — das Werkzeug, das Ihre Kunden anzieht\nCRM-Anbindung (z. B. onOffice)\nStandort- und Fachseiten für Google & KI-Antworten\nReferenzklasse: riegel.vercel.app",
+    "Alles aus dem Fundament\nRechner, Portal oder Funnel — das Werkzeug, das Ihre Kunden anzieht\nCRM-Anbindung (z. B. onOffice)\nStandort- und Fachseiten für Google & KI-Antworten\nReferenzklasse: das RIEGEL-System — oben live verlinkt",
   "pricing.tier2_badge": "Meistgewählt",
   "pricing.tier3_name": "Das Betriebssystem",
   "pricing.tier3_result": "Ihre Firma läuft auf eigenem System: CRM, Automatisierungen, Sichtbarkeit.",
@@ -103,6 +108,20 @@ export const DEFAULTS: Record<string, string> = {
   "system.row4_title": "Prozess + CRM",
   "system.row4_text": "Jede Anfrage landet dort, wo Ihr Vertrieb arbeitet — nicht in einem Posteingang.",
 
+  // ── Mechanik (Reason-Why vor dem Preis) ────────────────────────────────
+  "system.mechanik_title": "Festpreis und Tempo sind kein *Trick*.",
+  "system.mechanik_intro":
+    "Der Grund, warum eine Person liefert, wofür Agenturen Monate ansetzen:",
+  "system.mechanik1_title": "Kein Overhead",
+  "system.mechanik1_text":
+    "Keine Pitch-Teams, keine Abstimmungsschleifen, keine Übergaben. Diese Monate bezahlt sonst der Kunde mit.",
+  "system.mechanik2_title": "KI-gestützte Produktion",
+  "system.mechanik2_text":
+    "Gebaut mit denselben KI-Systemen, die ich verkaufe. Deshalb Wochen statt Monate — und ein Preis, der hält.",
+  "system.mechanik3_title": "Erprobtes Fundament",
+  "system.mechanik3_text":
+    "Kein Projekt startet bei null: Buchung, CRM-Anbindung und KI-Lesbarkeit sind gebaut und im Einsatz. Ihr System beginnt auf Referenzniveau.",
+
   // ── Prozess & Qualifizierung ───────────────────────────────────────────
   "process.title": "Erst die *Prüfung*, dann die Diagnose, dann das System.",
   "process.intro": "Festpreis, fester Umfang, eine Ansprechperson — die, die es baut.",
@@ -124,8 +143,8 @@ export const DEFAULTS: Record<string, string> = {
   // ── Founder ────────────────────────────────────────────────────────────
   "founder.title": "Sie sprechen mit dem, der es *baut*.",
   "founder.text1":
-    "Alexander Pütter arbeitet seit 2009 an Marken — erst für Bosch-Gruppe, Continental und Michelin, seit 2017 mit beuwy für inhabergeführte Unternehmen. 2023 hat er acta mitgegründet und den Vertrieb selbst skaliert: 315 verkaufte Wohnungen über einen Social-Media-Funnel, mitten in der Zinskrise.",
-  "founder.text2": "Wir kennen Kaufentscheidungen, weil wir sie selbst auslösen.",
+    "Alexander Pütter arbeitet seit 2009 an Marken — erst für Bosch-Gruppe, Continental und Michelin, seit 2017 mit beuwy für inhabergeführte Unternehmen. 2023 hat er acta mitgegründet und den Vertrieb selbst skaliert — die 315 verkauften Wohnungen oben stammen aus diesem Funnel.",
+  "founder.text2": "Ich kenne Kaufentscheidungen, weil ich sie selbst auslöse.",
   "founder.solo":
     "Eine Person heißt: keine Übergabe an Juniors, keine Stille Post, keine Meetings über Meetings. Der Code, die Zugänge und das System gehören am Ende Ihnen — dokumentiert und übergabefähig.",
   "founder.caption": "Alexander Pütter · Ludwigshafen am Rhein",
@@ -140,7 +159,7 @@ export const DEFAULTS: Record<string, string> = {
     "Ein Pitch zeigt Folien. Ich zeige Systeme, die live sind — klicken Sie in die Referenzen. Den Rest leistet die Diagnose: bezahlt, aufs Projekt angerechnet, und das Dokument gehört Ihnen. Überzeugt der Entwurf nicht, wird sie erstattet.",
   "faq.q3": "Was, wenn die eine Person ausfällt?",
   "faq.a3":
-    "Das Gegenteil ist das Risiko: In Agenturen wandert Ihr Projekt vom Pitch-Team zum Junior. Hier baut dieselbe Person, die Sie berät. Alles ist dokumentiert, Code und Zugänge gehören Ihnen — jederzeit übergabefähig.",
+    "Hier berät und baut dieselbe Person — es gibt keine Übergabe, in der Wissen verloren geht. Alles ist von Tag eins dokumentiert, Code und Zugänge gehören Ihnen: jederzeit übergabefähig.",
   "faq.q4": "Wie viel Zeit kostet mich das Projekt?",
   "faq.a4":
     "Zwei Stunden Input am Anfang, zwei Freigaben unterwegs. Wenn Sie mehr Zeit investieren wollen, gern — nötig ist es nicht.",
@@ -158,6 +177,13 @@ export const DEFAULTS: Record<string, string> = {
   "cta.primary": "Projekt anfragen",
   "cta.secondary": "Oder zuerst: die Video-Analyse Ihres Falls anfordern",
   "cta.meta": "Kostenlos · kein Pitch · Antwort binnen 24 h",
+
+  // ── Video-Analyse (eigene Seite mit Formular statt mailto) ─────────────
+  "video.title": "Die Video-Analyse Ihres *Falls*.",
+  "video.intro":
+    "Sie schicken Ihre Domain. Sie bekommen ein persönlich aufgenommenes Video: was Interessenten und Maschinen heute sehen, wo Anfragen verloren gehen, was ein System ändern würde.",
+  "video.note": "Kostenlos · persönlich aufgenommen, keine Vorlage · Antwort binnen 24 h",
+  "video.submit": "Video-Analyse anfordern",
 };
 
 export const FIELD_LABELS: Record<string, string> = {
@@ -175,6 +201,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "proof.saadi_facts": "Saadi · Fakten (eine Zeile = ein Punkt)",
   "process.capacity": "Prozess · Kapazitäts-Absatz (echte Zahl eintragen, sobald entschieden)",
   "kosten.stat": "Kennzahl (nur Zahl, ohne %)",
+  "proof.stat": "Referenzen · Kennzahl (nur Zahl)",
+  "system.mechanik_title": "Mechanik · Überschrift (Reason-Why vor dem Preis)",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */
