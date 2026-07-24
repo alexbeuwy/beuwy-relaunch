@@ -281,14 +281,6 @@ export function AuditTool() {
           </button>
         </form>
 
-        {phase === "idle" && (
-          <p className="t-data px-3 py-3">
-            Screenshot, 9 technische Prüfpunkte und eine Sichtbarkeitsprüfung
-            durch beuwy Agenten — ca. 25 Sekunden, kein Login. Wir zeigen Ihnen
-            jeden Schritt.
-          </p>
-        )}
-
         {error && <p className="t-small is-fail px-3 py-3">{error}</p>}
 
         {/* Status-Bühne */}
