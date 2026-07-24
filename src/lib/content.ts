@@ -9,13 +9,10 @@
 
 export const DEFAULTS: Record<string, string> = {
   // ── Hero (Direct/Organic) ──────────────────────────────────────────────
-  "hero.eyebrow": "Portale · CRMs · KI-Automatisierung — Finance, Real Estate, Medizin",
   "hero.title": "Während Agenturen pitchen, ist Ihr *Portal* live.",
   "hero.subtitle":
     "beuwy liefert verkaufsfertige Systeme zum Festpreis. Sie geben zwei Stunden Input. Den Rest liefern wir.",
   "hero.plate_context": "Immobilienmakler · Rhein-Neckar · 16.500 € Festpreis · live",
-  "hero.plate_hint": "Referenz ansehen — klicken Sie rein",
-  "hero.proof_line": "Systeme hinter RIEGEL Immobilien · SAADI AG · Königswege · acta",
 
   // ── Hero-Variante Paid Ads (?via=ad) ───────────────────────────────────
   "heroad.title": "Portal, CRM, KI — zum Festpreis. Live, nicht als *Konzept*.",
@@ -28,13 +25,11 @@ export const DEFAULTS: Record<string, string> = {
     "Unten das System, das Sie gesehen haben — live. Daneben: was so etwas kostet und wie schnell es geht.",
 
   // ── Sichtbarkeits-Check ────────────────────────────────────────────────
-  "check.eyebrow": "01 · Ihr Status quo",
   "check.title": "Was sehen ChatGPT und Google, wenn sie *Sie* lesen?",
   "check.intro":
     "Screenshot, neun technische Prüfpunkte und eine Sichtbarkeitsprüfung durch beuwy Agenten — ehrlich, in 25 Sekunden, ohne Login.",
 
   // ── Status-quo-Kosten ──────────────────────────────────────────────────
-  "kosten.eyebrow": "02 · Was Warten kostet",
   "kosten.title": "Der Weg zum Auftrag beginnt nicht mehr auf Ihrer *Website*.",
   "kosten.intro":
     "Eigentümer, Anleger und Patienten prüfen Anbieter zuerst in Google-AI-Übersichten und Chat-Assistenten. Wer dort nicht vorkommt, verliert Aufträge unbemerkt.",
@@ -53,7 +48,6 @@ export const DEFAULTS: Record<string, string> = {
   "kosten.stat_source": "Quelle · SparkToro/Datos, 2024",
 
   // ── Referenzen ─────────────────────────────────────────────────────────
-  "proof.eyebrow": "03 · Referenzen",
   "proof.title": "Zwei Systeme, die es *beweisen*.",
   "proof.intro": "Beide live, beide im Vertrieb im Einsatz, beide von einer Person gebaut.",
   "proof.riegel_branch": "Immobilienmakler · Rhein-Neckar",
@@ -66,11 +60,8 @@ export const DEFAULTS: Record<string, string> = {
     "Vertriebspartner-Funnel mit Qualifizierungslogik\nProdukt-Strecken mit Gutachten & Prospekt-Standards\nImmoCampus als zweite Rekrutierungs-Rampe",
   "proof.saadi_mechanic":
     "Die Partner-Strecke qualifiziert Vertriebe, disqualifiziert früh — und rekrutiert dadurch planbar statt zufällig.",
-  "proof.legacy_line":
-    "Davor · Vision Real Estate (KKR-Joint-Venture 2023, vision.de) · Königswege (170 → 2.240 Partner, cash-online 2024) · acta (48,4 M€ Volumen über Social-Funnel, intern)",
 
   // ── Leistungspakete ────────────────────────────────────────────────────
-  "pricing.eyebrow": "04 · Leistung & Preis",
   "pricing.title": "Drei Pakete. Ein *Festpreis*. Kein Kleingedrucktes.",
   "pricing.intro":
     "Sie geben zwei Stunden Input. Den Rest liefern wir — zum Preis, der vorher feststeht.",
@@ -90,8 +81,6 @@ export const DEFAULTS: Record<string, string> = {
   "pricing.tier3_price": "ab 34.000 €",
   "pricing.tier3_features":
     "Alles aus dem Vertriebssystem\nCustom CRM oder tiefe Prozess-Automatisierung mit KI\nMehrere Funnels und Portale\nLaufender Ausbau und Betrieb",
-  "pricing.speed": "Live in Wochen, nicht Monaten.",
-  "pricing.effort": "Ihr Aufwand: zwei Stunden Input, zwei Freigaben.",
   "pricing.garantie1":
     "Diagnose-Garantie: Überzeugt der Systementwurf nicht, wird die Diagnose erstattet.",
   "pricing.garantie2": "Festpreis-Garantie: Mehraufwand ist mein Risiko, nicht Ihres.",
@@ -100,27 +89,21 @@ export const DEFAULTS: Record<string, string> = {
   "pricing.cta": "Projekt anfragen",
 
   // ── Arbeitsweise (System) ──────────────────────────────────────────────
-  "system.eyebrow": "05 · Arbeitsweise",
   "system.title": "Eine Website verkauft nicht. Ein *System* schon.",
   "system.intro":
     "Vier Ebenen, die ineinandergreifen — gedacht von Ihrem Vertriebsprozess her, nicht von der Startseite.",
   "system.row1_title": "Marke",
   "system.row1_text": "Eine Positionierung, die ein Kunde nachsprechen und eine Maschine zitieren kann.",
-  "system.row1_example": "SAADI · „Produktgeber, keine Verkäufer“ — ein Satz, den Partner weitertragen",
   "system.row2_title": "Website + Werkzeuge",
   "system.row2_text":
     "Rechner, Portale, Buchung: Werkzeuge, die dem Besucher sofort etwas geben — und Ihnen die Anfrage.",
-  "system.row2_example": "RIEGEL · Immorechner, 60 Sekunden, ohne Anmeldung",
   "system.row3_title": "KI-Sichtbarkeit",
   "system.row3_text":
     "Strukturierte Daten und zitierfähige Inhalte, damit Google-AI und Chat-Assistenten Sie als Antwort verwenden.",
-  "system.row3_example": "RIEGEL · Preisatlas + Standortseiten als zitierbare Datenquelle",
   "system.row4_title": "Prozess + CRM",
   "system.row4_text": "Jede Anfrage landet dort, wo Ihr Vertrieb arbeitet — nicht in einem Posteingang.",
-  "system.row4_example": "RIEGEL · onOffice-Anbindung · SAADI · Partner-Qualifizierungsstrecke",
 
   // ── Prozess & Qualifizierung ───────────────────────────────────────────
-  "process.eyebrow": "06 · Prozess",
   "process.title": "Erst die *Prüfung*, dann die Diagnose, dann das System.",
   "process.intro": "Festpreis, fester Umfang, eine Ansprechperson — die, die es baut.",
   "process.step1_title": "Anfrage & Prüfung",
@@ -139,7 +122,6 @@ export const DEFAULTS: Record<string, string> = {
     "Ich nehme nicht jedes Projekt. Nicht als Verkaufstrick — jedes System wird von einer Person gebaut, und die baut gerade auch andere. Deshalb die Prüfung vor der Zusage.",
 
   // ── Founder ────────────────────────────────────────────────────────────
-  "founder.eyebrow": "07 · Wer baut",
   "founder.title": "Sie sprechen mit dem, der es *baut*.",
   "founder.text1":
     "Alexander Pütter arbeitet seit 2009 an Marken — erst für Bosch-Gruppe, Continental und Michelin, seit 2017 mit beuwy für inhabergeführte Unternehmen. 2023 hat er acta mitgegründet und den Vertrieb selbst skaliert: 315 verkaufte Wohnungen über einen Social-Media-Funnel, mitten in der Zinskrise.",
@@ -147,12 +129,8 @@ export const DEFAULTS: Record<string, string> = {
   "founder.solo":
     "Eine Person heißt: keine Übergabe an Juniors, keine Stille Post, keine Meetings über Meetings. Der Code, die Zugänge und das System gehören am Ende Ihnen — dokumentiert und übergabefähig.",
   "founder.caption": "Alexander Pütter · Ludwigshafen am Rhein",
-  "founder.fact1": "2009–2017 · Markenarbeit · Bosch-Gruppe, Continental, Michelin",
-  "founder.fact2": "seit 2017 · beuwy · Systeme für Finance, Real Estate & Medizin",
-  "founder.fact3": "2023–2025 · acta · 315 Wohnungen, Ø Ticket 153.842 € (intern)",
 
   // ── FAQ ────────────────────────────────────────────────────────────────
-  "faq.eyebrow": "08 · Fragen",
   "faq.title": "Die Fragen, die im ersten Gespräch *immer* kommen.",
   "faq.q1": "Warum kostet das 16.900 € und nicht 3.000 € wie ein Baukasten?",
   "faq.a1":
@@ -185,10 +163,7 @@ export const DEFAULTS: Record<string, string> = {
 export const FIELD_LABELS: Record<string, string> = {
   "hero.title": "Hero · Überschrift (*Wort* = Hervorhebung)",
   "hero.subtitle": "Hero · Unterzeile",
-  "hero.eyebrow": "Hero · Eyebrow",
   "hero.plate_context": "Hero · Kontextzeile Referenz (Branche · Preis · Timeline)",
-  "hero.plate_hint": "Hero · Klick-Hinweis auf der Referenz",
-  "hero.proof_line": "Hero · Referenz-Zeile unter dem Tool",
   "heroad.title": "Hero-Variante Ads (?via=ad) · Überschrift",
   "heroad.subtitle": "Hero-Variante Ads · Unterzeile",
   "herovideo.title": "Hero-Variante Video-Outreach (?via=video) · Überschrift",

@@ -30,21 +30,17 @@ export function Section({
   );
 }
 
-/* Einheitlicher Sektionskopf — Rhythmus nach DESIGN-DIRECTION 2.2:
-   Eyebrow → 16px → H2 → 20px → Intro → 48px → visuelles Element (children der Sektion) */
+/* Einheitlicher Sektionskopf — clean: Headline → Sub → visuelles Element */
 export function SectionHead({
-  eyebrow,
   title,
   intro,
 }: {
-  eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
 }) {
   return (
     <div className="mb-12">
-      <p className="t-label">{eyebrow}</p>
-      <h2 className="t-h2 mt-4 max-w-[760px]">{title}</h2>
+      <h2 className="t-h2 max-w-[760px]">{title}</h2>
       {intro && <p className="t-body-lg mt-5 max-w-[560px]">{intro}</p>}
     </div>
   );

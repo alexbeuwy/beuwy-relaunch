@@ -55,9 +55,6 @@ export default async function HomePage() {
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-20 relative z-[1]">
           <div className="grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-6 hero-split">
-              <Reveal>
-                <p className="t-label">{c["hero.eyebrow"]}</p>
-              </Reveal>
               <Reveal delay={60}>
                 <HeroHeadline
                   variants={{
@@ -117,25 +114,20 @@ export default async function HomePage() {
                     />
                     <span className="case-glare" aria-hidden />
                   </figure>
-                  <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
-                    <span className="t-data">{c["hero.plate_context"]}</span>
-                    <span className="t-data is-accent">{c["hero.plate_hint"]} ↗</span>
-                  </div>
+                  <p className="t-data mt-3">
+                    {c["hero.plate_context"]} <span className="is-accent">↗</span>
+                  </p>
                 </a>
               </Reveal>
             </div>
           </div>
 
-          <Reveal delay={280}>
-            <p className="t-data text-center mt-12">{c["hero.proof_line"]}</p>
-          </Reveal>
         </div>
       </section>
 
       {/* 02 — SICHTBARKEITS-CHECK */}
       <Section id="check" tone="raised">
         <SectionHead
-          eyebrow={c["check.eyebrow"]}
           title={rich(c["check.title"])}
           intro={c["check.intro"]}
         />
@@ -145,7 +137,6 @@ export default async function HomePage() {
       {/* 03 — STATUS-QUO-KOSTEN (Gelb-Bühne) */}
       <Section id="kosten" tone="bright">
         <SectionHead
-          eyebrow={c["kosten.eyebrow"]}
           title={rich(c["kosten.title"])}
           intro={c["kosten.intro"]}
         />
@@ -182,7 +173,6 @@ export default async function HomePage() {
       {/* 04 — REFERENZEN */}
       <Section id="proof" tone="base">
         <SectionHead
-          eyebrow={c["proof.eyebrow"]}
           title={rich(c["proof.title"])}
           intro={c["proof.intro"]}
         />
@@ -217,13 +207,11 @@ export default async function HomePage() {
             <img key={l.alt} src={l.src} alt={l.alt} className="logo-rail-item" loading="lazy" />
           ))}
         </div>
-        <p className="t-data mt-4">{c["proof.legacy_line"]}</p>
       </Section>
 
       {/* 05 — LEISTUNGSPAKETE (Anker + Decoy, T2 erhöht) */}
       <Section id="pakete" tone="raised">
         <SectionHead
-          eyebrow={c["pricing.eyebrow"]}
           title={rich(c["pricing.title"])}
           intro={c["pricing.intro"]}
         />
@@ -258,19 +246,16 @@ export default async function HomePage() {
             </Reveal>
           ))}
         </div>
-        <div className="mt-8 grid md:grid-cols-2 gap-x-10 gap-y-2 max-w-[880px]">
-          <p className="t-small is-cream">{c["pricing.speed"]}</p>
-          <p className="t-small is-cream">{c["pricing.effort"]}</p>
-          <p className="t-small">{c["pricing.garantie1"]}</p>
-          <p className="t-small">{c["pricing.garantie2"]}</p>
+        <div className="mt-8 space-y-2 max-w-[720px]">
+          <p className="t-small is-cream">{c["pricing.garantie1"]}</p>
+          <p className="t-small is-cream">{c["pricing.garantie2"]}</p>
+          <p className="t-small">{c["pricing.agentur_vergleich"]}</p>
         </div>
-        <p className="t-data mt-6 max-w-[720px]">{c["pricing.agentur_vergleich"]}</p>
       </Section>
 
       {/* 06 — ARBEITSWEISE (Gelb-Bühne) */}
       <Section id="system" tone="bright">
         <SectionHead
-          eyebrow={c["system.eyebrow"]}
           title={rich(c["system.title"])}
           intro={c["system.intro"]}
         />
@@ -282,8 +267,7 @@ export default async function HomePage() {
                   <span className="t-data">0{n}</span>
                   <h3 className="t-h3">{c[`system.row${n}_title`]}</h3>
                 </div>
-                <p className="t-body md:col-span-5">{c[`system.row${n}_text`]}</p>
-                <p className="t-data md:col-span-3">{c[`system.row${n}_example`]}</p>
+                <p className="t-body md:col-span-8 max-w-[560px]">{c[`system.row${n}_text`]}</p>
               </div>
             </Reveal>
           ))}
@@ -293,7 +277,6 @@ export default async function HomePage() {
       {/* 07 — PROZESS & QUALIFIZIERUNG */}
       <Section id="prozess" tone="base">
         <SectionHead
-          eyebrow={c["process.eyebrow"]}
           title={rich(c["process.title"])}
           intro={c["process.intro"]}
         />
@@ -320,17 +303,10 @@ export default async function HomePage() {
       <Section id="founder" tone="raised">
         <div className="grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-7">
-            <SectionHead eyebrow={c["founder.eyebrow"]} title={rich(c["founder.title"])} />
+            <SectionHead title={rich(c["founder.title"])} />
             <p className="t-body-lg max-w-[560px]">{c["founder.text1"]}</p>
             <p className="t-body-lg mt-5 max-w-[560px] is-cream">{c["founder.text2"]}</p>
             <p className="t-body mt-5 max-w-[560px]">{c["founder.solo"]}</p>
-            <div className="mt-8 max-w-[560px]">
-              {[1, 2, 3].map((n) => (
-                <div key={n} className="py-3 border-t hairline">
-                  <p className="t-data">{c[`founder.fact${n}`]}</p>
-                </div>
-              ))}
-            </div>
           </div>
           <div className="md:col-span-5">
             <figure className="founder-plate">
@@ -351,7 +327,7 @@ export default async function HomePage() {
 
       {/* 09 — FAQ */}
       <Section id="faq" tone="base">
-        <SectionHead eyebrow={c["faq.eyebrow"]} title={rich(c["faq.title"])} />
+        <SectionHead title={rich(c["faq.title"])} />
         <div className="max-w-[760px]">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <details key={n} className="faq-item group border-b hairline py-5">
