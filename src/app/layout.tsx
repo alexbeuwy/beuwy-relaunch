@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
@@ -13,6 +13,14 @@ const fraunces = Fraunces({
   display: "swap",
   weight: ["400", "500"],
   style: ["normal", "italic"],
+});
+
+/* XXL-Headline-Schnitt (Alex' Vorgabe: Inter 800, weiß, 75/90) */
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["800"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}>
+    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />

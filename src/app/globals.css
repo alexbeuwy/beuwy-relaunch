@@ -153,27 +153,28 @@ body {
    TYPO-TOKENS — DESIGN-DIRECTION 2.1. Die einzigen erlaubten
    Textgrößen der Seite. Keine text-[..px] daneben.
    ---------------------------------------------------------- */
+/* XXL-Headlines (Alex' Vorgabe): Inter 800, weiß, 75px/90px auf Desktop */
 .t-display {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(40px, 5.5vw, 64px);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  color: var(--ink-cream);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 5.2vw, 75px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-h2 {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(28px, 3.2vw, 40px);
-  line-height: 1.1;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 75px);
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--ink-cream);
+  color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-display em, .t-h2 em {
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 800;
   color: var(--ink-yellow);
 }
 .t-display em.em-cream, .t-h2 em.em-cream {
@@ -370,7 +371,7 @@ body {
 /* Split-Hero: H1 teilt sich die Breite mit der Referenz-Plate —
    kleinere Obergrenze, damit sie in max. 3 Zeilen sitzt */
 .hero-split .t-display {
-  font-size: clamp(36px, 3.8vw, 52px);
+  font-size: clamp(40px, 5.2vw, 75px);
 }
 
 /* Founder-Plate — licht-modelliertes Studio-Portrait, gerahmt wie die
