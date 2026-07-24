@@ -153,42 +153,53 @@ body {
    TYPO-TOKENS — DESIGN-DIRECTION 2.1. Die einzigen erlaubten
    Textgrößen der Seite. Keine text-[..px] daneben.
    ---------------------------------------------------------- */
-/* XXL-Schnitt — NUR Hero + große CTA-Blöcke: Freiburg (lizenziert),
-   weiß, bis 75px, eng gesetzt. Sektionen springen klassisch eine Stufe
-   runter (t-h2). Freiburg ist Regular-only → font-weight 400, sonst
-   verzerrt der Browser mit Faux-Bold. */
+/* XXL-Schnitt — NUR Hero + große CTA-Blöcke: Helvena (lizenziert, Variable),
+   weiß, bis 75px, eng & editorial gesetzt. Sektionen springen klassisch eine
+   Stufe runter (t-h2). */
 .t-display {
-  font-family: var(--font-freiburg), system-ui, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-helvena), system-ui, sans-serif;
+  font-weight: 780;
   font-size: clamp(44px, 5.2vw, 75px);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-h2 {
-  font-family: var(--font-freiburg), system-ui, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-helvena), system-ui, sans-serif;
+  font-weight: 720;
   font-size: clamp(32px, 3.6vw, 52px);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   color: rgb(255, 255, 255);
   text-wrap: balance;
 }
 .t-display em, .t-h2 em {
   font-style: normal;
-  font-weight: 400;
+  font-weight: inherit;
   color: var(--ink-yellow);
 }
 
-/* Puffballon-Akzent: einzelne Zahlen als Farb-Bitmap (kosten.stat, proof.stat).
-   Bitmapfarben ignorieren CSS-color — funktioniert auf dunkel wie gelb.
-   Doppelklasse, damit sie die t-stat-Familie sicher schlägt. */
-.puff-num,
-.t-stat.puff-num {
-  font-family: var(--font-puff), var(--font-mono), monospace;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+/* Puffballon-Zahlen (PuffNumber): Folienballon-Ziffern als PNG-Reihe.
+   Höhe an die Textzeile gekoppelt (--puff-h), an der Grundlinie sitzend. */
+.puff-row {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.04em;
+  line-height: 1;
+  vertical-align: baseline;
+}
+.puff-glyph {
+  height: var(--puff-h, 1em);
+  width: auto;
+  display: block;
+  /* dezenter Schlagschatten, damit die Ballons auf Gelb wie auf Bordeaux
+     Kontur bekommen */
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.28));
+}
+.puff-gap {
+  display: inline-block;
+  width: 0.24em;
 }
 .t-display em.em-cream, .t-h2 em.em-cream {
   color: var(--ink-cream);

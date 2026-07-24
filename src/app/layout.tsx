@@ -7,22 +7,12 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
 
-/* Headline-Schnitt: Freiburg (lizenziert, self-hosted, Regular-only) */
-const freiburg = localFont({
-  src: "./fonts/freiburg.woff2",
-  variable: "--font-freiburg",
+/* Headline-Schnitt: Helvena (lizenziert, self-hosted, Variable 200–900) */
+const helvena = localFont({
+  src: "./fonts/helvena.woff2",
+  variable: "--font-helvena",
   display: "swap",
-  weight: "400",
-});
-
-/* Puff Balloon Bitmaps — Farb-Bitmapfont, subsettet auf 0-9,.%+€ und von
-   36 MB auf 0,3 MB verkleinert. Nur als Akzent für einzelne Zahlen. */
-const puff = localFont({
-  src: "./fonts/puff-digits.woff2",
-  variable: "--font-puff",
-  display: "swap",
-  weight: "400",
-  preload: false,
+  weight: "200 900",
 });
 
 export const metadata: Metadata = {
@@ -51,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${freiburg.variable} ${puff.variable}`}>
+    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${helvena.variable}`}>
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />
