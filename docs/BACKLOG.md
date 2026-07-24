@@ -1,3 +1,36 @@
+# Backlog
+
+## Nachtrag 24.07 — Verdikt-Umbau (Phase 1 + 2a) — erledigt
+
+- [x] Phase 1 Copy-Architektur: Value-Equation-H1, kosten→check, system→pakete,
+  Mechanik-Block vor dem Preis, 315-Stat in Proof, Ich statt Wir,
+  Agentur-Kontrast 6→2, /video-analyse-Formular statt mailto, OG-Image neu.
+- [x] Phase 2a Gutachten-Links: /check/{domain} (helles Dossier auf dunkler
+  Bühne, noindex, nur per Link), HMAC-Signaturkette gegen gefälschte Einträge,
+  BunnyCDN-Screenshots, Rate-Limits, Tagesdeckel 300 Analysen (Supabase).
+  E2E auf Production verifiziert (riegel.vercel.app → 82/100). Quality Floor:
+  neue Seite besteht den eigenen Check 9/9.
+
+## Offen — braucht Alex' Go oder Input
+
+- [ ] **Domain-Umzug beuwy.com → Projekt beuwy-relaunch.** beuwy.com zeigt noch
+  die ALTE Seite (engl. Titel, 67/100 im eigenen Check). Ein API-Call, sobald
+  Go da ist; danach Deployment Protection für Production prüfen/abschalten.
+- [ ] **RESEND_API_KEY auf Vercel setzen** — /termin und /video-analyse laufen
+  sonst im Demo-Modus (Leads nur im Server-Log).
+- [ ] Offene Fakten (docs/CONVERSION.md §7): Riegel-Bauzeit in Tagen,
+  riegel auf echte Domain, O-Töne Riegel/Saadi, Kapazitätszahl.
+- [ ] Token-Rotation: Vercel-Token + Bunny-Key liegen im Chat-Verlauf.
+
+## Offen — Bau (Phase 2b/2c, ohne Blocker)
+
+- [ ] Dossier-Look auch fürs Ergebnis im Homepage-Tool (aktuell nur /check).
+- [ ] OG-Image für /check-Links (Messenger-Vorschau beim Weiterleiten).
+- [ ] SSE-Streaming + Screenshot-Annotation-Pins (Brief §3; v4-Choreografie
+  deckt den Kern bereits, Pins brauchen Vision-Call — bewusst zurückgestellt).
+
+---
+
 # Nacht-Backlog — 23.07.2026, 00:30 → 09:00 CEST
 
 Regeln für jede Loop-Iteration (alle 30 min):

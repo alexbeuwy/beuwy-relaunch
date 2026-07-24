@@ -1598,8 +1598,10 @@ select:focus {
   align-items: center;
   border-radius: 9999px;
   background: #210606;
-  color: #f7e99a;
   padding: 6px 14px;
+}
+.dossier .dossier-chip {
+  color: #f7e99a; /* schlägt die .dossier .t-data-Tinte (gleiche Spezifität, später) */
 }
 .dossier-shot {
   border: 1px solid var(--paper-line);
