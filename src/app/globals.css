@@ -1567,3 +1567,44 @@ select:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Gutachten-Dossier (/check/{domain}) — helles Papier auf dunkler Bühne.
+   Das Analyzer-ERGEBNIS wird als Dokument inszeniert: Cream-Canvas, Maroon-Ink.
+   Die Seite selbst bleibt dark-luxe (Synthese statt Palette-Inversion). */
+.dossier {
+  --paper-ink: #210606;
+  --paper-muted: rgba(33, 6, 6, 0.72);
+  --paper-dim: rgba(33, 6, 6, 0.52);
+  --paper-line: rgba(33, 6, 6, 0.14);
+  background: linear-gradient(178deg, #fffdf3 0%, #faf3dd 100%);
+  color: var(--paper-ink);
+  border-radius: 22px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14) inset,
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 60px 140px rgba(0, 0, 0, 0.4);
+}
+.dossier :is(.t-h2, .t-h3, .t-score, .t-stat) { color: var(--paper-ink); }
+.dossier :is(.t-body, .t-body-lg, .t-small) { color: var(--paper-muted); }
+.dossier :is(.t-data, .t-label) { color: var(--paper-dim); }
+.dossier .is-ink { color: var(--paper-ink); }
+.dossier .hairline { border-color: var(--paper-line); }
+.dossier .cat-track { background: rgba(33, 6, 6, 0.12); }
+.dossier .cat-fill { background: var(--paper-ink); }
+.dossier [data-tier="low"] .cat-fill { background: #b3261e; }
+.dossier [data-tier="mid"] .cat-fill { background: #a87900; }
+.dossier-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: #210606;
+  color: #f7e99a;
+  padding: 6px 14px;
+}
+.dossier-shot {
+  border: 1px solid var(--paper-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.dossier-shot img { display: block; width: 100%; height: auto; }

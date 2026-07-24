@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import type { Check } from "@/lib/audit";
+import { packShare, unpackShare } from "@/lib/audit-share";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 /**
  * Schritt 2 des Website-Checks (v2): Claude bewertet auf Basis des ECHTEN
@@ -85,12 +87,51 @@ const CATEGORY_LABELS: Record<string, string> = {
   conversion: "Nächster Schritt für Besucher",
 };
 
+/** Tagesdeckel für die KI-Analyse (Kostenschutz) — zählt in Supabase, fail-open. */
+async function quotaAllows(): Promise<boolean> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  const secret = process.env.AUDIT_WRITE_SECRET;
+  if (!url || !key || !secret) return true;
+  try {
+    const r = await fetch(`${url}/rest/v1/rpc/bump_audit_quota`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+      },
+      body: JSON.stringify({ p_max: 300, p_secret: secret }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(5_000),
+    });
+    if (!r.ok) return true;
+    return (await r.json()) === true;
+  } catch {
+    return true;
+  }
+}
+
+type ScanShare = {
+  kind: string;
+  domain: string;
+  finalUrl: string;
+  checks: Check[];
+  techScore: number;
+  pageText: string;
+};
+
 export async function POST(req: Request) {
+  if (!rateLimit(`analyze:${clientIp(req)}`, 6, 10 * 60_000)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+
   let body: {
     domain?: string;
     pageText?: string;
     checks?: Check[];
     techScore?: number;
+    share?: unknown;
   };
   try {
     body = await req.json();
@@ -98,18 +139,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  const domain = (body.domain || "").slice(0, 200);
-  const pageText = (body.pageText || "").slice(0, 4000);
-  const checks = Array.isArray(body.checks) ? body.checks.slice(0, 12) : [];
+  // Signierter Scan als Basis? Dann zählen NUR dessen verifizierte Daten —
+  // und nur dann wird die Analyse ihrerseits signiert (cachebar für /check).
+  const scanShare = unpackShare<ScanShare>(body.share);
+  const verified = scanShare?.kind === "scan" ? scanShare : null;
+
+  const domain = (verified?.domain ?? body.domain ?? "").slice(0, 200);
+  const pageText = (verified?.pageText ?? body.pageText ?? "").slice(0, 4000);
+  const rawChecks = verified?.checks ?? body.checks;
+  const checks = Array.isArray(rawChecks) ? rawChecks.slice(0, 12) : [];
   if (!domain) {
     return NextResponse.json({ error: "domain_required" }, { status: 400 });
+  }
+
+  if (!(await quotaAllows())) {
+    return NextResponse.json({ error: "quota_exceeded" }, { status: 429 });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json({
       domain,
-      score: body.techScore ?? 50,
+      score: verified?.techScore ?? body.techScore ?? 50,
       visibility:
         "Demo-Modus: Die KI-Analyse ist hier nicht aktiv. Die technischen Befunde oben sind echt.",
       categories: [],
@@ -182,7 +233,7 @@ ${pageText || "(kein Text extrahierbar)"}
       ["S", "M", "L"].includes(String(e)) ? String(e) : "M";
     const impact = (i: unknown) => Math.min(3, Math.max(1, Math.round(Number(i) || 2)));
 
-    return NextResponse.json({
+    const analysis = {
       domain,
       score: clampScore(parsed.score ?? 50),
       visibility: (parsed.visibility || "—").slice(0, 900),
@@ -199,8 +250,15 @@ ${pageText || "(kein Text extrahierbar)"}
         effort: effort(f.effort),
         impact: impact(f.impact),
       })),
-      source: "anthropic",
+      source: "anthropic" as const,
       generated_at: new Date().toISOString(),
+    };
+
+    return NextResponse.json({
+      ...analysis,
+      // Nur Analysen auf Basis eines signierten Scans sind ihrerseits signiert
+      // — und damit die einzigen, die /api/audit/save in den Cache lässt.
+      share: verified ? packShare({ kind: "analysis", ...analysis }) : null,
     });
   } catch {
     return NextResponse.json({ error: "analysis_failed" }, { status: 502 });

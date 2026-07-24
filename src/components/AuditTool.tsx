@@ -18,12 +18,17 @@ import { createPortal } from "react-dom";
 
 type Check = { id: string; label: string; ok: boolean; detail: string };
 
+/* HMAC-signierte Payloads unserer API-Routen — Voraussetzung fürs Cachen
+   eines teilbaren Gutachtens unter /check/{domain}. */
+type Share = { blob: string; sig: string };
+
 type ScanResult = {
   domain: string;
   finalUrl: string;
   checks: Check[];
   techScore: number;
   pageText: string;
+  share?: Share | null;
 };
 
 type Category = { id: string; label: string; score: number; reason: string };
@@ -42,6 +47,7 @@ type Analysis = {
   categories: Category[];
   findings: Finding[];
   source: "anthropic" | "demo";
+  share?: Share | null;
 };
 
 type Phase = "idle" | "scanning" | "analyzing" | "done" | "error";
@@ -50,6 +56,8 @@ const ERROR_TEXT: Record<string, string> = {
   domain_not_found: "Diese Domain ist nicht auffindbar. Tippfehler?",
   domain_blocked: "Diese Adresse kann nicht geprüft werden.",
   fetch_failed: "Die Website antwortet nicht. Bitte später erneut versuchen.",
+  rate_limited: "Zu viele Prüfungen in kurzer Zeit. Bitte in ein paar Minuten erneut versuchen.",
+  quota_exceeded: "Das Tageskontingent des Checks ist erschöpft. Bitte morgen erneut versuchen.",
   default: "Die Analyse ist fehlgeschlagen. Bitte erneut versuchen.",
 };
 
@@ -97,9 +105,18 @@ export function AuditTool() {
   const [aspect, setAspect] = useState(0);
   const [recallDismissed, setRecallDismissed] = useState(false);
   const [panelVisible, setPanelVisible] = useState(true);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const shotShareRef = useRef<Share | null>(null);
 
   const busy = phase === "scanning" || phase === "analyzing";
+
+  // Vorbefüllung über /check/{domain} → „Check jetzt starten“ (?check=…).
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get("check");
+    if (p) setDomain(p);
+  }, []);
 
   // Aspekt-Rotation nur, solange die Analyse wirklich läuft.
   useEffect(() => {
@@ -133,6 +150,9 @@ export function AuditTool() {
     setAnalysis(null);
     setShotRevealed(false);
     setRecallDismissed(false);
+    setShareUrl(null);
+    setCopied(false);
+    shotShareRef.current = null;
     setPhase("scanning");
     try {
       const sr = await fetch("/api/audit/scan", {
@@ -159,6 +179,7 @@ export function AuditTool() {
       })
         .then(async (r) => {
           const j = r.ok ? await r.json() : null;
+          shotShareRef.current = j?.share ?? null;
           setShot(j?.screenshot || "failed");
         })
         .catch(() => setShot("failed"));
@@ -171,14 +192,48 @@ export function AuditTool() {
           pageText: scanData.pageText,
           checks: scanData.checks,
           techScore: scanData.techScore,
+          share: scanData.share ?? null,
         }),
       }).then(async (r) => {
-        if (r.ok) setAnalysis((await r.json()) as Analysis);
+        if (!r.ok) {
+          const j = await r.json().catch(() => ({}));
+          throw new Error(typeof j?.error === "string" ? j.error : "default");
+        }
+        const a = (await r.json()) as Analysis;
+        setAnalysis(a);
+        return a;
       });
 
-      await analyzeP;
+      let analysisData: Analysis;
+      try {
+        analysisData = await analyzeP;
+      } catch (e) {
+        setError(ERROR_TEXT[(e as Error).message] || ERROR_TEXT.default);
+        setPhase("error");
+        return;
+      }
       setPhase("done");
-      void shotP;
+
+      // Gutachten cachen (→ /check/{domain}), sobald auch der Screenshot
+      // entschieden ist. Nur mit signierten Payloads möglich — optional.
+      void shotP.then(async () => {
+        if (!scanData.share || !analysisData.share) return;
+        try {
+          const r = await fetch("/api/audit/save", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              scan: scanData.share,
+              analysis: analysisData.share,
+              shot: shotShareRef.current,
+            }),
+          });
+          const j = r.ok ? await r.json() : null;
+          if (j?.url) setShareUrl(j.url as string);
+        } catch {
+          /* Gutachten-Link ist optional — das Ergebnis bleibt nutzbar */
+        }
+      });
     } catch {
       setError(ERROR_TEXT.default);
       setPhase("error");
@@ -473,6 +528,28 @@ export function AuditTool() {
                           läuft und das System woanders ansetzen sollte — auch das
                           sagen wir Ihnen im Gespräch ehrlich.
                         </p>
+                        {shareUrl && (
+                          <div className="mt-4 flex flex-wrap items-center gap-3">
+                            <button
+                              type="button"
+                              className="btn-secondary btn-sm"
+                              onClick={() => {
+                                navigator.clipboard
+                                  ?.writeText(`${window.location.origin}${shareUrl}`)
+                                  .then(() => {
+                                    setCopied(true);
+                                    setTimeout(() => setCopied(false), 2000);
+                                  });
+                              }}
+                            >
+                              {copied ? "Kopiert ✓" : "Gutachten-Link kopieren"}
+                            </button>
+                            <span className="t-data">
+                              Nur über den Link erreichbar — zum Weiterleiten oder
+                              für Kollegen.
+                            </span>
+                          </div>
+                        )}
                         <p className="t-small mt-4">
                           Noch nicht bereit für ein Gespräch?{" "}
                           <a

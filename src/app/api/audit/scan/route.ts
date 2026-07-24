@@ -7,6 +7,8 @@ import {
   runChecks,
   extractText,
 } from "@/lib/audit";
+import { packShare } from "@/lib/audit-share";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 /**
  * Schritt 1 des Website-Checks (Masterplan §6): deterministisch, ohne LLM.
@@ -18,6 +20,10 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
+  if (!rateLimit(`scan:${clientIp(req)}`, 10, 10 * 60_000)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+
   let body: { domain?: string; debug?: boolean };
   try {
     body = await req.json();
@@ -52,13 +58,25 @@ export async function POST(req: Request) {
   }
 
   const { checks, techScore } = runChecks(page.html, { llmsTxt, robotsTxt });
+  const pageText = extractText(page.html);
+  const generated_at = new Date().toISOString();
 
   return NextResponse.json({
     domain,
     finalUrl: page.finalUrl,
     checks,
     techScore,
-    pageText: extractText(page.html),
-    generated_at: new Date().toISOString(),
+    pageText,
+    generated_at,
+    // Signierter Scan — einzige akzeptierte Basis für ein cachebares Gutachten.
+    share: packShare({
+      kind: "scan",
+      domain,
+      finalUrl: page.finalUrl,
+      checks,
+      techScore,
+      pageText,
+      generated_at,
+    }),
   });
 }
