@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { HeroHeadline } from "@/components/HeroHeadline";
 import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
+import { Beam } from "@/components/Beam";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -90,7 +91,7 @@ export default async function HomePage() {
             <div className="md:col-span-6">
               <Reveal delay={200}>
                 <a
-                  href="https://riegel.vercel.app"
+                  href="https://www.riegel-immobilien.de"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block group"
@@ -101,7 +102,7 @@ export default async function HomePage() {
                       <span className="case-dot" aria-hidden />
                       <span className="case-dot" aria-hidden />
                       <span className="t-data ml-1 truncate hero-chrome-url">
-                        riegel.vercel.app
+                        riegel-immobilien.de
                       </span>
                     </div>
                     <Image
@@ -126,8 +127,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 02 — STATUS-QUO-KOSTEN (Gelb-Bühne): erst das Problem … */}
-      <Section id="kosten" tone="bright">
+      {/* 02 — STATUS-QUO-KOSTEN: erst das Problem … */}
+      <Section id="kosten" tone="base">
         <SectionHead
           title={rich(c["kosten.title"])}
           intro={c["kosten.intro"]}
@@ -181,7 +182,7 @@ export default async function HomePage() {
           <CaseCard
             client="RIEGEL Immobilien"
             branch={c["proof.riegel_branch"]}
-            href="https://riegel.vercel.app"
+            href="https://www.riegel-immobilien.de"
             image={{ src: "/proof/riegel.jpg", alt: "Startseite von RIEGEL Immobilien" }}
             facts={lines(c["proof.riegel_facts"])}
             mechanic={c["proof.riegel_mechanic"]}
@@ -221,8 +222,8 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 05 — ARBEITSWEISE (Gelb-Bühne) + Mechanik: Wert und Reason-Why VOR dem Preis */}
-      <Section id="system" tone="bright">
+      {/* 05 — ARBEITSWEISE + Mechanik: Wert und Reason-Why VOR dem Preis */}
+      <Section id="system" tone="base">
         <SectionHead
           title={rich(c["system.title"])}
           intro={c["system.intro"]}
@@ -245,7 +246,7 @@ export default async function HomePage() {
           <p className="t-body-lg mt-4 max-w-[560px]">{c["system.mechanik_intro"]}</p>
           <div className="mt-10 grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((n) => (
-              <Reveal key={n} delay={(n - 1) * 70}>
+              <Reveal key={n} delay={(n - 1) * 80}>
                 <div>
                   <h4 className="t-h3">{c[`system.mechanik${n}_title`]}</h4>
                   <p className="t-body mt-3">{c[`system.mechanik${n}_text`]}</p>
@@ -263,12 +264,11 @@ export default async function HomePage() {
           intro={c["pricing.intro"]}
         />
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
-          {tiers.map((t, i) => (
-            <Reveal key={t.id} delay={i * 70}>
+          {tiers.map((t, i) => {
+            const card = (
               <div
                 className={`tier-card h-full flex flex-col ${t.badge ? "tier-card-hero" : ""}`}
               >
-                {t.badge && <span className="tier-badge">{t.badge}</span>}
                 <h3 className="t-h3">{t.name}</h3>
                 <p className="t-small mt-2">{t.result}</p>
                 <p className="t-stat mt-5">{t.price}</p>
@@ -290,8 +290,21 @@ export default async function HomePage() {
                   </Link>
                 </div>
               </div>
-            </Reveal>
-          ))}
+            );
+            return (
+              <Reveal key={t.id} delay={i * 80}>
+                {t.badge ? (
+                  /* Badge außerhalb des Beams — dessen Layer clippen (overflow) */
+                  <div className="relative h-full">
+                    <Beam className="h-full">{card}</Beam>
+                    <span className="tier-badge z-10">{t.badge}</span>
+                  </div>
+                ) : (
+                  card
+                )}
+              </Reveal>
+            );
+          })}
         </div>
         <div className="mt-8 space-y-2 max-w-[720px]">
           <p className="t-small is-cream">{c["pricing.garantie1"]}</p>
@@ -326,7 +339,7 @@ export default async function HomePage() {
       </Section>
 
       {/* 08 — FOUNDER */}
-      <Section id="founder" tone="raised">
+      <Section id="founder" tone="base">
         <div className="grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-7">
             <SectionHead title={rich(c["founder.title"])} />
@@ -386,16 +399,7 @@ export default async function HomePage() {
                 {c["cta.primary"]}
                 <span aria-hidden>→</span>
               </Link>
-              <Link
-                href="/video-analyse"
-                className="cta-invert-ink t-small underline underline-offset-4"
-              >
-                {c["cta.secondary"]}
-              </Link>
             </div>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="cta-invert-ink t-data mt-5">{c["cta.meta"]}</p>
           </Reveal>
         </div>
       </section>

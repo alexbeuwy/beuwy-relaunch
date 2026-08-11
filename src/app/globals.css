@@ -7,10 +7,10 @@
   interpolate-size: allow-keywords;
 
   /* Beuwy brand palette */
-  --bg-base: #1A0404;        /* = brand bordeaux-ink */
-  --bg-raised: #210606;      /* = brand superdark */
-  --bg-elevated: #2B0808;    /* DESIGN-DIRECTION 2.3: nur Innenflächen (Tool-Panel) */
-  --bg-hover: #3A0808;       /* ehem. elevated — nur noch Hover-/Border-Ton */
+  --bg-base: #120202;        /* ganz ganz dunkles Bordeaux (Alex-Vorgabe) */
+  --bg-raised: #180404;
+  --bg-elevated: #200606;    /* nur Innenflächen (Tool-Panel, Cards) */
+  --bg-hover: #2e0a0a;       /* nur Hover-/Border-Ton */
   --ink-yellow: #F7E99A;     /* = brand yellow */
   --ink-yellow-hover: #FBF1B6; /* einziger zweiter Gelbton der Seite */
   --ink-cream: #FFFDF3;      /* = brand cream (was #F2EFE1) */
@@ -26,30 +26,30 @@
   --font-mono: var(--font-geist-mono);
 
   /* transitions-dev — semantic timing/curve tokens */
-  --resize-dur: 300ms;
+  --resize-dur: 250ms;
   --resize-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --digit-dur: 500ms;
   --digit-distance: 8px;
-  --digit-stagger: 70ms;
+  --digit-stagger: 80ms;
   --digit-blur: 2px;
   --digit-ease: cubic-bezier(0.34, 1.45, 0.64, 1);
   --digit-dir-x: 0;
   --digit-dir-y: 1;
-  --badge-slide-dur: 260ms;
+  --badge-slide-dur: 250ms;
   --badge-pop-dur: 500ms;
-  --badge-pop-close-dur: 180ms;
+  --badge-pop-close-dur: 150ms;
   --badge-fade-dur: 400ms;
-  --badge-fade-close-dur: 180ms;
+  --badge-fade-close-dur: 150ms;
   --badge-blur: 2px;
   --badge-offset-x: -8.2px;
   --badge-offset-y: 12.4px;
   --badge-slide-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --badge-pop-ease: cubic-bezier(0.34, 1.36, 0.64, 1);
   --badge-close-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --text-swap-dur: 200ms;
+  --text-swap-dur: 150ms;
   --text-swap-translate-y: 8px;
   --text-swap-blur: 2px;
-  --text-swap-ease: ease-out;
+  --text-swap-ease: ease-in-out;
   --dropdown-open-dur: 250ms;
   --dropdown-close-dur: 150ms;
   --dropdown-pre-scale: 0.97;
@@ -65,15 +65,15 @@
   --panel-translate-y: 100px;
   --panel-blur: 2px;
   --panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --page-slide-dur: 200ms;
-  --page-fade-dur: 200ms;
+  --page-slide-dur: 250ms;
+  --page-fade-dur: 250ms;
   --page-slide-distance: 8px;
   --page-blur: 3px;
   --page-stagger: 0ms;
   --page-exit-enabled: 1;
   --page-slide-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --page-fade-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --icon-swap-dur: 200ms;
+  --icon-swap-dur: 250ms;
   --icon-swap-blur: 2px;
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
@@ -541,7 +541,7 @@ body {
 }
 .btn-inverse:active {
   transform: scale(0.985);
-  transition-duration: 90ms;
+  transition-duration: 80ms;
 }
 .btn-inverse:focus-visible {
   outline: none;
@@ -608,7 +608,7 @@ body {
   border-radius: 17px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 300ms var(--resize-ease);
+  transition: opacity 250ms var(--resize-ease);
 }
 .audit-panel[data-busy="true"] .audit-beam {
   opacity: 1;
@@ -1025,7 +1025,7 @@ body {
 
 [data-reveal][data-state="hidden"] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   filter: blur(var(--panel-blur));
 }
 [data-reveal] {
@@ -1120,7 +1120,7 @@ body {
 }
 .btn-primary:active {
   transform: translateY(0) scale(0.985);
-  transition-duration: 90ms;
+  transition-duration: 80ms;
 }
 .btn-primary:focus-visible {
   outline: none;
@@ -1168,7 +1168,7 @@ body {
 }
 .btn-secondary:active {
   transform: scale(0.985);
-  transition-duration: 90ms;
+  transition-duration: 80ms;
 }
 .btn-secondary:focus-visible {
   outline: none;
@@ -1194,7 +1194,7 @@ body {
 .btn-secondary:active > [aria-hidden] {
   transform: translateX(1px) scale(0.92);
   filter: blur(var(--icon-swap-blur));
-  transition-duration: 90ms;
+  transition-duration: 80ms;
 }
 
 .btn-link {

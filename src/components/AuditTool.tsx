@@ -521,13 +521,7 @@ export function AuditTool() {
                             30-Minuten-Systemgespräch buchen
                             <span aria-hidden>→</span>
                           </a>
-                          <p className="t-data">Kostenlos · kein Pitch · Sie entscheiden danach</p>
                         </div>
-                        <p className="t-data mt-3 max-w-[520px]">
-                          Kann auch sein, dass bei Ihnen vieles über Empfehlungen
-                          läuft und das System woanders ansetzen sollte — auch das
-                          sagen wir Ihnen im Gespräch ehrlich.
-                        </p>
                         {shareUrl && (
                           <div className="mt-4 flex flex-wrap items-center gap-3">
                             <button
@@ -550,20 +544,6 @@ export function AuditTool() {
                             </span>
                           </div>
                         )}
-                        <p className="t-small mt-4">
-                          Noch nicht bereit für ein Gespräch?{" "}
-                          <a
-                            href={`mailto:ap@beuwy.com?subject=${encodeURIComponent(
-                              `Report für ${scan.domain}`
-                            )}&body=${encodeURIComponent(
-                              `Bitte schicken Sie mir den ausführlichen Sichtbarkeits-Report für ${scan.domain}.`
-                            )}`}
-                            className="btn-link"
-                          >
-                            Ausführlichen Report per E-Mail anfordern
-                          </a>{" "}
-                          — unabhängig davon, ob wir je sprechen.
-                        </p>
                       </div>
                     )}
                   </>

@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { useEffect, useState } from "react";
 
+/* Ganz clean (Alex-Vorgabe): zwei Anker, ein CTA — mehr trägt eine
+   One-Pager-Nav nicht. */
 const links: { label: string; href: string }[] = [
   { label: "Referenzen", href: "/#proof" },
-  { label: "System", href: "/#system" },
-  { label: "Prozess", href: "/#prozess" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Preise", href: "/#pakete" },
 ];
 
 export function Nav() {
