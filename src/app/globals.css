@@ -1070,7 +1070,7 @@ body {
   gap: 8px;
   height: 44px;
   padding: 0 22px;
-  background: var(--ink-yellow);
+  background: linear-gradient(180deg, #fbf1b6 0%, #eeda7e 100%);
   color: var(--bg-base);
   border-radius: 9999px;
   font-family: var(--font-body), system-ui, sans-serif;
@@ -1080,11 +1080,14 @@ body {
   transition:
     transform var(--resize-dur) var(--resize-ease),
     background var(--resize-dur) var(--resize-ease),
-    box-shadow var(--resize-dur) var(--resize-ease);
-  /* Tinted shadow — matches background hue (red) instead of pure black */
+    box-shadow var(--resize-dur) var(--resize-ease),
+    filter var(--resize-dur) var(--resize-ease);
+  /* SaaS-Look: Innenlicht oben + warmer Dauer-Glow */
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.22),
-    0 0 0 1px rgba(247,233,154,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.55),
+    inset 0 -1px 0 rgba(33,6,6,0.18),
+    0 0 0 1px rgba(247,233,154,0.45),
+    0 10px 30px -10px rgba(247,233,154,0.35),
     0 14px 28px -16px rgba(33,6,6,0.6);
   white-space: nowrap;
   cursor: pointer;
@@ -1110,12 +1113,14 @@ body {
 .btn-primary:hover::before { transform: translateX(110%); }
 .btn-primary > * { position: relative; z-index: 1; }
 .btn-primary:hover {
-  background: #FBF1B6;
+  background: linear-gradient(180deg, #fdf6c8 0%, #f2df8a 100%);
   transform: translateY(-1px);
+  filter: saturate(1.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.22),
-    0 0 0 1px rgba(247,233,154,0.6),
-    0 18px 38px -16px rgba(247,233,154,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(33,6,6,0.14),
+    0 0 0 1px rgba(247,233,154,0.65),
+    0 16px 44px -12px rgba(247,233,154,0.5),
     0 14px 28px -16px rgba(33,6,6,0.5);
 }
 .btn-primary:active {
@@ -1142,7 +1147,9 @@ body {
   gap: 8px;
   height: 44px;
   padding: 0 22px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
   color: var(--ink-cream);
   border-radius: 9999px;
   font-family: var(--font-body), system-ui, sans-serif;
@@ -1154,7 +1161,9 @@ body {
     color var(--text-swap-dur) var(--text-swap-ease),
     transform var(--resize-dur) var(--resize-ease),
     box-shadow var(--resize-dur) var(--resize-ease);
-  box-shadow: inset 0 0 0 1px var(--line-medium);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px var(--line-medium);
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
@@ -1635,3 +1644,273 @@ select:focus {
   background: #fff;
 }
 .dossier-shot img { display: block; width: 100%; height: auto; }
+
+/* ── Codex-Rebuild: Hero-Bühne mit Shader, Riesenwort, Glass-Nav,
+   Visual-Slots (Platzhalter bis Higgsfield-Visuals kommen) ─────────────── */
+
+.hero-stage {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  /* Fallback ohne WebGL */
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(122, 26, 12, 0.35), transparent 60%),
+    var(--bg-base);
+}
+.shader-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+.hero-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 200px;
+  background: linear-gradient(transparent, var(--bg-base));
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-stage > .hero-stage-inner {
+  position: relative;
+  z-index: 2;
+}
+.hero-brand {
+  font-family: var(--font-helvena), system-ui, sans-serif;
+  font-weight: 830;
+  font-size: clamp(92px, 16vw, 220px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+}
+.hero-tagline {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.55;
+  color: rgba(255, 253, 243, 0.86);
+}
+
+/* Glass-Nav sobald gescrollt */
+[data-nav][data-scrolled="true"] {
+  background: rgba(18, 2, 2, 0.68);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  border-bottom: 1px solid rgba(247, 233, 154, 0.08);
+}
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -6px;
+  height: 1px;
+  background: var(--ink-yellow);
+  transition: right var(--resize-dur) var(--resize-ease);
+}
+.nav-link:hover::after {
+  right: 0;
+}
+
+/* Visual-Slot: abstrakte, träge driftende Farbfläche als Feature-Visual.
+   Wird später 1:1 durch Higgsfield-Assets ersetzt (gleiches Format). */
+.visual-slot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(247, 233, 154, 0.1);
+  background: #150303;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 70px -34px rgba(0, 0, 0, 0.8);
+}
+.visual-slot::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background:
+    radial-gradient(36% 30% at 30% 34%, rgba(247, 233, 154, 0.17), transparent 70%),
+    radial-gradient(46% 40% at 72% 58%, rgba(196, 62, 30, 0.4), transparent 72%),
+    radial-gradient(62% 55% at 48% 88%, rgba(84, 12, 12, 0.85), transparent 75%);
+  filter: blur(30px) saturate(1.15);
+  animation: slot-drift 26s ease-in-out infinite alternate;
+}
+.visual-slot[data-variant="2"]::before {
+  transform: rotate(140deg);
+  animation-duration: 34s;
+  filter: blur(30px) saturate(1.15) hue-rotate(-14deg);
+}
+.visual-slot[data-variant="3"]::before {
+  transform: rotate(240deg) scale(1.1);
+  animation-duration: 30s;
+  filter: blur(34px) saturate(1.2) hue-rotate(10deg);
+}
+.visual-slot[data-variant="4"]::before {
+  transform: rotate(60deg) scale(1.05);
+  animation-duration: 38s;
+  filter: blur(26px) saturate(1.05) hue-rotate(-24deg);
+}
+.visual-slot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.05), transparent 45%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+@keyframes slot-drift {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(30deg) scale(1.18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visual-slot::before {
+    animation: none;
+  }
+}
+
+/* Preis-Karten im Codex-Zuschnitt: Name + Preis + ein Satz + Button */
+.tier-min {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  border-radius: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid rgba(247, 233, 154, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    transform var(--resize-dur) var(--resize-ease),
+    border-color var(--resize-dur) var(--resize-ease),
+    box-shadow var(--resize-dur) var(--resize-ease);
+}
+.tier-min:hover {
+  transform: translateY(-3px);
+  border-color: rgba(247, 233, 154, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* Hero-Media-Frame: Browser-Rahmen unter dem Riesenwort (Codex-Muster) */
+.hero-media {
+  position: relative;
+  max-width: 960px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(247, 233, 154, 0.12);
+  background: #150303;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 40px 110px -40px rgba(0, 0, 0, 0.85),
+    0 0 90px -20px rgba(196, 62, 30, 0.25);
+}
+.hero-media .case-chrome {
+  justify-content: flex-start;
+}
+.hero-media-asset {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Platzhalter: abstraktes Dashboard aus Glasflächen auf Farbnebel */
+.hero-media-ph {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  padding-top: 44px; /* Platz für die Chrome-Leiste */
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero-media-ph::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  background:
+    radial-gradient(40% 34% at 26% 30%, rgba(247, 233, 154, 0.14), transparent 70%),
+    radial-gradient(48% 42% at 74% 62%, rgba(196, 62, 30, 0.35), transparent 72%),
+    radial-gradient(64% 58% at 50% 92%, rgba(84, 12, 12, 0.85), transparent 78%);
+  filter: blur(32px) saturate(1.1);
+  animation: slot-drift 30s ease-in-out infinite alternate;
+}
+.hm-side {
+  width: 17%;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+}
+.hm-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hm-row {
+  display: flex;
+  gap: 14px;
+  height: 26%;
+}
+.hm-card {
+  flex: 1;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(6px);
+}
+.hm-chart {
+  flex: 1;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(6px);
+  position: relative;
+  overflow: hidden;
+}
+.hm-chart::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(247, 233, 154, 0.09) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: hm-shimmer 4.5s var(--resize-ease) infinite;
+}
+@keyframes hm-shimmer {
+  0% { transform: translateX(-120%); }
+  55% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-media-ph::before,
+  .hm-chart::after {
+    animation: none;
+  }
+}
+
+/* Preis in den Minimal-Karten: kompakter, ohne Umbruch */
+.tier-min .t-stat {
+  font-size: clamp(30px, 2.8vw, 42px);
+  white-space: nowrap;
+}

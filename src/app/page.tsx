@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Section, SectionHead } from "@/components/Section";
 import { AuditTool } from "@/components/AuditTool";
 import { Reveal } from "@/components/Reveal";
-import { HeroHeadline } from "@/components/HeroHeadline";
+import { ShaderBG } from "@/components/ShaderBG";
 import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
 import { Beam } from "@/components/Beam";
@@ -11,264 +10,147 @@ import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
 
+/* Aufbau 1:1 nach der Codex-Referenz: Hero (Riesenwort + ein Satz, ohne
+   Bild, ohne CTA) → Trust-Leiste → Feature-Blöcke (Titel + kurzer Text +
+   1 Visual) → Preis-Teaser → Beweis-Block → Schluss-CTA. */
+
+const CLIENT_LOGOS = [
+  { src: "https://beuwy-2.b-cdn.net/studio/1778235632911-Vision_Blue_2021_digital.svg", alt: "Vision Real Estate" },
+  { src: "https://beuwy-2.b-cdn.net/studio/1778235743118-Logo_KW_Koenigswege_long_white_Final.svg", alt: "Königswege" },
+  { src: "https://beuwy-2.b-cdn.net/studio/1778233449613-acta_01_lightBG.svg", alt: "acta" },
+  { src: "https://beuwy-2.b-cdn.net/studio/1778240857276-PURELEI_Logo_V3-400.webp", alt: "PURELEI" },
+  { src: "https://beuwy-2.b-cdn.net/studio/1778240981246-getsafe-400.webp", alt: "Getsafe" },
+  { src: "https://beuwy-2.b-cdn.net/studio/1778240914540-GK_Web_Logos-4-400.webp", alt: "GK" },
+];
+
 export default async function HomePage() {
   const c = await getContent();
+  const jsonLd = buildJsonLd();
 
-  const jsonLd = buildJsonLd(c);
   const tiers = [
     {
       id: "fundament",
       name: c["pricing.tier1_name"],
-      result: c["pricing.tier1_result"],
       price: c["pricing.tier1_price"],
-      features: lines(c["pricing.tier1_features"]),
+      result: c["pricing.tier1_result"],
       badge: null as string | null,
     },
     {
       id: "vertriebssystem",
       name: c["pricing.tier2_name"],
-      result: c["pricing.tier2_result"],
       price: c["pricing.tier2_price"],
-      features: lines(c["pricing.tier2_features"]),
+      result: c["pricing.tier2_result"],
       badge: c["pricing.tier2_badge"] || null,
     },
     {
       id: "betriebssystem",
       name: c["pricing.tier3_name"],
-      result: c["pricing.tier3_result"],
       price: c["pricing.tier3_price"],
-      features: lines(c["pricing.tier3_features"]),
+      result: c["pricing.tier3_result"],
       badge: null as string | null,
     },
   ];
 
+  const features = [1, 2, 3, 4].map((n) => ({
+    title: c[`features.f${n}_title`],
+    text: c[`features.f${n}_text`],
+    variant: String(n),
+  }));
+
   return (
     <>
       {/* Strukturierte Daten — einzige erlaubte dangerouslySetInnerHTML-Stelle
-          (JSON.stringify über CMS-/Code-Daten, kein Nutzer-Input). */}
+          (statisches JSON, kein Nutzer-Input). */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* 01 — HERO · proof-first: Kernsatz links, klickbare Live-Referenz rechts */}
-      <section className="section-band section-band-base relative overflow-hidden">
-        <div className="hero-lamp" aria-hidden />
-        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-20 relative z-[1]">
-          <div className="grid md:grid-cols-12 gap-10 items-center">
-            <div className="md:col-span-6 hero-split">
-              <Reveal delay={60}>
-                <HeroHeadline
-                  variants={{
-                    default: {
-                      title: c["hero.title"],
-                      subtitle: c["hero.subtitle"],
-                    },
-                    ad: {
-                      title: c["heroad.title"],
-                      subtitle: c["heroad.subtitle"],
-                    },
-                    video: {
-                      title: c["herovideo.title"],
-                      subtitle: c["herovideo.subtitle"],
-                    },
-                  }}
-                />
-              </Reveal>
-              <Reveal delay={140}>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <Link href="/termin" className="btn-primary">
-                    {c["cta.primary"]}
-                    <span aria-hidden>→</span>
-                  </Link>
-                  <a href="#tool" className="btn-secondary">
-                    Auftritt live testen
-                  </a>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="md:col-span-6">
-              <Reveal delay={200}>
-                <a
-                  href="https://www.riegel-immobilien.de"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block group"
-                >
-                  <figure className="case-plate">
-                    <div className="case-chrome">
-                      <span className="case-dot" aria-hidden />
-                      <span className="case-dot" aria-hidden />
-                      <span className="case-dot" aria-hidden />
-                      <span className="t-data ml-1 truncate hero-chrome-url">
-                        riegel-immobilien.de
-                      </span>
-                    </div>
-                    <Image
-                      src="/proof/riegel.jpg"
-                      alt="Live-Referenz: RIEGEL Immobilien"
-                      width={1280}
-                      height={800}
-                      className="case-shot"
-                      priority
-                      sizes="(max-width: 768px) 90vw, 540px"
-                    />
-                    <span className="case-glare" aria-hidden />
-                  </figure>
-                  <p className="t-data mt-3">
-                    {c["hero.plate_context"]} <span className="is-accent">↗</span>
-                  </p>
-                </a>
-              </Reveal>
-            </div>
-          </div>
-
+      {/* 01 — HERO: Shader-Bühne, Riesenwort, ein Satz, Media-Frame (Codex-Muster).
+          Kein CTA — erst Nutzen zeigen, dann fragen. */}
+      <section className="hero-stage">
+        <ShaderBG />
+        <div className="hero-stage-inner mx-auto max-w-[1120px] px-6 lg:px-10 pt-40 md:pt-52 pb-20 md:pb-28 text-center">
+          <Reveal delay={40}>
+            <h1 className="hero-brand">{c["hero.brand"]}</h1>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="hero-tagline mt-8 mx-auto max-w-[560px]">
+              {c["hero.tagline"]}
+            </p>
+          </Reveal>
+          <Reveal delay={240}>
+            <HeroMedia url={c["hero.media_url"]} />
+          </Reveal>
         </div>
       </section>
 
-      {/* 02 — PROBLEM: die Wunde, ohne Zahlen */}
-      <Section id="problem" tone="base">
-        <SectionHead
-          title={rich(c["problem.title"])}
-          intro={c["problem.intro"]}
-        />
-        <ol className="space-y-4 max-w-[760px]">
-          {[1, 2, 3].map((n) => (
-            <li
-              key={n}
-              className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline"
-            >
-              <span className="t-label shrink-0 md:w-28 pt-1">
-                {c[`problem.row${n}_label`]}
-              </span>
-              <p className="t-body is-cream">{c[`problem.row${n}_text`]}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      {/* 03 — BEWEIS: die Zahlen, die die Wunde schließen */}
-      <Section id="proof" tone="base">
-        <SectionHead
-          title={rich(c["proof.title"])}
-          intro={c["proof.intro"]}
-        />
-        <div className="grid md:grid-cols-2 gap-5 items-start">
-          <CaseCard
-            client="RIEGEL Immobilien"
-            branch={c["proof.riegel_branch"]}
-            href="https://www.riegel-immobilien.de"
-            image={{ src: "/proof/riegel.jpg", alt: "Startseite von RIEGEL Immobilien" }}
-            facts={lines(c["proof.riegel_facts"])}
-            mechanic={c["proof.riegel_mechanic"]}
-          />
-          <div className="flex flex-col gap-5">
-            <ResultCard
-              branch={c["proof.vision_branch"]}
-              facts={lines(c["proof.vision_facts"])}
-              mechanic={c["proof.vision_mechanic"]}
-            />
-            <ResultCard
-              branch={c["proof.koenigswege_branch"]}
-              facts={lines(c["proof.koenigswege_facts"])}
-              mechanic={c["proof.koenigswege_mechanic"]}
-            />
-          </div>
+      {/* 02 — TRUST-LEISTE: nackte Logos, keine Zahlen, keine Claims */}
+      <section className="section-band section-band-base">
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12 md:py-14">
+          <Reveal>
+            <p className="t-label text-center">{c["trust.label"]}</p>
+            <div className="logo-rail mt-7 justify-center" aria-label="Frühere Kunden">
+              {CLIENT_LOGOS.map((l) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={l.alt} src={l.src} alt={l.alt} className="logo-rail-item" loading="lazy" />
+              ))}
+            </div>
+          </Reveal>
         </div>
-        <Reveal>
-          <div className="mt-10 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
-            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
-            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
-          </div>
-          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
-        </Reveal>
-        <div className="logo-rail mt-10" aria-label="Frühere Kunden">
-          {[
-            { src: "https://beuwy-2.b-cdn.net/studio/1778235632911-Vision_Blue_2021_digital.svg", alt: "Vision Real Estate" },
-            { src: "https://beuwy-2.b-cdn.net/studio/1778235743118-Logo_KW_Koenigswege_long_white_Final.svg", alt: "Königswege" },
-            { src: "https://beuwy-2.b-cdn.net/studio/1778233449613-acta_01_lightBG.svg", alt: "acta" },
-            { src: "https://beuwy-2.b-cdn.net/studio/1778240857276-PURELEI_Logo_V3-400.webp", alt: "PURELEI" },
-            { src: "https://beuwy-2.b-cdn.net/studio/1778240981246-getsafe-400.webp", alt: "Getsafe" },
-            { src: "https://beuwy-2.b-cdn.net/studio/1778240914540-GK_Web_Logos-4-400.webp", alt: "GK" },
-          ].map((l) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={l.alt} src={l.src} alt={l.alt} className="logo-rail-item" loading="lazy" />
-          ))}
-        </div>
-      </Section>
+      </section>
 
-      {/* 04 — LIVE-CHECK: das Signature-Tool als interaktiver Beweis */}
-      <Section id="check" tone="raised">
-        <SectionHead
-          title={rich(c["check.title"])}
-          intro={c["check.intro"]}
-        />
-        <AuditTool />
-      </Section>
-
-      {/* 05 — PRODUKT + Mechanik: Wert und Reason-Why VOR dem Preis */}
+      {/* 03 — FEATURES: eine Headline, vier Blöcke (Titel + Text + Visual) */}
       <Section id="system" tone="base">
-        <SectionHead
-          title={rich(c["product.title"])}
-          intro={c["product.intro"]}
-        />
-        <div className="space-y-4">
-          {[1, 2, 3, 4].map((n) => (
-            <Reveal key={n}>
-              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
-                <div className="md:col-span-4 flex items-baseline gap-4">
-                  <span className="t-data">0{n}</span>
-                  <h3 className="t-h3">{c[`product.row${n}_title`]}</h3>
+        <SectionHead title={rich(c["features.title"])} intro={c["features.intro"]} />
+        <div className="space-y-20 md:space-y-28">
+          {features.map((f, i) => (
+            <Reveal key={f.title}>
+              <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+                <div className={`md:col-span-5 ${i % 2 === 1 ? "md:order-2" : ""}`}>
+                  <h3 className="t-h3 text-[24px]">{f.title}</h3>
+                  <p className="t-body-lg mt-4">{f.text}</p>
                 </div>
-                <p className="t-body md:col-span-8 max-w-[560px]">{c[`product.row${n}_text`]}</p>
+                <div className={`md:col-span-7 ${i % 2 === 1 ? "md:order-1" : ""}`}>
+                  <div className="visual-slot" data-variant={f.variant} aria-hidden />
+                </div>
               </div>
             </Reveal>
           ))}
-        </div>
-        <div className="mt-16 pt-10 border-t hairline">
-          <h3 className="t-h2 max-w-[720px]">{rich(c["mechanik.title"])}</h3>
-          <p className="t-body-lg mt-4 max-w-[560px]">{c["mechanik.intro"]}</p>
-          <div className="mt-10 grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((n) => (
-              <Reveal key={n} delay={(n - 1) * 80}>
-                <div>
-                  <h4 className="t-h3">{c[`mechanik.m${n}_title`]}</h4>
-                  <p className="t-body mt-3">{c[`mechanik.m${n}_text`]}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+
+          {/* Block 5 — der Live-Check: das interaktive Visual ist echt */}
+          <Reveal>
+            <div id="check">
+              <div className="max-w-[560px]">
+                <h3 className="t-h3 text-[24px]">{c["check.title"]}</h3>
+                <p className="t-body-lg mt-4">{c["check.text"]}</p>
+              </div>
+              <div className="mt-8">
+                <AuditTool />
+              </div>
+            </div>
+          </Reveal>
         </div>
       </Section>
 
-      {/* 06 — LEISTUNGSPAKETE (Anker + Decoy, T2 erhöht) — der Preis landet NACH der Mechanik */}
-      <Section id="pakete" tone="raised">
-        <SectionHead
-          title={rich(c["pricing.title"])}
-          intro={c["pricing.intro"]}
-        />
+      {/* 04 — PREIS-TEASER: drei Karten, Name + Preis + ein Satz + Button */}
+      <Section id="pakete" tone="base">
+        <SectionHead title={rich(c["pricing.title"])} intro={c["pricing.intro"]} />
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
           {tiers.map((t, i) => {
             const card = (
-              <div
-                className={`tier-card h-full flex flex-col ${t.badge ? "tier-card-hero" : ""}`}
-              >
-                <h3 className="t-h3">{t.name}</h3>
-                <p className="t-small mt-2">{t.result}</p>
-                <p className="t-stat mt-5">{t.price}</p>
-                <ul className="mt-5 space-y-2 flex-1">
-                  {t.features.map((f) => (
-                    <li key={f} className="t-small is-cream flex gap-2">
-                      <span className="t-data shrink-0">·</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6">
+              <div className="tier-min h-full">
+                <p className="t-data">{t.name}</p>
+                <p className="t-stat">{t.price}</p>
+                <p className="t-body flex-1">{t.result}</p>
+                <div>
                   <Link
                     href="/termin"
-                    className={t.badge ? "btn-primary w-full justify-center" : "btn-secondary w-full justify-center"}
+                    className={
+                      t.badge
+                        ? "btn-primary w-full justify-center"
+                        : "btn-secondary w-full justify-center"
+                    }
                   >
                     {c["pricing.cta"]}
                     <span aria-hidden>→</span>
@@ -279,7 +161,6 @@ export default async function HomePage() {
             return (
               <Reveal key={t.id} delay={i * 80}>
                 {t.badge ? (
-                  /* Badge außerhalb des Beams — dessen Layer clippen (overflow) */
                   <div className="relative h-full">
                     <Beam className="h-full">{card}</Beam>
                     <span className="tier-badge z-10">{t.badge}</span>
@@ -291,87 +172,52 @@ export default async function HomePage() {
             );
           })}
         </div>
-        <div className="mt-8 space-y-2 max-w-[720px]">
+        <div className="mt-8 space-y-2 max-w-[760px]">
+          <p className="t-small is-cream">{c["pricing.prozess"]}</p>
           <p className="t-small is-cream">{c["pricing.einordnung"]}</p>
           <p className="t-small">{c["pricing.garantie1"]}</p>
           <p className="t-small">{c["pricing.garantie2"]}</p>
         </div>
       </Section>
 
-      {/* 07 — PROZESS & QUALIFIZIERUNG */}
-      <Section id="prozess" tone="base">
-        <SectionHead
-          title={rich(c["process.title"])}
-          intro={c["process.intro"]}
-        />
-        <div className="space-y-0">
-          {[1, 2, 3].map((n) => (
-            <Reveal key={n}>
-              <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
-                <div className="md:col-span-3 flex items-baseline gap-4">
-                  <span className="t-data">0{n}</span>
-                  <h3 className="t-h3">{c[`process.step${n}_title`]}</h3>
-                </div>
-                <p className="t-body md:col-span-6">{c[`process.step${n}_text`]}</p>
-                <p className="t-data md:col-span-3 md:text-right">
-                  {c[`process.step${n}_meta`]}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+      {/* 05 — BEWEIS: drei Ergebnis-Karten direkt vor dem Schluss-CTA */}
+      <Section id="proof" tone="base">
+        <SectionHead title={rich(c["proof.title"])} intro={c["proof.intro"]} />
+        <div className="grid md:grid-cols-3 gap-5 items-stretch">
+          <ResultCard
+            branch={c["proof.riegel_branch"]}
+            facts={lines(c["proof.riegel_facts"])}
+            mechanic={c["proof.riegel_mechanic"]}
+            link={{ label: c["proof.riegel_link"], href: "https://www.riegel-immobilien.de" }}
+          />
+          <ResultCard
+            branch={c["proof.vision_branch"]}
+            facts={lines(c["proof.vision_facts"])}
+            mechanic={c["proof.vision_mechanic"]}
+          />
+          <ResultCard
+            branch={c["proof.koenigswege_branch"]}
+            facts={lines(c["proof.koenigswege_facts"])}
+            mechanic={c["proof.koenigswege_mechanic"]}
+          />
         </div>
-        <p className="t-body mt-8 max-w-[560px] is-cream">{c["process.capacity"]}</p>
-      </Section>
-
-      {/* 08 — FOUNDER */}
-      <Section id="founder" tone="base">
-        <div className="grid md:grid-cols-12 gap-10 items-start">
-          <div className="md:col-span-7">
-            <SectionHead title={rich(c["founder.title"])} />
-            <p className="t-body-lg max-w-[560px]">{c["founder.text1"]}</p>
-            <p className="t-body-lg mt-5 max-w-[560px] is-cream">{c["founder.text2"]}</p>
-            <p className="t-body mt-5 max-w-[560px]">{c["founder.solo"]}</p>
+        <Reveal>
+          <div className="mt-12 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
+            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
+            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
           </div>
-          <div className="md:col-span-5">
-            <figure className="founder-plate">
-              <Image
-                src="https://beuwy-2.b-cdn.net/studio/1777968744430-brown_studio_4-cmpr-1600.webp"
-                alt="Alexander Pütter, Gründer von beuwy"
-                width={1600}
-                height={1600}
-                className="founder-shot"
-                sizes="(max-width: 768px) 90vw, 440px"
-              />
-              <span className="case-glare" aria-hidden />
-            </figure>
-            <figcaption className="t-data mt-3">{c["founder.caption"]}</figcaption>
-          </div>
-        </div>
+          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
+          <p className="t-body-lg is-cream mt-3 max-w-[640px]">
+            „{c["proof.founder_quote"]}“
+          </p>
+        </Reveal>
       </Section>
 
-      {/* 09 — FAQ */}
-      <Section id="faq" tone="base">
-        <SectionHead title={rich(c["faq.title"])} />
-        <div className="max-w-[760px]">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <details key={n} className="faq-item group border-b hairline py-5">
-              <summary className="t-h3 cursor-pointer list-none flex items-baseline justify-between gap-6">
-                {c[`faq.q${n}`]}
-                <span className="t-data shrink-0" aria-hidden>
-                  +
-                </span>
-              </summary>
-              <p className="t-body mt-3 max-w-[560px]">{c[`faq.a${n}`]}</p>
-            </details>
-          ))}
-        </div>
-      </Section>
-
-      {/* 10 — CTA (Gelb-Bühne, Qualifizierungs-Frame) */}
+      {/* 06 — SCHLUSS-CTA: der eine Gelb-Moment */}
       <section id="kontakt" className="cta-invert">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
           <Reveal>
-            <h2 className="t-display cta-invert-ink mx-auto max-w-[900px]">{c["cta.title"]}</h2>
+            <h2 className="t-display cta-invert-ink mx-auto max-w-[900px]">{rich(c["cta.title"])}</h2>
           </Reveal>
           <Reveal delay={80}>
             <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[520px]">
@@ -392,20 +238,72 @@ export default async function HomePage() {
   );
 }
 
-/* Ergebnis-Referenz ohne Screenshot (Vision Group, Königswege): Panel mit
-   Branche, Fakten und Mechanik — bewusst ohne erfundene Bildwelt. */
+/* Hero-Media-Frame (Codex-Muster): großes Produkt-Visual unter dem
+   Riesenwort. URL kommt aus /studio (hero.media_url) — .webm/.mp4 läuft
+   als stummes Loop-Video, Bilder als <img>. Ohne URL: abstrakter
+   Dashboard-Platzhalter, bis das Higgsfield-Asset da ist. */
+function HeroMedia({ url }: { url: string }) {
+  const u = (url || "").trim();
+  const isVideo = /\.(webm|mp4)(\?|$)/i.test(u);
+  return (
+    <figure className="hero-media mx-auto mt-14 md:mt-16">
+      <div className="case-chrome">
+        <span className="case-dot" aria-hidden />
+        <span className="case-dot" aria-hidden />
+        <span className="case-dot" aria-hidden />
+      </div>
+      {u ? (
+        isVideo ? (
+          <video src={u} autoPlay muted loop playsInline className="hero-media-asset" />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={u} alt="" className="hero-media-asset" />
+        )
+      ) : (
+        <div className="hero-media-ph" aria-hidden>
+          <div className="hm-side" />
+          <div className="hm-main">
+            <div className="hm-row">
+              <span className="hm-card" />
+              <span className="hm-card" />
+              <span className="hm-card" />
+            </div>
+            <div className="hm-chart" />
+          </div>
+        </div>
+      )}
+    </figure>
+  );
+}
+
+/* Ergebnis-Referenz: Panel mit Branche, Fakten und Mechanik — bewusst ohne
+   Screenshot-Assets (Visuals folgen über Higgsfield). */
 function ResultCard({
   branch,
   facts,
   mechanic,
+  link,
 }: {
   branch: string;
   facts: string[];
   mechanic: string;
+  link?: { label: string; href: string };
 }) {
   return (
-    <div className="panel rounded-2xl p-6 h-full">
-      <p className="t-data">{branch}</p>
+    <div className="panel rounded-2xl p-6 h-full flex flex-col">
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="t-data">{branch}</p>
+        {link && (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="t-data is-accent whitespace-nowrap"
+          >
+            {link.label} ↗
+          </a>
+        )}
+      </div>
       <ul className="mt-4 space-y-2">
         {facts.map((f) => (
           <li key={f} className="t-small is-cream flex gap-2">
@@ -414,12 +312,12 @@ function ResultCard({
           </li>
         ))}
       </ul>
-      <p className="t-body mt-4">{mechanic}</p>
+      <p className="t-body mt-4 flex-1">{mechanic}</p>
     </div>
   );
 }
 
-function buildJsonLd(c: Record<string, string>) {
+function buildJsonLd() {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -443,13 +341,13 @@ function buildJsonLd(c: Record<string, string>) {
         areaServed: "DE",
         priceRange: "ab 7.900 €",
         knowsAbout: [
-          "Digitale Vertriebssysteme",
-          "KI-Automatisierung",
+          "Markendesign",
+          "Lead-Generierung",
+          "Performance-Anzeigen (Meta, LinkedIn, TikTok)",
           "Custom CRM",
-          "Generative Engine Optimization",
+          "Vertriebssysteme",
           "Websites für Immobilienmakler",
           "Websites für Finanzvertriebe",
-          "CRM-Anbindung (onOffice)",
         ],
       },
       {
@@ -460,83 +358,6 @@ function buildJsonLd(c: Record<string, string>) {
         inLanguage: "de",
         publisher: { "@id": "https://beuwy.com/#org" },
       },
-      {
-        "@type": "FAQPage",
-        "@id": "https://beuwy.com/#faq",
-        mainEntity: [1, 2, 3, 4, 5, 6].map((n) => ({
-          "@type": "Question",
-          name: c[`faq.q${n}`],
-          acceptedAnswer: { "@type": "Answer", text: c[`faq.a${n}`] },
-        })),
-      },
     ],
   };
-}
-
-/* quote bleibt leer, bis die O-Töne über Kanal B (Masterplan §4) vorliegen —
-   keine erfundenen Kundenstimmen (Anti-Slop-Regel 1). */
-function CaseCard({
-  client,
-  branch,
-  href,
-  image,
-  facts,
-  mechanic,
-  quote,
-}: {
-  client: string;
-  branch: string;
-  href: string;
-  image: { src: string; alt: string };
-  facts: string[];
-  mechanic: string;
-  quote?: { text: string; name: string };
-}) {
-  const displayUrl = href.replace(/^https?:\/\//, "");
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="card block h-full group"
-    >
-      <figure className="case-plate">
-        <div className="case-chrome">
-          <span className="case-dot" aria-hidden />
-          <span className="case-dot" aria-hidden />
-          <span className="case-dot" aria-hidden />
-          <span className="t-data ml-1 truncate hero-chrome-url">{displayUrl}</span>
-        </div>
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={1280}
-          height={800}
-          className="case-shot"
-          sizes="(max-width: 768px) 90vw, 540px"
-        />
-        <span className="case-glare" aria-hidden />
-      </figure>
-      <div className="mt-5 flex items-baseline justify-between gap-4">
-        <h3 className="t-h3">{client}</h3>
-        <span className="t-data">live ↗</span>
-      </div>
-      <p className="t-data mt-1">{branch}</p>
-      <ul className="mt-5 space-y-2">
-        {facts.map((f) => (
-          <li key={f} className="t-small is-cream flex gap-2">
-            <span className="t-data shrink-0">·</span>
-            {f}
-          </li>
-        ))}
-      </ul>
-      <p className="t-body mt-5">{mechanic}</p>
-      {quote && (
-        <blockquote className="mt-5 border-t hairline pt-5">
-          <p className="t-body is-cream">„{quote.text}“</p>
-          <footer className="t-data mt-2">— {quote.name}</footer>
-        </blockquote>
-      )}
-    </a>
-  );
 }

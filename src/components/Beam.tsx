@@ -14,8 +14,9 @@ export function Beam({ children, className }: { children: ReactNode; className?:
       colorVariant="sunset"
       theme="dark"
       size="md"
-      duration={6}
-      strength={0.45}
+      duration={5}
+      strength={0.8}
+      brightness={1.5}
       staticColors
       className={className}
     >
