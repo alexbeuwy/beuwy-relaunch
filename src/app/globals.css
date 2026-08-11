@@ -1664,6 +1664,9 @@ select:focus {
   height: 100%;
   display: block;
   z-index: 0;
+  /* rendert auf halber Auflösung — weiches Hochskalieren statt harter Kanten */
+  image-rendering: auto;
+  opacity: 0.95;
 }
 .hero-stage::after {
   content: "";

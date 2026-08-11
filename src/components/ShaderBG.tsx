@@ -3,66 +3,126 @@
 import { useEffect, useRef } from "react";
 
 /**
- * ShaderBG — träge fließender WebGL-Farbnebel als Bühnenlicht.
- * Palette: tiefes Bordeaux → Glut → seltene Gold-Lichter (Markenfarben).
- * Performance: DPR auf 1 gedeckelt, pausiert außerhalb des Viewports und
- * bei prefers-reduced-motion (dann statisches erstes Frame).
+ * ShaderBG — "Quantum Cubes" (KIFS-Raymarcher, Original von Noztol) als
+ * Bühnenlicht hinter dem Hero. Angepasst:
+ * - Palette auf die Marke gezogen: tiefes Bordeaux → Glut → Gold statt Regenbogen
+ * - deutlich langsamer (Flug- und Twist-Tempo ~0,3× des Originals)
+ * - Helligkeit gedeckelt + Vignette, damit weiße Headlines lesbar bleiben
+ *
+ * Performance: der Raymarcher ist teuer, deshalb rendert er auf reduzierter
+ * Auflösung (RENDER_SCALE) und wird per CSS hochskaliert — bei dieser
+ * Nebel-Optik sieht man den Unterschied nicht. Läuft nur im Viewport,
+ * bei prefers-reduced-motion nur ein einziges Standbild.
  */
 
-const FRAG = `
-precision mediump float;
+const RENDER_SCALE = 0.62; // Anteil der CSS-Pixel, auf denen wirklich gerechnet wird
+const STEPS_DESKTOP = 60;
+const STEPS_SMALL = 36;
+
+const frag = (steps: number) => `
+precision highp float;
 uniform vec2 u_res;
 uniform float u_t;
 
-float hash(vec2 p) {
-  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+/* Marken-Palette (Cosinus-Palette): Bordeaux → Glut → Gold.
+   Ersetzt die Regenbogen-Palette H(h) des Originals. */
+vec3 H(float h) {
+  return vec3(0.52, 0.20, 0.13)
+       + vec3(0.48, 0.36, 0.17)
+       * cos(6.28318 * (vec3(1.00, 0.92, 0.80) * h + vec3(0.02, 0.11, 0.24)));
 }
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);
-  return mix(
-    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
-    u.y
-  );
-}
-float fbm(vec2 p) {
-  float v = 0.0;
-  float a = 0.5;
-  for (int i = 0; i < 5; i++) {
-    v += a * noise(p);
-    p = p * 2.03 + vec2(11.3, 7.7);
-    a *= 0.5;
-  }
-  return v;
-}
+
+mat2 rot(float a) { return mat2(cos(a), sin(a), -sin(a), cos(a)); }
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / u_res.xy;
-  vec2 p = uv * vec2(u_res.x / u_res.y, 1.0);
-  float t = u_t * 0.03;
+  vec2 C = gl_FragCoord.xy;
+  vec2 uv = (C - 0.5 * u_res.xy) / u_res.y;
 
-  /* zwei gegenläufige Nebelfelder */
-  float n1 = fbm(p * 1.6 + vec2(t, -t * 0.6));
-  float n2 = fbm(p * 2.4 - vec2(t * 0.7, t * 0.4) + n1);
-  float glow = fbm(p * 1.1 + vec2(-t * 0.4, t * 0.25) + n2);
+  /* Zeitbasis: ~0,3× des Originals — ruhiger Flug statt Achterbahn */
+  float T = u_t * 0.30;
 
-  vec3 base = vec3(0.070, 0.008, 0.008);   /* #120202 */
-  vec3 ember = vec3(0.290, 0.055, 0.040);  /* Glut-Bordeaux */
-  vec3 gold = vec3(0.969, 0.914, 0.604);   /* #F7E99A */
+  float time = T * 0.5;
+  vec3 ro = vec3(sin(time * 0.5) * 2.0, cos(time * 0.3) * 1.5, time * 3.0);
+  vec3 ta = ro + vec3(sin(time * 0.4) * 0.5, cos(time * 0.3) * 0.5, 1.0);
 
-  vec3 col = base;
-  col = mix(col, ember, smoothstep(0.45, 0.95, n2) * 0.9);
-  /* Gold nur als seltene Lichtkante oben */
-  float top = smoothstep(0.75, 0.05, uv.y);
-  col = mix(col, gold, smoothstep(0.82, 0.98, glow) * 0.10 * top);
+  vec3 cw = normalize(ta - ro);
+  vec3 cu = normalize(cross(cw, vec3(0, 1, 0)));
+  vec3 cv = normalize(cross(cu, cw));
+  vec3 rd = normalize(uv.x * cu + uv.y * cv + 1.2 * cw);
 
-  /* Vignette hält die Ränder tief dunkel */
-  float vig = smoothstep(1.25, 0.35, length(uv - vec2(0.5, 0.42)));
-  col *= mix(0.55, 1.0, vig);
+  float t2 = T * 0.15 + ((0.25 + 0.05 * sin(T * 0.1)) / (length(uv) + 0.51)) * 2.0;
+  rd.xy *= rot(t2);
 
-  gl_FragColor = vec4(col, 1.0);
+  float g = 0.0;
+  vec3 col = vec3(0.0);
+
+  for (int i = 0; i < ${steps}; i++) {
+    vec3 p = ro + g * rd;
+    p += sin(p.zxy * 5.0) * 0.05;
+
+    vec3 n1 = p;
+    n1.xy *= rot(-t2 * 0.5);
+    float a = 7.0;
+    n1 = mod(n1 - a, a * 2.0) - a;
+
+    float s = 1.0;
+    float e = 1.0;
+
+    for (int j = 0; j < 8; j++) {
+      n1 = 0.4 - abs(n1);
+      if (n1.x < n1.z) n1.xz = n1.zx;
+      if (n1.z < n1.y) n1.zy = n1.yz;
+      if (n1.y < n1.x) n1.xy = n1.yx;
+
+      n1.xz *= rot(0.15);
+      s *= e = 1.4 + sin(T * 0.1) * 0.05;
+
+      n1 = abs(n1) * e - vec3(
+        1.2 + cos(T * 0.2) * 0.3,
+        2.5,
+        1.2 + sin(T * 0.3) * 0.3
+      );
+    }
+
+    float boxDist = max(abs(n1.x), max(abs(n1.y), abs(n1.z)));
+    float sphDist = length(n1);
+    float dist = mix(sphDist, boxDist, 0.4) / s;
+
+    g += dist * 0.5;
+    col += mix(vec3(1.0), H(g * 0.3), 0.86) * 0.015 / (0.01 + dist * dist * 35.0);
+  }
+
+  col *= exp(-g * 0.02);
+
+  /* Die Struktur steckt in der Helligkeit — sie bekommt die Markenrampe.
+     So bleiben die Kristallkanten scharf, statt in Nebel zu ertrinken. */
+  float l = dot(max(col, 0.0), vec3(0.30, 0.59, 0.11));
+  l = l / (l + 0.58);
+  l = pow(clamp(l, 0.0, 1.0), 1.45);
+
+  vec3 c0 = vec3(0.055, 0.008, 0.010); /* fast schwarzes Bordeaux */
+  vec3 c1 = vec3(0.30, 0.045, 0.040);  /* Bordeaux */
+  vec3 c2 = vec3(0.76, 0.22, 0.085);   /* Glut */
+  vec3 c3 = vec3(0.97, 0.91, 0.60);    /* Gold */
+
+  vec3 outc = mix(c0, c1, smoothstep(0.00, 0.30, l));
+  outc = mix(outc, c2, smoothstep(0.30, 0.66, l));
+  outc = mix(outc, c3, smoothstep(0.66, 0.94, l));
+
+  /* Vignette: Ränder tief, damit die Bühne gerahmt wirkt */
+  vec2 q = (C - 0.5 * u_res.xy) / u_res.xy;
+  float vig = smoothstep(1.05, 0.22, length(q * vec2(1.05, 1.30)));
+  outc *= mix(0.28, 1.0, vig);
+
+  /* Ruhige Zone unter Riesenwort und Satz — Lesbarkeit geht vor Effekt */
+  vec2 tc = (C - vec2(0.5, 0.60) * u_res.xy) / u_res.xy;
+  float calm = smoothstep(0.62, 0.02, length(tc * vec2(0.85, 1.45)));
+  outc *= mix(1.0, 0.40, calm);
+
+  outc *= 0.88;
+  outc = max(outc, c0 * 0.85);
+
+  gl_FragColor = vec4(outc, 1.0);
 }
 `;
 
@@ -85,15 +145,25 @@ export function ShaderBG({ className = "" }: { className?: string }) {
     });
     if (!gl) return; /* fail-open: CSS-Fallback-Gradient bleibt sichtbar */
 
+    const steps = window.innerWidth < 768 ? STEPS_SMALL : STEPS_DESKTOP;
+
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!;
       gl.shaderSource(s, src);
       gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error("[ShaderBG]", gl.getShaderInfoLog(s));
+        return null;
+      }
       return s;
     };
+    const vs = compile(gl.VERTEX_SHADER, VERT);
+    const fs = compile(gl.FRAGMENT_SHADER, frag(steps));
+    if (!vs || !fs) return;
+
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
@@ -112,10 +182,15 @@ export function ShaderBG({ className = "" }: { className?: string }) {
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uT = gl.getUniformLocation(prog, "u_t");
 
+    /* Adaptive Auflösung: Ein KIFS-Raymarcher kann schwache GPUs in die Knie
+       zwingen. Bleibt die Bildrate unter 30 fps, wird die Renderfläche
+       stufenweise verkleinert, statt die Seite ruckeln zu lassen. */
+    let scale = RENDER_SCALE;
+    const MIN_SCALE = 0.28;
+
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1);
-      const w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
-      const h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+      const w = Math.max(1, Math.floor(canvas.clientWidth * scale));
+      const h = Math.max(1, Math.floor(canvas.clientHeight * scale));
       if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;
@@ -129,38 +204,56 @@ export function ShaderBG({ className = "" }: { className?: string }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const start = performance.now();
 
+    let frames = 0;
+    let windowStart = performance.now();
+
     const frame = () => {
       resize();
       gl.uniform1f(uT, (performance.now() - start) / 1000);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      if (running && !reduced) raf = requestAnimationFrame(frame);
+
+      frames++;
+      const now = performance.now();
+      if (now - windowStart >= 1000) {
+        const fps = (frames * 1000) / (now - windowStart);
+        if (fps < 30 && scale > MIN_SCALE) {
+          scale = Math.max(MIN_SCALE, scale * 0.75);
+        }
+        frames = 0;
+        windowStart = now;
+      }
+
+      if (running) raf = requestAnimationFrame(frame);
     };
 
-    const obs = new IntersectionObserver(([e]) => {
-      const shouldRun = e.isIntersecting;
-      if (shouldRun && !running) {
-        running = true;
-        raf = requestAnimationFrame(frame);
-      } else if (!shouldRun) {
+    if (reduced) {
+      /* Standbild: ein Frame mit hübschem Zeitpunkt, dann Ruhe */
+      scale = RENDER_SCALE;
+      resize();
+      gl.uniform1f(uT, 34.0);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    } else {
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !running) {
+          running = true;
+          raf = requestAnimationFrame(frame);
+        } else if (!e.isIntersecting) {
+          running = false;
+          cancelAnimationFrame(raf);
+        }
+      });
+      obs.observe(canvas);
+      window.addEventListener("resize", resize);
+      return () => {
+        obs.disconnect();
         running = false;
         cancelAnimationFrame(raf);
-      }
-    });
-    obs.observe(canvas);
-
-    /* reduced-motion: genau ein Frame rendern, dann stehen lassen */
-    if (reduced) {
-      resize();
-      gl.uniform1f(uT, 12.0);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+        window.removeEventListener("resize", resize);
+      };
     }
 
     window.addEventListener("resize", resize);
-    return () => {
-      obs.disconnect();
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-    };
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
   return <canvas ref={ref} className={`shader-bg ${className}`} aria-hidden />;
