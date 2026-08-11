@@ -1681,14 +1681,29 @@ select:focus {
   position: relative;
   z-index: 2;
 }
-.hero-brand {
+/* Hero-H1: das größte Element der Seite gehört der Botschaft, nicht der Marke */
+.hero-h1 {
   font-family: var(--font-helvena), system-ui, sans-serif;
-  font-weight: 830;
-  font-size: clamp(92px, 16vw, 220px);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+  font-weight: 800;
+  font-size: clamp(40px, 6.2vw, 86px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   color: rgb(255, 255, 255);
-  text-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+  text-wrap: balance;
+  text-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+}
+.hero-h1 em {
+  font-style: normal;
+  font-weight: 800;
+  color: var(--ink-yellow);
+}
+/* Die Zeile über der H1: spricht den Leser an, bevor das Versprechen kommt */
+.hero-eyebrow {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(15px, 1.35vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(255, 253, 243, 0.62);
 }
 .hero-tagline {
   font-family: var(--font-body), system-ui, sans-serif;

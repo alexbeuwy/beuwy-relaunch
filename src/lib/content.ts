@@ -14,10 +14,18 @@
  */
 
 export const DEFAULTS: Record<string, string> = {
-  // ── Hero: Riesenwort + ein Satz + Media-Frame ──────────────────────────
-  "hero.brand": "beuwy",
-  "hero.tagline":
-    "Wer teuer verkauft, muss teuer wirken. beuwy baut Marke und Vertriebssystem für Abschlüsse ab 10.000 €.",
+  /* ── Hero ────────────────────────────────────────────────────────────
+     Kein Markenname als Riesenwort: beuwy kennt (noch) niemand — der
+     wertvollste Slot der Seite gehört dem Leser. H1 = Traumzustand,
+     Subline = was geliefert wird und für wen, dann die Zeile, die zeigt:
+     ich verstehe Ihre Lage. */
+  "hero.title": "Kunden, die über Ihren Preis *nicht diskutieren*.",
+  "hero.subtitle":
+    "beuwy baut Ihre Marke und das Vertriebssystem dahinter: Auftritt, Anzeigen, CRM, Telefon-Setup. Für Unternehmer, bei denen ein Abschluss ab 10.000 € bringt.",
+  "hero.founder_line":
+    "Sie haben das bessere Angebot — nur sieht man Ihrem Auftritt das nicht an.",
+  "hero.cta": "Projekt anfragen",
+  "hero.cta_secondary": "Referenzen ansehen",
   /* URL zu .webp/.jpg/.png (Bild) oder .webm/.mp4 (Auto-Loop-Video) auf dem
      CDN. Leer = abstrakter Platzhalter, bis das Higgsfield-Asset da ist. */
   "hero.media_url": "",
@@ -25,10 +33,23 @@ export const DEFAULTS: Record<string, string> = {
   // ── Trust-Leiste ───────────────────────────────────────────────────────
   "trust.label": "Aus Projekten mit",
 
+  // ── Problem: die Erkenntnis, die den Rest trägt ───────────────────────
+  "problem.title": "Ihr Angebot ist Premium. Ihr Auftritt sagt *Mittelklasse*.",
+  "problem.intro":
+    "Zum Bank-Termin ziehen Sie den guten Anzug an. Ihre Website läuft im Jogginganzug herum — und trifft Ihre Kunden zuerst.",
+  "problem.row1_label": "Marke",
+  "problem.row1_text":
+    "Der Kunde vergleicht drei Anbieter und wählt den, der teurer aussieht. Ihr Preis wird zum Argument gegen Sie.",
+  "problem.row2_label": "Anfragen",
+  "problem.row2_text":
+    "Anfragen kommen rein. Ruft niemand sofort an, sind sie nach Minuten kalt.",
+  "problem.row3_label": "Vertrieb",
+  "problem.row3_text": "Ihr Team pflegt Excel-Listen. Es sollte telefonieren.",
+
   // ── Feature-Blöcke ─────────────────────────────────────────────────────
   "features.title": "Marke und Vertrieb aus einer *Hand*.",
   "features.intro":
-    "Zum Bank-Termin der gute Anzug. Zur eigenen Website der Jogginganzug? Ab 10.000 € pro Abschluss entscheidet der Auftritt mit.",
+    "Vier Teile, die ineinandergreifen. Einzeln bekommen Sie das überall — zusammen macht es den Unterschied zwischen Anfragen und Abschlüssen.",
   "features.f1_title": "Marke",
   "features.f1_text":
     "Markendesign aus der Welt der 100.000-€-Relaunches, gebaut für Ihre Preisklasse. Schrift, Farbe, Bildwelt und Ton greifen ineinander, bis der Auftritt so teuer wirkt wie Ihr Angebot.",
@@ -74,8 +95,9 @@ export const DEFAULTS: Record<string, string> = {
   "pricing.cta": "Projekt anfragen",
 
   // ── Beweis-Block (an Testimonial-Position, vor dem Schluss-CTA) ────────
-  "proof.title": "342.000 €. Über 2.200 Partner. *Top 10*.",
-  "proof.intro": "Drei Branchen, ein Muster: Die bessere Marke macht die größeren Abschlüsse.",
+  "proof.title": "342.000 € in sechs Wochen. Aus einem *Relaunch*.",
+  "proof.intro":
+    "Drei Firmen, drei Branchen, ein Muster: Die bessere Marke macht die größeren Abschlüsse.",
   "proof.riegel_branch": "RIEGEL Immobilien · Rhein-Neckar",
   "proof.riegel_facts":
     "28.000 € Projekt — nach 3 Wochen bezahlt\n9 Abschlüsse in 6 Wochen · im Schnitt 38.000 €\nTop 21 von über 25.000 Maklern · ImmoScout24 ImmoAward 2025",
@@ -114,11 +136,13 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
-  "hero.brand": "Hero · Riesenwort (Markenname)",
-  "hero.tagline": "Hero · Der eine Satz darunter",
+  "hero.title": "Hero · Überschrift (*Wort* = Hervorhebung)",
+  "hero.subtitle": "Hero · Was geliefert wird und für wen",
+  "hero.founder_line": "Hero · Die Zeile über der Überschrift",
   "hero.media_url":
     "Hero · Media-URL (.webp/.png = Bild, .webm/.mp4 = Auto-Loop-Video; leer = Platzhalter)",
   "trust.label": "Trust-Leiste · Label über den Logos",
+  "problem.title": "Problem · Überschrift (*Wort* = Hervorhebung)",
   "features.title": "Features · Überschrift (*Wort* = Hervorhebung)",
   "features.intro": "Features · Unterzeile",
   "proof.riegel_facts": "Riegel · Fakten (eine Zeile = ein Punkt)",

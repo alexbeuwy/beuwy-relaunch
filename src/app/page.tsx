@@ -66,20 +66,38 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* 01 — HERO: Shader-Bühne, Riesenwort, ein Satz, Media-Frame (Codex-Muster).
-          Kein CTA — erst Nutzen zeigen, dann fragen. */}
+      {/* 01 — HERO: Shader-Bühne. Die H1 gehört dem Leser, nicht der Marke —
+          Traumzustand groß, darunter was geliefert wird und für wen. */}
       <section className="hero-stage">
         <ShaderBG />
-        <div className="hero-stage-inner mx-auto max-w-[1120px] px-6 lg:px-10 pt-40 md:pt-52 pb-20 md:pb-28 text-center">
+        <div className="hero-stage-inner mx-auto max-w-[1120px] px-6 lg:px-10 pt-36 md:pt-44 pb-20 md:pb-28 text-center">
           <Reveal delay={40}>
-            <h1 className="hero-brand">{c["hero.brand"]}</h1>
-          </Reveal>
-          <Reveal delay={140}>
-            <p className="hero-tagline mt-8 mx-auto max-w-[560px]">
-              {c["hero.tagline"]}
+            <p className="hero-eyebrow mx-auto max-w-[620px]">
+              {c["hero.founder_line"]}
             </p>
           </Reveal>
-          <Reveal delay={240}>
+          <Reveal delay={110}>
+            <h1 className="hero-h1 mt-6 mx-auto max-w-[1000px]">
+              {rich(c["hero.title"])}
+            </h1>
+          </Reveal>
+          <Reveal delay={190}>
+            <p className="hero-tagline mt-7 mx-auto max-w-[600px]">
+              {c["hero.subtitle"]}
+            </p>
+          </Reveal>
+          <Reveal delay={260}>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+              <Link href="/termin" className="btn-primary">
+                {c["hero.cta"]}
+                <span aria-hidden>→</span>
+              </Link>
+              <a href="#proof" className="btn-secondary">
+                {c["hero.cta_secondary"]}
+              </a>
+            </div>
+          </Reveal>
+          <Reveal delay={340}>
             <HeroMedia url={c["hero.media_url"]} />
           </Reveal>
         </div>
@@ -100,7 +118,59 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 03 — FEATURES: eine Headline, vier Blöcke (Titel + Text + Visual) */}
+      {/* 03 — BEWEIS: Zahlen früh — bei unbekannter Marke zählt Glaubwürdigkeit
+          vor allem anderen (Muster von Harvey, Ramp, Attio, Vercel) */}
+      <Section id="proof" tone="base">
+        <SectionHead title={rich(c["proof.title"])} intro={c["proof.intro"]} />
+        <div className="grid md:grid-cols-3 gap-5 items-stretch">
+          <ResultCard
+            branch={c["proof.riegel_branch"]}
+            facts={lines(c["proof.riegel_facts"])}
+            mechanic={c["proof.riegel_mechanic"]}
+            link={{ label: c["proof.riegel_link"], href: "https://www.riegel-immobilien.de" }}
+          />
+          <ResultCard
+            branch={c["proof.vision_branch"]}
+            facts={lines(c["proof.vision_facts"])}
+            mechanic={c["proof.vision_mechanic"]}
+          />
+          <ResultCard
+            branch={c["proof.koenigswege_branch"]}
+            facts={lines(c["proof.koenigswege_facts"])}
+            mechanic={c["proof.koenigswege_mechanic"]}
+          />
+        </div>
+        <Reveal>
+          <div className="mt-12 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
+            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
+            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
+          </div>
+          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
+          <p className="t-body-lg is-cream mt-3 max-w-[640px]">
+            „{c["proof.founder_quote"]}“
+          </p>
+        </Reveal>
+      </Section>
+
+      {/* 04 — PROBLEM: die Erkenntnis, bevor irgendetwas verkauft wird */}
+      <Section id="problem" tone="base">
+        <SectionHead title={rich(c["problem.title"])} intro={c["problem.intro"]} />
+        <ol className="space-y-4 max-w-[760px]">
+          {[1, 2, 3].map((n) => (
+            <li
+              key={n}
+              className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline"
+            >
+              <span className="t-label shrink-0 md:w-28 pt-1">
+                {c[`problem.row${n}_label`]}
+              </span>
+              <p className="t-body is-cream">{c[`problem.row${n}_text`]}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      {/* 05 — FEATURES: eine Headline, vier Blöcke (Titel + Text + Visual) */}
       <Section id="system" tone="base">
         <SectionHead title={rich(c["features.title"])} intro={c["features.intro"]} />
         <div className="space-y-20 md:space-y-28">
@@ -133,7 +203,7 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 04 — PREIS-TEASER: drei Karten, Name + Preis + ein Satz + Button */}
+      {/* 06 — PREIS-TEASER: drei Karten, Name + Preis + ein Satz + Button */}
       <Section id="pakete" tone="base">
         <SectionHead title={rich(c["pricing.title"])} intro={c["pricing.intro"]} />
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
@@ -180,40 +250,8 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 05 — BEWEIS: drei Ergebnis-Karten direkt vor dem Schluss-CTA */}
-      <Section id="proof" tone="base">
-        <SectionHead title={rich(c["proof.title"])} intro={c["proof.intro"]} />
-        <div className="grid md:grid-cols-3 gap-5 items-stretch">
-          <ResultCard
-            branch={c["proof.riegel_branch"]}
-            facts={lines(c["proof.riegel_facts"])}
-            mechanic={c["proof.riegel_mechanic"]}
-            link={{ label: c["proof.riegel_link"], href: "https://www.riegel-immobilien.de" }}
-          />
-          <ResultCard
-            branch={c["proof.vision_branch"]}
-            facts={lines(c["proof.vision_facts"])}
-            mechanic={c["proof.vision_mechanic"]}
-          />
-          <ResultCard
-            branch={c["proof.koenigswege_branch"]}
-            facts={lines(c["proof.koenigswege_facts"])}
-            mechanic={c["proof.koenigswege_mechanic"]}
-          />
-        </div>
-        <Reveal>
-          <div className="mt-12 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
-            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
-            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
-          </div>
-          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
-          <p className="t-body-lg is-cream mt-3 max-w-[640px]">
-            „{c["proof.founder_quote"]}“
-          </p>
-        </Reveal>
-      </Section>
 
-      {/* 06 — SCHLUSS-CTA: der eine Gelb-Moment */}
+      {/* 07 — SCHLUSS-CTA: der eine Gelb-Moment */}
       <section id="kontakt" className="cta-invert">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
           <Reveal>
