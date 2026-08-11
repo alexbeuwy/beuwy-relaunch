@@ -40,26 +40,26 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              fontSize: 64,
+              fontSize: 56,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#FFFDF3",
             }}
           >
-            Der Kunde ruft Sie an.
+            10.000 € pro Abschluss.
           </div>
           <div
             style={{
               display: "flex",
-              fontSize: 64,
+              fontSize: 56,
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
               color: "#F7E99A",
             }}
           >
-            Nicht umgekehrt.
+            Und Ihr Auftritt?
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>

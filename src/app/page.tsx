@@ -82,7 +82,7 @@ export default async function HomePage() {
                     <span aria-hidden>→</span>
                   </Link>
                   <a href="#tool" className="btn-secondary">
-                    Sichtbarkeits-Check
+                    Auftritt live testen
                   </a>
                 </div>
               </Reveal>
@@ -127,58 +127,34 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 02 — STATUS-QUO-KOSTEN: erst das Problem … */}
-      <Section id="kosten" tone="base">
+      {/* 02 — PROBLEM: die Wunde, ohne Zahlen */}
+      <Section id="problem" tone="base">
         <SectionHead
-          title={rich(c["kosten.title"])}
-          intro={c["kosten.intro"]}
+          title={rich(c["problem.title"])}
+          intro={c["problem.intro"]}
         />
-        <div className="grid md:grid-cols-12 gap-8 items-start">
-          <div className="md:col-span-7">
-            <ol className="space-y-4">
-              {[1, 2, 3].map((n) => (
-                <li
-                  key={n}
-                  className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline"
-                >
-                  <span className="t-label shrink-0 md:w-28 pt-1">
-                    {c[`kosten.row${n}_label`]}
-                  </span>
-                  <p className="t-body is-cream">{c[`kosten.row${n}_text`]}</p>
-                </li>
-              ))}
-            </ol>
-            <p className="t-body mt-6 max-w-[560px]">{c["kosten.bridge"]}</p>
-          </div>
-          <div className="md:col-span-5">
-            <div className="panel rounded-2xl p-6">
-              <p className="flex items-end gap-1">
-                <PuffNumber value={c["kosten.stat"]} size="clamp(56px, 7vw, 92px)" />
-                <span className="t-stat pb-1">%</span>
-              </p>
-              <p className="t-body mt-3 is-cream">{c["kosten.stat_text"]}</p>
-              <p className="t-data mt-4">{c["kosten.stat_source"]}</p>
-            </div>
-          </div>
-        </div>
+        <ol className="space-y-4 max-w-[760px]">
+          {[1, 2, 3].map((n) => (
+            <li
+              key={n}
+              className="flex flex-col md:flex-row gap-1 md:gap-4 pb-4 border-b hairline"
+            >
+              <span className="t-label shrink-0 md:w-28 pt-1">
+                {c[`problem.row${n}_label`]}
+              </span>
+              <p className="t-body is-cream">{c[`problem.row${n}_text`]}</p>
+            </li>
+          ))}
+        </ol>
       </Section>
 
-      {/* 03 — SICHTBARKEITS-CHECK: … dann die Selbstdiagnose */}
-      <Section id="check" tone="raised">
-        <SectionHead
-          title={rich(c["check.title"])}
-          intro={c["check.intro"]}
-        />
-        <AuditTool />
-      </Section>
-
-      {/* 04 — REFERENZEN */}
+      {/* 03 — BEWEIS: die Zahlen, die die Wunde schließen */}
       <Section id="proof" tone="base">
         <SectionHead
           title={rich(c["proof.title"])}
           intro={c["proof.intro"]}
         />
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-cols-2 gap-5 items-start">
           <CaseCard
             client="RIEGEL Immobilien"
             branch={c["proof.riegel_branch"]}
@@ -187,25 +163,25 @@ export default async function HomePage() {
             facts={lines(c["proof.riegel_facts"])}
             mechanic={c["proof.riegel_mechanic"]}
           />
-          <CaseCard
-            client="SAADI AG"
-            branch={c["proof.saadi_branch"]}
-            href="https://saadi-ag.vercel.app"
-            image={{ src: "/proof/saadi.jpg", alt: "Startseite der SAADI AG" }}
-            facts={lines(c["proof.saadi_facts"])}
-            mechanic={c["proof.saadi_mechanic"]}
-          />
+          <div className="flex flex-col gap-5">
+            <ResultCard
+              branch={c["proof.vision_branch"]}
+              facts={lines(c["proof.vision_facts"])}
+              mechanic={c["proof.vision_mechanic"]}
+            />
+            <ResultCard
+              branch={c["proof.koenigswege_branch"]}
+              facts={lines(c["proof.koenigswege_facts"])}
+              mechanic={c["proof.koenigswege_mechanic"]}
+            />
+          </div>
         </div>
         <Reveal>
-          <div className="mt-10 pt-8 border-t hairline grid md:grid-cols-12 gap-4 md:gap-6 items-baseline">
-            <div className="md:col-span-3">
-              <PuffNumber value={c["proof.stat"]} size="clamp(56px, 7vw, 92px)" />
-            </div>
-            <div className="md:col-span-9">
-              <p className="t-body-lg is-cream max-w-[620px]">{c["proof.stat_text"]}</p>
-              <p className="t-data mt-2">{c["proof.stat_note"]}</p>
-            </div>
+          <div className="mt-10 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
+            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
+            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
           </div>
+          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
         </Reveal>
         <div className="logo-rail mt-10" aria-label="Frühere Kunden">
           {[
@@ -222,11 +198,20 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 05 — ARBEITSWEISE + Mechanik: Wert und Reason-Why VOR dem Preis */}
+      {/* 04 — LIVE-CHECK: das Signature-Tool als interaktiver Beweis */}
+      <Section id="check" tone="raised">
+        <SectionHead
+          title={rich(c["check.title"])}
+          intro={c["check.intro"]}
+        />
+        <AuditTool />
+      </Section>
+
+      {/* 05 — PRODUKT + Mechanik: Wert und Reason-Why VOR dem Preis */}
       <Section id="system" tone="base">
         <SectionHead
-          title={rich(c["system.title"])}
-          intro={c["system.intro"]}
+          title={rich(c["product.title"])}
+          intro={c["product.intro"]}
         />
         <div className="space-y-4">
           {[1, 2, 3, 4].map((n) => (
@@ -234,22 +219,22 @@ export default async function HomePage() {
               <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-baseline py-5 border-b hairline">
                 <div className="md:col-span-4 flex items-baseline gap-4">
                   <span className="t-data">0{n}</span>
-                  <h3 className="t-h3">{c[`system.row${n}_title`]}</h3>
+                  <h3 className="t-h3">{c[`product.row${n}_title`]}</h3>
                 </div>
-                <p className="t-body md:col-span-8 max-w-[560px]">{c[`system.row${n}_text`]}</p>
+                <p className="t-body md:col-span-8 max-w-[560px]">{c[`product.row${n}_text`]}</p>
               </div>
             </Reveal>
           ))}
         </div>
         <div className="mt-16 pt-10 border-t hairline">
-          <h3 className="t-h2 max-w-[720px]">{rich(c["system.mechanik_title"])}</h3>
-          <p className="t-body-lg mt-4 max-w-[560px]">{c["system.mechanik_intro"]}</p>
+          <h3 className="t-h2 max-w-[720px]">{rich(c["mechanik.title"])}</h3>
+          <p className="t-body-lg mt-4 max-w-[560px]">{c["mechanik.intro"]}</p>
           <div className="mt-10 grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((n) => (
               <Reveal key={n} delay={(n - 1) * 80}>
                 <div>
-                  <h4 className="t-h3">{c[`system.mechanik${n}_title`]}</h4>
-                  <p className="t-body mt-3">{c[`system.mechanik${n}_text`]}</p>
+                  <h4 className="t-h3">{c[`mechanik.m${n}_title`]}</h4>
+                  <p className="t-body mt-3">{c[`mechanik.m${n}_text`]}</p>
                 </div>
               </Reveal>
             ))}
@@ -307,9 +292,9 @@ export default async function HomePage() {
           })}
         </div>
         <div className="mt-8 space-y-2 max-w-[720px]">
-          <p className="t-small is-cream">{c["pricing.garantie1"]}</p>
-          <p className="t-small is-cream">{c["pricing.garantie2"]}</p>
-          <p className="t-small">{c["pricing.agentur_vergleich"]}</p>
+          <p className="t-small is-cream">{c["pricing.einordnung"]}</p>
+          <p className="t-small">{c["pricing.garantie1"]}</p>
+          <p className="t-small">{c["pricing.garantie2"]}</p>
         </div>
       </Section>
 
@@ -407,6 +392,33 @@ export default async function HomePage() {
   );
 }
 
+/* Ergebnis-Referenz ohne Screenshot (Vision Group, Königswege): Panel mit
+   Branche, Fakten und Mechanik — bewusst ohne erfundene Bildwelt. */
+function ResultCard({
+  branch,
+  facts,
+  mechanic,
+}: {
+  branch: string;
+  facts: string[];
+  mechanic: string;
+}) {
+  return (
+    <div className="panel rounded-2xl p-6 h-full">
+      <p className="t-data">{branch}</p>
+      <ul className="mt-4 space-y-2">
+        {facts.map((f) => (
+          <li key={f} className="t-small is-cream flex gap-2">
+            <span className="t-data shrink-0">·</span>
+            {f}
+          </li>
+        ))}
+      </ul>
+      <p className="t-body mt-4">{mechanic}</p>
+    </div>
+  );
+}
+
 function buildJsonLd(c: Record<string, string>) {
   return {
     "@context": "https://schema.org",
@@ -416,7 +428,7 @@ function buildJsonLd(c: Record<string, string>) {
         "@id": "https://beuwy.com/#org",
         name: "beuwy",
         description:
-          "Verkaufsfertige Portale, Custom CRMs und KI-Automatisierungen als Festpreisprojekte für Finanz-, Immobilien- und Medizinunternehmen.",
+          "Premium-Markendesign und Lead-Generierung für Anbieter mit hohen Auftragswerten: Marke, Anzeigen auf Instagram, Facebook, LinkedIn und TikTok, eigenes CRM und Telefon-Setup — als Festpreisprojekte.",
         url: "https://beuwy.com",
         email: "ap@beuwy.com",
         founder: { "@type": "Person", name: "Alexander Pütter" },

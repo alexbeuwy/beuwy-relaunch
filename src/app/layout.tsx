@@ -17,21 +17,21 @@ const helvena = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
-  title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
+  title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
   description:
-    "beuwy baut das Vertriebssystem hinter wachsenden Finanz- und Immobilienunternehmen: Marke, Website, Werkzeuge, CRM-Anbindung und AI-Sichtbarkeit. Gebaut, nicht nur beraten — von Alexander Pütter.",
+    "beuwy baut die Marke, die zu Ihren Preisen passt, und das System dahinter: Anzeigen, CRM, Telefon-Setup, wöchentliche Auswertung. Festpreis, gebaut von Alexander Pütter.",
   openGraph: {
-    title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
+    title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
     description:
-      "Der Kunde ruft Sie an — nicht umgekehrt. beuwy baut das Vertriebssystem dahinter: Anfragen holen, vorqualifizieren, ans CRM übergeben. Festpreis, live in Wochen.",
+      "Ein Abschluss bringt Ihnen 10.000 €. Wirkt Ihr Auftritt genauso teuer? beuwy baut Marke und Vertriebssystem aus einer Hand — zum Festpreis.",
     type: "website",
     locale: "de_DE",
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Digitale Vertriebssysteme für Finance & Real Estate",
+    title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
     description:
-      "Der Kunde ruft Sie an — nicht umgekehrt. beuwy baut das Vertriebssystem dahinter: Anfragen holen, vorqualifizieren, ans CRM übergeben. Festpreis, live in Wochen.",
+      "Ein Abschluss bringt Ihnen 10.000 €. Wirkt Ihr Auftritt genauso teuer? beuwy baut Marke und Vertriebssystem aus einer Hand — zum Festpreis.",
   },
 };
 
