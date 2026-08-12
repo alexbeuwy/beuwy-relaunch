@@ -6,7 +6,6 @@ import { ShaderBG } from "@/components/ShaderBG";
 import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
 import { StatFacts } from "@/components/StatFacts";
-import { Beam } from "@/components/Beam";
 import Hero3D from "@/components/Hero3D";
 import { getContent } from "@/lib/content";
 
@@ -28,30 +27,6 @@ const CLIENT_LOGOS = [
 export default async function HomePage() {
   const c = await getContent();
   const jsonLd = buildJsonLd();
-
-  const tiers = [
-    {
-      id: "fundament",
-      name: c["pricing.tier1_name"],
-      price: c["pricing.tier1_price"],
-      result: c["pricing.tier1_result"],
-      badge: null as string | null,
-    },
-    {
-      id: "vertriebssystem",
-      name: c["pricing.tier2_name"],
-      price: c["pricing.tier2_price"],
-      result: c["pricing.tier2_result"],
-      badge: c["pricing.tier2_badge"] || null,
-    },
-    {
-      id: "betriebssystem",
-      name: c["pricing.tier3_name"],
-      price: c["pricing.tier3_price"],
-      result: c["pricing.tier3_result"],
-      badge: null as string | null,
-    },
-  ];
 
   const features = [1, 2, 3, 4].map((n) => ({
     title: c[`features.f${n}_title`],
@@ -216,50 +191,15 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 06 — PREIS-TEASER: drei Karten, Name + Preis + ein Satz + Button */}
+      {/* 06 — ZIEL: keine offenen Preise (Hormozi-Logik) — hier rechnet der
+          Besucher mit seinen eigenen Zielen; der interaktive ZielRechner
+          aus dem Workflow-Build wird hier eingesetzt. */}
       <Section id="pakete" tone="base">
-        <SectionHead title={rich(c["pricing.title"])} intro={c["pricing.intro"]} />
-        <div className="grid md:grid-cols-3 gap-5 items-stretch">
-          {tiers.map((t, i) => {
-            const card = (
-              <div className="tier-min h-full">
-                <p className="t-data">{t.name}</p>
-                <p className="t-stat">{t.price}</p>
-                <p className="t-body flex-1">{t.result}</p>
-                <div>
-                  <Link
-                    href="/termin"
-                    className={
-                      t.badge
-                        ? "btn-primary w-full justify-center"
-                        : "btn-secondary w-full justify-center"
-                    }
-                  >
-                    {c["pricing.cta"]}
-                    <span aria-hidden>→</span>
-                  </Link>
-                </div>
-              </div>
-            );
-            return (
-              <Reveal key={t.id} delay={i * 80}>
-                {t.badge ? (
-                  <div className="relative h-full">
-                    <Beam className="h-full">{card}</Beam>
-                    <span className="tier-badge z-10">{t.badge}</span>
-                  </div>
-                ) : (
-                  card
-                )}
-              </Reveal>
-            );
-          })}
-        </div>
-        <div className="mt-8 space-y-2 max-w-[760px]">
-          <p className="t-small is-cream">{c["pricing.prozess"]}</p>
-          <p className="t-small is-cream">{c["pricing.einordnung"]}</p>
-          <p className="t-small">{c["pricing.garantie1"]}</p>
-          <p className="t-small">{c["pricing.garantie2"]}</p>
+        <SectionHead title={rich(c["goal.title"])} intro={c["goal.intro"]} />
+        <div className="mt-2 space-y-2 max-w-[760px]">
+          <p className="t-body is-cream">{c["goal.prozess"]}</p>
+          <p className="t-small">{c["goal.garantie1"]}</p>
+          <p className="t-small">{c["goal.garantie2"]}</p>
         </div>
       </Section>
 
@@ -379,7 +319,6 @@ function buildJsonLd() {
           addressCountry: "DE",
         },
         areaServed: "DE",
-        priceRange: "ab 7.900 €",
         knowsAbout: [
           "Markendesign",
           "Lead-Generierung",

@@ -68,31 +68,18 @@ export const DEFAULTS: Record<string, string> = {
   "check.text":
     "Testen Sie die Maschine an Ihrer eigenen Domain: Screenshot, neun Messpunkte, ehrliche Einschätzung durch beuwy Agenten. Dauert 25 Sekunden.",
 
-  // ── Preis-Teaser ───────────────────────────────────────────────────────
-  "pricing.title": "Drei Stufen. Ein *Festpreis*.",
-  "pricing.intro":
-    "Große Häuser rufen für diese Klasse sechsstellige Budgets auf. Hier steht der Preis fest, bevor Sie zusagen.",
-  "pricing.tier1_name": "Das Fundament",
-  "pricing.tier1_price": "7.900 €",
-  "pricing.tier1_result": "Eine Marke, die zu Ihren Preisen passt.",
-  "pricing.tier2_name": "Das Vertriebssystem",
-  "pricing.tier2_price": "16.900 €",
-  "pricing.tier2_result":
-    "Anzeigen, die Kunden mit großem Budget holen — und ein CRM, das sie hält.",
-  "pricing.tier2_badge": "Empfehlung",
-  "pricing.tier3_name": "Das Betriebssystem",
-  "pricing.tier3_price": "ab 34.000 €",
-  "pricing.tier3_result":
-    "Ihre Firma läuft auf einem eigenen System: Marke, CRM, Vertrieb, Wachstum.",
-  "pricing.prozess":
-    "Der Weg: Anfrage → Antwort in 24 Stunden → Diagnose (1.990 €, wird voll angerechnet) → Systembau zum Festpreis.",
-  "pricing.einordnung":
-    "Zur Einordnung: Der Riegel-Relaunch lag mit 28.000 € zwischen Stufe zwei und drei — und hatte sich nach drei Wochen bezahlt.",
-  "pricing.garantie1":
-    "Diagnose-Garantie: Überzeugt der Systementwurf, gilt die Diagnose als Anzahlung. Überzeugt er weniger, geht sie zurück.",
-  "pricing.garantie2":
+  // ── Ziel-Sektion (ersetzt den offenen Preis-Teaser — Hormozi-Logik:
+  //    es geht um Ziele, nie zuerst ums Geld; der Rechner ist das Herzstück) ──
+  "goal.title": "Rechnen wir mit Ihren *Zielen* — nicht mit Preisen.",
+  "goal.intro":
+    "Jedes System wird für ein Ziel gebaut. Stellen Sie Ihres ein — über den Weg dorthin sprechen wir persönlich.",
+  "goal.prozess":
+    "Der Weg: Anfrage → Antwort in 24 Stunden → Diagnose Ihres größten Hebels → Systembau zum Festpreis.",
+  "goal.garantie1":
+    "Diagnose-Garantie: Überzeugt der Systementwurf nicht, geht die Diagnose-Gebühr zurück.",
+  "goal.garantie2":
     "Festpreis-Garantie: Wird mehr nötig als geplant, trage ich das. Ihr Preis bleibt stehen.",
-  "pricing.cta": "Projekt anfragen",
+  "goal.cta": "Projekt anfragen",
 
   // ── Beweis-Block (an Testimonial-Position, vor dem Schluss-CTA) ────────
   "proof.title": "Im Büro Maßanzug. Nach außen *Fake-Gucci-Jogginghose*.",
