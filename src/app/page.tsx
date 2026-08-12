@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { ShaderBG } from "@/components/ShaderBG";
 import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
+import { StatFacts } from "@/components/StatFacts";
 import { Beam } from "@/components/Beam";
 import { getContent } from "@/lib/content";
 
@@ -118,34 +119,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 03 — BEWEIS: Zahlen früh — bei unbekannter Marke zählt Glaubwürdigkeit
-          vor allem anderen (Muster von Harvey, Ramp, Attio, Vercel) */}
+      {/* 03 — BEWEIS: der Aha-Moment (Maßanzug vs. Jogginghose) und direkt
+          danach die Zahlen als Auflösung. Keine Karten — großzügiges
+          Fakten-Band mit animierten Kennzahlen und Icon-Slots, darunter die
+          Referenzen als ruhige Zeilen. */}
       <Section id="proof" tone="base">
         <SectionHead title={rich(c["proof.title"])} intro={c["proof.intro"]} />
-        <div className="grid md:grid-cols-3 gap-5 items-stretch">
-          <ResultCard
-            branch={c["proof.riegel_branch"]}
-            facts={lines(c["proof.riegel_facts"])}
-            mechanic={c["proof.riegel_mechanic"]}
-            link={{ label: c["proof.riegel_link"], href: "https://www.riegel-immobilien.de" }}
-          />
-          <ResultCard
-            branch={c["proof.vision_branch"]}
-            facts={lines(c["proof.vision_facts"])}
-            mechanic={c["proof.vision_mechanic"]}
-          />
-          <ResultCard
-            branch={c["proof.koenigswege_branch"]}
-            facts={lines(c["proof.koenigswege_facts"])}
-            mechanic={c["proof.koenigswege_mechanic"]}
-          />
-        </div>
         <Reveal>
-          <div className="mt-12 pt-8 border-t hairline flex flex-wrap items-end gap-x-6 gap-y-4">
-            <PuffNumber value={c["proof.stat"]} size="clamp(44px, 5vw, 68px)" />
+          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+            <PuffNumber value={c["proof.stat"]} size="clamp(52px, 6vw, 84px)" />
             <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
           </div>
-          <p className="t-body mt-8 max-w-[640px]">{c["proof.founder_line"]}</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <StatFacts
+            facts={[1, 2, 3].map((n) => ({
+              value: c[`proof.stat${n}_value`],
+              suffix: c[`proof.stat${n}_suffix`],
+              label: c[`proof.stat${n}_label`],
+              icon: c[`proof.stat${n}_icon`],
+            }))}
+          />
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="proof-rows">
+            <ProofRow
+              branch={c["proof.riegel_branch"]}
+              facts={lines(c["proof.riegel_facts"])}
+              link={{ label: c["proof.riegel_link"], href: "https://www.riegel-immobilien.de" }}
+            />
+            <ProofRow
+              branch={c["proof.vision_branch"]}
+              facts={lines(c["proof.vision_facts"])}
+            />
+            <ProofRow
+              branch={c["proof.koenigswege_branch"]}
+              facts={lines(c["proof.koenigswege_facts"])}
+            />
+          </div>
+          <p className="t-body mt-10 max-w-[640px]">{c["proof.founder_line"]}</p>
           <p className="t-body-lg is-cream mt-3 max-w-[640px]">
             „{c["proof.founder_quote"]}“
           </p>
@@ -314,43 +326,40 @@ function HeroMedia({ url }: { url: string }) {
   );
 }
 
-/* Ergebnis-Referenz: Panel mit Branche, Fakten und Mechanik — bewusst ohne
-   Screenshot-Assets (Visuals folgen über Higgsfield). */
-function ResultCard({
+/* Referenz-Zeile: Marke links, Fakten als ruhige Zeile, Link rechts —
+   ersetzt die früheren Panel-Karten (zu kleinteilig). */
+function ProofRow({
   branch,
   facts,
-  mechanic,
   link,
 }: {
   branch: string;
   facts: string[];
-  mechanic: string;
   link?: { label: string; href: string };
 }) {
   return (
-    <div className="panel rounded-2xl p-6 h-full flex flex-col">
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="t-data">{branch}</p>
-        {link && (
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="t-data is-accent whitespace-nowrap"
-          >
-            {link.label} ↗
-          </a>
-        )}
-      </div>
-      <ul className="mt-4 space-y-2">
-        {facts.map((f) => (
-          <li key={f} className="t-small is-cream flex gap-2">
-            <span className="t-data shrink-0">·</span>
-            {f}
-          </li>
+    <div className="proof-row">
+      <p className="proof-row-brand">{branch}</p>
+      <p className="proof-row-facts">
+        {facts.map((f, i) => (
+          <span key={f}>
+            {i === 0 ? <b>{f}</b> : f}
+            {i < facts.length - 1 && <span aria-hidden>&ensp;·&ensp;</span>}
+          </span>
         ))}
-      </ul>
-      <p className="t-body mt-4 flex-1">{mechanic}</p>
+      </p>
+      {link ? (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="proof-row-link"
+        >
+          {link.label} ↗
+        </a>
+      ) : (
+        <span />
+      )}
     </div>
   );
 }

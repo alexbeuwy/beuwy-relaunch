@@ -47,7 +47,7 @@ export default async function Image() {
               color: "#FFFDF3",
             }}
           >
-            10.000 € pro Abschluss.
+            In 4 Wochen zu Kunden,
           </div>
           <div
             style={{
@@ -59,7 +59,7 @@ export default async function Image() {
               color: "#F7E99A",
             }}
           >
-            Und Ihr Auftritt?
+            die nur noch zum Abschließen kommen.
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>

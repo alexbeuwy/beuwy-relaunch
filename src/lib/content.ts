@@ -19,7 +19,7 @@ export const DEFAULTS: Record<string, string> = {
      wertvollste Slot der Seite gehört dem Leser. H1 = Traumzustand,
      Subline = was geliefert wird und für wen, dann die Zeile, die zeigt:
      ich verstehe Ihre Lage. */
-  "hero.title": "Kunden, die über Ihren Preis *nicht diskutieren*.",
+  "hero.title": "In 4 Wochen zu Kunden, die nur noch zum *Abschließen* kommen.",
   "hero.subtitle":
     "beuwy baut Ihre Marke und das Vertriebssystem dahinter: Auftritt, Anzeigen, CRM, Telefon-Setup. Für Unternehmer, bei denen ein Abschluss ab 10.000 € bringt.",
   "hero.founder_line":
@@ -36,7 +36,7 @@ export const DEFAULTS: Record<string, string> = {
   // ── Problem: die Erkenntnis, die den Rest trägt ───────────────────────
   "problem.title": "Ihr Angebot ist Premium. Ihr Auftritt sagt *Mittelklasse*.",
   "problem.intro":
-    "Zum Bank-Termin ziehen Sie den guten Anzug an. Ihre Website läuft im Jogginganzug herum — und trifft Ihre Kunden zuerst.",
+    "Drei Stellen, an denen Premium-Anbieter jeden Tag Geld verlieren:",
   "problem.row1_label": "Marke",
   "problem.row1_text":
     "Der Kunde vergleicht drei Anbieter und wählt den, der teurer aussieht. Ihr Preis wird zum Argument gegen Sie.",
@@ -95,9 +95,9 @@ export const DEFAULTS: Record<string, string> = {
   "pricing.cta": "Projekt anfragen",
 
   // ── Beweis-Block (an Testimonial-Position, vor dem Schluss-CTA) ────────
-  "proof.title": "342.000 € in sechs Wochen. Aus einem *Relaunch*.",
+  "proof.title": "Im Büro Maßanzug. Nach außen *Fake-Gucci-Jogginghose*.",
   "proof.intro":
-    "Drei Firmen, drei Branchen, ein Muster: Die bessere Marke macht die größeren Abschlüsse.",
+    "Ihre Kunden sehen zuerst den Auftritt, nicht das Angebot. Drei Firmen haben umgezogen — die Zahlen danach:",
   "proof.riegel_branch": "RIEGEL Immobilien · Rhein-Neckar",
   "proof.riegel_facts":
     "28.000 € Projekt — nach 3 Wochen bezahlt\n9 Abschlüsse in 6 Wochen · im Schnitt 38.000 €\nTop 21 von über 25.000 Maklern · ImmoScout24 ImmoAward 2025",
@@ -117,6 +117,21 @@ export const DEFAULTS: Record<string, string> = {
   "proof.stat": "342.000",
   "proof.stat_text":
     "Euro Abschlussvolumen in den ersten 6 Wochen nach dem Riegel-Relaunch.",
+  /* Fakten-Band unter der Puff-Zahl: drei animierte Kennzahlen.
+     value zählt beim Scrollen hoch (Ziffern + Punkte), suffix bleibt statisch.
+     iconN_url = Slot für 3D-Icon-Assets vom CDN (leer = ohne Icon). */
+  "proof.stat1_value": "9",
+  "proof.stat1_suffix": "",
+  "proof.stat1_label": "Abschlüsse in den ersten sechs Wochen",
+  "proof.stat1_icon": "",
+  "proof.stat2_value": "38.000",
+  "proof.stat2_suffix": " €",
+  "proof.stat2_label": "durchschnittliches Abschlussvolumen",
+  "proof.stat2_icon": "",
+  "proof.stat3_value": "3",
+  "proof.stat3_suffix": "",
+  "proof.stat3_label": "Wochen, bis sich das Projekt bezahlt hatte",
+  "proof.stat3_icon": "",
   "proof.founder_line":
     "Alle drei tragen dieselbe Handschrift: Alexander Pütter — seit 2009 im Markengeschäft, erst für Bosch, Continental und Michelin.",
   "proof.founder_quote": "Ich baue Marken, mit denen Menschen große Entscheidungen treffen.",
@@ -149,6 +164,9 @@ export const FIELD_LABELS: Record<string, string> = {
   "proof.vision_facts": "Vision Group · Fakten (eine Zeile = ein Punkt)",
   "proof.koenigswege_facts": "Königswege · Fakten (eine Zeile = ein Punkt)",
   "proof.stat": "Beweis · Kennzahl (nur Zahl, Puffballon-Ziffern)",
+  "proof.stat1_icon": "Beweis · 3D-Icon-URL für Kennzahl 1 (CDN, leer = ohne)",
+  "proof.stat2_icon": "Beweis · 3D-Icon-URL für Kennzahl 2 (CDN, leer = ohne)",
+  "proof.stat3_icon": "Beweis · 3D-Icon-URL für Kennzahl 3 (CDN, leer = ohne)",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */
