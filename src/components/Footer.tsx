@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="relative z-[2] mt-24 border-t border-line-subtle">
+    <footer className="relative z-2 mt-24 border-t border-line-subtle">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
           <div className="space-y-4 max-w-[420px]">
@@ -65,7 +65,7 @@ function FooterLink({
     <li>
       <Link
         href={href}
-        className="t-small is-muted transition-colors hover:text-[var(--ink-cream)]"
+        className="t-small is-muted transition-colors hover:text-(--ink-cream)"
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {children}

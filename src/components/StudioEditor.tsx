@@ -161,7 +161,7 @@ export function StudioEditor({
                           >
                             <span
                               aria-hidden
-                              className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--ink-yellow)]"
+                              className="inline-block h-1.5 w-1.5 rounded-full bg-(--ink-yellow)"
                             />
                             Geändert
                           </span>
@@ -171,7 +171,7 @@ export function StudioEditor({
                         <button
                           type="button"
                           onClick={() => setValue(key, defaults[key])}
-                          className="t-data cursor-pointer transition-colors hover:text-[var(--ink-cream)]"
+                          className="t-data cursor-pointer transition-colors hover:text-(--ink-cream)"
                         >
                           Zurücksetzen
                         </button>

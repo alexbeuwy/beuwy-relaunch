@@ -194,7 +194,7 @@ void main() {
   colOut = mix(colOut, cHot, aDeal * 0.45);
   vec3 col = mix(colIn, colOut, isOut);
 
-  float iIn = mix(0.18, 1.0, ppow(pin, 2.3));
+  float iIn = mix(0.30, 1.0, ppow(pin, 1.8));
   float iOut = mix(1.0, 0.60, smoothstep(0.0, 0.30, pout)) + aDeal * 0.45;
   float intensity = mix(iIn, iOut, isOut);
 
@@ -211,7 +211,7 @@ void main() {
      bewusst früh gesetzt: die Punkte lösen sich noch im Bild auf, statt am
      harten Rahmenrand abgeschnitten zu werden.
      Dazu Tiefendämpfung: was hinten liegt, sinkt in den Dunst. */
-  float ends = smoothstep(0.0, 0.10, u) * (1.0 - smoothstep(0.72, 0.92, u));
+  float ends = smoothstep(0.0, 0.10, u) * (1.0 - smoothstep(0.62, 0.86, u));
   float atmo = mix(0.42, 1.0, smoothstep(22.0, 12.0, dist));
 
   vCol = col * intensity * atmo;
@@ -286,10 +286,10 @@ void main() {
   /* Gauß quer zur Bahn — dadurch ist die Linie weich und kantenfrei,
      ohne dass wir sie in Hairline-Pixeln zeichnen müssten. */
   float g = exp(-vV * vV * 20.0);
-  float ends = smoothstep(0.0, 0.10, vU) * (1.0 - smoothstep(0.32, 0.70, vU));
+  float ends = smoothstep(0.0, 0.10, vU) * (1.0 - smoothstep(0.28, 0.62, vU));
   float shimmer = 0.82 + 0.18 * sin(vU * 11.0 - uTime * 0.75 + vLane * 1.7);
   float atmo = mix(0.42, 1.0, smoothstep(22.0, 12.0, vDist));
-  gl_FragColor = vec4(cGold, g * ends * shimmer * atmo * uReveal * 0.30);
+  gl_FragColor = vec4(cGold, g * ends * shimmer * atmo * uReveal * 0.22);
 }
 `;
 
@@ -343,24 +343,24 @@ precision highp float;
 uniform float uTime;
 uniform float uReveal;
 uniform vec3 cGold;
-uniform vec3 cMid;
 varying vec2 vP;
 
 void main() {
   float gx = ${f((X_GATE - FLOOR_CX) / (FLOOR_W / 2))};
-  float dz = exp(-vP.y * vP.y * 5.0);
+  /* eng in der Tiefe, damit ein definierter Lichtsee unter der Blende steht
+     und kein allgemeiner Nebel über den halben Boden zieht */
+  float dz = exp(-vP.y * vP.y * 7.0);
   // bewusst q*q statt pow(q, 2.0): q wird negativ, und pow() ist für
   // negative Basen in GLSL undefiniert
-  float q = (vP.x - gx) * 6.0;
+  float q = (vP.x - gx) * 7.5;
   float gate = exp(-q * q) * dz;
-  float trail = smoothstep(-0.02, 0.30, vP.x - gx)
-              * (1.0 - smoothstep(0.45, 1.0, vP.x)) * dz * 0.55;
+  float trail = smoothstep(-0.02, 0.26, vP.x - gx)
+              * (1.0 - smoothstep(0.34, 0.86, vP.x)) * dz * 0.45;
   float ripple = 0.88 + 0.12 * sin(vP.x * 5.0 - uTime * 0.35);
-  float edge = 1.0 - smoothstep(0.55, 1.0, abs(vP.y));
+  float edge = 1.0 - smoothstep(0.45, 0.90, abs(vP.y));
 
-  float a = (gate * 0.9 + trail) * ripple * edge * uReveal * 0.20;
-  vec3 col = mix(cMid, cGold, smoothstep(0.0, 0.5, vP.x - gx));
-  gl_FragColor = vec4(col, clamp(a, 0.0, 1.0));
+  float a = (gate * 0.9 + trail) * ripple * edge * uReveal * 0.22;
+  gl_FragColor = vec4(cGold, clamp(a, 0.0, 1.0));
 }
 `;
 
@@ -387,16 +387,18 @@ varying vec2 vUv;
 void main() {
   vec3 col = mix(cLow, cHigh, smoothstep(0.0, 1.0, vUv.y));
 
-  /* Der Raum atmet um die Engstelle — der Punkt wandert mit der Parallaxe. */
+  /* Der Raum atmet um die Engstelle — der Punkt wandert mit der Parallaxe.
+     Bewusst knapp dosiert: der Grund muss nahezu schwarz bleiben, sonst
+     kippt die Szene von "edel" nach "grauer Nebel". */
   vec2 d = (vUv - uGate) * vec2(uAspect, 1.0);
   float r2 = dot(d, d);
-  col += cHazeWide * exp(-r2 * 1.9) * 0.85;
-  col += cHazeCore * exp(-r2 * 11.0) * 0.42;
+  col += cHazeWide * exp(-r2 * 3.4) * 0.30;
+  col += cHazeCore * exp(-r2 * 13.0) * 0.30;
 
   /* Kaum sichtbares Aufhellen hinter der Chaos-Wolke, damit die linke
      Bildhälfte Tiefe bekommt statt in Schwarz abzusaufen. */
-  vec2 c = (vUv - vec2(0.17, 0.60)) * vec2(uAspect, 1.0);
-  col += cHazeCloud * exp(-dot(c, c) * 2.6) * 0.8;
+  vec2 c = (vUv - vec2(0.17, 0.54)) * vec2(uAspect, 1.0);
+  col += cHazeCloud * exp(-dot(c, c) * 5.5) * 0.30;
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -417,11 +419,11 @@ float hash(vec2 p) {
 
 void main() {
   vec2 p = (vUv - 0.5) * vec2(uAspect, 1.0);
-  float v = smoothstep(0.45, 1.05, length(p * vec2(0.78, 1.30)));
-  float a = v * 0.86;
+  float v = smoothstep(0.38, 1.02, length(p * vec2(0.80, 1.30)));
+  float a = v * 0.92;
 
   /* Unterkante etwas tiefer — setzt die Szene auf den Boden. */
-  a += smoothstep(0.28, 0.0, vUv.y) * 0.16;
+  a += smoothstep(0.26, 0.0, vUv.y) * 0.18;
 
   /* Filmkorn in 2-Pixel-Blöcken: nimmt dem Verlauf das Banding. */
   float n = hash(floor(vUv * uRes * 0.5) + fract(uTime * 0.37) * 511.0);
@@ -624,7 +626,7 @@ export default function Hero3D({ className }: { className?: string }) {
       new THREE.ShaderMaterial({
         vertexShader: FLOOR_VERT,
         fragmentShader: FLOOR_FRAG,
-        uniforms: { uTime, uReveal, cGold, cMid },
+        uniforms: { uTime, uReveal, cGold },
         transparent: true,
         depthTest: false,
         depthWrite: false,
@@ -841,6 +843,8 @@ export default function Hero3D({ className }: { className?: string }) {
     };
 
     /* ---------- Observer ---------- */
+    // Feuert einmal direkt nach observe() — das ist zugleich der erste Frame.
+    // Läuft der Loop bereits, zeichnet der ohnehin und wir sparen uns den Zug.
     const resizeObserver = new ResizeObserver(() => {
       applySize();
       if (!running) draw(reducedMq.matches ? 9.5 : elapsed);
@@ -870,10 +874,10 @@ export default function Hero3D({ className }: { className?: string }) {
     host.addEventListener("pointermove", onPointerMove, { passive: true });
     host.addEventListener("pointerleave", onPointerLeave, { passive: true });
 
+    // Nur Größe setzen, nicht zeichnen: den ersten Frame übernimmt der
+    // Initial-Callback des ResizeObserver. Sonst käme bei
+    // prefers-reduced-motion ein zweiter Frame hinterher.
     applySize();
-    // Ein Standbild sofort — die Szene ist da, bevor der Loop anläuft, und
-    // bei prefers-reduced-motion bleibt es genau bei diesem einen Frame.
-    draw(9.5);
     sync();
 
     /* ---------- Aufräumen ---------- */

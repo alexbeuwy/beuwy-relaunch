@@ -47,11 +47,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" className={cn(GeistMono.variable, helvena.variable, inter.variable, "font-sans")}>
-      <body className="grain min-h-[100dvh]">
+      <body className="grain min-h-dvh">
         <div className="ambient-blob" aria-hidden />
         <Nav />
         <SpotlightTracker />
-        <main id="main" className="relative z-[2]">{children}</main>
+        <main id="main" className="relative z-2">{children}</main>
         <Footer />
       </body>
     </html>
