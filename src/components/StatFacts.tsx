@@ -26,7 +26,10 @@ function formatLike(template: string, n: number): string {
 
 function FactNumber({ value, suffix }: { value: string; suffix: string }) {
   const target = parseInt(value.replace(/\D/g, ""), 10) || 0;
-  const [shown, setShown] = useState<string>(() => formatLike(value, 0));
+  /* SSR und No-JS zeigen die ECHTE Zahl — auf 0 gesetzt wird erst in dem
+     Moment, in dem die Animation clientseitig wirklich startet. Sonst
+     lesen Crawler und der erste Paint überall Nullen. */
+  const [shown, setShown] = useState<string>(value);
   const [done, setDone] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);

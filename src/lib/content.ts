@@ -19,9 +19,9 @@ export const DEFAULTS: Record<string, string> = {
      wertvollste Slot der Seite gehört dem Leser. H1 = Traumzustand,
      Subline = was geliefert wird und für wen, dann die Zeile, die zeigt:
      ich verstehe Ihre Lage. */
-  "hero.title": "In 4 Wochen zu Kunden, die nur noch zum *Abschließen* kommen.",
+  "hero.title": "Ihre Marke macht am Ende einfach: *Umsatz*.",
   "hero.subtitle":
-    "beuwy baut Ihre Marke und das Vertriebssystem dahinter: Auftritt, Anzeigen, CRM, Telefon-Setup. Für Unternehmer, bei denen ein Abschluss ab 10.000 € bringt.",
+    "Claude Code, ChatGPT, Codex, Kimi — Sie müssen in diesem Dschungel nicht durchblicken. beuwy kennt alles, baut alles und nimmt es Ihnen ab: Marke, Anzeigen, Automatisierung, Vertriebsprozesse, die sitzen.",
   "hero.founder_line":
     "Sie haben das bessere Angebot — nur sieht man Ihrem Auftritt das nicht an.",
   "hero.cta": "Projekt anfragen",
@@ -49,7 +49,7 @@ export const DEFAULTS: Record<string, string> = {
   // ── Feature-Blöcke ─────────────────────────────────────────────────────
   "features.title": "Marke und Vertrieb aus einer *Hand*.",
   "features.intro":
-    "Vier Teile, die ineinandergreifen. Einzeln bekommen Sie das überall — zusammen macht es den Unterschied zwischen Anfragen und Abschlüssen.",
+    "Vier Bereiche, ein Verantwortlicher. Sie müssen keines dieser Werkzeuge lernen — Sie bekommen das Ergebnis.",
   "features.f1_title": "Marke",
   "features.f1_text":
     "Markendesign aus der Welt der 100.000-€-Relaunches, gebaut für Ihre Preisklasse. Schrift, Farbe, Bildwelt und Ton greifen ineinander, bis der Auftritt so teuer wirkt wie Ihr Angebot.",
@@ -84,7 +84,7 @@ export const DEFAULTS: Record<string, string> = {
   // ── Beweis-Block (an Testimonial-Position, vor dem Schluss-CTA) ────────
   "proof.title": "Im Büro Maßanzug. Nach außen *Fake-Gucci-Jogginghose*.",
   "proof.intro":
-    "Ihre Kunden sehen zuerst den Auftritt, nicht das Angebot. Drei Firmen haben umgezogen — die Zahlen danach:",
+    "Drei Firmen, dieselbe Handschrift — und was danach messbar wurde:",
   "proof.riegel_branch": "RIEGEL Immobilien · Rhein-Neckar",
   "proof.riegel_facts":
     "28.000 € Projekt — nach 3 Wochen bezahlt\n9 Abschlüsse in 6 Wochen · im Schnitt 38.000 €\nTop 21 von über 25.000 Maklern · ImmoScout24 ImmoAward 2025",
@@ -107,13 +107,13 @@ export const DEFAULTS: Record<string, string> = {
   /* Fakten-Band unter der Puff-Zahl: drei animierte Kennzahlen.
      value zählt beim Scrollen hoch (Ziffern + Punkte), suffix bleibt statisch.
      iconN_url = Slot für 3D-Icon-Assets vom CDN (leer = ohne Icon). */
-  "proof.stat1_value": "9",
-  "proof.stat1_suffix": "",
-  "proof.stat1_label": "Abschlüsse in den ersten sechs Wochen",
+  "proof.stat1_value": "342.000",
+  "proof.stat1_suffix": " €",
+  "proof.stat1_label": "Abschlussvolumen in den ersten sechs Wochen nach dem Riegel-Relaunch",
   "proof.stat1_icon": "",
-  "proof.stat2_value": "38.000",
-  "proof.stat2_suffix": " €",
-  "proof.stat2_label": "durchschnittliches Abschlussvolumen",
+  "proof.stat2_value": "9",
+  "proof.stat2_suffix": "",
+  "proof.stat2_label": "Abschlüsse in diesen sechs Wochen — im Schnitt 38.000 €",
   "proof.stat2_icon": "",
   "proof.stat3_value": "3",
   "proof.stat3_suffix": "",

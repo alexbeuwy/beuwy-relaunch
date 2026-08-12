@@ -47,7 +47,7 @@ export default async function Image() {
               color: "#FFFDF3",
             }}
           >
-            In 4 Wochen zu Kunden,
+            Ihre Marke macht am Ende
           </div>
           <div
             style={{
@@ -59,7 +59,7 @@ export default async function Image() {
               color: "#F7E99A",
             }}
           >
-            die nur noch zum Abschließen kommen.
+            einfach: Umsatz.
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>

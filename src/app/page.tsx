@@ -4,11 +4,8 @@ import { AuditTool } from "@/components/AuditTool";
 import { Reveal } from "@/components/Reveal";
 import { ShaderBG } from "@/components/ShaderBG";
 import { rich, lines } from "@/components/RichText";
-import { PuffNumber } from "@/components/PuffNumber";
 import { StatFacts } from "@/components/StatFacts";
-import Hero3D from "@/components/Hero3D";
 import ZielRechner from "@/components/ZielRechner";
-import SystemShowcase from "@/components/SystemShowcase";
 import { CtaFocus } from "@/components/CtaFocus";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
@@ -51,23 +48,18 @@ export default async function HomePage() {
           Traumzustand groß, darunter was geliefert wird und für wen. */}
       <section className="hero-stage">
         <ShaderBG />
-        <div className="hero-stage-inner mx-auto max-w-[1120px] px-6 lg:px-10 pt-36 md:pt-44 pb-20 md:pb-28 text-center">
+        <div className="hero-stage-inner mx-auto max-w-[1120px] px-6 lg:px-10 pt-40 md:pt-52 pb-24 md:pb-32 text-center">
           <Reveal delay={40}>
-            <p className="hero-eyebrow mx-auto max-w-[620px]">
-              {c["hero.founder_line"]}
-            </p>
-          </Reveal>
-          <Reveal delay={110}>
-            <h1 className="hero-h1 mt-6 mx-auto max-w-[1000px]">
+            <h1 className="hero-h1 mx-auto max-w-[1000px]">
               {rich(c["hero.title"])}
             </h1>
           </Reveal>
-          <Reveal delay={190}>
-            <p className="hero-tagline mt-7 mx-auto max-w-[600px]">
+          <Reveal delay={140}>
+            <p className="hero-tagline mt-7 mx-auto max-w-[640px]">
               {c["hero.subtitle"]}
             </p>
           </Reveal>
-          <Reveal delay={260}>
+          <Reveal delay={220}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
               <Button size="lg" render={<Link href="/termin" />}>
                 {c["hero.cta"]}
@@ -78,9 +70,13 @@ export default async function HomePage() {
               </Button>
             </div>
           </Reveal>
-          <Reveal delay={340}>
-            <HeroMedia url={c["hero.media_url"]} />
-          </Reveal>
+          {/* Media-Slot erscheint erst, wenn ein echtes Asset da ist —
+              ein leerer Rahmen ist schlimmer als keiner. */}
+          {c["hero.media_url"]?.trim() ? (
+            <Reveal delay={300}>
+              <HeroMedia url={c["hero.media_url"]} />
+            </Reveal>
+          ) : null}
         </div>
       </section>
 
@@ -106,12 +102,6 @@ export default async function HomePage() {
       <Section id="proof" tone="base">
         <SectionHead title={rich(c["proof.title"])} intro={c["proof.intro"]} />
         <Reveal>
-          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
-            <PuffNumber value={c["proof.stat"]} size="clamp(52px, 6vw, 84px)" />
-            <p className="t-body-lg is-cream max-w-[420px] pb-1">{c["proof.stat_text"]}</p>
-          </div>
-        </Reveal>
-        <Reveal delay={80}>
           <StatFacts
             facts={[1, 2, 3].map((n) => ({
               value: c[`proof.stat${n}_value`],
@@ -167,10 +157,7 @@ export default async function HomePage() {
           sind Geschichte. */}
       <Section id="system" tone="base">
         <SectionHead title={rich(c["features.title"])} intro={c["features.intro"]} />
-        <Reveal>
-          <SystemShowcase />
-        </Reveal>
-        <div className="mt-14 md:mt-16 grid sm:grid-cols-2 gap-x-12 gap-y-10 max-w-[960px]">
+        <div className="mt-2 grid sm:grid-cols-2 gap-x-12 gap-y-10 max-w-[960px]">
           {features.map((f) => (
             <Reveal key={f.title}>
               <div>
@@ -224,6 +211,8 @@ export default async function HomePage() {
         buttonLabel={c["cta.primary"]}
         href="/termin"
         note="Antwort innerhalb von 24 Stunden."
+        maxBlur={6}
+        maxDim={0.62}
       />
     </>
   );
@@ -243,17 +232,11 @@ function HeroMedia({ url }: { url: string }) {
         <span className="case-dot" aria-hidden />
         <span className="case-dot" aria-hidden />
       </div>
-      {u ? (
-        isVideo ? (
-          <video src={u} autoPlay muted loop playsInline className="hero-media-asset" />
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={u} alt="" className="hero-media-asset" />
-        )
+      {isVideo ? (
+        <video src={u} autoPlay muted loop playsInline className="hero-media-asset" />
       ) : (
-        <div className="hero-media-3d" aria-hidden>
-          <Hero3D />
-        </div>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={u} alt="" className="hero-media-asset" />
       )}
     </figure>
   );
