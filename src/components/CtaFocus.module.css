@@ -1,0 +1,101 @@
+/* CtaFocus — Seitenfinale.
+   Der Fortschritt (--p, 0…1) wird per rAF aus dem IntersectionObserver-
+   Fenster geschrieben. Alles Optische haengt nur an dieser einen Variable,
+   damit pro Frame genau ein Style-Write noetig ist. */
+
+.root {
+  --p: 0;
+  --blur-max: 12px;
+  --dim-max: 0.78;
+}
+
+/* Fixed liegender Schleier: dimmt und weichzeichnet ALLES hinter der Karte.
+   pointer-events: none — Nav und Seiteninhalt bleiben bedienbar. */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: var(--p);
+  -webkit-backdrop-filter: blur(calc(var(--p) * var(--blur-max)));
+  backdrop-filter: blur(calc(var(--p) * var(--blur-max)));
+  background:
+    radial-gradient(
+      120% 90% at 50% 52%,
+      rgba(10, 10, 10, calc(var(--p) * var(--dim-max) * 0.55)) 0%,
+      rgba(10, 10, 10, calc(var(--p) * var(--dim-max) * 0.88)) 45%,
+      rgba(0, 0, 0, calc(var(--p) * var(--dim-max))) 100%
+    );
+}
+
+.root[data-active='true'] .veil {
+  will-change: opacity, backdrop-filter;
+}
+
+/* Sehr dezenter gelber Saum, der mit dem Fortschritt aufblendet. */
+.card {
+  position: relative;
+  z-index: 40;
+  opacity: calc(0.55 + var(--p) * 0.45);
+  transform: translate3d(0, calc((1 - var(--p)) * 12px), 0)
+    scale(calc(0.97 + var(--p) * 0.03));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(247, 233, 154, calc(var(--p) * 0.1)),
+    0 30px 80px -40px rgba(0, 0, 0, 0.9),
+    0 0 60px -20px rgba(247, 233, 154, calc(var(--p) * 0.12));
+}
+
+.root[data-active='true'] .card {
+  will-change: transform, opacity;
+}
+
+/* Feiner Lichtsaum an der Oberkante der Karte. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset-inline: 12%;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(247, 233, 154, calc(var(--p) * 0.45)),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Mobil: Blur ist teuer — Staerke runter, Dim leicht rauf. */
+@media (max-width: 767px) {
+  .root {
+    --blur-max: 6px;
+    --dim-max: 0.82;
+  }
+}
+
+/* Geraete ohne echten Backdrop-Filter: nur dimmen, nie unscharf. */
+@supports not (backdrop-filter: blur(4px)) {
+  .veil {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Ruhe-Modus: statisch gedimmt, keine Transforms, keine Skalierung. */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    --p: 1;
+    --blur-max: 0px;
+  }
+  .veil {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    will-change: auto;
+  }
+  .card {
+    transform: none;
+    opacity: 1;
+    will-change: auto;
+  }
+}

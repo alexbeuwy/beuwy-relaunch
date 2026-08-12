@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 /* Ganz clean (Alex-Vorgabe): zwei Anker, ein CTA — mehr trägt eine
-   One-Pager-Nav nicht. */
+   One-Pager-Nav nicht. Keine offenen Preise mehr — der Anker heißt Ziel. */
 const links: { label: string; href: string }[] = [
   { label: "Referenzen", href: "/#proof" },
-  { label: "Preise", href: "/#pakete" },
+  { label: "Ihr Ziel", href: "/#pakete" },
 ];
 
 export function Nav() {
@@ -50,15 +51,15 @@ export function Nav() {
 
         {/* Kein Selbstlink: auf /termin führt der CTA zum Website-Check */}
         {onTermin ? (
-          <Link href="/#tool" className="btn-secondary btn-sm">
+          <Button size="sm" variant="secondary" render={<Link href="/#tool" />}>
             Website-Check
             <span aria-hidden>→</span>
-          </Link>
+          </Button>
         ) : (
-          <Link href="/termin" className="btn-secondary btn-sm">
+          <Button size="sm" variant="secondary" render={<Link href="/termin" />}>
             Systemgespräch
             <span aria-hidden>→</span>
-          </Link>
+          </Button>
         )}
       </div>
     </header>

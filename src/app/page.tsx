@@ -7,6 +7,10 @@ import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
 import { StatFacts } from "@/components/StatFacts";
 import Hero3D from "@/components/Hero3D";
+import ZielRechner from "@/components/ZielRechner";
+import SystemShowcase from "@/components/SystemShowcase";
+import { CtaFocus } from "@/components/CtaFocus";
+import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -65,13 +69,13 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={260}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/termin" className="btn-primary">
+              <Button size="lg" render={<Link href="/termin" />}>
                 {c["hero.cta"]}
                 <span aria-hidden>→</span>
-              </Link>
-              <a href="#proof" className="btn-secondary">
+              </Button>
+              <Button size="lg" variant="secondary" render={<a href="#proof" />}>
                 {c["hero.cta_secondary"]}
-              </a>
+              </Button>
             </div>
           </Reveal>
           <Reveal delay={340}>
@@ -158,24 +162,25 @@ export default async function HomePage() {
         </ol>
       </Section>
 
-      {/* 05 — FEATURES: eine Headline, vier Blöcke (Titel + Text + Visual) */}
+      {/* 05 — SYSTEM: eine Headline, das interaktive Dashboard (Workflow-Build)
+          und darunter die vier Textblöcke kompakt — die leeren Visual-Slots
+          sind Geschichte. */}
       <Section id="system" tone="base">
         <SectionHead title={rich(c["features.title"])} intro={c["features.intro"]} />
-        <div className="space-y-20 md:space-y-28">
-          {features.map((f, i) => (
+        <Reveal>
+          <SystemShowcase />
+        </Reveal>
+        <div className="mt-14 md:mt-16 grid sm:grid-cols-2 gap-x-12 gap-y-10 max-w-[960px]">
+          {features.map((f) => (
             <Reveal key={f.title}>
-              <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
-                <div className={`md:col-span-5 ${i % 2 === 1 ? "md:order-2" : ""}`}>
-                  <h3 className="t-h3 text-[24px]">{f.title}</h3>
-                  <p className="t-body-lg mt-4">{f.text}</p>
-                </div>
-                <div className={`md:col-span-7 ${i % 2 === 1 ? "md:order-1" : ""}`}>
-                  <div className="visual-slot" data-variant={f.variant} aria-hidden />
-                </div>
+              <div>
+                <h3 className="t-h3 text-[20px]">{f.title}</h3>
+                <p className="t-body mt-3">{f.text}</p>
               </div>
             </Reveal>
           ))}
-
+        </div>
+        <div className="mt-20 md:mt-24 space-y-20">
           {/* Block 5 — der Live-Check: das interaktive Visual ist echt */}
           <Reveal>
             <div id="check">
@@ -196,7 +201,12 @@ export default async function HomePage() {
           aus dem Workflow-Build wird hier eingesetzt. */}
       <Section id="pakete" tone="base">
         <SectionHead title={rich(c["goal.title"])} intro={c["goal.intro"]} />
-        <div className="mt-2 space-y-2 max-w-[760px]">
+        <Reveal>
+          <div className="flex justify-center">
+            <ZielRechner />
+          </div>
+        </Reveal>
+        <div className="mt-10 space-y-2 max-w-[760px] mx-auto text-center">
           <p className="t-body is-cream">{c["goal.prozess"]}</p>
           <p className="t-small">{c["goal.garantie1"]}</p>
           <p className="t-small">{c["goal.garantie2"]}</p>
@@ -204,27 +214,17 @@ export default async function HomePage() {
       </Section>
 
 
-      {/* 07 — SCHLUSS-CTA: der eine Gelb-Moment */}
-      <section id="kontakt" className="cta-invert">
-        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24 text-center">
-          <Reveal>
-            <h2 className="t-display cta-invert-ink mx-auto max-w-[900px]">{rich(c["cta.title"])}</h2>
-          </Reveal>
-          <Reveal delay={80}>
-            <p className="t-body-lg cta-invert-ink mt-5 mx-auto max-w-[520px]">
-              {c["cta.text"]}
-            </p>
-          </Reveal>
-          <Reveal delay={160}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/termin" className="btn-inverse">
-                {c["cta.primary"]}
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* 07 — SCHLUSS-CTA: kein Gelb-Vollflächen-Block mehr — beim Scrollen
+          ans Ende legt sich ein weicher, leicht geblurrter Schleier über
+          alles andere und der Fokus liegt auf EINER Karte (CtaFocus). */}
+      <CtaFocus
+        id="kontakt"
+        title={c["cta.title"]}
+        text={c["cta.text"]}
+        buttonLabel={c["cta.primary"]}
+        href="/termin"
+        note="Antwort innerhalb von 24 Stunden."
+      />
     </>
   );
 }
