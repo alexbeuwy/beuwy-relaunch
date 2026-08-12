@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SpotlightTracker } from "@/components/SpotlightTracker";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+/* Body-Schrift: Inter (Alex-Vorgabe); Headline bleibt Helvena */
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+
 
 /* Headline-Schnitt: Helvena (lizenziert, self-hosted, Variable 200–900) */
 const helvena = localFont({
@@ -41,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable} ${helvena.variable}`}>
+    <html lang="de" className={cn(GeistMono.variable, helvena.variable, inter.variable, "font-sans")}>
       <body className="grain min-h-[100dvh]">
         <div className="ambient-blob" aria-hidden />
         <Nav />

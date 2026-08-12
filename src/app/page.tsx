@@ -7,6 +7,7 @@ import { rich, lines } from "@/components/RichText";
 import { PuffNumber } from "@/components/PuffNumber";
 import { StatFacts } from "@/components/StatFacts";
 import { Beam } from "@/components/Beam";
+import Hero3D from "@/components/Hero3D";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -290,8 +291,8 @@ export default async function HomePage() {
 
 /* Hero-Media-Frame (Codex-Muster): großes Produkt-Visual unter dem
    Riesenwort. URL kommt aus /studio (hero.media_url) — .webm/.mp4 läuft
-   als stummes Loop-Video, Bilder als <img>. Ohne URL: abstrakter
-   Dashboard-Platzhalter, bis das Higgsfield-Asset da ist. */
+   als stummes Loop-Video, Bilder als <img>. Ohne URL: die Three.js-Szene
+   (Leads → Engstelle → Abschlüsse), bis das Higgsfield-Asset da ist. */
 function HeroMedia({ url }: { url: string }) {
   const u = (url || "").trim();
   const isVideo = /\.(webm|mp4)(\?|$)/i.test(u);
@@ -310,16 +311,8 @@ function HeroMedia({ url }: { url: string }) {
           <img src={u} alt="" className="hero-media-asset" />
         )
       ) : (
-        <div className="hero-media-ph" aria-hidden>
-          <div className="hm-side" />
-          <div className="hm-main">
-            <div className="hm-row">
-              <span className="hm-card" />
-              <span className="hm-card" />
-              <span className="hm-card" />
-            </div>
-            <div className="hm-chart" />
-          </div>
+        <div className="hero-media-3d" aria-hidden>
+          <Hero3D />
         </div>
       )}
     </figure>

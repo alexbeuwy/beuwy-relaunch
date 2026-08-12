@@ -11,7 +11,7 @@ import { BorderBeam } from "border-beam";
 export function Beam({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <BorderBeam
-      colorVariant="sunset"
+      colorVariant="mono"
       theme="dark"
       size="md"
       duration={5}

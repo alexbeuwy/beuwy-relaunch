@@ -55,13 +55,13 @@ export function emailLayout(opts: {
     <tr><td align="center">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e6e0d2;">
         <tr>
-          <td style="background:#1A0404;padding:20px 32px;">
+          <td style="background:#111111;padding:20px 32px;">
             <span style="color:#F7E99A;font-size:20px;font-weight:bold;letter-spacing:-0.02em;">beuwy</span>
           </td>
         </tr>
         <tr>
           <td style="padding:32px;">
-            <h1 style="margin:0 0 8px;font-size:20px;color:#1A0404;">${opts.heading}</h1>
+            <h1 style="margin:0 0 8px;font-size:20px;color:#141414;">${opts.heading}</h1>
             <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#5a5344;">${opts.intro}</p>
             ${opts.bodyHtml}
           </td>
@@ -84,7 +84,7 @@ export function emailRows(rows: Array<{ label: string; value: string }>): string
     .map(
       (r) => `<tr>
   <td style="padding:8px 0;font-size:13px;color:#8A8068;vertical-align:top;width:120px;">${r.label}</td>
-  <td style="padding:8px 0;font-size:14px;color:#1A0404;">${r.value}</td>
+  <td style="padding:8px 0;font-size:14px;color:#141414;">${r.value}</td>
 </tr>`
     )
     .join("");

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * ShaderBG — "Quantum Cubes" (KIFS-Raymarcher, Original von Noztol) als
  * Bühnenlicht hinter dem Hero. Angepasst:
- * - Palette auf die Marke gezogen: tiefes Bordeaux → Glut → Gold statt Regenbogen
+ * - Palette auf die Marke gezogen: Neutral-Grau → gedämpftes Gold → Gold statt Regenbogen
  * - deutlich langsamer (Flug- und Twist-Tempo ~0,3× des Originals)
  * - Helligkeit gedeckelt + Vignette, damit weiße Headlines lesbar bleiben
  *
@@ -24,7 +24,7 @@ precision highp float;
 uniform vec2 u_res;
 uniform float u_t;
 
-/* Marken-Palette (Cosinus-Palette): Bordeaux → Glut → Gold.
+/* Marken-Palette (Cosinus-Palette): Graphit → gedämpftes Gold → Gold.
    Ersetzt die Regenbogen-Palette H(h) des Originals. */
 vec3 H(float h) {
   return vec3(0.52, 0.20, 0.13)
@@ -100,10 +100,10 @@ void main() {
   l = l / (l + 0.58);
   l = pow(clamp(l, 0.0, 1.0), 1.45);
 
-  vec3 c0 = vec3(0.055, 0.008, 0.010); /* fast schwarzes Bordeaux */
-  vec3 c1 = vec3(0.30, 0.045, 0.040);  /* Bordeaux */
-  vec3 c2 = vec3(0.76, 0.22, 0.085);   /* Glut */
-  vec3 c3 = vec3(0.97, 0.91, 0.60);    /* Gold */
+  vec3 c0 = vec3(0.035, 0.035, 0.037); /* fast schwarzes Neutral-Grau */
+  vec3 c1 = vec3(0.155, 0.150, 0.145); /* Graphit, minimal warm */
+  vec3 c2 = vec3(0.55, 0.48, 0.28);    /* gedämpftes Gold */
+  vec3 c3 = vec3(0.97, 0.91, 0.60);    /* Gold (#F7E99A) */
 
   vec3 outc = mix(c0, c1, smoothstep(0.00, 0.30, l));
   outc = mix(outc, c2, smoothstep(0.30, 0.66, l));

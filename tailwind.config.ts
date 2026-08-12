@@ -5,12 +5,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // beuwy brand
+        // beuwy brand — Neutral-Grau statt Bordeaux, Gelb bleibt Akzent
         bg: {
-          base: "#1A0404",     // = brand bordeaux-ink
-          raised: "#210606",   // = brand superdark
-          elevated: "#2B0808", // nur Innenflächen (DESIGN-DIRECTION 2.3)
-          hover: "#3A0808",    // Hover-/Border-Ton
+          base: "#0A0A0A",
+          raised: "#111111",
+          elevated: "#171717", // nur Innenflächen (DESIGN-DIRECTION 2.3)
+          hover: "#222222",    // Hover-/Border-Ton
         },
         ink: {
           yellow: "#F7E99A",
@@ -28,11 +28,42 @@ const config: Config = {
         accent: {
           red: "#FF5F5F",      // = brand signal
         },
+        // shadcn-Token (CSS-Variablen aus globals.css @layer base)
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
+        },
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
+        popover: {
+          DEFAULT: "var(--popover)",
+          foreground: "var(--popover-foreground)",
+        },
+        card: {
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
+        },
+        destructive: {
+          DEFAULT: "var(--destructive)",
+          foreground: "#FFFDF3",
+        },
       },
       fontFamily: {
-        // headlines: Fraunces, nur als Display >= 32px
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
-        body: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        // headlines: Helvena; Body: Inter (--font-sans)
+        display: ["var(--font-helvena)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        body: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "SFMono-Regular", "ui-monospace", "monospace"],
       },
       letterSpacing: {
