@@ -6,17 +6,21 @@ import { Logo } from "./Logo";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-/* Ganz clean (Alex-Vorgabe): zwei Anker, ein CTA — mehr trägt eine
-   One-Pager-Nav nicht. Keine offenen Preise mehr — der Anker heißt Ziel. */
+/* Drei Anker, ein CTA (Wireframe 00). Kein Preise-Punkt, kein Hamburger —
+   mobil bleiben Logo und Schaltfläche. */
 const links: { label: string; href: string }[] = [
-  { label: "Referenzen", href: "/#proof" },
-  { label: "Ihr Ziel", href: "/#pakete" },
+  { label: "Referenzen", href: "/#referenzen" },
+  { label: "System", href: "/#system" },
+  { label: "Ihr Ziel", href: "/#ziel" },
 ];
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const onTermin = pathname === "/termin";
+  /* Nur auf der Startseite startet die Nav transparent im Ultramarin-Himmel;
+     überall sonst (und nach 8px Scroll) steht sie auf Papier. */
+  const onSky = pathname === "/" && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -29,6 +33,7 @@ export function Nav() {
     <header
       data-nav
       data-scrolled={scrolled ? "true" : "false"}
+      data-on-sky={onSky ? "true" : "false"}
       className="fixed top-0 inset-x-0 z-50"
     >
       <a href="#main" className="skip-link">
@@ -39,20 +44,16 @@ export function Nav() {
 
         <nav className="hidden md:flex items-center gap-[28px]" aria-label="Hauptnavigation">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="nav-link t-small transition-colors hover:text-(--ink-cream)"
-            >
+            <Link key={l.href} href={l.href} className="nav-link t-small">
               {l.label}
             </Link>
           ))}
         </nav>
 
-        {/* Kein Selbstlink: auf /termin führt der CTA zum Website-Check */}
+        {/* Kein Selbstlink: auf /termin führt der CTA zum Live-Check */}
         {onTermin ? (
-          <Button size="sm" variant="secondary" render={<Link href="/#tool" />}>
-            Website-Check
+          <Button size="sm" variant="secondary" render={<Link href="/#check" />}>
+            Live-Check
             <span aria-hidden>→</span>
           </Button>
         ) : (

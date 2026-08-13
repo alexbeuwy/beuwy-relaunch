@@ -16,7 +16,7 @@ export default function DatenschutzPage() {
         <section>
           <h2 className="t-h3">1. Verantwortlicher</h2>
           <p className="t-body mt-3">
-            beuwy — Alexander Pütter, Mendelssohnstraße 52, 67061 Ludwigshafen
+            beuwy — Alexander Pütter, Max-Bill-Str. 3, 67061 Ludwigshafen
             am Rhein, E-Mail:{" "}
             <a href="mailto:ap@beuwy.com" className="btn-link">
               ap@beuwy.com

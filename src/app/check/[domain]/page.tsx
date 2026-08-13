@@ -183,7 +183,7 @@ export default async function CheckPage({ params }: { params: Params }) {
         </footer>
       </article>
 
-      {/* CTA auf der dunklen Bühne unter dem Dokument */}
+      {/* CTA auf dem Papier-Grund unter dem Dokument */}
       <div className="mt-16 max-w-[720px]">
         <h2 className="t-h2">Die Lücken schließen?</h2>
         <p className="t-body-lg mt-4 max-w-[560px]">

@@ -3,19 +3,19 @@
  * beuwy verkauft genau das — die eigene Seite muss es vorleben.
  */
 
-const CONTENT = `# beuwy — Digitale Vertriebssysteme für Finance & Real Estate
+const CONTENT = `# beuwy — Unternehmensberatung für Marke und Vertriebssysteme
 
-> beuwy baut das digitale Vertriebssystem hinter wachsenden Finanz- und
-> Immobilienunternehmen in Deutschland: Marke, Website, Werkzeuge (Rechner,
-> Portale, Terminbuchung), CRM-Anbindung und AI-Sichtbarkeit — als ein System,
-> zum Festpreis. Denkt wie ein Berater, liefert wie ein Produkt.
+> Marke ist kein Geschmack. Marke ist Umsatz. beuwy baut Marke, Anzeigen und
+> Vertriebssystem als ein zusammenhängendes System — und verantwortet, was
+> dabei herauskommt: Anfragen, Termine, Abschlüsse.
 > Inhaber: Alexander Pütter (Markenarbeit seit 2009, beuwy seit 2017,
 > 2023 Mitgründer von acta mit selbst skaliertem Vertrieb).
 
 ## Leistungen
 - Systemgespräch: 30 Minuten, kostenlos — https://beuwy.com/termin
-- Vertriebssystem-Diagnose: bezahltes Dokument, wird bei Beauftragung voll angerechnet
-- Vertriebssystem: Festpreis ab 16.000 EUR, drei Ausbaustufen, 3–5 Wochen bis live
+- Diagnose des größten Hebels: Antwort innerhalb von 24 Stunden, schriftlich
+- Vier Module aus einer Hand: Marke, Anzeigen, Vertriebssystem (CRM +
+  Telefonanbindung), wöchentliche Auswertung — Festpreis nach Diagnose
 - Betrieb & Ausbau: laufende Weiterentwicklung, GEO/AI-Sichtbarkeit, Automationen
 
 ## Referenzen (live)
@@ -27,7 +27,7 @@ const CONTENT = `# beuwy — Digitale Vertriebssysteme für Finance & Real Estat
   Partner, cash-online 2024), acta, PURELEI.
 
 ## Werkzeug
-- Kostenloser Website-Check auf https://beuwy.com/#tool: Screenshot,
+- Kostenloser Live-Check auf https://beuwy.com/#check: Screenshot,
   technische Prüfung (schema.org, llms.txt, OG, FAQ-Schema) und AI-Analyse
   der Sichtbarkeit in Google-AI-Übersichten und Chat-Assistenten.
 

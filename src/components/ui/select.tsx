@@ -43,13 +43,12 @@ function SelectTrigger({
       className={cn(
         [
           "flex w-fit items-center justify-between gap-2 rounded-[10px] px-3.5 py-2",
-          "border border-white/10 bg-white/5 text-ink-cream",
-          "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+          "border border-input bg-card text-foreground",
           "text-base md:text-[0.9375rem] whitespace-nowrap",
           "transition-[color,box-shadow,background-color,border-color] duration-150 ease-out",
           "motion-reduce:transition-none",
-          "hover:border-white/15 hover:bg-white/8",
-          "outline-none focus-visible:border-ink-yellow/50 focus-visible:ring-3 focus-visible:ring-ring/40",
+          "hover:border-line-strong/30 hover:bg-muted/40",
+          "outline-none focus-visible:border-primary/50 focus-visible:ring-3 focus-visible:ring-ring/40",
           "disabled:cursor-not-allowed disabled:opacity-45",
           "aria-invalid:border-destructive/60 aria-invalid:ring-3 aria-invalid:ring-destructive/25",
           "data-placeholder:text-ink-dim",
@@ -98,7 +97,7 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
-          className={cn("isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-[12px] text-popover-foreground shadow-[0_16px_48px_-12px_rgba(0,0,0,0.75)] ring-1 ring-white/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:ring-foreground/10 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 animate-none! relative bg-popover/80 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!", className )}
+          className={cn("isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-[12px] border border-border bg-popover text-popover-foreground shadow-[0_12px_30px_-18px_rgba(16,25,15,0.22)] duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 animate-none! relative **:data-[slot$=-item]:focus:bg-accent **:data-[slot$=-item]:data-highlighted:bg-accent **:data-[slot$=-separator]:bg-border **:data-[slot$=-trigger]:focus:bg-accent **:data-[slot$=-trigger]:aria-expanded:bg-accent! **:data-[variant=destructive]:focus:bg-accent! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!", className )}
           {...props}
         >
           <SelectScrollUpButton />
@@ -159,7 +158,7 @@ function SelectSeparator({
     <SelectPrimitive.Separator
       data-slot="select-separator"
       className={cn(
-        "pointer-events-none -mx-1.5 my-1.5 h-px bg-white/10",
+        "pointer-events-none -mx-1.5 my-1.5 h-px bg-border",
         className
       )}
       {...props}

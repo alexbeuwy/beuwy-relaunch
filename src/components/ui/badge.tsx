@@ -18,18 +18,19 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        /* Der eine Gelb-Moment — sparsam einsetzen. */
+        /* Primaer — flache Ultramarin-Flaeche */
         default:
-          "border-ink-yellow/25 bg-ink-yellow/12 text-ink-yellow [a]:hover:bg-ink-yellow/20",
+          "bg-primary text-primary-foreground [a]:hover:bg-sky-deep",
+        /* Neutral */
         secondary:
-          "border-white/10 bg-white/5 text-ink-muted [a]:hover:bg-white/10 [a]:hover:text-ink-cream",
+          "bg-muted text-foreground [a]:hover:bg-accent",
         destructive:
           "border-destructive/30 bg-destructive/10 text-destructive focus-visible:ring-destructive/25 [a]:hover:bg-destructive/20",
         outline:
-          "border-white/15 text-ink-cream [a]:hover:bg-white/5",
+          "border-border text-foreground [a]:hover:bg-muted",
         ghost:
-          "text-ink-muted hover:bg-white/5 hover:text-ink-cream",
-        link: "text-ink-yellow underline-offset-4 hover:underline",
+          "text-muted-foreground hover:bg-muted hover:text-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {

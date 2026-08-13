@@ -4,7 +4,6 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { SpotlightTracker } from "@/components/SpotlightTracker";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -22,21 +21,21 @@ const helvena = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
-  title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
+  title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
   description:
-    "beuwy baut die Marke, die zu Ihren Preisen passt, und das System dahinter: Anzeigen, CRM, Telefon-Setup, wöchentliche Auswertung. Festpreis, gebaut von Alexander Pütter.",
+    "beuwy baut Marke, Anzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
   openGraph: {
-    title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
+    title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
     description:
-      "Ein Abschluss bringt Ihnen 10.000 €. Wirkt Ihr Auftritt genauso teuer? beuwy baut Marke und Vertriebssystem aus einer Hand — zum Festpreis.",
+      "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
     type: "website",
     locale: "de_DE",
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Premium-Marken und Vertriebssysteme für große Abschlüsse",
+    title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
     description:
-      "Ein Abschluss bringt Ihnen 10.000 €. Wirkt Ihr Auftritt genauso teuer? beuwy baut Marke und Vertriebssystem aus einer Hand — zum Festpreis.",
+      "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
   },
 };
 
@@ -47,11 +46,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" className={cn(GeistMono.variable, helvena.variable, inter.variable, "font-sans")}>
-      <body className="grain min-h-dvh">
-        <div className="ambient-blob" aria-hidden />
+      <body className="min-h-dvh">
         <Nav />
-        <SpotlightTracker />
-        <main id="main" className="relative z-2">{children}</main>
+        <main id="main" className="relative">{children}</main>
         <Footer />
       </body>
     </html>

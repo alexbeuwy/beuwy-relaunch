@@ -476,7 +476,7 @@ function BookingToolInner() {
               setConsent(e.target.checked);
               setError(null);
             }}
-            className="mt-0.5 h-4 w-4 accent-[#F7E99A]"
+            className="mt-0.5 h-4 w-4 accent-sky"
           />
           <span className="t-small">
             Ich willige ein, dass meine Angaben zur Bearbeitung der Anfrage

@@ -16,9 +16,8 @@ function Card({
           "group/card flex flex-col gap-(--card-spacing) overflow-hidden",
           "rounded-[14px] bg-card py-(--card-spacing)",
           "text-sm text-card-foreground",
-          // ruhige Karte: 1px Kontur plus feiner Lichtsaum an der Oberkante
-          "border border-white/10",
-          "shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_1px_2px_rgba(0,0,0,0.4)]",
+          // flache Karte: nur 1px Kontur, kein Glanz, kein Schatten
+          "border border-border",
           "[--card-spacing:--spacing(6)] data-[size=sm]:[--card-spacing:--spacing(4)]",
           "has-[>img:first-child]:pt-0",
           "*:[img:first-child]:rounded-t-[14px] *:[img:last-child]:rounded-b-[14px]",
@@ -111,7 +110,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center gap-3 rounded-b-[14px] px-(--card-spacing) [.border-t]:border-white/10 [.border-t]:pt-(--card-spacing)",
+        "flex items-center gap-3 rounded-b-[14px] px-(--card-spacing) [.border-t]:border-border [.border-t]:pt-(--card-spacing)",
         className
       )}
       {...props}

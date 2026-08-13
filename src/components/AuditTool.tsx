@@ -324,7 +324,7 @@ export function AuditTool() {
             placeholder="ihre-domain.de"
             autoComplete="off"
             spellCheck={false}
-            className="is-cream flex-1 h-14 px-4 rounded-xl bg-transparent font-mono text-[15px] outline-hidden border border-[rgba(247,233,154,0.14)] focus:border-[rgba(247,233,154,0.45)] transition-colors min-w-0"
+            className="is-cream flex-1 h-14 px-4 rounded-xl bg-transparent font-mono text-[15px] outline-hidden border border-line-subtle focus:border-sky transition-colors min-w-0"
           />
           <button
             type="submit"

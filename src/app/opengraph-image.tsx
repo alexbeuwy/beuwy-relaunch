@@ -1,9 +1,11 @@
 import { ImageResponse } from "next/og";
 
 /**
- * Site-weites OG-Image (Muster aus dem Riegel-Projekt): Wordmark als Text,
- * Kernsatz, Footer-Zeile. Satori-Default-Schrift — Fraunces ist hier tabu
- * (kein Font-Loading nötig, Text bleibt robust).
+ * Site-weites OG-Image — Riso-Welt: flacher Ultramarin-Grund (die
+ * Sektionfarbe des Finales), Schnee-Text, das eine betonte Wort in
+ * Berg-Orange. Kein Verlauf, kein Glow — flache Fläche wie im Rest der
+ * Seite. Satori-Default-Schrift — Fraunces ist hier tabu (kein
+ * Font-Loading nötig, Text bleibt robust).
  */
 export const alt = "beuwy — Digitale Vertriebssysteme für Finance & Real Estate";
 export const size = { width: 1200, height: 630 };
@@ -20,9 +22,7 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px 72px",
-          backgroundColor: "#0A0A0A",
-          backgroundImage:
-            "radial-gradient(ellipse at 50% 0%, rgba(247,233,154,0.10), transparent 60%)",
+          backgroundColor: "#0C4BC3",
         }}
       >
         <div
@@ -31,7 +31,7 @@ export default async function Image() {
             fontSize: 44,
             fontWeight: 700,
             letterSpacing: -1,
-            color: "#F7E99A",
+            color: "#FFFDF6",
           }}
         >
           beuwy
@@ -44,10 +44,10 @@ export default async function Image() {
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
-              color: "#FFFDF3",
+              color: "#FFFDF6",
             }}
           >
-            Ihre Marke macht am Ende
+            Marke ist kein Geschmack.
           </div>
           <div
             style={{
@@ -56,13 +56,13 @@ export default async function Image() {
               fontWeight: 700,
               letterSpacing: -2,
               lineHeight: 1.1,
-              color: "#F7E99A",
+              color: "#FFFDF6",
             }}
           >
-            einfach: Umsatz.
+            Marke ist <span style={{ color: "#F5A066" }}>Umsatz.</span>
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 26, color: "#C2B89F" }}>
+        <div style={{ display: "flex", fontSize: 26, color: "rgba(255,253,246,0.7)" }}>
           Digitale Vertriebssysteme · Finance &amp; Real Estate · beuwy.com
         </div>
       </div>

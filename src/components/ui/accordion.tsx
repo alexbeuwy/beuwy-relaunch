@@ -10,7 +10,7 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
       className={cn(
         [
           "flex w-full flex-col overflow-hidden rounded-[14px]",
-          "border border-white/10 bg-card",
+          "border border-border bg-card",
         ].join(" "),
         className
       )}
@@ -23,7 +23,7 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn("not-last:border-b not-last:border-white/10 data-open:bg-white/[0.03]", className)}
+      className={cn("not-last:border-b not-last:border-border data-open:bg-muted", className)}
       {...props}
     />
   )
@@ -44,7 +44,7 @@ function AccordionTrigger({
             "border border-transparent px-5 py-4 sm:px-6",
             "text-left text-[0.9375rem] font-medium text-ink-cream",
             "transition-colors duration-150 ease-out motion-reduce:transition-none",
-            "cursor-pointer hover:bg-white/5",
+            "cursor-pointer hover:bg-muted/60",
             "outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/40",
             "aria-disabled:pointer-events-none aria-disabled:opacity-45",
             "**:data-[slot=accordion-trigger-icon]:ml-auto",

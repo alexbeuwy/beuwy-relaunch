@@ -4,132 +4,116 @@
  * - Overrides kommen aus Supabase (public.website_content) und werden in /studio
  *   ohne Deploy gepflegt. Fail-open: ohne Env/DB rendert die Seite die Defaults.
  * - *Wort* in Headline-Feldern wird als <em> gerendert (siehe RichText).
- * - \n in Listen-Feldern trennt Einträge.
  *
- * Aufbau 1:1 nach der Codex-Referenz (Workflow wf_35dd9f74, Research-Regeln):
- * Hero (Riesenwort + ein Satz, ohne Bild und ohne CTA) → Trust-Leiste →
- * Feature-Blöcke (Titel + ~35 Wörter + 1 Visual) → Preis-Teaser →
- * Beweis-Block → Schluss-CTA. Sales-Regeln: simpel, positiv, nur belegbare
- * Zahlen, Anker vor dem Preis.
+ * Struktur nach dem Wireframe vom 12.08.2026 (Fintech-50-Research):
+ * Hero (These, 7 Wörter) → Herkunft (Logos) → Track Record (3 Zahlen aus
+ * 3 Projekten, statisch) → Diagnose → System (4 Module) → Live-Check →
+ * Referenzen → Ihr Ziel → Häufige Fragen → Abschluss.
+ * Genau zwei Marketing-CTAs: „Systemgespräch anfragen" / „Live-Check starten".
  */
 
 export const DEFAULTS: Record<string, string> = {
-  /* ── Hero ────────────────────────────────────────────────────────────
-     Kein Markenname als Riesenwort: beuwy kennt (noch) niemand — der
-     wertvollste Slot der Seite gehört dem Leser. H1 = Traumzustand,
-     Subline = was geliefert wird und für wen, dann die Zeile, die zeigt:
-     ich verstehe Ihre Lage. */
-  "hero.title": "Ihre Marke macht am Ende einfach: *Umsatz*.",
+  /* ── 01 Hero — die These ─────────────────────────────────────────────
+     Kontrastformel nach appliedAI/Ramp: „X ist kein A. X ist B."
+     Sieben Wörter, Präsens, kein Superlativ, kein Ausrufezeichen. */
+  "hero.title": "Marke ist kein Geschmack. Marke ist *Umsatz*.",
   "hero.subtitle":
-    "Claude Code, ChatGPT, Codex, Kimi — Sie müssen in diesem Dschungel nicht durchblicken. beuwy kennt alles, baut alles und nimmt es Ihnen ab: Marke, Anzeigen, Automatisierung, Vertriebsprozesse, die sitzen.",
-  "hero.founder_line":
-    "Sie haben das bessere Angebot — nur sieht man Ihrem Auftritt das nicht an.",
-  "hero.cta": "Projekt anfragen",
-  "hero.cta_secondary": "Referenzen ansehen",
-  /* URL zu .webp/.jpg/.png (Bild) oder .webm/.mp4 (Auto-Loop-Video) auf dem
-     CDN. Leer = abstrakter Platzhalter, bis das Higgsfield-Asset da ist. */
-  "hero.media_url": "",
+    "beuwy baut Marke, Anzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
+  "hero.cta": "Systemgespräch anfragen",
+  "hero.cta_secondary": "Live-Check starten",
 
-  // ── Trust-Leiste ───────────────────────────────────────────────────────
-  "trust.label": "Aus Projekten mit",
+  /* ── 02 Herkunft — Logos auf dem Hügelband ─────────────────────────── */
+  "trust.label": "Seit 2009 für Industrie, Finanzvertrieb und Immobilien",
 
-  // ── Problem: die Erkenntnis, die den Rest trägt ───────────────────────
-  "problem.title": "Ihr Angebot ist Premium. Ihr Auftritt sagt *Mittelklasse*.",
-  "problem.intro":
-    "Drei Stellen, an denen Premium-Anbieter jeden Tag Geld verlieren:",
-  "problem.row1_label": "Marke",
-  "problem.row1_text":
-    "Der Kunde vergleicht drei Anbieter und wählt den, der teurer aussieht. Ihr Preis wird zum Argument gegen Sie.",
-  "problem.row2_label": "Anfragen",
-  "problem.row2_text":
-    "Anfragen kommen rein. Ruft niemand sofort an, sind sie nach Minuten kalt.",
-  "problem.row3_label": "Vertrieb",
-  "problem.row3_text": "Ihr Team pflegt Excel-Listen. Es sollte telefonieren.",
+  /* ── 03 Track Record — drei Zahlen aus drei verschiedenen Projekten,
+     statisch (keine Animation), keine Karten ───────────────────────── */
+  "stats.s1_value": "342.000 €",
+  "stats.s1_label":
+    "Abschlussvolumen in den ersten sechs Wochen nach dem Riegel-Relaunch",
+  "stats.s2_value": "2.200+",
+  "stats.s2_label":
+    "Partner arbeiten heute unter der Marke, die wir für Königswege gebaut haben",
+  "stats.s3_value": "17",
+  "stats.s3_label":
+    "Jahre Markenarbeit — angefangen bei Bosch, Continental und Michelin",
 
-  // ── Feature-Blöcke ─────────────────────────────────────────────────────
-  "features.title": "Marke und Vertrieb aus einer *Hand*.",
-  "features.intro":
-    "Vier Bereiche, ein Verantwortlicher. Sie müssen keines dieser Werkzeuge lernen — Sie bekommen das Ergebnis.",
-  "features.f1_title": "Marke",
-  "features.f1_text":
-    "Markendesign aus der Welt der 100.000-€-Relaunches, gebaut für Ihre Preisklasse. Schrift, Farbe, Bildwelt und Ton greifen ineinander, bis der Auftritt so teuer wirkt wie Ihr Angebot.",
-  "features.f2_title": "Anzeigen",
-  "features.f2_text":
-    "Instagram, Facebook, LinkedIn, TikTok: Anzeigen dort, wo Ihre Kunden abends scrollen. KI wertet laufend aus, welche Zielgruppe wirklich kauft — dorthin fließt Ihr Budget.",
-  "features.f3_title": "Vertriebssystem",
-  "features.f3_text":
-    "Ein CRM, das jede Anfrage festhält. Setter und Closer sind startklar, jeder Anruf wird erfasst. Ihr Team ruft in Minuten zurück, solange die Anfrage warm ist.",
-  "features.f4_title": "Zahlen",
-  "features.f4_text":
-    "Jede Woche ein Bericht mit den Zahlen, die zählen: Anfragen, Termine, Abschlüsse. Jede Woche wird nachgeschärft.",
+  /* ── 04 Diagnose — wörtliche Zitate statt behaupteter Schmerzpunkte ── */
+  "diagnose.title": "Drei Sätze, die wir in jedem *Erstgespräch* hören.",
+  "diagnose.q1": "„Wir sind besser als die Konkurrenz.“",
+  "diagnose.a1":
+    "Der Kunde sieht das nicht. Er vergleicht drei Auftritte und wählt den, der teurer aussieht. Ihr Preis wird zum Argument gegen Sie.",
+  "diagnose.q2": "„Wir bekommen genug Anfragen.“",
+  "diagnose.a2":
+    "Anfragen sind keine Kunden. Ruft niemand innerhalb von Minuten zurück, ist die Anfrage kalt, bevor Ihr Angebot geschrieben ist.",
+  "diagnose.q3": "„Das läuft bei uns über Excel.“",
+  "diagnose.a3":
+    "Dann läuft es über Erinnerung. Was in keinem System steht, wird nicht nachgefasst — und was nicht nachgefasst wird, kauft woanders.",
 
-  // ── Live-Check (Feature-Block 5, das Signature-Tool) ───────────────────
-  "check.title": "Der Live-Check",
+  /* ── 05 System — vier Module, ein Verantwortlicher ─────────────────── */
+  "system.title": "Vier Teile. Ein *Verantwortlicher*.",
+  "system.intro":
+    "Sie müssen keines dieser Werkzeuge kennen und keine drei Dienstleister koordinieren. Sie bekommen das Ergebnis.",
+  "system.m1_title": "Marke",
+  "system.m1_text":
+    "Auftritt, Schrift, Farbe, Sprache. Gebaut nach denselben Regeln wie für Konzerne, zugeschnitten auf Ihre Preisklasse.",
+  "system.m2_title": "Anzeigen",
+  "system.m2_text":
+    "Kampagnen auf den Kanälen, auf denen Ihre Kunden wirklich sind. Das Budget wandert dorthin, wo Abschlüsse entstehen, nicht dorthin, wo Klicks entstehen.",
+  "system.m3_title": "Vertriebssystem",
+  "system.m3_text":
+    "Ein CRM, das jede Anfrage festhält, mit Telefonanbindung und Rückrufregel. Nichts bleibt liegen, weil niemand daran gedacht hat.",
+  "system.m4_title": "Zahlen",
+  "system.m4_text":
+    "Jede Woche ein Bericht: Anfragen, Termine, Abschlüsse, Kosten pro Abschluss. Daraus folgt, was in der Woche darauf geändert wird.",
+
+  /* ── 06 Live-Check — der gleichwertige zweite Weg ──────────────────── */
+  "check.title": "Prüfen Sie uns an Ihrer eigenen *Website*.",
   "check.text":
-    "Testen Sie die Maschine an Ihrer eigenen Domain: Screenshot, neun Messpunkte, ehrliche Einschätzung durch beuwy Agenten. Dauert 25 Sekunden.",
+    "Adresse eintragen, 25 Sekunden warten. Sie sehen, was ein Interessent sieht, neun Messpunkte und eine ehrliche Einschätzung — ohne Gespräch, ohne Vertrag.",
 
-  // ── Ziel-Sektion (ersetzt den offenen Preis-Teaser — Hormozi-Logik:
-  //    es geht um Ziele, nie zuerst ums Geld; der Rechner ist das Herzstück) ──
-  "goal.title": "Rechnen wir mit Ihren *Zielen* — nicht mit Preisen.",
+  /* ── 07 Referenzen — drei Fälle mit Mechanik und Ergebnis ──────────── */
+  "refs.title": "Drei Auftritte. Und was *danach* passiert ist.",
+  "refs.riegel_name": "RIEGEL Immobilien · Rhein-Neckar",
+  "refs.riegel_text":
+    "Neue Marke, neue Website, Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen, angebunden an das Maklersystem. In den ersten sechs Wochen danach: neun Abschlüsse, 342.000 € Volumen. Das Projekt hatte sich nach drei Wochen bezahlt. Heute: Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+  "refs.riegel_link": "riegel-immobilien.de",
+  "refs.koenigswege_name": "Königswege · Finanzvertrieb",
+  "refs.koenigswege_text":
+    "Marke, Auftritt und Veranstaltungen komplett neu aufgesetzt. Heute arbeiten über 2.200 Partner unter dieser Marke; das Haus steht in den Top 10 der deutschen Finanzvertriebe.",
+  "refs.vision_name": "Vision Real Estate · Mannheim",
+  "refs.vision_text":
+    "Aus einem Gründungsbüro eine Marke gemacht, die vor Banken besteht — inklusive der Unterlagen, mit denen aus einem Dreierteam ein Gemeinschaftsunternehmen mit einem internationalen Investor wurde.",
+
+  /* ── 08 Ihr Ziel — der Rechner statt einer Preistabelle ────────────── */
+  "goal.title": "Rechnen wir mit Ihrem *Ziel*, nicht mit unserem Preis.",
   "goal.intro":
-    "Jedes System wird für ein Ziel gebaut. Stellen Sie Ihres ein — über den Weg dorthin sprechen wir persönlich.",
-  "goal.prozess":
-    "Der Weg: Anfrage → Antwort in 24 Stunden → Diagnose Ihres größten Hebels → Systembau zum Festpreis.",
-  "goal.garantie1":
-    "Diagnose-Garantie: Überzeugt der Systementwurf nicht, geht die Diagnose-Gebühr zurück.",
-  "goal.garantie2":
-    "Festpreis-Garantie: Wird mehr nötig als geplant, trage ich das. Ihr Preis bleibt stehen.",
-  "goal.cta": "Projekt anfragen",
+    "Zwei Regler. Danach wissen wir beide, worüber wir reden — und ob sich ein Gespräch für Sie überhaupt lohnt.",
+  "goal.after":
+    "Was ein System kostet, hängt davon ab, was es tragen muss. Deshalb steht hier kein Preis, sondern eine Diagnose am Anfang: ein Gespräch, eine Analyse Ihres größten Hebels, eine Antwort innerhalb von 24 Stunden. Danach ein Festpreis, der steht.",
 
-  // ── Beweis-Block (an Testimonial-Position, vor dem Schluss-CTA) ────────
-  "proof.title": "Im Büro Maßanzug. Nach außen *Fake-Gucci-Jogginghose*.",
-  "proof.intro":
-    "Drei Firmen, dieselbe Handschrift — und was danach messbar wurde:",
-  "proof.riegel_branch": "RIEGEL Immobilien · Rhein-Neckar",
-  "proof.riegel_facts":
-    "28.000 € Projekt — nach 3 Wochen bezahlt\n9 Abschlüsse in 6 Wochen · im Schnitt 38.000 €\nTop 21 von über 25.000 Maklern · ImmoScout24 ImmoAward 2025",
-  "proof.riegel_mechanic":
-    "Der Rechner nutzt amtliche Grundstückswerte, öffentliche Daten und über 5.000 ausgewertete Verkäufe. Sein PDF-Bericht verkauft mit: Der Makler legt ihn ausgedruckt auf den Tisch.",
-  "proof.riegel_link": "riegel-immobilien.de",
-  "proof.vision_branch": "Vision Group · Immobilien-Startup, Mannheim",
-  "proof.vision_facts":
-    "Vom kleinen Gründungsbüro zur eigenen Marke\nKKR als Partner gewonnen\nVerkaufsunterlagen, die vor jeder Bank bestehen",
-  "proof.vision_mechanic":
-    "Neue Marke, neues Recruiting, Vertrieb über Anzeigen: dieselbe Mechanik, die in Ihrem System steckt.",
-  "proof.koenigswege_branch": "Königswege · Finanzvertrieb",
-  "proof.koenigswege_facts":
-    "Marke, Events und Auftritt komplett neu aufgesetzt\nHeute über 2.200 Partner\nTop 10 der Finanzvertriebe Deutschlands · Cash-Ranking 2025",
-  "proof.koenigswege_mechanic":
-    "Eine Marke, auf die Partner stolz sind, erledigt das Recruiting nebenbei.",
-  "proof.stat": "342.000",
-  "proof.stat_text":
-    "Euro Abschlussvolumen in den ersten 6 Wochen nach dem Riegel-Relaunch.",
-  /* Fakten-Band unter der Puff-Zahl: drei animierte Kennzahlen.
-     value zählt beim Scrollen hoch (Ziffern + Punkte), suffix bleibt statisch.
-     iconN_url = Slot für 3D-Icon-Assets vom CDN (leer = ohne Icon). */
-  "proof.stat1_value": "342.000",
-  "proof.stat1_suffix": " €",
-  "proof.stat1_label": "Abschlussvolumen in den ersten sechs Wochen nach dem Riegel-Relaunch",
-  "proof.stat1_icon": "",
-  "proof.stat2_value": "9",
-  "proof.stat2_suffix": "",
-  "proof.stat2_label": "Abschlüsse in diesen sechs Wochen — im Schnitt 38.000 €",
-  "proof.stat2_icon": "",
-  "proof.stat3_value": "3",
-  "proof.stat3_suffix": "",
-  "proof.stat3_label": "Wochen, bis sich das Projekt bezahlt hatte",
-  "proof.stat3_icon": "",
-  "proof.founder_line":
-    "Alle drei tragen dieselbe Handschrift: Alexander Pütter — seit 2009 im Markengeschäft, erst für Bosch, Continental und Michelin.",
-  "proof.founder_quote": "Ich baue Marken, mit denen Menschen große Entscheidungen treffen.",
+  /* ── 09 Häufige Fragen ─────────────────────────────────────────────── */
+  "faq.title": "Was Kunden vorher *wissen* wollen.",
+  "faq.q1": "Wie lange dauert so ein Projekt?",
+  "faq.a1":
+    "Eine Marke steht in drei bis vier Wochen. Ein vollständiges System mit Anzeigen und CRM in acht bis zwölf. Den Termin bekommen Sie vor Projektstart schriftlich.",
+  "faq.q2": "Arbeiten Sie mit künstlicher Intelligenz?",
+  "faq.a2":
+    "Ja, in der Produktion: Aufbau, Texte, Auswertung und wiederkehrende Abläufe laufen zu großen Teilen über eigene Werkzeuge auf Basis aktueller Sprachmodelle. Für Sie ändert das zwei Dinge: Es geht schneller, und es kostet weniger als bei einer Agentur, die dieselbe Arbeit von Hand macht. Welche Werkzeuge das im Einzelnen sind, spielt für Ihr Ergebnis keine Rolle — und ändert sich ohnehin alle paar Monate.",
+  "faq.q3": "Wer arbeitet an meinem Projekt?",
+  "faq.a3":
+    "Alexander Pütter, persönlich. Zugearbeitet wird von Spezialisten für Video, Fotografie und Entwicklung, koordiniert an einer Stelle. Sie haben einen Ansprechpartner und einen Verantwortlichen.",
+  "faq.q4": "Was passiert nach dem Launch?",
+  "faq.a4":
+    "Der Betrieb: Anzeigen steuern, CRM pflegen, Telefonstrecke überwachen, wöchentlich berichten. Ein System, das niemand betreibt, wird in acht Wochen zur Visitenkarte.",
 
-  // ── Schluss-CTA ────────────────────────────────────────────────────────
-  "cta.title": "Machen wir Ihren Auftritt zum *Verkäufer*.",
-  "cta.text":
-    "Schicken Sie zwei Zeilen zu Ihrer Firma. Innerhalb eines Tages bekommen Sie eine klare Antwort und einen ersten Blick auf Ihren größten Hebel.",
-  "cta.primary": "Projekt anfragen",
+  /* ── 10 Abschluss — ein Weg, H2 statt Riesenwort ───────────────────── */
+  "final.title": "Zwei Zeilen zu Ihrer Firma genügen für den *Anfang*.",
+  "final.text":
+    "Sie schreiben, was Sie verkaufen und woran es gerade hakt. Sie bekommen innerhalb von 24 Stunden eine Einschätzung Ihres größten Hebels — schriftlich, nicht als Verkaufsgespräch getarnt.",
+  "final.cta": "Systemgespräch anfragen",
+  "final.note": "Antwort innerhalb von 24 Stunden.",
 
-  // ── Video-Analyse (Outreach-Seite, auf der Startseite unverlinkt) ──────
+  /* ── Video-Analyse (Outreach-Seite, auf der Startseite unverlinkt) ── */
   "video.title": "Die Video-Analyse Ihres *Falls*.",
   "video.intro":
     "Sie schicken Ihre Domain. Sie bekommen ein persönlich aufgenommenes Video: was Interessenten heute sehen, wo Anfragen versickern, was ein System ändern würde.",
@@ -138,22 +122,28 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
-  "hero.title": "Hero · Überschrift (*Wort* = Hervorhebung)",
+  "hero.title": "Hero · These (*Wort* = Hervorhebung)",
   "hero.subtitle": "Hero · Was geliefert wird und für wen",
-  "hero.founder_line": "Hero · Die Zeile über der Überschrift",
-  "hero.media_url":
-    "Hero · Media-URL (.webp/.png = Bild, .webm/.mp4 = Auto-Loop-Video; leer = Platzhalter)",
-  "trust.label": "Trust-Leiste · Label über den Logos",
-  "problem.title": "Problem · Überschrift (*Wort* = Hervorhebung)",
-  "features.title": "Features · Überschrift (*Wort* = Hervorhebung)",
-  "features.intro": "Features · Unterzeile",
-  "proof.riegel_facts": "Riegel · Fakten (eine Zeile = ein Punkt)",
-  "proof.vision_facts": "Vision Group · Fakten (eine Zeile = ein Punkt)",
-  "proof.koenigswege_facts": "Königswege · Fakten (eine Zeile = ein Punkt)",
-  "proof.stat": "Beweis · Kennzahl (nur Zahl, Puffballon-Ziffern)",
-  "proof.stat1_icon": "Beweis · 3D-Icon-URL für Kennzahl 1 (CDN, leer = ohne)",
-  "proof.stat2_icon": "Beweis · 3D-Icon-URL für Kennzahl 2 (CDN, leer = ohne)",
-  "proof.stat3_icon": "Beweis · 3D-Icon-URL für Kennzahl 3 (CDN, leer = ohne)",
+  "hero.cta": "Hero · Primär-CTA",
+  "hero.cta_secondary": "Hero · Sekundär-CTA",
+  "trust.label": "Herkunft · Zeile über den Logos",
+  "stats.s1_value": "Track Record · Zahl 1 (Riegel)",
+  "stats.s2_value": "Track Record · Zahl 2 (Königswege)",
+  "stats.s3_value": "Track Record · Zahl 3 (Markenarbeit)",
+  "diagnose.title": "Diagnose · Überschrift (*Wort* = Hervorhebung)",
+  "system.title": "System · Überschrift (*Wort* = Hervorhebung)",
+  "system.intro": "System · Lead-Satz",
+  "check.title": "Live-Check · Überschrift (*Wort* = Hervorhebung)",
+  "check.text": "Live-Check · Lead-Satz",
+  "refs.title": "Referenzen · Überschrift (*Wort* = Hervorhebung)",
+  "refs.riegel_text": "Referenzen · Riegel (Mechanik + Ergebnis)",
+  "refs.koenigswege_text": "Referenzen · Königswege",
+  "refs.vision_text": "Referenzen · Vision Real Estate",
+  "goal.title": "Ziel · Überschrift (*Wort* = Hervorhebung)",
+  "goal.after": "Ziel · Absatz unter dem Rechner (Diagnose statt Preis)",
+  "faq.title": "FAQ · Überschrift (*Wort* = Hervorhebung)",
+  "final.title": "Abschluss · Überschrift (*Wort* = Hervorhebung)",
+  "final.text": "Abschluss · Lead-Satz",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */

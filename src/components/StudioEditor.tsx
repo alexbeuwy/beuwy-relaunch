@@ -194,7 +194,7 @@ export function StudioEditor({
       </div>
 
       <div className="sticky bottom-0 z-30 mt-10 pb-5">
-        <div className="panel flex flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-xl px-5 py-4 shadow-[0_-16px_40px_-20px_rgba(0,0,0,0.6)]">
+        <div className="panel flex flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-xl px-5 py-4 shadow-[0_-12px_30px_-18px_rgba(16,25,15,0.18)]">
           <p
             className={
               status.kind === "success"

@@ -25,11 +25,11 @@ function Switch({
           "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/25",
           "data-[size=default]:h-6 data-[size=default]:w-11",
           "data-[size=sm]:h-5 data-[size=sm]:w-9",
-          // Aus: ruhige Glasflaeche. An: der eine Gelb-Moment.
-          "data-unchecked:border-white/10 data-unchecked:bg-white/10",
-          "data-unchecked:hover:bg-white/15",
+          // Aus: gedaempfte Tinten-Flaeche. An: Ultramarin.
+          "data-unchecked:border-transparent data-unchecked:bg-[rgba(16,25,15,0.18)]",
+          "data-unchecked:hover:bg-[rgba(16,25,15,0.25)]",
           "data-checked:border-transparent",
-          "data-checked:bg-[linear-gradient(180deg,#F7E99A_0%,#EEDA7E_100%)]",
+          "data-checked:bg-primary",
           "data-disabled:cursor-not-allowed data-disabled:opacity-45",
         ].join(" "),
         className
@@ -39,8 +39,7 @@ function Switch({
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
         className={cn(
-          "pointer-events-none block rounded-full bg-ink-cream",
-          "shadow-[0_1px_2px_rgba(0,0,0,0.5)] ring-0",
+          "pointer-events-none block rounded-full bg-snow",
           "transition-transform duration-200 ease-out motion-reduce:transition-none",
           "group-data-[size=default]/switch:size-5 group-data-[size=sm]/switch:size-4",
           "data-unchecked:translate-x-0 data-checked:translate-x-full"

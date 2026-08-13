@@ -9,8 +9,8 @@ export function Footer() {
           <div className="space-y-4 max-w-[420px]">
             <Logo height={32} />
             <p className="t-small">
-              beuwy baut digitale Vertriebssysteme für Finanz- und
-              Immobilienunternehmen. Ludwigshafen · Mannheim · Berlin.
+              Unternehmensberatung für Marke und Vertriebssysteme.
+              Ludwigshafen · Mannheim · Berlin.
             </p>
           </div>
 

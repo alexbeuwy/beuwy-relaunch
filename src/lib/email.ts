@@ -68,7 +68,7 @@ export function emailLayout(opts: {
         </tr>
         <tr>
           <td style="padding:16px 32px;border-top:1px solid #e6e0d2;">
-            <p style="margin:0;font-size:12px;color:#8A8068;">beuwy — Alexander Pütter · Mendelssohnstraße 52 · 67061 Ludwigshafen · ap@beuwy.com</p>
+            <p style="margin:0;font-size:12px;color:#8A8068;">beuwy — Alexander Pütter · Max-Bill-Str. 3 · 67061 Ludwigshafen · ap@beuwy.com</p>
           </td>
         </tr>
       </table>

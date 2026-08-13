@@ -5,17 +5,25 @@ import Link from "next/link";
  * Aspect 357.83 × 88.11 (~4:1). Color via `currentColor`.
  */
 export function Logo({
-  tone = "yellow",
+  tone = "ink",
   height = 26,
 }: {
-  tone?: "yellow" | "cream";
+  /* ink = Tinte auf Papier · accent = Ultramarin · snow = auf dunklen Flächen.
+     yellow/cream bleiben als Alt-Namen gültig (yellow → accent, cream → ink). */
+  tone?: "ink" | "accent" | "snow" | "yellow" | "cream";
   height?: number;
 }) {
-  const color = tone === "yellow" ? "var(--ink-yellow)" : "var(--ink-cream)";
+  const color =
+    tone === "snow"
+      ? "var(--snow)"
+      : tone === "accent" || tone === "yellow"
+        ? "var(--ink-yellow)"
+        : "var(--ink-cream)";
   return (
     <Link
       href="/"
       aria-label="beuwy — zur Startseite"
+      data-logo
       className="inline-flex items-center group"
       style={{ color, lineHeight: 0 }}
     >

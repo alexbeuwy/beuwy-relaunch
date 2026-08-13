@@ -35,10 +35,7 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: [
-          "border border-white/10 bg-white/5",
-          "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
-        ].join(" "),
+        default: "border border-border bg-muted",
         line: "gap-1 border-0 bg-transparent p-0",
       },
     },
@@ -83,17 +80,14 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
           "has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         ].join(" "),
-        // aktives Feld: leicht erhoehte Flaeche, Text in Creme
-        [
-          "data-active:bg-bg-hover data-active:text-ink-cream",
-          "data-active:shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_1px_2px_rgba(0,0,0,0.4)]",
-        ].join(" "),
-        // Variante "line": kein Feld, nur ein feiner gelber Strich
+        // aktives Feld: leicht erhoehte Flaeche, Text in Tinte, flach
+        "data-active:bg-bg-hover data-active:text-ink-cream",
+        // Variante "line": kein Feld, nur ein feiner Ultramarin-Strich
         [
           "group-data-[variant=line]/tabs-list:bg-transparent",
           "group-data-[variant=line]/tabs-list:data-active:bg-transparent",
           "group-data-[variant=line]/tabs-list:data-active:shadow-none",
-          "after:absolute after:bg-ink-yellow after:opacity-0 after:transition-opacity",
+          "after:absolute after:bg-primary after:opacity-0 after:transition-opacity",
           "motion-reduce:after:transition-none",
           "group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5",
           "group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5",

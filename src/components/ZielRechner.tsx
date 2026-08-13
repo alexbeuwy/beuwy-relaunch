@@ -183,9 +183,8 @@ export default function ZielRechner() {
         <div
           aria-live="polite"
           className={cn(
-            "rounded-[12px] border border-white/10 bg-bg-elevated",
-            "px-5 py-5 sm:px-6 sm:py-6",
-            "shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+            "rounded-[12px] border border-line-subtle bg-bg-elevated",
+            "px-5 py-5 sm:px-6 sm:py-6"
           )}
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
@@ -193,7 +192,7 @@ export default function ZielRechner() {
               <span className="block text-xs tracking-wide text-ink-muted uppercase">
                 Mehr Umsatz im Jahr
               </span>
-              <span className="mt-2 block font-display text-[2.75rem] leading-none tracking-display tabular-nums text-ink-yellow sm:text-[3.5rem]">
+              <span className="mt-2 block font-display text-[2.75rem] leading-none tracking-display tabular-nums text-sky sm:text-[3.5rem]">
                 +{euro(jahrAnimiert)}
               </span>
             </div>
@@ -207,7 +206,7 @@ export default function ZielRechner() {
             </div>
           </div>
 
-          <p className="mt-5 border-t border-white/10 pt-4 text-sm leading-relaxed text-ink-cream">
+          <p className="mt-5 border-t border-line-subtle pt-4 text-sm leading-relaxed text-ink-cream">
             {zahl(jahrAbschluesse)} zusätzliche Abschlüsse im Jahr, jeder{" "}
             {euro(wert)} wert. Das ist das Ziel, über das wir reden.
           </p>

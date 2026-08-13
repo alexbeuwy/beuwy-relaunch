@@ -17,7 +17,7 @@ export default function ImpressumPage() {
           <p className="t-body mt-3 is-cream">
             beuwy — Alexander Pütter
             <br />
-            Mendelssohnstraße 52
+            Max-Bill-Str. 3
             <br />
             67061 Ludwigshafen am Rhein
           </p>
