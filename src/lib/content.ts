@@ -27,6 +27,9 @@ export const DEFAULTS: Record<string, string> = {
 
   /* ── 03 Track Record — drei Zahlen aus drei verschiedenen Projekten,
      statisch (keine Animation), keine Karten ───────────────────────── */
+  /* ── 03 System im Betrieb — Produkt-Shot + Track Record ────────────── */
+  "shot.caption":
+    "So sieht Verantwortung aus: Anfragen, Termine, Abschlüsse und Kosten je Abschluss — jede Woche, mit der Änderung für die Woche darauf.",
   "stats.s1_value": "342.000 €",
   "stats.s1_label":
     "Abschlussvolumen in den ersten sechs Wochen nach dem Riegel-Relaunch",
@@ -88,6 +91,7 @@ export const DEFAULTS: Record<string, string> = {
   "goal.title": "Rechnen wir mit Ihrem *Ziel*, nicht mit unserem Preis.",
   "goal.intro":
     "Zwei Regler. Danach wissen wir beide, worüber wir reden — und ob sich ein Gespräch für Sie überhaupt lohnt.",
+  "goal.steps": "Systemgespräch|Diagnose des größten Hebels|Festpreis|Betrieb",
   "goal.after":
     "Was ein System kostet, hängt davon ab, was es tragen muss. Deshalb steht hier kein Preis, sondern eine Diagnose am Anfang: ein Gespräch, eine Analyse Ihres größten Hebels, eine Antwort innerhalb von 24 Stunden. Danach ein Festpreis, der steht.",
 

@@ -6,6 +6,13 @@ import { Reveal } from "@/components/Reveal";
 import { rich } from "@/components/RichText";
 import ZielRechner from "@/components/ZielRechner";
 import { Button } from "@/components/ui/button";
+import { WochenberichtShot } from "@/components/WochenberichtShot";
+import {
+  MarkeSurface,
+  AnzeigenSurface,
+  VertriebSurface,
+  ZahlenSurface,
+} from "@/components/ModuleSurfaces";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -99,7 +106,8 @@ export default async function HomePage() {
       {/* 02 — HERKUNFT: Logos auf dem Hügelband. Der Sektionsgrund setzt die
           Bild-Unterkante (#06150A) fort — die Seite steht auf dem Hügel. */}
       <section className="band-hill">
-        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12 md:py-14">
+        {/* pb macht Platz für den Wochenbericht, der aus dem Hügel steigt */}
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-12 md:pt-14 pb-32 md:pb-40">
           <Reveal>
             <p className="t-label text-center">{c["trust.label"]}</p>
             <div
@@ -121,20 +129,33 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 03 — TRACK RECORD: drei Zahlen aus drei verschiedenen Projekten.
-          Statisch, keine Karten, keine Animation (Wireframe-Verbot 1). */}
-      <Section divider={false}>
-        <Reveal>
-          <div className="stat-band">
-            {stats.map((s) => (
-              <div key={s.label} className="stat-cell">
-                <p className="stat-num">{s.value}</p>
-                <p className="stat-cap">{s.label}</p>
-              </div>
-            ))}
+      {/* 03 — SYSTEM IM BETRIEB: der Produkt-Shot. Der Wochenbericht steigt
+          aus dem Hügel — die Seite behauptet kein System, sie zeigt eins.
+          Darunter der Track Record: drei Zahlen aus drei Projekten, statisch. */}
+      <section className="section-band-base">
+        {/* flow-root verhindert Margin-Collapse — sonst zieht das negative
+            margin die ganze Sektion hoch statt das Panel in den Hügel */}
+        <div className="flow-root mx-auto max-w-[1120px] px-6 lg:px-10 pb-16 md:pb-24">
+          <div className="relative z-10 -mt-20 md:-mt-28 flex justify-center">
+            <Reveal>
+              <WochenberichtShot />
+            </Reveal>
           </div>
-        </Reveal>
-      </Section>
+          <p className="t-small text-center mt-6 mx-auto max-w-[560px]">
+            {c["shot.caption"]}
+          </p>
+          <Reveal>
+            <div className="stat-band mt-16 md:mt-24">
+              {stats.map((s) => (
+                <div key={s.label} className="stat-cell">
+                  <p className="stat-num">{s.value}</p>
+                  <p className="stat-cap">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* 04 — DIAGNOSE: wörtliche Zitate aus Erstgesprächen. Der Leser
           erkennt sich selbst sagen hören. */}
@@ -158,15 +179,24 @@ export default async function HomePage() {
           title={rich(c["system.title"])}
           intro={c["system.intro"]}
         />
-        <div className="grid sm:grid-cols-2 gap-x-12 gap-y-10 max-w-[960px]">
-          {modules.map((m, i) => (
-            <Reveal key={m.title} delay={(i % 2) * 60}>
-              <div>
-                <h3 className="t-h3">{m.title}</h3>
-                <p className="t-body mt-3">{m.text}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="grid sm:grid-cols-2 gap-5 max-w-[1000px]">
+          {modules.map((m, i) => {
+            const Surface = [
+              MarkeSurface,
+              AnzeigenSurface,
+              VertriebSurface,
+              ZahlenSurface,
+            ][i];
+            return (
+              <Reveal key={m.title} delay={(i % 2) * 60}>
+                <div className="card h-full">
+                  <Surface />
+                  <h3 className="t-h3 mt-5">{m.title}</h3>
+                  <p className="t-body mt-2">{m.text}</p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </Section>
 
@@ -179,23 +209,51 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 07 — REFERENZEN: drei Fälle mit Mechanik und Ergebnis. */}
+      {/* 07 — REFERENZEN: der Flaggschiff-Fall mit echtem Screenshot im
+          Browser-Rahmen (Column-Muster: ein Fall braucht ein Bild, eine
+          Mechanik und ein Ergebnis), die weiteren Fälle als ruhige Zeilen. */}
       <Section id="referenzen">
         <SectionHead title={rich(c["refs.title"])} />
-        <div className="max-w-[760px]">
-          <RefBlock
-            name={c["refs.riegel_name"]}
-            text={c["refs.riegel_text"]}
-            link={{
-              label: c["refs.riegel_link"],
-              href: "https://www.riegel-immobilien.de",
-            }}
-          />
-          <RefBlock
+        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
+          <Reveal>
+            <div className="case-frame">
+              <div className="case-frame-bar" aria-hidden>
+                <span className="case-frame-dot" />
+                <span className="case-frame-dot" />
+                <span className="case-frame-dot" />
+                <span className="case-frame-url">riegel-immobilien.de</span>
+              </div>
+              <Image
+                src="/refs/riegel.webp"
+                width={1280}
+                height={800}
+                alt="Startseite von RIEGEL Immobilien nach dem Relaunch: dunkle Bühne, Claim „Regional zuhause. National vernetzt.“"
+              />
+            </div>
+          </Reveal>
+          <Reveal delay={80}>
+            <div>
+              <h3 className="t-h3">{c["refs.riegel_name"]}</h3>
+              <p className="t-body mt-3">{c["refs.riegel_text"]}</p>
+              <a
+                href="https://www.riegel-immobilien.de"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ref-link inline-block mt-4"
+              >
+                {c["refs.riegel_link"]} ↗
+              </a>
+            </div>
+          </Reveal>
+        </div>
+        {/* Die zwei weiteren Fälle als gleichgewichtige Karten — bewusste
+            Hierarchie (Flaggschiff groß, Belege kompakt), keine Fußnoten. */}
+        <div className="grid sm:grid-cols-2 gap-5 mt-8">
+          <RefCard
             name={c["refs.koenigswege_name"]}
             text={c["refs.koenigswege_text"]}
           />
-          <RefBlock
+          <RefCard
             name={c["refs.vision_name"]}
             text={c["refs.vision_text"]}
           />
@@ -206,25 +264,52 @@ export default async function HomePage() {
           des Kunden, nicht mit einer Zahl von beuwy. */}
       <Section id="ziel">
         <SectionHead title={rich(c["goal.title"])} intro={c["goal.intro"]} />
-        <Reveal>
-          <ZielRechner />
-        </Reveal>
-        <p className="t-body mt-10 max-w-[640px]">{c["goal.after"]}</p>
+        {/* Rechner links, rechts der Ablauf + die Preislogik — die Spalte
+            füllt den Raum mit dem, was der Käufer als Nächstes wissen will. */}
+        <div className="grid lg:grid-cols-[minmax(0,680px)_1fr] gap-12 lg:gap-16 items-start">
+          <Reveal>
+            <ZielRechner />
+          </Reveal>
+          <Reveal delay={80}>
+            <div className="lg:pt-2">
+              <p className="t-label">Der Ablauf</p>
+              <ol className="mt-5 space-y-4" aria-label="Ablauf">
+                {(c["goal.steps"] || "").split("|").map((s, i) => (
+                  <li key={s} className="flex items-baseline gap-4">
+                    <span className="tnum t-data text-sky w-5 shrink-0">
+                      {i + 1}
+                    </span>
+                    <span className="prozess-step">{s}</span>
+                  </li>
+                ))}
+              </ol>
+              <p className="t-body mt-8">{c["goal.after"]}</p>
+            </div>
+          </Reveal>
+        </div>
       </Section>
 
       {/* 09 — HÄUFIGE FRAGEN: nebeneinander statt Akkordeon — die zwei
           Sachen, die der Kunde vor dem Schreiben noch wissen will. */}
       <Section id="faq">
         <SectionHead title={rich(c["faq.title"])} />
-        <div className="faq-grid">
-          {faq.map((f, i) => (
-            <Reveal key={f.q} delay={(i % 2) * 60}>
-              <div className="faq-cell">
-                <h3 className="t-h3">{f.q}</h3>
-                <p className="t-body mt-3">{f.a}</p>
+        {/* Zwei unabhängige Spalten statt gekoppeltem Grid — sonst reißt
+            die lange KI-Antwort Lücken in die Nachbarspalte. */}
+        <div className="grid md:grid-cols-2 gap-x-14">
+          {[faq.filter((_, i) => i % 2 === 0), faq.filter((_, i) => i % 2 === 1)].map(
+            (col, ci) => (
+              <div key={ci}>
+                {col.map((f, i) => (
+                  <Reveal key={f.q} delay={i * 60}>
+                    <div className="faq-cell">
+                      <h3 className="t-h3">{f.q}</h3>
+                      <p className="t-body mt-3">{f.a}</p>
+                    </div>
+                  </Reveal>
+                ))}
               </div>
-            </Reveal>
-          ))}
+            )
+          )}
         </div>
       </Section>
 
@@ -247,33 +332,13 @@ export default async function HomePage() {
   );
 }
 
-/* Referenz-Block: Name + Fall als ruhiger Absatz + benannter Vertiefungslink
-   (kein „Mehr erfahren"). */
-function RefBlock({
-  name,
-  text,
-  link,
-}: {
-  name: string;
-  text: string;
-  link?: { label: string; href: string };
-}) {
+/* Referenz-Karte: gleichgewichtige Fallkarte ohne Bild — Name als Kopf,
+   Fall als Absatz. Bewusst dieselbe Kartenform wie die System-Module. */
+function RefCard({ name, text }: { name: string; text: string }) {
   return (
     <Reveal>
-      <div className="ref-block">
-        <div className="ref-head">
-          <h3 className="t-h3">{name}</h3>
-          {link ? (
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ref-link"
-            >
-              {link.label} ↗
-            </a>
-          ) : null}
-        </div>
+      <div className="card h-full">
+        <h3 className="t-h3">{name}</h3>
         <p className="t-body mt-3">{text}</p>
       </div>
     </Reveal>

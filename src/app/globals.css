@@ -26,7 +26,7 @@
   --color-ink-yellowSoft: #0c4bc3;
   --color-ink-cream: #10190f; /* Legacy-Name — inhaltlich: die Tinte */
   --color-ink-muted: #4a5442;
-  --color-ink-dim: #6b7360;
+  --color-ink-dim: #5d6553;
 
   --color-sky: #0c4bc3;
   --color-sky-deep: #0a3ea6;
@@ -121,7 +121,7 @@
     --ink-yellow-hover: var(--sky-deep);
     --ink-cream: #10190f; /* Tinte */
     --ink-muted: #4a5442;
-    --ink-dim: #6b7360;
+    --ink-dim: #5d6553;
     --line-subtle: rgba(16, 25, 15, 0.1);
     --line-medium: rgba(16, 25, 15, 0.2);
     --line-strong: #10190f;
@@ -275,7 +275,7 @@
     font-weight: 720;
     font-size: clamp(28px, 3.4vw, 44px);
     line-height: 1.08;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.016em;
     color: var(--ink-cream);
     text-wrap: balance;
   }
@@ -437,10 +437,10 @@
   }
   .hero-h1 {
     font-family: var(--font-helvena), system-ui, sans-serif;
-    font-weight: 800;
+    font-weight: 780;
     font-size: clamp(32px, 4.3vw, 58px);
     line-height: 1.06;
-    letter-spacing: -0.028em;
+    letter-spacing: -0.02em;
     color: var(--snow);
     text-wrap: balance;
   }
@@ -533,6 +533,15 @@
   }
   [data-nav][data-on-sky='true'] .nav-link::after {
     background: var(--snow);
+  }
+  [data-nav][data-on-sky='true'] [data-slot='button'][data-variant='default'] {
+    background: var(--snow);
+    color: var(--sky);
+  }
+  [data-nav][data-on-sky='true']
+    [data-slot='button'][data-variant='default']:hover {
+    background: #ffffff;
+    color: var(--sky-deep);
   }
   [data-nav][data-on-sky='true'] [data-slot='button'][data-variant='secondary'] {
     background: transparent;
@@ -717,6 +726,55 @@
   .ref-link:hover {
     color: var(--sky-deep);
     border-color: var(--sky-deep);
+  }
+
+  /* Case-Frame — Browser-Rahmen für echte Referenz-Screenshots.
+     Der eine erlaubte Dokument-Schatten (flach, tintenbasiert). */
+  .case-frame {
+    border: 1px solid var(--line-subtle);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg-raised);
+    box-shadow: 0 24px 60px -32px rgba(16, 25, 15, 0.35);
+  }
+  .case-frame-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 14px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .case-frame-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(16, 25, 15, 0.18);
+  }
+  .case-frame-url {
+    margin-left: 8px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-dim);
+  }
+  .case-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Prozess-Zeile — der Ablauf als ruhige Zeile, kein Karten-Grid */
+  .prozess-step {
+    font-size: 14.5px;
+    font-weight: 550;
+    letter-spacing: -0.01em;
+    color: var(--ink-cream);
+    white-space: nowrap;
+  }
+  .prozess-sep {
+    margin: 0 12px;
+    color: var(--sky);
   }
 
   /* FAQ — nebeneinander statt Akkordeon (Desktop), Frage = H3 */

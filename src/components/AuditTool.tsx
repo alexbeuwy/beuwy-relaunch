@@ -304,7 +304,7 @@ export function AuditTool() {
     <>
       <div
         ref={panelRef}
-        className="audit-panel panel w-full max-w-[680px] mx-auto rounded-2xl p-2"
+        className="audit-panel panel w-full max-w-[680px] rounded-2xl p-2"
         data-stage={phase}
         data-busy={busy ? "true" : "false"}
         id="tool"

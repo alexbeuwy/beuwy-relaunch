@@ -52,12 +52,12 @@ export function Nav() {
 
         {/* Kein Selbstlink: auf /termin führt der CTA zum Live-Check */}
         {onTermin ? (
-          <Button size="sm" variant="secondary" render={<Link href="/#check" />}>
+          <Button size="sm" render={<Link href="/#check" />}>
             Live-Check
             <span aria-hidden>→</span>
           </Button>
         ) : (
-          <Button size="sm" variant="secondary" render={<Link href="/termin" />}>
+          <Button size="sm" render={<Link href="/termin" />}>
             Systemgespräch
             <span aria-hidden>→</span>
           </Button>
