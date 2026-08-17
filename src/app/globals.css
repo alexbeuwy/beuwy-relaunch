@@ -595,6 +595,28 @@
   .band-hill .t-label {
     color: rgba(255, 253, 246, 0.55);
   }
+  /* Volle Typo-Flips für Inhalts-Sektionen auf dem Hügel-Grün */
+  .band-hill .t-h2,
+  .band-hill .t-h3,
+  .band-hill .is-cream {
+    color: var(--snow);
+  }
+  .band-hill .t-h2 em {
+    color: #e8641f; /* helleres Berg-Orange — #C94A12 säuft auf Dunkelgrün ab */
+  }
+  .band-hill .t-body-lg,
+  .band-hill .t-body,
+  .band-hill .is-muted {
+    color: rgba(255, 253, 246, 0.78);
+  }
+  .band-hill .t-small,
+  .band-hill .t-data,
+  .band-hill .is-dim {
+    color: rgba(255, 253, 246, 0.6);
+  }
+  .band-hill .hairline {
+    border-color: rgba(255, 253, 246, 0.18);
+  }
 
   /* Ultramarin-Finale (tone="bright") — Schnee-Text, Orange-Betonung */
   .section-band-bright {

@@ -7,12 +7,8 @@ import { rich } from "@/components/RichText";
 import ZielRechner from "@/components/ZielRechner";
 import { Button } from "@/components/ui/button";
 import { WochenberichtShot } from "@/components/WochenberichtShot";
-import {
-  MarkeSurface,
-  AnzeigenSurface,
-  VertriebSurface,
-  ZahlenSurface,
-} from "@/components/ModuleSurfaces";
+import { SystemPlayground } from "@/components/SystemPlayground";
+import { CtaBand } from "@/components/CtaBand";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -173,32 +169,25 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* 05 — SYSTEM: vier Module, ein Verantwortlicher. */}
-      <Section id="system">
-        <SectionHead
-          title={rich(c["system.title"])}
-          intro={c["system.intro"]}
-        />
-        <div className="grid sm:grid-cols-2 gap-5 max-w-[1000px]">
-          {modules.map((m, i) => {
-            const Surface = [
-              MarkeSurface,
-              AnzeigenSurface,
-              VertriebSurface,
-              ZahlenSurface,
-            ][i];
-            return (
-              <Reveal key={m.title} delay={(i % 2) * 60}>
-                <div className="card h-full">
-                  <Surface />
-                  <h3 className="t-h3 mt-5">{m.title}</h3>
-                  <p className="t-body mt-2">{m.text}</p>
-                </div>
-              </Reveal>
-            );
-          })}
+      {/* 05 — SYSTEM: die Grün-Bühne. Der Besucher dreht selbst am System —
+          Budget, Module, Leads als Partikelstrom, Konfetti beim Sprung.
+          Die vier Modul-Texte leben im Detail-Panel des Playgrounds. */}
+      <section id="system" className="band-hill on-sky">
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
+          <div className="mb-10 md:mb-12">
+            <h2 className="t-h2 max-w-[760px]">{rich(c["play.title"])}</h2>
+            <p className="t-body-lg mt-5 max-w-[560px]">{c["play.intro"]}</p>
+          </div>
+          <SystemPlayground modules={modules} />
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+            <p className="t-h3">{c["play.tagline"]}</p>
+            <Button render={<Link href="/termin" />}>
+              {c["hero.cta"]}
+              <span aria-hidden>→</span>
+            </Button>
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* 06 — LIVE-CHECK: der gleichwertige zweite Weg neben dem Gespräch —
           eine laufende Maschine statt einer Behauptung. */}
@@ -208,6 +197,14 @@ export default async function HomePage() {
           <AuditTool />
         </div>
       </Section>
+
+      {/* CTA-Band 1 — Ultramarin-Zwischenruf nach dem Werkzeug */}
+      <CtaBand
+        tone="sky"
+        title={c["band1.title"]}
+        note={c["band1.note"]}
+        buttonLabel={c["hero.cta"]}
+      />
 
       {/* 07 — REFERENZEN: der Flaggschiff-Fall mit echtem Screenshot im
           Browser-Rahmen (Column-Muster: ein Fall braucht ein Bild, eine
@@ -288,6 +285,13 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* CTA-Band 2 — Grün-Zwischenruf nach der Rechnung */}
+      <CtaBand
+        tone="hill"
+        title={c["band2.title"]}
+        buttonLabel={c["hero.cta"]}
+      />
 
       {/* 09 — HÄUFIGE FRAGEN: nebeneinander statt Akkordeon — die zwei
           Sachen, die der Kunde vor dem Schreiben noch wissen will. */}

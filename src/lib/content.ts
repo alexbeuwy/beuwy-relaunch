@@ -53,6 +53,11 @@ export const DEFAULTS: Record<string, string> = {
     "Dann läuft es über Erinnerung. Was in keinem System steht, wird nicht nachgefasst — und was nicht nachgefasst wird, kauft woanders.",
 
   /* ── 05 System — vier Module, ein Verantwortlicher ─────────────────── */
+  /* ── 05 System — die interaktive Grün-Bühne (Playground) ───────────── */
+  "play.title": "Anfragen werden *planbar*.",
+  "play.intro":
+    "Drehen Sie am Budget, schalten Sie die vier Module zu und ab — genau diese Mechanik bauen und betreiben wir für Sie.",
+  "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
   "system.title": "Vier Teile. Ein *Verantwortlicher*.",
   "system.intro":
     "Sie müssen keines dieser Werkzeuge kennen und keine drei Dienstleister koordinieren. Sie bekommen das Ergebnis.",
@@ -94,6 +99,12 @@ export const DEFAULTS: Record<string, string> = {
   "goal.steps": "Systemgespräch|Diagnose des größten Hebels|Festpreis|Betrieb",
   "goal.after":
     "Was ein System kostet, hängt davon ab, was es tragen muss. Deshalb steht hier kein Preis, sondern eine Diagnose am Anfang: ein Gespräch, eine Analyse Ihres größten Hebels, eine Antwort innerhalb von 24 Stunden. Danach ein Festpreis, der steht.",
+
+  /* ── CTA-Bänder — invertierte Zwischenrufe, immer derselbe eine Weg ── */
+  "band1.title":
+    "Der Live-Check zeigt das Symptom. Das Systemgespräch findet den Hebel.",
+  "band1.note": "30 Minuten · Antwort innerhalb von 24 Stunden",
+  "band2.title": "Die Rechnung steht. Reden wir über den Weg dorthin.",
 
   /* ── 09 Häufige Fragen ─────────────────────────────────────────────── */
   "faq.title": "Was Kunden vorher *wissen* wollen.",
