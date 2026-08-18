@@ -3,27 +3,28 @@
 /* ----------------------------------------------------------------
    SAEULEN-STUDIO — „Drei Saeulen. Ein Umsatz."
 
-   Links eine reine Wireframe-Buehne: drei Saeulen aus gestapelten
-   Bausteinen tragen einen flachen Traeger. Der Traeger ist der
-   Umsatz. Wer eine Saeule abschaltet, sieht die Bausteine kippen
-   und den Traeger auf dieser Seite absacken.
+   Die Buehne ist der Held. Drei massive Saeulen aus gestapelten
+   Bausteinen tragen einen breiten Traeger. Wer eine Saeule anklickt,
+   schaltet sie ab: die Bausteine kippen auseinander, ihre Farbe faellt
+   auf stumpfes Ultramarin, der Traeger senkt sich auf dieser Seite
+   und kippt sichtbar.
 
-   Rechts die Steuerung: drei Schalter, die Tragfaehigkeit und ein
-   Detail-Panel zur aktiven Saeule.
-
-   Riso-Regeln: flache Flaechen, keine Lichter, keine Texturen,
-   keine Farbverlaeufe. Die Szene besteht ausschliesslich aus Linien.
+   Gerendert wird in Risographie: die Beleuchtung wird auf vier Stufen
+   quantisiert, zwischen den Stufen blendet ein Punktraster im
+   Bildschirmraum, ein Kanal wird um Bruchteile eines Pixels versetzt
+   gedruckt, darueber liegt feines Korn. Fuenf Farben, sonst nichts.
    ---------------------------------------------------------------- */
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type * as ThreeNS from "three";
 
-/* ── Palette der Buehne ─────────────────────────────────────────── */
+/* ── Palette — genau fuenf Farben ───────────────────────────────── */
 
-const HILL = "#06150A"; /* Huegel-Gruen — Grund der Sektion */
-const SNOW = "#FFFDF6"; /* Schnee — Struktur */
-const RAIL = "#4C7DFF"; /* helles Ultramarin — Fluss, Belege */
-const ORANGE = "#E8641F"; /* aktive Saeule, Warnung */
+const SKY = "#0C4BC3"; /* Himmel, Grund der Buehne */
+const SKY_DEEP = "#0A3EA6"; /* Tiefen-Ultramarin */
+const SNOW = "#FFFDF6"; /* Schnee */
+const ORANGE = "#E8641F"; /* Berg-Orange */
+const HILL = "#0B3D1C"; /* Huegel-Gruen, Sockel */
 
 /* ── Inhalt ─────────────────────────────────────────────────────── */
 
@@ -36,42 +37,224 @@ export type Saeule = {
   without: string;
 };
 
-/* Tragfaehigkeit — feste Werte, keine Formel.
-   Index = Anzahl der stehenden Saeulen. */
+/* Tragfaehigkeit — feste Werte. Index = Anzahl stehender Saeulen. */
 const TRAGKRAFT = [0, 25, 55, 100];
 
 /* ── Bauplan: relative Hoehen und Breiten der Bausteine ─────────── */
 
 const BAUPLAN: { hoehen: number[]; breiten: number[] }[] = [
   {
-    hoehen: [1.12, 1.0, 0.95, 1.02, 0.9, 1.01],
-    breiten: [1.74, 1.62, 1.66, 1.5, 1.58, 1.42],
+    hoehen: [1.14, 1.0, 0.96, 1.02, 0.9, 1.0],
+    breiten: [1.86, 1.72, 1.76, 1.6, 1.68, 1.5],
   },
   {
     hoehen: [1.06, 0.96, 1.0, 0.92, 1.04, 0.96, 1.06],
-    breiten: [1.8, 1.68, 1.58, 1.64, 1.5, 1.56, 1.44],
+    breiten: [1.92, 1.8, 1.7, 1.76, 1.62, 1.68, 1.54],
   },
   {
     hoehen: [1.0, 1.08, 0.94, 1.04, 0.96, 0.98],
-    breiten: [1.72, 1.58, 1.64, 1.5, 1.56, 1.4],
+    breiten: [1.84, 1.7, 1.76, 1.62, 1.68, 1.52],
   },
 ];
 
-const SAEULEN_X = [-3.45, 0, 3.45];
-const BODEN = 0.05;
-const BAU_HOEHE = 3.95; /* gesamte Stapelhoehe inklusive Fugen */
-const FUGE = 0.06;
-const DACH_DICKE = 0.34;
-const DACH_Y = BODEN + BAU_HOEHE + DACH_DICKE / 2 + 0.03;
-const DACH_SPANNE = 9.9;
-const DACH_FALL = 3.1; /* Absenkung, wenn eine Seite ohne Stuetze ist */
-const FUNKEN_JE_SAEULE = 6;
+const SAEULEN_X = [-3.55, 0, 3.55];
+const SOCKEL_H = 0.55;
+const SOCKEL_B = 11.6;
+const SOCKEL_T = 3.3;
+const BAU_HOEHE = 4.05;
+const FUGE = 0.045;
+const TRAEGER_DICKE = 0.44;
+const TRAEGER_SPANNE = 10.4;
+const TRAEGER_TIEFE = 2.1;
+const TRAEGER_Y = BAU_HOEHE + 0.14 + TRAEGER_DICKE / 2;
+const TRAEGER_FALL = 3.2; /* Absenkung, wenn eine Seite ohne Stuetze ist */
+const FUNKEN_JE_SAEULE = 30;
 
-const KAM_Y = 2.95;
-const KAM_Z = 12.4;
+const KAM_Y = 2.45;
+const KAM_Z = 13.7;
+const BLICK_Y = 1.9;
 const PARALLAXE = KAM_Z * 0.04; /* Zeiger bewegt die Kamera um ± 4 % */
+const RASTER_CSS = 5.4; /* Punktabstand des Halbtons in CSS-Pixeln */
 
-/* ── Zustandswunsch, den die Szene jeden Frame liest ─────────────── */
+/* ================================================================
+   GLSL
+   ================================================================ */
+
+/* Gemeinsame Riso-Werkzeuge: Rauschen, Punktraster, Bayer-Schwelle
+   und die Quantisierung, die beide zusammenfuehrt. */
+const GLSL_RISO = `
+float sstHash(vec2 p){
+  vec3 q = fract(vec3(p.xyx) * 0.1031);
+  q += dot(q, q.yzx + 33.33);
+  return fract((q.x + q.y) * q.z);
+}
+float sstBayer2(vec2 a){
+  a = floor(a);
+  return fract(a.x * 0.5 + a.y * a.y * 0.75);
+}
+float sstBayer4(vec2 a){
+  return sstBayer2(a * 0.5) * 0.25 + sstBayer2(a);
+}
+float sstPunkt(vec2 fc, float weite){
+  float c = 0.70710678;
+  vec2 p = vec2(fc.x * c - fc.y * c, fc.x * c + fc.y * c) * weite;
+  return sin(p.x) * sin(p.y) * 0.5 + 0.5;
+}
+float sstSchwelle(vec2 fc, float weite){
+  return mix(sstPunkt(fc, weite), sstBayer4(fc), 0.34);
+}
+float sstStufe(float v, float stufen, vec2 fc, float weite){
+  float f = clamp(v, 0.0, 1.0) * stufen;
+  float b = floor(f);
+  float r = f - b;
+  b += step(sstSchwelle(fc, weite), r);
+  return clamp(b / stufen, 0.0, 1.0);
+}
+`;
+
+const VERT_KOERPER = `
+varying vec3 vNormale;
+varying vec3 vBlick;
+void main(){
+  vNormale = normalize(mat3(modelMatrix) * normal);
+  vec4 welt = modelMatrix * vec4(position, 1.0);
+  vBlick = cameraPosition - welt.xyz;
+  gl_Position = projectionMatrix * viewMatrix * welt;
+}
+`;
+
+const FRAG_KOERPER = `
+uniform vec3 uTief;
+uniform vec3 uMitte;
+uniform vec3 uHell;
+uniform vec3 uSpitze;
+uniform vec3 uAkzent;
+uniform vec3 uLicht;
+uniform vec2 uVersatz;
+uniform float uKante;
+uniform float uRaster;
+uniform float uKorn;
+varying vec3 vNormale;
+varying vec3 vBlick;
+${GLSL_RISO}
+vec3 sstDruck(vec2 fc, float lum, float kante){
+  float q = sstStufe(lum, 3.0, fc, uRaster);
+  vec3 c = mix(uTief, uMitte, step(0.2, q));
+  c = mix(c, uHell, step(0.5, q));
+  c = mix(c, uSpitze, step(0.83, q));
+  float k = sstStufe(kante, 2.0, fc + vec2(23.0, 9.0), uRaster * 1.4);
+  return mix(c, uAkzent, k * uKante);
+}
+void main(){
+  vec3 n = normalize(vNormale);
+  vec3 b = normalize(vBlick);
+  float lum = dot(n, normalize(uLicht)) * 0.5 + 0.5;
+  lum = lum * 1.3 - 0.16;
+  float kante = pow(1.0 - abs(dot(n, b)), 2.6);
+  vec2 fc = gl_FragCoord.xy;
+  /* Fehldruck: der rote Kanal sitzt einen Hauch daneben */
+  vec3 a = sstDruck(fc + uVersatz, lum + 0.01, kante);
+  vec3 c = sstDruck(fc, lum, kante);
+  vec3 farbe = mix(c, vec3(a.r, c.g, c.b), 0.5);
+  farbe = mix(farbe, uTief, sstHash(fc) * uKorn);
+  gl_FragColor = vec4(farbe, 1.0);
+}
+`;
+
+const VERT_QUAD = `
+void main(){
+  gl_Position = vec4(position.xy, 1.0, 1.0);
+}
+`;
+
+const FRAG_HIMMEL = `
+uniform vec2 uAufloesung;
+uniform vec3 uHimmel;
+uniform vec3 uTief;
+uniform float uRaster;
+${GLSL_RISO}
+void main(){
+  vec2 fc = gl_FragCoord.xy;
+  float y = fc.y / max(1.0, uAufloesung.y);
+  float q = sstStufe(0.56 + y * 0.56, 2.0, fc, uRaster * 0.72);
+  vec3 c = mix(uTief, uHimmel, q);
+  c = mix(c, uTief, sstHash(fc * 1.7) * 0.09);
+  gl_FragColor = vec4(c, 1.0);
+}
+`;
+
+const VERT_SONNE = `
+varying vec2 vUv;
+void main(){
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+const FRAG_SONNE = `
+uniform vec3 uSonne;
+uniform vec3 uSchnee;
+uniform vec3 uTief;
+uniform float uRaster;
+varying vec2 vUv;
+${GLSL_RISO}
+void main(){
+  vec2 p = vUv * 2.0 - 1.0;
+  float d = length(p);
+  vec2 fc = gl_FragCoord.xy;
+  float s = sstSchwelle(fc, uRaster * 0.82);
+  if (d > 1.0 - 0.28 * s) discard;
+  float h = sstStufe(0.44 + p.y * 0.46 + p.x * 0.08, 3.0, fc, uRaster);
+  vec3 c = uSonne;
+  c = mix(c, uSchnee, step(0.83, h));
+  c = mix(uTief, c, step(0.17, h));
+  c = mix(c, uTief, sstHash(fc) * 0.07);
+  gl_FragColor = vec4(c, 1.0);
+}
+`;
+
+const VERT_FUNKEN = `
+attribute float aT;
+attribute float aTempo;
+attribute float aWinkel;
+attribute float aRadius;
+uniform float uZeit;
+uniform float uBasis;
+uniform float uHoehe;
+uniform float uGroesse;
+uniform float uDpr;
+uniform float uStand;
+varying float vT;
+void main(){
+  float t = fract(aT + uZeit * aTempo);
+  float w = aWinkel + t * 1.6;
+  vec3 p = vec3(cos(w) * aRadius, uBasis + t * uHoehe, sin(w) * aRadius);
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  gl_Position = projectionMatrix * mv;
+  gl_PointSize = uGroesse * uDpr * uStand * (14.0 / max(0.8, -mv.z));
+  vT = t;
+}
+`;
+
+const FRAG_FUNKEN = `
+uniform vec3 uSchnee;
+uniform vec3 uAkzent;
+uniform float uStand;
+varying float vT;
+void main(){
+  vec2 p = gl_PointCoord * 2.0 - 1.0;
+  float d = dot(p, p);
+  if (d > 0.86) discard;
+  float a = uStand * (1.0 - vT * 0.5);
+  if (a < 0.06) discard;
+  vec3 c = mix(uSchnee, uAkzent, smoothstep(0.3, 0.95, vT));
+  gl_FragColor = vec4(c, a);
+}
+`;
+
+/* ================================================================
+   Zustand, den die Szene jeden Frame liest
+   ================================================================ */
 
 type Wunsch = { an: boolean[]; aktiv: number };
 
@@ -81,19 +264,23 @@ type SzenenApi = {
 };
 
 type Baustein = {
-  mesh: ThreeNS.LineSegments;
+  mesh: ThreeNS.Mesh;
+  x0: number;
   y0: number;
+  ry0: number;
+  ruheY: number;
   kipp: number;
+  neige: number;
   dx: number;
   dz: number;
-  dy: number;
-  phase: number;
+  start: number;
 };
 
 type SaeuleObjekt = {
   gruppe: ThreeNS.Group;
   bausteine: Baustein[];
-  mat: ThreeNS.LineBasicMaterial;
+  mat: ThreeNS.ShaderMaterial;
+  funken: ThreeNS.ShaderMaterial;
 };
 
 /* Gedaempftes Annaehern — rahmenratenunabhaengig */
@@ -123,11 +310,12 @@ export function SaeulenStudio({
   const apiRef = useRef<SzenenApi | null>(null);
   const imBildRef = useRef(false);
   const zeigerRef = useRef({ x: 0, y: 0 });
-  const waehleRef = useRef<(i: number) => void>(() => {});
+  const hoverRef = useRef(-1);
+  const schaltenRef = useRef<(i: number) => void>(() => {});
 
+  const sichtbare = saeulen.slice(0, 3);
   const stehend = an.filter(Boolean).length;
   const tragkraft = TRAGKRAFT[stehend] ?? 0;
-
   const aktiveSaeule = saeulen[aktiv] ?? saeulen[0];
 
   /* Zuletzt abgeschaltete Saeule, die noch aus ist */
@@ -170,7 +358,7 @@ export function SaeulenStudio({
         setImBild(sichtbar);
         if (sichtbar) setBereit(true);
       },
-      { rootMargin: "120px 0px", threshold: 0.01 }
+      { rootMargin: "140px 0px", threshold: 0.01 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -186,12 +374,8 @@ export function SaeulenStudio({
     apiRef.current?.setLaufend(imBild);
   }, [imBild]);
 
-  useEffect(() => {
-    waehleRef.current = (i: number) => setAktiv(i);
-  }, []);
-
   /* ============================================================
-     THREE.JS — reine Wireframe-Buehne
+     THREE.JS — Riso-Buehne
      ============================================================ */
 
   useEffect(() => {
@@ -223,113 +407,136 @@ export function SaeulenStudio({
 
       let breite = Math.max(1, host.clientWidth);
       let hoehe = Math.max(1, host.clientHeight);
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(dpr);
       renderer.setSize(breite, hoehe, false);
+      renderer.setClearColor(new THREE.Color(SKY), 1);
       renderer.domElement.style.display = "block";
       renderer.domElement.style.width = "100%";
       renderer.domElement.style.height = "100%";
       host.appendChild(renderer.domElement);
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(HILL);
-      scene.fog = new THREE.Fog(HILL, 14, 30);
+      scene.background = new THREE.Color(SKY);
 
-      const camera = new THREE.PerspectiveCamera(34, breite / hoehe, 0.1, 120);
+      const camera = new THREE.PerspectiveCamera(33, breite / hoehe, 0.1, 160);
       camera.position.set(0, KAM_Y, KAM_Z);
 
-      /* Die Buehne steht einen Hauch schraeg — nur so viel, dass die
-         Quader als Koerper lesbar werden */
       const welt = new THREE.Group();
-      welt.rotation.y = -0.14;
-      welt.position.y = -0.55;
+      welt.rotation.y = -0.15;
       scene.add(welt);
 
-      const cSnow = new THREE.Color(SNOW);
-      const cOrange = new THREE.Color(ORANGE);
+      /* ── Farben als rohe sRGB-Werte: der Shader schreibt sie
+         unveraendert in den Puffer, die Flaechen bleiben exakt ── */
+      const farbe = (hex: string) => {
+        const n = parseInt(hex.slice(1), 16);
+        return new THREE.Vector3(
+          ((n >> 16) & 255) / 255,
+          ((n >> 8) & 255) / 255,
+          (n & 255) / 255
+        );
+      };
+      const mischung = (a: ThreeNS.Vector3, b: ThreeNS.Vector3, t: number) =>
+        a.clone().lerp(b, t);
 
-      /* ── Materialien ───────────────────────────────────────────── */
-      const matRaster = new THREE.LineBasicMaterial({
-        color: SNOW,
-        transparent: true,
-        opacity: 0.1,
-      });
-      const matRahmen = new THREE.LineBasicMaterial({
-        color: SNOW,
-        transparent: true,
-        opacity: 0.28,
-      });
-      const matDach = new THREE.LineBasicMaterial({
-        color: SNOW,
-        transparent: true,
-        opacity: 0.66,
-      });
-      const matFachwerk = new THREE.LineBasicMaterial({
-        color: SNOW,
-        transparent: true,
-        opacity: 0.3,
-      });
-      const matFluss = new THREE.LineBasicMaterial({
-        color: RAIL,
-        transparent: true,
-        opacity: 0.85,
-      });
-      const matUmsatz = new THREE.LineBasicMaterial({
-        color: RAIL,
-        transparent: true,
-        opacity: 0.7,
-      });
-      mats.push(
-        matRaster,
-        matRahmen,
-        matDach,
-        matFachwerk,
-        matFluss,
-        matUmsatz
-      );
+      const cSky = farbe(SKY);
+      const cDeep = farbe(SKY_DEEP);
+      const cSnow = farbe(SNOW);
+      const cOrange = farbe(ORANGE);
+      const cHill = farbe(HILL);
 
-      /* ── Helfer ────────────────────────────────────────────────── */
-      const kanten = (
-        quelle: ThreeNS.BufferGeometry,
-        mat: ThreeNS.LineBasicMaterial
+      /* Zwischentoene entstehen ausschliesslich aus diesen fuenf */
+      const cDeepSky = mischung(cDeep, cSky, 0.55);
+      const cHillHell = mischung(cHill, cSnow, 0.2);
+
+      let rasterWeite = (Math.PI * 2) / (RASTER_CSS * dpr);
+
+      /* ── Materialbau ───────────────────────────────────────────── */
+      const koerperMaterial = (
+        tief: ThreeNS.Vector3,
+        mitte: ThreeNS.Vector3,
+        hell: ThreeNS.Vector3,
+        spitze: ThreeNS.Vector3,
+        kante: number,
+        korn: number
       ) => {
-        const eg = new THREE.EdgesGeometry(quelle, 1);
-        quelle.dispose();
-        geos.push(eg);
-        return new THREE.LineSegments(eg, mat);
+        const m = new THREE.ShaderMaterial({
+          vertexShader: VERT_KOERPER,
+          fragmentShader: FRAG_KOERPER,
+          uniforms: {
+            uTief: { value: tief.clone() },
+            uMitte: { value: mitte.clone() },
+            uHell: { value: hell.clone() },
+            uSpitze: { value: spitze.clone() },
+            uAkzent: { value: cOrange.clone() },
+            uLicht: { value: new THREE.Vector3(-0.22, 0.86, 0.52) },
+            uVersatz: { value: new THREE.Vector2(0.8 * dpr, -0.6 * dpr) },
+            uKante: { value: kante },
+            uRaster: { value: rasterWeite },
+            uKorn: { value: korn },
+          },
+        });
+        mats.push(m);
+        return m;
       };
 
-      const linie = (punkte: number[], mat: ThreeNS.LineBasicMaterial) => {
-        const g = new THREE.BufferGeometry();
-        g.setAttribute("position", new THREE.Float32BufferAttribute(punkte, 3));
-        geos.push(g);
-        return new THREE.Line(g, mat);
-      };
+      /* ── Himmel: Vollbild-Quad, flach und gerastert ────────────── */
+      const himmelGeo = new THREE.PlaneGeometry(2, 2);
+      geos.push(himmelGeo);
+      const matHimmel = new THREE.ShaderMaterial({
+        vertexShader: VERT_QUAD,
+        fragmentShader: FRAG_HIMMEL,
+        uniforms: {
+          uAufloesung: {
+            value: new THREE.Vector2(breite * dpr, hoehe * dpr),
+          },
+          uHimmel: { value: cSky.clone() },
+          uTief: { value: cDeep.clone() },
+          uRaster: { value: rasterWeite },
+        },
+        depthTest: false,
+        depthWrite: false,
+      });
+      mats.push(matHimmel);
+      const himmel = new THREE.Mesh(himmelGeo, matHimmel);
+      himmel.frustumCulled = false;
+      himmel.renderOrder = -10;
+      scene.add(himmel);
 
-      /* ── Fundament: duennes Raster plus Rahmen ─────────────────── */
-      const gx = 5.6;
-      const gz = 1.75;
-      const raster: number[] = [];
-      for (let x = -gx; x <= gx + 0.001; x += 0.8) {
-        raster.push(x, 0, -gz, x, 0, gz);
-      }
-      for (let z = -gz; z <= gz + 0.001; z += 0.7) {
-        raster.push(-gx, 0, z, gx, 0, z);
-      }
-      const rasterGeo = new THREE.BufferGeometry();
-      rasterGeo.setAttribute(
-        "position",
-        new THREE.Float32BufferAttribute(raster, 3)
-      );
-      geos.push(rasterGeo);
-      welt.add(new THREE.LineSegments(rasterGeo, matRaster));
+      /* ── Sonnenscheibe: zitiert den Berg des Hero ──────────────── */
+      const sonneGeo = new THREE.PlaneGeometry(6.2, 6.2);
+      geos.push(sonneGeo);
+      const matSonne = new THREE.ShaderMaterial({
+        vertexShader: VERT_SONNE,
+        fragmentShader: FRAG_SONNE,
+        uniforms: {
+          uSonne: { value: cOrange.clone() },
+          uSchnee: { value: cSnow.clone() },
+          uTief: { value: cDeep.clone() },
+          uRaster: { value: rasterWeite },
+        },
+        side: THREE.DoubleSide,
+      });
+      mats.push(matSonne);
+      const sonne = new THREE.Mesh(sonneGeo, matSonne);
+      sonne.position.set(1.55, 4.25, -7.0);
+      welt.add(sonne);
 
-      welt.add(
-        linie(
-          [-gx, 0, -gz, gx, 0, -gz, gx, 0, gz, -gx, 0, gz, -gx, 0, -gz],
-          matRahmen
-        )
+      /* ── Sockelstreifen ────────────────────────────────────────── */
+      const sockelGeo = new THREE.BoxGeometry(SOCKEL_B, SOCKEL_H, SOCKEL_T);
+      geos.push(sockelGeo);
+      const matSockel = koerperMaterial(
+        cDeep,
+        cHill,
+        cHill,
+        cHillHell,
+        0.14,
+        0.1
       );
+      const sockel = new THREE.Mesh(sockelGeo, matSockel);
+      sockel.position.y = -SOCKEL_H / 2;
+      welt.add(sockel);
 
       /* ── Die drei Saeulen ──────────────────────────────────────── */
       const saeulen3d: SaeuleObjekt[] = [];
@@ -341,45 +548,104 @@ export function SaeulenStudio({
         const summe = plan.hoehen.reduce((a, b) => a + b, 0);
         const nutzhoehe = BAU_HOEHE - FUGE * (anzahl - 1);
 
-        const mat = new THREE.LineBasicMaterial({
-          color: SNOW,
-          transparent: true,
-          opacity: 0.74,
-        });
-        mats.push(mat);
+        const mat = koerperMaterial(cDeep, cSky, cSnow, cSnow, 0.55, 0.11);
 
         const gruppe = new THREE.Group();
         gruppe.position.x = SAEULEN_X[s];
         welt.add(gruppe);
 
         const bausteine: Baustein[] = [];
-        let y = BODEN;
+        let y = 0;
 
         for (let i = 0; i < anzahl; i += 1) {
           const h = (plan.hoehen[i] / summe) * nutzhoehe;
           const b = plan.breiten[i];
-          const mesh = kanten(new THREE.BoxGeometry(b, h, b * 0.74), mat);
+          const geo = new THREE.BoxGeometry(b, h, b * 0.78);
+          geos.push(geo);
+          const mesh = new THREE.Mesh(geo, mat);
+
+          /* leicht gegeneinander versetzt gestapelt */
+          const seite = i % 2 === 0 ? 1 : -1;
+          const x0 = seite * (0.05 + (i % 3) * 0.026);
+          const ry0 = seite * 0.055;
           const yc = y + h / 2;
-          mesh.position.y = yc;
+          mesh.position.set(x0, yc, 0);
+          mesh.rotation.y = ry0;
           gruppe.add(mesh);
 
-          const seite = i % 2 === 0 ? 1 : -1;
           const anteil = (i + 1) / anzahl;
           bausteine.push({
             mesh,
+            x0,
             y0: yc,
-            kipp: seite * (0.14 + anteil * 0.52),
-            dx: seite * (0.22 + anteil * 1.05),
-            dz: (i % 3 === 0 ? 0.3 : -0.24) * anteil,
-            dy: 0.1 + anteil * 0.3,
-            phase: i * 0.72 + s * 1.35,
+            ry0,
+            ruheY: h / 2 + 0.02 + (i % 3) * 0.05,
+            kipp: seite * (0.5 + anteil * 0.82),
+            neige: (i % 3 === 0 ? 0.22 : -0.18) * anteil,
+            dx: seite * (0.4 + anteil * 1.65),
+            dz: (i % 3 === 0 ? 0.46 : -0.36) * (0.5 + anteil),
+            /* Die oberen Bausteine loesen sich zuerst */
+            start: 0.4 * (1 - i / Math.max(1, anzahl - 1)),
           });
 
           y += h + FUGE;
         }
 
+        /* Funkenstrom — steigt an der Saeule hoch in den Traeger */
+        const anzahlF = FUNKEN_JE_SAEULE;
+        const posF = new Float32Array(anzahlF * 3);
+        const aT = new Float32Array(anzahlF);
+        const aTempo = new Float32Array(anzahlF);
+        const aWinkel = new Float32Array(anzahlF);
+        const aRadius = new Float32Array(anzahlF);
+        for (let j = 0; j < anzahlF; j += 1) {
+          aT[j] = j / anzahlF;
+          aTempo[j] = 0.16 + ((j + s) % 5) * 0.035;
+          aWinkel[j] = (j * 2.399 + s * 1.1) % (Math.PI * 2);
+          aRadius[j] = 1.08 + ((j + s * 2) % 4) * 0.17;
+        }
+        const funkenGeo = new THREE.BufferGeometry();
+        funkenGeo.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posF, 3)
+        );
+        funkenGeo.setAttribute("aT", new THREE.BufferAttribute(aT, 1));
+        funkenGeo.setAttribute("aTempo", new THREE.BufferAttribute(aTempo, 1));
+        funkenGeo.setAttribute(
+          "aWinkel",
+          new THREE.BufferAttribute(aWinkel, 1)
+        );
+        funkenGeo.setAttribute(
+          "aRadius",
+          new THREE.BufferAttribute(aRadius, 1)
+        );
+        geos.push(funkenGeo);
+
+        const matFunken = new THREE.ShaderMaterial({
+          vertexShader: VERT_FUNKEN,
+          fragmentShader: FRAG_FUNKEN,
+          uniforms: {
+            uZeit: { value: 0 },
+            uBasis: { value: 0.12 },
+            uHoehe: { value: BAU_HOEHE + 0.3 },
+            uGroesse: { value: 5.4 },
+            uDpr: { value: dpr },
+            uStand: { value: 1 },
+            uSchnee: { value: cSnow.clone() },
+            uAkzent: { value: cOrange.clone() },
+          },
+          transparent: true,
+          depthWrite: false,
+        });
+        mats.push(matFunken);
+        const funken = new THREE.Points(funkenGeo, matFunken);
+        funken.frustumCulled = false;
+        funken.renderOrder = 4;
+        funken.position.x = SAEULEN_X[s];
+        welt.add(funken);
+
         /* Unsichtbare Hitbox — nur fuer den Raycaster */
-        const hitGeo = new THREE.BoxGeometry(2.3, BAU_HOEHE + 0.5, 1.9);
+        const hitGeo = new THREE.BoxGeometry(2.5, BAU_HOEHE + 0.4, 2.1);
         geos.push(hitGeo);
         const hitMat = new THREE.MeshBasicMaterial({
           transparent: true,
@@ -389,79 +655,55 @@ export function SaeulenStudio({
         mats.push(hitMat);
         const hit = new THREE.Mesh(hitGeo, hitMat);
         hit.visible = false;
-        hit.position.set(SAEULEN_X[s], BODEN + BAU_HOEHE / 2, 0);
+        hit.position.set(SAEULEN_X[s], BAU_HOEHE / 2, 0);
         hit.userData.index = s;
         welt.add(hit);
         hitboxen.push(hit);
 
-        saeulen3d.push({ gruppe, bausteine, mat });
+        saeulen3d.push({ gruppe, bausteine, mat, funken: matFunken });
       }
 
-      /* ── Traeger: der Umsatz liegt auf den drei Saeulen ────────── */
-      const dach = new THREE.Group();
-      dach.position.y = DACH_Y;
-      welt.add(dach);
+      /* ── Traeger ───────────────────────────────────────────────── */
+      const traeger = new THREE.Group();
+      traeger.position.y = TRAEGER_Y;
+      welt.add(traeger);
 
-      dach.add(
-        kanten(
-          new THREE.BoxGeometry(DACH_SPANNE, DACH_DICKE, 2.0),
-          matDach
-        )
+      const matTraeger = koerperMaterial(cDeep, cSky, cSnow, cSnow, 0.3, 0.11);
+
+      const traegerGeo = new THREE.BoxGeometry(
+        TRAEGER_SPANNE,
+        TRAEGER_DICKE,
+        TRAEGER_TIEFE
       );
+      geos.push(traegerGeo);
+      traeger.add(new THREE.Mesh(traegerGeo, matTraeger));
 
-      /* Untergurt plus Zickzack — der Traeger liest sich als Fachwerk */
-      const halb = DACH_SPANNE / 2 - 0.25;
-      const untenY = -DACH_DICKE / 2 - 0.42;
-      dach.add(linie([-halb, untenY, 0, halb, untenY, 0], matFachwerk));
-      const zickzack: number[] = [];
-      const felder = 12;
-      for (let i = 0; i <= felder; i += 1) {
-        const x = -halb + (i / felder) * (halb * 2);
-        zickzack.push(x, i % 2 === 0 ? -DACH_DICKE / 2 : untenY, 0);
+      const gurtGeo = new THREE.BoxGeometry(
+        TRAEGER_SPANNE - 1.1,
+        0.17,
+        TRAEGER_TIEFE - 0.55
+      );
+      geos.push(gurtGeo);
+      const gurt = new THREE.Mesh(gurtGeo, matTraeger);
+      gurt.position.y = -TRAEGER_DICKE / 2 - 0.36;
+      traeger.add(gurt);
+
+      /* Drei Stege verbinden Gurt und Traeger — der Umsatz haengt dran */
+      for (let i = -1; i <= 1; i += 1) {
+        const stegGeo = new THREE.BoxGeometry(0.19, 0.42, 0.4);
+        geos.push(stegGeo);
+        const steg = new THREE.Mesh(stegGeo, matTraeger);
+        steg.position.set(i * 3.4, -TRAEGER_DICKE / 2 - 0.2, 0);
+        traeger.add(steg);
       }
-      dach.add(linie(zickzack, matFachwerk));
-
-      /* Umsatz-Balken auf dem Traeger — Laenge folgt der Tragfaehigkeit */
-      const umsatz = linie(
-        [-halb, DACH_DICKE / 2 + 0.05, 0, halb, DACH_DICKE / 2 + 0.05, 0],
-        matUmsatz
-      );
-      dach.add(umsatz);
-
-      /* ── Funkenfluss: kurze Striche laufen die Saeulen hoch ────── */
-      const funkenAnzahl = 3 * FUNKEN_JE_SAEULE;
-      const funkenPos = new Float32Array(funkenAnzahl * 6);
-      const funkenGeo = new THREE.BufferGeometry();
-      funkenGeo.setAttribute(
-        "position",
-        new THREE.BufferAttribute(funkenPos, 3)
-      );
-      geos.push(funkenGeo);
-      welt.add(new THREE.LineSegments(funkenGeo, matFluss));
-
-      const funkenT = new Float32Array(funkenAnzahl);
-      const funkenTempo = new Float32Array(funkenAnzahl);
-      const funkenOx = new Float32Array(funkenAnzahl);
-      const funkenOz = new Float32Array(funkenAnzahl);
-      for (let s = 0; s < 3; s += 1) {
-        for (let j = 0; j < FUNKEN_JE_SAEULE; j += 1) {
-          const k = s * FUNKEN_JE_SAEULE + j;
-          funkenT[k] = j / FUNKEN_JE_SAEULE;
-          funkenTempo[k] = 0.28 + ((j + s) % 3) * 0.05;
-          funkenOx[k] = (j % 2 === 0 ? 1 : -1) * (0.52 + (j % 3) * 0.09);
-          funkenOz[k] = (j % 3 === 0 ? 0.44 : -0.4) * 0.9;
-        }
-      }
-      const funkenAttr = funkenGeo.getAttribute(
-        "position"
-      ) as ThreeNS.BufferAttribute;
 
       /* ── Laufende Werte ────────────────────────────────────────── */
-      const stand = [1, 1, 1];
+      const fall = [0, 0, 0];
+      const fallV = [0, 0, 0];
       const aktivWert = [1, 0, 0];
-      let dachY = DACH_Y;
-      let dachKipp = 0;
-      let umsatzAnteil = 1;
+      const hoverWert = [0, 0, 0];
+      let traegerY = TRAEGER_Y;
+      let traegerKipp = 0;
       let camX = 0;
       let camY = KAM_Y;
       let camZ = KAM_Z;
@@ -469,105 +711,99 @@ export function SaeulenStudio({
 
       const abstand = () => {
         const seite = breite / Math.max(1, hoehe);
-        const weite = seite < 1.55 ? Math.min(1.7, 1.55 / seite) : 1;
+        const weite = seite < 1.55 ? Math.min(1.3, 1.55 / seite) : 1;
         return KAM_Z * weite;
       };
 
       /* ── Ein Bild rechnen ──────────────────────────────────────── */
       const aktualisiere = (dt: number, sofort: boolean) => {
         const w = wunschRef.current;
+        const hov = sofort ? -1 : hoverRef.current;
 
         for (let s = 0; s < 3; s += 1) {
-          const zielStand = w.an[s] === false ? 0 : 1;
-          const zielAktiv = w.aktiv === s ? 1 : 0;
-          stand[s] = sofort
-            ? zielStand
-            : naehere(stand[s], zielStand, 4.2, dt);
-          aktivWert[s] = sofort
-            ? zielAktiv
-            : naehere(aktivWert[s], zielAktiv, 6.5, dt);
+          const ziel = w.an[s] === false ? 1 : 0;
 
-          const fall = 1 - stand[s];
-          const saeule = saeulen3d[s];
-
-          for (const b of saeule.bausteine) {
-            b.mesh.position.y = b.y0 - fall * (b.y0 * 0.62 + b.dy);
-            b.mesh.position.x = b.dx * fall;
-            b.mesh.position.z = b.dz * fall;
-            b.mesh.rotation.z = b.kipp * fall;
-            b.mesh.rotation.x = b.dz * fall * 0.6;
-            const puls = sofort
-              ? 0
-              : Math.sin(zeit * 1.5 + b.phase) *
-                (0.004 + aktivWert[s] * 0.014) *
-                stand[s];
-            b.mesh.scale.setScalar(1 + puls);
+          if (sofort) {
+            fall[s] = ziel;
+            fallV[s] = 0;
+          } else {
+            /* Gedaempfte Feder statt echter Physik */
+            fallV[s] += (ziel - fall[s]) * 30 * dt;
+            fallV[s] *= Math.exp(-7.6 * dt);
+            fall[s] = Math.min(1.14, Math.max(0, fall[s] + fallV[s] * dt));
           }
 
-          saeule.mat.color.copy(cSnow).lerp(cOrange, aktivWert[s]);
-          const atem = sofort ? 0 : Math.sin(zeit * 1.6 + s * 0.9) * 0.05;
-          saeule.mat.opacity = 0.24 + stand[s] * (0.5 + atem);
+          aktivWert[s] = sofort
+            ? w.aktiv === s
+              ? 1
+              : 0
+            : naehere(aktivWert[s], w.aktiv === s ? 1 : 0, 6.5, dt);
+          hoverWert[s] = sofort
+            ? 0
+            : naehere(hoverWert[s], hov === s ? 1 : 0, 8, dt);
+
+          const saeule = saeulen3d[s];
+          const stand = Math.max(0, 1 - Math.min(1, fall[s]));
+
+          for (const b of saeule.bausteine) {
+            const spanne = Math.max(0.001, 1 - b.start);
+            const lokal = Math.min(1, Math.max(0, (fall[s] - b.start) / spanne));
+            const senken = lokal * lokal;
+            b.mesh.position.y = b.y0 + (b.ruheY - b.y0) * senken;
+            b.mesh.position.x = b.x0 + b.dx * lokal;
+            b.mesh.position.z = b.dz * lokal;
+            b.mesh.rotation.z = b.kipp * lokal;
+            b.mesh.rotation.x = b.neige * lokal;
+            b.mesh.rotation.y = b.ry0 + b.dz * lokal * 0.6;
+          }
+
+          /* Atmen der aktiven Saeule, minimales Heben beim Hover */
+          const atem = sofort
+            ? 0
+            : aktivWert[s] * 0.015 * (1 + Math.sin(zeit * 1.5 + s * 0.8));
+          saeule.gruppe.scale.setScalar(1 + atem * stand);
+          saeule.gruppe.position.y = hoverWert[s] * 0.06 * stand;
+
+          /* Palette der Saeule: Schnee im Stand, stumpfes Ultramarin
+             im Fall — beides aus derselben Fuenf-Farben-Kiste */
+          const u = saeule.mat.uniforms;
+          u.uMitte.value.copy(cDeep).lerp(cSky, stand);
+          u.uHell.value.copy(cDeepSky).lerp(cSnow, stand);
+          u.uSpitze.value.copy(cSky).lerp(cSnow, stand);
+          u.uKante.value = 0.55 * stand + aktivWert[s] * 0.45;
+
+          saeule.funken.uniforms.uStand.value = Math.max(
+            0,
+            stand * 1.25 - 0.25
+          );
+          saeule.funken.uniforms.uZeit.value = zeit;
         }
 
         /* Der Traeger sackt dort ab, wo die Stuetze fehlt */
-        const stuetzeL = Math.min(1, stand[0] + 0.35 * stand[1]);
-        const stuetzeR = Math.min(1, stand[2] + 0.35 * stand[1]);
-        const yL = DACH_Y - (1 - stuetzeL) * DACH_FALL;
-        const yR = DACH_Y - (1 - stuetzeR) * DACH_FALL;
-        const gesamt = (stand[0] + stand[1] + stand[2]) / 3;
-        let zielY = (yL + yR) / 2;
-        let zielKipp = Math.atan2(yR - yL, DACH_SPANNE);
+        const st0 = Math.max(0, 1 - Math.min(1, fall[0]));
+        const st1 = Math.max(0, 1 - Math.min(1, fall[1]));
+        const st2 = Math.max(0, 1 - Math.min(1, fall[2]));
+        const stuetzeL = Math.min(1, st0 + 0.38 * st1);
+        const stuetzeR = Math.min(1, st2 + 0.38 * st1);
+        const gesamt = (st0 + st1 + st2) / 3;
+        const yL = TRAEGER_Y - (1 - stuetzeL) * TRAEGER_FALL;
+        const yR = TRAEGER_Y - (1 - stuetzeR) * TRAEGER_FALL;
+        let zielY = (yL + yR) / 2 - (1 - st1) * 0.42;
+        let zielKipp = Math.atan2(yR - yL, TRAEGER_SPANNE);
         if (!sofort) {
-          /* Was nicht ganz getragen wird, wankt — am staerksten, wenn
-             der Traeger nur noch auf der Mitte balanciert */
-          const wanken = Math.min(
-            1,
-            1 - gesamt + (1 - Math.max(stand[0], stand[2])) * 0.5
-          );
-          zielKipp += Math.sin(zeit * 0.85) * 0.06 * wanken;
-          zielY += Math.sin(zeit * 1.15) * 0.08 * wanken;
+          const wanken = Math.min(1, 1 - gesamt + (1 - Math.max(st0, st2)) * 0.5);
+          zielKipp += Math.sin(zeit * 0.85) * 0.045 * wanken;
+          zielY += Math.sin(zeit * 1.15) * 0.07 * wanken;
         }
-        dachY = sofort ? zielY : naehere(dachY, zielY, 3.4, dt);
-        dachKipp = sofort ? zielKipp : naehere(dachKipp, zielKipp, 3.4, dt);
-        dach.position.y = dachY;
-        dach.rotation.z = dachKipp;
+        traegerY = sofort ? zielY : naehere(traegerY, zielY, 3.4, dt);
+        traegerKipp = sofort ? zielKipp : naehere(traegerKipp, zielKipp, 3.4, dt);
+        traeger.position.y = traegerY;
+        traeger.rotation.z = traegerKipp;
 
-        matDach.color.copy(cSnow).lerp(cOrange, (1 - gesamt) * 0.9);
-        matDach.opacity = 0.44 + gesamt * 0.24;
-        matFachwerk.opacity = 0.16 + gesamt * 0.16;
-
-        umsatzAnteil = sofort
-          ? gesamt
-          : naehere(umsatzAnteil, gesamt, 3.4, dt);
-        umsatz.scale.x = Math.max(0.001, umsatzAnteil);
-        matUmsatz.opacity = 0.18 + umsatzAnteil * 0.62;
-
-        /* Funken — nur an stehenden Saeulen, nie im Ruhebild */
-        for (let s = 0; s < 3; s += 1) {
-          const laeuft = !sofort && stand[s] > 0.6;
-          for (let j = 0; j < FUNKEN_JE_SAEULE; j += 1) {
-            const k = s * FUNKEN_JE_SAEULE + j;
-            const o = k * 6;
-            if (!laeuft) {
-              for (let q = 0; q < 6; q += 1) funkenPos[o + q] = 0;
-              continue;
-            }
-            funkenT[k] += funkenTempo[k] * dt;
-            if (funkenT[k] > 1) funkenT[k] -= 1;
-            const t = funkenT[k];
-            const x = SAEULEN_X[s] + funkenOx[k];
-            const z = funkenOz[k];
-            const y1 = BODEN + t * (BAU_HOEHE - 0.28);
-            const y2 = y1 + 0.26 * (1 - t * 0.55);
-            funkenPos[o] = x;
-            funkenPos[o + 1] = y1;
-            funkenPos[o + 2] = z;
-            funkenPos[o + 3] = x;
-            funkenPos[o + 4] = y2;
-            funkenPos[o + 5] = z;
-          }
-        }
-        funkenAttr.needsUpdate = true;
+        const tu = matTraeger.uniforms;
+        tu.uKante.value = 0.24 + (1 - gesamt) * 0.62;
+        tu.uHell.value.copy(cDeepSky).lerp(cSnow, 0.42 + gesamt * 0.58);
+        tu.uSpitze.value.copy(cSky).lerp(cSnow, 0.35 + gesamt * 0.65);
 
         /* Kamera: sanfte Drift plus Zeiger-Parallaxe */
         const zZiel = abstand();
@@ -577,15 +813,15 @@ export function SaeulenStudio({
           camZ = zZiel;
         } else {
           const xZiel =
-            zeigerRef.current.x * PARALLAXE + Math.sin(zeit * 0.15) * 0.3;
+            zeigerRef.current.x * PARALLAXE + Math.sin(zeit * 0.15) * 0.32;
           const yZiel =
-            KAM_Y - zeigerRef.current.y * 0.28 + Math.sin(zeit * 0.11) * 0.14;
+            KAM_Y - zeigerRef.current.y * 0.3 + Math.sin(zeit * 0.11) * 0.15;
           camX = naehere(camX, xZiel, 2.2, dt);
           camY = naehere(camY, yZiel, 2.2, dt);
           camZ = naehere(camZ, zZiel, 3, dt);
         }
         camera.position.set(camX, camY, camZ);
-        camera.lookAt(0, 1.55, 0);
+        camera.lookAt(0, BLICK_Y, 0);
       };
 
       const statischesBild = () => {
@@ -628,12 +864,27 @@ export function SaeulenStudio({
       const messe = () => {
         breite = Math.max(1, host.clientWidth);
         hoehe = Math.max(1, host.clientHeight);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        rasterWeite = (Math.PI * 2) / (RASTER_CSS * dpr);
         camera.aspect = breite / hoehe;
         camera.updateProjectionMatrix();
+        renderer.setPixelRatio(dpr);
         renderer.setSize(breite, hoehe, false);
+        matHimmel.uniforms.uAufloesung.value.set(breite * dpr, hoehe * dpr);
+        matHimmel.uniforms.uRaster.value = rasterWeite;
+        matSonne.uniforms.uRaster.value = rasterWeite;
+        for (const m of mats) {
+          const sm = m as ThreeNS.ShaderMaterial;
+          if (!sm.uniforms) continue;
+          if (sm.uniforms.uRaster) sm.uniforms.uRaster.value = rasterWeite;
+          if (sm.uniforms.uVersatz) {
+            sm.uniforms.uVersatz.value.set(0.8 * dpr, -0.6 * dpr);
+          }
+          if (sm.uniforms.uDpr) sm.uniforms.uDpr.value = dpr;
+        }
         if (!laufend) {
           camera.position.z = abstand();
-          camera.lookAt(0, 1.55, 0);
+          camera.lookAt(0, BLICK_Y, 0);
           renderer.render(scene, camera);
         }
       };
@@ -645,7 +896,7 @@ export function SaeulenStudio({
       }
       window.addEventListener("resize", messe);
 
-      /* ── Zeiger: Parallaxe, Hover, Auswahl ─────────────────────── */
+      /* ── Zeiger: Parallaxe, Hover, Klick auf die Saeule ────────── */
       const strahl = new THREE.Raycaster();
       const ndc = new THREE.Vector2();
 
@@ -671,18 +922,21 @@ export function SaeulenStudio({
           zeigerRef.current.x = ((e.clientX - r.left) / r.width) * 2 - 1;
           zeigerRef.current.y = ((e.clientY - r.top) / r.height) * 2 - 1;
         }
-        host.style.cursor = getroffen(e) >= 0 ? "pointer" : "default";
+        const idx = getroffen(e);
+        hoverRef.current = idx;
+        host.style.cursor = idx >= 0 ? "pointer" : "default";
       };
 
       const aufZeigerRaus = () => {
         zeigerRef.current.x = 0;
         zeigerRef.current.y = 0;
+        hoverRef.current = -1;
         host.style.cursor = "default";
       };
 
       const aufKlick = (e: MouseEvent) => {
         const idx = getroffen(e);
-        if (idx >= 0) waehleRef.current(idx);
+        if (idx >= 0) schaltenRef.current(idx);
       };
 
       host.addEventListener("pointermove", aufZeiger);
@@ -758,149 +1012,96 @@ export function SaeulenStudio({
     });
   };
 
+  useEffect(() => {
+    schaltenRef.current = schalten;
+  });
+
   return (
     <div ref={wurzelRef} className="w-full">
       <style dangerouslySetInnerHTML={{ __html: STUDIO_CSS }} />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
-        {/* ── Buehne ──────────────────────────────────────────── */}
-        <div
-          className="relative h-[320px] overflow-hidden rounded-[18px] lg:h-[480px]"
-          style={{
-            background: HILL,
-            border: "1px solid rgba(255,253,246,0.14)",
-          }}
-        >
-          {webglOk ? (
-            <div ref={hostRef} aria-hidden="true" className="absolute inset-0" />
-          ) : (
-            <ul className="absolute inset-0 flex flex-col justify-center gap-4 px-8">
-              {saeulen.map((s, i) => (
-                <li
-                  key={s.key}
-                  className="tnum flex items-baseline gap-3 text-[15.5px]"
+      {/* ── Buehne ──────────────────────────────────────────────── */}
+      <div className="sst-buehne">
+        {webglOk ? (
+          <div ref={hostRef} aria-hidden="true" className="sst-flaeche" />
+        ) : (
+          <ul className="sst-notliste">
+            {sichtbare.map((s, i) => (
+              <li key={s.key} className="sst-notzeile">
+                <span className="tnum sst-notnummer">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className="sst-nottitel"
+                  data-ein={an[i] !== false ? "true" : "false"}
                 >
-                  <span style={{ color: "rgba(255,253,246,0.4)" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    style={{
-                      color:
-                        an[i] === false
-                          ? "rgba(255,253,246,0.38)"
-                          : i === aktiv
-                            ? ORANGE
-                            : "rgba(255,253,246,0.86)",
-                    }}
-                  >
-                    {s.title}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                  {s.title}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
 
-        {/* ── Steuerung ───────────────────────────────────────── */}
-        <div className="flex flex-col gap-4">
-          {/* Tragfaehigkeit des Traegers */}
-          <div
-            className="rounded-[14px] p-5"
-            style={{
-              background: "rgba(255,253,246,0.05)",
-              border: "1px solid rgba(255,253,246,0.16)",
-            }}
-            aria-live="polite"
-          >
-            <span
-              className="text-[11.5px] font-semibold tracking-[0.07em] uppercase"
-              style={{ color: "rgba(255,253,246,0.55)" }}
-            >
-              Tragfähigkeit
+        <div className="sst-kraft" aria-live="polite">
+          <span className="sst-kraft-label">Tragfähigkeit</span>
+          <span className="sst-kraft-wert" data-voll={stehend === 3 ? "true" : "false"}>
+            <span key={tragkraft} className="tnum sst-kraft-zahl">
+              {tragkraft}
             </span>
-            <div className="mt-2 flex items-baseline gap-1.5">
-              <span
-                key={tragkraft}
-                className="sst-wert tnum text-[46px] leading-none font-semibold"
-                style={{ color: stehend === 3 ? SNOW : ORANGE }}
-              >
-                {tragkraft}
-              </span>
-              <span
-                className="text-[19px] leading-none font-semibold"
-                style={{ color: stehend === 3 ? SNOW : ORANGE }}
-              >
-                %
-              </span>
-            </div>
-            <p
-              key={hinweis}
-              className="sst-swap mt-3 text-[13.5px] leading-[1.55]"
-              style={{ color: "rgba(255,253,246,0.68)" }}
-            >
-              {hinweis}
-            </p>
-          </div>
-
-          {/* Drei Schalter */}
-          <div className="flex flex-col gap-2.5">
-            {saeulen.map((s, i) => {
-              const ein = an[i] !== false;
-              return (
-                <button
-                  key={s.key}
-                  type="button"
-                  aria-pressed={ein}
-                  onClick={() => schalten(i)}
-                  className="sst-schalter cursor-pointer"
-                  data-ein={ein ? "true" : "false"}
-                  data-aktiv={aktiv === i ? "true" : "false"}
-                  style={{ "--sst-i": i } as React.CSSProperties}
-                >
-                  <span className="sst-block">
-                    <span className="sst-titel">{s.title}</span>
-                    <span className="sst-claim">{s.claim}</span>
-                  </span>
-                  <span className="sst-zustand">
-                    <span aria-hidden="true" className="sst-punkt" />
-                    {ein ? "an" : "aus"}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+            <span className="sst-kraft-proz">%</span>
+          </span>
         </div>
       </div>
 
-      {/* ── Detail-Panel der aktiven Saeule ───────────────────── */}
-      <div
-        className="mt-6 rounded-[14px] p-6"
-        style={{
-          background: "rgba(255,253,246,0.05)",
-          border: "1px solid rgba(255,253,246,0.16)",
-        }}
-      >
+      {/* ── Beschriftung im Bild: die Saeulen selbst sind die Schalter ── */}
+      <div className="sst-labels">
+        {sichtbare.map((s, i) => {
+          const ein = an[i] !== false;
+          return (
+            <button
+              key={s.key}
+              type="button"
+              aria-pressed={ein}
+              onClick={() => schalten(i)}
+              onPointerEnter={() => {
+                hoverRef.current = i;
+              }}
+              onPointerLeave={() => {
+                hoverRef.current = -1;
+              }}
+              onFocus={() => {
+                hoverRef.current = i;
+              }}
+              onBlur={() => {
+                hoverRef.current = -1;
+              }}
+              className="sst-label"
+              data-ein={ein ? "true" : "false"}
+              data-aktiv={aktiv === i ? "true" : "false"}
+              style={{ "--sst-i": i } as React.CSSProperties}
+            >
+              <span className="sst-label-titel">{s.title}</span>
+              <span className="sst-label-zustand">
+                <span aria-hidden="true" className="sst-punkt" />
+                {ein ? "an" : "aus"}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <p key={hinweis} className="sst-swap sst-hinweis">
+        {hinweis}
+      </p>
+
+      {/* ── Detail der aktiven Saeule ────────────────────────────── */}
+      <div className="sst-detail">
         <div key={aktiveSaeule?.key ?? "leer"} className="sst-swap">
-          <h3
-            className="text-[19px] leading-[1.35] font-semibold"
-            style={{ color: SNOW }}
-          >
-            {aktiveSaeule?.title}
-          </h3>
-          <p
-            className="mt-2 text-[17px] leading-[1.45] font-medium"
-            style={{ color: ORANGE }}
-          >
-            {aktiveSaeule?.claim}
-          </p>
-          <p
-            className="mt-3 max-w-[68ch] text-[15.5px] leading-[1.65]"
-            style={{ color: "rgba(255,253,246,0.78)" }}
-          >
-            {aktiveSaeule?.text}
-          </p>
+          <h3 className="sst-detail-titel">{aktiveSaeule?.title}</h3>
+          <p className="sst-detail-claim">{aktiveSaeule?.claim}</p>
+          <p className="sst-detail-text">{aktiveSaeule?.text}</p>
           <span className="sst-beleg">
-            <span aria-hidden="true" className="sst-punkt-rail" />
+            <span aria-hidden="true" className="sst-punkt-beleg" />
             {aktiveSaeule?.proof}
           </span>
         </div>
@@ -915,29 +1116,49 @@ export function SaeulenStudio({
    ---------------------------------------------------------------- */
 
 const STUDIO_CSS = `
-.sst-schalter{display:flex;width:100%;min-height:44px;align-items:center;justify-content:space-between;gap:14px;text-align:left;padding:12px 14px;border-radius:12px;background:transparent;border:1px solid rgba(255,253,246,0.2);color:rgba(255,253,246,0.6);transition:border-color var(--duration-fast) var(--ease-smooth-out),background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out);animation:sst-auf var(--duration-quick) var(--ease-smooth-out) both;animation-delay:calc(var(--duration-stagger) * var(--sst-i, 0));}
-.sst-schalter:hover{background:rgba(255,253,246,0.06);}
-.sst-schalter:focus-visible{outline:2px solid #4C7DFF;outline-offset:3px;}
-.sst-block{display:flex;flex-direction:column;gap:4px;min-width:0;}
-.sst-titel{font-size:15px;font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:rgba(255,253,246,0.6);transition:color var(--duration-fast) var(--ease-smooth-out);}
-.sst-claim{font-size:12.5px;line-height:1.4;color:rgba(255,253,246,0.42);transition:color var(--duration-fast) var(--ease-smooth-out);}
-.sst-zustand{display:inline-flex;align-items:center;gap:7px;font-size:12px;line-height:1;white-space:nowrap;color:rgba(255,253,246,0.45);transition:color var(--duration-fast) var(--ease-smooth-out);}
-.sst-punkt{width:8px;height:8px;border-radius:50%;background:rgba(255,253,246,0.28);transition:background-color var(--duration-fast) var(--ease-smooth-out);}
-.sst-schalter[data-ein="true"]{border-color:#E8641F;}
-.sst-schalter[data-ein="true"] .sst-titel{color:#FFFDF6;}
-.sst-schalter[data-ein="true"] .sst-claim{color:rgba(255,253,246,0.66);}
-.sst-schalter[data-ein="true"] .sst-zustand{color:rgba(255,253,246,0.72);}
-.sst-schalter[data-ein="true"] .sst-punkt{background:#E8641F;}
-.sst-schalter[data-aktiv="true"]{background:rgba(255,253,246,0.08);}
-.sst-beleg{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;line-height:1.3;color:rgba(255,253,246,0.6);}
-.sst-punkt-rail{width:7px;height:7px;border-radius:50%;background:#4C7DFF;flex:none;}
+.sst-buehne{position:relative;height:380px;overflow:hidden;border-radius:18px;background:#0C4BC3;border:1px solid rgba(255,253,246,0.18);}
+@media (min-width:768px){.sst-buehne{height:min(70dvh,620px);}}
+.sst-flaeche{position:absolute;inset:0;}
+.sst-notliste{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:0 32px;}
+.sst-notzeile{display:flex;align-items:baseline;gap:14px;font-size:16px;line-height:1.4;}
+.sst-notnummer{color:rgba(255,253,246,0.5);}
+.sst-nottitel{color:#FFFDF6;font-weight:600;}
+.sst-nottitel[data-ein="false"]{color:rgba(255,253,246,0.46);font-weight:400;}
+.sst-kraft{position:absolute;left:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none;}
+@media (min-width:768px){.sst-kraft{left:auto;bottom:auto;top:24px;right:28px;align-items:flex-end;}}
+.sst-kraft-label{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,253,246,0.68);}
+.sst-kraft-wert{display:flex;align-items:baseline;gap:2px;margin-top:5px;color:#FFFDF6;}
+.sst-kraft-wert[data-voll="false"]{color:#E8641F;}
+.sst-kraft-zahl{font-size:44px;line-height:0.92;font-weight:600;letter-spacing:-0.02em;display:inline-block;animation:sst-tausch var(--duration-quick) var(--ease-in-out) both;}
+.sst-kraft-proz{font-size:19px;line-height:1;font-weight:600;}
+@media (min-width:768px){.sst-kraft-zahl{font-size:60px;}.sst-kraft-proz{font-size:24px;}}
+.sst-labels{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;}
+@media (min-width:640px){.sst-labels{grid-template-columns:repeat(3,1fr);gap:14px;}}
+.sst-label{display:flex;width:100%;min-height:44px;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-radius:12px;text-align:left;background:transparent;border:1px solid rgba(255,253,246,0.2);cursor:pointer;transition:border-color var(--duration-fast) var(--ease-smooth-out),background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out);animation:sst-auf var(--duration-quick) var(--ease-smooth-out) both;animation-delay:calc(var(--duration-stagger) * var(--sst-i, 0));}
+.sst-label:hover{background:rgba(255,253,246,0.07);}
+.sst-label:focus-visible{outline:2px solid #E8641F;outline-offset:3px;}
+.sst-label-titel{font-size:15px;font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:rgba(255,253,246,0.55);transition:color var(--duration-fast) var(--ease-smooth-out);}
+.sst-label-zustand{display:inline-flex;align-items:center;gap:7px;font-size:12px;line-height:1;white-space:nowrap;color:rgba(255,253,246,0.45);transition:color var(--duration-fast) var(--ease-smooth-out);}
+.sst-punkt{width:8px;height:8px;border-radius:50%;background:rgba(255,253,246,0.3);transition:background-color var(--duration-fast) var(--ease-smooth-out);}
+.sst-label[data-ein="true"]{border-color:rgba(255,253,246,0.4);}
+.sst-label[data-ein="true"] .sst-label-titel{color:#FFFDF6;}
+.sst-label[data-ein="true"] .sst-label-zustand{color:rgba(255,253,246,0.72);}
+.sst-label[data-ein="true"] .sst-punkt{background:#FFFDF6;}
+.sst-label[data-aktiv="true"]{border-color:#E8641F;background:rgba(232,100,31,0.1);}
+.sst-label[data-aktiv="true"] .sst-punkt{background:#E8641F;}
+.sst-hinweis{margin-top:14px;max-width:64ch;font-size:13.5px;line-height:1.55;color:rgba(255,253,246,0.68);}
+.sst-detail{margin-top:20px;border-radius:14px;padding:24px;background:rgba(255,253,246,0.05);border:1px solid rgba(255,253,246,0.16);}
+.sst-detail-titel{font-size:19px;line-height:1.35;font-weight:600;color:#FFFDF6;}
+.sst-detail-claim{margin-top:8px;font-size:17px;line-height:1.45;font-weight:500;color:#E8641F;}
+.sst-detail-text{margin-top:12px;max-width:68ch;font-size:15.5px;line-height:1.65;color:rgba(255,253,246,0.78);}
+.sst-beleg{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;letter-spacing:0.02em;line-height:1.3;color:rgba(255,253,246,0.6);}
+.sst-punkt-beleg{width:7px;height:7px;border-radius:50%;background:#0C4BC3;box-shadow:0 0 0 1px rgba(255,253,246,0.45);flex:none;}
 @keyframes sst-auf{from{opacity:0;transform:translateY(var(--distance-base));}to{opacity:1;transform:none;}}
 @keyframes sst-tausch{from{opacity:0;transform:translateY(var(--distance-micro));filter:blur(var(--blur-small));}to{opacity:1;transform:none;filter:blur(0);}}
 .sst-swap{animation:sst-tausch var(--duration-quick) var(--ease-in-out) both;}
-.sst-wert{display:inline-block;animation:sst-tausch var(--duration-quick) var(--ease-in-out) both;}
 @media (prefers-reduced-motion: reduce){
-.sst-schalter,.sst-swap,.sst-wert{animation:none;}
-.sst-schalter,.sst-titel,.sst-claim,.sst-zustand,.sst-punkt{transition:none;}
+.sst-label,.sst-swap,.sst-kraft-zahl{animation:none;}
+.sst-label,.sst-label-titel,.sst-label-zustand,.sst-punkt{transition:none;}
 }
 `;
 
