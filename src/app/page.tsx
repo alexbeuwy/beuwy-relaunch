@@ -12,8 +12,9 @@ import { PainRows } from "@/components/PainRows";
 import { AuthorityBlock } from "@/components/AuthorityBlock";
 import { FitBlock } from "@/components/FitBlock";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { VideoCard } from "@/components/VideoCard";
 import { CtaBand } from "@/components/CtaBand";
+import { CaseGrid } from "@/components/CaseGrid";
+import { CASES } from "@/lib/cases";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -179,7 +180,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 05 PROOF STACK — Zahlen und drei Fälle ───────────────────── */}
+      {/* ── 05 PROOF STACK — Zahlen, dann fünf Fallstudien mit eigener
+          Unterseite. Die Überschrift jeder Karte erzählt die Reise. ── */}
       <Section id="referenzen">
         <Reveal>
           <div className="stat-band mb-16 md:mb-20">
@@ -191,56 +193,8 @@ export default async function HomePage() {
             ))}
           </div>
         </Reveal>
-        <SectionHead title={rich(c["refs.title"])} />
-        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
-          <Reveal>
-            <div className="case-frame">
-              <div className="case-frame-bar" aria-hidden>
-                <span className="case-frame-dot" />
-                <span className="case-frame-dot" />
-                <span className="case-frame-dot" />
-                <span className="case-frame-url">riegel-immobilien.de</span>
-              </div>
-              <Image
-                src="/refs/riegel.webp"
-                width={1280}
-                height={800}
-                alt="Startseite von RIEGEL Immobilien nach dem Relaunch"
-              />
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <div>
-              <h3 className="t-h3">{c["refs.riegel_name"]}</h3>
-              <p className="t-body mt-3">{c["refs.riegel_text"]}</p>
-              <a
-                href="https://www.riegel-immobilien.de"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ref-link inline-block mt-4"
-              >
-                {c["refs.riegel_link"]} ↗
-              </a>
-            </div>
-          </Reveal>
-        </div>
-        <div className="grid lg:grid-cols-2 gap-5 mt-8 items-start">
-          <Reveal>
-            <div className="card h-full">
-              {c["refs.vision_video"]?.trim() ? (
-                <div className="mb-5">
-                  <VideoCard
-                    src={c["refs.vision_video"]}
-                    label="Vision Group · Imagefilm"
-                  />
-                </div>
-              ) : null}
-              <h3 className="t-h3">{c["refs.vision_name"]}</h3>
-              <p className="t-body mt-3">{c["refs.vision_text"]}</p>
-            </div>
-          </Reveal>
-          <RefCard name={c["refs.koenigswege_name"]} text={c["refs.koenigswege_text"]} />
-        </div>
+        <SectionHead title={rich(c["refs.title"])} intro={c["refs.intro"]} />
+        <CaseGrid cases={CASES} />
       </Section>
 
       {/* ── 06 AUTHORITY — die Seite selbst ist die Referenz ─────────── */}

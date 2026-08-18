@@ -100,19 +100,10 @@ export const DEFAULTS: Record<string, string> = {
     "Der Live-Check zeigt in 25 Sekunden, was Interessenten sehen — neun Messpunkte, eine ehrliche Einschätzung. Reden müssen Sie dafür mit niemandem.",
 
   /* ── 07 Fälle — E3 stirbt: funktioniert bei Leuten wie mir ─────────── */
-  "refs.title": "Drei Auftritte. Und was *danach* passiert ist.",
-  "refs.riegel_name": "RIEGEL Immobilien · Rhein-Neckar",
-  "refs.riegel_text":
-    "Neue Marke, neue Website, Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen, angebunden an das Maklersystem. Danach: neun Abschlüsse in sechs Wochen. Das Projekt hatte sich nach drei Wochen bezahlt gemacht. Heute Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
-  "refs.riegel_link": "riegel-immobilien.de",
-  "refs.vision_name": "Vision Group · Immobilien, Mannheim",
-  "refs.vision_text":
-    "Als Vision Group einstieg, bestand die Firma aus zwei Gründern und einer Buchhalterin. Wir haben die Marke und die Unterlagen gebaut, mit denen man vor Investoren besteht — heute ist KKR ihr Partner. Andere Größenordnung, gleiches Prinzip: Wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen.",
-  "refs.vision_video":
-    "https://beuwy.com/wp-content/uploads/2025/11/Vision-Imagefilm.webm",
-  "refs.koenigswege_name": "Königswege · Finanzvertrieb",
-  "refs.koenigswege_text":
-    "Marke, Auftritt und Veranstaltungen komplett neu aufgesetzt. Heute arbeiten über 2.200 Partner unter dieser Marke; das Haus steht in den Top 10 der deutschen Finanzvertriebe.",
+  /* Fallstudien-Inhalte liegen in src/lib/cases.ts (Code, nicht Studio) */
+  "refs.title": "Fünf Häuser. Und die *Strecke*, die sie gegangen sind.",
+  "refs.intro":
+    "Jede Fallstudie beginnt da, wo der Kunde stand — und endet bei dem, was heute messbar ist.",
   /* ── 06 AUTHORITY — eigener Moment, nicht mehr Fußnote im Proof ──── */
   "authority.title": "Sie sehen gerade eine *Arbeitsprobe*.",
   "authority.text":
@@ -196,9 +187,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "play.title": "Playground · Überschrift (*Wort* = Hervorhebung)",
   "play.intro": "Playground · Mechanismus-Absatz (E2: Entlastung)",
   "check.text": "Live-Check · Lead-Magnet-Satz",
-  "refs.vision_video": "Fälle · Vision-Imagefilm (URL, leer = ohne Video)",
-  "refs.selbst_head": "Fälle · Selbstreferenz-Kopf",
-  "refs.selbst_text": "Fälle · Selbstreferenz + Herkunftsbreite",
+  "refs.title": "Fallstudien · Überschrift (Inhalte selbst: src/lib/cases.ts)",
+  "refs.intro": "Fallstudien · Einleitungssatz",
   "goal.after": "Ablauf · Festpreis-Logik (kein Preis nennen)",
   "fit.num1": "3",
   "fit.num2": "15.000 €",

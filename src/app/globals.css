@@ -678,6 +678,14 @@
   .section-band-bright .eyebrow {
     color: rgba(255, 253, 246, 0.6);
   }
+  .section-band-bright .stat-num,
+  .on-sky .stat-num {
+    color: var(--snow);
+  }
+  .section-band-bright .stat-cap,
+  .on-sky .stat-cap {
+    color: rgba(255, 253, 246, 0.72);
+  }
   .section-band-bright .hairline {
     border-color: rgba(255, 253, 246, 0.22);
   }
@@ -1701,6 +1709,86 @@
     .faq-trigger,
     .faq-chevron,
     .faq-panel {
+      transition: none !important;
+    }
+  }
+}
+
+/* ── Fallstudien: eine Leitkarte mit Bild, darunter ruhige Zeilen ──── */
+@layer utilities {
+  .case-lead {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  @media (min-width: 1024px) {
+    .case-lead {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 56px;
+    }
+  }
+  .case-reise {
+    text-wrap: balance;
+    transition: color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .group\/case:hover .case-reise {
+    color: var(--sky);
+  }
+  .case-fakten {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .case-fakt-wert {
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--sky);
+    white-space: nowrap;
+  }
+  .case-mehr {
+    display: inline-block;
+    font-size: 13.5px;
+    font-weight: 550;
+    color: var(--sky);
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  .group\/case:hover .case-mehr {
+    transform: translateX(var(--distance-micro));
+  }
+  .case-zeile {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .case-marke {
+    margin-left: 10px;
+    border: 1px solid var(--line-medium);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+    text-transform: none;
+  }
+  @media (max-width: 640px) {
+    .case-zeile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .case-reise,
+    .case-mehr {
       transition: none !important;
     }
   }
