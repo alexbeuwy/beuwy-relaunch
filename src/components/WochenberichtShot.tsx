@@ -44,7 +44,7 @@ export function WochenberichtShot() {
             }
           >
             <div className="flex items-baseline gap-1.5">
-              <span className="font-[var(--font-helvena)] font-bold text-[32px] tnum text-ink-cream">
+              <span className="font-[var(--font-helvena)] font-bold text-[32px] tnum text-ink-cream whitespace-nowrap">
                 {metric.value}
               </span>
               {metric.delta ? (

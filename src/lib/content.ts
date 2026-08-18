@@ -25,7 +25,12 @@ export const DEFAULTS: Record<string, string> = {
   "trust.label":
     "Seit 2009 · von Bosch bis PURELEI · heute: Dienstleister mit hohen Auftragswerten",
 
-  /* ── 03 Beweis-Schnellschuss — Wochenbericht + drei belegte Zahlen ── */
+  /* ── 03 DREAM STATE — der Zustand, den er kaufen will ─────────────── */
+  "dream.title": "Am Monatsersten wissen Sie, wie viele Kunden *kommen*.",
+  "dream.text":
+    "Keine Diskussion mehr über Ihren Preis, weil der Auftritt ihn beantwortet. Keine Anfrage mehr, die im Postfach verhungert. Sie steuern Neukunden wie eine Position im Budget — und der Bericht liegt jeden Montag auf dem Tisch.",
+
+  /* ── 05 PROOF — Wochenbericht-Bild + drei belegte Zahlen ─────────── */
   "shot.caption":
     "So sieht Verantwortung aus: Anfragen, Termine, Abschlüsse und Kosten je Abschluss — jede Woche, mit der Änderung für die Woche darauf.",
   "stats.s1_value": "342.000 €",
@@ -51,10 +56,11 @@ export const DEFAULTS: Record<string, string> = {
   "diagnose.a3":
     "Dann läuft es über Erinnerung. Was in keinem System steht, wird nicht nachgefasst — und was nicht nachgefasst wird, kauft woanders.",
 
-  /* ── 05 Mechanismus + Playground — E2 stirbt (Entlastung), E5 stirbt ── */
-  "play.title": "Anfragen werden *planbar*.",
-  "play.intro":
-    "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück — in dieser Lücke verschwinden Ihre Aufträge. Deshalb: vier Teile, ein Verantwortlicher. Drehen Sie selbst.",
+  /* ── 04 MECHANISM — warum es bisher nicht lief (Entlastung) ───────── */
+  "mech.title": "Ihr Umsatz versickert zwischen Ihren *Dienstleistern*.",
+  "mech.text":
+    "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück. Es lag nie an Ihnen und selten am Budget — es lag an den Lücken zwischen vier Beteiligten, die sich gegenseitig nicht kennen.",
+  "play.title": "Vier Teile, ein Verantwortlicher. Drehen Sie *selbst*.",
   "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
   "system.m1_title": "Marke",
   "system.m1_text":
@@ -73,6 +79,9 @@ export const DEFAULTS: Record<string, string> = {
   "band1.title":
     "Das Systemgespräch dauert 30 Minuten. Danach wissen Sie, wo es bei Ihnen klemmt.",
   "band1.note": "Video oder Telefon · Sie sprechen mit dem, der baut",
+  "band2.title":
+    "Sie haben jetzt gesehen, was drin ist. Reden wir über den Weg dorthin.",
+  "band2.note": "Antwort innerhalb von 24 Stunden",
 
   /* ── 06 Live-Check — der Lead-Magnet ohne Gespräch ─────────────────── */
   "check.title": "Prüfen Sie uns an Ihrer eigenen *Website*.",
@@ -93,8 +102,9 @@ export const DEFAULTS: Record<string, string> = {
   "refs.koenigswege_name": "Königswege · Finanzvertrieb",
   "refs.koenigswege_text":
     "Marke, Auftritt und Veranstaltungen komplett neu aufgesetzt. Heute arbeiten über 2.200 Partner unter dieser Marke; das Haus steht in den Top 10 der deutschen Finanzvertriebe.",
-  "refs.selbst_head": "Sie sehen gerade eine Arbeitsprobe.",
-  "refs.selbst_text":
+  /* ── 06 AUTHORITY — eigener Moment, nicht mehr Fußnote im Proof ──── */
+  "authority.title": "Sie sehen gerade eine *Arbeitsprobe*.",
+  "authority.text":
     "Diese Seite, der Live-Check, der Rechner — selbst gebaut, wie alles bei uns. Vergleichen Sie das ruhig mit dem, was Ihre letzte Agentur abgeliefert hat. Angefangen haben wir 2009 bei Bosch und Continental; dazwischen lagen PURELEI, Rosental Organics, das Musiklabel Good Kid Records, Finanzvertriebe, Versicherer.",
 
   /* ── 08 Ablauf + Rechner — E4 und E6 sterben, ohne dass ein Preis fällt ── */
@@ -106,9 +116,11 @@ export const DEFAULTS: Record<string, string> = {
     "Was ein System kostet, hängt davon ab, was es tragen muss — deshalb steht am Anfang keine Preisliste, sondern die Diagnose. Danach steht Ihr Festpreis. Wird es aufwendiger als gedacht, ist das mein Problem.",
 
   /* ── 09 Kapazität + Filter — Statusumkehr, ehrlich und prüfbar ─────── */
-  "fit.line1": "Mehr als drei Systeme gleichzeitig baue ich nicht.",
+  "fit.title": "Mehr als drei Systeme gleichzeitig baue ich *nicht*.",
+  "fit.line1":
+    "Ich baue jedes System selbst. Drei gleichzeitig gehen, vier nicht — deshalb hat ein Systemgespräch immer auch die Frage im Gepäck, wann ich anfangen kann.",
   "fit.line2":
-    "Und unter 15.000 € Auftragswert rechnet sich ein System nicht — das sage ich Ihnen im Gespräch dann auch so.",
+    "Und unter 15.000 € Auftragswert rechnet sich ein System nicht. Das sage ich Ihnen im Gespräch dann auch so, statt Ihnen etwas zu verkaufen, das sich nie trägt.",
 
   /* ── 10 Häufige Fragen — Rest-Einwände ─────────────────────────────── */
   "faq.title": "Was Kunden vorher *wissen* wollen.",
