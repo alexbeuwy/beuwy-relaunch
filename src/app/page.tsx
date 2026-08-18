@@ -14,6 +14,8 @@ import { FitBlock } from "@/components/FitBlock";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaBand } from "@/components/CtaBand";
 import { CaseGrid } from "@/components/CaseGrid";
+import { ScrollFortschritt } from "@/components/ScrollFortschritt";
+import { HangKante } from "@/components/HangKante";
 import { CASES } from "@/lib/cases";
 import { getContent } from "@/lib/content";
 
@@ -82,6 +84,9 @@ export default async function HomePage() {
       />
 
       {/* ── 01 HOOK ─────────────────────────────────────────────────── */}
+      <ScrollFortschritt />
+
+      <div className="hero-buehne">
       <section className="hero-riso">
         <div className="hero-riso-copy on-sky">
           <Reveal delay={40}>
@@ -115,7 +120,9 @@ export default async function HomePage() {
           className="hero-riso-img"
         />
       </section>
+      </div>
 
+      <div className="seiten-flur">
       {/* Herkunft — schmales Hügelband, Vertrauen vor dem Problem */}
       <section className="band-hill">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12 md:py-14">
@@ -154,6 +161,8 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </Section>
+
+      <HangKante farbe="var(--sky)" />
 
       {/* ── 04 MECHANISM — Entlastung, dann das System zum Anfassen ──── */}
       <section id="system" className="section-band-bright on-sky">
@@ -243,6 +252,8 @@ export default async function HomePage() {
         </div>
       </Section>
 
+      <HangKante farbe="var(--hill)" />
+
       {/* ── 08 SCARCITY + 09 DISQUALIFIER — eigener Moment, Ich-Stimme ─ */}
       <section id="passung" className="band-hill on-sky">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-20">
@@ -290,6 +301,7 @@ export default async function HomePage() {
           <p className="t-small mt-4">{c["final.note"]}</p>
         </div>
       </Section>
+      </div>
     </>
   );
 }

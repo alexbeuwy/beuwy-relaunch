@@ -243,7 +243,10 @@
     line-height: 1.65;
     letter-spacing: -0.011em;
     min-height: 100dvh;
-    overflow-x: hidden;
+    /* clip statt hidden: hidden macht den Body zum Scroll-Container und
+       setzt damit jedes position:sticky im Dokument ausser Kraft. clip
+       kappt denselben Ueberhang, ohne einen Scrollport zu erzeugen. */
+    overflow-x: clip;
     font-feature-settings: 'ss01', 'ss03', 'cv11';
   }
 
@@ -431,6 +434,23 @@
      Screens kappt object-position:bottom nur den (unifarbenen)
      Himmel — Berg und Hügel bleiben immer voll im Bild.
      ---------------------------------------------------------- */
+  /* Die Bühne gibt dem Hero Scroll-Strecke, ohne ihn zu strecken: der
+     Hero heftet sich oben fest, die dunkle Sektion darunter fährt über
+     ihn hinweg. Bei prefers-reduced-motion entfällt beides — dann ist
+     der Hero wieder eine gewöhnliche Sektion ohne Zusatzstrecke. */
+  .hero-buehne {
+    position: relative;
+    z-index: 0;
+  }
+  /* Der Flur ist die Ebene, die ueber den angehefteten Hero faehrt.
+     Undurchsichtig, damit der Hero nicht durch Sektionen ohne eigenen
+     Hintergrund schimmert. */
+  .seiten-flur {
+    position: relative;
+    z-index: 1;
+    background: var(--paper);
+  }
+
   .hero-riso {
     position: relative;
     display: flex;
@@ -438,13 +458,32 @@
     min-height: 100dvh;
     background: var(--sky);
     color: var(--snow);
+    /* Das Bild waechst beim Scrollen ueber die Kante hinaus */
+    overflow: hidden;
+    isolation: isolate;
   }
+  /* Muss nach der Basisregel stehen — gleiche Spezifitaet, spaeter gewinnt. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-riso {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      min-height: 0;
+    }
+  }
+
   .hero-riso-copy {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 128px 24px 48px;
+    transform: translate3d(0, calc(var(--hero-p, 0) * -76px), 0);
+    /* bei p = 0.62 ist die Copy weg, danach gehoert das Bild sich selbst */
+    opacity: calc(1 - var(--hero-p, 0) * 2.9);
+    will-change: transform, opacity;
   }
   @media (min-width: 768px) {
     .hero-riso-copy {
@@ -464,7 +503,33 @@
     margin-top: auto;
     user-select: none;
     pointer-events: none;
+    position: relative;
+    z-index: 1;
+    transform-origin: 50% 100%;
+    transform: scale(calc(1 + var(--hero-p, 0) * 0.11));
+    will-change: transform;
   }
+  /* ----------------------------------------------------------
+     HANGKANTE — die Hügelsilhouette aus dem Hero-Bild, Spalte für
+     Spalte nachgemessen (siehe HangKante.tsx). Sie trägt den Hero
+     nach unten weiter: überall dort, wo eine helle Sektion in eine
+     dunkle übergeht, wächst derselbe Hang hoch statt einer Kante.
+     ---------------------------------------------------------- */
+  .hang-kante {
+    display: block;
+    width: 100%;
+    height: clamp(56px, 8.5vw, 124px);
+    /* schließt die Fuge zur nächsten Sektion — sonst blitzt bei
+       fraktionalen Gerätepixeln eine helle Linie durch */
+    margin-bottom: -1px;
+    pointer-events: none;
+  }
+  .hang-kante--gespiegelt {
+    transform: scaleY(-1);
+    margin-bottom: 0;
+    margin-top: -1px;
+  }
+
   .hero-h1 {
     font-family: var(--font-helvena), system-ui, sans-serif;
     font-weight: 780;
