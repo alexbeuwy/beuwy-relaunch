@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { MessPunkte } from "@/components/MessPunkte";
 
 /**
  * Website-Check v4 — Agenten-Orchestrierung (Psychologie- + UX-Audit-Spec):
@@ -357,7 +358,9 @@ export function AuditTool() {
                       {l.ok === null ? "…" : l.ok ? "OK" : "✕"}
                     </span>
                     <span className="t-small is-cream shrink-0">{l.text}</span>
-                    {l.detail && <span className="t-data min-w-0">{l.detail}</span>}
+                    {l.detail && (
+                      <span className="t-data min-w-0 break-words">{l.detail}</span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -404,46 +407,15 @@ export function AuditTool() {
                     {analysis ? (
                       <>
                         <p className="t-label">Sichtbarkeits-Score</p>
-                        <p
-                          className="t-score mt-2"
-                          aria-label={`${analysis.score} von 100`}
-                        >
-                          {String(analysis.score)
-                            .split("")
-                            .map((ch, i) => (
-                              <span
-                                key={i}
-                                className="score-digit"
-                                style={{ "--digit-index": i } as React.CSSProperties}
-                                aria-hidden
-                              >
-                                {ch}
-                              </span>
-                            ))}
+                        <p className="t-score mt-2 tnum">
+                          {analysis.score}
                           <span className="t-data"> /100</span>
                         </p>
                         <p className="t-small is-cream mt-3">
                           {scan.domain} {scoreBand(analysis.score)}
                         </p>
 
-                        {allCategories.length > 0 && (
-                          <div className="mt-5 space-y-3">
-                            {allCategories.map((c) => (
-                              <div key={c.id} data-tier={tier(c.score)}>
-                                <div className="flex items-baseline justify-between gap-3">
-                                  <span className="t-small is-cream">{c.label}</span>
-                                  <span className="t-data">{c.score}</span>
-                                </div>
-                                <div className="cat-track mt-1">
-                                  <span
-                                    className="cat-fill"
-                                    style={{ "--pct": `${c.score}%` } as React.CSSProperties}
-                                  />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+
                       </>
                     ) : (
                       <p className="t-data">beuwy Agenten prüfen noch…</p>
@@ -456,6 +428,18 @@ export function AuditTool() {
                     <p className="t-body mt-6 is-cream max-w-[560px]">
                       {analysis.visibility}
                     </p>
+
+                    {allCategories.length > 0 && (
+                      <div className="mt-8">
+                        <MessPunkte
+                          punkte={allCategories.map((c) => ({
+                            id: c.id,
+                            label: c.label,
+                            score: c.score,
+                          }))}
+                        />
+                      </div>
+                    )}
 
                     {/* Top-3 Befunde — offen */}
                     {topFindings.length > 0 && (

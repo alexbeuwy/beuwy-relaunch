@@ -845,6 +845,16 @@
       background var(--resize-dur) var(--resize-ease),
       box-shadow var(--resize-dur) var(--resize-ease);
   }
+  @media (max-width: 420px) {
+    .btn-primary {
+      white-space: normal;
+      height: auto;
+      min-height: 44px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: left;
+    }
+  }
   .btn-primary:hover {
     background: var(--sky-deep);
     transform: translateY(-1px);
@@ -1790,6 +1800,154 @@
     .case-reise,
     .case-mehr {
       transition: none !important;
+    }
+  }
+}
+
+/* ── Live-Check: Messpunkte auf gemeinsamer Skala (dataviz) ───────── */
+@layer utilities {
+  .mess-figur {
+    margin: 0;
+  }
+  .mess-kopf {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .mess-legende {
+    white-space: nowrap;
+  }
+  /* Achse: nur drei Marken, zurückhaltend — sie erklärt, sie dominiert nicht */
+  .mess-skala {
+    position: relative;
+    height: 14px;
+    margin: 10px 0 2px;
+    /* Spurbreite = Zeilenbreite minus Label- und Wertspalten */
+    margin-left: var(--mess-label-w, 148px);
+    margin-right: var(--mess-wert-w, 104px);
+  }
+  .mess-skala-marke {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-dim);
+  }
+  .mess-skala-marke:first-child {
+    transform: none;
+  }
+  .mess-skala-ende {
+    right: 0;
+    transform: none;
+  }
+  .mess-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mess-zeile {
+    display: grid;
+    grid-template-columns: var(--mess-label-w, 148px) 1fr var(--mess-wert-w, 104px);
+    align-items: center;
+    gap: 0 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .mess-label {
+    color: var(--ink-cream);
+  }
+  .mess-spur {
+    position: relative;
+    height: 8px;
+    border-radius: 9999px;
+    background: rgba(16, 25, 15, 0.1);
+  }
+  .mess-referenz {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    width: 1px;
+    background: rgba(16, 25, 15, 0.28);
+  }
+  .mess-balken {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 9999px;
+    background: var(--sky);
+    /* Balken wächst einmal beim Erscheinen — kein Dauerloop */
+    animation: mess-wachsen var(--duration-slow) var(--ease-smooth-out) both;
+  }
+  [data-tier='mid'] .mess-balken {
+    background: var(--orange);
+  }
+  [data-tier='low'] .mess-balken {
+    background: var(--accent-red);
+  }
+  @keyframes mess-wachsen {
+    from {
+      width: 0;
+    }
+  }
+  .mess-wert {
+    text-align: right;
+    color: var(--ink-cream);
+    grid-column: 3;
+    justify-self: end;
+  }
+  /* Statuswort steht rechts unter dem Wert — zweite Codierung neben Farbe */
+  .mess-status {
+    grid-column: 3;
+    justify-self: end;
+    color: var(--ink-dim);
+  }
+  [data-tier='low'] .mess-status {
+    color: var(--accent-red);
+  }
+  @media (min-width: 640px) {
+    .mess-zeile {
+      grid-template-columns: var(--mess-label-w, 148px) 1fr 44px 60px;
+    }
+    .mess-wert {
+      grid-column: 3;
+    }
+    .mess-status {
+      grid-column: 4;
+      justify-self: start;
+    }
+  }
+  @media (max-width: 639px) {
+    .mess-zeile {
+      grid-template-columns: 1fr auto;
+      gap: 4px 10px;
+      padding: 12px 0;
+    }
+    .mess-label {
+      grid-column: 1;
+    }
+    .mess-wert {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .mess-spur {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .mess-status {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .mess-skala {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mess-balken {
+      animation: none;
     }
   }
 }
