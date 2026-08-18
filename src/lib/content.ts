@@ -60,20 +60,31 @@ export const DEFAULTS: Record<string, string> = {
   "mech.title": "Ihr Umsatz versickert zwischen Ihren *Dienstleistern*.",
   "mech.text":
     "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück. Es lag nie an Ihnen und selten am Budget — es lag an den Lücken zwischen vier Beteiligten, die sich gegenseitig nicht kennen.",
-  "play.title": "Vier Teile, ein Verantwortlicher. Drehen Sie *selbst*.",
+  "play.title": "Drei Säulen. Ein *Umsatz*.",
   "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
-  "system.m1_title": "Marke",
-  "system.m1_text":
-    "Auftritt, Schrift, Farbe, Sprache. Gebaut nach denselben Regeln wie für Konzerne, zugeschnitten auf Ihre Preisklasse.",
-  "system.m2_title": "Anzeigen",
-  "system.m2_text":
-    "Kampagnen auf den Kanälen, auf denen Ihre Kunden wirklich sind. Das Budget wandert dorthin, wo Abschlüsse entstehen, nicht dorthin, wo Klicks entstehen.",
-  "system.m3_title": "Vertriebssystem",
-  "system.m3_text":
-    "Ein CRM, das jede Anfrage festhält, mit Telefonanbindung und Rückrufregel. Nichts bleibt liegen, weil niemand daran gedacht hat.",
-  "system.m4_title": "Zahlen",
-  "system.m4_text":
-    "Jede Woche ein Bericht: Anfragen, Termine, Abschlüsse, Kosten pro Abschluss. Daraus folgt, was in der Woche darauf geändert wird.",
+  "play.hint": "Säule antippen — sehen Sie, was ohne sie passiert.",
+
+  /* Die drei Säulen: Titel, Versprechen, Beleg, und was ohne sie passiert */
+  "pillar1_title": "Marke",
+  "pillar1_claim": "Der Auftritt, der Ihren Preis beantwortet.",
+  "pillar1_text":
+    "Schrift, Farbe, Sprache, Bildwelt — gebaut nach denselben Regeln wie für Bosch oder Continental, zugeschnitten auf Ihre Preisklasse. Der Kunde entscheidet in Sekunden, in welcher Liga Sie spielen. Diese Sekunden gehören uns.",
+  "pillar1_proof": "Vertrauen vor dem ersten Wort",
+  "pillar1_without": "Ohne Marke vergleicht der Kunde nur Preise — und Sie sind der Teuerste.",
+
+  "pillar2_title": "Werbeanzeigen",
+  "pillar2_claim": "In einem Monat mehr getestet als Agenturen in einem halben Jahr.",
+  "pillar2_text":
+    "Motive, Texte und Zielgruppen entstehen bei uns über eigene KI-Werkzeuge. Was eine Agentur 2025 in sechs Monaten durch den Test schickte, jagen wir in vier Wochen durch. Das Budget landet dort, wo Abschlüsse entstehen, nicht wo Klicks entstehen.",
+  "pillar2_proof": "Testtempo statt Bauchgefühl",
+  "pillar2_without": "Ohne Anzeigen warten Sie darauf, dass Empfehlungen von allein kommen.",
+
+  "pillar3_title": "Vertriebssystem",
+  "pillar3_claim": "Selbst gebaut, radikal reduziert, komplett automatisiert.",
+  "pillar3_text":
+    "Kein Standard-CRM mit 400 Feldern, sondern ein System, das nur Ihren Ablauf kann: personalisierte Datenmail zum konkreten Objekt oder Angebot, Rückrufregel mit Telefonanbindung, automatische Wochenberichte. Nichts bleibt liegen, weil niemand daran gedacht hat.",
+  "pillar3_proof": "Von der Anfrage bis zum Bericht",
+  "pillar3_without": "Ohne System verhungert die Anfrage von Donnerstagabend im Postfach.",
 
   /* ── CTA-Band — ein Zwischenruf, ein Wortlaut ──────────────────────── */
   "band1.title":
@@ -105,7 +116,10 @@ export const DEFAULTS: Record<string, string> = {
   /* ── 06 AUTHORITY — eigener Moment, nicht mehr Fußnote im Proof ──── */
   "authority.title": "Sie sehen gerade eine *Arbeitsprobe*.",
   "authority.text":
-    "Diese Seite, der Live-Check, der Rechner — selbst gebaut, wie alles bei uns. Vergleichen Sie das ruhig mit dem, was Ihre letzte Agentur abgeliefert hat. Angefangen haben wir 2009 bei Bosch und Continental; dazwischen lagen PURELEI, Rosental Organics, das Musiklabel Good Kid Records, Finanzvertriebe, Versicherer.",
+    "Diese Seite, der Live-Check, der Rechner — selbst gebaut, wie alles bei uns. Vergleichen Sie das ruhig mit dem, was Ihre letzte Agentur abgeliefert hat.",
+  "authority.brands_label": "Seit 2009 gebaut für",
+  "authority.brands":
+    "Bosch|Continental|Michelin|PURELEI|Rosental Organics|Good Kid Records|Vision Group|Königswege|RIEGEL Immobilien",
 
   /* ── 08 Ablauf + Rechner — E4 und E6 sterben, ohne dass ein Preis fällt ── */
   "goal.title": "Rechnen wir mit Ihrem *Ziel*, nicht mit unserem Preis.",
@@ -117,6 +131,8 @@ export const DEFAULTS: Record<string, string> = {
 
   /* ── 09 Kapazität + Filter — Statusumkehr, ehrlich und prüfbar ─────── */
   "fit.title": "Mehr als drei Systeme gleichzeitig baue ich *nicht*.",
+  "fit.num1": "3",
+  "fit.num2": "15.000 €",
   "fit.line1":
     "Ich baue jedes System selbst. Drei gleichzeitig gehen, vier nicht — deshalb hat ein Systemgespräch immer auch die Frage im Gepäck, wann ich anfangen kann.",
   "fit.line2":
@@ -184,6 +200,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "refs.selbst_head": "Fälle · Selbstreferenz-Kopf",
   "refs.selbst_text": "Fälle · Selbstreferenz + Herkunftsbreite",
   "goal.after": "Ablauf · Festpreis-Logik (kein Preis nennen)",
+  "fit.num1": "3",
+  "fit.num2": "15.000 €",
   "fit.line1": "Kapazität · muss der Wahrheit entsprechen",
   "fit.line2": "Filter · Schwelle 15.000 €",
   "termin.title": "/termin · Kopfzeile",

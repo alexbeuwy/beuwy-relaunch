@@ -130,6 +130,35 @@
     --font-body: var(--font-sans, var(--font-geist-sans));
     --font-mono: var(--font-geist-mono);
 
+    /* ── Motion-Tokens (transitions-dev) — die einzige Zeitskala der Seite.
+       Regeln: Open 250ms / Close 150ms, Hover-in fast, Stagger < 300ms
+       gesamt, Blur nur bei Swap/Slide, nie beim reinen Fade. ── */
+    --duration-stagger: 40ms;
+    --duration-micro: 80ms;
+    --duration-quick: 150ms;
+    --duration-fast: 250ms;
+    --duration-medium: 350ms;
+    --duration-slow: 400ms;
+    --duration-very-slow: 500ms;
+    --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: ease-in-out;
+    --ease-out: ease-out;
+    --ease-linear: linear;
+    --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+    --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+    --distance-micro: 4px;
+    --distance-small: 6px;
+    --distance-base: 8px;
+    --distance-medium: 12px;
+    --distance-large: 30px;
+    --scale-large: 0.96;
+    --scale-medium: 0.97;
+    --scale-small: 0.98;
+    --scale-tiny: 0.99;
+    --blur-small: 2px;
+    --blur-medium: 3px;
+    --blur-large: 8px;
+
     /* transitions-dev — semantic timing/curve tokens */
     --resize-dur: 200ms;
     --resize-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -1009,12 +1038,14 @@
      ---------------------------------------------------------- */
   [data-reveal][data-state='hidden'] {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(var(--distance-medium));
+    filter: blur(var(--blur-medium));
   }
   [data-reveal] {
     transition:
-      opacity 400ms var(--panel-ease) var(--reveal-delay, 0ms),
-      transform 400ms var(--panel-ease) var(--reveal-delay, 0ms);
+      opacity var(--duration-very-slow) var(--ease-in-out) var(--reveal-delay, 0ms),
+      transform var(--duration-very-slow) var(--ease-in-out) var(--reveal-delay, 0ms),
+      filter var(--duration-very-slow) var(--ease-in-out) var(--reveal-delay, 0ms);
   }
   [data-reveal-mask][data-state='hidden'] {
     opacity: 0;
@@ -1560,5 +1591,167 @@
   }
   html {
     font-family: var(--font-sans), system-ui, sans-serif;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MITTELSEKTIONEN — eigene Formen statt achtmal derselben Textspalte.
+   Alle Zeiten aus der Motion-Token-Skala, alle Flächen flach (Riso).
+   ══════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  /* ── Pain: nummerierte Einwand-Zeilen mit Orange-Kante ───────────── */
+  .pain-row {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0 20px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .pain-num {
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: 22px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    color: var(--orange);
+  }
+  .pain-quote {
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.35;
+    letter-spacing: -0.014em;
+    color: var(--ink-cream);
+    text-wrap: balance;
+  }
+  .pain-answer {
+    grid-column: 2;
+    margin-top: 8px;
+    max-width: 62ch;
+    color: var(--ink-muted);
+  }
+  @media (max-width: 640px) {
+    .pain-row {
+      grid-template-columns: 2rem 1fr;
+    }
+  }
+
+  /* ── Authority: Zitatplatte auf Papier, breite Marken-Zeile ──────── */
+  .auth-plate {
+    border-left: 3px solid var(--sky);
+    padding: 4px 0 4px 28px;
+  }
+  .auth-brands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-top: 28px;
+  }
+  .auth-chip {
+    border: 1px solid var(--line-medium);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 550;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    transition:
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .auth-chip:hover {
+    border-color: var(--sky);
+    color: var(--sky);
+  }
+
+  /* ── Passung: zwei harte Karten auf dem Hügel ────────────────────── */
+  .fit-card {
+    border: 1px solid rgba(255, 253, 246, 0.22);
+    border-radius: 14px;
+    padding: 28px;
+    background: rgba(255, 253, 246, 0.04);
+  }
+  .fit-card-num {
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: clamp(38px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: #e8641f;
+    white-space: nowrap;
+  }
+
+  /* ── FAQ: Accordion (transitions-dev 21, grid-rows) ──────────────── */
+  .faq-item {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .faq-trigger {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding: 22px 0;
+    text-align: left;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    color: var(--ink-cream);
+    transition: color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .faq-trigger:hover {
+    color: var(--sky);
+  }
+  .faq-trigger:focus-visible {
+    outline: 2px solid var(--sky);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  .faq-chevron {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: var(--ink-dim);
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  .faq-item[data-open='true'] .faq-chevron {
+    transform: scaleY(-1);
+  }
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-fast) var(--ease-smooth-out);
+  }
+  .faq-item[data-open='true'] .faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .faq-panel > div {
+    overflow: hidden;
+  }
+  .faq-panel-inner {
+    padding-bottom: 24px;
+    max-width: 62ch;
+  }
+
+  /* ── Live-Check: Werkzeug bekommt einen Rahmen statt nackt zu stehen ── */
+  .check-frame {
+    border: 1px solid var(--line-subtle);
+    border-radius: 18px;
+    background: var(--bg-raised);
+    padding: 24px;
+  }
+  @media (min-width: 768px) {
+    .check-frame {
+      padding: 32px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .auth-chip,
+    .faq-trigger,
+    .faq-chevron,
+    .faq-panel {
+      transition: none !important;
+    }
   }
 }

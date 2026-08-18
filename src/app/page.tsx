@@ -7,7 +7,12 @@ import { rich } from "@/components/RichText";
 import ZielRechner from "@/components/ZielRechner";
 import { Button } from "@/components/ui/button";
 import { WochenberichtShot } from "@/components/WochenberichtShot";
-import { SystemPlayground } from "@/components/SystemPlayground";
+import { SaeulenStudio } from "@/components/SaeulenStudio";
+import { PainRows } from "@/components/PainRows";
+import { AuthorityBlock } from "@/components/AuthorityBlock";
+import { FitBlock } from "@/components/FitBlock";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { VideoCard } from "@/components/VideoCard";
 import { CtaBand } from "@/components/CtaBand";
 import { getContent } from "@/lib/content";
 
@@ -55,9 +60,13 @@ export default async function HomePage() {
     quote: c[`diagnose.q${n}`],
     answer: c[`diagnose.a${n}`],
   }));
-  const modules = [1, 2, 3, 4].map((n) => ({
-    title: c[`system.m${n}_title`],
-    text: c[`system.m${n}_text`],
+  const saeulen = [1, 2, 3].map((n) => ({
+    key: `p${n}`,
+    title: c[`pillar${n}_title`],
+    claim: c[`pillar${n}_claim`],
+    text: c[`pillar${n}_text`],
+    proof: c[`pillar${n}_proof`],
+    without: c[`pillar${n}_without`],
   }));
   const faq = [1, 2, 3, 4].map((n) => ({
     q: c[`faq.q${n}`],
@@ -124,16 +133,7 @@ export default async function HomePage() {
       {/* ── 02 PAIN AGITATE ─────────────────────────────────────────── */}
       <Section id="problem">
         <SectionHead title={rich(c["diagnose.title"])} />
-        <div>
-          {diagnose.map((d, i) => (
-            <Reveal key={d.quote} delay={i * 60}>
-              <div className="diag-row">
-                <p className="diag-quote">{d.quote}</p>
-                <p className="diag-answer">{d.answer}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <PainRows items={diagnose.map((d) => ({ quote: d.quote, answer: d.answer }))} />
       </Section>
 
       {/* ── 03 DREAM STATE — der Wochenbericht ist das Bild davon ────── */}
@@ -167,7 +167,7 @@ export default async function HomePage() {
             <Reveal>
               <h3 className="t-h3 mb-8">{rich(c["play.title"])}</h3>
             </Reveal>
-            <SystemPlayground modules={modules} />
+            <SaeulenStudio saeulen={saeulen} hint={c["play.hint"]} />
           </div>
           <div className="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
             <p className="t-h3">{c["play.tagline"]}</p>
@@ -236,13 +236,12 @@ export default async function HomePage() {
           <Reveal>
             <div className="card h-full">
               {c["refs.vision_video"]?.trim() ? (
-                <video
-                  src={c["refs.vision_video"]}
-                  controls
-                  preload="metadata"
-                  className="w-full aspect-video rounded-[10px] bg-hill mb-5"
-                  aria-label="Vision Group Imagefilm"
-                />
+                <div className="mb-5">
+                  <VideoCard
+                    src={c["refs.vision_video"]}
+                    label="Vision Group · Imagefilm"
+                  />
+                </div>
               ) : null}
               <h3 className="t-h3">{c["refs.vision_name"]}</h3>
               <p className="t-body mt-3">{c["refs.vision_text"]}</p>
@@ -254,11 +253,15 @@ export default async function HomePage() {
 
       {/* ── 06 AUTHORITY — die Seite selbst ist die Referenz ─────────── */}
       <Section id="autoritaet" tone="raised">
-        <div className="max-w-[760px]">
+        <div className="max-w-[820px]">
           <Reveal>
-            <h2 className="t-h2">{rich(c["authority.title"])}</h2>
-            <p className="t-body-lg mt-5">{c["authority.text"]}</p>
+            <h2 className="t-h2 mb-8">{rich(c["authority.title"])}</h2>
           </Reveal>
+          <AuthorityBlock
+            text={c["authority.text"]}
+            brandsLabel={c["authority.brands_label"]}
+            brands={(c["authority.brands"] || "").split("|").filter(Boolean)}
+          />
         </div>
       </Section>
 
@@ -291,11 +294,15 @@ export default async function HomePage() {
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-20">
           <Reveal>
             <h2 className="t-h2 max-w-[720px]">{rich(c["fit.title"])}</h2>
-            <div className="grid md:grid-cols-2 gap-x-14 gap-y-6 mt-8 max-w-[900px]">
-              <p className="t-body">{c["fit.line1"]}</p>
-              <p className="t-body">{c["fit.line2"]}</p>
-            </div>
           </Reveal>
+          <div className="mt-10 max-w-[900px]">
+            <FitBlock
+              cards={[
+                { num: c["fit.num1"], text: c["fit.line1"] },
+                { num: c["fit.num2"], text: c["fit.line2"] },
+              ]}
+            />
+          </div>
         </div>
       </section>
 
@@ -310,7 +317,7 @@ export default async function HomePage() {
       {/* ── 11 LEAD MAGNET — etwas mitnehmen, ohne zu reden ──────────── */}
       <Section id="check">
         <SectionHead title={rich(c["check.title"])} intro={c["check.text"]} />
-        <div id="tool">
+        <div id="tool" className="check-frame">
           <AuditTool />
         </div>
       </Section>
@@ -318,21 +325,8 @@ export default async function HomePage() {
       {/* ── FAQ — Rest-Einwände ──────────────────────────────────────── */}
       <Section id="faq" tone="raised">
         <SectionHead title={rich(c["faq.title"])} />
-        <div className="grid md:grid-cols-2 gap-x-14">
-          {[faq.filter((_, i) => i % 2 === 0), faq.filter((_, i) => i % 2 === 1)].map(
-            (col, ci) => (
-              <div key={ci}>
-                {col.map((f, i) => (
-                  <Reveal key={f.q} delay={i * 60}>
-                    <div className="faq-cell">
-                      <h3 className="t-h3">{f.q}</h3>
-                      <p className="t-body mt-3">{f.a}</p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            )
-          )}
+        <div className="max-w-[820px]">
+          <FaqAccordion items={faq} />
         </div>
       </Section>
 
