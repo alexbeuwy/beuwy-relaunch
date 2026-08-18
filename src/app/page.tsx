@@ -176,7 +176,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
           <div className="mb-10 md:mb-12">
             <h2 className="t-h2 max-w-[760px]">{rich(c["play.title"])}</h2>
-            <p className="t-body-lg mt-5 max-w-[560px]">{c["play.intro"]}</p>
+            <p className="t-body-lg mt-5 max-w-[640px]">{c["play.intro"]}</p>
           </div>
           <SystemPlayground modules={modules} />
           <div className="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
@@ -243,18 +243,35 @@ export default async function HomePage() {
             </div>
           </Reveal>
         </div>
-        {/* Die zwei weiteren Fälle als gleichgewichtige Karten — bewusste
-            Hierarchie (Flaggschiff groß, Belege kompakt), keine Fußnoten. */}
-        <div className="grid sm:grid-cols-2 gap-5 mt-8">
+        {/* Vision mit Imagefilm (lädt erst bei Klick), Königswege kompakt —
+            danach die Selbstreferenz: die Seite selbst ist der Beweis. */}
+        <div className="grid lg:grid-cols-2 gap-5 mt-8 items-start">
+          <Reveal>
+            <div className="card h-full">
+              {c["refs.vision_video"]?.trim() ? (
+                <video
+                  src={c["refs.vision_video"]}
+                  controls
+                  preload="metadata"
+                  className="w-full aspect-video rounded-[10px] bg-hill mb-5"
+                  aria-label="Vision Group Imagefilm"
+                />
+              ) : null}
+              <h3 className="t-h3">{c["refs.vision_name"]}</h3>
+              <p className="t-body mt-3">{c["refs.vision_text"]}</p>
+            </div>
+          </Reveal>
           <RefCard
             name={c["refs.koenigswege_name"]}
             text={c["refs.koenigswege_text"]}
           />
-          <RefCard
-            name={c["refs.vision_name"]}
-            text={c["refs.vision_text"]}
-          />
         </div>
+        <Reveal>
+          <div className="mt-14 max-w-[720px]">
+            <h3 className="t-h3">{c["refs.selbst_head"]}</h3>
+            <p className="t-body mt-3">{c["refs.selbst_text"]}</p>
+          </div>
+        </Reveal>
       </Section>
 
       {/* 08 — IHR ZIEL: der Rechner eröffnet das Gespräch mit einer Zahl
@@ -286,12 +303,20 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* CTA-Band 2 — Grün-Zwischenruf nach der Rechnung */}
-      <CtaBand
-        tone="hill"
-        title={c["band2.title"]}
-        buttonLabel={c["hero.cta"]}
-      />
+      {/* 09 — KAPAZITÄT + FILTER: Statusumkehr in der Ich-Stimme.
+          Ersetzt das zweite CTA-Band — ehrlicher und nicht repetitiv. */}
+      <section className="band-hill on-sky">
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12 md:py-14 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="max-w-[640px]">
+            <p className="t-h3">{c["fit.line1"]}</p>
+            <p className="t-body mt-2">{c["fit.line2"]}</p>
+          </div>
+          <Button render={<Link href="/termin" />}>
+            {c["hero.cta"]}
+            <span aria-hidden>→</span>
+          </Button>
+        </div>
+      </section>
 
       {/* 09 — HÄUFIGE FRAGEN: nebeneinander statt Akkordeon — die zwei
           Sachen, die der Kunde vor dem Schreiben noch wissen will. */}

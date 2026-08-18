@@ -5,7 +5,7 @@
 
 const CONTENT = `# beuwy — Unternehmensberatung für Marke und Vertriebssysteme
 
-> Marke ist kein Geschmack. Marke ist Umsatz. beuwy baut Marke, Anzeigen und
+> Neukunden nach System. beuwy baut Marke, Werbeanzeigen und
 > Vertriebssystem als ein zusammenhängendes System — und verantwortet, was
 > dabei herauskommt: Anfragen, Termine, Abschlüsse.
 > Inhaber: Alexander Pütter (Markenarbeit seit 2009, beuwy seit 2017,

@@ -1,33 +1,31 @@
 /**
- * Zentrale Text-Verwaltung der Landingpage.
+ * Zentrale Text-Verwaltung — JEDER Text der Seite läuft über diese Keys
+ * und ist damit in /studio (Login: /login) ohne Deploy editierbar.
  * - DEFAULTS = die im Code definierte Copy
- * - Overrides kommen aus Supabase (public.website_content) und werden in /studio
- *   ohne Deploy gepflegt. Fail-open: ohne Env/DB rendert die Seite die Defaults.
- * - *Wort* in Headline-Feldern wird als <em> gerendert (siehe RichText).
+ * - Overrides kommen aus Supabase (public.website_content)
+ * - Fail-open: ohne Env/DB rendert die Seite die Defaults
+ * - *Wort* in Headline-Feldern wird als <em> gerendert (siehe RichText)
  *
- * Struktur nach dem Wireframe vom 12.08.2026 (Fintech-50-Research):
- * Hero (These, 7 Wörter) → Herkunft (Logos) → Track Record (3 Zahlen aus
- * 3 Projekten, statisch) → Diagnose → System (4 Module) → Live-Check →
- * Referenzen → Ihr Ziel → Häufige Fragen → Abschluss.
- * Genau zwei Marketing-CTAs: „Systemgespräch anfragen" / „Live-Check starten".
+ * Aufbau = Einwandskette (Seiten-System, 18.08.2026):
+ * Hero (Traum) → Herkunft (Vertrauen) → Beweis-Schnellschuss → Pain (E1)
+ * → Mechanismus + Playground (E2/E5) → Band (CTA) → Live-Check (Magnet)
+ * → Fälle (E3) → Ablauf/Rechner (E4/E6) → Kapazität + Filter → FAQ → Finale.
+ * Ein CTA-Wortlaut: „Systemgespräch anfragen". Kein Preis, nirgends.
  */
 
 export const DEFAULTS: Record<string, string> = {
-  /* ── 01 Hero — die These ─────────────────────────────────────────────
-     Kontrastformel nach appliedAI/Ramp: „X ist kein A. X ist B."
-     Sieben Wörter, Präsens, kein Superlativ, kein Ausrufezeichen. */
-  "hero.title": "Marke ist kein Geschmack. Marke ist *Umsatz*.",
+  /* ── 01 Hero — Traumzustand, positiv, belegbare Prozess-Aussage ────── */
+  "hero.title": "Neukunden nach *System*.",
   "hero.subtitle":
-    "beuwy baut Marke, Anzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
+    "beuwy baut Marke, Werbeanzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
   "hero.cta": "Systemgespräch anfragen",
   "hero.cta_secondary": "Live-Check starten",
 
-  /* ── 02 Herkunft — Logos auf dem Hügelband ─────────────────────────── */
-  "trust.label": "Seit 2009 für Industrie, Finanzvertrieb und Immobilien",
+  /* ── 02 Herkunft — Vertrauen kommt vor dem Problem ─────────────────── */
+  "trust.label":
+    "Seit 2009 · von Bosch bis PURELEI · heute: Dienstleister mit hohen Auftragswerten",
 
-  /* ── 03 Track Record — drei Zahlen aus drei verschiedenen Projekten,
-     statisch (keine Animation), keine Karten ───────────────────────── */
-  /* ── 03 System im Betrieb — Produkt-Shot + Track Record ────────────── */
+  /* ── 03 Beweis-Schnellschuss — Wochenbericht + drei belegte Zahlen ── */
   "shot.caption":
     "So sieht Verantwortung aus: Anfragen, Termine, Abschlüsse und Kosten je Abschluss — jede Woche, mit der Änderung für die Woche darauf.",
   "stats.s1_value": "342.000 €",
@@ -40,8 +38,9 @@ export const DEFAULTS: Record<string, string> = {
   "stats.s3_label":
     "Jahre Markenarbeit — angefangen bei Bosch, Continental und Michelin",
 
-  /* ── 04 Diagnose — wörtliche Zitate statt behaupteter Schmerzpunkte ── */
-  "diagnose.title": "Drei Sätze, die wir in jedem *Erstgespräch* hören.",
+  /* ── 04 Pain — der Leser erkennt sich, E1 stirbt ───────────────────── */
+  "diagnose.title":
+    "Sie verlieren Aufträge an Leute, die schlechter arbeiten als Sie.",
   "diagnose.q1": "„Wir sind besser als die Konkurrenz.“",
   "diagnose.a1":
     "Der Kunde sieht das nicht. Er vergleicht drei Auftritte und wählt den, der teurer aussieht. Ihr Preis wird zum Argument gegen Sie.",
@@ -52,15 +51,11 @@ export const DEFAULTS: Record<string, string> = {
   "diagnose.a3":
     "Dann läuft es über Erinnerung. Was in keinem System steht, wird nicht nachgefasst — und was nicht nachgefasst wird, kauft woanders.",
 
-  /* ── 05 System — vier Module, ein Verantwortlicher ─────────────────── */
-  /* ── 05 System — die interaktive Grün-Bühne (Playground) ───────────── */
+  /* ── 05 Mechanismus + Playground — E2 stirbt (Entlastung), E5 stirbt ── */
   "play.title": "Anfragen werden *planbar*.",
   "play.intro":
-    "Drehen Sie am Budget, schalten Sie die vier Module zu und ab — genau diese Mechanik bauen und betreiben wir für Sie.",
+    "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück — in dieser Lücke verschwinden Ihre Aufträge. Deshalb: vier Teile, ein Verantwortlicher. Drehen Sie selbst.",
   "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
-  "system.title": "Vier Teile. Ein *Verantwortlicher*.",
-  "system.intro":
-    "Sie müssen keines dieser Werkzeuge kennen und keine drei Dienstleister koordinieren. Sie bekommen das Ergebnis.",
   "system.m1_title": "Marke",
   "system.m1_text":
     "Auftritt, Schrift, Farbe, Sprache. Gebaut nach denselben Regeln wie für Konzerne, zugeschnitten auf Ihre Preisklasse.",
@@ -74,39 +69,48 @@ export const DEFAULTS: Record<string, string> = {
   "system.m4_text":
     "Jede Woche ein Bericht: Anfragen, Termine, Abschlüsse, Kosten pro Abschluss. Daraus folgt, was in der Woche darauf geändert wird.",
 
-  /* ── 06 Live-Check — der gleichwertige zweite Weg ──────────────────── */
+  /* ── CTA-Band — ein Zwischenruf, ein Wortlaut ──────────────────────── */
+  "band1.title":
+    "Das Systemgespräch dauert 30 Minuten. Danach wissen Sie, wo es bei Ihnen klemmt.",
+  "band1.note": "Video oder Telefon · Sie sprechen mit dem, der baut",
+
+  /* ── 06 Live-Check — der Lead-Magnet ohne Gespräch ─────────────────── */
   "check.title": "Prüfen Sie uns an Ihrer eigenen *Website*.",
   "check.text":
-    "Adresse eintragen, 25 Sekunden warten. Sie sehen, was ein Interessent sieht, neun Messpunkte und eine ehrliche Einschätzung — ohne Gespräch, ohne Vertrag.",
+    "Der Live-Check zeigt in 25 Sekunden, was Interessenten sehen — neun Messpunkte, eine ehrliche Einschätzung. Reden müssen Sie dafür mit niemandem.",
 
-  /* ── 07 Referenzen — drei Fälle mit Mechanik und Ergebnis ──────────── */
+  /* ── 07 Fälle — E3 stirbt: funktioniert bei Leuten wie mir ─────────── */
   "refs.title": "Drei Auftritte. Und was *danach* passiert ist.",
   "refs.riegel_name": "RIEGEL Immobilien · Rhein-Neckar",
   "refs.riegel_text":
-    "Neue Marke, neue Website, Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen, angebunden an das Maklersystem. In den ersten sechs Wochen danach: neun Abschlüsse, 342.000 € Volumen. Das Projekt hatte sich nach drei Wochen bezahlt. Heute: Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "Neue Marke, neue Website, Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen, angebunden an das Maklersystem. Danach: neun Abschlüsse in sechs Wochen. Das Projekt hatte sich nach drei Wochen bezahlt gemacht. Heute Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
   "refs.riegel_link": "riegel-immobilien.de",
+  "refs.vision_name": "Vision Group · Immobilien, Mannheim",
+  "refs.vision_text":
+    "Als Vision Group einstieg, bestand die Firma aus zwei Gründern und einer Buchhalterin. Wir haben die Marke und die Unterlagen gebaut, mit denen man vor Investoren besteht — heute ist KKR ihr Partner. Andere Größenordnung, gleiches Prinzip: Wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen.",
+  "refs.vision_video":
+    "https://beuwy.com/wp-content/uploads/2025/11/Vision-Imagefilm.webm",
   "refs.koenigswege_name": "Königswege · Finanzvertrieb",
   "refs.koenigswege_text":
     "Marke, Auftritt und Veranstaltungen komplett neu aufgesetzt. Heute arbeiten über 2.200 Partner unter dieser Marke; das Haus steht in den Top 10 der deutschen Finanzvertriebe.",
-  "refs.vision_name": "Vision Real Estate · Mannheim",
-  "refs.vision_text":
-    "Aus einem Gründungsbüro eine Marke gemacht, die vor Banken besteht — inklusive der Unterlagen, mit denen aus einem Dreierteam ein Gemeinschaftsunternehmen mit einem internationalen Investor wurde.",
+  "refs.selbst_head": "Sie sehen gerade eine Arbeitsprobe.",
+  "refs.selbst_text":
+    "Diese Seite, der Live-Check, der Rechner — selbst gebaut, wie alles bei uns. Vergleichen Sie das ruhig mit dem, was Ihre letzte Agentur abgeliefert hat. Angefangen haben wir 2009 bei Bosch und Continental; dazwischen lagen PURELEI, Rosental Organics, das Musiklabel Good Kid Records, Finanzvertriebe, Versicherer.",
 
-  /* ── 08 Ihr Ziel — der Rechner statt einer Preistabelle ────────────── */
+  /* ── 08 Ablauf + Rechner — E4 und E6 sterben, ohne dass ein Preis fällt ── */
   "goal.title": "Rechnen wir mit Ihrem *Ziel*, nicht mit unserem Preis.",
   "goal.intro":
     "Zwei Regler. Danach wissen wir beide, worüber wir reden — und ob sich ein Gespräch für Sie überhaupt lohnt.",
   "goal.steps": "Systemgespräch|Diagnose des größten Hebels|Festpreis|Betrieb",
   "goal.after":
-    "Was ein System kostet, hängt davon ab, was es tragen muss. Deshalb steht hier kein Preis, sondern eine Diagnose am Anfang: ein Gespräch, eine Analyse Ihres größten Hebels, eine Antwort innerhalb von 24 Stunden. Danach ein Festpreis, der steht.",
+    "Was ein System kostet, hängt davon ab, was es tragen muss — deshalb steht am Anfang keine Preisliste, sondern die Diagnose. Danach steht Ihr Festpreis. Wird es aufwendiger als gedacht, ist das mein Problem.",
 
-  /* ── CTA-Bänder — invertierte Zwischenrufe, immer derselbe eine Weg ── */
-  "band1.title":
-    "Der Live-Check zeigt das Symptom. Das Systemgespräch findet den Hebel.",
-  "band1.note": "30 Minuten · Antwort innerhalb von 24 Stunden",
-  "band2.title": "Die Rechnung steht. Reden wir über den Weg dorthin.",
+  /* ── 09 Kapazität + Filter — Statusumkehr, ehrlich und prüfbar ─────── */
+  "fit.line1": "Mehr als drei Systeme gleichzeitig baue ich nicht.",
+  "fit.line2":
+    "Und unter 15.000 € Auftragswert rechnet sich ein System nicht — das sage ich Ihnen im Gespräch dann auch so.",
 
-  /* ── 09 Häufige Fragen ─────────────────────────────────────────────── */
+  /* ── 10 Häufige Fragen — Rest-Einwände ─────────────────────────────── */
   "faq.title": "Was Kunden vorher *wissen* wollen.",
   "faq.q1": "Wie lange dauert so ein Projekt?",
   "faq.a1":
@@ -121,12 +125,30 @@ export const DEFAULTS: Record<string, string> = {
   "faq.a4":
     "Der Betrieb: Anzeigen steuern, CRM pflegen, Telefonstrecke überwachen, wöchentlich berichten. Ein System, das niemand betreibt, wird in acht Wochen zur Visitenkarte.",
 
-  /* ── 10 Abschluss — ein Weg, H2 statt Riesenwort ───────────────────── */
-  "final.title": "Zwei Zeilen zu Ihrer Firma genügen für den *Anfang*.",
+  /* ── 11 Finale — die niedrigste Hürde der Seite ────────────────────── */
+  "final.title": "Schreiben Sie mir zwei *Zeilen*.",
   "final.text":
-    "Sie schreiben, was Sie verkaufen und woran es gerade hakt. Sie bekommen innerhalb von 24 Stunden eine Einschätzung Ihres größten Hebels — schriftlich, nicht als Verkaufsgespräch getarnt.",
+    "Was Sie verkaufen, woran es hakt. Morgen wissen Sie, wo Ihr größter Hebel liegt — schriftlich, nicht als Verkaufsgespräch getarnt.",
   "final.cta": "Systemgespräch anfragen",
   "final.note": "Antwort innerhalb von 24 Stunden.",
+
+  /* ── /termin — Pains sofort, Ablauf entmystifiziert ────────────────── */
+  "termin.title": "30 Minuten. Danach wissen Sie, wo Ihre Aufträge verloren gehen.",
+  "termin.intro":
+    "Sie sprechen direkt mit Alexander Pütter — nicht mit einem Account-Manager.",
+  "termin.loss_label": "Wo Aufträge verloren gehen",
+  "termin.loss1":
+    "Der Kunde vergleicht drei Auftritte und nimmt den, der teurer aussieht.",
+  "termin.loss2":
+    "Anfragen, die nicht innerhalb von Minuten zurückgerufen werden, kaufen woanders.",
+  "termin.loss3": "Ihre Marke war 2019 gut. Ihre Kunden vergleichen mit 2026.",
+  "termin.flow_label": "Was im Gespräch passiert",
+  "termin.flow1":
+    "Wir schauen uns Ihren Auftritt gemeinsam an, live am Bildschirm.",
+  "termin.flow2":
+    "Sie nennen mir Ihre Zahlen — Anfragen, Termine, Abschlüsse. Ich sage Ihnen, wo es klemmt.",
+  "termin.flow3":
+    "Den größten Hebel bekommen Sie schriftlich, innerhalb von 24 Stunden. Ob wir zusammenarbeiten, entscheiden Sie danach.",
 
   /* ── Video-Analyse (Outreach-Seite, auf der Startseite unverlinkt) ── */
   "video.title": "Die Video-Analyse Ihres *Falls*.",
@@ -137,28 +159,22 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
-  "hero.title": "Hero · These (*Wort* = Hervorhebung)",
-  "hero.subtitle": "Hero · Was geliefert wird und für wen",
-  "hero.cta": "Hero · Primär-CTA",
-  "hero.cta_secondary": "Hero · Sekundär-CTA",
+  "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",
+  "hero.subtitle": "Hero · Subline (Mechanismus + Verantwortung)",
+  "hero.cta": "Der eine CTA-Wortlaut der ganzen Seite",
+  "hero.cta_secondary": "Hero · Zweitweg (Live-Check)",
   "trust.label": "Herkunft · Zeile über den Logos",
-  "stats.s1_value": "Track Record · Zahl 1 (Riegel)",
-  "stats.s2_value": "Track Record · Zahl 2 (Königswege)",
-  "stats.s3_value": "Track Record · Zahl 3 (Markenarbeit)",
-  "diagnose.title": "Diagnose · Überschrift (*Wort* = Hervorhebung)",
-  "system.title": "System · Überschrift (*Wort* = Hervorhebung)",
-  "system.intro": "System · Lead-Satz",
-  "check.title": "Live-Check · Überschrift (*Wort* = Hervorhebung)",
-  "check.text": "Live-Check · Lead-Satz",
-  "refs.title": "Referenzen · Überschrift (*Wort* = Hervorhebung)",
-  "refs.riegel_text": "Referenzen · Riegel (Mechanik + Ergebnis)",
-  "refs.koenigswege_text": "Referenzen · Königswege",
-  "refs.vision_text": "Referenzen · Vision Real Estate",
-  "goal.title": "Ziel · Überschrift (*Wort* = Hervorhebung)",
-  "goal.after": "Ziel · Absatz unter dem Rechner (Diagnose statt Preis)",
-  "faq.title": "FAQ · Überschrift (*Wort* = Hervorhebung)",
-  "final.title": "Abschluss · Überschrift (*Wort* = Hervorhebung)",
-  "final.text": "Abschluss · Lead-Satz",
+  "diagnose.title": "Pain · Kopfzeile (bewusst ohne Hervorhebung)",
+  "play.title": "Playground · Überschrift (*Wort* = Hervorhebung)",
+  "play.intro": "Playground · Mechanismus-Absatz (E2: Entlastung)",
+  "check.text": "Live-Check · Lead-Magnet-Satz",
+  "refs.vision_video": "Fälle · Vision-Imagefilm (URL, leer = ohne Video)",
+  "refs.selbst_head": "Fälle · Selbstreferenz-Kopf",
+  "refs.selbst_text": "Fälle · Selbstreferenz + Herkunftsbreite",
+  "goal.after": "Ablauf · Festpreis-Logik (kein Preis nennen)",
+  "fit.line1": "Kapazität · muss der Wahrheit entsprechen",
+  "fit.line2": "Filter · Schwelle 15.000 €",
+  "termin.title": "/termin · Kopfzeile",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */

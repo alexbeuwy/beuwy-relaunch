@@ -21,11 +21,11 @@ const helvena = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
-  title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
+  title: "beuwy — Neukunden nach System.",
   description:
-    "beuwy baut Marke, Anzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
+    "beuwy baut Marke, Werbeanzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
   openGraph: {
-    title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
+    title: "beuwy — Neukunden nach System.",
     description:
       "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
     type: "website",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Marke ist kein Geschmack. Marke ist Umsatz.",
+    title: "beuwy — Neukunden nach System.",
     description:
       "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
   },

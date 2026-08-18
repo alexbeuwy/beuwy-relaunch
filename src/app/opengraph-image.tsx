@@ -47,23 +47,12 @@ export default async function Image() {
               color: "#FFFDF6",
             }}
           >
-            Marke ist kein Geschmack.
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 56,
-              fontWeight: 700,
-              letterSpacing: -2,
-              lineHeight: 1.1,
-              color: "#FFFDF6",
-            }}
-          >
-            Marke ist <span style={{ color: "#F5A066" }}>Umsatz.</span>
+            Neukunden nach{" "}
+            <span style={{ color: "#F5A066", marginLeft: 14 }}>System.</span>
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "rgba(255,253,246,0.7)" }}>
-          Digitale Vertriebssysteme · Finance &amp; Real Estate · beuwy.com
+          Marke · Werbeanzeigen · Vertriebssystem — beuwy.com
         </div>
       </div>
     ),
