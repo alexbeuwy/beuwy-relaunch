@@ -23,12 +23,12 @@ export const DEFAULTS: Record<string, string> = {
 
   /* ── 02 Herkunft — Vertrauen kommt vor dem Problem ─────────────────── */
   "trust.label":
-    "Seit 2009 · von Bosch bis PURELEI · heute: Dienstleister mit hohen Auftragswerten",
+    "Seit 2009 · Schwerpunkt: Dienstleister mit hohen Auftragswerten · Kunden u. a. Bosch, PURELEI, Rosental",
 
   /* ── 03 DREAM STATE — der Zustand, den er kaufen will ─────────────── */
   "dream.title": "Am Monatsersten wissen Sie, wie viele Kunden *kommen*.",
   "dream.text":
-    "Keine Diskussion mehr über Ihren Preis, weil der Auftritt ihn beantwortet. Keine Anfrage mehr, die im Postfach verhungert. Sie steuern Neukunden wie eine Position im Budget — und der Bericht liegt jeden Montag auf dem Tisch.",
+    "Ihr Preis ist nicht mehr das erste Thema, weil der Auftritt ihn vorher beantwortet. Keine Anfrage, die im Postfach verhungert. Sie steuern Neukunden wie eine Position im Budget: der Monat ist geplant, die Woche zeigt, ob es aufgeht.",
 
   /* ── 05 PROOF — Wochenbericht-Bild + drei belegte Zahlen ─────────── */
   "shot.caption":
@@ -55,6 +55,9 @@ export const DEFAULTS: Record<string, string> = {
   "diagnose.q3": "„Das läuft bei uns über Excel.“",
   "diagnose.a3":
     "Dann läuft es über Erinnerung. Was in keinem System steht, wird nicht nachgefasst — und was nicht nachgefasst wird, kauft woanders.",
+  "diagnose.q4": "„Ich lebe von Empfehlungen, Werbung passt nicht zu mir.“",
+  "diagnose.a4":
+    "Empfehlungen bringen die Kunden, die Sie schon kennen. Alle anderen suchen Sie, bevor sie anrufen — und entscheiden dabei, ob sie anrufen.",
 
   /* ── 04 MECHANISM — warum es bisher nicht lief (Entlastung) ───────── */
   "mech.title": "Ihr Umsatz versickert zwischen Ihren *Dienstleistern*.",
@@ -73,16 +76,16 @@ export const DEFAULTS: Record<string, string> = {
   "pillar1_without": "Ohne Marke vergleicht der Kunde nur Preise — und Sie sind der Teuerste.",
 
   "pillar2_title": "Werbeanzeigen",
-  "pillar2_claim": "In einem Monat mehr getestet als Agenturen in einem halben Jahr.",
+  "pillar2_claim": "Sie bekommen Anfragen, keine Klickberichte.",
   "pillar2_text":
-    "Motive, Texte und Zielgruppen entstehen bei uns über eigene KI-Werkzeuge. Was eine Agentur 2025 in sechs Monaten durch den Test schickte, jagen wir in vier Wochen durch. Das Budget landet dort, wo Abschlüsse entstehen, nicht wo Klicks entstehen.",
+    "Motive, Texte und Zielgruppen entstehen bei uns über eigene KI-Werkzeuge. Was eine Agentur 2025 in sechs Monaten durch den Test schickte, jagen wir in vier Wochen durch. Was keine Anfragen bringt, wird abgeschaltet, bevor es Budget frisst.",
   "pillar2_proof": "Testtempo statt Bauchgefühl",
   "pillar2_without": "Ohne Anzeigen warten Sie darauf, dass Empfehlungen von allein kommen.",
 
   "pillar3_title": "Vertriebssystem",
-  "pillar3_claim": "Selbst gebaut, radikal reduziert, komplett automatisiert.",
+  "pillar3_claim": "Keine Anfrage bleibt liegen.",
   "pillar3_text":
-    "Kein Standard-CRM mit 400 Feldern, sondern ein System, das nur Ihren Ablauf kann: personalisierte Datenmail zum konkreten Objekt oder Angebot, Rückrufregel mit Telefonanbindung, automatische Wochenberichte. Nichts bleibt liegen, weil niemand daran gedacht hat.",
+    "Kein Standard-CRM mit 400 Feldern, sondern ein System, das nur Ihren Ablauf kann: personalisierte Datenmail zum konkreten Objekt oder Angebot, Rückrufregel mit Telefonanbindung, automatische Wochenberichte. Was nachgefasst werden muss, steht im System — nicht in Ihrem Kopf.",
   "pillar3_proof": "Von der Anfrage bis zum Bericht",
   "pillar3_without": "Ohne System verhungert die Anfrage von Donnerstagabend im Postfach.",
 
@@ -184,6 +187,7 @@ export const FIELD_LABELS: Record<string, string> = {
   "hero.cta_secondary": "Hero · Zweitweg (Live-Check)",
   "trust.label": "Herkunft · Zeile über den Logos",
   "diagnose.title": "Pain · Kopfzeile (bewusst ohne Hervorhebung)",
+  "diagnose.q4": "Pain · vierter Einwand (Empfehlungsgeschäft)",
   "play.title": "Playground · Überschrift (*Wort* = Hervorhebung)",
   "play.intro": "Playground · Mechanismus-Absatz (E2: Entlastung)",
   "check.text": "Live-Check · Lead-Magnet-Satz",

@@ -57,7 +57,7 @@ export default async function HomePage() {
     value: c[`stats.s${n}_value`],
     label: c[`stats.s${n}_label`],
   }));
-  const diagnose = [1, 2, 3].map((n) => ({
+  const diagnose = [1, 2, 3, 4].map((n) => ({
     quote: c[`diagnose.q${n}`],
     answer: c[`diagnose.a${n}`],
   }));

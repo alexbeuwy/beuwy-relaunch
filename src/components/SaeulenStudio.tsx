@@ -1050,6 +1050,7 @@ export function SaeulenStudio({
             </span>
             <span className="sst-kraft-proz">%</span>
           </span>
+          <span className="sst-kraft-hinweis">Beispielmechanik</span>
         </div>
       </div>
 
@@ -1124,13 +1125,14 @@ const STUDIO_CSS = `
 .sst-notnummer{color:rgba(255,253,246,0.5);}
 .sst-nottitel{color:#FFFDF6;font-weight:600;}
 .sst-nottitel[data-ein="false"]{color:rgba(255,253,246,0.46);font-weight:400;}
-.sst-kraft{position:absolute;left:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none;}
+.sst-kraft{position:absolute;left:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none;padding:10px 14px 12px;border-radius:12px;background:rgba(10,62,166,0.9);border:1px solid rgba(255,253,246,0.18);}
 @media (min-width:768px){.sst-kraft{left:auto;bottom:auto;top:24px;right:28px;align-items:flex-end;}}
 .sst-kraft-label{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,253,246,0.68);}
 .sst-kraft-wert{display:flex;align-items:baseline;gap:2px;margin-top:5px;color:#FFFDF6;}
 .sst-kraft-wert[data-voll="false"]{color:#E8641F;}
 .sst-kraft-zahl{font-size:44px;line-height:0.92;font-weight:600;letter-spacing:-0.02em;display:inline-block;animation:sst-tausch var(--duration-quick) var(--ease-in-out) both;}
 .sst-kraft-proz{font-size:19px;line-height:1;font-weight:600;}
+.sst-kraft-hinweis{margin-top:4px;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,253,246,0.74);}
 @media (min-width:768px){.sst-kraft-zahl{font-size:60px;}.sst-kraft-proz{font-size:24px;}}
 .sst-labels{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;}
 @media (min-width:640px){.sst-labels{grid-template-columns:repeat(3,1fr);gap:14px;}}
