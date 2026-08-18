@@ -155,7 +155,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ── 04 MECHANISM — Entlastung, dann das System zum Anfassen ──── */}
-      <section id="system" className="band-hill on-sky">
+      <section id="system" className="section-band-bright on-sky">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
           <Reveal>
             <div className="max-w-[760px]">
@@ -178,14 +178,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ── 10a MULTIPLE CTAs — erster Zwischenruf ───────────────────── */}
-      <CtaBand
-        tone="sky"
-        title={c["band1.title"]}
-        note={c["band1.note"]}
-        buttonLabel={c["hero.cta"]}
-      />
 
       {/* ── 05 PROOF STACK — Zahlen und drei Fälle ───────────────────── */}
       <Section id="referenzen">
@@ -265,6 +257,14 @@ export default async function HomePage() {
         </div>
       </Section>
 
+      {/* ── 10a MULTIPLE CTAs — erster Zwischenruf ───────────────────── */}
+      <CtaBand
+        tone="sky"
+        title={c["band1.title"]}
+        note={c["band1.note"]}
+        buttonLabel={c["hero.cta"]}
+      />
+
       {/* ── 07 OFFER — Rechner, Ablauf, Festpreis (nie ein Preis) ────── */}
       <Section id="ziel">
         <SectionHead title={rich(c["goal.title"])} intro={c["goal.intro"]} />
@@ -305,14 +305,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ── 10b MULTIPLE CTAs — zweiter Zwischenruf ──────────────────── */}
-      <CtaBand
-        tone="sky"
-        title={c["band2.title"]}
-        note={c["band2.note"]}
-        buttonLabel={c["hero.cta"]}
-      />
 
       {/* ── 11 LEAD MAGNET — etwas mitnehmen, ohne zu reden ──────────── */}
       <Section id="check">

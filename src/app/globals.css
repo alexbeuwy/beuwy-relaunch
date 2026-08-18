@@ -310,7 +310,8 @@
   }
   /* Das eine betonte Wort pro Überschrift: Berg-Orange auf Papier */
   .t-display em,
-  .t-h2 em {
+  .t-h2 em,
+  .t-h3 em {
     font-style: normal;
     font-weight: inherit;
     color: var(--orange);
@@ -630,7 +631,8 @@
   .band-hill .is-cream {
     color: var(--snow);
   }
-  .band-hill .t-h2 em {
+  .band-hill .t-h2 em,
+  .band-hill .t-h3 em {
     color: #e8641f; /* helleres Berg-Orange — #C94A12 säuft auf Dunkelgrün ab */
   }
   .band-hill .t-body-lg,
@@ -727,43 +729,9 @@
   }
 
   /* Diagnose-Zeilen — Zitat fett, Antwort darunter, Hairline dazwischen */
-  .diag-row {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line-subtle);
-    max-width: 720px;
-  }
-  .diag-row:first-child {
-    border-top: 1px solid var(--line-subtle);
-  }
-  .diag-quote {
-    font-weight: 600;
-    font-size: 17px;
-    letter-spacing: -0.012em;
-    color: var(--ink-cream);
-  }
-  .diag-answer {
-    margin-top: 6px;
-    font-size: 15.5px;
-    line-height: 1.65;
-    color: var(--ink-muted);
-    max-width: 62ch;
-  }
 
   /* Referenz-Blöcke — reiche Fälle als ruhige Absätze */
-  .ref-block {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--line-subtle);
-  }
-  .ref-block:first-child {
-    border-top: 1px solid var(--line-subtle);
-  }
-  .ref-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+
   .ref-link {
     font-size: 13.5px;
     font-weight: 550;
@@ -771,8 +739,8 @@
     white-space: nowrap;
     border-bottom: 1px solid rgba(12, 75, 195, 0.3);
     transition:
-      color var(--text-swap-dur) var(--text-swap-ease),
-      border-color var(--text-swap-dur) var(--text-swap-ease);
+      color var(--duration-fast) var(--ease-smooth-out),
+      border-color var(--duration-fast) var(--ease-smooth-out);
   }
   .ref-link:hover {
     color: var(--sky-deep);
@@ -823,26 +791,8 @@
     color: var(--ink-cream);
     white-space: nowrap;
   }
-  .prozess-sep {
-    margin: 0 12px;
-    color: var(--sky);
-  }
 
   /* FAQ — nebeneinander statt Akkordeon (Desktop), Frage = H3 */
-  .faq-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px 56px;
-  }
-  @media (min-width: 900px) {
-    .faq-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .faq-cell {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line-subtle);
-  }
 
   /* Logo-Rail — weiße Logos auf dem Hügel */
   .logo-rail {
