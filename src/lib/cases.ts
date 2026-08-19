@@ -69,13 +69,13 @@ export const CASES: CaseStudy[] = [
     kunde: "Vision Group",
     branche: "Immobilien · Mannheim",
     jahr: "2023",
-    reise: "Von drei Leuten im Gründungsbüro zum Partner von KKR",
+    reise: "Von drei Leuten im Gründungsbüro zur Partnerschaft mit KKR",
     teaser:
       "Zwei Gründer, eine Buchhalterin — und Unterlagen, mit denen man vor internationalen Investoren besteht.",
     fakten: [
       { wert: "3", label: "Personen bei Projektstart" },
-      { wert: "KKR", label: "als Partner gewonnen" },
-      { wert: "1", label: "Marke, die vor Banken bestand" },
+      { wert: "70", label: "Mitarbeiter zum Höchststand 2022" },
+      { wert: "März 2022", label: "Partnerschaft mit KKR" },
     ],
     ausgangslage:
       "Als wir einstiegen, bestand die Firma aus zwei Gründern und einer Buchhalterin. Der Anspruch war eine Liga, in der man ohne Auftritt kein Gespräch bekommt.",
@@ -86,7 +86,7 @@ export const CASES: CaseStudy[] = [
       "Website als Beleg der Größenordnung, nicht als Visitenkarte",
     ],
     danach:
-      "Aus dem Dreierteam wurde ein Gemeinschaftsunternehmen mit einem internationalen Investor: heute ist KKR ihr Partner. Andere Größenordnung, gleiches Prinzip — wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen.",
+      "Aus dem Dreierteam wurden rund 70 Mitarbeiter, und im März 2022 ging Vision eine strategische Partnerschaft mit KKR ein — erste gemeinsame Transaktion: 163 Wohneinheiten in Dingolfing. Das Haus hat den Zyklus danach nicht überstanden; die Zahlen hier sind der Höchststand von 2022, nicht der Stand heute. Was bleibt, ist das Prinzip: wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen — und ein Dreierteam bekommt ohne Auftritt kein Gespräch mit einem Investor dieser Größe.",
     video: "https://beuwy.com/wp-content/uploads/2025/11/Vision-Imagefilm.webm",
     videoLabel: "Vision Group · Imagefilm",
   },

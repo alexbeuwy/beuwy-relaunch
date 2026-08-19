@@ -575,7 +575,14 @@
   }
 
   .kz-figur {
-    margin-top: 24px;
+    margin-top: 26px;
+  }
+  .kz-figurkopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
   .kz-achse-titel {
     font-size: 11px;
@@ -584,31 +591,85 @@
     text-transform: uppercase;
     color: rgba(255, 253, 246, 0.6);
   }
-  /* Bezugsrahmen fuer die HTML-Beschriftung ueber dem gestreckten SVG */
+  .kz-straenge {
+    display: flex;
+    gap: 6px;
+  }
+  .kz-strang {
+    min-height: 32px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 560;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 253, 246, 0.2);
+    color: rgba(255, 253, 246, 0.62);
+    transition:
+      background-color var(--duration-fast) var(--ease-smooth-out),
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .kz-strang:hover {
+    color: var(--snow);
+    border-color: rgba(255, 253, 246, 0.45);
+  }
+  .kz-strang[data-aktiv="true"] {
+    background: var(--orange-bright);
+    border-color: var(--orange-bright);
+    color: var(--sky-deep);
+  }
+
+  /* Bezugsrahmen fuer die HTML-Beschriftung ueber dem gestreckten SVG.
+     Das Punktraster liegt als Hintergrund darunter — es gibt der Flaeche
+     Tiefe, ohne mit den Rasterlinien zu konkurrieren. */
   .kz-flaeche {
     position: relative;
     width: 100%;
-    height: clamp(230px, 26vw, 320px);
-    margin-top: 12px;
+    height: clamp(240px, 27vw, 330px);
+    margin-top: 14px;
+    border-radius: 12px;
+  }
+  .kz-punktraster,
+  .kz-flaeche::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(
+      rgba(255, 253, 246, 0.11) 1px,
+      transparent 1px
+    );
+    background-size: 26px 26px;
+    /* zu den Raendern hin ausblenden, damit kein Kasten entsteht */
+    -webkit-mask-image: radial-gradient(115% 95% at 50% 45%, #000 45%, transparent 100%);
+    mask-image: radial-gradient(115% 95% at 50% 45%, #000 45%, transparent 100%);
+    pointer-events: none;
   }
   .kz-chart {
+    position: relative;
     display: block;
     width: 100%;
     height: 100%;
   }
   .kz-raster {
-    stroke: rgba(255, 253, 246, 0.16);
+    stroke: rgba(255, 253, 246, 0.18);
     stroke-width: 1;
     stroke-dasharray: 3 7;
   }
   .kz-startlinie {
-    stroke: rgba(255, 253, 246, 0.32);
+    stroke: rgba(255, 253, 246, 0.34);
     stroke-width: 1;
     stroke-dasharray: 4 6;
   }
   .kz-linie {
     stroke: var(--orange-bright);
     stroke-width: 3;
+  }
+  .kz-glow {
+    stroke: var(--orange-bright);
+    stroke-width: 4;
+    opacity: 0.55;
   }
 
   .kz-rasterwert,
@@ -626,7 +687,7 @@
     color: rgba(255, 253, 246, 0.58);
   }
   .kz-punktwert {
-    transform: translate(-50%, -170%);
+    transform: translate(-50%, -175%);
     font-family: var(--font-helvena), system-ui, sans-serif;
     font-weight: 740;
     font-size: clamp(15px, 1.5vw, 19px);
@@ -654,10 +715,127 @@
     margin: -6.5px 0 0 -6.5px;
     border-radius: 50%;
     background: var(--orange-bright);
-    box-shadow: 0 0 0 3px var(--sky-deep);
+    box-shadow:
+      0 0 0 3px var(--sky-deep),
+      0 0 14px 2px rgba(245, 160, 102, 0.55);
   }
   .kz-punkt[data-start="true"] {
     background: var(--snow);
+    box-shadow:
+      0 0 0 3px var(--sky-deep),
+      0 0 12px 2px rgba(255, 253, 246, 0.4);
+  }
+
+  /* ── Slow Reveal ────────────────────────────────────────────
+     Die Linie zeichnet sich, die Flaeche steigt danach auf, die
+     Punkte springen versetzt nach. pathLength="1" macht die
+     Strichlaenge unabhaengig von der tatsaechlichen Geometrie. */
+  .kz-zeichnung {
+    clip-path: inset(0 100% 0 0);
+  }
+  .kz[data-sichtbar="true"] .kz-zeichnung {
+    animation: kz-wischen 1150ms var(--ease-smooth-out) forwards;
+  }
+  @keyframes kz-wischen {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .kz-punkt,
+  .kz-punktwert {
+    opacity: 0;
+  }
+  .kz[data-sichtbar="true"] .kz-punkt {
+    animation: kz-punkt-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(560ms + var(--i, 0) * 130ms);
+  }
+  .kz[data-sichtbar="true"] .kz-punktwert {
+    animation: kz-wert-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(660ms + var(--i, 0) * 130ms);
+  }
+  @keyframes kz-punkt-auf {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes kz-wert-auf {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -140%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -175%);
+    }
+  }
+
+  .kz-karte {
+    opacity: 0;
+  }
+  .kz[data-sichtbar="true"] .kz-karte {
+    animation: kz-karte-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(var(--i, 0) * var(--duration-stagger));
+  }
+  @keyframes kz-karte-auf {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Wer Bewegung reduziert haben will, sieht sofort den Endzustand. */
+  @media (prefers-reduced-motion: reduce) {
+    .kz-zeichnung {
+      clip-path: none;
+    }
+    .kz-punkt,
+    .kz-punktwert,
+    .kz-karte {
+      opacity: 1;
+    }
+    .kz .kz-zeichnung,
+    .kz .kz-punkt,
+    .kz .kz-punktwert,
+    .kz .kz-karte {
+      animation: none !important;
+    }
+  }
+
+  .kz-herkunft {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: rgba(255, 253, 246, 0.1);
+    color: rgba(255, 253, 246, 0.66);
+  }
+  .kz-herkunft[data-art="geprueft"] {
+    background: rgba(255, 253, 246, 0.18);
+    color: var(--snow);
+  }
+  .kz-herkunft--achse {
+    margin-top: 0;
+    margin-left: 10px;
+    text-transform: none;
+    letter-spacing: 0;
+    vertical-align: middle;
+  }
+  .kz-herkunft[data-art="schaetzung"] {
+    background: rgba(245, 160, 102, 0.2);
+    color: var(--orange-bright);
   }
 
   .kz-schalter {
@@ -703,6 +881,22 @@
     flex-direction: column;
     gap: 2px;
     min-width: 0;
+  }
+  .kz-logo {
+    display: block;
+    width: auto;
+    height: 22px;
+    max-width: 132px;
+    object-fit: contain;
+    object-position: left center;
+    opacity: 0.55;
+    transition: opacity var(--duration-fast) var(--ease-smooth-out);
+  }
+  .kz-knopf:hover .kz-logo {
+    opacity: 0.85;
+  }
+  .kz-knopf[data-aktiv="true"] .kz-logo {
+    opacity: 1;
   }
   .kz-knopf-name {
     font-weight: 640;
