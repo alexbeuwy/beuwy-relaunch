@@ -12,6 +12,9 @@ const nextConfig = {
   // dynamischen Reads nicht, ohne diese Zeile fehlt Chromium im Bundle.
   outputFileTracingIncludes: {
     "/api/audit/scan": ["./node_modules/@sparticuz/chromium/bin/**"],
+    // Die Skript-Engine liest Protokoll, Sprachprofil und Hook-Patterns zur
+    // Laufzeit aus docs/branding — eine Quelle der Wahrheit statt Kopie im Code.
+    "/api/os/skripte": ["./docs/branding/*.md"],
   },
   async redirects() {
     // One-Pager-Konsolidierung (Masterplan §5): alte Unterseiten -> Anker

@@ -20,7 +20,20 @@ Kurzfassung: Einzeiler-Idee rein → 5–10 sofort drehbare Skripte raus,
 deutsch, in Alex' Sprache, ohne Floskeln. Strategie ist fix und wird
 nicht diskutiert.
 
-## Branding-OS Dashboard
+## Branding-OS
 
-`/os` (`src/app/os/`) — internes KPI-Dashboard, noindex, nicht verlinkt.
-Daten liegen in v1 im localStorage des Browsers (`beuwy-os-v1`).
+`/os` — internes Dashboard hinter dem Studio-Login (dasselbe Cookie wie
+`/studio`, von dort verlinkt), noindex. Nav und Footer sind dort
+ausgeblendet (`NurWebsite`).
+
+- `src/lib/os/` — `db` (Supabase-RPCs), `instagram`, `tiktok` (Ingest),
+  `kpi` (Entscheidungs-Engine), `skript-engine` (Claude), `stimme`
+  (ElevenLabs), `zugang` (Cookie oder Cron-Secret)
+- `src/app/api/os/` — `sync`, `skripte`, `stimme`, `wochenreport`
+- `supabase/os-schema.sql` — Tabellen und Zugriffsschicht
+- `docs/branding/ANBINDUNGEN.md` — welche Env-Variable wo herkommt
+
+Schwellen der Entscheidungs-Engine stehen in `docs/branding/KPI-LOGIK.md`
+und sind in `kpi.ts` umgesetzt — beides zusammen ändern, nie einzeln.
+Die Skript-Engine liest die Markdown-Dateien aus `docs/branding/` zur
+Laufzeit; sie sind die einzige Quelle der Wahrheit für Ton und Regeln.

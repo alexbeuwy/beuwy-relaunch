@@ -97,6 +97,13 @@ export default async function StudioPage() {
             konfiguriert — Speichern wird fehlschlagen.
           </p>
         )}
+        {/* Zweiter interner Bereich hinter demselben Login. */}
+        <p className="t-small mt-6">
+          <a href="/os" className="underline underline-offset-4">
+            Branding OS öffnen
+          </a>{" "}
+          — Reel-Zahlen, Entscheidungen und die Skript-Engine.
+        </p>
       </header>
       <div className="mt-12">
         <StudioEditor defaults={DEFAULTS} overrides={overrides} labels={FIELD_LABELS} />

@@ -1,96 +1,80 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import type { Dringlichkeit, Lage } from "@/lib/os/kpi";
+import { HOOKS, SAEULEN, type Skript, type Snapshot } from "@/lib/os/typen";
 
 /**
- * Branding OS v1 — KPI-Dashboard fürs Personal Branding (/os).
- * Optik nach Skymetrics-Inspo (dunkel, Pill-Funnel, Mono-Zahlen),
- * bewusst NICHT im Site-Look: eigenes internes Werkzeug.
- * Persistenz: localStorage (beuwy-os-v1) + JSON-Export/-Import.
- * Schwellenwerte: docs/branding/KPI-LOGIK.md — hier nur gespiegelt.
+ * Branding OS — das Dashboard zum Antigravity-Protokoll.
+ *
+ * Aufbau folgt der Frage „was tue ich jetzt": zuerst die Entscheidungen,
+ * dann die Pipeline, erst danach die Zahlen, aus denen beides folgt.
+ * Optik: dunkle Karten, Mono-Zahlen, Pill-Funnel — bewusst nicht im
+ * Look der Website, das hier ist Werkzeug, keine Verkaufsseite.
  */
 
-type Saeule = "a" | "b" | "c";
-type HookTyp = "interrupt" | "kontra" | "zahl";
-
-type Reel = {
-  id: string;
-  datum: string; // JJJJ-MM-TT
-  titel: string;
-  saeule: Saeule;
-  hook: HookTyp;
-  views: number;
-  watchtime: number; // Prozent 0–100
-  saves: number;
-  shares: number;
-  kommentare: number;
-  profilbesuche: number;
-  follows: number;
-};
-
-type Tagesstand = { datum: string; ig: number; tt: number };
-
-type OsDaten = { reels: Reel[]; tage: Tagesstand[] };
-
-const STORAGE_KEY = "beuwy-os-v1";
-const LEER: OsDaten = { reels: [], tage: [] };
-
-const SAEULEN: Record<Saeule, string> = {
-  a: "Selbstständigkeit",
-  b: "AI/Claude",
-  c: "Webseiten",
-};
-const HOOKS: Record<HookTyp, string> = {
-  interrupt: "Pattern-Interrupt",
-  kontra: "Kontra-These",
-  zahl: "Konkrete Zahl",
+type Anbindungen = {
+  datenbank: boolean;
+  instagram: boolean;
+  tiktok: boolean;
+  engine: boolean;
+  stimme: boolean;
 };
 
 const nf = new Intl.NumberFormat("de-DE");
 const nf1 = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 1 });
 
-function fmt(n: number | null): string {
-  return n === null || Number.isNaN(n) ? "–" : nf.format(Math.round(n));
-}
-function fmt1(n: number | null): string {
-  return n === null || Number.isNaN(n) ? "–" : nf1.format(n);
-}
-function heute(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-function tageZurueck(n: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  return d.toISOString().slice(0, 10);
+const fmt = (n: number | null) =>
+  n === null || Number.isNaN(n) ? "–" : nf.format(Math.round(n));
+const fmt1 = (n: number | null) =>
+  n === null || Number.isNaN(n) ? "–" : nf1.format(n);
+
+const STUFEN: Record<Dringlichkeit, { farbe: string; wort: string }> = {
+  handeln: { farbe: "#ff8589", wort: "Jetzt" },
+  beobachten: { farbe: "#e0b653", wort: "Diese Woche" },
+  sammeln: { farbe: "#7c9cf5", wort: "Sammeln" },
+  laeuft: { farbe: "#7bd88f", wort: "Läuft" },
+};
+
+const STATUS_FOLGE: Record<string, { naechster: string; label: string } | null> = {
+  idee: { naechster: "skript", label: "Als Skript markieren" },
+  skript: { naechster: "gedreht", label: "Gedreht" },
+  gedreht: { naechster: "gepostet", label: "Gepostet" },
+  geplant: { naechster: "gepostet", label: "Gepostet" },
+  gepostet: null,
+  verworfen: null,
+};
+
+/* ── Bausteine ────────────────────────────────────────────────────── */
+
+function Karte({
+  titel,
+  extra,
+  children,
+  className = "",
+}: {
+  titel: string;
+  extra?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={`rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5 ${className}`}
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="text-[13px] text-[#8a8880]">{titel}</h2>
+        {extra}
+      </div>
+      {children}
+    </section>
+  );
 }
 
-/* Ø Watchtime, Saves/1k etc. über eine Reel-Menge */
-function kennzahlen(reels: Reel[]) {
-  if (reels.length === 0)
-    return { views: null, watchtime: null, savesRate: null, followConv: null };
-  const sum = (f: (r: Reel) => number) => reels.reduce((a, r) => a + f(r), 0);
-  const views = sum((r) => r.views);
-  return {
-    views: views / reels.length,
-    watchtime: sum((r) => r.watchtime) / reels.length,
-    savesRate: views > 0 ? (sum((r) => r.saves) / views) * 1000 : null,
-    followConv:
-      sum((r) => r.profilbesuche) > 0
-        ? (sum((r) => r.follows) / sum((r) => r.profilbesuche)) * 100
-        : null,
-  };
-}
-
-/* Ampel nach KPI-LOGIK: Watchtime ≥70 grün, 50–70 gelb, <50 rot */
-function ampel(r: Reel): string {
-  if (r.watchtime >= 70) return "#7bd88f";
-  if (r.watchtime >= 50) return "#e0b653";
-  return "#e5484d";
-}
-
-function Badge({ wert, invers = false }: { wert: number | null; invers?: boolean }) {
-  if (wert === null || Number.isNaN(wert) || !Number.isFinite(wert)) return null;
-  const gut = invers ? wert < 0 : wert >= 0;
+function Badge({ wert }: { wert: number | null }) {
+  if (wert === null || !Number.isFinite(wert)) return null;
+  const gut = wert >= 0;
   return (
     <span
       className="rounded-md px-1.5 py-0.5 font-mono text-[11px]"
@@ -99,7 +83,7 @@ function Badge({ wert, invers = false }: { wert: number | null; invers?: boolean
         background: gut ? "rgba(123,216,143,0.1)" : "rgba(229,72,77,0.12)",
       }}
     >
-      {wert >= 0 ? "+" : ""}
+      {gut ? "+" : ""}
       {nf1.format(wert)}%
     </span>
   );
@@ -122,25 +106,56 @@ function Kachel({
         <span className="text-[13px] text-[#8a8880]">{label}</span>
         {badge !== undefined && <Badge wert={badge} />}
       </div>
-      <div className="mt-3 font-mono text-[28px] leading-none text-[#e8e6e1]">
-        {wert}
-      </div>
-      <div className="mt-2 text-[12px] text-[#8a8880]">{sub}</div>
+      <div className="mt-3 font-mono text-[28px] leading-none text-[#e8e6e1]">{wert}</div>
+      <div className="mt-2 text-[12px] leading-snug text-[#8a8880]">{sub}</div>
     </div>
   );
 }
 
-/* Pill-Funnel wie in der Inspo: Höhen zwischen den Stufen interpoliert,
-   Potenz-Skala, damit kleine Konversionsraten sichtbar bleiben */
+/* Balken auf gemeinsamer Skala — für Hook-Bilanz und Säulen-Balance. */
+function Balken({
+  zeilen,
+  einheit,
+  ziel,
+}: {
+  zeilen: { name: string; wert: number | null; neben: string }[];
+  einheit: string;
+  ziel?: number;
+}) {
+  const max = Math.max(ziel ?? 0, ...zeilen.map((z) => z.wert ?? 0), 1);
+  return (
+    <div className="mt-4 space-y-3">
+      {zeilen.map((z) => (
+        <div key={z.name}>
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="text-[13px] text-[#e8e6e1]">{z.name}</span>
+            <span className="font-mono text-[13px] text-[#8a8880]">
+              {z.wert === null ? "–" : `${fmt1(z.wert)}${einheit}`}
+              <span className="ml-2 text-[#5c5a54]">{z.neben}</span>
+            </span>
+          </div>
+          <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[#2a2a27]">
+            <div
+              className="h-full rounded-full transition-[width] duration-500"
+              style={{
+                width: `${Math.min(100, ((z.wert ?? 0) / max) * 100)}%`,
+                background:
+                  ziel !== undefined && (z.wert ?? 0) < ziel ? "#e0b653" : "#7bd88f",
+              }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Funnel({ stufen }: { stufen: { label: string; wert: number | null }[] }) {
-  const PILLS = 28;
+  const PILLS = 26;
   const first = stufen[0].wert ?? 0;
   const anker = stufen.map((s, i) => ({
     idx: Math.round((i / (stufen.length - 1)) * (PILLS - 1)),
-    h:
-      first > 0 && s.wert !== null
-        ? Math.max(0.07, Math.pow(s.wert / first, 0.3))
-        : 0.07,
+    h: first > 0 && s.wert !== null ? Math.max(0.07, Math.pow(s.wert / first, 0.3)) : 0.07,
   }));
   const hoehe = (p: number) => {
     for (let i = 0; i < anker.length - 1; i++) {
@@ -151,46 +166,35 @@ function Funnel({ stufen }: { stufen: { label: string; wert: number | null }[] }
         return a.h + (b.h - a.h) * t;
       }
     }
-    return anker[anker.length - 1].h;
+    return anker.at(-1)?.h ?? 0.07;
   };
   return (
     <div>
-      <div className="flex h-[140px] items-end gap-[5px]">
-        {Array.from({ length: PILLS }, (_, p) => {
-          const istAnker = anker.some((a) => a.idx === p);
-          return (
-            <div
-              key={p}
-              className="w-full rounded-full"
-              style={{
-                height: `${hoehe(p) * 100}%`,
-                background: istAnker ? "#7bd88f" : "#33332f",
-                minWidth: 5,
-              }}
-            />
-          );
-        })}
+      <div className="mt-4 flex h-[120px] items-end gap-[5px]">
+        {Array.from({ length: PILLS }, (_, p) => (
+          <div
+            key={p}
+            className="w-full rounded-full"
+            style={{
+              height: `${hoehe(p) * 100}%`,
+              background: anker.some((a) => a.idx === p) ? "#7bd88f" : "#33332f",
+              minWidth: 5,
+            }}
+          />
+        ))}
       </div>
       <div className="mt-3 grid grid-cols-4 gap-2">
         {stufen.map((s, i) => {
           const prev = i === 0 ? null : stufen[i - 1].wert;
           const pct =
-            s.wert === null
-              ? null
-              : i === 0
-                ? 100
-                : prev && prev > 0
-                  ? (s.wert / prev) * 100
-                  : null;
+            s.wert === null ? null : i === 0 ? 100 : prev && prev > 0 ? (s.wert / prev) * 100 : null;
           return (
             <div key={s.label}>
               <div className="font-mono text-[13px] text-[#e8e6e1]">
                 {pct === null ? "–" : `${nf1.format(pct)}%`}
               </div>
-              <div className="mt-0.5 text-[12px] text-[#8a8880]">{s.label}</div>
-              <div className="font-mono text-[12px] text-[#8a8880]">
-                {fmt(s.wert)}
-              </div>
+              <div className="mt-0.5 text-[12px] leading-tight text-[#8a8880]">{s.label}</div>
+              <div className="font-mono text-[12px] text-[#5c5a54]">{fmt(s.wert)}</div>
             </div>
           );
         })}
@@ -199,18 +203,17 @@ function Funnel({ stufen }: { stufen: { label: string; wert: number | null }[] }
   );
 }
 
-/* 7-Tage-Linie (Views/Tag) als pures SVG */
 function Verlauf({ punkte }: { punkte: { tag: string; wert: number }[] }) {
   const W = 560;
-  const H = 150;
+  const H = 140;
   const max = Math.max(1, ...punkte.map((p) => p.wert));
-  const x = (i: number) => (i / (punkte.length - 1)) * (W - 16) + 8;
-  const y = (v: number) => H - 24 - (v / max) * (H - 40);
+  const x = (i: number) => (i / Math.max(1, punkte.length - 1)) * (W - 16) + 8;
+  const y = (v: number) => H - 24 - (v / max) * (H - 44);
   const pfad = punkte
     .map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.wert).toFixed(1)}`)
     .join(" ");
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Views pro Tag, letzte 7 Tage">
+    <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 w-full" role="img" aria-label="Views pro Tag">
       {[0.25, 0.5, 0.75, 1].map((g) => (
         <line
           key={g}
@@ -224,14 +227,7 @@ function Verlauf({ punkte }: { punkte: { tag: string; wert: number }[] }) {
       ))}
       <path d={pfad} fill="none" stroke="#7bd88f" strokeWidth="2" strokeLinejoin="round" />
       {punkte.map((p, i) => (
-        <text
-          key={p.tag}
-          x={x(i)}
-          y={H - 6}
-          textAnchor="middle"
-          fontSize="11"
-          fill="#8a8880"
-        >
+        <text key={i} x={x(i)} y={H - 6} textAnchor="middle" fontSize="11" fill="#8a8880">
           {p.tag}
         </text>
       ))}
@@ -239,313 +235,386 @@ function Verlauf({ punkte }: { punkte: { tag: string; wert: number }[] }) {
   );
 }
 
-const inputKlasse =
-  "w-full rounded-lg border border-white/[0.08] bg-[#232321] px-3 py-2 text-[13px] text-[#e8e6e1] placeholder:text-[#5c5a54] focus:border-[#7bd88f]/50 focus:outline-none";
+/* ── Dashboard ────────────────────────────────────────────────────── */
 
-export function BrandingOS() {
-  const [daten, setDaten] = useState<OsDaten>(LEER);
-  const [geladen, setGeladen] = useState(false);
-  const [formOffen, setFormOffen] = useState<"reel" | "tag" | null>(null);
-  const dateiRef = useRef<HTMLInputElement>(null);
+export function BrandingOS({
+  snapshot,
+  lage,
+  anbindungen,
+}: {
+  snapshot: Snapshot;
+  lage: Lage;
+  anbindungen: Anbindungen;
+}) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [idee, setIdee] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [meldung, setMeldung] = useState<string | null>(null);
+  const [offen, setOffen] = useState<string | null>(null);
 
-  useEffect(() => {
+  const aktualisieren = () => startTransition(() => router.refresh());
+
+  async function ruf(pfad: string, init: RequestInit, wasLaeuft: string) {
+    setBusy(wasLaeuft);
+    setMeldung(null);
     try {
-      const roh = localStorage.getItem(STORAGE_KEY);
-      if (roh) setDaten(JSON.parse(roh) as OsDaten);
+      const res = await fetch(pfad, init);
+      const daten = (await res.json().catch(() => null)) as
+        | { ok?: boolean; error?: string; detail?: string }
+        | null;
+      setMeldung(
+        res.ok && daten?.ok
+          ? daten.detail || "Fertig."
+          : daten?.error || daten?.detail || `Fehlgeschlagen (${res.status})`,
+      );
+      if (res.ok) aktualisieren();
     } catch {
-      /* defekter Stand → leer starten */
+      setMeldung("Netzwerkfehler.");
     }
-    setGeladen(true);
-  }, []);
+    setBusy(null);
+  }
 
-  const speichern = (neu: OsDaten) => {
-    setDaten(neu);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(neu));
+  const generieren = () => {
+    if (idee.trim().length < 3) return;
+    void ruf(
+      "/api/os/skripte",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idee: idee.trim(), anzahl: 6 }),
+      },
+      "engine",
+    ).then(() => setIdee(""));
   };
 
-  /* Zeitfenster: letzte 7 Tage vs. die 7 davor */
-  const d7 = tageZurueck(6);
-  const d14 = tageZurueck(13);
-  const woche = daten.reels.filter((r) => r.datum >= d7);
-  const vorwoche = daten.reels.filter((r) => r.datum >= d14 && r.datum < d7);
-  const kw = kennzahlen(woche);
-  const vw = kennzahlen(vorwoche);
+  const statusSetzen = (id: string, status: string) =>
+    void ruf(
+      "/api/os/skripte",
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      },
+      `status-${id}`,
+    );
+
+  const vertonen = (id: string) =>
+    void ruf(
+      "/api/os/stimme",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      },
+      `stimme-${id}`,
+    );
 
   const delta = (a: number | null, b: number | null) =>
     a === null || b === null || b === 0 ? null : ((a - b) / b) * 100;
 
-  const tageSortiert = [...daten.tage].sort((a, b) => a.datum.localeCompare(b.datum));
-  const aktuell = tageSortiert.at(-1) ?? null;
-  const vor7 = [...tageSortiert].reverse().find((t) => t.datum <= d7) ?? null;
-  const followerGesamt = aktuell ? aktuell.ig + aktuell.tt : null;
-  const followerProTag =
-    aktuell && vor7 && aktuell.datum > vor7.datum
-      ? (aktuell.ig + aktuell.tt - vor7.ig - vor7.tt) / 7
-      : null;
-
-  const funnelStufen = useMemo(() => {
-    const sum = (f: (r: Reel) => number) => woche.reduce((a, r) => a + f(r), 0);
-    return [
-      { label: "Views", wert: woche.length ? sum((r) => r.views) : null },
-      { label: "Profilbesuche", wert: woche.length ? sum((r) => r.profilbesuche) : null },
-      { label: "Follows", wert: woche.length ? sum((r) => r.follows) : null },
-      { label: "Optins · Phase 2", wert: null },
-    ];
-  }, [woche]);
-
   const verlauf = useMemo(() => {
     const wt = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     return Array.from({ length: 7 }, (_, i) => {
-      const datum = tageZurueck(6 - i);
+      const d = new Date();
+      d.setUTCDate(d.getUTCDate() - (6 - i));
+      const iso = d.toISOString().slice(0, 10);
       return {
-        tag: wt[new Date(`${datum}T12:00:00`).getDay()],
-        wert: daten.reels
-          .filter((r) => r.datum === datum)
+        tag: wt[d.getUTCDay()],
+        wert: snapshot.reels
+          .filter((r) => r.veroeffentlicht_am.slice(0, 10) === iso)
           .reduce((a, r) => a + r.views, 0),
       };
     });
-  }, [daten.reels]);
+  }, [snapshot.reels]);
 
-  const reelEintragen = (form: FormData) => {
-    const zahl = (k: string) => Number(form.get(k) ?? 0) || 0;
-    const reel: Reel = {
-      id: crypto.randomUUID(),
-      datum: String(form.get("datum") || heute()),
-      titel: String(form.get("titel") || "Ohne Titel"),
-      saeule: (form.get("saeule") as Saeule) || "a",
-      hook: (form.get("hook") as HookTyp) || "interrupt",
-      views: zahl("views"),
-      watchtime: Math.min(100, zahl("watchtime")),
-      saves: zahl("saves"),
-      shares: zahl("shares"),
-      kommentare: zahl("kommentare"),
-      profilbesuche: zahl("profilbesuche"),
-      follows: zahl("follows"),
-    };
-    speichern({ ...daten, reels: [...daten.reels, reel] });
-    setFormOffen(null);
-  };
+  const funnel = useMemo(() => {
+    const d7 = new Date();
+    d7.setUTCDate(d7.getUTCDate() - 6);
+    const iso = d7.toISOString().slice(0, 10);
+    const woche = snapshot.reels.filter((r) => r.veroeffentlicht_am.slice(0, 10) >= iso);
+    const s = (f: (r: (typeof woche)[number]) => number) => woche.reduce((a, r) => a + f(r), 0);
+    return [
+      { label: "Views", wert: woche.length ? s((r) => r.views) : null },
+      { label: "Profilbesuche", wert: woche.length ? s((r) => r.profilbesuche) : null },
+      { label: "Follows", wert: woche.length ? s((r) => r.follows) : null },
+      { label: lage.ctaFrei ? "Webinar-Optins" : "Optins · ab Woche 4", wert: null },
+    ];
+  }, [snapshot.reels, lage.ctaFrei]);
 
-  const tagEintragen = (form: FormData) => {
-    const stand: Tagesstand = {
-      datum: String(form.get("datum") || heute()),
-      ig: Number(form.get("ig") ?? 0) || 0,
-      tt: Number(form.get("tt") ?? 0) || 0,
-    };
-    speichern({
-      ...daten,
-      tage: [...daten.tage.filter((t) => t.datum !== stand.datum), stand],
-    });
-    setFormOffen(null);
-  };
-
-  const exportieren = () => {
-    const blob = new Blob([JSON.stringify(daten, null, 2)], {
-      type: "application/json",
-    });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `branding-os-${heute()}.json`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-
-  const importieren = async (datei: File) => {
-    try {
-      const roh = JSON.parse(await datei.text()) as OsDaten;
-      if (Array.isArray(roh.reels) && Array.isArray(roh.tage)) speichern(roh);
-    } catch {
-      /* ungültige Datei ignorieren */
-    }
-  };
-
-  const reelsSortiert = [...daten.reels]
-    .sort((a, b) => b.datum.localeCompare(a.datum))
-    .slice(0, 14);
+  const reels = snapshot.reels.slice(0, 12);
+  const drehbereit = snapshot.skripte.filter(
+    (s) => s.status === "skript" || s.status === "gedreht" || s.status === "idee",
+  );
 
   return (
-    <div className="min-h-dvh bg-[#131311] px-4 pb-24 pt-28 sm:px-8">
+    <div className="min-h-dvh bg-[#131311] px-4 pb-20 pt-10 sm:px-8">
       <div className="mx-auto max-w-[1100px]">
+        {/* Kopf: Woche, Phase, Kadenz */}
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-display text-[32px] tracking-display text-[#e8e6e1]">
+            <h1 className="font-display text-[32px] leading-none tracking-display text-[#e8e6e1]">
               Branding OS
             </h1>
-            <p className="mt-1 text-[13px] text-[#8a8880]">
-              Letzte 7 Tage gegen die 7 davor · Regeln: docs/branding/KPI-LOGIK.md
+            <p className="mt-2 text-[13px] text-[#8a8880]">
+              Woche {lage.woche} · {lage.phase} ·{" "}
+              <span style={{ color: lage.heuteGepostet ? "#7bd88f" : "#ff8589" }}>
+                {lage.heuteGepostet
+                  ? `heute gepostet · ${lage.streak} Tage Serie`
+                  : "heute noch nichts raus"}
+              </span>
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => setFormOffen(formOffen === "tag" ? null : "tag")}
-              className="rounded-lg border border-white/[0.08] bg-[#1d1d1b] px-3 py-2 text-[13px] text-[#e8e6e1] hover:bg-[#232321]"
+              onClick={() => void ruf("/api/os/sync", { method: "POST" }, "sync")}
+              disabled={busy !== null}
+              className="rounded-lg border border-white/[0.08] bg-[#1d1d1b] px-3 py-2 text-[13px] text-[#e8e6e1] hover:bg-[#232321] disabled:opacity-50"
             >
-              Follower-Stand
+              {busy === "sync" ? "Hole Zahlen…" : "Zahlen holen"}
             </button>
             <button
-              onClick={() => setFormOffen(formOffen === "reel" ? null : "reel")}
-              className="rounded-lg bg-[#7bd88f] px-3 py-2 text-[13px] font-medium text-[#131311] hover:bg-[#8fe2a1]"
+              onClick={aktualisieren}
+              disabled={pending}
+              className="rounded-lg border border-white/[0.08] bg-[#1d1d1b] px-3 py-2 text-[13px] text-[#8a8880] hover:text-[#e8e6e1] disabled:opacity-50"
             >
-              Reel eintragen
+              Neu laden
             </button>
-            <button
-              onClick={exportieren}
-              className="rounded-lg border border-white/[0.08] bg-[#1d1d1b] px-3 py-2 text-[13px] text-[#8a8880] hover:text-[#e8e6e1]"
-            >
-              Export
-            </button>
-            <button
-              onClick={() => dateiRef.current?.click()}
-              className="rounded-lg border border-white/[0.08] bg-[#1d1d1b] px-3 py-2 text-[13px] text-[#8a8880] hover:text-[#e8e6e1]"
-            >
-              Import
-            </button>
-            <input
-              ref={dateiRef}
-              type="file"
-              accept="application/json"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) void importieren(f);
-                e.target.value = "";
-              }}
-            />
           </div>
         </header>
 
-        {formOffen === "reel" && (
-          <form
-            action={reelEintragen}
-            className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5 sm:grid-cols-4"
+        {meldung && (
+          <p className="mt-4 rounded-lg border border-white/[0.08] bg-[#232321] px-4 py-2.5 text-[13px] text-[#e8e6e1]">
+            {meldung}
+          </p>
+        )}
+
+        {/* 1. Entscheidungen — was jetzt zu tun ist */}
+        <Karte
+          titel="Entscheidungen"
+          extra={
+            <span className="text-[12px] text-[#5c5a54]">
+              Schwellen aus docs/branding/KPI-LOGIK.md
+            </span>
+          }
+          className="mt-6"
+        >
+          {lage.entscheidungen.length === 0 ? (
+            <p className="mt-4 text-[13px] text-[#5c5a54]">
+              Keine Signale. Sobald Zahlen da sind, steht hier, was zu ändern ist.
+            </p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {lage.entscheidungen.map((e, i) => (
+                <li
+                  key={i}
+                  className="rounded-xl bg-[#232321] p-4"
+                  style={{ borderLeft: `2px solid ${STUFEN[e.stufe].farbe}` }}
+                >
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span
+                      className="text-[11px] uppercase tracking-[0.05em]"
+                      style={{ color: STUFEN[e.stufe].farbe }}
+                    >
+                      {STUFEN[e.stufe].wort}
+                    </span>
+                    <span className="text-[15px] font-medium text-[#e8e6e1]">{e.titel}</span>
+                  </div>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-[#8a8880]">
+                    {e.begruendung}
+                  </p>
+                  <p className="mt-1.5 text-[13px] text-[#e8e6e1]">→ {e.aktion}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Karte>
+
+        {/* 2. Content-Engine + Pipeline */}
+        <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_1.1fr]">
+          <Karte
+            titel="Content-Engine"
+            extra={
+              <span className="text-[12px] text-[#5c5a54]">
+                {anbindungen.engine ? "Claude Opus 5" : "Kein API-Key"}
+              </span>
+            }
           >
-            <input name="datum" type="date" defaultValue={heute()} className={inputKlasse} />
-            <input name="titel" placeholder="Titel / Idee" className={inputKlasse} />
-            <select name="saeule" className={inputKlasse} defaultValue="a">
-              {Object.entries(SAEULEN).map(([k, v]) => (
-                <option key={k} value={k}>{`Säule ${k} — ${v}`}</option>
-              ))}
-            </select>
-            <select name="hook" className={inputKlasse} defaultValue="interrupt">
-              {Object.entries(HOOKS).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
-            {(
-              [
-                ["views", "Views"],
-                ["watchtime", "Watchtime %"],
-                ["saves", "Saves"],
-                ["shares", "Shares"],
-                ["kommentare", "Kommentare"],
-                ["profilbesuche", "Profilbesuche"],
-                ["follows", "Follows"],
-              ] as const
-            ).map(([name, label]) => (
+            <p className="mt-3 text-[13px] leading-relaxed text-[#8a8880]">
+              Einzeiler rein, sechs drehfertige Skripte raus — mit Sprachprofil,
+              drei Hooks pro Skript und der aktuellen Hook-Bilanz aus echten Zahlen.
+            </p>
+            <div className="mt-4 flex gap-2">
               <input
-                key={name}
-                name={name}
-                type="number"
-                min="0"
-                step="any"
-                placeholder={label}
-                className={inputKlasse}
+                value={idee}
+                onChange={(e) => setIdee(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && generieren()}
+                placeholder="z. B. Warum Stundensätze Selbstständige bestrafen"
+                className="w-full rounded-lg border border-white/[0.08] bg-[#232321] px-3 py-2 text-[13px] text-[#e8e6e1] placeholder:text-[#5c5a54] focus:border-[#7bd88f]/50 focus:outline-none"
               />
-            ))}
-            <button className="rounded-lg bg-[#7bd88f] px-3 py-2 text-[13px] font-medium text-[#131311]">
-              Speichern
-            </button>
-          </form>
-        )}
+              <button
+                onClick={generieren}
+                disabled={busy !== null || !anbindungen.engine || idee.trim().length < 3}
+                className="shrink-0 rounded-lg bg-[#7bd88f] px-4 py-2 text-[13px] font-medium text-[#131311] hover:bg-[#8fe2a1] disabled:opacity-40"
+              >
+                {busy === "engine" ? "Schreibt…" : "Batch"}
+              </button>
+            </div>
+            <div className="mt-4 grid grid-cols-4 gap-2 border-t border-white/[0.05] pt-4">
+              {(["idee", "skript", "gedreht", "gepostet"] as const).map((s) => (
+                <div key={s}>
+                  <div className="font-mono text-[20px] text-[#e8e6e1]">
+                    {lage.pipeline[s] ?? 0}
+                  </div>
+                  <div className="text-[12px] capitalize text-[#8a8880]">{s}</div>
+                </div>
+              ))}
+            </div>
+          </Karte>
 
-        {formOffen === "tag" && (
-          <form
-            action={tagEintragen}
-            className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5 sm:grid-cols-4"
+          <Karte
+            titel="Drehbereit"
+            extra={<span className="text-[12px] text-[#5c5a54]">{drehbereit.length} Stück</span>}
           >
-            <input name="datum" type="date" defaultValue={heute()} className={inputKlasse} />
-            <input name="ig" type="number" min="0" placeholder="Follower Instagram" className={inputKlasse} />
-            <input name="tt" type="number" min="0" placeholder="Follower TikTok" className={inputKlasse} />
-            <button className="rounded-lg bg-[#7bd88f] px-3 py-2 text-[13px] font-medium text-[#131311]">
-              Speichern
-            </button>
-          </form>
-        )}
+            {drehbereit.length === 0 ? (
+              <p className="mt-4 text-[13px] text-[#5c5a54]">
+                Nichts in der Pipeline. Idee links eingeben — dann liegen sechs Skripte hier.
+              </p>
+            ) : (
+              <ul className="mt-3 divide-y divide-white/[0.05]">
+                {drehbereit.slice(0, 5).map((s) => (
+                  <SkriptZeile
+                    key={s.id}
+                    skript={s}
+                    offen={offen === s.id}
+                    busy={busy}
+                    stimmeAn={anbindungen.stimme}
+                    onToggle={() => setOffen(offen === s.id ? null : s.id)}
+                    onStatus={statusSetzen}
+                    onVertonen={vertonen}
+                  />
+                ))}
+              </ul>
+            )}
+          </Karte>
+        </div>
 
-        {/* KPI-Kacheln */}
-        <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
+        {/* 3. Zahlen */}
+        <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-5">
           <Kachel
-            label="Follower gesamt"
-            wert={geladen ? fmt(followerGesamt) : "–"}
+            label="Follower"
+            wert={fmt(lage.follower.gesamt)}
             sub={
-              followerProTag !== null
-                ? `${followerProTag >= 0 ? "+" : ""}${fmt1(followerProTag)} pro Tag`
-                : "IG + TikTok, täglicher Stand"
+              lage.follower.proTag !== null
+                ? `${lage.follower.proTag >= 0 ? "+" : ""}${fmt1(lage.follower.proTag)} pro Tag`
+                : "IG + TikTok, sobald der Sync läuft"
             }
           />
           <Kachel
-            label="Ø Reichweite / Reel"
-            wert={fmt(kw.views)}
-            sub={`${woche.length} Reels diese Woche`}
-            badge={delta(kw.views, vw.views)}
+            label="Ø Reichweite"
+            wert={fmt(lage.woche7.views)}
+            sub={`${lage.woche7.anzahl} Reels diese Woche`}
+            badge={delta(lage.woche7.views, lage.vorwoche.views)}
           />
           <Kachel
             label="Ø Watchtime"
-            wert={kw.watchtime === null ? "–" : `${fmt1(kw.watchtime)}%`}
+            wert={lage.woche7.watchtime === null ? "–" : `${fmt1(lage.woche7.watchtime)}%`}
             sub="Ziel ≥ 70 % · unter 50 % Hook ändern"
-            badge={delta(kw.watchtime, vw.watchtime)}
+            badge={delta(lage.woche7.watchtime, lage.vorwoche.watchtime)}
           />
           <Kachel
             label="Saves / 1k"
-            wert={fmt1(kw.savesRate)}
-            sub="ab 10: Format klonen"
-            badge={delta(kw.savesRate, vw.savesRate)}
+            wert={fmt1(lage.woche7.savesRate)}
+            sub="ab 10 Format klonen · unter 5 konkreter werden"
+            badge={delta(lage.woche7.savesRate, lage.vorwoche.savesRate)}
           />
           <Kachel
             label="Follow-Conversion"
-            wert={kw.followConv === null ? "–" : `${fmt1(kw.followConv)}%`}
+            wert={lage.woche7.followConv === null ? "–" : `${fmt1(lage.woche7.followConv)}%`}
             sub="Follows ÷ Profilbesuche · Ziel ≥ 5 %"
-            badge={delta(kw.followConv, vw.followConv)}
+            badge={delta(lage.woche7.followConv, lage.vorwoche.followConv)}
           />
         </div>
 
-        {/* Verlauf + Funnel */}
         <div className="mt-3 grid gap-3 lg:grid-cols-[1.4fr_1fr]">
-          <div className="rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5">
-            <div className="flex items-baseline justify-between">
-              <span className="text-[13px] text-[#8a8880]">Views pro Tag</span>
+          <Karte
+            titel="Views pro Tag"
+            extra={
               <span className="font-mono text-[20px] text-[#e8e6e1]">
                 {fmt(verlauf.reduce((a, p) => a + p.wert, 0))}
               </span>
-            </div>
-            <div className="mt-4">
-              <Verlauf punkte={verlauf} />
-            </div>
-          </div>
-          <div className="rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5">
-            <div className="flex items-baseline justify-between">
-              <span className="text-[13px] text-[#8a8880]">Funnel · 7 Tage</span>
-              <span className="text-[12px] text-[#8a8880]">CTA ab Woche 4–6</span>
-            </div>
-            <div className="mt-4">
-              <Funnel stufen={funnelStufen} />
-            </div>
-          </div>
+            }
+          >
+            <Verlauf punkte={verlauf} />
+          </Karte>
+          <Karte
+            titel="Funnel · 7 Tage"
+            extra={
+              <span className="text-[12px] text-[#5c5a54]">
+                {lage.ctaFrei ? "CTA frei" : "CTA gesperrt"}
+              </span>
+            }
+          >
+            <Funnel stufen={funnel} />
+          </Karte>
         </div>
 
-        {/* Reel-Tabelle */}
-        <div className="mt-3 overflow-x-auto rounded-2xl border border-white/[0.06] bg-[#1d1d1b] p-5">
-          <span className="text-[13px] text-[#8a8880]">Reels · zuletzt eingetragen</span>
-          {reelsSortiert.length === 0 ? (
+        {/* 4. Der Lernkreis: welcher Hook trägt, welche Säule hungert */}
+        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          <Karte
+            titel="Hook-Bilanz"
+            extra={<span className="text-[12px] text-[#5c5a54]">Watchtime je Pattern</span>}
+          >
+            <Balken
+              einheit="%"
+              ziel={70}
+              zeilen={lage.hooks.map((h) => ({
+                name: h.name,
+                wert: h.anzahl >= 3 ? h.watchtime : null,
+                neben: `${h.anzahl} Reels`,
+              }))}
+            />
+            <p className="mt-4 text-[12px] leading-relaxed text-[#5c5a54]">
+              Ab 3 Reels je Pattern wird gewertet. Liegt eins 8 Punkte vorn,
+              steht die Empfehlung oben in den Entscheidungen.
+            </p>
+          </Karte>
+          <Karte
+            titel="Säulen-Balance"
+            extra={<span className="text-[12px] text-[#5c5a54]">letzte 14 Tage</span>}
+          >
+            <Balken
+              einheit="%"
+              ziel={20}
+              zeilen={lage.saeulen.map((s) => ({
+                name: s.name,
+                wert: s.anteil,
+                neben: `${s.anzahl} Reels`,
+              }))}
+            />
+            <p className="mt-4 text-[12px] leading-relaxed text-[#5c5a54]">
+              Keine Säule länger als zwei Wochen unter 20 %. Gelb heißt:
+              nächsten Batch dorthin ziehen.
+            </p>
+          </Karte>
+        </div>
+
+        {/* 5. Reels */}
+        <Karte
+          titel="Reels"
+          extra={<span className="text-[12px] text-[#5c5a54]">zuletzt veröffentlicht</span>}
+          className="mt-3 overflow-x-auto"
+        >
+          {reels.length === 0 ? (
             <p className="mt-4 text-[13px] text-[#5c5a54]">
-              Noch keine Daten. Erstes Reel eintragen — ab 10 Reels pro Format
-              wird entschieden, vorher nur gemessen.
+              Noch keine Reels erfasst. Der Sync holt sie zweimal täglich —
+              oder oben „Zahlen holen" drücken.
             </p>
           ) : (
-            <table className="mt-3 w-full min-w-[720px] text-left text-[13px]">
+            <table className="mt-3 w-full min-w-[760px] text-left text-[13px]">
               <thead>
                 <tr className="text-[12px] text-[#8a8880]">
-                  {["", "Datum", "Titel", "Säule", "Hook", "Views", "WT %", "Saves/1k", "Follows"].map(
+                  {["", "Datum", "Titel", "Kanal", "Säule", "Views", "WT %", "Saves/1k", "Shares"].map(
                     (h, i) => (
                       <th key={i} className="pb-2 pr-4 font-normal">
                         {h}
@@ -555,36 +624,218 @@ export function BrandingOS() {
                 </tr>
               </thead>
               <tbody className="font-mono text-[#e8e6e1]">
-                {reelsSortiert.map((r) => (
-                  <tr key={r.id} className="border-t border-white/[0.05]">
-                    <td className="py-2.5 pr-2">
-                      <span
-                        className="inline-block h-2 w-2 rounded-full"
-                        style={{ background: ampel(r) }}
-                      />
-                    </td>
-                    <td className="pr-4">{r.datum.slice(5)}</td>
-                    <td className="max-w-[220px] truncate pr-4 font-sans">{r.titel}</td>
-                    <td className="pr-4 font-sans text-[#8a8880]">{SAEULEN[r.saeule]}</td>
-                    <td className="pr-4 font-sans text-[#8a8880]">{HOOKS[r.hook]}</td>
-                    <td className="pr-4">{fmt(r.views)}</td>
-                    <td className="pr-4">{fmt1(r.watchtime)}</td>
-                    <td className="pr-4">
-                      {r.views > 0 ? fmt1((r.saves / r.views) * 1000) : "–"}
-                    </td>
-                    <td className="pr-4">{fmt(r.follows)}</td>
-                  </tr>
-                ))}
+                {reels.map((r) => {
+                  const wt = r.watchtime_prozent;
+                  const farbe =
+                    wt === null ? "#5c5a54" : wt >= 70 ? "#7bd88f" : wt >= 50 ? "#e0b653" : "#e5484d";
+                  return (
+                    <tr key={r.id} className="border-t border-white/[0.05]">
+                      <td className="py-2.5 pr-2">
+                        <span
+                          className="inline-block h-2 w-2 rounded-full"
+                          style={{ background: farbe }}
+                        />
+                      </td>
+                      <td className="pr-4">{r.veroeffentlicht_am.slice(5, 10)}</td>
+                      <td className="max-w-[220px] truncate pr-4 font-sans">
+                        {r.permalink ? (
+                          <a
+                            href={r.permalink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-[#7bd88f]"
+                          >
+                            {r.titel || "ohne Titel"}
+                          </a>
+                        ) : (
+                          r.titel || "ohne Titel"
+                        )}
+                      </td>
+                      <td className="pr-4 font-sans text-[#8a8880]">
+                        {r.plattform === "instagram" ? "Instagram" : "TikTok"}
+                      </td>
+                      <td className="pr-4 font-sans text-[#8a8880]">
+                        {r.saeule ? SAEULEN[r.saeule] : "—"}
+                      </td>
+                      <td className="pr-4">{fmt(r.views)}</td>
+                      <td className="pr-4">
+                        {wt !== null
+                          ? fmt1(wt)
+                          : r.avg_watchtime_sek !== null
+                            ? `${fmt1(r.avg_watchtime_sek)}s`
+                            : "–"}
+                      </td>
+                      <td className="pr-4">
+                        {r.views > 0 ? fmt1((r.saves / r.views) * 1000) : "–"}
+                      </td>
+                      <td className="pr-4">{fmt(r.shares)}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}
-        </div>
+        </Karte>
 
-        <p className="mt-4 text-[12px] text-[#5c5a54]">
-          v1 · Daten liegen nur in diesem Browser (localStorage). Export als
-          Backup nutzen. v2 hängt die Erfassung an Supabase.
-        </p>
+        {/* 6. Anbindungen — was füttert das OS wirklich */}
+        <Karte
+          titel="Anbindungen"
+          extra={
+            <span className="text-[12px] text-[#5c5a54]">
+              Sync 05:00 und 17:00 · Report sonntags 18:00
+            </span>
+          }
+          className="mt-3"
+        >
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+            {(
+              [
+                ["Datenbank", anbindungen.datenbank, "Supabase"],
+                ["Instagram", anbindungen.instagram, "Graph API"],
+                ["TikTok", anbindungen.tiktok, "Display API"],
+                ["Skript-Engine", anbindungen.engine, "Claude"],
+                ["Stimme", anbindungen.stimme, "ElevenLabs"],
+              ] as const
+            ).map(([name, an, wie]) => (
+              <div key={name} className="rounded-xl bg-[#232321] p-3">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="inline-block h-2 w-2 rounded-full"
+                    style={{ background: an ? "#7bd88f" : "#4a4a45" }}
+                  />
+                  <span className="text-[13px] text-[#e8e6e1]">{name}</span>
+                </div>
+                <div className="mt-1 text-[12px] text-[#5c5a54]">
+                  {an ? wie : "Key fehlt"}
+                </div>
+              </div>
+            ))}
+          </div>
+          {snapshot.log.length > 0 && (
+            <ul className="mt-4 space-y-1 border-t border-white/[0.05] pt-3 font-mono text-[12px]">
+              {snapshot.log.slice(0, 5).map((l) => (
+                <li key={l.id} className="flex gap-3 text-[#5c5a54]">
+                  <span>{new Date(l.zeit).toLocaleString("de-DE").slice(0, 17)}</span>
+                  <span style={{ color: l.ok ? "#7bd88f" : "#ff8589" }}>{l.quelle}</span>
+                  <span className="truncate">{l.detail}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="mt-4 text-[12px] text-[#5c5a54]">
+            Fehlende Anbindungen: siehe docs/branding/ANBINDUNGEN.md — dort steht
+            pro Dienst, welche Variable wo herkommt.
+          </p>
+        </Karte>
       </div>
     </div>
+  );
+}
+
+/* Eine Zeile in der Drehbereit-Liste: aufklappbar, mit Statuswechsel. */
+function SkriptZeile({
+  skript,
+  offen,
+  busy,
+  stimmeAn,
+  onToggle,
+  onStatus,
+  onVertonen,
+}: {
+  skript: Skript;
+  offen: boolean;
+  busy: string | null;
+  stimmeAn: boolean;
+  onToggle: () => void;
+  onStatus: (id: string, status: string) => void;
+  onVertonen: (id: string) => void;
+}) {
+  const folge = STATUS_FOLGE[skript.status];
+  const hooks = [
+    ["interrupt", skript.hook_interrupt],
+    ["kontra", skript.hook_kontra],
+    ["zahl", skript.hook_zahl],
+  ] as const;
+
+  return (
+    <li className="py-3">
+      <button onClick={onToggle} className="flex w-full items-baseline gap-3 text-left">
+        <span className="font-mono text-[12px] text-[#5c5a54]">
+          {skript.batch?.replace("batch-", "") ?? "—"}·{skript.nummer ?? "—"}
+        </span>
+        <span className="flex-1 truncate text-[13px] text-[#e8e6e1]">{skript.titel}</span>
+        <span className="text-[12px] text-[#8a8880]">
+          {skript.saeule ? SAEULEN[skript.saeule] : "—"}
+        </span>
+        <span className="font-mono text-[12px] text-[#5c5a54]">{skript.laenge_sek ?? "?"}s</span>
+      </button>
+
+      {offen && (
+        <div className="mt-3 rounded-xl bg-[#232321] p-4">
+          <div className="space-y-1.5">
+            {hooks.map(([typ, text]) =>
+              text ? (
+                <div key={typ} className="flex gap-2 text-[13px]">
+                  <span className="w-[112px] shrink-0 text-[#5c5a54]">{HOOKS[typ]}</span>
+                  <span className="text-[#e8e6e1]">„{text}"</span>
+                </div>
+              ) : null,
+            )}
+          </div>
+          {skript.body && (
+            <p className="mt-3 whitespace-pre-line border-t border-white/[0.05] pt-3 text-[13px] leading-relaxed text-[#c9c7c1]">
+              {skript.body}
+            </p>
+          )}
+          {skript.loop_ende && (
+            <p className="mt-2 text-[13px] italic leading-relaxed text-[#8a8880]">
+              {skript.loop_ende}
+            </p>
+          )}
+          {skript.regie && (
+            <p className="mt-3 border-t border-white/[0.05] pt-3 text-[12px] leading-relaxed text-[#5c5a54]">
+              Regie: {skript.regie}
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {folge && (
+              <button
+                onClick={() => onStatus(skript.id, folge.naechster)}
+                disabled={busy !== null}
+                className="rounded-lg bg-[#7bd88f] px-3 py-1.5 text-[12px] font-medium text-[#131311] hover:bg-[#8fe2a1] disabled:opacity-40"
+              >
+                {busy === `status-${skript.id}` ? "…" : folge.label}
+              </button>
+            )}
+            {skript.audio_url ? (
+              <a
+                href={skript.audio_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-white/[0.08] px-3 py-1.5 text-[12px] text-[#7bd88f]"
+              >
+                Audio anhören
+              </a>
+            ) : (
+              <button
+                onClick={() => onVertonen(skript.id)}
+                disabled={busy !== null || !stimmeAn}
+                className="rounded-lg border border-white/[0.08] px-3 py-1.5 text-[12px] text-[#8a8880] hover:text-[#e8e6e1] disabled:opacity-40"
+                title={stimmeAn ? "" : "ElevenLabs nicht konfiguriert"}
+              >
+                {busy === `stimme-${skript.id}` ? "Vertont…" : "Vertonen"}
+              </button>
+            )}
+            <button
+              onClick={() => onStatus(skript.id, "verworfen")}
+              disabled={busy !== null}
+              className="rounded-lg border border-white/[0.08] px-3 py-1.5 text-[12px] text-[#5c5a54] hover:text-[#ff8589] disabled:opacity-40"
+            >
+              Verwerfen
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
   );
 }

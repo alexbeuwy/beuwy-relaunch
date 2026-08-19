@@ -80,17 +80,27 @@ und pro Tag (Follower). Entschieden wird nach Schwellen, nicht nach Gefühl
 
 ## §7 System / Personal-Branding-OS (Aufgabe 4)
 
-Ausbaustufen:
+**Installiert und automatisiert.** Dashboard: `/os` (hinter dem
+Studio-Login, aus `/studio` verlinkt). Einrichtung jeder Anbindung:
+`ANBINDUNGEN.md`.
 
-1. **v1 (installiert):** Dieses Protokoll + Content-Engine als Claude-Skill
-   (`.claude/skills/antigravity/`) + KPI-Dashboard unter `/os`
-   (localStorage, manuelle Eingabe).
-2. **v2:** KPI-Daten nach Supabase (Muster: `website_content`-RPC existiert
-   bereits), Eingabe vom Handy.
-3. **v3:** Skript-API — Endpoint, der Einzeiler + Sprachprofil an Claude
-   schickt und Batches zurückgibt; ElevenLabs-Pipeline für Faceless-Reels.
-4. **v4:** ManyChat-Keyword-Automation + Webinar-Optin-Tracking (erst
-   relevant, wenn CTAs starten).
+| Baustein | Läuft über | Automatik |
+|---|---|---|
+| Kennzahlen Instagram | Graph API | Cron 05:00 + 17:00 |
+| Kennzahlen TikTok | Display API | Cron 05:00 + 17:00 |
+| Speicher | Supabase, RLS-gesperrt, Zugriff nur über RPC | — |
+| Entscheidungen | `src/lib/os/kpi.ts`, Schwellen aus `KPI-LOGIK.md` | bei jedem Aufruf |
+| Skript-Engine | Claude Opus 5, liest dieses Protokoll zur Laufzeit | auf Knopfdruck |
+| Vertonung | ElevenLabs → Supabase Storage | auf Knopfdruck |
+| Wochen-Review | Resend-Mail | Cron sonntags 18:00 |
+
+Der Regelkreis: Die Zahlen aus den Plattformen fließen in die
+Entscheidungs-Engine, deren Hook- und Säulen-Bilanz wiederum in den
+Prompt der Skript-Engine. Die Engine schreibt damit gegen die Messung,
+nicht gegen die Theorie.
+
+Noch offen (Phase 2): ManyChat-Keyword-Automation und
+Webinar-Optin-Tracking — erst relevant, wenn CTAs starten (ab Woche 4–6).
 
 ## §8 Output-Regeln
 
