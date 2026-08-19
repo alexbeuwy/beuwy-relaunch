@@ -21,10 +21,10 @@
   EXPECT: /^0\s*$/
   EVIDENCE: 0
 
-- [ ] G5 Mehrere Straenge je Kunde, wo die Datenlage es hergibt
+- [x] G5 Mehrere Straenge je Kunde, wo die Datenlage es hergibt
   CHECK: grep -c "^        id: " src/lib/kunden-kurven.ts
   EXPECT: /^5\s*$/
-  EVIDENCE: pending
+  EVIDENCE: 5
   ABANDON: G5-Vision Vision bekommt nur einen Strang. Wohneinheiten (1.400), das KKR-Volumen (160 Mio. €) und die Dingolfing-Transaktion (163 Einheiten) sind Einzelstaende zu je einem Zeitpunkt, keine Reihe. Ein zweiter Strang waere nur mit erfundenen Zwischenwerten zu bauen.
 
 - [x] G6 Alle Stränge gleichzeitig sichtbar, der aktive voll, die anderen dezent
@@ -47,10 +47,10 @@
   EXPECT: /^0\s*$/
   EVIDENCE: 0
 
-- [ ] G10 Screenshots 1440 + 390, keine Konsolen- und keine 4xx-Fehler
+- [x] G10 Screenshots 1440 + 390, keine Konsolen- und keine 4xx-Fehler
   EVIDENCE: kz-d-1/1b/2/3.png (1440) und kz-m-*.png (390), je Kunde und je Strang. Der Puppeteer-Lauf sammelt pageerror und Antworten >=400; beide Laeufe melden "fehler: keine".
 
-- [ ] G11 Gepusht
+- [x] G11 Gepusht
   CHECK: cd /home/user/beuwy-relaunch && git status --porcelain | wc -l
   EXPECT: /^0\s*$/
-  EVIDENCE: pending
+  EVIDENCE: 0
