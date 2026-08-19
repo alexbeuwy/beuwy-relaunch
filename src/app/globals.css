@@ -464,6 +464,159 @@
   }
 
   /* ----------------------------------------------------------
+     BELEG-RASTER — die Uebersicht kurz vor der Entscheidung, als
+     Bento auf eigener dunkler Buehne. Kacheln in drei Groessen,
+     weil die Belege unterschiedliches Gewicht haben. Zwei Kacheln
+     tragen einen Ultramarin-Schein, der Rest bleibt ruhig.
+     ---------------------------------------------------------- */
+  .beleg-band {
+    background: var(--hill);
+    color: var(--snow);
+    position: relative;
+    isolation: isolate;
+  }
+  .beleg-titel {
+    color: var(--snow);
+  }
+  .beleg-titel em {
+    font-style: normal;
+    color: var(--orange-bright);
+  }
+  .beleg-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 253, 246, 0.66);
+    text-wrap: pretty;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  @media (min-width: 720px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(158px, auto);
+    }
+    .bento-zelle--gross {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .bento-zelle--hoch,
+    .bento-zelle--breit {
+      grid-column: span 2;
+    }
+  }
+  .bento-zelle {
+    display: flex;
+    min-width: 0;
+  }
+  .bento-karte {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 22px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255, 253, 246, 0.045);
+    border: 1px solid rgba(255, 253, 246, 0.1);
+    transition:
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      background-color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .bento-karte:hover {
+    border-color: rgba(255, 253, 246, 0.22);
+  }
+  .bento-karte--zeile {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  /* Der Schein: ein weicher Ultramarin-Kreis, der aus der Kachel steigt.
+     Nur auf zweien, sonst leuchtet die ganze Wand. */
+  .bento-karte--akzent,
+  .bento-karte--schein {
+    background:
+      radial-gradient(120% 100% at 50% 108%, rgba(12, 75, 195, 0.85) 0%, rgba(12, 75, 195, 0) 62%),
+      rgba(255, 253, 246, 0.05);
+    border-color: rgba(120, 160, 240, 0.28);
+  }
+  .bento-karte--link {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    cursor: pointer;
+  }
+  .bento-karte--link:hover .bento-pfeil {
+    transform: translateX(4px);
+  }
+  .bento-karte:active {
+    transform: scale(0.995);
+  }
+
+  .bento-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255, 253, 246, 0.54);
+  }
+  .bento-wert {
+    margin-top: 10px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: clamp(30px, 3.6vw, 44px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--snow);
+  }
+  .bento-karte--akzent .bento-wert {
+    color: var(--orange-bright);
+  }
+  .bento-text {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 253, 246, 0.7);
+    text-wrap: pretty;
+  }
+  .bento-quelle {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 11px;
+    color: rgba(255, 253, 246, 0.42);
+  }
+  .bento-spark {
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+    color: var(--orange-bright);
+    filter: drop-shadow(0 0 10px rgba(245, 160, 102, 0.5));
+  }
+  .bento-logo {
+    width: auto;
+    height: 22px;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .bento-pfeil {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: rgba(255, 253, 246, 0.6);
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bento-karte:active,
+    .bento-karte--link:hover .bento-pfeil {
+      transform: none;
+    }
+  }
+
+  /* ----------------------------------------------------------
      KENNZAHLEN-DASHBOARD — steht im Ultramarinband. Kartenraster
      und Rasterlinien nach Vorbild klassischer Analytics-Oberflächen,
      Farben aber aus der Riso-Palette: Orange trägt die aktive Kurve,

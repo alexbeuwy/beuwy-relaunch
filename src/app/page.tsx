@@ -14,6 +14,7 @@ import { FitBlock } from "@/components/FitBlock";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaBand } from "@/components/CtaBand";
 import { CaseGrid } from "@/components/CaseGrid";
+import { BelegRaster } from "@/components/BelegRaster";
 import { ScrollFortschritt } from "@/components/ScrollFortschritt";
 import { CASES } from "@/lib/cases";
 import { getContent } from "@/lib/content";
@@ -206,16 +207,6 @@ export default async function HomePage() {
       {/* ── 05 PROOF STACK — Zahlen, dann fünf Fallstudien mit eigener
           Unterseite. Die Überschrift jeder Karte erzählt die Reise. ── */}
       <Section id="referenzen">
-        <Reveal>
-          <div className="stat-band mb-16 md:mb-20">
-            {stats.map((s) => (
-              <div key={s.label} className="stat-cell">
-                <p className="stat-num">{s.value}</p>
-                <p className="stat-cap">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
         <SectionHead title={rich(c["refs.title"])} intro={c["refs.intro"]} />
         <CaseGrid cases={CASES} />
       </Section>
@@ -298,6 +289,22 @@ export default async function HomePage() {
           <FaqAccordion items={faq} />
         </div>
       </Section>
+
+      {/* ── ÜBERSICHT — alles Belegte auf einen Blick, kurz vor der
+          Entscheidung. Eigene dunkle Buehne, damit es als Moment steht. ── */}
+      <section id="uebersicht" className="beleg-band">
+        <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
+          <Reveal>
+            <h2 className="t-h2 beleg-titel max-w-[760px]">
+              {rich(c["beleg.title"])}
+            </h2>
+            <p className="beleg-intro mt-5 max-w-[620px]">{c["beleg.intro"]}</p>
+          </Reveal>
+          <div className="mt-12 md:mt-14">
+            <BelegRaster />
+          </div>
+        </div>
+      </section>
 
       {/* ── 12 BIG CTA ──────────────────────────────────────────────── */}
       <Section id="kontakt" tone="bright" divider={false} className="on-sky">

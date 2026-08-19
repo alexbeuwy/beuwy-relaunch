@@ -151,6 +151,9 @@ export const DEFAULTS: Record<string, string> = {
     "Der Betrieb: Anzeigen steuern, CRM pflegen, Telefonstrecke überwachen, wöchentlich berichten. Ein System, das niemand betreibt, wird in acht Wochen zur Visitenkarte.",
 
   /* ── 11 Finale — die niedrigste Hürde der Seite ────────────────────── */
+  "beleg.title": "Alles, was hier steht, können Sie *nachprüfen*.",
+  "beleg.intro":
+    "Drei Häuser, sieben Zahlen, jede mit ihrer Quelle. Keine Kundenstimmen ohne Nachnamen, keine Screenshots ohne Datum.",
   "final.title": "Schreiben Sie mir zwei *Zeilen*.",
   "final.text":
     "Was Sie verkaufen, woran es hakt. Morgen wissen Sie, wo Ihr größter Hebel liegt — schriftlich, nicht als Verkaufsgespräch getarnt.",
@@ -184,6 +187,8 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  "beleg.title": "Übersicht · Überschrift (*Wort* = Hervorhebung)",
+  "beleg.intro": "Übersicht · Einleitungssatz",
   "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",
   "hero.subtitle": "Hero · Subline (Mechanismus + Verantwortung)",
   "hero.cta": "Der eine CTA-Wortlaut der ganzen Seite",
