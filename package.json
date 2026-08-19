@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.117.1",
     "@base-ui/react": "^1.7.0",
     "@remixicon/react": "^4.9.0",
     "@sparticuz/chromium": "^149.0.0",

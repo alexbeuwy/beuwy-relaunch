@@ -4,9 +4,10 @@ import { useState } from "react";
 
 /**
  * Studio-Login-Formular: ein Passwort-Feld, POST an /api/studio/login,
- * bei Erfolg Redirect auf /studio (der Server rendert dann den Editor).
+ * bei Erfolg Redirect auf das Ziel (der Server rendert dann die Seite).
+ * Dasselbe Cookie öffnet /studio und /os — deshalb das Ziel als Prop.
  */
-export function StudioLogin() {
+export function StudioLogin({ ziel = "/studio" }: { ziel?: string }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +28,7 @@ export function StudioLogin() {
         | null;
       if (res.ok && data?.ok) {
         // Voller Reload, damit der Server das frische Cookie sieht.
-        window.location.assign("/studio");
+        window.location.assign(ziel);
         return;
       }
       setError(data?.error || "Anmeldung fehlgeschlagen — bitte erneut versuchen.");
