@@ -427,6 +427,66 @@
     border-color: var(--line-subtle);
   }
 
+  /* Passwort ändern im Studio. Internes Werkzeug — nutzt die
+     Panel-Sprache der Seite, keine eigenen Farben. */
+  .pw-oeffner {
+    color: var(--ink-dim);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .pw-oeffner:hover {
+    color: var(--ink-cream);
+  }
+  .pw-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 420px;
+  }
+  .pw-feld {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pw-eingabe {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-medium);
+    color: var(--ink-cream);
+    font: inherit;
+    transition: border-color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .pw-eingabe:focus-visible {
+    outline: none;
+    border-color: var(--line-strong);
+  }
+  .pw-hinweis {
+    color: var(--ink-dim);
+  }
+  .pw-hinweis.is-fehler,
+  .pw-meldung.is-fehler {
+    color: var(--accent-red);
+  }
+  .pw-meldung.is-ok {
+    color: var(--ink-cream);
+  }
+  .pw-knoepfe {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .pw-abbruch {
+    color: var(--ink-dim);
+    transition: color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .pw-abbruch:hover {
+    color: var(--ink-cream);
+  }
+
   /* ----------------------------------------------------------
      HERO — das Bild IST die Bühne. Himmel = Sektionfarbe =
      Bild-Oberkante, dadurch sitzt der Text nahtlos „im Himmel".

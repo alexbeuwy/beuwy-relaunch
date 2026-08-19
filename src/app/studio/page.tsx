@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { DEFAULTS, FIELD_LABELS } from "@/lib/content";
-import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
+import { STUDIO_COOKIE, currentCredential, isStudioAuthed } from "@/lib/studio-auth";
 import { StudioEditor } from "@/components/StudioEditor";
+import { PasswortAendern } from "@/components/PasswortAendern";
 import { StudioLogin } from "@/components/StudioLogin";
 
 /**
@@ -44,10 +45,10 @@ async function loadOverrides(): Promise<Record<string, string>> {
 
 export default async function StudioPage() {
   const jar = await cookies();
-  const authed = isStudioAuthed(jar.get(STUDIO_COOKIE)?.value);
+  const authed = await isStudioAuthed(jar.get(STUDIO_COOKIE)?.value);
 
   if (!authed) {
-    const configured = Boolean(process.env.STUDIO_PASSWORD);
+    const configured = Boolean(await currentCredential());
     return (
       <div className="mx-auto max-w-[420px] px-6 pt-36 pb-32">
         <p className="t-label">Studio</p>
@@ -99,6 +100,9 @@ export default async function StudioPage() {
       </header>
       <div className="mt-12">
         <StudioEditor defaults={DEFAULTS} overrides={overrides} labels={FIELD_LABELS} />
+      </div>
+      <div className="hairline mt-16 border-t pt-8">
+        <PasswortAendern />
       </div>
     </div>
   );

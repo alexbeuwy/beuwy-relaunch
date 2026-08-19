@@ -17,14 +17,7 @@ const MAX_VALUE_LENGTH = 5000;
 const MAX_KEY_LENGTH = 200;
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STUDIO_PASSWORD) {
-    return NextResponse.json(
-      { ok: false, error: "Studio ist auf diesem Deployment nicht konfiguriert." },
-      { status: 503 },
-    );
-  }
-
-  if (!isStudioAuthed(req.cookies.get(STUDIO_COOKIE)?.value)) {
+  if (!(await isStudioAuthed(req.cookies.get(STUDIO_COOKIE)?.value))) {
     return NextResponse.json(
       { ok: false, error: "Nicht angemeldet — bitte im Studio neu anmelden." },
       { status: 401 },
