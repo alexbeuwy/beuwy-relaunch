@@ -345,7 +345,7 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
           {/* Beschriftung als HTML — im gestreckten SVG würde sie verzerren. */}
           {geo.raster.map((r) => (
             <span
-              key={`rt${r.y}`}
+              key={`rt${strang.id}${r.y}`}
               className="kz-rasterwert tnum"
               style={{ top: `${r.y}%`, left: `${R.links}%` }}
             >

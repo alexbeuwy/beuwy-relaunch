@@ -715,6 +715,9 @@
     pointer-events: none;
   }
   .kz-rasterwert {
+    /* Der Rest des Diagramms animiert beim Wechsel, die Achsenzahlen
+       sprangen — 2.500 wurde ohne Uebergang zu 400 Tsd. */
+    animation: kz-achse-auf var(--duration-fast) var(--ease-smooth-out) both;
     transform: translate(-100%, -50%);
     padding-right: 12px;
     font-size: 12px;
@@ -838,6 +841,36 @@
     animation: kz-karte-auf var(--duration-slow) var(--ease-smooth-out) forwards;
     animation-delay: calc(var(--i, 0) * var(--duration-stagger));
   }
+  /* Live-Check-Ergebnis: erscheint genau einmal pro Besuch, nach einer
+     Wartezeit. Deshalb laenger als die 300ms fuer Bedien-Elemente —
+     das hier ist die Belohnung, nicht eine Rueckmeldung. */
+  .ergebnis-auf {
+    animation: ergebnis-auf var(--duration-very-slow) var(--ease-smooth-out) both;
+  }
+  @keyframes ergebnis-auf {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ergebnis-auf {
+      animation: none;
+    }
+  }
+
+  @keyframes kz-achse-auf {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   @keyframes kz-karte-auf {
     from {
       opacity: 0;
@@ -862,8 +895,14 @@
     .kz .kz-zeichnung,
     .kz .kz-punkt,
     .kz .kz-punktwert,
-    .kz .kz-karte {
+    .kz .kz-karte,
+    .kz .kz-rasterwert {
       animation: none !important;
+    }
+    .kz-knopf:active,
+    .kz-strang:active,
+    .kz-nebenfahne:active {
+      transform: none;
     }
   }
 
@@ -926,6 +965,12 @@
   .kz-knopf:hover {
     border-color: rgba(255, 253, 246, 0.4);
     color: rgba(255, 253, 246, 0.8);
+  }
+  .kz-knopf:active,
+  .kz-strang:active,
+  .kz-nebenfahne:active {
+    transform: scale(0.985);
+    transition: transform var(--duration-micro) var(--ease-out);
   }
   .kz-knopf[data-aktiv="true"] {
     background: rgba(255, 253, 246, 0.1);
