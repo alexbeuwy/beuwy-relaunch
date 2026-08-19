@@ -1,5 +1,6 @@
 "use client";
 
+import { BorderBeam } from "border-beam";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -65,8 +66,8 @@ function kurz(n: number): string {
   return zahl(n);
 }
 
-function useGeometrie(strang: Strang, R: ReturnType<typeof rahmen>) {
-  return useMemo(() => {
+function geometrie(strang: Strang, R: ReturnType<typeof rahmen>) {
+  {
     const anteile = xAnteile(strang.punkte);
     const maxWert = Math.max(...strang.punkte.map((p) => p.wert));
     const ober = rundeObergrenze(maxWert * 1.12);
@@ -89,7 +90,7 @@ function useGeometrie(strang: Strang, R: ReturnType<typeof rahmen>) {
     }));
 
     return { koords, linie, flaeche, raster, basis };
-  }, [strang, R]);
+  }
 }
 
 /** Kleine Kurve auf der Schaltfläche — der erste Strang, ohne Achsen. */
@@ -117,6 +118,7 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
   const [strangId, setStrangId] = useState(KURVEN[0].straenge[0].id);
   const [sichtbar, setSichtbar] = useState(false);
   const [schmal, setSchmal] = useState(false);
+  const [reduziert, setReduziert] = useState(false);
   const wurzel = useRef<HTMLDivElement>(null);
   const verlaufId = useId();
   const glowId = useId();
@@ -124,17 +126,24 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
   const kurve = KURVEN.find((k) => k.id === aktivId) ?? KURVEN[0];
   const strang = kurve.straenge.find((s) => s.id === strangId) ?? kurve.straenge[0];
   const R = useMemo(() => rahmen(schmal), [schmal]);
-  const geo = useGeometrie(strang, R);
+  /* Alle Straenge auf einmal — jeder auf seinen EIGENEN Hoechststand
+     normiert. Die Achsenzahlen gehoeren dem aktiven Strang; die anderen
+     liegen nur als Form dahinter und tragen deshalb ihren Namen am Ende
+     der Linie, damit niemand sie als dieselbe Achse liest. */
+  const alle = useMemo(
+    () => kurve.straenge.map((st) => ({ strang: st, geo: geometrie(st, R) })),
+    [kurve, R],
+  );
+  const geo = (alle.find((a) => a.strang.id === strang.id) ?? alle[0]).geo;
 
   /* Slow Reveal: einmalig beim Eintritt ins Bild. Wer Bewegung reduziert
      haben will, sieht sofort den Endzustand. */
   useEffect(() => {
     const el = wurzel.current;
     if (!el) return;
-    if (
-      typeof IntersectionObserver === "undefined" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setReduziert(still);
+    if (typeof IntersectionObserver === "undefined" || still) {
       setSichtbar(true);
       return;
     }
@@ -170,6 +179,18 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
   }
 
   return (
+    /* Der Beam laeuft warm statt bunt — die Seite hat genau einen Akzent,
+       und ein Regenbogenrand waere der zweite. */
+    <BorderBeam
+      size="md"
+      colorVariant="sunset"
+      theme="dark"
+      staticColors
+      strength={0.65}
+      duration={4.5}
+      active={sichtbar && !reduziert}
+      className="kz-beam"
+    >
     <div className="kz" ref={wurzel} data-sichtbar={sichtbar ? "true" : "false"}>
       <header className="kz-kopf">
         <div>
@@ -273,6 +294,22 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
                 />
               ))}
 
+            {/* Die uebrigen Straenge: nur Form, kein Wert, keine Punkte. */}
+            {alle
+              .filter((a) => a.strang.id !== strang.id)
+              .map((a) => (
+                <polyline
+                  key={`n${a.strang.id}`}
+                  points={a.geo.linie}
+                  fill="none"
+                  className="kz-neben"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  vectorEffect="non-scaling-stroke"
+                  aria-hidden="true"
+                />
+              ))}
+
             {/* Die Zeichnung wird als Ganzes aufgewischt. Kein
                 stroke-dasharray: das vertraegt sich nicht mit
                 non-scaling-stroke, wenn das SVG ungleichmaessig
@@ -341,6 +378,23 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
             </span>
           ))}
 
+          {alle
+            .filter((a) => a.strang.id !== strang.id)
+            .map((a) => {
+              const letzter = a.geo.koords[a.geo.koords.length - 1];
+              return (
+                <button
+                  key={`nl${a.strang.id}`}
+                  type="button"
+                  className="kz-nebenfahne"
+                  style={{ top: `${letzter.y}%`, left: `${letzter.x}%` }}
+                  onClick={() => setStrangId(a.strang.id)}
+                >
+                  {a.strang.label}
+                </button>
+              );
+            })}
+
           {geo.koords
             .filter((k) => k.punkt.start)
             .map((k) => (
@@ -406,5 +460,6 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
         </Link>
       </p>
     </div>
+    </BorderBeam>
   );
 }

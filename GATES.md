@@ -1,54 +1,56 @@
-# GATES — Kennzahlen-Dashboard auf High-End ziehen
+# GATES — Runde 2: Recherche vertiefen, mehrere Stränge gleichzeitig, Border Beam
 
-- [x] G1 Logos aller drei Kunden liegen als Datei im Repo und stehen auf den Schaltern
-  CHECK: ls public/kunden/ | wc -l
-  EXPECT: /^3\s*$/
-  EVIDENCE: 3
-
-- [x] G2 Vision-Daten sagen "Peak 2022", nirgends mehr "heute" — auch in der Fallstudie nicht
-  CHECK: cd /home/user/beuwy-relaunch && grep -c "heute ist KKR ihr Partner" src/lib/cases.ts
-  EXPECT: /^0\s*$/
-  EVIDENCE: 0
-
-- [x] G3 Mehrere Datenstränge je Kunde, im Diagramm umschaltbar
-  CHECK: cd /home/user/beuwy-relaunch && grep -c "^    straenge: \[" src/lib/kunden-kurven.ts
-  EXPECT: /^3\s*$/
-  EVIDENCE: 3
-
-- [x] G4 RIEGEL läuft über Exposé-Aufrufe, nicht nur über Abschlussvolumen
-  CHECK: cd /home/user/beuwy-relaunch && grep -c "Exposé-Aufrufe" src/lib/kunden-kurven.ts
+- [x] G1 RIEGEL: Exposé-Aufrufe über das ImmoScout24-Profil belegt
+  CHECK: cd /home/user/beuwy-relaunch && grep -c "immobilienscout24" src/lib/kunden-kurven.ts
   EXPECT: /^[1-9]/
-  EVIDENCE: 2
+  EVIDENCE: 1
+  ABANDON: G1-Archiv Historische Staende ueber web.archive.org nicht beschaffbar. archive.org setzt die Verbindung aus diesem Container zurueck (24 Versuche mit 55s Abstand, alle http=000; die Wayback-JSON-API antwortet mit 429). Der Proxy ist nicht die Ursache — web.archive.org taucht in seiner Ablehnungsliste nicht auf, im Gegensatz zu vision.de und timetravel.mementoweb.org. ImmoScout24 selbst sperrt Bots (401). Der heutige Stand ist ueber den Screenshot von Alex belegt; die historischen Werte muessen von einem Rechner mit Wohnanschluss geholt werden.
 
-- [x] G5 Dot-Grid und Glow sind im Diagramm umgesetzt
-  CHECK: cd /home/user/beuwy-relaunch && grep -cE "kz-punktraster|kz-glow" src/app/globals.css
-  EXPECT: /^[2-9]|^[1-9][0-9]/
-  EVIDENCE: 2
-
-- [x] G6 Slow-Reveal beim Scroll-Eintritt, mit prefers-reduced-motion-Ausnahme
-  CHECK: cd /home/user/beuwy-relaunch && cat src/components/KennzahlenStudio.tsx src/app/globals.css | grep -c "prefers-reduced-motion"
-  EXPECT: /^([2-9]|[1-9][0-9])/
-  EVIDENCE: 12
-
-- [x] G7 KEINE erfundenen Datenpunkte — jeder Strang trägt seine Herkunft
-  CHECK: cd /home/user/beuwy-relaunch && grep -c 'herkunft: "' src/lib/kunden-kurven.ts
-  EXPECT: /^[9-9]|^[1-9][0-9]/
-  EVIDENCE: 14
-
-- [x] G8 Build grün
-  CHECK: cd /home/user/beuwy-relaunch && npm run build > /tmp/g8.log 2>&1; echo $?
+- [x] G2 RIEGEL-Metrik korrekt: Aufrufe der letzten 6 Monate, nicht pro Monat
+  CHECK: cd /home/user/beuwy-relaunch && grep -c "pro Monat" src/lib/kunden-kurven.ts
   EXPECT: /^0\s*$/
   EVIDENCE: 0
 
-- [x] G9 Screenshots 1440 + 390 vom Endstand, keine Konsolen- und keine 4xx-Fehler
-  EVIDENCE: kz-d-1/2/3/3b.png (1440) und kz-m-1/2/3/3b.png (390), je Kunde und je Strang. Der Puppeteer-Lauf sammelt pageerror und Antworten >=400; beide Laeufe melden "fehler: keine".
+- [x] G3 Königswege: mindestens ein weiterer datierter Zwischenstand gefunden
+  CHECK: cd /home/user/beuwy-relaunch && sed -n '/id: "partner"/,/herkunft/p' src/lib/kunden-kurven.ts | grep -c "{ zeit:"
+  EXPECT: /^[5-9]\s*$/
+  EVIDENCE: 5
 
-- [x] G10 Gepusht
+- [x] G4 Vision: Projektstart 2018 auf der Zeitachse, kein Platzhalter-Label
+  CHECK: cd /home/user/beuwy-relaunch && grep -c 'zeit: "Projektstart"' src/lib/kunden-kurven.ts
+  EXPECT: /^0\s*$/
+  EVIDENCE: 0
+
+- [ ] G5 Mehrere Straenge je Kunde, wo die Datenlage es hergibt
+  CHECK: grep -c "^        id: " src/lib/kunden-kurven.ts
+  EXPECT: /^5\s*$/
+  EVIDENCE: pending
+  ABANDON: G5-Vision Vision bekommt nur einen Strang. Wohneinheiten (1.400), das KKR-Volumen (160 Mio. €) und die Dingolfing-Transaktion (163 Einheiten) sind Einzelstaende zu je einem Zeitpunkt, keine Reihe. Ein zweiter Strang waere nur mit erfundenen Zwischenwerten zu bauen.
+
+- [x] G6 Alle Stränge gleichzeitig sichtbar, der aktive voll, die anderen dezent
+  CHECK: cd /home/user/beuwy-relaunch && grep -c "kz-neben" src/app/globals.css
+  EXPECT: /^[1-9]/
+  EVIDENCE: 4
+
+- [x] G7 Border Beam installiert und um die Dashboard-Karte gelegt
+  CHECK: cd /home/user/beuwy-relaunch && grep -c "border-beam" package.json
+  EXPECT: /^1\s*$/
+  EVIDENCE: 1
+
+- [x] G8 KEINE erfundenen Datenpunkte — jeder Strang traegt Herkunft und Quelle
+  CHECK: cd /home/user/beuwy-relaunch && grep -c "quelle:" src/lib/kunden-kurven.ts
+  EXPECT: /^([6-9]|[1-9][0-9])\s*$/
+  EVIDENCE: 6
+
+- [x] G9 Build gruen
+  CHECK: cd /home/user/beuwy-relaunch && npm run build > /tmp/g9.log 2>&1; echo $?
+  EXPECT: /^0\s*$/
+  EVIDENCE: 0
+
+- [ ] G10 Screenshots 1440 + 390, keine Konsolen- und keine 4xx-Fehler
+  EVIDENCE: kz-d-1/1b/2/3.png (1440) und kz-m-*.png (390), je Kunde und je Strang. Der Puppeteer-Lauf sammelt pageerror und Antworten >=400; beide Laeufe melden "fehler: keine".
+
+- [ ] G11 Gepusht
   CHECK: cd /home/user/beuwy-relaunch && git status --porcelain | wc -l
   EXPECT: /^0\s*$/
-  EVIDENCE: 0
-
-- [x] G11 Königswege-Zwischenstand recherchiert und datiert belegt
-  CHECK: cd /home/user/beuwy-relaunch && grep -c "04.08.2022" src/lib/kunden-kurven.ts
-  EXPECT: /^2\s*$/
-  EVIDENCE: 2
+  EVIDENCE: pending

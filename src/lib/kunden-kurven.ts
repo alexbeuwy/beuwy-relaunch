@@ -80,11 +80,12 @@ export const KURVEN: KundenKurve[] = [
           { zeit: "2017", wert: 51 },
           { zeit: "2021", wert: 170, start: true },
           { zeit: "2022", wert: 800 },
+          { zeit: "2025", wert: 1700, anzeige: "1.700" },
           { zeit: "2026", wert: 2210, anzeige: "2.210" },
         ],
         herkunft: "geprueft",
         quelle:
-          "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), Stand 2026 öffentlich auf koenigswege.com · 2017 und 2021: Angaben Königswege",
+          "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com · 2017 und 2021: Angaben Königswege",
       },
       {
         id: "standorte",
@@ -92,11 +93,12 @@ export const KURVEN: KundenKurve[] = [
         einheit: "Standorte in Deutschland",
         punkte: [
           { zeit: "2022", wert: 35 },
+          { zeit: "2025", wert: 67 },
           { zeit: "2026", wert: 85 },
         ],
         herkunft: "geprueft",
         quelle:
-          "2022 aus der Presseliste von Königswege (04.08.2022), Stand 2026 öffentlich auf koenigswege.com",
+          "2022 aus der Presseliste von Königswege (04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com",
       },
     ],
     kennzahlen: [
@@ -129,18 +131,18 @@ export const KURVEN: KundenKurve[] = [
         label: "Team",
         einheit: "Mitarbeiter",
         punkte: [
-          { zeit: "Projektstart", wert: 3, start: true },
-          { zeit: "Peak 2022", wert: 70 },
+          { zeit: "2018", wert: 3, start: true },
+          { zeit: "2022", wert: 70 },
         ],
         herkunft: "kunde",
-        quelle: "Angaben Vision Group",
+        quelle: "Angaben Vision Group · Projektstart 2018, Höchststand 2022",
       },
     ],
     kennzahlen: [
       {
         label: "Team zum Höchststand",
         wert: "70",
-        hinweis: "bei Projektstart drei Personen",
+        hinweis: "2018 waren es drei Personen",
         herkunft: "kunde",
       },
       {
@@ -169,13 +171,17 @@ export const KURVEN: KundenKurve[] = [
       {
         id: "exposes",
         label: "Exposé-Aufrufe",
-        einheit: "Exposé-Aufrufe pro Monat",
+        /* ImmoScout24 zaehlt rollierend die letzten sechs Monate, nicht
+           einen Monat — die Bezeichnung muss das sagen, sonst steht dort
+           das Sechsfache. */
+        einheit: "Exposé-Aufrufe, rollierend über sechs Monate",
         punkte: [
           { zeit: "vor Relaunch", wert: 50000, anzeige: "50.000" },
-          { zeit: "heute", wert: 420000, anzeige: "420.000" },
+          { zeit: "heute", wert: 292514, anzeige: "292.514" },
         ],
         herkunft: "schaetzung",
-        quelle: "Größenordnung laut RIEGEL — vor Veröffentlichung gegenzuprüfen",
+        quelle:
+          "Stand heute vom ImmoScout24-Anbieterprofil (immobilienscout24.de/anbieter/profil/riegel-immobilien) · Wert vor dem Relaunch ist eine Größenordnung und noch nicht belegt",
       },
       {
         id: "abschluesse",
