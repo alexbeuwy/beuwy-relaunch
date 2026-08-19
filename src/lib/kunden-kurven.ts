@@ -79,10 +79,24 @@ export const KURVEN: KundenKurve[] = [
         punkte: [
           { zeit: "2017", wert: 51 },
           { zeit: "2021", wert: 170, start: true },
+          { zeit: "2022", wert: 800 },
           { zeit: "2026", wert: 2210, anzeige: "2.210" },
         ],
         herkunft: "geprueft",
-        quelle: "Stand 2026 öffentlich auf koenigswege.com · frühere Stände: Angaben Königswege",
+        quelle:
+          "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), Stand 2026 öffentlich auf koenigswege.com · 2017 und 2021: Angaben Königswege",
+      },
+      {
+        id: "standorte",
+        label: "Standorte",
+        einheit: "Standorte in Deutschland",
+        punkte: [
+          { zeit: "2022", wert: 35 },
+          { zeit: "2026", wert: 85 },
+        ],
+        herkunft: "geprueft",
+        quelle:
+          "2022 aus der Presseliste von Königswege (04.08.2022), Stand 2026 öffentlich auf koenigswege.com",
       },
     ],
     kennzahlen: [
@@ -92,12 +106,12 @@ export const KURVEN: KundenKurve[] = [
         hinweis: "2021 waren es 170",
         herkunft: "geprueft",
       },
-      { label: "Standorte", wert: "85", hinweis: "bundesweit", herkunft: "geprueft" },
+      { label: "Standorte", wert: "85", hinweis: "2022 waren es 35", herkunft: "geprueft" },
       {
-        label: "Marktposition",
-        wert: "Top 10",
-        hinweis: "der deutschen Finanzvertriebe",
-        herkunft: "kunde",
+        label: "Provisionserlös",
+        wert: "17,64 Mio. €",
+        hinweis: "2021, ein Plus von 86 % gegenüber dem Vorjahr",
+        herkunft: "geprueft",
       },
     ],
   },
@@ -106,6 +120,7 @@ export const KURVEN: KundenKurve[] = [
     kunde: "Vision Group",
     branche: "Wohnimmobilien · Mannheim",
     slug: "vision-group",
+    logo: "/kunden/vision.png",
     leitzahl: "KKR",
     leitzahlLabel: "Partner ab März 2022",
     straenge: [

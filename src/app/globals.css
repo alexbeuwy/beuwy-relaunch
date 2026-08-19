@@ -694,6 +694,9 @@
     white-space: nowrap;
     color: var(--snow);
   }
+  .kz-punktwert[data-rand="links"] {
+    transform: translate(-8%, -175%);
+  }
   .kz-punktzeit {
     transform: translate(-50%, 60%);
     font-size: 12px;
@@ -773,6 +776,19 @@
       opacity: 1;
       transform: translate(-50%, -175%);
     }
+  }
+  @keyframes kz-wert-auf-links {
+    from {
+      opacity: 0;
+      transform: translate(-8%, -140%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-8%, -175%);
+    }
+  }
+  .kz[data-sichtbar="true"] .kz-punktwert[data-rand="links"] {
+    animation-name: kz-wert-auf-links;
   }
 
   .kz-karte {

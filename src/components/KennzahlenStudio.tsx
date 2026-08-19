@@ -322,6 +322,9 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
               <span
                 key={`pw${strang.id}${k.punkt.zeit}`}
                 className="kz-punktwert tnum"
+                /* Der erste Punkt sitzt auf der Achse — mittig zentriert
+                   wuerde seine Beschriftung die Achsenzahl ueberlappen. */
+                data-rand={k.x <= R.links + 0.5 ? "links" : undefined}
                 style={{ top: `${k.y}%`, left: `${k.x}%`, "--i": i } as React.CSSProperties}
               >
                 {k.punkt.anzeige ?? zahl(k.punkt.wert)}
