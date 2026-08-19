@@ -507,6 +507,9 @@
     .bento-zelle--breit {
       grid-column: span 2;
     }
+    .bento-zelle--hoch2 {
+      grid-row: span 2;
+    }
   }
   .bento-zelle {
     display: flex;
@@ -577,6 +580,30 @@
   .bento-karte--akzent .bento-wert {
     color: var(--orange-bright);
   }
+  .bento-kopfzeile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  /* Die eine Kachel, die keine Zahl traegt, sondern einen Satz. */
+  .bento-aussage {
+    margin-top: 14px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 740;
+    font-size: clamp(24px, 2.7vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--snow);
+    text-wrap: balance;
+  }
+  .bento-aussage em {
+    font-style: normal;
+    color: var(--orange-bright);
+  }
+  .bento-karte--aussage .bento-text {
+    margin-top: 14px;
+  }
   .bento-text {
     margin-top: 8px;
     font-size: 14px;
@@ -602,6 +629,21 @@
     height: 22px;
     flex-shrink: 0;
     opacity: 0.5;
+  }
+  .bento-mehr {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 13px;
+    font-weight: 560;
+    color: rgba(255, 253, 246, 0.72);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bento-karte--link:hover .bento-mehr {
+    color: var(--snow);
+  }
+  .bento-karte--link {
+    align-items: flex-start;
   }
   .bento-pfeil {
     flex-shrink: 0;

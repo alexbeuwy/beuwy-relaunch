@@ -89,42 +89,52 @@ export function BelegRaster() {
         </div>
       </Reveal>
 
-      <Reveal className="bento-zelle bento-zelle--breit" delay={180}>
-        <div className="bento-karte bento-karte--zeile">
-          <div>
-            <p className="bento-label">Vision Group · Partnerschaft seit März 2022</p>
-            <p className="bento-wert tnum">KKR</p>
-            <p className="bento-text">
-              Eines der größten Private-Equity-Häuser der Welt — seit 1999 über
-              elf Milliarden Euro Eigenkapital in 29 Unternehmen im
-              deutschsprachigen Raum, darunter Axel Springer, Wella und Hensoldt.
-              2022 kam ein Haus dazu, das vier Jahre vorher aus drei Leuten
-              bestand.
-            </p>
-            <p className="bento-quelle">
-              Handelsblatt · Pressemitteilungen der Beteiligten
-            </p>
+      <Reveal className="bento-zelle bento-zelle--breit bento-zelle--hoch2" delay={180}>
+        <div className="bento-karte bento-karte--schein bento-karte--aussage">
+          <div className="bento-kopfzeile">
+            <p className="bento-label">Vision Group · März 2022</p>
+            <Image
+              src="/kunden/vision.png"
+              alt="Vision Group"
+              width={132}
+              height={28}
+              className="bento-logo"
+              unoptimized
+            />
           </div>
-          <Image
-            src="/kunden/vision.png"
-            alt="Vision Group"
-            width={132}
-            height={28}
-            className="bento-logo"
-            unoptimized
-          />
+          {/* Der Kontrast ist die Aussage — und er stimmt nur mit der
+              Jahreszahl. Ohne sie liest es sich, als haette KKR in ein
+              Dreierteam investiert. */}
+          <p className="bento-aussage">
+            Drei Leute in Mannheim.
+            <br />
+            Vier Jahre später Partner von <em>KKR</em>.
+          </p>
+          <p className="bento-text">
+            KKR hält seit 1999 Beteiligungen an 29 Unternehmen im
+            deutschsprachigen Raum — Axel Springer, Wella, Hensoldt. Über elf
+            Milliarden Euro Eigenkapital. Seit März 2022 gehört ein Haus dazu,
+            das 2018 aus zwei Gründern und einer Buchhalterin bestand.
+          </p>
+          <p className="bento-quelle">
+            Handelsblatt · Pressemitteilungen der Beteiligten
+          </p>
         </div>
       </Reveal>
 
-      <Reveal className="bento-zelle bento-zelle--breit" delay={220}>
+      <Reveal className="bento-zelle bento-zelle--breit bento-zelle--hoch2" delay={220}>
         <Link href="/cases/riegel-immobilien" className="bento-karte bento-karte--link">
           <div>
             <p className="bento-label">RIEGEL · sechs Wochen nach dem Relaunch</p>
             <p className="bento-wert tnum">342.000 €</p>
             <p className="bento-text">
               Abschlussvolumen aus neun Abschlüssen. Das Projekt hatte sich nach
-              drei Wochen bezahlt gemacht.
+              drei Wochen bezahlt gemacht. Ein Familienunternehmen mit über
+              zwanzig Jahren Erfahrung, dessen Auftritt davon nichts erzählte —
+              bis Eigentümer beim Vergleich dreier Makler zuerst das fanden, was
+              wir gebaut haben.
             </p>
+            <span className="bento-mehr">Fallstudie lesen</span>
           </div>
           <span className="bento-pfeil" aria-hidden>
             →

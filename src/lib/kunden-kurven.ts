@@ -115,13 +115,17 @@ export const KURVEN: KundenKurve[] = [
         label: "Standorte",
         einheit: "Standorte in Deutschland",
         punkte: [
+          { zeit: "2018", wert: 5 },
+          { zeit: "2019", wert: 8 },
+          { zeit: "2020", wert: 12 },
+          { zeit: "2021", wert: 16, start: true },
           { zeit: "2022", wert: 35 },
           { zeit: "2025", wert: 67 },
           { zeit: "2026", wert: 85 },
         ],
         herkunft: "geprueft",
         quelle:
-          "2022 aus der Presseliste von Königswege (04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com",
+          "2022 aus der Presseliste von Königswege (04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com · 2018 bis 2021 Angaben Königswege",
       },
     ],
     kennzahlen: [
@@ -131,7 +135,12 @@ export const KURVEN: KundenKurve[] = [
         hinweis: "2021 waren es 170",
         herkunft: "geprueft",
       },
-      { label: "Standorte", wert: "85", hinweis: "2022 waren es 35", herkunft: "geprueft" },
+      {
+        label: "Standorte",
+        wert: "85",
+        hinweis: "2021 waren es 16",
+        herkunft: "geprueft",
+      },
       {
         label: "Provisionserlös",
         wert: "34,78 Mio. €",
