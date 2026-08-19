@@ -82,11 +82,9 @@ export const KURVEN: KundenKurve[] = [
         id: "partner",
         label: "Vertriebspartner",
         einheit: "Vertriebspartner unter der Marke",
-        /* Der Start liegt 2020. Auf diesem Strang gibt es dafuer keine
-           Messung, deshalb anteilig: (2020 - 2017) / (2026 - 2017). */
-        startBei: 0.3333,
         punkte: [
           { zeit: "2017", wert: 51 },
+          { zeit: "2020", wert: 81, start: true },
           { zeit: "2021", wert: 170 },
           { zeit: "2022", wert: 800 },
           { zeit: "2025", wert: 1700, anzeige: "1.700" },
@@ -94,7 +92,7 @@ export const KURVEN: KundenKurve[] = [
         ],
         herkunft: "geprueft",
         quelle:
-          "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com · 2017 und 2021: Angaben Königswege",
+          "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com · 2017, 2020 und 2021: Angaben Königswege",
       },
       {
         id: "provision",
