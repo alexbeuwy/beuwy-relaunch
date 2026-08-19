@@ -36,6 +36,12 @@ export type Strang = {
   /** Was auf der Y-Achse steht */
   einheit: string;
   punkte: Punkt[];
+  /**
+   * Position der Start-Marke auf der X-Achse (0…1), wenn der Start
+   * ZWISCHEN zwei Messungen liegt statt auf einer. Ohne Angabe sitzt die
+   * Marke auf dem Punkt mit `start: true`.
+   */
+  startBei?: number;
   herkunft: Herkunft;
   quelle: string;
 };
@@ -193,6 +199,10 @@ export const KURVEN: KundenKurve[] = [
           { zeit: "vor Relaunch", wert: 50000, anzeige: "50.000" },
           { zeit: "heute", wert: 292514, anzeige: "292.514" },
         ],
+        /* Der Relaunch liegt zwischen den beiden Messungen, nicht auf
+           einer davon. Die Achse ist hier ordinal ("vorher"/"heute"),
+           deshalb steht die Marke mittig zwischen ihnen. */
+        startBei: 0.5,
         herkunft: "schaetzung",
         quelle:
           "Stand heute vom ImmoScout24-Anbieterprofil (immobilienscout24.de/anbieter/profil/riegel-immobilien) · Wert vor dem Relaunch ist eine Größenordnung und noch nicht belegt",

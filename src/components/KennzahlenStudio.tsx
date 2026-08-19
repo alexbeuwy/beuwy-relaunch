@@ -89,7 +89,15 @@ function geometrie(strang: Strang, R: ReturnType<typeof rahmen>) {
       wert: Math.round(ober * f),
     }));
 
-    return { koords, linie, flaeche, raster, basis };
+    /* Start-Marke: entweder frei gesetzt (Start liegt zwischen zwei
+       Messungen) oder auf dem Punkt, der ihn traegt. */
+    const startPunkt = koords.find((k) => k.punkt.start);
+    const startX =
+      strang.startBei !== undefined
+        ? R.links + strang.startBei * breite
+        : startPunkt?.x;
+
+    return { koords, linie, flaeche, raster, basis, startX };
   }
 }
 
@@ -273,20 +281,6 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
               />
             ))}
 
-            {geo.koords
-              .filter((k) => k.punkt.start)
-              .map((k) => (
-                <line
-                  key={`s${k.x}`}
-                  x1={k.x}
-                  y1={R.oben - 5}
-                  x2={k.x}
-                  y2={geo.basis}
-                  className="kz-startlinie"
-                  vectorEffect="non-scaling-stroke"
-                />
-              ))}
-
             {/* Die uebrigen Straenge: nur Form, kein Wert, keine Punkte. */}
             {alle
               .filter((a) => a.strang.id !== strang.id)
@@ -396,17 +390,38 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
               );
             })}
 
-          {geo.koords
-            .filter((k) => k.punkt.start)
-            .map((k) => (
+          {geo.startX !== undefined ? (
+            <span
+              className="kz-startlinie"
+              style={{
+                left: `${geo.startX}%`,
+                top: `${R.oben - 2}%`,
+                height: `${geo.basis - R.oben + 2}%`,
+              }}
+              aria-hidden="true"
+            />
+          ) : null}
+
+          {geo.startX !== undefined
+            ? [geo.startX].map((x) => (
               <span
-                key={`sm${k.x}`}
+                key={`sm${x}`}
                 className="kz-startmarke"
-                style={{ top: `${R.oben - 5}%`, left: `${k.x}%` }}
+                data-rand={x <= R.links + 1 ? "links" : undefined}
+                style={{ top: `${R.oben - 5}%`, left: `${x}%` }}
               >
+                <Image
+                  src="/kunden/beuwy-marke.svg"
+                  alt=""
+                  width={11}
+                  height={22}
+                  className="kz-startmarke-logo"
+                  unoptimized
+                />
                 Start beuwy
               </span>
-            ))}
+            ))
+            : null}
 
           {geo.koords.map((k, i) => (
             <span

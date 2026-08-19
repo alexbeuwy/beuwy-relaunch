@@ -657,10 +657,34 @@
     stroke-width: 1;
     stroke-dasharray: 3 7;
   }
+  /* Der Moment, an dem die Zusammenarbeit begann. Als HTML statt im SVG:
+     Glimmen und Puls sind hier mit box-shadow zu machen, im gestreckten
+     SVG waeren sie mitverzerrt. */
   .kz-startlinie {
-    stroke: rgba(255, 253, 246, 0.34);
-    stroke-width: 1;
-    stroke-dasharray: 4 6;
+    position: absolute;
+    width: 2px;
+    margin-left: -1px;
+    border-radius: 2px;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 253, 246, 0.85),
+      rgba(255, 253, 246, 0.34) 65%,
+      rgba(255, 253, 246, 0.08)
+    );
+    box-shadow: 0 0 12px 1px rgba(255, 253, 246, 0.45);
+    animation: kz-puls 2.6s var(--ease-in-out) infinite;
+  }
+  @keyframes kz-puls {
+    0%,
+    100% {
+      opacity: 0.62;
+      box-shadow: 0 0 10px 1px rgba(255, 253, 246, 0.32);
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 20px 3px rgba(255, 253, 246, 0.6);
+    }
   }
   .kz-linie {
     stroke: var(--orange-bright);
@@ -741,13 +765,35 @@
     color: rgba(255, 253, 246, 0.58);
   }
   .kz-startmarke {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     transform: translate(-50%, -130%);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: rgba(255, 253, 246, 0.66);
+    color: rgba(255, 253, 246, 0.82);
+    animation: kz-puls-text 2.6s var(--ease-in-out) infinite;
+  }
+  /* Am linken Rand wuerde die mittig gesetzte Marke aus der Karte laufen. */
+  .kz-startmarke[data-rand="links"] {
+    transform: translate(-6%, -130%);
+  }
+  .kz-startmarke-logo {
+    width: 9px;
+    height: auto;
+    filter: drop-shadow(0 0 6px rgba(255, 253, 246, 0.55));
+  }
+  @keyframes kz-puls-text {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
   }
   .kz-punkt {
     width: 13px;
@@ -903,6 +949,11 @@
     .kz-strang:active,
     .kz-nebenfahne:active {
       transform: none;
+    }
+    .kz-startlinie,
+    .kz-startmarke {
+      animation: none !important;
+      opacity: 1;
     }
   }
 
