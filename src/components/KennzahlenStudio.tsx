@@ -365,31 +365,6 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
             </span>
           ))}
 
-          {alle
-            .filter((a) => a.strang.id !== strang.id)
-            .map((a, i) => {
-              const letzter = a.geo.koords[a.geo.koords.length - 1];
-              return (
-                <button
-                  key={`nl${a.strang.id}`}
-                  type="button"
-                  className="kz-nebenfahne"
-                  /* --n staffelt die Fahnen: bei drei Straengen enden zwei
-                     Linien dicht beieinander und die Schilder ueberlappen. */
-                  style={
-                    {
-                      top: `${letzter.y}%`,
-                      left: `${letzter.x}%`,
-                      "--n": i,
-                    } as React.CSSProperties
-                  }
-                  onClick={() => setStrangId(a.strang.id)}
-                >
-                  {a.strang.label}
-                </button>
-              );
-            })}
-
           {geo.startX !== undefined ? (
             <span
               className="kz-startlinie"

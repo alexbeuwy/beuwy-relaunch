@@ -98,10 +98,10 @@ export const KURVEN: KundenKurve[] = [
         label: "Provisionserlös",
         einheit: "Provisionserlös in Mio. €",
         punkte: [
-          { zeit: "2021", wert: 17.64, anzeige: "17,64" },
-          { zeit: "2022", wert: 22.1, anzeige: "22,10" },
-          { zeit: "2023", wert: 29.99, anzeige: "29,99" },
-          { zeit: "2024", wert: 34.78, anzeige: "34,78" },
+          { zeit: "2021", wert: 17.64, anzeige: "17,64 Mio." },
+          { zeit: "2022", wert: 22.1, anzeige: "22,10 Mio." },
+          { zeit: "2023", wert: 29.99, anzeige: "29,99 Mio." },
+          { zeit: "2024", wert: 34.78, anzeige: "34,78 Mio." },
         ],
         herkunft: "geprueft",
         quelle:

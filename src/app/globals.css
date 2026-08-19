@@ -707,28 +707,6 @@
   .kz-flaeche:hover .kz-neben {
     stroke: rgba(255, 253, 246, 0.42);
   }
-  .kz-nebenfahne {
-    position: absolute;
-    /* unter die Linie, sonst kollidiert sie mit dem Wert des
-       Hauptstrangs — beide enden am rechten Rand */
-    transform: translate(-100%, calc(45% + var(--n, 0) * 26px));
-    padding: 3px 8px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 560;
-    white-space: nowrap;
-    cursor: pointer;
-    background: rgba(10, 62, 166, 0.72);
-    border: 1px solid rgba(255, 253, 246, 0.2);
-    color: rgba(255, 253, 246, 0.66);
-    transition:
-      color var(--duration-fast) var(--ease-smooth-out),
-      border-color var(--duration-fast) var(--ease-smooth-out);
-  }
-  .kz-nebenfahne:hover {
-    color: var(--snow);
-    border-color: rgba(255, 253, 246, 0.5);
-  }
 
   .kz-rasterwert,
   .kz-punktwert,
@@ -946,8 +924,7 @@
       animation: none !important;
     }
     .kz-knopf:active,
-    .kz-strang:active,
-    .kz-nebenfahne:active {
+    .kz-strang:active {
       transform: none;
     }
     .kz-startlinie,
@@ -1018,8 +995,7 @@
     color: rgba(255, 253, 246, 0.8);
   }
   .kz-knopf:active,
-  .kz-strang:active,
-  .kz-nebenfahne:active {
+  .kz-strang:active {
     transform: scale(0.985);
     transition: transform var(--duration-micro) var(--ease-out);
   }
