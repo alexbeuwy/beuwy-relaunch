@@ -82,9 +82,12 @@ export const KURVEN: KundenKurve[] = [
         id: "partner",
         label: "Vertriebspartner",
         einheit: "Vertriebspartner unter der Marke",
+        /* Der Start liegt 2020. Auf diesem Strang gibt es dafuer keine
+           Messung, deshalb anteilig: (2020 - 2017) / (2026 - 2017). */
+        startBei: 0.3333,
         punkte: [
           { zeit: "2017", wert: 51 },
-          { zeit: "2021", wert: 170, start: true },
+          { zeit: "2021", wert: 170 },
           { zeit: "2022", wert: 800 },
           { zeit: "2025", wert: 1700, anzeige: "1.700" },
           { zeit: "2026", wert: 2210, anzeige: "2.210" },
@@ -100,8 +103,8 @@ export const KURVEN: KundenKurve[] = [
         punkte: [
           { zeit: "2018", wert: 3.1, anzeige: "3,1 Mio." },
           { zeit: "2019", wert: 4.3, anzeige: "4,3 Mio." },
-          { zeit: "2020", wert: 9.4, anzeige: "9,4 Mio." },
-          { zeit: "2021", wert: 17.64, anzeige: "17,64 Mio.", start: true },
+          { zeit: "2020", wert: 9.4, anzeige: "9,4 Mio.", start: true },
+          { zeit: "2021", wert: 17.64, anzeige: "17,64 Mio." },
           { zeit: "2022", wert: 22.1, anzeige: "22,10 Mio." },
           { zeit: "2023", wert: 29.99, anzeige: "29,99 Mio." },
           { zeit: "2024", wert: 34.78, anzeige: "34,78 Mio." },
@@ -117,8 +120,8 @@ export const KURVEN: KundenKurve[] = [
         punkte: [
           { zeit: "2018", wert: 5 },
           { zeit: "2019", wert: 8 },
-          { zeit: "2020", wert: 12 },
-          { zeit: "2021", wert: 16, start: true },
+          { zeit: "2020", wert: 12, start: true },
+          { zeit: "2021", wert: 16 },
           { zeit: "2022", wert: 35 },
           { zeit: "2025", wert: 67 },
           { zeit: "2026", wert: 85 },
