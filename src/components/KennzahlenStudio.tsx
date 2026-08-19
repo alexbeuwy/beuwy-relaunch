@@ -218,14 +218,7 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
 
       <figure className="kz-figur">
         <div className="kz-figurkopf">
-          <figcaption className="kz-achse-titel">
-            {strang.einheit}
-            {strang.herkunft === "schaetzung" ? (
-              <span className="kz-herkunft kz-herkunft--achse" data-art="schaetzung">
-                {HERKUNFT_LABEL.schaetzung}
-              </span>
-            ) : null}
-          </figcaption>
+          <figcaption className="kz-achse-titel">{strang.einheit}</figcaption>
           {kurve.straenge.length > 1 ? (
             <div className="kz-straenge" role="group" aria-label="Kennzahl auswählen">
               {kurve.straenge.map((s) => (
@@ -380,14 +373,22 @@ export function KennzahlenStudio({ titel, intro }: { titel: string; intro: strin
 
           {alle
             .filter((a) => a.strang.id !== strang.id)
-            .map((a) => {
+            .map((a, i) => {
               const letzter = a.geo.koords[a.geo.koords.length - 1];
               return (
                 <button
                   key={`nl${a.strang.id}`}
                   type="button"
                   className="kz-nebenfahne"
-                  style={{ top: `${letzter.y}%`, left: `${letzter.x}%` }}
+                  /* --n staffelt die Fahnen: bei drei Straengen enden zwei
+                     Linien dicht beieinander und die Schilder ueberlappen. */
+                  style={
+                    {
+                      top: `${letzter.y}%`,
+                      left: `${letzter.x}%`,
+                      "--n": i,
+                    } as React.CSSProperties
+                  }
                   onClick={() => setStrangId(a.strang.id)}
                 >
                   {a.strang.label}

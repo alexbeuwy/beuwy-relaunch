@@ -687,7 +687,7 @@
     position: absolute;
     /* unter die Linie, sonst kollidiert sie mit dem Wert des
        Hauptstrangs — beide enden am rechten Rand */
-    transform: translate(-100%, 45%);
+    transform: translate(-100%, calc(45% + var(--n, 0) * 26px));
     padding: 3px 8px;
     border-radius: 999px;
     font-size: 11px;

@@ -88,6 +88,20 @@ export const KURVEN: KundenKurve[] = [
           "2022 aus der Presseliste von Königswege (ZZF-Podcast, 04.08.2022), 2025 aus einem Branchenbeitrag vom 07.05.2025, Stand 2026 öffentlich auf koenigswege.com · 2017 und 2021: Angaben Königswege",
       },
       {
+        id: "provision",
+        label: "Provisionserlös",
+        einheit: "Provisionserlös in Mio. €",
+        punkte: [
+          { zeit: "2021", wert: 17.64, anzeige: "17,64" },
+          { zeit: "2022", wert: 22.1, anzeige: "22,10" },
+          { zeit: "2023", wert: 29.99, anzeige: "29,99" },
+          { zeit: "2024", wert: 34.78, anzeige: "34,78" },
+        ],
+        herkunft: "geprueft",
+        quelle:
+          "Cash-Hitliste der Finanzvertriebe, Jahrgänge 2023 bis 2025 (Geschäftsjahre 2022 bis 2024) · 2021 aus einem Branchenbeitrag · der Wert für 2022 enthält 1,59 Mio. € Beratungshonorare",
+      },
+      {
         id: "standorte",
         label: "Standorte",
         einheit: "Standorte in Deutschland",
@@ -111,8 +125,8 @@ export const KURVEN: KundenKurve[] = [
       { label: "Standorte", wert: "85", hinweis: "2022 waren es 35", herkunft: "geprueft" },
       {
         label: "Provisionserlös",
-        wert: "17,64 Mio. €",
-        hinweis: "2021, ein Plus von 86 % gegenüber dem Vorjahr",
+        wert: "34,78 Mio. €",
+        hinweis: "2024, Platz 10 der Cash-Hitliste — erstmals unter den Top Ten",
         herkunft: "geprueft",
       },
     ],
