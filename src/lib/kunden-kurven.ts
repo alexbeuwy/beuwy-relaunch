@@ -82,13 +82,9 @@ export const KURVEN: KundenKurve[] = [
         id: "partner",
         label: "Vertriebspartner",
         einheit: "Vertriebspartner unter der Marke",
-        /* Der Start liegt 2020 — auf diesem Strang zwischen den Messungen
-           von 2017 und 2021, deshalb ueber startBei statt auf einem Punkt.
-           (2020 - 2017) / (2026 - 2017) = 0,333 */
-        startBei: 0.333,
         punkte: [
           { zeit: "2017", wert: 51 },
-          { zeit: "2021", wert: 170 },
+          { zeit: "2021", wert: 170, start: true },
           { zeit: "2022", wert: 800 },
           { zeit: "2025", wert: 1700, anzeige: "1.700" },
           { zeit: "2026", wert: 2210, anzeige: "2.210" },
@@ -104,8 +100,8 @@ export const KURVEN: KundenKurve[] = [
         punkte: [
           { zeit: "2018", wert: 3.1, anzeige: "3,1 Mio." },
           { zeit: "2019", wert: 4.3, anzeige: "4,3 Mio." },
-          { zeit: "2020", wert: 9.4, anzeige: "9,4 Mio.", start: true },
-          { zeit: "2021", wert: 17.64, anzeige: "17,64 Mio." },
+          { zeit: "2020", wert: 9.4, anzeige: "9,4 Mio." },
+          { zeit: "2021", wert: 17.64, anzeige: "17,64 Mio.", start: true },
           { zeit: "2022", wert: 22.1, anzeige: "22,10 Mio." },
           { zeit: "2023", wert: 29.99, anzeige: "29,99 Mio." },
           { zeit: "2024", wert: 34.78, anzeige: "34,78 Mio." },
@@ -155,7 +151,7 @@ export const KURVEN: KundenKurve[] = [
     straenge: [
       {
         id: "team",
-        label: "Team",
+        label: "Mitarbeiter",
         einheit: "Mitarbeiter",
         punkte: [
           { zeit: "2018", wert: 3, start: true },
@@ -163,6 +159,28 @@ export const KURVEN: KundenKurve[] = [
         ],
         herkunft: "kunde",
         quelle: "Angaben Vision Group · Projektstart 2018, Höchststand 2022",
+      },
+      {
+        id: "ankaeufe",
+        label: "Ankäufe pro Jahr",
+        einheit: "angekaufte Wohneinheiten pro Jahr",
+        punkte: [
+          { zeit: "2018", wert: 45, anzeige: "40–50", start: true },
+          { zeit: "2022", wert: 770 },
+        ],
+        herkunft: "kunde",
+        quelle: "Angaben Vision Group · 2018 als Größenordnung von 40 bis 50 Einheiten",
+      },
+      {
+        id: "bestand",
+        label: "Bestand",
+        einheit: "Wohneinheiten im Bestand",
+        punkte: [
+          { zeit: "2018", wert: 45, anzeige: "40–50", start: true },
+          { zeit: "2022", wert: 1385, anzeige: "1.385" },
+        ],
+        herkunft: "kunde",
+        quelle: "Angaben Vision Group · Bestand zum Höchststand 2022",
       },
     ],
     kennzahlen: [
@@ -173,15 +191,16 @@ export const KURVEN: KundenKurve[] = [
         herkunft: "kunde",
       },
       {
-        label: "Wohneinheiten",
-        wert: "1.400",
-        hinweis: "zum Höchststand 2022",
+        label: "Wohneinheiten im Bestand",
+        wert: "1.385",
+        hinweis: "2022 — bei Projektstart waren es 40 bis 50 pro Jahr",
         herkunft: "kunde",
       },
       {
         label: "Partnerschaft mit KKR",
         wert: "März 2022",
-        hinweis: "erste Transaktion: 163 Wohneinheiten in Dingolfing",
+        hinweis:
+          "KKR hält seit 1999 Beteiligungen an 29 Unternehmen im deutschsprachigen Raum — Axel Springer, Wella, Hensoldt",
         herkunft: "geprueft",
       },
     ],

@@ -92,13 +92,18 @@ export function BelegRaster() {
       <Reveal className="bento-zelle bento-zelle--breit" delay={180}>
         <div className="bento-karte bento-karte--zeile">
           <div>
-            <p className="bento-label">Vision Group · Partnerschaft</p>
+            <p className="bento-label">Vision Group · Partnerschaft seit März 2022</p>
             <p className="bento-wert tnum">KKR</p>
             <p className="bento-text">
-              seit März 2022. Erste gemeinsame Transaktion: 163 Wohneinheiten in
-              Dingolfing. Bei Projektstart 2018 bestand das Haus aus drei Personen.
+              Eines der größten Private-Equity-Häuser der Welt — seit 1999 über
+              elf Milliarden Euro Eigenkapital in 29 Unternehmen im
+              deutschsprachigen Raum, darunter Axel Springer, Wella und Hensoldt.
+              2022 kam ein Haus dazu, das vier Jahre vorher aus drei Leuten
+              bestand.
             </p>
-            <p className="bento-quelle">Pressemitteilungen der Beteiligten</p>
+            <p className="bento-quelle">
+              Handelsblatt · Pressemitteilungen der Beteiligten
+            </p>
           </div>
           <Image
             src="/kunden/vision.png"
