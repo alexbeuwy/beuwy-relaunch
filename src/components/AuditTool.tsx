@@ -368,7 +368,9 @@ export function AuditTool() {
 
             {/* Ergebnis */}
             {scan && (analysis || hasShot) && (
-              <div className="rounded-xl panel-inner p-4 md:p-6 mt-3 mx-1 mb-1">
+              /* Der Moment, auf den der Besucher gewartet hat — er kommt
+                 einmal, also darf er einen Auftritt haben. */
+              <div className="ergebnis-auf rounded-xl panel-inner p-4 md:p-6 mt-3 mx-1 mb-1">
                 {/* Kopf: Screenshot | Score + Kategorie-Balken */}
                 <div className="grid md:grid-cols-12 gap-6 items-start">
                   {hasShot && (

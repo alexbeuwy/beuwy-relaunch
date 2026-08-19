@@ -427,6 +427,830 @@
     border-color: var(--line-subtle);
   }
 
+  /* Die drei Saeulen als Text: der Mechanismus wird gelesen, nicht
+     bedient. Nummern statt Icons — die Reihenfolge ist der Ablauf. */
+  .saeule {
+    border-top: 1px solid rgba(255, 253, 246, 0.22);
+    padding-top: 16px;
+  }
+  .saeule-nr {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--orange-bright);
+  }
+  .saeule-titel {
+    margin-top: 10px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 720;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--snow);
+  }
+  .saeule-claim {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 560;
+    color: var(--orange-bright);
+    text-wrap: balance;
+  }
+  .saeule-text {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 253, 246, 0.74);
+  }
+
+  /* ----------------------------------------------------------
+     BELEG-RASTER — die Uebersicht kurz vor der Entscheidung, als
+     Bento auf eigener dunkler Buehne. Kacheln in drei Groessen,
+     weil die Belege unterschiedliches Gewicht haben. Zwei Kacheln
+     tragen einen Ultramarin-Schein, der Rest bleibt ruhig.
+     ---------------------------------------------------------- */
+  .beleg-band {
+    background: var(--hill);
+    color: var(--snow);
+    position: relative;
+    isolation: isolate;
+  }
+  .beleg-titel {
+    color: var(--snow);
+  }
+  .beleg-titel em {
+    font-style: normal;
+    color: var(--orange-bright);
+  }
+  .beleg-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 253, 246, 0.66);
+    text-wrap: pretty;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  @media (min-width: 720px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(158px, auto);
+    }
+    .bento-zelle--gross {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .bento-zelle--hoch,
+    .bento-zelle--breit {
+      grid-column: span 2;
+    }
+    .bento-zelle--hoch2 {
+      grid-row: span 2;
+    }
+  }
+  .bento-zelle {
+    display: flex;
+    min-width: 0;
+  }
+  .bento-karte {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 22px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255, 253, 246, 0.045);
+    border: 1px solid rgba(255, 253, 246, 0.1);
+    transition:
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      background-color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .bento-karte:hover {
+    border-color: rgba(255, 253, 246, 0.22);
+  }
+  .bento-karte--zeile {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  /* Der Schein: ein weicher Ultramarin-Kreis, der aus der Kachel steigt.
+     Nur auf zweien, sonst leuchtet die ganze Wand. */
+  .bento-karte--akzent,
+  .bento-karte--schein {
+    background:
+      radial-gradient(120% 100% at 50% 108%, rgba(12, 75, 195, 0.85) 0%, rgba(12, 75, 195, 0) 62%),
+      rgba(255, 253, 246, 0.05);
+    border-color: rgba(120, 160, 240, 0.28);
+  }
+  .bento-karte--link {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    cursor: pointer;
+  }
+  .bento-karte--link:hover .bento-pfeil {
+    transform: translateX(4px);
+  }
+  .bento-karte:active {
+    transform: scale(0.995);
+  }
+
+  .bento-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255, 253, 246, 0.54);
+  }
+  .bento-wert {
+    margin-top: 10px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: clamp(30px, 3.6vw, 44px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--snow);
+  }
+  .bento-karte--akzent .bento-wert {
+    color: var(--orange-bright);
+  }
+  .bento-kopfzeile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  /* Die eine Kachel, die keine Zahl traegt, sondern einen Satz. */
+  .bento-aussage {
+    margin-top: 14px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 740;
+    font-size: clamp(24px, 2.7vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--snow);
+    text-wrap: balance;
+  }
+  .bento-aussage em {
+    font-style: normal;
+    color: var(--orange-bright);
+  }
+  .bento-karte--aussage .bento-text {
+    margin-top: 14px;
+  }
+  .bento-text {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 253, 246, 0.7);
+    text-wrap: pretty;
+  }
+  .bento-quelle {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 11px;
+    color: rgba(255, 253, 246, 0.42);
+  }
+  .bento-spark {
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+    color: var(--orange-bright);
+    filter: drop-shadow(0 0 10px rgba(245, 160, 102, 0.5));
+  }
+  .bento-logo {
+    width: auto;
+    height: 22px;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .bento-mehr {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 13px;
+    font-weight: 560;
+    color: rgba(255, 253, 246, 0.72);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bento-karte--link:hover .bento-mehr {
+    color: var(--snow);
+  }
+  .bento-karte--link {
+    align-items: flex-start;
+  }
+  .bento-pfeil {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: rgba(255, 253, 246, 0.6);
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bento-karte:active,
+    .bento-karte--link:hover .bento-pfeil {
+      transform: none;
+    }
+  }
+
+  /* ----------------------------------------------------------
+     KENNZAHLEN-DASHBOARD — steht im Ultramarinband. Kartenraster
+     und Rasterlinien nach Vorbild klassischer Analytics-Oberflächen,
+     Farben aber aus der Riso-Palette: Orange trägt die aktive Kurve,
+     alles andere ist Schnee in Abstufungen.
+     ---------------------------------------------------------- */
+  .kz {
+    background: var(--sky-deep);
+    border: 1px solid rgba(255, 253, 246, 0.16);
+    border-radius: 20px;
+    padding: 24px;
+    color: var(--snow);
+  }
+  @media (min-width: 768px) {
+    .kz {
+      padding: 32px;
+    }
+  }
+
+  .kz-kopf {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: space-between;
+  }
+  @media (min-width: 640px) {
+    .kz-kopf {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+  .kz-titel {
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 720;
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--snow);
+  }
+  .kz-unter {
+    margin-top: 6px;
+    max-width: 46ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(255, 253, 246, 0.7);
+  }
+  .kz-leit {
+    flex-shrink: 0;
+  }
+  @media (min-width: 640px) {
+    .kz-leit {
+      text-align: right;
+    }
+  }
+  .kz-leit-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255, 253, 246, 0.6);
+  }
+  .kz-leit-wert {
+    margin-top: 2px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 760;
+    font-size: clamp(30px, 3.6vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--orange-bright);
+  }
+
+  .kz-karten {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  @media (min-width: 640px) {
+    .kz-karten {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .kz-karte {
+    background: rgba(255, 253, 246, 0.07);
+    border: 1px solid rgba(255, 253, 246, 0.12);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .kz-karte-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255, 253, 246, 0.6);
+  }
+  .kz-karte-wert {
+    margin-top: 8px;
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 740;
+    font-size: clamp(24px, 2.6vw, 30px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--snow);
+  }
+  .kz-karte-hinweis {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 253, 246, 0.62);
+  }
+
+  .kz-figur {
+    margin-top: 26px;
+  }
+  .kz-figurkopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .kz-achse-titel {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255, 253, 246, 0.6);
+  }
+  .kz-straenge {
+    display: flex;
+    gap: 6px;
+  }
+  .kz-strang {
+    min-height: 32px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 560;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 253, 246, 0.2);
+    color: rgba(255, 253, 246, 0.62);
+    transition:
+      background-color var(--duration-fast) var(--ease-smooth-out),
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .kz-strang:hover {
+    color: var(--snow);
+    border-color: rgba(255, 253, 246, 0.45);
+  }
+  .kz-strang[data-aktiv="true"] {
+    background: var(--orange-bright);
+    border-color: var(--orange-bright);
+    color: var(--sky-deep);
+  }
+
+  /* Bezugsrahmen fuer die HTML-Beschriftung ueber dem gestreckten SVG.
+     Das Punktraster liegt als Hintergrund darunter — es gibt der Flaeche
+     Tiefe, ohne mit den Rasterlinien zu konkurrieren. */
+  .kz-flaeche {
+    position: relative;
+    width: 100%;
+    height: clamp(240px, 27vw, 330px);
+    margin-top: 14px;
+    border-radius: 12px;
+  }
+  .kz-punktraster,
+  .kz-flaeche::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(
+      rgba(255, 253, 246, 0.11) 1px,
+      transparent 1px
+    );
+    background-size: 26px 26px;
+    /* zu den Raendern hin ausblenden, damit kein Kasten entsteht */
+    -webkit-mask-image: radial-gradient(115% 95% at 50% 45%, #000 45%, transparent 100%);
+    mask-image: radial-gradient(115% 95% at 50% 45%, #000 45%, transparent 100%);
+    pointer-events: none;
+  }
+  .kz-chart {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .kz-raster {
+    stroke: rgba(255, 253, 246, 0.18);
+    stroke-width: 1;
+    stroke-dasharray: 3 7;
+  }
+  /* Der Moment, an dem die Zusammenarbeit begann. Als HTML statt im SVG:
+     Glimmen und Puls sind hier mit box-shadow zu machen, im gestreckten
+     SVG waeren sie mitverzerrt. */
+  .kz-startlinie {
+    position: absolute;
+    width: 2px;
+    margin-left: -1px;
+    border-radius: 2px;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 253, 246, 0.85),
+      rgba(255, 253, 246, 0.34) 65%,
+      rgba(255, 253, 246, 0.08)
+    );
+    box-shadow: 0 0 12px 1px rgba(255, 253, 246, 0.45);
+    animation: kz-puls 2.6s var(--ease-in-out) infinite;
+  }
+  @keyframes kz-puls {
+    0%,
+    100% {
+      opacity: 0.62;
+      box-shadow: 0 0 10px 1px rgba(255, 253, 246, 0.32);
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 20px 3px rgba(255, 253, 246, 0.6);
+    }
+  }
+  .kz-linie {
+    stroke: var(--orange-bright);
+    stroke-width: 3;
+  }
+  .kz-glow {
+    stroke: var(--orange-bright);
+    stroke-width: 4;
+    opacity: 0.55;
+  }
+  /* Die uebrigen Straenge: nur Form. Kein Wert, kein Punkt, keine Achse —
+     jeder ist auf seinen eigenen Hoechststand normiert. */
+  .kz-neben {
+    stroke: rgba(255, 253, 246, 0.26);
+    stroke-width: 1.5;
+    transition:
+      stroke var(--duration-slow) var(--ease-smooth-out),
+      stroke-width var(--duration-slow) var(--ease-smooth-out);
+  }
+  .kz-flaeche:hover .kz-neben {
+    stroke: rgba(255, 253, 246, 0.42);
+  }
+
+  .kz-rasterwert,
+  .kz-punktwert,
+  .kz-punktzeit,
+  .kz-startmarke,
+  .kz-punkt {
+    position: absolute;
+    pointer-events: none;
+  }
+  .kz-rasterwert {
+    /* Der Rest des Diagramms animiert beim Wechsel, die Achsenzahlen
+       sprangen — 2.500 wurde ohne Uebergang zu 400 Tsd. */
+    animation: kz-achse-auf var(--duration-fast) var(--ease-smooth-out) both;
+    transform: translate(-100%, -50%);
+    padding-right: 12px;
+    font-size: 12px;
+    color: rgba(255, 253, 246, 0.58);
+  }
+  .kz-punktwert {
+    transform: translate(-50%, -175%);
+    font-family: var(--font-helvena), system-ui, sans-serif;
+    font-weight: 740;
+    font-size: clamp(15px, 1.5vw, 19px);
+    white-space: nowrap;
+    color: var(--snow);
+  }
+  .kz-punktwert[data-rand="links"] {
+    transform: translate(-8%, -175%);
+  }
+  .kz-punktzeit {
+    transform: translate(-50%, 60%);
+    font-size: 12px;
+    white-space: nowrap;
+    color: rgba(255, 253, 246, 0.58);
+  }
+  .kz-startmarke {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transform: translate(-50%, -130%);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(255, 253, 246, 0.82);
+    animation: kz-puls-text 2.6s var(--ease-in-out) infinite;
+  }
+  /* Am linken Rand wuerde die mittig gesetzte Marke aus der Karte laufen. */
+  .kz-startmarke[data-rand="links"] {
+    transform: translate(-6%, -130%);
+  }
+  .kz-startmarke-logo {
+    width: 9px;
+    height: auto;
+    filter: drop-shadow(0 0 6px rgba(255, 253, 246, 0.55));
+  }
+  @keyframes kz-puls-text {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  .kz-punkt {
+    width: 13px;
+    height: 13px;
+    margin: -6.5px 0 0 -6.5px;
+    border-radius: 50%;
+    background: var(--orange-bright);
+    box-shadow:
+      0 0 0 3px var(--sky-deep),
+      0 0 14px 2px rgba(245, 160, 102, 0.55);
+  }
+  .kz-punkt[data-start="true"] {
+    background: var(--snow);
+    box-shadow:
+      0 0 0 3px var(--sky-deep),
+      0 0 12px 2px rgba(255, 253, 246, 0.4);
+  }
+
+  /* ── Slow Reveal ────────────────────────────────────────────
+     Die Linie zeichnet sich, die Flaeche steigt danach auf, die
+     Punkte springen versetzt nach. pathLength="1" macht die
+     Strichlaenge unabhaengig von der tatsaechlichen Geometrie. */
+  .kz-zeichnung {
+    clip-path: inset(0 100% 0 0);
+  }
+  /* Strangwechsel: die neue Zeichnung blendet auf, statt zu springen.
+     Der Schluessel im JSX erzwingt einen Neuaufbau, damit die Animation
+     bei jedem Wechsel erneut laeuft. */
+  .kz[data-sichtbar="true"] .kz-zeichnung {
+    animation: kz-wischen 1150ms var(--ease-smooth-out) forwards;
+  }
+  .kz[data-sichtbar="true"] .kz-zeichnung {
+    animation: kz-wischen 1150ms var(--ease-smooth-out) forwards;
+  }
+  @keyframes kz-wischen {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .kz-punkt,
+  .kz-punktwert {
+    opacity: 0;
+  }
+  .kz[data-sichtbar="true"] .kz-punkt {
+    animation: kz-punkt-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(560ms + var(--i, 0) * 130ms);
+  }
+  .kz[data-sichtbar="true"] .kz-punktwert {
+    animation: kz-wert-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(660ms + var(--i, 0) * 130ms);
+  }
+  @keyframes kz-punkt-auf {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes kz-wert-auf {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -140%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -175%);
+    }
+  }
+  @keyframes kz-wert-auf-links {
+    from {
+      opacity: 0;
+      transform: translate(-8%, -140%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-8%, -175%);
+    }
+  }
+  .kz[data-sichtbar="true"] .kz-punktwert[data-rand="links"] {
+    animation-name: kz-wert-auf-links;
+  }
+
+  .kz-karte {
+    opacity: 0;
+  }
+  .kz[data-sichtbar="true"] .kz-karte {
+    animation: kz-karte-auf var(--duration-slow) var(--ease-smooth-out) forwards;
+    animation-delay: calc(var(--i, 0) * var(--duration-stagger));
+  }
+  /* Live-Check-Ergebnis: erscheint genau einmal pro Besuch, nach einer
+     Wartezeit. Deshalb laenger als die 300ms fuer Bedien-Elemente —
+     das hier ist die Belohnung, nicht eine Rueckmeldung. */
+  .ergebnis-auf {
+    animation: ergebnis-auf var(--duration-very-slow) var(--ease-smooth-out) both;
+  }
+  @keyframes ergebnis-auf {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ergebnis-auf {
+      animation: none;
+    }
+  }
+
+  @keyframes kz-achse-auf {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes kz-karte-auf {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Wer Bewegung reduziert haben will, sieht sofort den Endzustand. */
+  @media (prefers-reduced-motion: reduce) {
+    .kz-zeichnung {
+      clip-path: none;
+    }
+    .kz-punkt,
+    .kz-punktwert,
+    .kz-karte {
+      opacity: 1;
+    }
+    .kz .kz-zeichnung,
+    .kz .kz-punkt,
+    .kz .kz-punktwert,
+    .kz .kz-karte,
+    .kz .kz-rasterwert {
+      animation: none !important;
+    }
+    .kz-knopf:active,
+    .kz-strang:active {
+      transform: none;
+    }
+    .kz-startlinie,
+    .kz-startmarke {
+      animation: none !important;
+      opacity: 1;
+    }
+  }
+
+  .kz-herkunft {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: rgba(255, 253, 246, 0.1);
+    color: rgba(255, 253, 246, 0.66);
+  }
+  .kz-herkunft[data-art="geprueft"] {
+    background: rgba(255, 253, 246, 0.18);
+    color: var(--snow);
+  }
+  .kz-herkunft--achse {
+    margin-top: 0;
+    margin-left: 10px;
+    text-transform: none;
+    letter-spacing: 0;
+    vertical-align: middle;
+  }
+  .kz-herkunft[data-art="schaetzung"] {
+    background: rgba(245, 160, 102, 0.2);
+    color: var(--orange-bright);
+  }
+
+  .kz-schalter {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  @media (min-width: 640px) {
+    .kz-schalter {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .kz-knopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 253, 246, 0.16);
+    color: rgba(255, 253, 246, 0.5);
+    transition:
+      background-color var(--duration-fast) var(--ease-smooth-out),
+      border-color var(--duration-fast) var(--ease-smooth-out),
+      color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .kz-knopf:hover {
+    border-color: rgba(255, 253, 246, 0.4);
+    color: rgba(255, 253, 246, 0.8);
+  }
+  .kz-knopf:active,
+  .kz-strang:active {
+    transform: scale(0.985);
+    transition: transform var(--duration-micro) var(--ease-out);
+  }
+  .kz-knopf[data-aktiv="true"] {
+    background: rgba(255, 253, 246, 0.1);
+    border-color: var(--orange-bright);
+    color: var(--snow);
+  }
+  .kz-knopf-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .kz-logo {
+    display: block;
+    width: auto;
+    height: 22px;
+    max-width: 132px;
+    object-fit: contain;
+    object-position: left center;
+    opacity: 0.55;
+    transition: opacity var(--duration-fast) var(--ease-smooth-out);
+  }
+  .kz-knopf:hover .kz-logo {
+    opacity: 0.85;
+  }
+  .kz-knopf[data-aktiv="true"] .kz-logo {
+    opacity: 1;
+  }
+  .kz-knopf-name {
+    font-weight: 640;
+    font-size: 15px;
+    color: var(--snow);
+  }
+  .kz-knopf-branche {
+    font-size: 12px;
+    color: rgba(255, 253, 246, 0.55);
+  }
+  .kz-mini {
+    width: 80px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .kz-fuss {
+    margin-top: 18px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(255, 253, 246, 0.52);
+  }
+  .kz-link {
+    color: rgba(255, 253, 246, 0.82);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .kz-link:hover {
+    color: var(--snow);
+  }
+
   /* Passwort ändern im Studio. Internes Werkzeug — nutzt die
      Panel-Sprache der Seite, keine eigenen Farben. */
   .pw-oeffner {
@@ -569,27 +1393,6 @@
     transform: scale(calc(1 + var(--hero-p, 0) * 0.11));
     will-change: transform;
   }
-  /* ----------------------------------------------------------
-     HANGKANTE — die Hügelsilhouette aus dem Hero-Bild, Spalte für
-     Spalte nachgemessen (siehe HangKante.tsx). Sie trägt den Hero
-     nach unten weiter: überall dort, wo eine helle Sektion in eine
-     dunkle übergeht, wächst derselbe Hang hoch statt einer Kante.
-     ---------------------------------------------------------- */
-  .hang-kante {
-    display: block;
-    width: 100%;
-    height: clamp(56px, 8.5vw, 124px);
-    /* schließt die Fuge zur nächsten Sektion — sonst blitzt bei
-       fraktionalen Gerätepixeln eine helle Linie durch */
-    margin-bottom: -1px;
-    pointer-events: none;
-  }
-  .hang-kante--gespiegelt {
-    transform: scaleY(-1);
-    margin-bottom: 0;
-    margin-top: -1px;
-  }
-
   .hero-h1 {
     font-family: var(--font-helvena), system-ui, sans-serif;
     font-weight: 780;

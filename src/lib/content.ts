@@ -65,6 +65,9 @@ export const DEFAULTS: Record<string, string> = {
     "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück. Es lag nie an Ihnen und selten am Budget — es lag an den Lücken zwischen vier Beteiligten, die sich gegenseitig nicht kennen.",
   "play.title": "Drei Säulen. Ein *Umsatz*.",
   "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
+  "kz.title": "Und das kommt dabei heraus.",
+  "kz.intro":
+    "Drei Häuser, drei Kennzahlen, drei Zeiträume. Antippen, wen Sie sehen wollen.",
   "play.hint": "Säule antippen — sehen Sie, was ohne sie passiert.",
 
   /* Die drei Säulen: Titel, Versprechen, Beleg, und was ohne sie passiert */
@@ -148,6 +151,9 @@ export const DEFAULTS: Record<string, string> = {
     "Der Betrieb: Anzeigen steuern, CRM pflegen, Telefonstrecke überwachen, wöchentlich berichten. Ein System, das niemand betreibt, wird in acht Wochen zur Visitenkarte.",
 
   /* ── 11 Finale — die niedrigste Hürde der Seite ────────────────────── */
+  "beleg.title": "Alles, was hier steht, können Sie *nachprüfen*.",
+  "beleg.intro":
+    "Drei Häuser, sieben Zahlen, jede mit ihrer Quelle. Keine Kundenstimmen ohne Nachnamen, keine Screenshots ohne Datum.",
   "final.title": "Schreiben Sie mir zwei *Zeilen*.",
   "final.text":
     "Was Sie verkaufen, woran es hakt. Morgen wissen Sie, wo Ihr größter Hebel liegt — schriftlich, nicht als Verkaufsgespräch getarnt.",
@@ -181,6 +187,8 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  "beleg.title": "Übersicht · Überschrift (*Wort* = Hervorhebung)",
+  "beleg.intro": "Übersicht · Einleitungssatz",
   "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",
   "hero.subtitle": "Hero · Subline (Mechanismus + Verantwortung)",
   "hero.cta": "Der eine CTA-Wortlaut der ganzen Seite",
@@ -189,6 +197,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "diagnose.title": "Pain · Kopfzeile (bewusst ohne Hervorhebung)",
   "diagnose.q4": "Pain · vierter Einwand (Empfehlungsgeschäft)",
   "play.title": "Playground · Überschrift (*Wort* = Hervorhebung)",
+  "kz.title": "Kennzahlen-Dashboard · Überschrift",
+  "kz.intro": "Kennzahlen-Dashboard · Einleitungssatz",
   "play.intro": "Playground · Mechanismus-Absatz (E2: Entlastung)",
   "check.text": "Live-Check · Lead-Magnet-Satz",
   "refs.title": "Fallstudien · Überschrift (Inhalte selbst: src/lib/cases.ts)",
