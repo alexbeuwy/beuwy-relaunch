@@ -65,6 +65,9 @@ export const DEFAULTS: Record<string, string> = {
     "Die Agentur macht Ihnen die Marke, der Freelancer die Anzeigen. Aber die Anfrage von Donnerstagabend ruft keiner zurück. Es lag nie an Ihnen und selten am Budget — es lag an den Lücken zwischen vier Beteiligten, die sich gegenseitig nicht kennen.",
   "play.title": "Drei Säulen. Ein *Umsatz*.",
   "play.tagline": "Mehr Anfragen. Mehr Abschlüsse. Mehr Freiheit.",
+  "kz.title": "Und das kommt dabei heraus.",
+  "kz.intro":
+    "Drei Häuser, drei Kennzahlen, drei Zeiträume. Antippen, wen Sie sehen wollen.",
   "play.hint": "Säule antippen — sehen Sie, was ohne sie passiert.",
 
   /* Die drei Säulen: Titel, Versprechen, Beleg, und was ohne sie passiert */
@@ -189,6 +192,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "diagnose.title": "Pain · Kopfzeile (bewusst ohne Hervorhebung)",
   "diagnose.q4": "Pain · vierter Einwand (Empfehlungsgeschäft)",
   "play.title": "Playground · Überschrift (*Wort* = Hervorhebung)",
+  "kz.title": "Kennzahlen-Dashboard · Überschrift",
+  "kz.intro": "Kennzahlen-Dashboard · Einleitungssatz",
   "play.intro": "Playground · Mechanismus-Absatz (E2: Entlastung)",
   "check.text": "Live-Check · Lead-Magnet-Satz",
   "refs.title": "Fallstudien · Überschrift (Inhalte selbst: src/lib/cases.ts)",

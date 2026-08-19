@@ -7,7 +7,7 @@ import { rich } from "@/components/RichText";
 import ZielRechner from "@/components/ZielRechner";
 import { Button } from "@/components/ui/button";
 import { WochenberichtShot } from "@/components/WochenberichtShot";
-import { SaeulenStudio } from "@/components/SaeulenStudio";
+import { KennzahlenStudio } from "@/components/KennzahlenStudio";
 import { PainRows } from "@/components/PainRows";
 import { AuthorityBlock } from "@/components/AuthorityBlock";
 import { FitBlock } from "@/components/FitBlock";
@@ -15,7 +15,6 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaBand } from "@/components/CtaBand";
 import { CaseGrid } from "@/components/CaseGrid";
 import { ScrollFortschritt } from "@/components/ScrollFortschritt";
-import { HangKante } from "@/components/HangKante";
 import { CASES } from "@/lib/cases";
 import { getContent } from "@/lib/content";
 
@@ -162,8 +161,6 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      <HangKante farbe="var(--sky)" />
-
       {/* ── 04 MECHANISM — Entlastung, dann das System zum Anfassen ──── */}
       <section id="system" className="section-band-bright on-sky">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-24">
@@ -177,7 +174,24 @@ export default async function HomePage() {
             <Reveal>
               <h3 className="t-h3 mb-8">{rich(c["play.title"])}</h3>
             </Reveal>
-            <SaeulenStudio saeulen={saeulen} hint={c["play.hint"]} />
+            <div className="grid gap-8 md:grid-cols-3 md:gap-10">
+              {saeulen.map((s, i) => (
+                <Reveal key={s.key} delay={i * 60}>
+                  <div className="saeule">
+                    <p className="saeule-nr tnum">{String(i + 1).padStart(2, "0")}</p>
+                    <h4 className="saeule-titel">{s.title}</h4>
+                    <p className="saeule-claim">{s.claim}</p>
+                    <p className="saeule-text">{s.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-14 md:mt-16">
+            <Reveal>
+              <KennzahlenStudio titel={c["kz.title"]} intro={c["kz.intro"]} />
+            </Reveal>
           </div>
           <div className="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
             <p className="t-h3">{c["play.tagline"]}</p>
@@ -251,8 +265,6 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </Section>
-
-      <HangKante farbe="var(--hill)" />
 
       {/* ── 08 SCARCITY + 09 DISQUALIFIER — eigener Moment, Ich-Stimme ─ */}
       <section id="passung" className="band-hill on-sky">
