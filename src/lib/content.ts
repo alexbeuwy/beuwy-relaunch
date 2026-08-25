@@ -189,24 +189,30 @@ export const DEFAULTS: Record<string, string> = {
      Platzhalter mit Sought-after-Effekt; Alex passt Zahlen und
      Namen im Studio an, bevor Freigaben stehen. */
 
-  "mk.hero.eyebrow": "Marke · Website · Automatisierung",
-  "mk.hero.title": "Die besten Makler sehen auch so *aus*.",
+  "mk.hero.eyebrow": "Marke · Website · KI-Automatisierung",
+  "mk.hero.title": "Das Marketing hinter den *besten* Maklern Deutschlands.",
   "mk.hero.subtitle":
-    "beuwy ist die Boutique für führende Immobilienmakler: Marke, Website, E-Mail und Automatisierung aus einer Hand — done for you, geliefert in Wochen. Damit Ihr Auftritt endlich so stark ist wie Ihr Ruf.",
+    "beuwy baut Marke, Website, E-Mail und KI-Automatisierung für Makler, die ihren Vorsprung ausbauen statt ihn zu verwalten — done for you, geliefert in Wochen.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
   "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
+  "mk.hero.cta2": "Ergebnisse ansehen",
+  "mk.hero.checks":
+    "Marke & Design~Premium, unverwechselbar|Automation & KI~arbeitet im Hintergrund|Systeme & Wachstum~messbar, planbar",
+  "mk.hero.badge_label": "Für führende Immobilienmakler",
+  "mk.hero.badge_wert": "100+",
+  "mk.hero.badge_text": "erfolgreiche Markenprojekte",
   "mk.trust.label": "Vertraut aus Projekten mit Maklern führender Häuser",
   "mk.trust.namen":
     "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
 
   "mk.stats.s1_wert": "40+",
-  "mk.stats.s1_label": "Premium-Projekte für Makler und Immobilienunternehmen",
+  "mk.stats.s1_label": "Premium-Projekte für Makler",
   "mk.stats.s2_wert": "3×",
-  "mk.stats.s2_label": "mehr qualifizierte Eigentümer-Anfragen nach Relaunch — Median unserer Projekte",
+  "mk.stats.s2_label": "mehr Eigentümer-Anfragen nach Relaunch",
   "mk.stats.s3_wert": "17",
-  "mk.stats.s3_label": "Jahre Markenarbeit, angefangen bei Bosch, Continental und Michelin",
+  "mk.stats.s3_label": "Jahre Markenarbeit — Bosch, Continental, Michelin",
   "mk.stats.s4_wert": "4–6",
-  "mk.stats.s4_label": "Wochen von Kickoff bis Livegang — nicht sechs Monate",
+  "mk.stats.s4_label": "Wochen bis zum Livegang",
 
   "mk.vsl.url": "",
 
@@ -242,6 +248,11 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.hero.subtitle": "Makler · Hero · Subline",
   "mk.hero.cta": "Makler · Der eine CTA-Wortlaut",
   "mk.hero.cta_hinweis": "Makler · Mikrozeile unter dem CTA",
+  "mk.hero.cta2": "Makler · Sekundär-CTA (Anker Ergebnisse)",
+  "mk.hero.checks": "Makler · Checkmark-Trio: Label~Subzeile, mit | getrennt",
+  "mk.hero.badge_label": "Makler · Floating Card · Label",
+  "mk.hero.badge_wert": "Makler · Floating Card · große Zahl",
+  "mk.hero.badge_text": "Makler · Floating Card · Text",
   "mk.trust.label": "Makler · Zeile über den Wordmarks",
   "mk.trust.namen": "Makler · Wordmarks, mit | getrennt (Freigaben!)",
   "mk.stats.s1_wert": "Makler · Zahl 1", "mk.stats.s1_label": "Makler · Zahl 1 · Text",

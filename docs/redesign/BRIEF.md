@@ -19,10 +19,11 @@ verkauft wie ein VSL: jeder Block hat genau einen Job im Funnel.
 3. Dieses Dokument komplett
 4. Für Copy zusätzlich: `.claude/skills/copy-that-sells/SKILL.md` und
    `.claude/skills/deutsche-werbetexte/SKILL.md`
-5. Referenzbilder ANSEHEN (Read-Tool), nicht nur erwähnen:
+5. `docs/redesign/REFERENZ-ANALYSE.md` — die verbindliche Übersetzung
+   von Alex' Vorgabe-Screenshots (XXL-Media, Layering, Floating Cards,
+   Wordmark-Typo). Zusätzlich ANSEHEN (Read-Tool):
    `docs/redesign/refs/comp-15.webp`, `comp-16.webp`, `comp-17.webp`
-   (Design-Comps — Layout-Sprache übernehmen, Copy dort ist generisch
-   und wird NICHT übernommen)
+   (Copy dort ist generisch und wird NICHT übernommen)
 
 ## 3. Design-System (Contract — nicht verhandelbar)
 
@@ -86,11 +87,12 @@ Helper existiert: `src/lib/cdn.ts` → `maklerAsset(n)` bzw. `HERO_VIDEO`.
   (`src/lib/content.ts`), Platzhalter mit Sought-after-Effekt,
   realistisch formuliert (keine „300 %+"-Comic-Zahlen). Alex passt sie
   im Studio an.
-- Trust-Wordmarks (reine Typo, keine Fremdlogos als Dateien):
-  ENGEL & VÖLKERS · VON POLL IMMOBILIEN · DAHLER & COMPANY ·
-  KENSINGTON · RE/MAX · McMakler · Homeday · BETTERHOMES.
-  Label darüber: „Vertraut aus Projekten mit Maklern führender Häuser"
-  (Key `trust.label`, Studio-editierbar — Freigaben klärt Alex).
+- Trust-Wordmarks in **Markentypo-Anmutung, Hellgrau `#A9A9A3`**
+  (Serif für ENGEL & VÖLKERS / VON POLL IMMOBILIEN / DAHLER & COMPANY,
+  gesperrte Caps für KENSINGTON/RE/MAX/BETTERHOMES, Mixed Case für
+  McMakler/Homeday) — Komponente `Wortmarke` in `MaklerHero.tsx`
+  wiederverwenden. Keine Fremdlogo-Bilddateien; Freigaben klärt Alex.
+  Label über der Leiste: Key `mk.trust.label`, Studio-editierbar.
 
 ## 6. Seitenarchitektur (SEO-Plan)
 
