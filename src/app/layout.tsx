@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { NurWebsite } from "@/components/NurWebsite";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -47,9 +48,13 @@ export default function RootLayout({
   return (
     <html lang="de" className={cn(GeistMono.variable, helvena.variable, inter.variable, "font-sans")}>
       <body className="min-h-dvh">
-        <Nav />
+        <NurWebsite>
+          <Nav />
+        </NurWebsite>
         <main id="main" className="relative">{children}</main>
-        <Footer />
+        <NurWebsite>
+          <Footer />
+        </NurWebsite>
       </body>
     </html>
   );
