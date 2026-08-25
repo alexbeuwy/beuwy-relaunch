@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiPille } from "./AiPille";
 import { rich } from "./RichText";
+import { LogoSlot, MARKEN_SLUGS, slugifyMarke } from "./MaklerElemente";
 import { HERO_POSTER, HERO_VIDEO, maklerAsset } from "@/lib/cdn";
 import stil from "./MaklerHero.module.css";
 
@@ -10,39 +11,10 @@ import stil from "./MaklerHero.module.css";
  * Media läuft randlos an den rechten und oberen Viewport-Rand, die linke
  * Bildkante fadet ins Weiß. Layering: Floating Card auf dem Video,
  * gelber Kreis + Kreislinie im Übergang. Darunter die Abschluss-Leiste
- * mit Wordmarks in Markentypo-Anmutung (hellgrau) und dem Zahlenband.
+ * mit Wordmarks in Markentypo-Anmutung (hellgrau, jetzt über LogoSlot
+ * upgradefähig auf echte SVGs, GOAL Kriterium 5) und dem Zahlenband.
  * Alle Texte über Studio-Keys (mk.*).
  */
-
-/* Markentypo-Anmutung je Haus — Serif für die klassischen Häuser,
-   gesperrte Caps für die Netzwerke. Unbekannte Namen: Default. */
-const WORTMARKEN_STIL: Record<string, string> = {
-  "ENGEL & VÖLKERS": "font-serif uppercase tracking-[0.06em] text-[15px]",
-  "VON POLL IMMOBILIEN": "font-serif uppercase tracking-[0.08em] text-[13.5px]",
-  "DAHLER & COMPANY": "font-serif uppercase tracking-[0.2em] text-[13.5px]",
-  KENSINGTON: "uppercase tracking-[0.28em] text-[12.5px] font-medium",
-  "RE/MAX": "uppercase tracking-[0.05em] text-[15px] font-bold",
-  McMakler: "text-[16px] font-semibold tracking-[-0.01em]",
-  Homeday: "text-[16px] font-semibold tracking-[-0.01em]",
-  BETTERHOMES: "uppercase tracking-[0.2em] text-[12.5px] font-medium",
-};
-
-function Wortmarke({ name }: { name: string }) {
-  const stilKlasse =
-    WORTMARKEN_STIL[name] ?? "uppercase tracking-[0.16em] text-[12.5px] font-medium";
-  return (
-    <span
-      className={`whitespace-nowrap leading-none text-[#A9A9A3] ${stilKlasse}`}
-      style={
-        stilKlasse.includes("font-serif")
-          ? { fontFamily: "Georgia, 'Times New Roman', serif" }
-          : undefined
-      }
-    >
-      {name}
-    </span>
-  );
-}
 
 function Haken() {
   return (
@@ -176,7 +148,7 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
               <p className="t-label !text-[10.5px]">{c["mk.trust.label"]}</p>
               <div className="mt-6 flex max-w-[520px] flex-wrap items-center gap-x-9 gap-y-5">
                 {marken.map((name) => (
-                  <Wortmarke key={name} name={name} />
+                  <LogoSlot key={name} name={name} slug={MARKEN_SLUGS[name] ?? slugifyMarke(name)} />
                 ))}
               </div>
             </div>
