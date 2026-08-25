@@ -1,0 +1,58 @@
+/* StartUnten — natives <details>/<summary>-Accordion für Block 9 (FAQ).
+   Höhen-Transition läuft rein über ::details-content + das global auf
+   :root gesetzte `interpolate-size: allow-keywords` (siehe globals.css) —
+   keine JS-Höhenmessung, kein Import der Riso-FaqAccordion. Nur die
+   Motion-Tokens aus globals.css (--duration-fast, --ease-smooth-out). */
+
+.item {
+  border-top: 1px solid var(--line-subtle);
+}
+.item:last-child {
+  border-bottom: 1px solid var(--line-subtle);
+}
+
+.summary {
+  display: flex;
+  cursor: pointer;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--ink-dim);
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+}
+.item[open] .icon {
+  transform: rotate(45deg);
+}
+
+.body {
+  padding-bottom: 22px;
+  padding-right: 12px;
+  max-width: 62ch;
+}
+
+.item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--duration-fast) var(--ease-smooth-out),
+    content-visibility var(--duration-fast) allow-discrete;
+}
+.item[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item::details-content,
+  .icon {
+    transition: none;
+  }
+}
