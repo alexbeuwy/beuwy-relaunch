@@ -1,0 +1,84 @@
+/* AnfrageFunnel — Schrittwechsel + Erfolgs-Haken, ausschließlich über
+   die Motion-Tokens aus globals.css (:root vererbt in jede CSS-Datei,
+   auch Module). Kein Ad-hoc-Duration. */
+
+/* Schrittwechsel: Slide + Fade, Richtung über --dir (1 = vor, -1 = zurück).
+   var(--distance-large) ist bereits Teil der Distance-Skala. */
+.schritt {
+  animation: anfrageSchrittEin var(--duration-fast) var(--ease-smooth-out) both;
+}
+.vor {
+  --dir: 1;
+}
+.zurueck {
+  --dir: -1;
+}
+
+@keyframes anfrageSchrittEin {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir, 1) * var(--distance-large)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schritt {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Erfolgs-Zustand: Haken poppt (Bounce-Token), Pfad zeichnet sich nach. */
+.hakenKreis {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 9999px;
+  background: var(--akzent);
+  animation: anfrageHakenPop var(--duration-slow) var(--ease-bounce) both;
+}
+
+.hakenPfad {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: anfrageHakenZeichnen var(--duration-medium) var(--ease-smooth-out) forwards;
+  animation-delay: var(--duration-quick);
+}
+
+@keyframes anfrageHakenPop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes anfrageHakenZeichnen {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hakenKreis {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hakenPfad {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
