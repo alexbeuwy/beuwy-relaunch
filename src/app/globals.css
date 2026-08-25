@@ -1,45 +1,50 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   BEUWY — RISO-WELT (2026-08)
-   Die Seite lebt in der Welt des Hero-Bildes: flacher Ultramarin-
-   Himmel (#0C4BC3, exakt die Bild-Oberkante), warmes Papier als
-   Grund, fast-schwarzes Hügelgrün als Tinte, Orange nur als das
-   eine betonte Wort. Risographie heißt: flache Flächen, Korn,
-   kein Glanz, kein Verlauf, kein Schatten-Theater.
+   BEUWY — LIGHT MAKLER STYLE (2026-08)
+   Premium-Boutique für führende Immobilienmakler. Reines Weiß,
+   neutrale Tinte, Pastellgelb als einziger Akzent, Helvena für
+   alles. Ein Fokus-Element pro Viewport, Haarlinien statt
+   Schatten-Theater, kein Korn, kein Verlauf.
 
    Die semantischen Variablennamen der Komponenten bleiben —
    ihre WERTE wechseln die Welt:
-     --ink-yellow  → Akzent  = Ultramarin
-     --ink-cream   → Text    = Tinte (dunkles Grün)
-     --bg-base     → Grund   = Papier
+     --ink-yellow  → Akzent-Text  = tiefes Gold (lesbar auf Weiß)
+     --akzent      → Akzent-Fläche = Pastellgelb (dunkler Text darauf)
+     --ink-cream   → Text          = neutrale Tinte
+     --bg-base     → Grund         = Weiß
    ============================================================ */
 
 @theme {
-  --color-bg-base: #f6f2e6;
-  --color-bg-raised: #fffdf6;
-  --color-bg-elevated: #efeada;
-  --color-bg-hover: #e7e1ce;
+  --color-bg-base: #ffffff;
+  --color-bg-raised: #ffffff;
+  --color-bg-elevated: #f7f7f5;
+  --color-bg-hover: #f1f1ee;
 
-  --color-ink-yellow: #0c4bc3; /* Legacy-Name — inhaltlich: der Akzent (Ultramarin) */
-  --color-ink-yellowDim: #0a3ea6;
-  --color-ink-yellowSoft: #0c4bc3;
-  --color-ink-cream: #10190f; /* Legacy-Name — inhaltlich: die Tinte */
-  --color-ink-muted: #4a5442;
-  --color-ink-dim: #5d6553;
+  --color-ink-yellow: #c2a13c; /* Legacy-Name — inhaltlich: Akzent als TEXT (tiefes Gold) */
+  --color-ink-yellowDim: #a8892e;
+  --color-ink-yellowSoft: #c2a13c;
+  --color-ink-cream: #161613; /* Legacy-Name — inhaltlich: die Tinte */
+  --color-ink-muted: #5d5d58;
+  --color-ink-dim: #8a8a84;
 
-  --color-sky: #0c4bc3;
-  --color-sky-deep: #0a3ea6;
-  --color-hill: #06150a;
-  --color-orange: #c94a12;
-  --color-snow: #fffdf6;
-  --color-paper: #f6f2e6;
+  /* Akzent als FLÄCHE: Pastellgelb, immer mit dunkler Schrift */
+  --color-akzent: #f3e27f;
+  --color-akzent-hover: #eed96a;
+  --color-akzent-wash: #fbf5d6;
 
-  --color-line-subtle: rgba(16, 25, 15, 0.1);
-  --color-line-medium: rgba(16, 25, 15, 0.2);
-  --color-line-strong: #10190f;
+  --color-sky: #c2a13c; /* Legacy-Alias, bis alle Riso-Komponenten ersetzt sind */
+  --color-sky-deep: #a8892e;
+  --color-hill: #161613;
+  --color-orange: #c2a13c;
+  --color-snow: #ffffff;
+  --color-paper: #ffffff;
 
-  --color-accent-red: #c2371b;
+  --color-line-subtle: rgba(20, 20, 18, 0.08);
+  --color-line-medium: rgba(20, 20, 18, 0.16);
+  --color-line-strong: #161613;
+
+  --color-accent-red: #b3402a;
 
   --color-border: var(--border);
   --color-input: var(--input);
@@ -66,8 +71,8 @@
   --color-destructive-foreground: #fffdf6;
 
   --font-display: var(--font-helvena), system-ui, sans-serif;
-  --font-sans: var(--font-sans), system-ui, sans-serif;
-  --font-body: var(--font-sans), system-ui, sans-serif;
+  --font-sans: var(--font-helvena), system-ui, sans-serif;
+  --font-body: var(--font-helvena), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), SFMono-Regular, ui-monospace, monospace;
 
   --tracking-display: -0.02em;
@@ -102,32 +107,37 @@
     /* Opt-in: native height:auto transitions (FAQ, Tool-Panel) */
     interpolate-size: allow-keywords;
 
-    /* ── Riso-Palette — Werte aus dem Hero-Bild gesampelt ── */
-    --sky: #0c4bc3; /* Bild-Oberkante (Himmel) */
-    --sky-deep: #0a3ea6;
-    --sky-wash: rgba(12, 75, 195, 0.08);
-    --hill: #06150a; /* Bild-Unterkante (Hügel) */
-    --orange: #c94a12; /* Berg — nur für das betonte Wort */
-    --orange-bright: #f5a066; /* betontes Wort auf Ultramarin */
-    --snow: #fffdf6;
-    --paper: #f6f2e6;
+    /* ── Light-Makler-Palette — aus den Referenz-Comps gesampelt ── */
+    --akzent: #f3e27f; /* Pastellgelb-Fläche, dunkler Text darauf */
+    --akzent-hover: #eed96a;
+    --akzent-wash: #fbf5d6; /* zarte gelbe Fläche für Highlights */
+    --gold: #c2a13c; /* Akzent als Text — das eine betonte Wort */
+    --sky: var(--gold); /* Legacy-Alias */
+    --sky-deep: #a8892e;
+    --sky-wash: rgba(243, 226, 127, 0.25);
+    --hill: #161613;
+    --orange: var(--gold);
+    --orange-bright: var(--akzent);
+    --snow: #ffffff;
+    --paper: #ffffff;
 
     /* Semantische Namen der Komponenten — neue Welt, alte Namen */
-    --bg-base: var(--paper);
-    --bg-raised: #fffdf6;
-    --bg-elevated: #efeada;
-    --bg-hover: #e7e1ce;
-    --ink-yellow: var(--sky); /* Akzent */
+    --bg-base: #ffffff;
+    --bg-raised: #ffffff;
+    --bg-elevated: #f7f7f5;
+    --bg-hover: #f1f1ee;
+    --ink-yellow: var(--gold); /* Akzent als Text */
     --ink-yellow-hover: var(--sky-deep);
-    --ink-cream: #10190f; /* Tinte */
-    --ink-muted: #4a5442;
-    --ink-dim: #5d6553;
-    --line-subtle: rgba(16, 25, 15, 0.1);
-    --line-medium: rgba(16, 25, 15, 0.2);
-    --line-strong: #10190f;
-    --accent-red: #c2371b;
+    --ink-cream: #161613; /* Tinte */
+    --ink-muted: #5d5d58;
+    --ink-dim: #8a8a84;
+    --line-subtle: rgba(20, 20, 18, 0.08);
+    --line-medium: rgba(20, 20, 18, 0.16);
+    --line-strong: #161613;
+    --accent-red: #b3402a;
 
-    --font-body: var(--font-sans, var(--font-geist-sans));
+    /* Helvena für alles — Inter existiert nicht mehr */
+    --font-body: var(--font-helvena), system-ui, sans-serif;
     --font-mono: var(--font-geist-mono);
 
     /* ── Motion-Tokens (transitions-dev) — die einzige Zeitskala der Seite.
@@ -239,7 +249,8 @@
       system-ui,
       -apple-system,
       sans-serif;
-    font-size: 15.5px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 1.65;
     letter-spacing: -0.011em;
     min-height: 100dvh;
@@ -250,29 +261,10 @@
     font-feature-settings: 'ss01', 'ss03', 'cv11';
   }
 
-  /* Riso-Korn — ein feines, statisches Rauschen über allem.
-     multiply dunkelt Papier wie Farbflächen minimal ab, genau wie
-     Druckkorn. Statisch, keine Animation. */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 80;
-    opacity: 0.06;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 240px 240px;
-  }
-  @media print {
-    body::after {
-      display: none;
-    }
-  }
 
   ::selection {
-    background: var(--sky);
-    color: var(--snow);
+    background: var(--akzent);
+    color: var(--ink-cream);
   }
 
   .tnum {
@@ -2436,42 +2428,43 @@
 }
 
 @layer base {
-  /* shadcn-Token auf die Riso-Welt gemappt: helles Papier,
-     Ultramarin als Primary, Tinte als Foreground. */
+  /* shadcn-Token auf die Light-Makler-Welt gemappt: Weiß,
+     Pastellgelb als Primary (dunkle Schrift darauf), Tinte als
+     Foreground. */
   :root,
   .dark {
-    --background: #f6f2e6;
-    --foreground: #10190f;
-    --card: #fffdf6;
-    --card-foreground: #10190f;
-    --popover: #fffdf6;
-    --popover-foreground: #10190f;
-    --primary: #0c4bc3;
-    --primary-foreground: #fffdf6;
-    --secondary: #efeada;
-    --secondary-foreground: #10190f;
-    --muted: #efeada;
-    --muted-foreground: #4a5442;
-    --accent: #e7e1ce;
-    --accent-foreground: #10190f;
-    --destructive: #c2371b;
-    --border: rgba(16, 25, 15, 0.14);
-    --input: rgba(16, 25, 15, 0.2);
-    --ring: rgba(12, 75, 195, 0.45);
-    --chart-1: #0c4bc3;
-    --chart-2: #c94a12;
-    --chart-3: #4a5442;
-    --chart-4: #6b7360;
-    --chart-5: #10190f;
-    --radius: 0.45rem;
-    --sidebar: #fffdf6;
-    --sidebar-foreground: #10190f;
-    --sidebar-primary: #0c4bc3;
-    --sidebar-primary-foreground: #fffdf6;
-    --sidebar-accent: #e7e1ce;
-    --sidebar-accent-foreground: #10190f;
-    --sidebar-border: rgba(16, 25, 15, 0.14);
-    --sidebar-ring: rgba(12, 75, 195, 0.45);
+    --background: #ffffff;
+    --foreground: #161613;
+    --card: #ffffff;
+    --card-foreground: #161613;
+    --popover: #ffffff;
+    --popover-foreground: #161613;
+    --primary: #f3e27f;
+    --primary-foreground: #161613;
+    --secondary: #f7f7f5;
+    --secondary-foreground: #161613;
+    --muted: #f7f7f5;
+    --muted-foreground: #5d5d58;
+    --accent: #fbf5d6;
+    --accent-foreground: #161613;
+    --destructive: #b3402a;
+    --border: rgba(20, 20, 18, 0.1);
+    --input: rgba(20, 20, 18, 0.16);
+    --ring: rgba(194, 161, 60, 0.5);
+    --chart-1: #c2a13c;
+    --chart-2: #161613;
+    --chart-3: #5d5d58;
+    --chart-4: #8a8a84;
+    --chart-5: #f3e27f;
+    --radius: 0.75rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #161613;
+    --sidebar-primary: #f3e27f;
+    --sidebar-primary-foreground: #161613;
+    --sidebar-accent: #fbf5d6;
+    --sidebar-accent-foreground: #161613;
+    --sidebar-border: rgba(20, 20, 18, 0.1);
+    --sidebar-ring: rgba(194, 161, 60, 0.5);
   }
   .theme {
     --font-sans: var(--font-sans);

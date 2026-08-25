@@ -5,14 +5,11 @@ import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { NurWebsite } from "@/components/NurWebsite";
-import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-/* Body-Schrift: Inter (Alex-Vorgabe); Headline bleibt Helvena */
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-
-/* Headline-Schnitt: Helvena (lizenziert, self-hosted, Variable 200–900) */
+/* Eine Schrift für alles: Helvena (lizenziert, self-hosted,
+   Variable 200–900) — Headlines UND Fließtext. GeistMono nur für
+   tabellarische Zahlen. Die frühere Zweitschrift ist entfernt. */
 const helvena = localFont({
   src: "./fonts/helvena.woff2",
   variable: "--font-helvena",
@@ -22,21 +19,21 @@ const helvena = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beuwy.com"),
-  title: "beuwy — Neukunden nach System.",
+  title: "beuwy — Immobilienmarketing für führende Makler.",
   description:
-    "beuwy baut Marke, Werbeanzeigen und Vertriebssystem als ein zusammenhängendes System — und verantwortet, was dabei herauskommt: Anfragen, Termine, Abschlüsse.",
+    "Premium-Boutique für Immobilienmakler, die ihren Vorsprung ausbauen: Marke, Website, E-Mail-Marketing und Automatisierung — done for you, in Wochen statt Quartalen.",
   openGraph: {
-    title: "beuwy — Neukunden nach System.",
+    title: "beuwy — Immobilienmarketing für führende Makler.",
     description:
-      "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
+      "Marke, Website und Automatisierung für Immobilienmakler, die führen statt folgen. Geliefert in Wochen, nicht Quartalen.",
     type: "website",
     locale: "de_DE",
   },
   twitter: {
     card: "summary_large_image",
-    title: "beuwy — Neukunden nach System.",
+    title: "beuwy — Immobilienmarketing für führende Makler.",
     description:
-      "Marke, Anzeigen und Vertriebssystem als ein System, mit einem Verantwortlichen. Unternehmensberatung von Alexander Pütter.",
+      "Marke, Website und Automatisierung für Immobilienmakler, die führen statt folgen.",
   },
 };
 
@@ -46,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={cn(GeistMono.variable, helvena.variable, inter.variable, "font-sans")}>
+    <html lang="de" className={cn(GeistMono.variable, helvena.variable, "font-sans")}>
       <body className="min-h-dvh">
         <NurWebsite>
           <Nav />

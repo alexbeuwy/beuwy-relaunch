@@ -184,6 +184,34 @@ export const DEFAULTS: Record<string, string> = {
     "Sie schicken Ihre Domain. Sie bekommen ein persönlich aufgenommenes Video: was Interessenten heute sehen, wo Anfragen versickern, was ein System ändern würde.",
   "video.note": "Persönlich aufgenommen · Antwort binnen 24 h",
   "video.submit": "Video-Analyse anfordern",
+
+  /* ══ LIGHT MAKLER STYLE (Redesign 2026-08) — neue Welt-Keys ══
+     Platzhalter mit Sought-after-Effekt; Alex passt Zahlen und
+     Namen im Studio an, bevor Freigaben stehen. */
+
+  "mk.hero.eyebrow": "Marke · Website · Automatisierung",
+  "mk.hero.title": "Die besten Makler sehen auch so *aus*.",
+  "mk.hero.subtitle":
+    "beuwy ist die Boutique für führende Immobilienmakler: Marke, Website, E-Mail und Automatisierung aus einer Hand — done for you, geliefert in Wochen. Damit Ihr Auftritt endlich so stark ist wie Ihr Ruf.",
+  "mk.hero.cta": "Zusammenarbeit anfragen",
+  "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
+  "mk.trust.label": "Vertraut aus Projekten mit Maklern führender Häuser",
+  "mk.trust.namen":
+    "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
+
+  "mk.stats.s1_wert": "40+",
+  "mk.stats.s1_label": "Premium-Projekte für Makler und Immobilienunternehmen",
+  "mk.stats.s2_wert": "3×",
+  "mk.stats.s2_label": "mehr qualifizierte Eigentümer-Anfragen nach Relaunch — Median unserer Projekte",
+  "mk.stats.s3_wert": "17",
+  "mk.stats.s3_label": "Jahre Markenarbeit, angefangen bei Bosch, Continental und Michelin",
+  "mk.stats.s4_wert": "4–6",
+  "mk.stats.s4_label": "Wochen von Kickoff bis Livegang — nicht sechs Monate",
+
+  "mk.vsl.url": "",
+
+  "mk.integrationen.label": "Nahtlos mit den Tools, die Sie schon nutzen",
+  "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
 };
 
 export const FIELD_LABELS: Record<string, string> = {
@@ -209,6 +237,20 @@ export const FIELD_LABELS: Record<string, string> = {
   "fit.line1": "Kapazität · muss der Wahrheit entsprechen",
   "fit.line2": "Filter · Schwelle 15.000 €",
   "termin.title": "/termin · Kopfzeile",
+  "mk.hero.eyebrow": "Makler · Hero · Eyebrow",
+  "mk.hero.title": "Makler · Hero · H1 (*Wort* = Hervorhebung)",
+  "mk.hero.subtitle": "Makler · Hero · Subline",
+  "mk.hero.cta": "Makler · Der eine CTA-Wortlaut",
+  "mk.hero.cta_hinweis": "Makler · Mikrozeile unter dem CTA",
+  "mk.trust.label": "Makler · Zeile über den Wordmarks",
+  "mk.trust.namen": "Makler · Wordmarks, mit | getrennt (Freigaben!)",
+  "mk.stats.s1_wert": "Makler · Zahl 1", "mk.stats.s1_label": "Makler · Zahl 1 · Text",
+  "mk.stats.s2_wert": "Makler · Zahl 2", "mk.stats.s2_label": "Makler · Zahl 2 · Text",
+  "mk.stats.s3_wert": "Makler · Zahl 3", "mk.stats.s3_label": "Makler · Zahl 3 · Text",
+  "mk.stats.s4_wert": "Makler · Zahl 4", "mk.stats.s4_label": "Makler · Zahl 4 · Text",
+  "mk.vsl.url": "Makler · VSL-Video-URL (leer = Platzhalter)",
+  "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
+  "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */
