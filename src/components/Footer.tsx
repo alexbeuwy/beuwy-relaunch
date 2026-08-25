@@ -1,41 +1,65 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { cn } from "@/lib/utils";
+
+/* Light Makler Style: reines Weiß, eine Haarlinie oben — kein
+   Hügelband, kein Ultramarin mehr. Vier Spalten tragen die neue
+   Seitenarchitektur (BRIEF §6); Impressum/Datenschutz bleiben. */
+const leistungen: { label: string; href: string }[] = [
+  { label: "Website für Makler", href: "/website-fuer-immobilienmakler" },
+  { label: "Leadgenerierung", href: "/leadgenerierung-immobilienmakler" },
+  { label: "onOffice-Websites", href: "/onoffice-website" },
+];
+
+const wissen: { label: string; href: string }[] = [
+  { label: "Immobilienmarketing-Hub", href: "/immobilienmarketing" },
+  { label: "Die 30 besten Maklerwebsites", href: "/beste-maklerwebsites" },
+  { label: "Was kostet eine Maklerwebsite", href: "/maklerwebsite-kosten" },
+];
 
 export function Footer() {
+  const jahr = new Date().getFullYear();
+
   return (
-    <footer className="relative z-2 mt-24 border-t border-line-subtle">
-      <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-12">
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
-          <div className="space-y-4 max-w-[420px]">
-            <Logo height={32} />
+    <footer className="border-t border-line-subtle bg-bg-base">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-10 py-16 md:py-20">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+          <div className="max-w-[320px] space-y-4">
+            <Logo height={28} />
             <p className="t-small">
-              Unternehmensberatung für Marke und Vertriebssysteme.
-              Ludwigshafen · Mannheim · Berlin.
+              Premium-Marketing für führende Immobilienmakler. Ludwigshafen ·
+              Mannheim · Berlin.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-x-10 gap-y-4">
-            <FooterCol title="Referenzen">
-              <FooterLink href="https://riegel.vercel.app" external>
-                Riegel Immobilien
+          <FooterCol title="Leistungen">
+            {leistungen.map((l) => (
+              <FooterLink key={l.href} href={l.href}>
+                {l.label}
               </FooterLink>
-              <FooterLink href="https://saadi-ag.vercel.app" external>
-                SAADI AG
+            ))}
+          </FooterCol>
+
+          <FooterCol title="Wissen">
+            {wissen.map((l) => (
+              <FooterLink key={l.href} href={l.href}>
+                {l.label}
               </FooterLink>
-            </FooterCol>
-            <FooterCol title="Kontakt">
-              <FooterLink href="mailto:ap@beuwy.com">ap@beuwy.com</FooterLink>
-              <FooterLink href="/#kontakt">Systemgespräch</FooterLink>
-            </FooterCol>
-            <FooterCol title="Rechtliches">
-              <FooterLink href="/impressum">Impressum</FooterLink>
-              <FooterLink href="/datenschutz">Datenschutz</FooterLink>
-            </FooterCol>
-          </div>
+            ))}
+          </FooterCol>
+
+          <FooterCol title="Kontakt">
+            <FooterLink href="/anfrage">Zusammenarbeit anfragen</FooterLink>
+            <FooterLink href="mailto:ap@beuwy.com">ap@beuwy.com</FooterLink>
+            <FooterLink href="/impressum">Impressum</FooterLink>
+            <FooterLink href="/datenschutz">Datenschutz</FooterLink>
+          </FooterCol>
         </div>
 
-        <div className="mt-12 pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-t border-line-subtle">
-          <p className="t-data">© beuwy · Alexander Pütter · seit 2017</p>
+        <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-line-subtle pt-6 md:flex-row md:items-center">
+          <p className="t-data">
+            © {jahr} beuwy · Alexander Pütter
+          </p>
           <p className="t-data">Made in Ludwigshafen</p>
         </div>
       </div>
@@ -43,11 +67,17 @@ export function Footer() {
   );
 }
 
-function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterCol({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="space-y-3 min-w-[140px]">
+    <div className="space-y-3.5">
       <p className="t-label">{title}</p>
-      <ul className="space-y-2">{children}</ul>
+      <ul className="space-y-2.5">{children}</ul>
     </div>
   );
 }
@@ -55,18 +85,19 @@ function FooterCol({ title, children }: { title: string; children: React.ReactNo
 function FooterLink({
   href,
   children,
-  external,
 }: {
   href: string;
   children: React.ReactNode;
-  external?: boolean;
 }) {
   return (
     <li>
       <Link
         href={href}
-        className="t-small is-muted transition-colors hover:text-(--ink-cream)"
-        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className={cn(
+          "t-small inline-block",
+          "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream",
+          "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)"
+        )}
       >
         {children}
       </Link>
