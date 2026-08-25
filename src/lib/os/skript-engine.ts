@@ -59,8 +59,10 @@ const SCHEMA = {
   properties: {
     skripte: {
       type: "array",
-      minItems: 5,
-      maxItems: 10,
+      /* Achtung: minItems/maxItems und minimum/maximum sind bei Structured
+         Outputs nicht erlaubt (die API lehnt sie mit 400 ab). Die Anzahl
+         steht deshalb im Prompt, die Einhaltung prueft pruefen() unten. */
+      description: "Die geforderte Anzahl Reel-Skripte, nicht mehr und nicht weniger",
       items: {
         type: "object",
         properties: {
@@ -79,7 +81,10 @@ const SCHEMA = {
           },
           loop_ende: { type: "string", description: "Letzter Satz, ohne CTA, führt zurück zum Hook" },
           regie: { type: "string", description: "Setting, B-Roll, Text-Inserts, Schnitt — 1 bis 3 Sätze" },
-          laenge_sek: { type: "integer", minimum: 20, maximum: 45 },
+          laenge_sek: {
+            type: "integer",
+            description: "Gesprochene Laenge in Sekunden, zwischen 20 und 45",
+          },
         },
         required: [
           "titel",
@@ -104,6 +109,21 @@ export type Generiert = SkriptNeu & { saeule: Saeule };
 
 export function engineKonfiguriert(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY);
+}
+
+/**
+ * Ersetzt die Schema-Constraints, die Structured Outputs nicht kennt:
+ * Anzahl der Skripte kappen und die Laenge in den drehbaren Bereich
+ * zwingen. Lieber ein zurechtgerueckter Batch als ein harter Fehler.
+ */
+function pruefen(
+  roh: Omit<Generiert, "batch" | "nummer">[],
+  anzahl: number,
+): Omit<Generiert, "batch" | "nummer">[] {
+  return roh.slice(0, anzahl).map((s) => ({
+    ...s,
+    laenge_sek: Math.min(45, Math.max(20, Math.round(Number(s.laenge_sek) || 30))),
+  }));
 }
 
 export async function batchGenerieren(opts: {
@@ -166,8 +186,11 @@ Schwerpunkt darf der Idee folgen. Jedes Skript muss sofort drehbar sein.`,
       .map((b) => b.text)
       .join("");
     const daten = JSON.parse(text) as { skripte: Omit<Generiert, "batch" | "nummer">[] };
+    if (!Array.isArray(daten.skripte) || daten.skripte.length === 0) {
+      return { ok: false, skripte: [], detail: "Modell lieferte keine Skripte" };
+    }
 
-    const skripte: Generiert[] = daten.skripte.map((s, i) => ({
+    const skripte: Generiert[] = pruefen(daten.skripte, opts.anzahl).map((s, i) => ({
       ...s,
       batch: opts.batch,
       nummer: i + 1,
