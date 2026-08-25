@@ -1,8 +1,11 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 
-type FaqItem = { q: string; a: string };
+/* a: ReactNode statt string, damit eine Antwort (z. B. "Was kostet…")
+   einen echten <Link> auf eine Vergleichsseite enthalten kann. Ein
+   einfacher String bleibt weiterhin gültig — rein additive Erweiterung. */
+type FaqItem = { q: string; a: ReactNode };
 
 /**
  * Accordion nach dem transitions-dev-Muster (grid-rows-Technik, Chevron-Flip).

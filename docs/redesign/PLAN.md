@@ -45,3 +45,4 @@ C–G parallelisierbar (disjunkte Dateien), H sequenziell am Ende.
 ## Statuslog (append-only)
 
 - 2026-08-25 Baum angelegt, A1/A2 begonnen (Orchestrator).
+- H2: StempelBadge default 'relative' schlaegt caller-'absolute' — zentral fixen (MaklerElemente), !absolute-Workarounds zuruecknehmen (D3-Fund)
