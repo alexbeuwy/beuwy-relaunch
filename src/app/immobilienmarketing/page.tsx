@@ -5,7 +5,7 @@ import { RiArrowRightLine, RiArrowRightUpLine } from "@remixicon/react";
 import { maklerAsset } from "@/lib/cdn";
 import { rich } from "@/components/RichText";
 import { AiPille } from "@/components/AiPille";
-import { GelbeKarte, Highlight, SektionsKopf, StempelBadge } from "@/components/MaklerElemente";
+import { Highlight, SektionsKopf, StempelBadge } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 
 /**
@@ -13,7 +13,8 @@ import { Reveal } from "@/components/Reveal";
  * verteilt Autorität auf alle Unterseiten (BRIEF §6, GOAL Kriterium 2).
  * XXL-Hero im Systemstil (Foto 10, ~75vh statt MaklerHeros 92dvh) →
  * Einordnungs-Sektion (echter Fließtext, kein Blabla) → Themen-Rails
- * (KEINE Kartengrids) → 4-Säulen-GelbeKarte → Finale. Alle Texte hier
+ * (KEINE Kartengrids) → 4 Säulen als neutrale Karten (Gelb nur im CTA,
+ * ein Akzent pro Viewport) → Finale. Alle Texte hier
  * hardcodiert (content.ts ist für dieses Leaf gesperrt) — gewünschte
  * Studio-Keys stehen im Abschlussbericht.
  */
@@ -302,12 +303,21 @@ function SaeulenSection() {
           />
         </Reveal>
 
+        {/* Neutrale Karten, ein Akzent pro Viewport (BRIEF §3): das einzige
+            Gelb dieser Sektion ist die CtaPill darunter — vier gelbe Karten
+            nebeneinander wären Akzent-Inflation. */}
         <div className="mx-auto mt-14 grid max-w-[880px] gap-6 sm:grid-cols-2">
           {SAEULEN.map((saeule, i) => (
             <Reveal key={saeule.titel} delay={i * 60}>
-              <GelbeKarte label={saeule.nr} titel={saeule.titel} glyph>
-                {saeule.text}
-              </GelbeKarte>
+              <div className="h-full rounded-[28px] border border-line-subtle bg-bg-base px-7 py-8 sm:px-8 sm:py-9">
+                <p className="t-data tnum text-ink-yellow">{saeule.nr}</p>
+                <p className="mt-3 font-display text-[26px] leading-[1.18] tracking-[-0.015em] text-ink-cream [font-weight:640] [text-wrap:balance]">
+                  {saeule.titel}
+                </p>
+                <p className="mt-3 text-[14.5px] leading-[1.6] text-ink-muted">
+                  {saeule.text}
+                </p>
+              </div>
             </Reveal>
           ))}
         </div>

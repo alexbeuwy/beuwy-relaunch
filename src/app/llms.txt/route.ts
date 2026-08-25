@@ -12,7 +12,7 @@ const CONTENT = `# beuwy — Unternehmensberatung für Marke und Vertriebssystem
 > 2023 Mitgründer von acta mit selbst skaliertem Vertrieb).
 
 ## Leistungen
-- Systemgespräch: 30 Minuten, kostenlos — https://beuwy.com/termin
+- Systemgespräch: 30 Minuten, kein Pitch — https://beuwy.com/termin
 - Diagnose des größten Hebels: Antwort innerhalb von 24 Stunden, schriftlich
 - Vier Module aus einer Hand: Marke, Anzeigen, Vertriebssystem (CRM +
   Telefonanbindung), wöchentliche Auswertung — Festpreis nach Diagnose

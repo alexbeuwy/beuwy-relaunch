@@ -46,3 +46,7 @@ C–G parallelisierbar (disjunkte Dateien), H sequenziell am Ende.
 
 - 2026-08-25 Baum angelegt, A1/A2 begonnen (Orchestrator).
 - H2: StempelBadge default 'relative' schlaegt caller-'absolute' — zentral fixen (MaklerElemente), !absolute-Workarounds zuruecknehmen (D3-Fund)
+- 2026-08-25 H1 abgeschlossen: 26 Shots, 13 Routen reviewt, 5 Findings
+  gefixt (LogoSlot-Inversion, Hub-Akzent, StempelBadge zentral + D3/D4-
+  Workarounds raus, "kostenlos" gestrichen, staler Review-Server als
+  Root Cause des /termin-Phantomfehlers). H2 G1–G3 gruen, PR folgt.

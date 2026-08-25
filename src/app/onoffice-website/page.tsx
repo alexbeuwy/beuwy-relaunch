@@ -126,7 +126,7 @@ export default function OnOfficeWebsitePage() {
             <StempelBadge
               text="ANGEBUNDEN · MARKENSTARK"
               groesse={100}
-              className="!absolute -top-5 right-6 z-10 lg:-top-6 lg:right-10"
+              className="absolute -top-5 right-6 z-10 lg:-top-6 lg:right-10"
             />
           </Reveal>
 

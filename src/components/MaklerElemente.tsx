@@ -39,7 +39,10 @@ function Funke({ groesse, farbe = "var(--ink-cream)" }: { groesse: number; farbe
  * Textring dreht endlos und sehr langsam (40s, bewusste Ausnahme von der
  * Duration-Skala, siehe MaklerElemente.module.css); der Glyph in der Mitte
  * bleibt fix, damit er lesbar bleibt statt mitzudrehen — wie ein Siegel.
- * Absolut positionierbar über die className-Prop des Aufrufers.
+ * Absolut positionierbar über die className-Prop des Aufrufers: bringt
+ * die className eine eigene position-Utility mit, setzt der Badge kein
+ * "relative" — Tailwind sortiert "relative" hinter "absolute", der
+ * Default würde den Aufrufer sonst still überschreiben (H2-Fund).
  */
 export function StempelBadge({
   text,
@@ -51,9 +54,10 @@ export function StempelBadge({
   className?: string;
 }) {
   const pfadId = `stempel-ring-${stempelSeq++}`;
+  const bringtPosition = /(?:^|\s)!?(?:absolute|fixed|sticky|relative)(?:\s|$)/.test(className);
   return (
     <div
-      className={`pointer-events-none relative select-none ${className}`}
+      className={`pointer-events-none select-none ${bringtPosition ? "" : "relative"} ${className}`}
       style={{ width: groesse, height: groesse }}
       aria-hidden
     >

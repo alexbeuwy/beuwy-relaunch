@@ -259,10 +259,7 @@ export default function WebsiteFuerImmobilienmaklerPage() {
           <StempelBadge
             text="INTEGRIERT · GEPRÜFT · VERNETZT"
             groesse={108}
-            /* !absolute: StempelBadge legt selbst "relative" als Default an, das in der
-               kompilierten Tailwind-Reihenfolge NACH "absolute" steht und die Klasse sonst
-               stillschweigend gewinnt (per Sondierung geprüft) — deshalb hier erzwungen. */
-            className="!absolute right-6 top-16 hidden sm:block lg:right-10 lg:top-20"
+            className="absolute right-6 top-16 hidden sm:block lg:right-10 lg:top-20"
           />
           <SektionsKopf
             eyebrow="Anbindung"
