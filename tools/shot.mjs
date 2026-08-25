@@ -44,7 +44,20 @@ async function schuss(breite, hoehe, suffix) {
   await cdnLokal(pg);
   await pg.setViewportSize({ width: breite, height: hoehe });
   await pg.goto(basis + route, { waitUntil: "load", timeout: 60000 });
-  await pg.waitForTimeout(3500);
+  await pg.waitForTimeout(2500);
+  // Reveal-Sektionen sind below-fold versteckt, bis ihr Observer feuert —
+  // einmal komplett durchscrollen, damit der Screenshot die echte Seite zeigt.
+  await pg.evaluate(async () => {
+    const schritt = window.innerHeight * 0.8;
+    for (let y = 0; y < document.body.scrollHeight; y += schritt) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+  await pg.waitForTimeout(900);
+  await pg.evaluate(() => window.scrollTo(0, 0));
+  await pg.waitForTimeout(400);
   await pg.screenshot({ path: `${ausgabe}/${name}-${suffix}.png`, fullPage: true });
   await pg.close();
 }
