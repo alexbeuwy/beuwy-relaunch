@@ -1,0 +1,48 @@
+/* MaklerHero — ein choreografierter Eintritt, kein Scroll-Trigger.
+   Läuft einmal beim Laden: Text staggert über --i, die Media-Plate
+   kommt als sanftes Fade+Scale hinterher. Nutzt ausschließlich die
+   Motion-Tokens aus globals.css (:root vererbt in jede Stylesheet-
+   Datei, auch CSS-Module). */
+
+.enter {
+  opacity: 0;
+  animation: heroItemIn var(--duration-slow) var(--ease-smooth-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes heroItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-medium));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mediaEnter {
+  opacity: 0;
+  animation: heroMediaIn var(--duration-slow) var(--ease-smooth-out) both;
+  animation-delay: 90ms;
+}
+
+@keyframes heroMediaIn {
+  from {
+    opacity: 0;
+    transform: scale(var(--scale-small));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .mediaEnter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
