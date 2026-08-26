@@ -50,3 +50,10 @@ C–G parallelisierbar (disjunkte Dateien), H sequenziell am Ende.
   gefixt (LogoSlot-Inversion, Hub-Akzent, StempelBadge zentral + D3/D4-
   Workarounds raus, "kostenlos" gestrichen, staler Review-Server als
   Root Cause des /termin-Phantomfehlers). H2 G1–G3 gruen, PR folgt.
+- 2026-08-26 Assets nachgeliefert (Alex' Auftrag): 13 Logo-SVGs in
+  public/logos/ (11 echte Quellen, 2 Nachbauten — Herkunft: README
+  dort), Integrations-Strip Startseite auf LogoSlot umgestellt,
+  LogoSlot um complete-Check ergaenzt (onLoad vor Hydration verpufft
+  sonst). Gruenderfoto als gruender-alex.webp im CDN (GRUENDER_FOTO),
+  eingebaut als VSL-Byline (Start) und /termin-Intro — echtes Foto,
+  ohne AiPille. VSL-Platzhalter war bereits gebaut (VslSlot).

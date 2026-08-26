@@ -4,14 +4,15 @@ import {
   GelbeKarte,
   Highlight,
   KreisDeko,
+  LogoSlot,
   SektionsKopf,
   StempelBadge,
-  Wortmarke,
+  slugifyMarke,
 } from "./MaklerElemente";
 import { AiPille } from "./AiPille";
 import { Reveal } from "./Reveal";
 import { VslSlot } from "./VslSlot";
-import { maklerAsset } from "@/lib/cdn";
+import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
 
 /**
  * Startseite, Sektionen 2-5 (BRIEF §6): Spiegel → Abgrenzung Baukasten →
@@ -220,6 +221,21 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
               <span className="text-[14px] font-medium text-ink-cream">Video ansehen</span>
             </a>
 
+            {/* Founder-Byline: echtes Porträt (GRUENDER_FOTO), deshalb ohne AiPille. */}
+            <div className="mt-7 flex items-center gap-3.5">
+              <Image
+                src={GRUENDER_FOTO}
+                alt="Alexander Pütter, Gründer von beuwy"
+                width={44}
+                height={44}
+                className="h-11 w-11 rounded-full border border-line-subtle object-cover"
+              />
+              <p className="text-[13.5px] leading-snug text-ink-muted">
+                <span className="font-medium text-ink-cream">Alexander Pütter</span> — Gründer
+                beuwy, Ihr direkter Ansprechpartner im Projekt.
+              </p>
+            </div>
+
             <div className="mt-8 border-t border-line-subtle pt-8">
               <AvatarReihe text="Vertraut von führenden Maklern im DACH-Raum" />
             </div>
@@ -369,7 +385,7 @@ function Saeulen({ c }: { c: Record<string, string> }) {
               <p className="t-label !text-[10.5px]">{c["mk.integrationen.label"]}</p>
               <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
                 {integrationen.map((name) => (
-                  <Wortmarke key={name} name={name} />
+                  <LogoSlot key={name} name={name} slug={slugifyMarke(name)} />
                 ))}
               </div>
             </div>

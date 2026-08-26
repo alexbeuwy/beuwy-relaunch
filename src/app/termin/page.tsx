@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { BookingTool } from "@/components/BookingTool";
+import { GRUENDER_FOTO } from "@/lib/cdn";
 import { getContent } from "@/lib/content";
 
 export const revalidate = 60;
@@ -42,7 +44,18 @@ export default async function TerminPage() {
 
       <div className="max-w-[720px]">
         <h1 className="t-display">{c["termin.title"]}</h1>
-        <p className="t-body-lg mt-5 max-w-[560px]">{c["termin.intro"]}</p>
+        {/* Echtes Gründerporträt (kein KI-Bild, deshalb ohne AiPille) —
+            das Gespräch führt er selbst, das Foto löst das Versprechen ein. */}
+        <div className="mt-6 flex items-center gap-4">
+          <Image
+            src={GRUENDER_FOTO}
+            alt="Alexander Pütter, Gründer von beuwy"
+            width={56}
+            height={56}
+            className="h-14 w-14 shrink-0 rounded-full border border-line-subtle object-cover"
+          />
+          <p className="t-body-lg max-w-[500px]">{c["termin.intro"]}</p>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-x-14 gap-y-10 mt-12 max-w-[960px]">

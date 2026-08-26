@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Markentypo je Haus (umgezogen aus MaklerHero.tsx, BRIEF §5): Serif für
@@ -53,12 +53,22 @@ export function Wortmarke({ name }: { name: string }) {
  */
 export function LogoSlot({ name, slug }: { name: string; slug: string }) {
   const [geladen, setGeladen] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Das SSR-gerenderte <img> laedt oft schon VOR der Hydration fertig —
+  // dann feuert onLoad nie in React. complete + naturalWidth (>0 nur bei
+  // Erfolg, nicht bei 404) holen diesen Fall beim Mount nach.
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth > 0) setGeladen(true);
+  }, []);
 
   return (
     <span className="inline-flex items-center leading-none">
       {!geladen && <Wortmarke name={name} />}
       {/* eslint-disable-next-line @next/next/no-img-element -- lokale SVG, Einwechslung via onLoad */}
       <img
+        ref={imgRef}
         src={`/logos/${slug}.svg`}
         alt={geladen ? name : ""}
         height={20}

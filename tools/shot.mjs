@@ -28,9 +28,9 @@ const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
 async function cdnLokal(pg) {
   await pg.route("**beuwy-2.b-cdn.net/**", (r) => {
     const url = r.request().url();
-    const m = url.match(/makler-(\d+)\.webp/);
+    const m = url.match(/\/([\w.-]+\.webp)(?:\?|$)/);
     if (m) {
-      const datei = path.join("docs/redesign/refs/fotos", `makler-${m[1]}.webp`);
+      const datei = path.join("docs/redesign/refs/fotos", m[1]);
       if (fs.existsSync(datei)) {
         return r.fulfill({ contentType: "image/webp", body: fs.readFileSync(datei) });
       }

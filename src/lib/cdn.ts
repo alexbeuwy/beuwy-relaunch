@@ -17,6 +17,12 @@ export function maklerAsset(nummer: number): string {
 
 export const HERO_VIDEO = `${BASIS}/hero-video.webm`;
 
+/**
+ * Echtes Gründerporträt (Platzhalter-Fassung, 1200×1200) — im Gegensatz
+ * zu den makler-*-Bildern KEIN KI-Bild, also nie mit <AiPille /> labeln.
+ */
+export const GRUENDER_FOTO = `${BASIS}/gruender-alex.webp`;
+
 /** Poster fürs Hero-Video und reduced-motion-Fallback. */
 export const HERO_POSTER = maklerAsset(1);
 
