@@ -15,6 +15,11 @@ const wissen: { label: string; href: string }[] = [
   { label: "Immobilienmarketing-Hub", href: "/immobilienmarketing" },
   { label: "Die 30 besten Maklerwebsites", href: "/beste-maklerwebsites" },
   { label: "Was kostet eine Maklerwebsite", href: "/maklerwebsite-kosten" },
+  { label: "KI für Immobilienmakler", href: "/ki-fuer-immobilienmakler" },
+  { label: "Immobilienmarketing-Agentur?", href: "/immobilienmarketing-agentur" },
+  { label: "Marketing für Projektentwickler", href: "/marketing-projektentwickler" },
+  { label: "Marketing für Bauträger", href: "/marketing-bautraeger" },
+  { label: "Marketing für Immobilienvertriebe", href: "/marketing-immobilienvertrieb" },
 ];
 
 export function Footer() {
@@ -27,8 +32,8 @@ export function Footer() {
           <div className="max-w-[320px] space-y-4">
             <Logo height={28} />
             <p className="t-small">
-              Premium-Marketing für führende Immobilienmakler. Ludwigshafen ·
-              Mannheim · Berlin.
+              Unternehmensberatung für Immobilienunternehmen, die ihren
+              Vorsprung ausbauen wollen. Ludwigshafen · Mannheim · Berlin.
             </p>
           </div>
 

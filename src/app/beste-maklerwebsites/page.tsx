@@ -131,9 +131,36 @@ function RangzeileKlein({ nr }: { nr: number }) {
   );
 }
 
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Wie kommt man in die Liste?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Wir prüfen jede Website nach der Kriterienliste oben: Design, Ladezeit, Conversion-Pfad. Die acht großen Netzwerke stehen zuerst, weil wir mit ihnen begonnen haben — der Rest folgt in der Reihenfolge, in der wir ihn geprüft haben. Ein Platz in der Liste ist keine Bewerbung. Er ist das Ergebnis einer Prüfung.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Kann man sich einkaufen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nein. Ihr Listenplatz hat nichts mit einem Auftrag bei uns zu tun — auch nicht umgekehrt. Wer bei uns baut, taucht in der Liste auf, sobald die Website die Kriterien erfüllt. Nicht früher, nicht automatisch.",
+      },
+    },
+  ],
+};
+
 export default function BesteMaklerwebsitenPage() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+      />
       {/* ── 1. Hero — kompakt, typografisch, KreisDeko statt Foto ── */}
       <section className="relative flex min-h-[60dvh] items-center overflow-hidden bg-bg-base px-6 pb-16 pt-32 lg:px-10 lg:pb-20 lg:pt-40">
         <KreisDeko className="right-[6%] top-[22%] hidden lg:block" />
@@ -178,7 +205,8 @@ export default function BesteMaklerwebsitenPage() {
             <p className="t-small mt-14 max-w-[58ch] border-t border-line-subtle pt-8">
               Jede Website durchläuft dieselbe Prüfliste: eine echte Ladezeitmessung auf mobilen
               Endgeräten und ein fester Kriterienkatalog für Design und Conversion-Pfad. Kein
-              Bauchgefühl — sondern derselbe Maßstab für alle 30 Häuser.
+              Bauchgefühl, sondern derselbe Maßstab für alle 30 Häuser, geprüft von einem Team,
+              das seit 17 Jahren Marken baut.
             </p>
           </Reveal>
         </div>

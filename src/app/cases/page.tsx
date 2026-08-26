@@ -15,7 +15,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Fallstudien — Referenzen für Immobilienmakler | beuwy",
   description:
-    "Reale Projekte, echte Zahlen: wie beuwy Marke, Website und Vertriebssystem für führende Immobilienmakler und Unternehmen gebaut hat.",
+    "Reale Projekte, echte Zahlen: wie beuwy Marke, Portal und Vertriebssystem für führende Immobilienmakler und Unternehmen gebaut hat.",
 };
 
 export default function CasesUebersichtPage() {
@@ -34,8 +34,9 @@ export default function CasesUebersichtPage() {
           </h1>
           <p className="t-body-lg mt-5 max-w-[560px]">
             Reale Projekte, reale Zahlen — <Highlight>kein Fall ohne Beleg</Highlight>.
-            Beispielprojekte sind sichtbar markiert und tragen keine echten
-            Referenzen.
+            17 Jahre Markenarbeit, messbar an echten Ergebnissen statt an
+            Behauptungen. Beispielprojekte sind sichtbar markiert und tragen
+            keine echten Referenzen.
           </p>
         </div>
       </section>

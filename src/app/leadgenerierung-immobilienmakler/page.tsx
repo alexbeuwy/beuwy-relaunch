@@ -100,8 +100,43 @@ export default async function LeadgenerierungPage() {
   const c = await getContent();
   const riegel = caseBySlug("riegel-immobilien");
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Wie lange dauert es bis zu den ersten Eigentümer-Anfragen?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten qualifizierten Anfragen kommen meist in den Wochen danach — abhängig von Ihrem Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl nennen wir erst, wenn wir Ihren Markt kennen.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Funktioniert das auch in kleinen Märkten?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Ja — mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen, aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil kaum ein Mitbewerber sie überhaupt aufbaut.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Was ist mit Portalen wie ImmoScout?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Bleiben Sie dort gelistet. Portale ersetzen wir nicht — wir ergänzen sie um das, was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.",
+        },
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* ── Hero — ~70vh, Foto 11, Layering per Floating Card ──────────── */}
       <section className="relative bg-bg-base">
         <div className="relative min-h-[70dvh]">
@@ -212,6 +247,9 @@ export default async function LeadgenerierungPage() {
             <p className="t-h3 mt-3 max-w-[46ch]">
               Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen — ohne einen
               einzigen gekauften Lead.
+            </p>
+            <p className="t-body mt-4 max-w-[54ch]">
+              17 Jahre Markenarbeit stecken in diesem System, nicht ein Quartal Testphase.
             </p>
           </Reveal>
           {riegel ? (

@@ -69,9 +69,36 @@ const STUFEN: {
   },
 ];
 
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Warum steht hier kein beuwy-Preis?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Weil ein seriöser Preis erst nach der Diagnose feststeht — welches CRM angebunden werden soll, wie viele Objekttypen, welche Automatisierung. Die Marktspannen oben zeigen die Bandbreite; Ihren Festpreis nennen wir nach dem ersten Gespräch, schriftlich.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Lohnt sich ein Premium-System auch für kleinere Büros?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nur, wenn genug Anfragevolumen da ist, das System auch zu füttern. Für ein Ein-Personen-Büro mit wenigen Objekten im Jahr ist häufig eine individuelle Agentur-Lösung die vernünftigere Stufe — das sagen wir auch so, wenn es zutrifft.",
+      },
+    },
+  ],
+};
+
 export default function MaklerwebsiteKostenPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+      />
       <ClusterHero
         eyebrow="Preise 2026"
         titel="Was kostet eine *Maklerwebsite* wirklich?"
@@ -190,7 +217,7 @@ export default function MaklerwebsiteKostenPage() {
       <ClusterAbschluss
         karteLabel="Bevor Sie sich entscheiden"
         karteTitel="Wir sagen Ihnen ehrlich, welche Stufe zu Ihrem Haus passt."
-        karteText="Nicht jedes Haus braucht ein Premium-System. Im ersten Gespräch schauen wir auf Ihr Anfragevolumen und Ihren Markt — und sagen Ihnen, ob sich der Sprung überhaupt rechnet."
+        karteText="Nicht jedes Haus braucht ein Premium-System. Im ersten Gespräch schauen wir auf Ihr Anfragevolumen und Ihren Markt — und sagen Ihnen, ob sich der Sprung überhaupt rechnet. 17 Jahre Markterfahrung zeigen, wann sich eine Stufe lohnt und wann nicht."
         schlussTitel="Sprechen wir über Ihre Zahlen, nicht über eine Preisliste."
         schlussText="Wie viele Alleinaufträge bräuchte Ihre Website pro Jahr, damit sich eine neue Stufe rechnet? Das beantworten wir gemeinsam, in einem kurzen Gespräch."
         primaryHref="/anfrage"

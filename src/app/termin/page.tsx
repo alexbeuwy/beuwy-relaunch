@@ -82,6 +82,12 @@ export default async function TerminPage() {
         </div>
       </div>
 
+      <p className="t-small mt-10 max-w-[720px] border-t border-line-subtle pt-6">
+        Nach dem Gespräch übernimmt ein Ansprechpartner, nachweisbar über unser Ticketsystem. Sie
+        fragen nicht nach zwei Wochen nach, wie weit Ihr Projekt ist, Sie sehen den Stand selbst,
+        mit 17 Jahren Markenarbeit dahinter.
+      </p>
+
       <div className="mt-14">
         <BookingTool />
       </div>

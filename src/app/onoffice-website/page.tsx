@@ -92,9 +92,44 @@ const WOCHEN = [
   { nr: "Woche 4", titel: "Livegang", text: "Test mit echten Objekten, Freigabe, live." },
 ];
 
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Muss ich onOffice wechseln?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nein. Ihr CRM bleibt exakt so, wie es ist — wir docken an, wir ersetzen nichts.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Was ist mit meinen Objektdaten?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sie bleiben in onOffice, wo sie heute schon liegen. Die Website liest sie über die bestehende Schnittstelle — nichts wird doppelt gepflegt, nichts verlässt Ihr System.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Geht das auch mit FLOWFACT oder Propstack?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ja. Das Prinzip ist bei jedem CRM dasselbe — welche Anbindung sich für Sie lohnt, sehen Sie im Maklersoftware-Vergleich.",
+      },
+    },
+  ],
+};
+
 export default function OnOfficeWebsitePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+      />
       {/* ── 1. Hero (~70vh): Text links, Foto 13 als Hochformat-Plate rechts ── */}
       <section className="relative bg-bg-base">
         <div className="relative min-h-[70dvh]">
@@ -154,9 +189,9 @@ export default function OnOfficeWebsitePage() {
                 {rich("Ihre onOffice-Website — endlich so stark wie Ihr *Vertrieb*.")}
               </h1>
               <p className="t-body-lg mt-6 max-w-[34rem]">
-                onOffice hält Objekte, Kontakte und Abläufe zuverlässig zusammen. Nur der erste Eindruck — Ihre
-                Website — zeigt davon fast nichts. Wir bauen den Auftritt, der zu dem passt, was in Ihrem System
-                längst funktioniert.
+                onOffice hält Objekte, Kontakte und Abläufe zuverlässig zusammen. Nur der erste Eindruck, Ihre
+                Website, zeigt davon fast nichts. Wir bauen das Portal davor: Es registriert Eigentümer,
+                qualifiziert sie und spielt sie in genau das System, das bei Ihnen schon läuft.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-5">
                 <Link
@@ -205,6 +240,12 @@ export default function OnOfficeWebsitePage() {
                 Ein Eigentümer vergleicht drei Makler in wenigen Minuten — und entscheidet nach dem, was er sieht,
                 nicht nach dem, was in Ihrem CRM passiert.{" "}
                 <Highlight>Verliert die Website, verliert am Ende auch das beste System dahinter.</Highlight>
+              </p>
+            </Reveal>
+            <Reveal delay={160}>
+              <p className="t-body">
+                beuwy verbindet Marke und System seit 17 Jahren, zuletzt für Häuser wie Ihres, davor für Bosch
+                und Continental. Dieselbe Arbeit, jetzt auf Ihr onOffice angewandt.
               </p>
             </Reveal>
           </div>
@@ -271,6 +312,10 @@ export default function OnOfficeWebsitePage() {
               </Reveal>
             ))}
           </div>
+          <p className="t-small mt-12 max-w-[54ch] border-t border-line-subtle pt-8">
+            Ein Ansprechpartner, jeder Schritt nachweisbar im Ticketsystem. Sie fragen nicht nach
+            zwei Wochen, wie weit die Anbindung ist, Sie sehen es.
+          </p>
         </div>
       </section>
 

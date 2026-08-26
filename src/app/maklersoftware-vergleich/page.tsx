@@ -170,7 +170,7 @@ export default function MaklersoftwareVergleichPage() {
       <ClusterAbschluss
         karteLabel="Unabhängig vom System"
         karteTitel="Ihr CRM bleibt, wie es ist. Ihr Auftritt wird, was er sein sollte."
-        karteText="Wir bauen keine neue Software. Wir bauen die Website, die Ihr bestehendes System endlich ausnutzt."
+        karteText="Wir bauen keine neue Software. Wir bauen seit 17 Jahren das Portal, das Ihr bestehendes System endlich ausnutzt."
         schlussTitel="Nennen Sie uns Ihr System — wir zeigen Ihnen, was ungenutzt bleibt."
         schlussText="Im ersten Gespräch schauen wir uns Ihre CRM-Anbindung und Ihren Auftritt gemeinsam an."
         primaryHref="/anfrage"

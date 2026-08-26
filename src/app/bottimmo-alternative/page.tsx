@@ -149,7 +149,8 @@ export default function BottimmoAlternativePage() {
                   Für Häuser, die bereits einen Marktanteil verteidigen oder ausbauen — deren
                   nächster Wettbewerber nicht der Baukasten-Nachbar ist, sondern das führende
                   Büro der Stadt. Hier zahlt sich ein eigenes System aus, weil der Unterschied im
-                  Auftritt direkt den Unterschied im Alleinauftrag macht.
+                  Auftritt direkt den Unterschied im Alleinauftrag macht. 17 Jahre Markenarbeit
+                  stecken in jedem System, das wir bauen, kein Pilotprojekt.
                 </p>
               </div>
             </div>

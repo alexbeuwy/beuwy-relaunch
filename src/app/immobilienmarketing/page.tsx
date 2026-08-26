@@ -44,7 +44,7 @@ const THEMEN = [
     nr: "02",
     titel: "Website für Immobilienmakler",
     href: "/website-fuer-immobilienmakler",
-    text: "Ihre Website ist der erste Besichtigungstermin — er dauert Sekunden, nicht Minuten. Wir bauen sie so, wie Eigentümer sie beurteilen: schnell, klar, mit Exposés, die den Alleinauftrag rechtfertigen.",
+    text: "Ihre Website ist der erste Besichtigungstermin, er dauert Sekunden, nicht Minuten. Wir bauen sie als Portal, das Eigentümer registriert und qualifiziert, bevor Sie zurückrufen, mit Exposés, die den Alleinauftrag rechtfertigen.",
   },
   {
     nr: "03",
@@ -74,7 +74,37 @@ const THEMEN = [
     nr: "07",
     titel: "BOTTIMMO-Alternative",
     href: "/bottimmo-alternative",
-    text: "BOTTIMMO und ähnliche Baukästen lösen das Problem für den Durchschnitt. Wer sich davon abheben will, braucht eine Website, die aussieht, als wäre sie für genau sein Büro gebaut — weil sie es ist.",
+    text: "BOTTIMMO und ähnliche Baukästen lösen das Problem für den Durchschnitt. Wer sich davon abheben will, braucht ein Portal, das aussieht, als wäre es für genau sein Büro gebaut, weil es das ist.",
+  },
+  {
+    nr: "08",
+    titel: "KI für Immobilienmakler",
+    href: "/ki-fuer-immobilienmakler",
+    text: "Jede Woche ein neues Modell, ChatGPT, Claude, Kimi, DeepSeek, und kaum jemand kommt mit. Wir übersetzen das in Systeme, die im Alltag wirklich Arbeit abnehmen, nicht in noch mehr Prompts zum Ausprobieren.",
+  },
+  {
+    nr: "09",
+    titel: "Immobilienmarketing-Agentur?",
+    href: "/immobilienmarketing-agentur",
+    text: "Eine Agentur liefert Kampagnen und reicht die Umsetzung weiter. Wir beraten und bauen selbst, seit 17 Jahren, mit nachweisbaren Ergebnissen statt einem weiteren Pitch-Deck.",
+  },
+  {
+    nr: "10",
+    titel: "Marketing für Projektentwickler",
+    href: "/marketing-projektentwickler",
+    text: "Ein Bauvorhaben verkauft sich nicht über eine Postkarte im Briefkasten. Marke, Vertriebsseite und Reservierungs-Funnel für Projekte, die mehrere Einheiten gleichzeitig füllen müssen.",
+  },
+  {
+    nr: "11",
+    titel: "Marketing für Bauträger",
+    href: "/marketing-bautraeger",
+    text: "Vom ersten Spatenstich bis zur letzten Einheit: ein System, das Interessenten registriert, qualifiziert und durch die Vertriebsphasen eines Bauprojekts führt.",
+  },
+  {
+    nr: "12",
+    titel: "Marketing für Immobilienvertriebe",
+    href: "/marketing-immobilienvertrieb",
+    text: "Kapitalanlage-Vertriebe leben von Terminen, nicht von Klicks. Ein System, das aus Anfragen registrierte Kontakte macht und sie an ein Vertriebsteam übergibt, das sie auch erreicht.",
   },
 ] as const;
 

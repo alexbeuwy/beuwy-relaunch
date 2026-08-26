@@ -103,9 +103,44 @@ const PROZESS = [
 
 const SOFTWARE = ["onOffice", "FLOWFACT", "Propstack", "JUSTIMMO", "CasaOne"];
 
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Was kostet eine Website für Immobilienmakler bei beuwy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Das hängt vom Umfang ab. Vom Bewertungsrechner bis zur CRM-Anbindung ist nicht jedes Haus gleich weit. Die realistischen Marktspannen und was sie beeinflusst, finden Sie auf der Seite Was kostet eine Maklerwebsite.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Wie lange dauert der Aufbau?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Vier Wochen, von der Aufnahme bis zum Go-Live. Den Termin für den Livegang bekommen Sie schriftlich, bevor das Projekt startet.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Was passiert mit meiner alten Seite und Domain?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ihre Domain bleibt Ihre Domain. Wir richten für jede alte Seite eine Weiterleitung ein, damit keine Anfrage und kein Google-Ranking verloren geht, während die neue Seite live geht und danach.",
+      },
+    },
+  ],
+};
+
 export default function WebsiteFuerImmobilienmaklerPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+      />
       {/* ── 1 · Hero — Foto 18, ~70vh, Hook + Traumzustand ──────────── */}
       <header className="relative bg-bg-base">
         <div className="mx-auto max-w-[1200px] px-6 pt-28 pb-16 lg:px-10 lg:pt-32 lg:pb-20">
@@ -226,8 +261,8 @@ export default function WebsiteFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 lg:px-10 lg:py-28">
           <SektionsKopf
             eyebrow="Leistungsumfang"
-            titel="Was eine beuwy-Website *enthält*."
-            sub="Sechs Bausteine, jeder einzeln erklärt. Zusammen ergeben sie den Vorsprung, den ein Baukasten nicht kopieren kann."
+            titel="Was Ihr *Portal* für Sie erledigt."
+            sub="Sechs Bausteine, jeder einzeln erklärt. Zusammen bringen sie Mandate, die ein Baukasten nicht kopieren kann."
             className="max-w-[640px]"
           />
           <div className="mt-14 border-t border-line-subtle">
@@ -308,6 +343,10 @@ export default function WebsiteFuerImmobilienmaklerPage() {
               </Reveal>
             ))}
           </ol>
+          <p className="t-small mt-10 border-t border-line-subtle pt-8 text-center">
+            Ein Ansprechpartner, jede Anfrage nachweisbar im Ticketsystem. Sie sehen den Stand
+            Ihres Projekts, ohne nach zwei Wochen selbst nachzufragen.
+          </p>
         </div>
       </section>
 
@@ -316,7 +355,7 @@ export default function WebsiteFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[880px] px-6 py-20 lg:px-10 lg:py-28">
           <GelbeKarte
             label="Abgrenzung"
-            titel="Ein Baukasten verkauft Vorlagen. Wir verkaufen Ihren Vorsprung."
+            titel="Ein Baukasten verkauft Vorlagen. Wir bauen Portale, die Mandate bringen."
             glyph
           >
             <p>
@@ -324,8 +363,10 @@ export default function WebsiteFuerImmobilienmaklerPage() {
               anderem Logo und anderem Foto.
             </p>
             <p className="mt-3">
-              beuwy baut jede Website als Maßarbeit für Ihre Marke, Ihre Objekte und Ihr CRM,
-              nicht als eine von tausend Varianten desselben Templates.
+              beuwy baut seit 17 Jahren Marken für anspruchsvolle Auftraggeber und überträgt das
+              auf Ihr Portal: Maßarbeit für Ihre Marke, Ihre Objekte und Ihr CRM, nicht eine von
+              tausend Varianten desselben Templates. Es registriert Eigentümer und qualifiziert
+              sie, bevor Sie zurückrufen.
             </p>
             <p className="mt-3">
               Den Unterschied zu Baukästen wie{" "}

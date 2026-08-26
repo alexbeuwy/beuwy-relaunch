@@ -200,7 +200,8 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
             >
               <p className="mx-auto max-w-[46ch]">
                 30 Minuten, kein Pitch. Wir sagen ehrlich, ob ein Projekt wie
-                dieses für Sie machbar ist.
+                dieses für Sie machbar ist, mit 17 Jahren Erfahrung darin, was
+                tatsächlich funktioniert.
               </p>
               <span className="mt-5 inline-flex items-center gap-2 text-[15px] font-semibold text-ink-cream">
                 Zusammenarbeit anfragen
