@@ -40,7 +40,7 @@ export function TrustMeilensteine({ c }: { c: Record<string, string> }) {
             className="flex h-full flex-col rounded-[28px] border border-line-subtle bg-bg-base px-7 py-8"
           >
             <p className="t-label !text-[10.5px]">{k.name}</p>
-            <p className="mt-4 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-yellow tnum lg:text-[52px]">
+            <p className="mt-4 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum lg:text-[52px]">
               {k.wert}
             </p>
             <p className="mt-2.5 text-[13.5px] font-medium leading-snug text-ink-cream">

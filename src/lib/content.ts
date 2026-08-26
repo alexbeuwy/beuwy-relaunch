@@ -221,6 +221,9 @@ export const DEFAULTS: Record<string, string> = {
   "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
 
   "mk.pm.quote": "5 %",
+  "mk.pm.mandate": "5",
+  "mk.pm.provision": "31.285 €",
+  "mk.pm.summe": "156.425 €",
 
   "mk.beweis.label": "Größenordnungen, keine Versprechen",
   "mk.beweis.kacheln":
@@ -273,6 +276,9 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
   "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
   "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
+  "mk.pm.mandate": "Makler · Performance-Grafik · Mehr-Mandate pro Jahr (z. B. 5)",
+  "mk.pm.provision": "Makler · Performance-Grafik · Ø Provision je Mandat",
+  "mk.pm.summe": "Makler · Performance-Grafik · Summe (Mandate × Provision)",
   "mk.beweis.label": "Makler · Beweis-Block · Eyebrow",
   "mk.beweis.kacheln": "Makler · Beweis-Kacheln: Name~Wert~Kontext~Story, mit | getrennt",
   "mk.beweis.kunden_label": "Makler · Beweis · Zeile über den Kundenlogos",

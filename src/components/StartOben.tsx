@@ -44,14 +44,19 @@ function PerformanceMarketing({ c }: { c: Record<string, string> }) {
         <Reveal>
           <SektionsKopf
             eyebrow="Performance-Marketing"
-            titel="Interesse von außen. Systematisch zu *Kontakten*."
-            sub="Anzeigen machen auf die Marke aufmerksam, das Portal registriert und qualifiziert — aus Reichweite werden Mandanten, Kunden und Interessenten, ohne dass jemand Listen abtelefoniert."
+            titel="So werden Fremde zu *Mandaten*."
+            sub="Anzeigen machen auf Ihre Marke aufmerksam. Das Portal übernimmt den Rest."
             ausrichtung="mitte"
           />
         </Reveal>
         <Reveal delay={80}>
           <div className="mx-auto mt-14 max-w-[880px]">
-            <PerformanceFlow quote={c["mk.pm.quote"] ?? "5 %"} />
+            <PerformanceFlow
+              quote={c["mk.pm.quote"] ?? "5 %"}
+              mandate={c["mk.pm.mandate"] ?? "5"}
+              provision={c["mk.pm.provision"] ?? "31.285 €"}
+              summe={c["mk.pm.summe"] ?? "156.425 €"}
+            />
           </div>
         </Reveal>
       </div>

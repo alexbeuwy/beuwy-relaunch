@@ -1,3 +1,6 @@
+import { ZahlHochzaehlen } from "./ZahlHochzaehlen";
+import flowStil from "./SchemaGrafiken.module.css";
+
 import { Logo } from "./Logo";
 
 /**
@@ -6,8 +9,8 @@ import { Logo } from "./Logo";
  * No-Brainer-Schema Standard vs. beuwy). Reines HTML/Tailwind über
  * Tokens (Farben, Haarlinien, Typo-Leiter) — kein SVG-Import, keine
  * Icons-Grids, kein Schatten, kein Verlauf, ohne Client-Direktive am
- * Dateikopf. Beide Grafiken sind bewusst statisch; Reveal/Scroll-
- * Choreografie übernimmt die Sektion, die sie einbaut.
+ * Dateikopf (Ausnahme: ZahlHochzaehlen im Flow ist client). Eintritts-
+ * Choreografie übernimmt die umschließende <Reveal> der Sektion.
  *
  * Verwendung:
  *
@@ -19,39 +22,95 @@ import { Logo } from "./Logo";
  *   <ExposeVergleich />
  */
 
-/* ------------------------------------------------------------------
-   1) PerformanceFlow — vier Stationen als Haarlinien-Raster (Grid statt
-   Flex, Divide-Utilities statt eigener Verbindungslinien): Aufmerksamkeit
-   → Marke → Anfragen → Endknoten mit der Quote. Mobil (Grid-Cols-1)
-   stapelt sich die Reihe automatisch vertikal, die Haarlinien drehen mit
-   (divide-y statt divide-x). Der einzige Gelb-Akzent ist die
-   Wash-Fläche des Endknotens; die Quote selbst bleibt dunkle Tinte
-   (Kontrakt: dunkler Text auf Gelb, nie weißer).
-   ------------------------------------------------------------------ */
-
-const PERFORMANCE_STUFEN = [
-  { eyebrow: "Von außen", label: "Aufmerksamkeit" },
-  { eyebrow: "Landet auf", label: "Der Marke" },
-  { eyebrow: "Wird zu", label: "Anfragen" },
+/**
+ * PerformanceFlow v2 (Alex, 26.08): kein Zahlengrab, eine Geschichte.
+ * Drei leichte Stationen erzählen den Weg (je EINE Kernaussage), eine
+ * animierte Flusslinie verbindet sie, und der einzige Fokuspunkt ist
+ * die Dream-State-Karte rechts: +N Mandate im Jahr, mal Ø Provision,
+ * gleich Summe (Count-up via ZahlHochzaehlen). Farben: Tinte und
+ * Pastellgelb — kein Gold. Die Linie zeichnet sich, wenn die
+ * umschließende <Reveal> auf data-state="shown" springt
+ * (SchemaGrafiken.module.css hört darauf); ohne JS steht alles.
+ */
+const PERFORMANCE_STATIONEN = [
+  {
+    schritt: "01",
+    titel: "Gesehen werden",
+    satz: "Anzeigen bringen Ihre Marke vor Eigentümer, die noch niemanden beauftragt haben.",
+  },
+  {
+    schritt: "02",
+    titel: "Hängen bleiben",
+    satz: "Wer klickt, landet auf einem Portal in Ihrer Liga — nicht auf einer Visitenkarte.",
+  },
+  {
+    schritt: "03",
+    titel: "Sich vorstellen",
+    satz: "Interessenten registrieren sich und qualifizieren sich vor, während Sie besichtigen.",
+  },
 ] as const;
 
-export function PerformanceFlow({ quote }: { quote: string }) {
+export function PerformanceFlow({
+  quote,
+  mandate,
+  provision,
+  summe,
+}: {
+  quote: string;
+  mandate: string;
+  provision: string;
+  summe: string;
+}) {
   return (
-    <div className="grid grid-cols-1 divide-y divide-line-subtle overflow-hidden rounded-[20px] border border-line-subtle sm:grid-cols-4 sm:divide-x sm:divide-y-0">
-      {PERFORMANCE_STUFEN.map((stufe) => (
-        <div key={stufe.label} className="flex flex-col justify-center gap-2 p-6 sm:p-7">
-          <p className="t-label">{stufe.eyebrow}</p>
-          <p className="t-h3">{stufe.label}</p>
-        </div>
-      ))}
-      <div className="flex flex-col justify-center gap-2 bg-akzent-wash p-6 sm:p-7">
-        <p className="t-label">Davon systematisch</p>
-        <p className="font-mono text-[clamp(28px,4vw,38px)] font-medium leading-none tracking-[-0.01em] text-ink-cream tnum">
-          <span className="mr-0.5 align-top text-[15px] font-normal text-ink-muted">~</span>
-          {quote}
+    <div className="grid items-stretch gap-10 lg:grid-cols-[1fr_auto] lg:gap-14">
+      {/* Der Weg: drei leichte Stationen an einer sich zeichnenden Linie */}
+      <ol className={`relative flex flex-col gap-9 lg:gap-10 ${flowStil.bahnWrap}`}>
+        <span aria-hidden className={flowStil.bahn} />
+        {PERFORMANCE_STATIONEN.map((station, i) => (
+          <li
+            key={station.schritt}
+            className={`relative flex gap-5 pl-10 ${flowStil.station}`}
+            style={{ "--i": i } as React.CSSProperties}
+          >
+            <span aria-hidden className={flowStil.punkt} />
+            <div>
+              <p className="t-label !text-[10.5px]">{station.schritt}</p>
+              <p className="mt-1.5 text-[19px] font-semibold leading-snug tracking-[-0.015em] text-ink-cream">
+                {station.titel}
+              </p>
+              <p className="t-body mt-1.5 max-w-[38ch]">{station.satz}</p>
+            </div>
+          </li>
+        ))}
+        <li className="relative pl-10">
+          <p className="t-small max-w-[40ch]">
+            Rund {quote} der erreichten Kontakte registrieren sich. Der Rest
+            ist Mathematik:
+          </p>
+        </li>
+      </ol>
+
+      {/* Der Fokuspunkt: Dream State auf Pastellgelb, Tinte, Count-up */}
+      <div className={`flex flex-col justify-center rounded-[28px] bg-akzent px-8 py-9 sm:px-10 lg:min-w-[380px] ${flowStil.karte}`}>
+        <p className="t-label !text-ink-cream/60">Was am Ende zählt</p>
+        <p className="mt-4 font-display text-[clamp(52px,6vw,76px)] font-bold leading-none tracking-[-0.03em] text-ink-cream tnum">
+          +{mandate}
         </p>
-        <p className="t-h3">Registrierte Kontakte</p>
-        <p className="t-small">Mandanten, Kunden, Interessenten</p>
+        <p className="mt-2 text-[17px] font-semibold text-ink-cream">
+          zusätzliche Mandate im Jahr
+        </p>
+        <div className="mt-6 border-t border-ink-cream/15 pt-5">
+          <p className="text-[14px] text-ink-cream/70 tnum">
+            × Ø {provision} Maklerprovision
+          </p>
+          <p className="mt-2 font-display text-[clamp(28px,3vw,36px)] font-bold leading-none tracking-[-0.02em] text-ink-cream">
+            = <ZahlHochzaehlen wert={summe} />
+          </p>
+          <p className="mt-2 text-[13px] text-ink-cream/60">
+            zusätzlicher Umsatz — Zahlen aus Ihrem Markt, im Gespräch
+            gerechnet, nicht versprochen.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -279,14 +338,12 @@ function SpurGrafik({ spur }: { spur: Spur }) {
             style={{
               width: "100%",
               background: "var(--chart-akzent)",
-              boxShadow: "0 0 14px var(--chart-akzent-glow)",
+              boxShadow:
+                "inset 0 0 0 1px rgba(20, 20, 18, 0.18), 0 0 14px var(--chart-akzent-glow)",
             }}
           />
         </span>
-        <span
-          className="w-20 shrink-0 text-right font-mono text-[13px] font-medium tnum"
-          style={{ color: "var(--chart-akzent)" }}
-        >
+        <span className="w-20 shrink-0 text-right font-mono text-[13px] font-medium text-ink-cream tnum">
           {spur.nachher.label}
         </span>
       </div>
@@ -315,10 +372,7 @@ export function WirkungsSpuren() {
           <p className="mt-6 border-t border-line-subtle pt-4 text-[13px] leading-snug text-ink-muted">
             {spur.faktor ? (
               <>
-                <span
-                  className="font-mono text-[15px] font-medium tnum"
-                  style={{ color: "var(--chart-akzent)" }}
-                >
+                <span className="font-mono text-[15px] font-medium text-ink-cream tnum">
                   {spur.faktor}
                 </span>{" "}
                 so viele wie vorher.

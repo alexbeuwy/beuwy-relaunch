@@ -21,9 +21,9 @@
   --color-bg-elevated: #f7f7f5;
   --color-bg-hover: #f1f1ee;
 
-  --color-ink-yellow: #c2a13c; /* Legacy-Name — inhaltlich: Akzent als TEXT (tiefes Gold) */
-  --color-ink-yellowDim: #a8892e;
-  --color-ink-yellowSoft: #c2a13c;
+  --color-ink-yellow: #5d5d58; /* Legacy-Name — ehem. Gold-Text, jetzt gedämpfte Tinte (Alex 26.08: kein Gold) */
+  --color-ink-yellowDim: #8a8a84;
+  --color-ink-yellowSoft: #5d5d58;
   --color-ink-cream: #161613; /* Legacy-Name — inhaltlich: die Tinte */
   --color-ink-muted: #5d5d58;
   --color-ink-dim: #8a8a84;
@@ -33,10 +33,10 @@
   --color-akzent-hover: #eed96a;
   --color-akzent-wash: #fbf5d6;
 
-  --color-sky: #c2a13c; /* Legacy-Alias, bis alle Riso-Komponenten ersetzt sind */
-  --color-sky-deep: #a8892e;
+  --color-sky: #5d5d58; /* Legacy-Alias — entgoldet (Alex 26.08) */
+  --color-sky-deep: #161613;
   --color-hill: #161613;
-  --color-orange: #c2a13c;
+  --color-orange: #5d5d58;
   --color-snow: #ffffff;
   --color-paper: #ffffff;
 
@@ -111,18 +111,17 @@
     --akzent: #f3e27f; /* Pastellgelb-Fläche, dunkler Text darauf */
     --akzent-hover: #eed96a;
     --akzent-wash: #fbf5d6; /* zarte gelbe Fläche für Highlights */
-    --gold: #c2a13c; /* Akzent als Text — das eine betonte Wort */
+    --gold: #5d5d58; /* ehem. Gold — Alex 26.08: kein Gold, gedämpfte Tinte */
 
-    /* Chart-Palette (dataviz-Skill, Emphasis-Schema: ein Hue + De-
-       Emphasis-Grau). Beide Werte sind mit dem Paletten-Validator
-       geprueft: normal ΔE 26.1, unter CVD 25.4 — weit ueber der
-       Trennschwelle. --chart-akzent ist bewusst dunkler als --gold,
-       damit duenne Marks auf Weiss noch Kontrast haben. */
-    --chart-akzent: #9a7b18;
-    --chart-akzent-glow: rgba(194, 161, 60, 0.32);
-    --chart-kontext: #c9c9c3;
+    /* Chart-Palette (Alex, 26.08: KEIN Gold — nur Pastellgelb und
+       Tinte). Flaechen-Marks duerfen hell sein, weil jede Spur direkt
+       mit Tinte gelabelt ist; der 1px-Tinte-Ring gibt dem Pastell auf
+       Weiss die Kante. De-Emphasis bleibt neutralgrau. */
+    --chart-akzent: #f3e27f;
+    --chart-akzent-glow: rgba(243, 226, 127, 0.55);
+    --chart-kontext: #d6d6d1;
     --sky: var(--gold); /* Legacy-Alias */
-    --sky-deep: #a8892e;
+    --sky-deep: #161613;
     --sky-wash: rgba(243, 226, 127, 0.25);
     --hill: #161613;
     --orange: var(--gold);
@@ -135,8 +134,8 @@
     --bg-raised: #ffffff;
     --bg-elevated: #f7f7f5;
     --bg-hover: #f1f1ee;
-    --ink-yellow: var(--gold); /* Akzent als Text */
-    --ink-yellow-hover: var(--sky-deep);
+    --ink-yellow: var(--ink-muted); /* ehem. Gold-Text — Alex 26.08: kein Gold */
+    --ink-yellow-hover: var(--ink-cream);
     --ink-cream: #161613; /* Tinte */
     --ink-muted: #5d5d58;
     --ink-dim: #8a8a84;
@@ -312,13 +311,21 @@
     color: var(--ink-cream);
     text-wrap: balance;
   }
-  /* Das eine betonte Wort pro Überschrift: Berg-Orange auf Papier */
+  /* Das eine betonte Wort pro Überschrift: Highlighter-Fläche in
+     Pastellgelb hinter der Tinte — KEIN Gold mehr (Alex, 26.08).
+     Die Fläche sitzt in der unteren Texthälfte wie ein Textmarker. */
   .t-display em,
   .t-h2 em,
   .t-h3 em {
     font-style: normal;
     font-weight: inherit;
-    color: var(--orange);
+    color: inherit;
+    background: linear-gradient(transparent 56%, var(--akzent) 56%, var(--akzent) 94%, transparent 94%);
+    padding-inline: 0.06em;
+    margin-inline: -0.02em;
+    border-radius: 2px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .t-h3 {
     font-family: var(--font-body), system-ui, sans-serif;
@@ -1406,7 +1413,11 @@
   .hero-h1 em {
     font-style: normal;
     font-weight: inherit;
-    color: var(--orange-bright);
+    color: inherit;
+    background: linear-gradient(transparent 56%, var(--akzent) 56%, var(--akzent) 94%, transparent 94%);
+    padding-inline: 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .hero-tagline {
     font-family: var(--font-body), system-ui, sans-serif;
@@ -2474,7 +2485,7 @@
     --border: rgba(20, 20, 18, 0.1);
     --input: rgba(20, 20, 18, 0.16);
     --ring: rgba(194, 161, 60, 0.5);
-    --chart-1: #c2a13c;
+    --chart-1: #f3e27f;
     --chart-2: #161613;
     --chart-3: #5d5d58;
     --chart-4: #8a8a84;

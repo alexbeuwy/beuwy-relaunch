@@ -1,0 +1,78 @@
+/* PerformanceFlow — die Flusslinie zeichnet sich, die Stationen treten
+   nacheinander ein, die Dream-State-Karte kommt mit dem Bounce-Token.
+   Getriggert ausschließlich über die umschließende <Reveal>
+   (data-reveal[data-state="shown"]); ohne JS bleibt alles sichtbar
+   (Reveal ist fail-open). Nur Motion-Tokens aus globals.css. */
+
+.bahnWrap {
+  position: relative;
+}
+
+.bahn {
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--akzent);
+  transform-origin: top;
+}
+
+.punkt {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--akzent);
+  border: 3px solid var(--bg-base);
+  box-shadow: 0 0 0 1px var(--line-medium);
+}
+
+/* Eintritt, sobald die Reveal-Hülle "shown" meldet */
+[data-reveal][data-state="hidden"] .bahn {
+  transform: scaleY(0);
+}
+[data-reveal][data-state="shown"] .bahn {
+  transform: scaleY(1);
+  transition: transform var(--duration-very-slow) var(--ease-smooth-out);
+}
+[data-reveal][data-state="hidden"] .station {
+  opacity: 0;
+  transform: translateY(var(--distance-medium));
+}
+[data-reveal][data-state="shown"] .station {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--duration-slow) var(--ease-smooth-out),
+    transform var(--duration-slow) var(--ease-smooth-out);
+  transition-delay: calc(120ms + var(--i, 0) * 110ms);
+}
+[data-reveal][data-state="hidden"] .karte {
+  opacity: 0;
+  transform: scale(var(--scale-small, 0.96));
+}
+[data-reveal][data-state="shown"] .karte {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity var(--duration-slow) var(--ease-smooth-out),
+    transform var(--duration-slow) var(--ease-bounce);
+  transition-delay: 380ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bahn,
+  .station,
+  .karte,
+  [data-reveal][data-state="hidden"] .bahn,
+  [data-reveal][data-state="hidden"] .station,
+  [data-reveal][data-state="hidden"] .karte {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
