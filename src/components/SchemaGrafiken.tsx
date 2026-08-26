@@ -1,4 +1,3 @@
-import { ZahlHochzaehlen } from "./ZahlHochzaehlen";
 import flowStil from "./SchemaGrafiken.module.css";
 
 import { Logo } from "./Logo";
@@ -14,107 +13,10 @@ import { Logo } from "./Logo";
  *
  * Verwendung:
  *
- *   import { PerformanceFlow, ExposeVergleich } from "@/components/SchemaGrafiken";
- *
- *   // quote kommt aus dem Studio-Key mk.pm.quote (z. B. "5 %")
- *   <PerformanceFlow quote={content("mk.pm.quote")} />
+ *   import { ExposeVergleich, WirkungsSpuren } from "@/components/SchemaGrafiken";
  *
  *   <ExposeVergleich />
  */
-
-/**
- * PerformanceFlow v2 (Alex, 26.08): kein Zahlengrab, eine Geschichte.
- * Drei leichte Stationen erzählen den Weg (je EINE Kernaussage), eine
- * animierte Flusslinie verbindet sie, und der einzige Fokuspunkt ist
- * die Dream-State-Karte rechts: +N Mandate im Jahr, mal Ø Provision,
- * gleich Summe (Count-up via ZahlHochzaehlen). Farben: Tinte und
- * Pastellgelb — kein Gold. Die Linie zeichnet sich, wenn die
- * umschließende <Reveal> auf data-state="shown" springt
- * (SchemaGrafiken.module.css hört darauf); ohne JS steht alles.
- */
-const PERFORMANCE_STATIONEN = [
-  {
-    schritt: "01",
-    titel: "Gesehen werden",
-    satz: "Anzeigen bringen Ihre Marke vor Eigentümer, die noch niemanden beauftragt haben.",
-  },
-  {
-    schritt: "02",
-    titel: "Hängen bleiben",
-    satz: "Wer klickt, landet auf einem Portal in Ihrer Liga — nicht auf einer Visitenkarte.",
-  },
-  {
-    schritt: "03",
-    titel: "Sich vorstellen",
-    satz: "Interessenten registrieren sich und qualifizieren sich vor, während Sie besichtigen.",
-  },
-] as const;
-
-export function PerformanceFlow({
-  quote,
-  mandate,
-  provision,
-  summe,
-}: {
-  quote: string;
-  mandate: string;
-  provision: string;
-  summe: string;
-}) {
-  return (
-    <div className="grid items-stretch gap-10 lg:grid-cols-[1fr_auto] lg:gap-14">
-      {/* Der Weg: drei leichte Stationen an einer sich zeichnenden Linie */}
-      <ol className={`relative flex flex-col gap-9 lg:gap-10 ${flowStil.bahnWrap}`}>
-        <span aria-hidden className={flowStil.bahn} />
-        {PERFORMANCE_STATIONEN.map((station, i) => (
-          <li
-            key={station.schritt}
-            className={`relative flex gap-5 pl-10 ${flowStil.station}`}
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            <span aria-hidden className={flowStil.punkt} />
-            <div>
-              <p className="t-label !text-[10.5px]">{station.schritt}</p>
-              <p className="mt-1.5 text-[19px] font-semibold leading-snug tracking-[-0.015em] text-ink-cream">
-                {station.titel}
-              </p>
-              <p className="t-body mt-1.5 max-w-[38ch]">{station.satz}</p>
-            </div>
-          </li>
-        ))}
-        <li className="relative pl-10">
-          <p className="t-small max-w-[40ch]">
-            Rund {quote} der erreichten Kontakte registrieren sich. Der Rest
-            ist Mathematik:
-          </p>
-        </li>
-      </ol>
-
-      {/* Der Fokuspunkt: Dream State auf Pastellgelb, Tinte, Count-up */}
-      <div className={`flex flex-col justify-center rounded-[28px] bg-akzent px-8 py-9 sm:px-10 lg:min-w-[380px] ${flowStil.karte}`}>
-        <p className="t-label !text-ink-cream/60">Was am Ende zählt</p>
-        <p className="mt-4 font-display text-[clamp(52px,6vw,76px)] font-bold leading-none tracking-[-0.03em] text-ink-cream tnum">
-          +{mandate}
-        </p>
-        <p className="mt-2 text-[17px] font-semibold text-ink-cream">
-          zusätzliche Mandate im Jahr
-        </p>
-        <div className="mt-6 border-t border-ink-cream/15 pt-5">
-          <p className="text-[14px] text-ink-cream/70 tnum">
-            × Ø {provision} Maklerprovision
-          </p>
-          <p className="mt-2 font-display text-[clamp(28px,3vw,36px)] font-bold leading-none tracking-[-0.02em] text-ink-cream">
-            = <ZahlHochzaehlen wert={summe} />
-          </p>
-          <p className="mt-2 text-[13px] text-ink-cream/60">
-            zusätzlicher Umsatz — Zahlen aus Ihrem Markt, im Gespräch
-            gerechnet, nicht versprochen.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ------------------------------------------------------------------
    2) ExposeVergleich — zwei Schema-Karten. Links drei identische
@@ -267,6 +169,7 @@ type Spur = {
   nachher: { wert: number; label: string };
   faktor?: string;
   zeitraum: string;
+  dauerMs: string;
   fussnote?: string;
 };
 
@@ -278,6 +181,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     nachher: { wert: 2300, label: "2.300+" },
     faktor: "38×",
     zeitraum: "seit dem Relaunch",
+    dauerMs: "1500ms",
   },
   {
     kunde: "acta",
@@ -285,6 +189,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     vorher: { wert: 0, label: "0" },
     nachher: { wert: 380, label: "380" },
     zeitraum: "in drei Jahren",
+    dauerMs: "1100ms",
     fussnote: "Vertrieb über Instagram-Anzeigen, selbst aufgebaut",
   },
   {
@@ -292,6 +197,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     einheit: "Abschlussvolumen",
     nachher: { wert: 342000, label: "342.000 €" },
     zeitraum: "in den ersten sechs Wochen",
+    dauerMs: "800ms",
     fussnote: "neun Abschlüsse in diesem Zeitraum",
   },
 ];
@@ -314,11 +220,12 @@ function SpurGrafik({ spur }: { spur: Spur }) {
                 balken für "nichts" wäre eine falsche Aussage. */}
             {spur.vorher.wert > 0 && (
               <span
-                className="absolute inset-y-0 left-0 rounded-full"
+                className={`absolute inset-y-0 left-0 rounded-full ${flowStil.fuellung}`}
                 style={{
-                  width: `${Math.max((vorherAnteil ?? 0) * 100, 2)}%`,
+                  "--ziel": `${Math.max((vorherAnteil ?? 0) * 100, 2)}%`,
+                  "--dauer": "900ms",
                   background: "var(--chart-kontext)",
-                }}
+                } as React.CSSProperties}
               />
             )}
           </span>
@@ -332,16 +239,23 @@ function SpurGrafik({ spur }: { spur: Spur }) {
         <span className="w-16 shrink-0 text-[11px] uppercase tracking-[0.1em] text-ink-dim">
           {spur.vorher ? "Heute" : "Ergebnis"}
         </span>
-        <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-bg-elevated">
+        <span className="relative h-2 flex-1 rounded-full bg-bg-elevated">
           <span
-            className="absolute inset-y-0 left-0 rounded-full"
+            className={`absolute inset-y-0 left-0 rounded-full ${flowStil.fuellung}`}
             style={{
-              width: "100%",
+              "--ziel": "100%",
+              "--dauer": spur.dauerMs,
               background: "var(--chart-akzent)",
               boxShadow:
                 "inset 0 0 0 1px rgba(20, 20, 18, 0.18), 0 0 14px var(--chart-akzent-glow)",
-            }}
+            } as React.CSSProperties}
           />
+          {/* Konfetti, wenn der Balken voll ist */}
+          <span aria-hidden className={flowStil.konfetti} style={{ "--dauer": spur.dauerMs } as React.CSSProperties}>
+            {[0, 1, 2, 3, 4, 5].map((n) => (
+              <span key={n} className={flowStil.partikel} style={{ "--p": n } as React.CSSProperties} />
+            ))}
+          </span>
         </span>
         <span className="w-20 shrink-0 text-right font-mono text-[13px] font-medium text-ink-cream tnum">
           {spur.nachher.label}

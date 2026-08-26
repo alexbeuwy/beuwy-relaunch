@@ -39,7 +39,14 @@ export function TrustMeilensteine({ c }: { c: Record<string, string> }) {
             key={k.name}
             className="flex h-full flex-col rounded-[28px] border border-line-subtle bg-bg-base px-7 py-8"
           >
-            <p className="t-label !text-[10.5px]">{k.name}</p>
+            {/* Logo statt Textlabel (Alex, 26.08) — Fallback bleibt die Wortmarke */}
+            <span className="flex h-6 items-center">
+              <LogoSlot
+                name={k.name}
+                slug={MARKEN_SLUGS[k.name] ?? slugifyMarke(k.name)}
+                hoehe={k.name === "RIEGEL Immobilien" ? 24 : 20}
+              />
+            </span>
             <p className="mt-4 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum lg:text-[52px]">
               {k.wert}
             </p>

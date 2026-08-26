@@ -1,78 +1,76 @@
-/* PerformanceFlow — die Flusslinie zeichnet sich, die Stationen treten
-   nacheinander ein, die Dream-State-Karte kommt mit dem Bounce-Token.
-   Getriggert ausschließlich über die umschließende <Reveal>
-   (data-reveal[data-state="shown"]); ohne JS bleibt alles sichtbar
-   (Reveal ist fail-open). Nur Motion-Tokens aus globals.css. */
+/* SchemaGrafiken — Reveal-getriggerte Animationen der Grafiken.
+   Nur Motion-Tokens aus globals.css; reduced-motion zeigt alles
+   statisch. */
 
-.bahnWrap {
-  position: relative;
+/* ── WirkungsSpuren: Balken fahren beim Reveal unterschiedlich schnell
+   hoch, am vollen Balken poppt Konfetti (einmalig). CSS-only, ueber
+   die Reveal-Huelle getriggert; reduced-motion zeigt alles statisch. */
+.fuellung {
+  width: var(--ziel, 100%);
+}
+[data-reveal][data-state="hidden"] .fuellung {
+  width: 0;
+}
+[data-reveal][data-state="shown"] .fuellung {
+  width: var(--ziel, 100%);
+  transition: width var(--dauer, 1000ms) var(--ease-smooth-out);
 }
 
-.bahn {
+.konfetti {
   position: absolute;
-  left: 11px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--akzent);
-  transform-origin: top;
+  right: -2px;
+  top: 50%;
+  pointer-events: none;
 }
-
-.punkt {
+.partikel {
   position: absolute;
-  left: 4px;
-  top: 6px;
-  width: 16px;
-  height: 16px;
-  border-radius: 9999px;
+  width: 5px;
+  height: 8px;
+  border-radius: 1px;
+  opacity: 0;
   background: var(--akzent);
-  border: 3px solid var(--bg-base);
-  box-shadow: 0 0 0 1px var(--line-medium);
 }
+.partikel:nth-child(2n) {
+  background: var(--ink-cream);
+  height: 5px;
+}
+.partikel:nth-child(3n) {
+  background: var(--akzent-hover);
+}
+[data-reveal][data-state="shown"] .partikel {
+  animation: konfettiPop var(--duration-very-slow) var(--ease-smooth-out) 1 both;
+  animation-delay: var(--dauer, 1000ms);
+}
+.partikel:nth-child(1) { --wx: 14px;  --wy: -18px; --rot: 80deg; }
+.partikel:nth-child(2) { --wx: 22px;  --wy: -6px;  --rot: -60deg; }
+.partikel:nth-child(3) { --wx: 10px;  --wy: 12px;  --rot: 140deg; }
+.partikel:nth-child(4) { --wx: 26px;  --wy: -16px; --rot: -120deg; }
+.partikel:nth-child(5) { --wx: 18px;  --wy: 8px;   --rot: 40deg; }
+.partikel:nth-child(6) { --wx: 8px;   --wy: -26px; --rot: -40deg; }
 
-/* Eintritt, sobald die Reveal-Hülle "shown" meldet */
-[data-reveal][data-state="hidden"] .bahn {
-  transform: scaleY(0);
-}
-[data-reveal][data-state="shown"] .bahn {
-  transform: scaleY(1);
-  transition: transform var(--duration-very-slow) var(--ease-smooth-out);
-}
-[data-reveal][data-state="hidden"] .station {
-  opacity: 0;
-  transform: translateY(var(--distance-medium));
-}
-[data-reveal][data-state="shown"] .station {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity var(--duration-slow) var(--ease-smooth-out),
-    transform var(--duration-slow) var(--ease-smooth-out);
-  transition-delay: calc(120ms + var(--i, 0) * 110ms);
-}
-[data-reveal][data-state="hidden"] .karte {
-  opacity: 0;
-  transform: scale(var(--scale-small, 0.96));
-}
-[data-reveal][data-state="shown"] .karte {
-  opacity: 1;
-  transform: scale(1);
-  transition:
-    opacity var(--duration-slow) var(--ease-smooth-out),
-    transform var(--duration-slow) var(--ease-bounce);
-  transition-delay: 380ms;
+@keyframes konfettiPop {
+  0% {
+    opacity: 0;
+    transform: translate(0, -50%) rotate(0) scale(0.4);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--wx, 16px), calc(-50% + var(--wy, -14px))) rotate(var(--rot, 90deg)) scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bahn,
-  .station,
-  .karte,
-  [data-reveal][data-state="hidden"] .bahn,
-  [data-reveal][data-state="hidden"] .station,
-  [data-reveal][data-state="hidden"] .karte {
-    opacity: 1;
-    transform: none;
+  [data-reveal][data-state="hidden"] .fuellung,
+  [data-reveal][data-state="shown"] .fuellung {
+    width: var(--ziel, 100%);
     transition: none;
+  }
+  .partikel,
+  [data-reveal][data-state="shown"] .partikel {
+    animation: none;
+    opacity: 0;
   }
 }

@@ -5,6 +5,7 @@ import { rich } from "./RichText";
 import { Reveal } from "./Reveal";
 import { GelbeKarte, Highlight, KreisDeko, SektionsKopf, StempelBadge } from "./MaklerElemente";
 import { TrustMeilensteine } from "./TrustMeilensteine";
+import { PodcastSlot } from "./PodcastSlot";
 import { WirkungsSpuren } from "./SchemaGrafiken";
 import { caseBySlug, type CaseStudy } from "@/lib/cases";
 import { maklerAsset } from "@/lib/cdn";
@@ -99,9 +100,10 @@ const PROZESS_SCHRITTE = [
 
 /* ── Block 8 — Qualifizierung/Disqualifizierung, ehrlich ── */
 const JA_LISTE = [
-  "die führen wollen, nicht folgen.",
-  "deren Empfehlungsgeschäft trägt und die jetzt planbar wachsen wollen.",
-  "die selbst entscheiden, und zwar schnell.",
+  "die absolute regionale Marktdominanz wollen — Omnipräsenz vom E-Mail-Postfach bis zur Social-Media-Story.",
+  "die die Erste oder der Erste sein wollen, wenn jemand in ihrer Stadt an Immobilien denkt.",
+  "die schnell entscheiden, sobald alle Informationen und Nachweise auf dem Tisch liegen.",
+  "die Profis und Prozessen vertrauen — bewährte Abläufe, angepasst auf das eigene Haus.",
 ];
 const NEIN_LISTE = [
   "Sie die billigste Lösung suchen.",
@@ -133,11 +135,102 @@ const FAQ = [
   },
 ];
 
-export function StartUnten({ c }: { c: Record<string, string> }) {
-  const stats = [1, 2, 3, 4]
-    .map((i) => ({ wert: c[`mk.stats.s${i}_wert`], label: c[`mk.stats.s${i}_label`] }))
-    .filter((s) => s.wert && s.label);
+/* ── Block 7b — „Und danach?": regionale Dominanz als Mockup-Streifen
+   (Alex, 26.08). Vier cleane Silhouetten-Szenen mit einer „IHR LOGO"-
+   Pill — Fahrzeug, Messestand, Stadionbande, Social-Story. Bewusst
+   abstrakte Formen im Stil des ExposeVergleich-Schemas: kein Kitsch,
+   keine Stockfotos; echte KI-Mockup-Fotos rüstet Alex als Assets nach. */
+function LogoPill({ klein = false }: { klein?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center justify-center rounded-full bg-akzent font-semibold uppercase tracking-[0.08em] text-ink-cream ${
+        klein ? "px-2 py-0.5 text-[8px]" : "px-2.5 py-1 text-[9.5px]"
+      }`}
+    >
+      Ihr Logo
+    </span>
+  );
+}
 
+const DOMINANZ_SZENEN = [
+  { titel: "Auf Ihren Fahrzeugen", Szene: SzeneFahrzeug },
+  { titel: "Auf der Messe", Szene: SzeneMesse },
+  { titel: "Im Stadion", Szene: SzeneStadion },
+  { titel: "In jeder Story", Szene: SzeneStory },
+] as const;
+
+function SzeneFahrzeug() {
+  return (
+    <div aria-hidden className="relative flex h-28 items-end justify-center pb-3">
+      <div className="relative h-16 w-40">
+        {/* Transporter-Silhouette */}
+        <div className="absolute bottom-2 left-0 right-0 top-0 rounded-[10px] rounded-tr-[22px] bg-bg-hover" />
+        <div className="absolute bottom-2 right-1 top-2 w-10 rounded-tr-[18px] border-l border-white bg-bg-elevated" />
+        <span className="absolute bottom-0 left-5 h-5 w-5 rounded-full border-[3px] border-bg-hover bg-white" />
+        <span className="absolute bottom-0 right-7 h-5 w-5 rounded-full border-[3px] border-bg-hover bg-white" />
+        <span className="absolute left-3 top-4">
+          <LogoPill />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function SzeneMesse() {
+  return (
+    <div aria-hidden className="relative flex h-28 items-end justify-center gap-3 pb-3">
+      {/* Rueckwand */}
+      <div className="relative h-20 w-32 rounded-t-[10px] bg-bg-hover">
+        <span className="absolute left-1/2 top-3 -translate-x-1/2">
+          <LogoPill />
+        </span>
+        <span className="absolute bottom-3 left-4 right-4 h-[3px] rounded-full bg-white/70" />
+        <span className="absolute bottom-6 left-4 right-10 h-[3px] rounded-full bg-white/70" />
+      </div>
+      {/* Theke */}
+      <div className="relative h-12 w-14 rounded-t-[8px] bg-bg-elevated">
+        <span className="absolute left-1/2 top-3 -translate-x-1/2">
+          <LogoPill klein />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function SzeneStadion() {
+  return (
+    <div aria-hidden className="relative flex h-28 flex-col justify-end gap-1.5 pb-3">
+      {/* Rasen-Andeutung + Bande in leichter Perspektive */}
+      <div className="relative mx-2 flex h-9 items-center justify-around rounded-[6px] bg-bg-hover [transform:perspective(300px)_rotateX(18deg)]">
+        <LogoPill klein />
+        <span className="hidden h-[3px] w-10 rounded-full bg-white/70 sm:block" />
+        <LogoPill klein />
+      </div>
+      <div className="mx-6 h-2 rounded-full bg-akzent-wash" />
+    </div>
+  );
+}
+
+function SzeneStory() {
+  return (
+    <div aria-hidden className="relative flex h-28 items-center justify-center">
+      {/* Phone-Rahmen mit Story-Balken */}
+      <div className="relative h-24 w-14 rounded-[10px] border-2 border-bg-hover bg-white p-1.5">
+        <span className="absolute left-1.5 right-1.5 top-1.5 flex gap-1">
+          <span className="h-[3px] flex-1 rounded-full bg-akzent" />
+          <span className="h-[3px] flex-1 rounded-full bg-bg-hover" />
+          <span className="h-[3px] flex-1 rounded-full bg-bg-hover" />
+        </span>
+        <span className="absolute inset-x-1.5 bottom-1.5 top-4 rounded-[6px] bg-bg-elevated" />
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <LogoPill klein />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export function StartUnten({ c }: { c: Record<string, string> }) {
   const cases: { slug: string; ergebnis: string; fall: CaseStudy }[] = [];
   for (const eintrag of CASE_ANRISS) {
     const fall = caseBySlug(eintrag.slug);
@@ -153,24 +246,30 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             <SektionsKopf
               eyebrow="Beweis"
               titel="Sie müssen uns nicht glauben. *Rechnen* Sie nach."
-              sub="Vier Kennzahlen aus laufenden Projekten. Zwei Fallstudien, die Sie selbst nachlesen können."
+              sub="Drei Häuser, drei Größenordnungen — zum Nachlesen, nicht zum Glauben."
             />
           </Reveal>
 
-          {stats.length > 0 && (
-            <Reveal delay={60}>
-              <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 border-t border-line-subtle pt-12 sm:grid-cols-4">
-                {stats.map((s) => (
-                  <div key={s.label}>
-                    <p className="font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum sm:text-[54px]">
-                      {s.wert}
-                    </p>
-                    <p className="mt-3 text-[13px] leading-snug text-ink-muted">{s.label}</p>
-                  </div>
-                ))}
+          {/* Punchline statt Zahlengrab (Alex, 26.08) + Podcast-Beleg */}
+          <Reveal delay={60}>
+            <div className="mt-16 grid items-center gap-12 border-t border-line-subtle pt-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
+              <div>
+                <p className="font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.15] tracking-[-0.02em] text-ink-cream [text-wrap:balance]">
+                  {rich("*17 Jahre* Markenarbeit. Und bei KI vorne dabei — nicht hinterher.")}
+                </p>
+                <p className="t-body-lg mt-5 max-w-[44ch]">
+                  Was diese Woche an Modellen erscheint, steckt nächste Woche in unseren
+                  Abläufen. Nicht als Experiment, sondern als Arbeit, die Ihr Team nicht
+                  mehr machen muss.
+                </p>
               </div>
-            </Reveal>
-          )}
+              <PodcastSlot
+                videoUrl={c["mk.podcast.url"]}
+                titel={c["mk.podcast.titel"] ?? ""}
+                sub={c["mk.podcast.sub"] ?? ""}
+              />
+            </div>
+          </Reveal>
 
           {/* Meilenstein-Kacheln + Kundenlogos (BRIEF §9, Alex 26.08):
               die Größenordnungen, kein Personenkult. */}
@@ -278,8 +377,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
           <Reveal delay={150}>
             <p className="mt-16 max-w-[54ch] t-body-lg">
-              Ein Ansprechpartner arbeitet an Ihrem Projekt, nachweisbar nach Ticketsystem. Sie fragen nie nach zwei
-              Wochen: Wie weit ist mein Dokument? Mein Rechner? Meine Anpassung? Der Stand ist jederzeit sichtbar.
+              Jedes Ihrer Anliegen läuft in einem Ticketsystem — nachweisbar, mit Status,
+              bis es erledigt ist. Kein Wunsch bleibt offen, und niemand fragt nach zwei Wochen:
+              Wie weit ist mein Dokument? Mein Rechner? Meine Anpassung?
             </p>
           </Reveal>
 
@@ -292,6 +392,34 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             >
               Den Rest liefern wir: Marke, Portal, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
             </GelbeKarte>
+          </Reveal>
+
+          {/* „Und danach?" — die Wahrnehmung, für die das alles gebaut wird */}
+          <Reveal delay={120}>
+            <div className="mt-24 border-t border-line-subtle pt-16">
+              <p className="t-label">Und danach?</p>
+              <h3 className="mt-4 t-h2 max-w-[720px]">
+                {rich("Dann sieht Ihre Stadt Sie *überall*.")}
+              </h3>
+              <p className="t-body-lg mt-5 max-w-[54ch]">
+                Absolute regionale Dominanz: Ihre Marke im Postfach, in der Story, auf der
+                Straße und am Spielfeldrand — bis der erste Gedanke bei „Immobilien" Ihr
+                Name ist.
+              </p>
+              <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+                {DOMINANZ_SZENEN.map(({ titel, Szene }) => (
+                  <div
+                    key={titel}
+                    className="rounded-[20px] border border-line-subtle bg-white px-4 pb-4 pt-2"
+                  >
+                    <Szene />
+                    <p className="mt-2 border-t border-line-subtle pt-3 text-center text-[12.5px] font-medium text-ink-cream">
+                      {titel}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>

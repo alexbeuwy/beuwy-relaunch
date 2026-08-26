@@ -13,7 +13,8 @@ import { AiPille } from "./AiPille";
 import { Reveal } from "./Reveal";
 import { Logo } from "./Logo";
 import { VslSlot } from "./VslSlot";
-import { ExposeVergleich, PerformanceFlow } from "./SchemaGrafiken";
+import { ExposeVergleich } from "./SchemaGrafiken";
+import { PerformanceStory } from "./PerformanceStory";
 import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
 
 /**
@@ -49,16 +50,13 @@ function PerformanceMarketing({ c }: { c: Record<string, string> }) {
             ausrichtung="mitte"
           />
         </Reveal>
-        <Reveal delay={80}>
-          <div className="mx-auto mt-14 max-w-[880px]">
-            <PerformanceFlow
-              quote={c["mk.pm.quote"] ?? "5 %"}
-              mandate={c["mk.pm.mandate"] ?? "5"}
-              provision={c["mk.pm.provision"] ?? "31.285 €"}
-              summe={c["mk.pm.summe"] ?? "156.425 €"}
-            />
-          </div>
-        </Reveal>
+        <div className="mt-14">
+          <PerformanceStory
+            quote={c["mk.pm.quote"] ?? "5 %"}
+            mandate={c["mk.pm.mandate"] ?? "5"}
+            provision={c["mk.pm.provision"] ?? "31.285 €"}
+          />
+        </div>
       </div>
     </section>
   );

@@ -292,6 +292,8 @@ export const MARKEN_SLUGS: Record<string, string> = {
   Homeday: "homeday",
   BETTERHOMES: "betterhomes",
   // Kundenlogos (echte SVGs von beuwy.com, public/logos/)
+  "Vision Group": "vision-group",
+  acta: "acta",
   "RIEGEL Immobilien": "riegel",
   "hzo immobilien": "hzo",
   invyse: "invyse",

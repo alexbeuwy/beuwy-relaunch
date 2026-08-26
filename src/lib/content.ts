@@ -223,7 +223,11 @@ export const DEFAULTS: Record<string, string> = {
   "mk.pm.quote": "5 %",
   "mk.pm.mandate": "5",
   "mk.pm.provision": "31.285 €",
-  "mk.pm.summe": "156.425 €",
+
+  "mk.podcast.url": "",
+  "mk.podcast.titel": "Im Gespräch: Leon Lin",
+  "mk.podcast.sub":
+    "Alexander Pütter mit Leon Lin — einem der meistgenutzten KI-Skill-Entwickler der Welt. Über Systeme, die im Makleralltag wirklich arbeiten.",
 
   "mk.beweis.label": "Größenordnungen, keine Versprechen",
   "mk.beweis.kacheln":
@@ -278,7 +282,9 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
   "mk.pm.mandate": "Makler · Performance-Grafik · Mehr-Mandate pro Jahr (z. B. 5)",
   "mk.pm.provision": "Makler · Performance-Grafik · Ø Provision je Mandat",
-  "mk.pm.summe": "Makler · Performance-Grafik · Summe (Mandate × Provision)",
+  "mk.podcast.url": "Makler · Beweis · Podcast-Video-URL (leer = Platzhalter)",
+  "mk.podcast.titel": "Makler · Beweis · Podcast-Titel",
+  "mk.podcast.sub": "Makler · Beweis · Podcast-Unterzeile",
   "mk.beweis.label": "Makler · Beweis-Block · Eyebrow",
   "mk.beweis.kacheln": "Makler · Beweis-Kacheln: Name~Wert~Kontext~Story, mit | getrennt",
   "mk.beweis.kunden_label": "Makler · Beweis · Zeile über den Kundenlogos",
