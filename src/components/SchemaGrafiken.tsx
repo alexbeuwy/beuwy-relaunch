@@ -1,3 +1,5 @@
+import { Logo } from "./Logo";
+
 /**
  * SCHEMA-GRAFIKEN — zwei rein serverseitige Grafik-Komponenten für R2
  * (Repositionierung, BRIEF §9: Performance-Marketing-Fluss und das
@@ -132,7 +134,10 @@ export function ExposeVergleich() {
       </div>
 
       <div className="rounded-[20px] border border-line-subtle bg-white p-7 sm:p-8">
-        <p className="t-label">Mit beuwy</p>
+        {/* Eyebrow = Wortmarke statt Wort (Alex, 26.08) */}
+        <p className="flex items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.14em] text-ink-dim">
+          Mit <Logo statisch height={14} />
+        </p>
         <p className="t-h3 mt-3">Maßarbeit für Ihr Unternehmen</p>
         <div className="mt-6 flex items-end gap-3">
           <BeuwyDokumentBild />

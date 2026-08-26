@@ -99,7 +99,7 @@ export function AnfrageFunnel() {
     if (busy) return;
     if (!name.trim()) return setError("Bitte Ihren Namen angeben.");
     if (!EMAIL_RE.test(email)) return setError("Bitte eine gültige E-Mail-Adresse angeben.");
-    if (!sondiert && !phone.trim())
+    if (!phone.trim())
       return setError("Für eine schnelle Rückmeldung brauchen wir Ihre Telefonnummer.");
     if (!consent) return setError("Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu.");
 
@@ -157,7 +157,13 @@ export function AnfrageFunnel() {
   }
 
   const gesamt = SCHRITTE.length;
-  const fortschritt = ergebnis ? 100 : Math.round(((index + 1) / gesamt) * 100);
+  /* Endowed Progress (Nunes & Drèze): Die ersten Klicks füllen den Balken
+     überproportional, danach werden die Schritte kleiner. Wer nach dem
+     ersten Tippen schon bei 38 % steht, bricht seltener ab als bei 20 %.
+     Die Werte sind bewusst nicht linear und enden erst mit dem Absenden
+     bei 100 — der letzte Schritt bleibt spürbar offen. */
+  const FORTSCHRITT_KURVE = [38, 62, 78, 88, 94];
+  const fortschritt = ergebnis ? 100 : (FORTSCHRITT_KURVE[index] ?? 94);
 
   /* ── Erfolg ── */
   if (ergebnis) {
@@ -307,12 +313,12 @@ export function AnfrageFunnel() {
           >
             <p className="t-body mt-3">
               {sondiert
-                ? "Wir schicken Ihnen erst einmal die richtigen Unterlagen. Wenn es passt, sprechen wir danach in Ruhe."
+                ? "Wir schicken Ihnen erst einmal die richtigen Unterlagen. Für Rückfragen brauchen wir eine Nummer, unter der wir Sie erreichen."
                 : "Sie wollen zügig starten. Damit wir Sie schnell erreichen, brauchen wir Ihre Telefonnummer."}
             </p>
 
             <div className="mt-6 space-y-4">
-              <Feld label="Name" htmlFor="anfrage-name">
+              <Feld label="Name" htmlFor="anfrage-name" pflicht beam index={0}>
                 <input
                   id="anfrage-name"
                   value={name}
@@ -322,10 +328,10 @@ export function AnfrageFunnel() {
                   }}
                   placeholder="Vor- und Nachname"
                   autoComplete="name"
-                  className="booking-input w-full"
+                  className="booking-input ist-pflicht w-full"
                 />
               </Feld>
-              <Feld label="E-Mail" htmlFor="anfrage-email">
+              <Feld label="E-Mail" htmlFor="anfrage-email" pflicht beam index={1}>
                 <input
                   id="anfrage-email"
                   value={email}
@@ -336,10 +342,10 @@ export function AnfrageFunnel() {
                   type="email"
                   placeholder="name@firma.de"
                   autoComplete="email"
-                  className="booking-input w-full"
+                  className="booking-input ist-pflicht w-full"
                 />
               </Feld>
-              <Feld label={sondiert ? "Telefon (optional)" : "Telefon"} htmlFor="anfrage-telefon">
+              <Feld label="Telefon" htmlFor="anfrage-telefon" pflicht beam index={2}>
                 <input
                   id="anfrage-telefon"
                   value={phone}
@@ -348,9 +354,9 @@ export function AnfrageFunnel() {
                     setError(null);
                   }}
                   type="tel"
-                  placeholder={sondiert ? "Optional" : "Für den Rückruf"}
+                  placeholder="Für den Rückruf"
                   autoComplete="tel"
-                  className="booking-input w-full"
+                  className="booking-input ist-pflicht w-full"
                 />
               </Feld>
               <Feld label="Nachricht (optional)" htmlFor="anfrage-notiz">
@@ -441,21 +447,45 @@ function Schritt({
   );
 }
 
+/**
+ * Feld — Label plus Eingabe. `pflicht` setzt den Gold-Punkt hinter das
+ * Label; `beam` legt die laufende Kontur um den Rahmen (Schritt 5, wo
+ * die Eingabe wirklich zählt). Die Kontur liegt in einem 1px-Ring um
+ * das Feld, damit sie den Fokus-Ring des Inputs nicht überdeckt.
+ */
 function Feld({
   label,
   htmlFor,
   children,
+  pflicht = false,
+  beam = false,
+  index = 0,
 }: {
   label: string;
   htmlFor: string;
   children: React.ReactNode;
+  pflicht?: boolean;
+  beam?: boolean;
+  index?: number;
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="t-label mb-2 block">
+      <label htmlFor={htmlFor} className="t-label mb-2 flex items-center gap-2">
         {label}
+        {pflicht && (
+          <>
+            <span className="h-1.5 w-1.5 rounded-full bg-akzent" aria-hidden />
+            <span className="sr-only">Pflichtfeld</span>
+          </>
+        )}
       </label>
-      {children}
+      {beam ? (
+        <div className={stil.beamRahmen} style={{ "--i": index } as React.CSSProperties}>
+          <div className={stil.beamInhalt}>{children}</div>
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 }

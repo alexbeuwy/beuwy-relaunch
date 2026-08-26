@@ -7,11 +7,17 @@ import Link from "next/link";
 export function Logo({
   tone = "ink",
   height = 26,
+  statisch = false,
 }: {
   /* ink = Tinte auf Papier · accent = Ultramarin · snow = auf dunklen Flächen.
      yellow/cream bleiben als Alt-Namen gültig (yellow → accent, cream → ink). */
   tone?: "ink" | "accent" | "snow" | "yellow" | "cream";
   height?: number;
+  /* statisch = die Wortmarke steht als Name im Text (Vergleichsspalte,
+     Eyebrow), nicht als Navigation. Dann ohne Link und ohne
+     Startseiten-Label — ein Link zurück auf dieselbe Seite wäre eine
+     Sackgasse für Tastatur- und Screenreader-Nutzer. */
+  statisch?: boolean;
 }) {
   const color =
     tone === "snow"
@@ -19,15 +25,8 @@ export function Logo({
       : tone === "accent" || tone === "yellow"
         ? "var(--ink-yellow)"
         : "var(--ink-cream)";
-  return (
-    <Link
-      href="/"
-      aria-label="beuwy — zur Startseite"
-      data-logo
-      className="inline-flex items-center group"
-      style={{ color, lineHeight: 0 }}
-    >
-      <svg
+  const marke = (
+    <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 357.83 88.11"
         height={height}
@@ -42,7 +41,32 @@ export function Logo({
         <path d="M232.67,22.16h-9.16c-.7,0-1,.3-1,1v27.79c0,6.28-3.39,10.36-8.96,10.36-5.88,0-8.96-4.08-8.96-10.46v-27.69c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v30.28c0,10.46,6.47,17.83,16.54,17.83,5.38,0,9.56-1.89,12.45-5.58h.1v3.49c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1V23.16c0-.7-.3-1-1-1Z" />
         <path d="M310.66,22.16h-9.56c-.7,0-1.1.3-1.29,1l-8.77,31.68h-.2l-9.76-31.68c-.2-.7-.6-1-1.29-1h-7.17c-.7,0-1.1.3-1.29,1l-9.16,31.68h-.2l-9.26-31.68c-.2-.7-.6-1-1.29-1h-9.56c-.7,0-.9.3-.7,1l15.14,46.02c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l9.36-30.68h.2l9.26,30.68c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l15.14-46.02c.2-.7,0-1-.7-1Z" />
         <path d="M356.98,22.16h-9.46c-.6,0-1,.3-1.2,1l-10.36,31.38h-.2l-10.86-31.38c-.2-.7-.6-1-1.2-1h-9.86c-.7,0-1,.3-.8,1l17.53,45.22-1.39,4.08c-1.49,4.08-3.49,5.68-7.17,5.68h-1.79c-.7,0-1,.3-1,1v7.97c0,.7.3,1,1,1h3.09c3.98,0,7.17-1.1,9.46-3.29,2.39-2.09,4.58-5.98,6.67-11.65l18.33-50c.2-.7-.1-1-.8-1Z" />
-      </svg>
+    </svg>
+  );
+
+  if (statisch) {
+    return (
+      <span
+        data-logo
+        role="img"
+        aria-label="beuwy"
+        className="inline-flex items-center"
+        style={{ color, lineHeight: 0 }}
+      >
+        {marke}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href="/"
+      aria-label="beuwy — zur Startseite"
+      data-logo
+      className="inline-flex items-center group"
+      style={{ color, lineHeight: 0 }}
+    >
+      {marke}
     </Link>
   );
 }

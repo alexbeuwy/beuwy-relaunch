@@ -11,6 +11,7 @@ import {
 } from "./MaklerElemente";
 import { AiPille } from "./AiPille";
 import { Reveal } from "./Reveal";
+import { Logo } from "./Logo";
 import { VslSlot } from "./VslSlot";
 import { ExposeVergleich, PerformanceFlow } from "./SchemaGrafiken";
 import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
@@ -212,7 +213,9 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
           </Reveal>
 
           <Reveal delay={120}>
-            <p className="t-label !text-ink-cream">beuwy</p>
+            {/* Eyebrow = Wortmarke statt Wort (Alex, 26.08) */}
+            <Logo statisch height={17} />
+            <div className="mt-1" />
             <ul className="mt-6 space-y-5 border-t border-line-medium pt-6">
               {BEUWY_PUNKTE.map((punkt) => (
                 <li key={punkt} className="flex items-start gap-3.5">

@@ -2265,7 +2265,13 @@
     color: var(--ink-dim);
   }
   .booking-input:focus {
-    border-color: rgba(12, 75, 195, 0.55);
+    border-color: var(--ink-cream);
+  }
+  /* Kontaktfelder im Vorquali-Funnel (Alex, 26.08): kraeftigerer Rand
+     als der Rest der Oberflaeche — hier zaehlt die Eingabe, das darf
+     man sehen. */
+  .booking-input.ist-pflicht {
+    border-color: rgba(20, 20, 18, 0.28);
   }
   .booking-progress {
     background: var(--sky);

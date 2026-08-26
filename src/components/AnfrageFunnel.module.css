@@ -82,3 +82,51 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Beam-Kontur auf den Kontaktfeldern (Schritt 5, Alex 26.08): eine
+   Lichtsichel laeuft langsam um den Rahmen und markiert die Felder, auf
+   die es ankommt. Wie die 40s-Stempeldrehung eine bewusst benannte
+   Ausnahme von der Duration-Skala — Ambient-Loops brauchen Sekunden-
+   bis Minutennaehe, sonst zappeln sie. Der Versatz ueber --i laesst die
+   drei Felder nacheinander aufleuchten statt im Gleichschritt. */
+.beamRahmen {
+  position: relative;
+  border-radius: 11px;
+  padding: 1px;
+  overflow: hidden;
+}
+
+.beamRahmen::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 296deg,
+    rgba(243, 226, 127, 0.9) 330deg,
+    rgba(194, 161, 60, 0.55) 348deg,
+    transparent 360deg
+  );
+  animation: beamDreh 9s linear infinite;
+  animation-delay: calc(var(--i, 0) * -3s);
+}
+
+.beamInhalt {
+  position: relative;
+  border-radius: 10px;
+  background: var(--bg-base);
+}
+
+@keyframes beamDreh {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beamRahmen::before {
+    animation: none;
+    opacity: 0.45;
+  }
+}
