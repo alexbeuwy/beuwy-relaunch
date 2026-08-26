@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MandateLoop } from "./MandateLoop";
-import { maklerAsset } from "@/lib/cdn";
+import { makler9x16, maklerAsset } from "@/lib/cdn";
 import stil from "./PerformanceStory.module.css";
 
 /**
@@ -63,13 +63,14 @@ function AnzeigenVisual() {
       </div>
       {/* Ad-Stapel vorn: drei Story-Karten rotieren */}
       <div className={`relative h-[340px] w-[190px] ${stil.adBuehne}`}>
-        {[3, 11, 5].map((foto, i) => (
+        {/* Echte 9:16-Assets — das ist exakt das Story-Format der Ads */}
+        {(["01", "02", "03"] as const).map((foto, i) => (
           <figure
             key={foto}
             className={`absolute inset-0 overflow-hidden rounded-[18px] border border-line-subtle bg-white shadow-[0_10px_30px_rgba(20,20,18,0.10)] ${stil.adKarte}`}
             style={{ "--k": i } as React.CSSProperties}
           >
-            <Image src={maklerAsset(foto)} alt="" fill sizes="190px" className="object-cover" />
+            <Image src={makler9x16(foto)} alt="" fill sizes="190px" className="object-cover" />
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-3 pt-8">
               <span className="block text-[10px] font-medium uppercase tracking-[0.08em] text-white/75">
                 Gesponsert · Ihre Marke

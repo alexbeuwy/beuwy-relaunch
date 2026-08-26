@@ -15,15 +15,25 @@ export function maklerAsset(nummer: number): string {
   return `${BASIS}/makler-${nummer}.webp`;
 }
 
+/**
+ * Hochkant-Kampagnenwelt im Story-Format (1536×2752) — gedacht für
+ * alles, was eine echte 9:16-Anzeige zeigt: 01 Skyline-Office,
+ * 02 Beratung am Tisch, 03 Team über Plänen.
+ */
+export function makler9x16(nummer: "01" | "02" | "03"): string {
+  return `${BASIS}/makler-9x16-${nummer}.webp`;
+}
+
 export const HERO_VIDEO = `${BASIS}/hero-video.webm`;
 
 /**
  * Weitere Videos (Alex, 26.08). Größen beachten (BRIEF §9):
- * - PORTRAIT_VIDEO (9:16, 5,2 MB): bewegter VSL-Platzhalter — nur
+ * - PORTRAIT_VIDEO (9:16, 5,4 MB): bewegter VSL-Platzhalter — nur
  *   lazy laden (erst im Viewport), nie mit preload="auto".
- * - LOFT_VIDEO (5,0 MB): frei für eine Sektions-Plate, preload="none".
- * - HERO_SCHNITT (7,1 MB): der große Zusammenschnitt — wegen Ladezeit
- *   NIEMALS als Autoplay-Default, höchstens klick-initiiert.
+ * - LOFT_VIDEO (5,2 MB): Ambient-Plate im Spiegel-Block (AmbientVideo,
+ *   lädt erst im Viewport), preload="none".
+ * - HERO_SCHNITT (7,5 MB): der große Zusammenschnitt — läuft im
+ *   ShowreelSlot und lädt AUSSCHLIESSLICH klick-initiiert.
  */
 export const PORTRAIT_VIDEO = `${BASIS}/aus-dem-fenster-gucken-shot-portrait-shot.webm`;
 export const LOFT_VIDEO = `${BASIS}/wide-angle-loft-shot.webm`;

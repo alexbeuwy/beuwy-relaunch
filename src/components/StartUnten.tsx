@@ -6,9 +6,10 @@ import { Reveal } from "./Reveal";
 import { GelbeKarte, Highlight, KreisDeko, SektionsKopf, StempelBadge } from "./MaklerElemente";
 import { TrustMeilensteine } from "./TrustMeilensteine";
 import { PodcastSlot } from "./PodcastSlot";
+import { ShowreelSlot } from "./ShowreelSlot";
 import { WirkungsSpuren } from "./SchemaGrafiken";
 import { caseBySlug, type CaseStudy } from "@/lib/cases";
-import { maklerAsset } from "@/lib/cdn";
+import { makler9x16, maklerAsset } from "@/lib/cdn";
 import stil from "./StartUnten.module.css";
 
 /**
@@ -221,7 +222,9 @@ function SzeneStory() {
           <span className="h-[3px] flex-1 rounded-full bg-bg-hover" />
           <span className="h-[3px] flex-1 rounded-full bg-bg-hover" />
         </span>
-        <span className="absolute inset-x-1.5 bottom-1.5 top-4 rounded-[6px] bg-bg-elevated" />
+        <span className="absolute inset-x-1.5 bottom-1.5 top-4 overflow-hidden rounded-[6px] bg-bg-elevated">
+          <Image src={makler9x16("01")} alt="" fill sizes="56px" className="object-cover" />
+        </span>
         <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <LogoPill klein />
         </span>
@@ -419,6 +422,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                   </div>
                 ))}
               </div>
+              {/* Der große Kampagnen-Zusammenschnitt — 7,5 MB, deshalb
+                  ausschließlich klick-initiiert (BRIEF §9) */}
+              <ShowreelSlot className="mt-6" />
             </div>
           </Reveal>
         </div>

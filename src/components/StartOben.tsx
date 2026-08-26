@@ -15,7 +15,8 @@ import { Logo } from "./Logo";
 import { VslSlot } from "./VslSlot";
 import { ExposeVergleich } from "./SchemaGrafiken";
 import { PerformanceStory } from "./PerformanceStory";
-import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
+import { GRUENDER_FOTO, LOFT_VIDEO, maklerAsset } from "@/lib/cdn";
+import { AmbientVideo } from "./AmbientVideo";
 
 /**
  * Startseite, Sektionen 2-5 (BRIEF §6): Spiegel → Abgrenzung Baukasten →
@@ -110,12 +111,13 @@ function Spiegel({ c }: { c: Record<string, string> }) {
           <Reveal className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:max-w-none">
             <KreisDeko className="-left-8 -top-8 hidden md:-left-12 md:-top-10 lg:block" />
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-line-subtle">
-              <Image
-                src={maklerAsset(2)}
-                alt="Kampagnenwelt von beuwy: Makler-Ehepaar im Beratungsgespräch, Golden Hour"
-                fill
+              {/* Loft-Video als Ambient-Plate — Poster steht sofort,
+                  die 5,2 MB laden erst kurz vorm Viewport (BRIEF §9) */}
+              <AmbientVideo
+                videoSrc={LOFT_VIDEO}
+                posterSrc={maklerAsset(2)}
+                alt="Kampagnenwelt von beuwy: Loft-Szene in der Golden Hour"
                 sizes="(min-width: 1024px) 46vw, 90vw"
-                className="object-cover"
               />
               <AiPille />
             </div>
