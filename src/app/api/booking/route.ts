@@ -2,12 +2,21 @@ import { NextResponse } from "next/server";
 import { sendMail, emailLayout, emailRows } from "@/lib/email";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { terminSchema, pruefeFormular } from "@/lib/validierung";
+import { leadAnlegen, mailLoggen } from "@/lib/crm/db";
+import { mailTerminBestaetigung } from "@/lib/email-vorlagen";
 
 /**
- * Terminanfragen aus dem Buchungstool (portiert aus dem Riegel-Projekt,
- * ohne Supabase-Persistenz — Leads gehen per Resend-Mail an EMAIL_TO).
+ * Terminanfragen aus dem Buchungstool (portiert aus dem Riegel-Projekt).
+ * Nach erfolgreicher Prüfung landet die Anfrage zusätzlich als Lead im CRM
+ * (src/lib/crm/db.ts, Vertrag R3-PLAN.md "Verträge") — Muster identisch zu
+ * /api/tool-lead. Die Kunden-Bestätigung läuft über die Vorlage
+ * mailTerminBestaetigung (src/lib/email-vorlagen.ts) statt über eine
+ * Ad-hoc-Mail, ihr Versand wird per mailLoggen protokolliert.
+ *
  * Ohne RESEND_API_KEY: ehrlicher Demo-Modus — die Antwort trägt demo:true,
- * das UI kennzeichnet das; die Anfrage landet zusätzlich im Server-Log.
+ * mailLoggen bekommt den Status "demo"; die Anfrage landet zusätzlich im
+ * Server-Log. leadAnlegen/mailLoggen sind fail-open (liefern null/nichts
+ * statt zu werfen) — ein CRM-Ausfall darf die Antwort nie kaputt machen.
  *
  * Name/E-Mail/Telefon/Datum/Uhrzeit laufen über terminSchema aus
  * src/lib/validierung.ts (zod statt Hand-Regex); Honeypot-Erkennung
@@ -64,6 +73,15 @@ export async function POST(req: Request) {
 
   const { name, email, phone, date, time } = pruefung.daten;
 
+  const leadId = await leadAnlegen({
+    quelle: "booking",
+    name,
+    email,
+    telefon: phone,
+    nachricht: messageTxt || `Terminwunsch: ${type || "Termin"} am ${date} um ${time} Uhr.`,
+    daten: { type, mode, duration, date, time },
+  });
+
   const rows = emailRows([
     { label: "Anlass", value: esc(type) },
     { label: "Art", value: esc(mode) },
@@ -85,16 +103,17 @@ export async function POST(req: Request) {
     }),
   });
 
+  const bestaetigung = mailTerminBestaetigung(name, date, time);
+
   if (internal.ok) {
-    // Bestätigung an den Anfragenden — best effort.
-    await sendMail({
-      to: email,
-      subject: "Ihre Terminanfrage bei beuwy",
-      html: emailLayout({
-        heading: "Terminanfrage erhalten",
-        intro: `Vielen Dank! Wir bestätigen Ihren Wunschtermin (${esc(type)} am ${esc(date)} um ${esc(time)} Uhr) in Kürze persönlich.`,
-        bodyHtml: rows,
-      }),
+    // Bestätigung an den Anfragenden — best effort, blockiert die Antwort nicht.
+    const kunde = await sendMail({ to: email, subject: bestaetigung.betreff, html: bestaetigung.html });
+    await mailLoggen({
+      leadId,
+      vorlage: "termin-bestaetigung",
+      betreff: bestaetigung.betreff,
+      empfaenger: email,
+      status: kunde.ok ? "gesendet" : "fehler",
     });
     return NextResponse.json({ ok: true, delivered: true });
   }
@@ -104,10 +123,24 @@ export async function POST(req: Request) {
     console.warn("[booking] RESEND_API_KEY fehlt — Anfrage nur geloggt:", {
       type, mode, date, time, name, email, phone, messageTxt,
     });
+    await mailLoggen({
+      leadId,
+      vorlage: "termin-bestaetigung",
+      betreff: bestaetigung.betreff,
+      empfaenger: email,
+      status: "demo",
+    });
     return NextResponse.json({ ok: true, delivered: false, demo: true });
   }
 
   // Versand konfiguriert, aber fehlgeschlagen → ehrlich scheitern.
   console.error("[booking] Lead-Mail fehlgeschlagen — 502.");
+  await mailLoggen({
+    leadId,
+    vorlage: "termin-bestaetigung",
+    betreff: bestaetigung.betreff,
+    empfaenger: email,
+    status: "fehler",
+  });
   return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
 }
