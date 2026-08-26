@@ -24,7 +24,7 @@ import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
 export function StartOben({ c }: { c: Record<string, string> }) {
   return (
     <>
-      <Spiegel />
+      <Spiegel c={c} />
       <Abgrenzung c={c} />
       <VslKernversprechen c={c} />
       <Saeulen c={c} />
@@ -93,7 +93,12 @@ function Strich() {
 /* ── Block 2 — Spiegel: Ego + Problem ─────────────────────────────────
    Bild links (Referenz-3-Plate + StempelBadge auf der Ecke), Text rechts
    — bewusste Umkehr der Hero-Anordnung (dort Text links, Medium rechts). */
-function Spiegel() {
+function Spiegel({ c }: { c: Record<string, string> }) {
+  const integrationen = (c["mk.integrationen.namen"] ?? "")
+    .split("|")
+    .map((n) => n.trim())
+    .filter(Boolean);
+
   return (
     <section className="bg-bg-base py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
@@ -138,6 +143,25 @@ function Spiegel() {
             </div>
           </Reveal>
         </div>
+
+        {/* Integrations-Band (Alex, 26.08): Pastellgelb mit dunklen
+            Logos, direkt unter dem Spiegel-Argument — die Tools, die
+            das Haus schon nutzt, docken hier an. Bewusste zweite
+            Gelb-Fläche in diesem Block auf Alex' Wunsch. */}
+        {integrationen.length > 0 && (
+          <Reveal delay={140}>
+            <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-5 rounded-[28px] bg-akzent px-7 py-6 md:px-9 md:py-7">
+              <p className="t-label !text-[10.5px] !text-ink-cream/60">
+                {c["mk.integrationen.label"]}
+              </p>
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+                {integrationen.map((name) => (
+                  <LogoSlot key={name} name={name} slug={slugifyMarke(name)} dunkel />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        )}
       </div>
     </section>
   );
@@ -353,12 +377,10 @@ const SAEULEN: Saeule[] = [
   },
 ];
 
-function Saeulen({ c }: { c: Record<string, string> }) {
-  const integrationen = (c["mk.integrationen.namen"] ?? "")
-    .split("|")
-    .map((n) => n.trim())
-    .filter(Boolean);
-
+/* Der Integrations-Strip lebt seit 26.08 als gelbes Band im Spiegel-
+   Block (Alex' Platzierung); Saeulen braucht c nur noch nicht mehr,
+   behält die Prop aber für künftige Studio-Keys. */
+function Saeulen({ c: _c }: { c: Record<string, string> }) {
   return (
     <section id="leistungen" className="bg-bg-base py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
@@ -416,18 +438,6 @@ function Saeulen({ c }: { c: Record<string, string> }) {
           ))}
         </div>
 
-        {integrationen.length > 0 && (
-          <Reveal delay={200}>
-            <div className="mt-8 flex flex-wrap items-center gap-x-9 gap-y-4 border-t border-line-subtle pt-10 md:mt-10">
-              <p className="t-label !text-[10.5px]">{c["mk.integrationen.label"]}</p>
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-                {integrationen.map((name) => (
-                  <LogoSlot key={name} name={name} slug={slugifyMarke(name)} />
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        )}
       </div>
     </section>
   );

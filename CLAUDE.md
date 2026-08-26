@@ -14,7 +14,9 @@ done for you, in Wochen statt Quartalen.
 - Farben: reines Weiß `#FFFFFF`, neutrale Tinte, **Pastellgelb** als
   einziger Akzent. Kein warmes Papier, keine Verläufe, kein Riso mehr.
 - Typo: **Helvena für alles** — Headlines und Fließtext. Inter ist raus.
-  GeistMono nur für tabellarische Zahlen.
+  GeistMono nur für tabellarische Zahlen. **Nie kursiv** (globale
+  em/i-Neutralisierung in `globals.css`) — Betonung über Farbe,
+  Gewicht oder Highlighter.
 - Motion: ausschließlich über die Motion-Tokens in `globals.css`
   (transitions-dev-Skala). Keine Ad-hoc-Durations.
 - Bilder/Video: BunnyCDN `beuwy-2.b-cdn.net/assets/makler assets/`

@@ -20,12 +20,12 @@ const WORTMARKEN_STIL: Record<string, string> = {
   BETTERHOMES: "uppercase tracking-[0.2em] text-[12.5px] font-medium",
 };
 
-export function Wortmarke({ name }: { name: string }) {
+export function Wortmarke({ name, dunkel = false }: { name: string; dunkel?: boolean }) {
   const stilKlasse =
     WORTMARKEN_STIL[name] ?? "uppercase tracking-[0.16em] text-[12.5px] font-medium";
   return (
     <span
-      className={`whitespace-nowrap leading-none text-[#A9A9A3] ${stilKlasse}`}
+      className={`whitespace-nowrap leading-none ${dunkel ? "text-ink-cream/75" : "text-[#A9A9A3]"} ${stilKlasse}`}
       style={
         stilKlasse.includes("font-serif")
           ? { fontFamily: "Georgia, 'Times New Roman', serif" }
@@ -55,12 +55,16 @@ export function LogoSlot({
   name,
   slug,
   hoehe = 20,
+  dunkel = false,
 }: {
   name: string;
   slug: string;
   /** Optischer Größenausgleich: kompakte/zweizeilige Marken brauchen
       mehr Höhe als lange Wortmarken, sonst wirken sie winzig. */
   hoehe?: number;
+  /** Auf farbigen Flächen (Pastellgelb-Band): Logos dunkel und
+      kontrastreich statt hellgrau abgesenkt. */
+  dunkel?: boolean;
 }) {
   const [geladen, setGeladen] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -75,7 +79,7 @@ export function LogoSlot({
 
   return (
     <span className="inline-flex items-center leading-none">
-      {!geladen && <Wortmarke name={name} />}
+      {!geladen && <Wortmarke name={name} dunkel={dunkel} />}
       {/* eslint-disable-next-line @next/next/no-img-element -- lokale SVG, Einwechslung via onLoad */}
       <img
         ref={imgRef}
@@ -86,7 +90,9 @@ export function LogoSlot({
         style={geladen ? { height: hoehe } : undefined}
         className={
           geladen
-            ? "w-auto [filter:grayscale(1)_opacity(0.55)]"
+            ? dunkel
+              ? "w-auto [filter:grayscale(1)_opacity(0.82)]"
+              : "w-auto [filter:grayscale(1)_opacity(0.55)]"
             : "hidden"
         }
       />

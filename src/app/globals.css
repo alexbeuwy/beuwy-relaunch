@@ -2420,7 +2420,6 @@
   }
   .code-line .comment {
     color: var(--ink-dim);
-    font-style: italic;
   }
   .code-line .punc {
     color: var(--ink-muted);
@@ -2428,6 +2427,15 @@
 }
 
 @layer base {
+  /* Hausregel (Alex, 26.08): NIE kursiv — Helvena verträgt es nicht.
+     Betonung läuft über Farbe (em-Regeln oben), Gewicht oder den
+     Highlighter, niemals über font-style. Gilt global, auch für
+     künftige <em>/<i> ohne eigene Kontextregel. */
+  em,
+  i {
+    font-style: normal;
+  }
+
   /* shadcn-Token auf die Light-Makler-Welt gemappt: Weiß,
      Pastellgelb als Primary (dunkle Schrift darauf), Tinte als
      Foreground. */

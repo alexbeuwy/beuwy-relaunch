@@ -34,6 +34,9 @@ verkauft wie ein VSL: jeder Block hat genau einen Job im Funnel.
 - **Akzent (einziger):** Pastellgelb `#F3E27F`, hover `#EED96A`,
   Wash `#FBF5D6`. Dunkler Text auf Gelb, nie weißer.
 - **Typo: Helvena für ALLES** (`--font-helvena`, variable 200–900).
+  **NIE kursiv** (Alex, 26.08) — global via `em, i { font-style:
+  normal }` in globals.css erzwungen; Betonung nur über Farbe,
+  Gewicht oder den Highlighter.
   Display 700–800 eng gespationiert, Body 380–420 mit 1.65 Zeilenhöhe.
   Inter existiert nicht mehr. GeistMono nur `tnum`-Zahlen.
   Typo-Leiter in `globals.css` (`.t-display`, `.t-h2`, `.t-body` …) —
