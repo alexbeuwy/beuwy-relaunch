@@ -73,9 +73,9 @@ export const CASES: CaseStudy[] = [
     teaser:
       "Zwei Gründer, eine Buchhalterin — und Unterlagen, mit denen man vor internationalen Investoren besteht.",
     fakten: [
+      { wert: "1.450", label: "Wohneinheiten entwickelt" },
+      { wert: "160 Mio. €", label: "Joint Venture mit KKR" },
       { wert: "3", label: "Personen bei Projektstart" },
-      { wert: "70", label: "Mitarbeiter zum Höchststand 2022" },
-      { wert: "März 2022", label: "Partnerschaft mit KKR" },
     ],
     ausgangslage:
       "Als wir einstiegen, bestand die Firma aus zwei Gründern und einer Buchhalterin. Der Anspruch war eine Liga, in der man ohne Auftritt kein Gespräch bekommt.",
@@ -86,7 +86,7 @@ export const CASES: CaseStudy[] = [
       "Website als Beleg der Größenordnung, nicht als Visitenkarte",
     ],
     danach:
-      "Aus dem Dreierteam wurden rund 70 Mitarbeiter, und im März 2022 ging Vision eine strategische Partnerschaft mit KKR ein — erste gemeinsame Transaktion: 163 Wohneinheiten in Dingolfing. Das Haus hat den Zyklus danach nicht überstanden; die Zahlen hier sind der Höchststand von 2022, nicht der Stand heute. Was bleibt, ist das Prinzip: wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen — und ein Dreierteam bekommt ohne Auftritt kein Gespräch mit einem Investor dieser Größe.",
+      "Aus dem Dreierteam wurden rund 70 Mitarbeiter, und im März 2022 ging Vision eine strategische Partnerschaft mit KKR ein — ein Joint Venture über 160 Mio. €, insgesamt 1.450 entwickelte Wohneinheiten. Das Haus hat den Zyklus danach nicht überstanden; die Zahlen hier sind der Höchststand von 2022, nicht der Stand heute. Was bleibt, ist das Prinzip: wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen — und ein Dreierteam bekommt ohne Auftritt kein Gespräch mit einem Investor dieser Größe.",
     video: "https://beuwy.com/wp-content/uploads/2025/11/Vision-Imagefilm.webm",
     videoLabel: "Vision Group · Imagefilm",
   },
@@ -95,13 +95,13 @@ export const CASES: CaseStudy[] = [
     kunde: "Königswege",
     branche: "Finanzvertrieb",
     jahr: "2024",
-    reise: "Von 170 auf über 2.200 Partner unter einer Marke",
+    reise: "Von 60 auf über 2.300 Partner unter einer Marke",
     teaser:
       "Marke, Auftritt und Veranstaltungen neu aufgesetzt — bis das Recruiting nebenbei lief.",
     fakten: [
-      { wert: "2.200+", label: "Partner arbeiten heute unter der Marke" },
+      { wert: "2.300+", label: "Partner arbeiten heute unter der Marke" },
       { wert: "Top 10", label: "der deutschen Finanzvertriebe" },
-      { wert: "170", label: "Partner beim Start der Zusammenarbeit" },
+      { wert: "60", label: "Personen beim Start der Zusammenarbeit" },
     ],
     ausgangslage:
       "Ein Finanzvertrieb wächst über Menschen, die sich der Marke anschließen wollen. Genau daran hakte es: Der Auftritt trug die Ambition nicht.",
@@ -111,7 +111,7 @@ export const CASES: CaseStudy[] = [
       "Recruiting-Strecke, die aus Interesse einen Termin macht",
     ],
     danach:
-      "Heute arbeiten über 2.200 Partner unter dieser Marke, das Haus steht in den Top 10 der deutschen Finanzvertriebe. Eine Marke, auf die Partner stolz sind, erledigt das Recruiting nebenbei.",
+      "Heute arbeiten über 2.300 Partner unter dieser Marke, das Haus steht in den Top 10 der deutschen Finanzvertriebe. Eine Marke, auf die Partner stolz sind, erledigt das Recruiting nebenbei.",
   },
   {
     slug: "sanierungshaus-beispiel",

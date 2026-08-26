@@ -4,6 +4,7 @@ import { AiPille } from "./AiPille";
 import { rich } from "./RichText";
 import { Reveal } from "./Reveal";
 import { GelbeKarte, Highlight, KreisDeko, SektionsKopf, StempelBadge } from "./MaklerElemente";
+import { TrustMeilensteine } from "./TrustMeilensteine";
 import { caseBySlug, type CaseStudy } from "@/lib/cases";
 import { maklerAsset } from "@/lib/cdn";
 import stil from "./StartUnten.module.css";
@@ -169,6 +170,14 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
               </div>
             </Reveal>
           )}
+
+          {/* Meilenstein-Kacheln + Kundenlogos (BRIEF §9, Alex 26.08):
+              die Größenordnungen, kein Personenkult. */}
+          <Reveal delay={80}>
+            <div className="mt-20">
+              <TrustMeilensteine c={c} />
+            </div>
+          </Reveal>
 
           {cases.length > 0 && (
             <Reveal delay={100}>

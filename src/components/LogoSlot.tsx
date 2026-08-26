@@ -51,7 +51,17 @@ export function Wortmarke({ name }: { name: string }) {
  * MaklerElemente.tsx — ein Server-Component-Baum darf keine Funktion aus
  * einem "use client"-Modul aufrufen, nur dessen Komponenten rendern.
  */
-export function LogoSlot({ name, slug }: { name: string; slug: string }) {
+export function LogoSlot({
+  name,
+  slug,
+  hoehe = 20,
+}: {
+  name: string;
+  slug: string;
+  /** Optischer Größenausgleich: kompakte/zweizeilige Marken brauchen
+      mehr Höhe als lange Wortmarken, sonst wirken sie winzig. */
+  hoehe?: number;
+}) {
   const [geladen, setGeladen] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -71,11 +81,12 @@ export function LogoSlot({ name, slug }: { name: string; slug: string }) {
         ref={imgRef}
         src={`/logos/${slug}.svg`}
         alt={geladen ? name : ""}
-        height={20}
+        height={hoehe}
         onLoad={() => setGeladen(true)}
+        style={geladen ? { height: hoehe } : undefined}
         className={
           geladen
-            ? "h-5 w-auto [filter:grayscale(1)_opacity(0.55)]"
+            ? "w-auto [filter:grayscale(1)_opacity(0.55)]"
             : "hidden"
         }
       />

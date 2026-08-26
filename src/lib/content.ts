@@ -191,15 +191,15 @@ export const DEFAULTS: Record<string, string> = {
 
   "mk.hero.eyebrow": "Marke · Portal · Vertriebssystem",
   "mk.hero.title": "Das System hinter Deutschlands *besten*",
-  "mk.hero.rotation": "Maklern|Projektentwicklern|Bauträgern|Kapitalanlage-Vertrieben",
+  "mk.hero.rotation": "Maklern",
   "mk.hero.subtitle":
-    "beuwy baut Portale statt Visitenkarten: Besucher registrieren sich, qualifizieren sich vor — und Ihr Vertrieb spricht nur noch mit den Richtigen. In Wochen live, seit 17 Jahren messbar.",
+    "beuwy baut Portale statt Visitenkarten: Eigentümer registrieren sich, qualifizieren sich vor — und Sie sprechen nur noch mit den Richtigen. In Wochen live, seit 17 Jahren messbar.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
   "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
   "mk.hero.cta2": "Ergebnisse ansehen",
   "mk.hero.checks":
     "Marke & Design~Premium, unverwechselbar|Portal & Funnel~registriert & qualifiziert vor|Automatisierung~arbeitet, während Sie verkaufen",
-  "mk.hero.badge_label": "Für führende Immobilienunternehmen",
+  "mk.hero.badge_label": "Für führende Immobilienmakler",
   "mk.hero.badge_wert": "100+",
   "mk.hero.badge_text": "erfolgreiche Markenprojekte",
   "mk.trust.label": "Vertraut aus Projekten mit Maklern führender Häuser",
@@ -207,7 +207,7 @@ export const DEFAULTS: Record<string, string> = {
     "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
 
   "mk.stats.s1_wert": "40+",
-  "mk.stats.s1_label": "Premium-Projekte im Immobilienvertrieb",
+  "mk.stats.s1_label": "Premium-Projekte für Makler",
   "mk.stats.s2_wert": "3×",
   "mk.stats.s2_label": "mehr Eigentümer-Anfragen nach Relaunch",
   "mk.stats.s3_wert": "17",
@@ -221,6 +221,12 @@ export const DEFAULTS: Record<string, string> = {
   "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
 
   "mk.pm.quote": "5 %",
+
+  "mk.beweis.label": "Größenordnungen, keine Versprechen",
+  "mk.beweis.kacheln":
+    "Vision Group~1.450~Wohneinheiten entwickelt · Joint Venture mit KKR über 160 Mio. €~Aus drei Leuten im Gründungsbüro wurde die Gruppe, mit der Private Equity verhandelt.|Königswege~2.300+~Partner · Top 10 der deutschen Finanzvertriebe~Mit 60 Leuten zum Relaunch gekommen. Heute rekrutiert die Marke von selbst.|acta~380~Wohneinheiten in drei Jahren verkauft · rund 40 Mio. € Volumen~Selbst mit aufgebaut: Kapitalanlage-Vertrieb, in der Spitze 15 Leute, verkauft über Instagram-Anzeigen.",
+  "mk.beweis.kunden_label": "Und gebaut für Häuser, die gerade groß werden",
+  "mk.beweis.kunden": "RIEGEL Immobilien|hzo immobilien|invyse|Königswege",
 };
 
 export const FIELD_LABELS: Record<string, string> = {
@@ -248,7 +254,7 @@ export const FIELD_LABELS: Record<string, string> = {
   "termin.title": "/termin · Kopfzeile",
   "mk.hero.eyebrow": "Makler · Hero · Eyebrow",
   "mk.hero.title": "Makler · Hero · H1 vor dem Rotationswort (*Wort* = Hervorhebung)",
-  "mk.hero.rotation": "Makler · Hero · Rotationswörter, mit | getrennt (Dativ, Punkt kommt automatisch)",
+  "mk.hero.rotation": "Makler · Hero · Zielgruppen-Wort/Wörter, mit | getrennt (1 Wort = statisch, mehrere = Rotation)",
   "mk.hero.subtitle": "Makler · Hero · Subline",
   "mk.hero.cta": "Makler · Der eine CTA-Wortlaut",
   "mk.hero.cta_hinweis": "Makler · Mikrozeile unter dem CTA",
@@ -267,6 +273,10 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
   "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
   "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
+  "mk.beweis.label": "Makler · Beweis-Block · Eyebrow",
+  "mk.beweis.kacheln": "Makler · Beweis-Kacheln: Name~Wert~Kontext~Story, mit | getrennt",
+  "mk.beweis.kunden_label": "Makler · Beweis · Zeile über den Kundenlogos",
+  "mk.beweis.kunden": "Makler · Beweis · Kundenlogos, mit | getrennt",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */

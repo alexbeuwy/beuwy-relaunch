@@ -108,12 +108,12 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Abschlussvolumen in den ersten sechs Wochen nach dem Relaunch, neun
   Abschlüsse in diesem Zeitraum, Platz 21 von über 25.000 Maklern beim
   ImmoScout24-Award. https://beuwy.com/cases/riegel-immobilien
-- Königswege, Finanzvertrieb: von 170 auf über 2.200 Partner unter der
+- Königswege, Finanzvertrieb: von 60 auf über 2.300 Partner unter der
   neu aufgesetzten Marke, heute Top 10 der deutschen Finanzvertriebe.
   https://beuwy.com/cases/koenigswege
-- Vision Group, Immobilien Mannheim: vom Dreierteam zur strategischen
-  Partnerschaft mit KKR im März 2022, rund 70 Mitarbeiter zum
-  Höchststand 2022. https://beuwy.com/cases/vision-group
+- Vision Group, Immobilien Mannheim: vom Dreierteam zum Joint Venture
+  mit KKR über 160 Mio. € (März 2022), insgesamt 1.450 entwickelte
+  Wohneinheiten. https://beuwy.com/cases/vision-group
 - Zwei weitere Fallstudien unter /cases sind ausdrücklich als
   Beispielprojekte mit erfundenen Zahlen gekennzeichnet und zeigen den
   Aufbau, nicht ein reales Ergebnis.

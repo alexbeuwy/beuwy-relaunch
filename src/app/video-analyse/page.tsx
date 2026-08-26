@@ -8,7 +8,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Video-Analyse — beuwy",
   description:
-    "Domain schicken, persönlich aufgenommene Video-Analyse bekommen: was Interessenten und Maschinen heute sehen — und was ein System ändern würde. Kostenlos.",
+    "Domain schicken, persönlich aufgenommene Video-Analyse bekommen: was Interessenten und Maschinen heute sehen — und was ein System ändern würde.",
 };
 
 export default async function VideoAnalysePage() {

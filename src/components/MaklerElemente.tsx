@@ -291,6 +291,11 @@ export const MARKEN_SLUGS: Record<string, string> = {
   McMakler: "mcmakler",
   Homeday: "homeday",
   BETTERHOMES: "betterhomes",
+  // Kundenlogos (echte SVGs von beuwy.com, public/logos/)
+  "RIEGEL Immobilien": "riegel",
+  "hzo immobilien": "hzo",
+  invyse: "invyse",
+  Königswege: "koenigswege",
 };
 
 /** Fallback-Slug für Namen außerhalb der festen Map (Studio-Content ist frei editierbar). */

@@ -67,6 +67,13 @@ C–G parallelisierbar (disjunkte Dateien), H sequenziell am Ende.
   gefixt (LogoSlot-Inversion, Hub-Akzent, StempelBadge zentral + D3/D4-
   Workarounds raus, "kostenlos" gestrichen, staler Review-Server als
   Root Cause des /termin-Phantomfehlers). H2 G1–G3 gruen, PR folgt.
+- 2026-08-26 R2 komplett: 7 Grunts (Schema-Grafiken, Start-Copy,
+  KI-/Agentur-/3 Zielgruppen-Seiten, Reposition-Pass, GEO-Paket) +
+  Orchestrator (System-Headline statisch auf Makler nach Alex' Fokus-
+  Entscheid, Glas-Karte, VSL-Bewegtbild, Money-Lines, Trust-Block mit
+  Vision/KKR 160 Mio, Koenigswege 60->2.300, acta 380 WE/40 Mio,
+  Kundenlogos riegel/hzo/invyse/koenigswege von beuwy.com). 47 Routen
+  gruen, kostenlos=0, R2-H geschlossen.
 - 2026-08-26 Assets nachgeliefert (Alex' Auftrag): 13 Logo-SVGs in
   public/logos/ (11 echte Quellen, 2 Nachbauten — Herkunft: README
   dort), Integrations-Strip Startseite auf LogoSlot umgestellt,

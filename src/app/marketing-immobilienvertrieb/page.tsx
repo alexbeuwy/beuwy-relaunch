@@ -18,7 +18,7 @@ import { caseBySlug } from "@/lib/cases";
  * Partnerstrukturen, Qualifizierung nach Einkommen/Anlagehorizont,
  * Anleger-Kommunikation bis zum Notartermin) — kein Recycling der Makler-,
  * Projektentwickler- oder Bauträger-Copy. Beweis-Anker: Königswege-Case
- * (Finanzvertrieb, 170 → 2.200+ Partner). Foto 8 ist die für dieses Leaf
+ * (Finanzvertrieb, 60 → 2.300+ Partner). Foto 8 ist die für dieses Leaf
  * zugeteilte Aufnahme (Berater-Runde im Gespräch, BRIEF §9-Zuteilung).
  * Kein Loft-Video, siehe Begründung in marketing-projektentwickler —
  * "im Zweifel Foto".
@@ -247,7 +247,7 @@ export default async function MarketingImmobilienvertriebPage() {
           <Reveal>
             <p className="t-label">Beweis, kein Beispiel</p>
             <p className="t-h3 mt-3 max-w-[46ch]">
-              Von 170 auf über 2.200 Partner unter einer Marke, ein Finanzvertrieb, den wir von
+              Von 60 auf über 2.300 Partner unter einer Marke, ein Finanzvertrieb, den wir von
               Grund auf begleitet haben.
             </p>
           </Reveal>

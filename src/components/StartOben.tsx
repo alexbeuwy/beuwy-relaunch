@@ -12,6 +12,7 @@ import {
 import { AiPille } from "./AiPille";
 import { Reveal } from "./Reveal";
 import { VslSlot } from "./VslSlot";
+import { ExposeVergleich, PerformanceFlow } from "./SchemaGrafiken";
 import { GRUENDER_FOTO, maklerAsset } from "@/lib/cdn";
 
 /**
@@ -27,7 +28,33 @@ export function StartOben({ c }: { c: Record<string, string> }) {
       <Abgrenzung c={c} />
       <VslKernversprechen c={c} />
       <Saeulen c={c} />
+      <PerformanceMarketing c={c} />
     </>
+  );
+}
+
+/* ── Block 5b — Performance-Marketing als Schema (BRIEF §9): wie aus
+   Aufmerksamkeit von außen systematisch registrierte Kontakte werden.
+   Die Quote ist Studio-editierbar (mk.pm.quote). ─────────────────── */
+function PerformanceMarketing({ c }: { c: Record<string, string> }) {
+  return (
+    <section className="border-t border-line-subtle bg-bg-base">
+      <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
+        <Reveal>
+          <SektionsKopf
+            eyebrow="Performance-Marketing"
+            titel="Interesse von außen. Systematisch zu *Kontakten*."
+            sub="Anzeigen machen auf die Marke aufmerksam, das Portal registriert und qualifiziert — aus Reichweite werden Mandanten, Kunden und Interessenten, ohne dass jemand Listen abtelefoniert."
+            ausrichtung="mitte"
+          />
+        </Reveal>
+        <Reveal delay={80}>
+          <div className="mx-auto mt-14 max-w-[880px]">
+            <PerformanceFlow quote={c["mk.pm.quote"] ?? "5 %"} />
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -172,6 +199,14 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
             </ul>
           </Reveal>
         </div>
+
+        {/* No-Brainer-Schema (BRIEF §9): austauschbarer Standard links,
+            Maßarbeit rechts — die Grafik trägt das Argument der Listen. */}
+        <Reveal delay={140}>
+          <div className="mt-16">
+            <ExposeVergleich />
+          </div>
+        </Reveal>
 
         <Reveal delay={160}>
           <p className="mt-16 max-w-[42ch] text-[20px] font-medium leading-snug tracking-[-0.012em] text-ink-cream md:mt-20 md:text-[24px]">
