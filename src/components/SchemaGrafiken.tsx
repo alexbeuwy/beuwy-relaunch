@@ -1,3 +1,4 @@
+import { Reveal } from "./Reveal";
 import flowStil from "./SchemaGrafiken.module.css";
 
 import { Logo } from "./Logo";
@@ -181,7 +182,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     nachher: { wert: 2300, label: "2.300+" },
     faktor: "38×",
     zeitraum: "seit dem Relaunch",
-    dauerMs: "1500ms",
+    dauerMs: "2600ms",
   },
   {
     kunde: "acta",
@@ -189,7 +190,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     vorher: { wert: 0, label: "0" },
     nachher: { wert: 380, label: "380" },
     zeitraum: "in drei Jahren",
-    dauerMs: "1100ms",
+    dauerMs: "2000ms",
     fussnote: "Vertrieb über Instagram-Anzeigen, selbst aufgebaut",
   },
   {
@@ -197,7 +198,7 @@ const WIRKUNGS_SPUREN: Spur[] = [
     einheit: "Abschlussvolumen",
     nachher: { wert: 342000, label: "342.000 €" },
     zeitraum: "in den ersten sechs Wochen",
-    dauerMs: "800ms",
+    dauerMs: "1500ms",
     fussnote: "neun Abschlüsse in diesem Zeitraum",
   },
 ];
@@ -223,7 +224,7 @@ function SpurGrafik({ spur }: { spur: Spur }) {
                 className={`absolute inset-y-0 left-0 rounded-full ${flowStil.fuellung}`}
                 style={{
                   "--ziel": `${Math.max((vorherAnteil ?? 0) * 100, 2)}%`,
-                  "--dauer": "900ms",
+                  "--dauer": "1400ms",
                   background: "var(--chart-kontext)",
                 } as React.CSSProperties}
               />
@@ -266,8 +267,10 @@ function SpurGrafik({ spur }: { spur: Spur }) {
 }
 
 export function WirkungsSpuren() {
+  // Eigene, SPÄTE Reveal-Hülle (Alex, 26.08): am Sektions-Reveal hingen
+  // die Balken zu früh — fertig gefüllt, bevor sie im Viewport standen.
   return (
-    <div className="grid gap-5 md:grid-cols-3">
+    <Reveal spaet className="grid gap-5 md:grid-cols-3">
       {WIRKUNGS_SPUREN.map((spur) => (
         <figure
           key={spur.kunde}
@@ -297,6 +300,6 @@ export function WirkungsSpuren() {
           </p>
         </figure>
       ))}
-    </div>
+    </Reveal>
   );
 }

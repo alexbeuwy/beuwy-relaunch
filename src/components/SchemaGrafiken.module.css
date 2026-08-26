@@ -13,7 +13,7 @@
 }
 [data-reveal][data-state="shown"] .fuellung {
   width: var(--ziel, 100%);
-  transition: width var(--dauer, 1000ms) var(--ease-smooth-out);
+  transition: width var(--dauer, 1000ms) var(--ease-smooth-out) 150ms;
 }
 
 .konfetti {
@@ -39,7 +39,7 @@
 }
 [data-reveal][data-state="shown"] .partikel {
   animation: konfettiPop var(--duration-very-slow) var(--ease-smooth-out) 1 both;
-  animation-delay: var(--dauer, 1000ms);
+  animation-delay: calc(var(--dauer, 1000ms) + 150ms);
 }
 .partikel:nth-child(1) { --wx: 14px;  --wy: -18px; --rot: 80deg; }
 .partikel:nth-child(2) { --wx: 22px;  --wy: -6px;  --rot: -60deg; }
