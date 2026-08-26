@@ -102,13 +102,13 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
         <span className="pointer-events-none absolute bottom-[30%] right-[47vw] z-0 hidden h-48 w-48 rounded-full border border-ink-yellow/20 lg:block" aria-hidden />
 
         {/* Textspalte */}
-        <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-16 pt-28 lg:min-h-[92dvh] lg:max-w-none lg:pl-[max(24px,calc((100vw-1280px)/2))] lg:pr-[55vw] lg:pt-24">
+        <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-16 pt-28 lg:min-h-[92dvh] lg:max-w-none lg:pl-[max(40px,calc((100vw-1120px)/2))] lg:pr-[55vw] lg:pt-24">
           <p className={`t-label !text-ink-yellow ${stil.enter}`} style={{ "--i": 0 } as React.CSSProperties}>{c["mk.hero.eyebrow"]}</p>
           {/* H1 endet vor dem rotierenden Zielgruppen-Wort (BRIEF §9);
               der Punkt lebt im RotationsWort, damit der Breitenwechsel
               nichts außerhalb reflowt. */}
           <h1
-            className={`mt-5 font-display text-[clamp(34px,4.2vw,58px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink-cream [text-wrap:balance] ${stil.enter}`}
+            className={`mt-5 font-display text-[clamp(32px,3.5vw,50px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink-cream [text-wrap:balance] ${stil.enter}`}
             style={{ "--i": 1 } as React.CSSProperties}
           >
             {rich(c["mk.hero.title"] ?? "")}{" "}
@@ -165,9 +165,12 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
         <div className="rounded-[24px] border border-line-subtle bg-bg-base px-8 py-6 lg:px-12">
           <p className="t-label !text-[10.5px]">{c["mk.trust.label"]}</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-10 gap-y-4">
-            {marken.map((name) => (
-              <LogoSlot key={name} name={name} slug={MARKEN_SLUGS[name] ?? slugifyMarke(name)} />
-            ))}
+            {marken.map((name) => {
+              const slug = MARKEN_SLUGS[name] ?? slugifyMarke(name);
+              // Gestapelte Lockups (Schild + Wort + Claim) brauchen mehr
+              // Höhe als die langen einzeiligen Wortmarken.
+              return <LogoSlot key={name} name={name} slug={slug} hoehe={slug === "kensington" ? 34 : 20} />;
+            })}
           </div>
         </div>
       </div>

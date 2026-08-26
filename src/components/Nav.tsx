@@ -42,7 +42,7 @@ export function Nav() {
         Zum Inhalt springen
       </a>
 
-      <div className="mx-auto grid h-16 max-w-[1120px] grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-10">
+      <div className="mx-auto grid h-16 max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-10">
         <div className="flex items-center">
           <Logo />
         </div>
