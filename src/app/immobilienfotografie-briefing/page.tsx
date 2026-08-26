@@ -24,7 +24,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Immobilienfotografie: Das Briefing, das Objekte größer macht | beuwy",
   description:
-    "Immobilienfotografie briefen Sie mit einem festen Dokument statt einem Zuruf am Terminmorgen: Golden Hour, feste Achsen, Pflichtaufnahmen, Bildrechte und Lieferformat in fünf Punkten.",
+    "Immobilienfotografie briefen Sie mit einem Dokument: Golden Hour, feste Achsen, Pflichtaufnahmen je Raum, Bildrechte und Lieferformat in fünf Punkten.",
   openGraph: {
     title: "Immobilienfotografie: Das Briefing, das Objekte größer macht | beuwy",
     description:

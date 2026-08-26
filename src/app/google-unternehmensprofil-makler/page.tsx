@@ -25,7 +25,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Google-Unternehmensprofil für Makler: Die unterschätzte Startseite | beuwy",
   description:
-    "Google-Unternehmensprofil optimieren heißt für Makler: Kategorie exakt setzen, Fotos aktuell halten, Q&A selbst beantworten. Die vier Bausteine plus Wochenroutine zum Übernehmen.",
+    "Google-Unternehmensprofil optimieren heißt für Makler: Kategorie exakt setzen, Fotos aktuell halten, Q&A beantworten — vier Bausteine plus Wochenroutine.",
   openGraph: {
     title: "Google-Unternehmensprofil für Makler: Die unterschätzte Startseite | beuwy",
     description:

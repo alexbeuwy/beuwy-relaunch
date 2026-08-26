@@ -26,7 +26,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Video für Makler: Vom Rundgang zum Vertrauensaufbau | beuwy",
   description:
-    "Video für Makler heißt drei Typen kennen: Objektvideo, Markenvideo, Personenvideo. Aufwand, Wirkung und Einsatzort im Vergleich, plus das Hero-Video-Prinzip der eigenen Seite.",
+    "Video für Makler heißt drei Typen kennen: Objektvideo, Markenvideo, Personenvideo, mit Aufwand und Wirkung im Vergleich, plus dem Hero-Video-Prinzip erklärt.",
   openGraph: {
     title: "Video für Makler: Vom Rundgang zum Vertrauensaufbau | beuwy",
     description:

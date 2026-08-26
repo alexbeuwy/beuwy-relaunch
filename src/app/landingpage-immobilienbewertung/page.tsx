@@ -23,7 +23,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
   description:
-    "Die Bewertungs-Landingpage überzeugt Eigentümer in vier Sektionen: Hook, Rechner, Beweis, Formular. So baut beuwy die Seite, die aus einem Klick eine Anfrage macht.",
+    "Die Bewertungs-Landingpage überzeugt Eigentümer in vier Sektionen: Hook, Rechner, Beweis, Formular — die Seite, die aus einem Klick eine Anfrage macht.",
   openGraph: {
     title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
     description:

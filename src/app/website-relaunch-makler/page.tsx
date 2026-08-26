@@ -25,7 +25,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Website-Relaunch ohne Sichtbarkeitsverlust: Die Makler-Checkliste | beuwy",
   description:
-    "Website-Relaunch ohne Sichtbarkeitsverlust: Redirect-Plan, Inhalts-Inventur und Messpunkte vorher/nachher als Checkliste — inklusive der häufigsten Relaunch-Unfälle.",
+    "Website-Relaunch ohne Sichtbarkeitsverlust: Redirect-Plan, Inhalts-Inventur und Messpunkte vorher/nachher als Checkliste gegen typische Relaunch-Unfälle.",
   openGraph: {
     title: "Website-Relaunch ohne Sichtbarkeitsverlust: Die Makler-Checkliste | beuwy",
     description:

@@ -23,7 +23,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
   description:
-    "Makler-Newsletter, die geöffnet werden: sieben Mail-Anlässe mit Betreff und Aufbau zum Übernehmen — plus die Abgrenzung Massen-Newsletter gegen die persönliche Datenmail.",
+    "Makler-Newsletter, die geöffnet werden: sieben Mail-Anlässe mit Betreff und Aufbau zum Übernehmen, plus die Abgrenzung Massen-Newsletter gegen die Datenmail.",
   openGraph: {
     title: "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
     description:
