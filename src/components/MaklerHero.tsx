@@ -73,13 +73,12 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
           <AiPille className="!bottom-auto !top-4 right-4" />
           </div>
 
-          {/* Floating Card (Referenz 1, Glass-Fassung): schwebt im
-              oberen Bilddrittel und ragt über die linke Videokante in
-              den Weiß-Fade (Layering) — statt am unteren Rand zu
-              kleben. Glas + umlaufende Beam-Kontur + Zeitlupen-
-              Schweben: MaklerHero.module.css. */}
+          {/* Floating Card (Referenz 1, Glass-Fassung): schwebt unten
+              rechts im Video, mit Luft zum Rand (Alex, 26.08). Glas +
+              umlaufende Beam-Kontur + Zeitlupen-Schweben:
+              MaklerHero.module.css. */}
           <div
-            className={`absolute bottom-6 left-6 z-10 lg:bottom-auto lg:left-[-64px] lg:top-[24%] ${stil.enter}`}
+            className={`absolute bottom-6 right-6 z-10 lg:bottom-[12%] lg:right-10 ${stil.enter}`}
             style={{ "--i": 4 } as React.CSSProperties}
           >
             <div className={stil.karteRahmen}>
