@@ -18,6 +18,18 @@ export function maklerAsset(nummer: number): string {
 export const HERO_VIDEO = `${BASIS}/hero-video.webm`;
 
 /**
+ * Weitere Videos (Alex, 26.08). Größen beachten (BRIEF §9):
+ * - PORTRAIT_VIDEO (9:16, 5,2 MB): bewegter VSL-Platzhalter — nur
+ *   lazy laden (erst im Viewport), nie mit preload="auto".
+ * - LOFT_VIDEO (5,0 MB): frei für eine Sektions-Plate, preload="none".
+ * - HERO_SCHNITT (7,1 MB): der große Zusammenschnitt — wegen Ladezeit
+ *   NIEMALS als Autoplay-Default, höchstens klick-initiiert.
+ */
+export const PORTRAIT_VIDEO = `${BASIS}/aus-dem-fenster-gucken-shot-portrait-shot.webm`;
+export const LOFT_VIDEO = `${BASIS}/wide-angle-loft-shot.webm`;
+export const HERO_SCHNITT = `${BASIS}/Hero-Alle-Videos.webm`;
+
+/**
  * Echtes Gründerporträt (Platzhalter-Fassung, 1200×1200) — im Gegensatz
  * zu den makler-*-Bildern KEIN KI-Bild, also nie mit <AiPille /> labeln.
  */

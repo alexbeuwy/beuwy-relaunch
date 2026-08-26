@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AiPille } from "./AiPille";
 import { rich } from "./RichText";
 import { LogoSlot, MARKEN_SLUGS, slugifyMarke } from "./MaklerElemente";
+import { RotationsWort } from "./RotationsWort";
 import { HERO_POSTER, HERO_VIDEO, maklerAsset } from "@/lib/cdn";
 import stil from "./MaklerHero.module.css";
 
@@ -45,7 +46,10 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
       <div className="relative min-h-[92dvh]">
         {/* Video-Plate: läuft an den rechten und oberen Rand, nur unten
             links gerundet. Mobile: eigener Block unter dem Text. */}
-        <div className="relative mt-4 aspect-[4/3] w-full overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:h-full lg:w-[52vw] lg:rounded-bl-[48px]">
+        <div className="relative mt-4 aspect-[4/3] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:h-full lg:w-[52vw]">
+          {/* Innerer Clip-Rahmen: Rundung + overflow hier, damit die
+              Floating Card außen über die Kante ragen darf. */}
+          <div className="absolute inset-0 overflow-hidden lg:rounded-bl-[48px]">
           <video
             src={HERO_VIDEO}
             poster={HERO_POSTER}
@@ -67,22 +71,32 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
           {/* Linke Bildkante fadet ins Weiß (nur Desktop) */}
           <span className="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-bg-base to-transparent lg:block" />
           <AiPille className="!bottom-auto !top-4 right-4" />
+          </div>
 
-          {/* Floating Card auf dem Video (Referenz 1) */}
+          {/* Floating Card (Referenz 1, Glass-Fassung): schwebt im
+              oberen Bilddrittel und ragt über die linke Videokante in
+              den Weiß-Fade (Layering) — statt am unteren Rand zu
+              kleben. Glas + umlaufende Beam-Kontur + Zeitlupen-
+              Schweben: MaklerHero.module.css. */}
           <div
-            className={`absolute bottom-8 left-6 flex items-center gap-4 rounded-2xl bg-white/95 p-5 pr-6 backdrop-blur-sm lg:bottom-14 lg:left-14 ${stil.enter}`}
+            className={`absolute bottom-6 left-6 z-10 lg:bottom-auto lg:left-[-64px] lg:top-[24%] ${stil.enter}`}
+            style={{ "--i": 4 } as React.CSSProperties}
           >
-            <div>
-              <p className="t-label !text-[10px]">{c["mk.hero.badge_label"]}</p>
-              <p className="mt-1 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
-                {c["mk.hero.badge_wert"]}
-              </p>
-              <p className="mt-1 text-[13px] leading-snug text-ink-muted">
-                {c["mk.hero.badge_text"]}
-              </p>
-            </div>
-            <div className="relative hidden h-20 w-16 overflow-hidden rounded-lg sm:block">
-              <Image src={maklerAsset(19)} alt="" fill sizes="64px" className="object-cover" />
+            <div className={stil.karteRahmen}>
+              <div className={`flex items-center gap-4 p-5 pr-6 ${stil.karteGlas}`}>
+                <div>
+                  <p className="t-label !text-[10px]">{c["mk.hero.badge_label"]}</p>
+                  <p className="mt-1 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
+                    {c["mk.hero.badge_wert"]}
+                  </p>
+                  <p className="mt-1 text-[13px] leading-snug text-ink-muted">
+                    {c["mk.hero.badge_text"]}
+                  </p>
+                </div>
+                <div className="relative hidden h-20 w-16 overflow-hidden rounded-lg sm:block">
+                  <Image src={maklerAsset(19)} alt="" fill sizes="64px" className="object-cover" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,11 +108,20 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
         {/* Textspalte */}
         <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-16 pt-28 lg:min-h-[92dvh] lg:max-w-none lg:pl-[max(24px,calc((100vw-1280px)/2))] lg:pr-[55vw] lg:pt-24">
           <p className={`t-label !text-ink-yellow ${stil.enter}`} style={{ "--i": 0 } as React.CSSProperties}>{c["mk.hero.eyebrow"]}</p>
+          {/* H1 endet vor dem rotierenden Zielgruppen-Wort (BRIEF §9);
+              der Punkt lebt im RotationsWort, damit der Breitenwechsel
+              nichts außerhalb reflowt. */}
           <h1
-            className={`mt-5 font-display text-[clamp(40px,4.8vw,68px)] font-bold leading-[1.02] tracking-[-0.03em] text-ink-cream [text-wrap:balance] ${stil.enter}`}
+            className={`mt-5 font-display text-[clamp(34px,4.2vw,58px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink-cream [text-wrap:balance] ${stil.enter}`}
             style={{ "--i": 1 } as React.CSSProperties}
           >
-            {rich(c["mk.hero.title"] ?? "")}
+            {rich(c["mk.hero.title"] ?? "")}{" "}
+            <RotationsWort
+              woerter={(c["mk.hero.rotation"] ?? "Maklern")
+                .split("|")
+                .map((w) => w.trim())
+                .filter(Boolean)}
+            />
           </h1>
           <p className={`t-body-lg mt-6 max-w-[36rem] ${stil.enter}`} style={{ "--i": 2 } as React.CSSProperties}>
             {c["mk.hero.subtitle"]}

@@ -42,6 +42,23 @@ Ausführung: Sonnet-5-Subagents (Alex' Vorgabe), Orchestrator vergibt
 Briefs = BRIEF.md + Gates-Datei + Leaf-Auftrag. B3/B4 nach Checkpoint;
 C–G parallelisierbar (disjunkte Dateien), H sequenziell am Ende.
 
+## Baum R2 — Repositionierung (BRIEF §9, Alex 26.08)
+
+- **R2** Unternehmensberatung · Portale statt Websites · 17 Jahre
+  - **R2-O Orchestrator selbst:** BRIEF §9, Hero (H1 kleiner +
+    Zielgruppen-Rotation), VslSlot bewegter Platzhalter, cdn.ts-Videos,
+    content.ts-Keys, Wiring der Schema-Grafiken — `gates/R2-O.md`
+  - R2-1 Schema-Grafiken (Performance-Marketing-Flow ~5 %,
+    Standard-Exposé vs. Maßarbeit) `src/components/SchemaGrafiken.tsx` — `gates/R2-1.md`
+  - R2-2 Startseiten-Copy-Overhaul StartOben/StartUnten (Portal, AI-Pain,
+    Ticketsystem; KEINE content.ts-Edits, Wunsch-Keys melden) — `gates/R2-2.md`
+  - R2-3 `/ki-fuer-immobilienmakler` — `gates/R2-3.md`
+  - R2-4 `/immobilienmarketing-agentur` (Capture: Beratung statt Agentur) — `gates/R2-4.md`
+  - R2-5 `/marketing-projektentwickler` + `/marketing-bautraeger` — `gates/R2-5.md`
+  - R2-6 Repositionierungs-/Humanizer-Pass Bestandsseiten + Footer — `gates/R2-6.md`
+  - R2-7 GEO/SEO-Paket: llms.txt, JSON-LD, sitemap/robots, interne Links — `gates/R2-7.md`
+  - R2-H Abnahme: Build, Shots, Grep-Gates (Agentur/kostenlos), Push — `gates/R2-H.md`
+
 ## Statuslog (append-only)
 
 - 2026-08-25 Baum angelegt, A1/A2 begonnen (Orchestrator).

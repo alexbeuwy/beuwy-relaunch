@@ -102,7 +102,7 @@ und zu `/anfrage`.
 
 | Route | Title-Keyword | Job |
 |---|---|---|
-| `/` | Immobilienmarketing Premium-Agentur | Haupt-VSL |
+| `/` | Immobilienmarketing (Unternehmensberatung, nie „Agentur") | Haupt-VSL |
 | `/immobilienmarketing` | Immobilienmarketing | Hub, verlinkt alles |
 | `/leadgenerierung-immobilienmakler` | Leadgenerierung Immobilienmakler | Problem→System |
 | `/website-fuer-immobilienmakler` | Website für Immobilienmakler | Kernleistung |
@@ -161,3 +161,73 @@ nie Feature → Feature:**
 
 Diese Übersetzungstabelle ist der Ton für die 3 Hebel-Beispiele je
 Säule (§6, Block 5) und für die Case-Restyles (G1).
+
+## 9. Repositionierung R2 (Alex, 26.08) — Contract-Update
+
+Gilt zusätzlich zu §5; bei Widerspruch gewinnt §9.
+
+**Was beuwy ist:** eine **Unternehmensberatung** für Immobilienunternehmen.
+Das Wort „Agentur" ist für beuwy selbst VERBOTEN — es darf nur die
+anderen bezeichnen (Abgrenzung, Preisvergleich). Grep-Gate: kein
+Vorkommen von „Agentur" in Selbstbeschreibung (Footer, llms.txt,
+Metadata, About-Sätze).
+
+**Was beuwy verkauft:** keine Websites. **Portale** — Auftritte, die
+nicht als schicke Visitenkarte dienen, sondern messbar Mandate und
+Deals erzeugen. Systematisch, seit 17 Jahren, mit nachweisbaren
+Erfolgen (Zahl 17 existiert als `mk.stats.s3`). Das Wort „Website"
+bleibt in SEO-Keywords/Titles erlaubt (Suchvolumen), aber die
+Verkaufs-Copy dreht auf Portal/System/Mandate/Deals.
+
+**Zielgruppen (Hero rotiert):** Makler · Projektentwickler · Bauträger ·
+Vertriebsteams. Unterseiten je Zielgruppe (siehe R2-Seiten).
+
+**AI-Narrativ (ersetzt jede generische KI-Erwähnung):** Der Schmerz:
+Jede Woche ein neues Modell — ChatGPT, Claude, Kimi, DeepSeek — niemand
+kommt mit. Selbst wer promptet, bekommt Nettes: mal ein Text, eine
+Mail, ein Dokument. Aber Systeme? Prozesse abgeben? Agenten? Unverständlich.
+beuwy übersetzt das in nutzbare Abläufe, die im Alltag Arbeit abnehmen.
+
+**No-Brainer-Schema (Grafik + Copy):** Links der Standard: BOTTIMMO-
+oder onOffice-Exposés und -Dokumente — für jeden gleich, austauschbar,
+Anpassung schwierig. Rechts beuwy: maßgeschneiderte Dokumente und
+Kommunikation, automatisierte Prozesse, die überzeugen und Service auch
+mit kleinem Team einfach machen. Systeme, die an alles denken, damit
+man selbst nicht daran denken muss — Fokus auf Deals und das Unternehmen.
+
+**Performance-Marketing (Grafik, ganz simpel, clean):** Aufmerksamkeit
+von außen → Marke → Anfragen → systematisch ~5 % der Erreichten werden
+registrierte Kontakte (Mandanten, Kunden, Interessenten). Zahl als
+Studio-Key.
+
+**Service-Beweis:** Ein Ansprechpartner, der nach Ticketsystem
+nachweisbar arbeitet — niemand fragt nach zwei Wochen: „Wie weit ist
+mein Dokument? Mein Rechner? Meine Anpassung?" Gehört in den
+Prozess-Block und auf Unterseiten.
+
+**Videos (BunnyCDN, Stand 26.08):** `hero-video.webm` (2,0 MB) bleibt
+Hero-Default (Ladezeit!). `Hero-Alle-Videos.webm` (7,1 MB) NICHT als
+Default laden — höchstens klick-initiiert. `aus-dem-fenster-gucken-
+shot-portrait-shot.webm` (5,2 MB, 9:16) = bewegter VSL-Platzhalter
+(preload="none", Poster zuerst). `wide-angle-loft-shot.webm` (5,0 MB)
+frei für eine Sektions-Plate auf einer R2-Seite (preload="none").
+
+**R2-Seiten (neu, gleiche XXL-Systematik):**
+| Route | Title-Keyword | Job |
+|---|---|---|
+| `/ki-fuer-immobilienmakler` | KI für Immobilienmakler | AI-Pain → nutzbare Systeme |
+| `/immobilienmarketing-agentur` | Immobilienmarketing Agentur | Capture-Page: warum Beratung statt Agentur |
+| `/marketing-projektentwickler` | Marketing für Projektentwickler | Zielgruppe 2 |
+| `/marketing-bautraeger` | Marketing für Bauträger | Zielgruppe 3 |
+
+**GEO/SEO-Paket:** llms.txt-Vollausbau (Leistungen, Zielgruppen, Zahlen,
+Vergleiche), JSON-LD (Organization + Service auf Layout-Ebene, FAQPage
+auf Seiten mit FAQ), sitemap/robots um R2-Seiten, interne Verlinkung
+Hub ↔ R2-Seiten ↔ Cluster, Footer-Wissen-Spalte erweitert. Ziel:
+Erwähnung in KI-Antworten und Platz-1-Snippets — jede Seite beantwortet
+ihre Suchfrage im ersten Absatz wörtlich.
+
+**Humanizer-Gate:** Jede neue/geänderte Copy läuft gegen
+`.claude/skills/humanizer/SKILL.md` (35 Muster) UND deutsche-werbetexte.
+Kein Em-Dash-Teppich, keine Dreier-Listen-Zwänge, keine „nicht nur X,
+sondern Y"-Ketten, aktive Verben, is/hat statt „dient als".

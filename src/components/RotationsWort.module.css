@@ -1,0 +1,26 @@
+/* RotationsWort — Wortwechsel im Hero. Ein-Animation beim key-Remount,
+   ausschließlich über die Motion-Tokens (globals.css). Kein Raus-Faden:
+   der Remount ersetzt hart, die Ein-Bewegung von unten trägt den
+   Wechsel. Bei reduced-motion rotiert die Komponente gar nicht erst
+   (JS-seitig), die Animation hier ist nur Gürtel + Hosenträger. */
+.wort {
+  display: inline-block;
+  animation: wortEin var(--duration-medium) var(--ease-smooth-out) both;
+}
+
+@keyframes wortEin {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wort {
+    animation: none;
+  }
+}

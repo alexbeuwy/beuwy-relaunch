@@ -190,9 +190,10 @@ export const DEFAULTS: Record<string, string> = {
      Namen im Studio an, bevor Freigaben stehen. */
 
   "mk.hero.eyebrow": "Marke · Website · KI-Automatisierung",
-  "mk.hero.title": "Das Marketing hinter den *besten* Maklern Deutschlands.",
+  "mk.hero.title": "Das System hinter Deutschlands *besten*",
+  "mk.hero.rotation": "Maklern|Projektentwicklern|Bauträgern|Kapitalanlage-Vertrieben",
   "mk.hero.subtitle":
-    "beuwy baut Marke, Website, E-Mail und KI-Automatisierung für Makler, die ihren Vorsprung ausbauen statt ihn zu verwalten — done for you, geliefert in Wochen.",
+    "beuwy baut keine schicken Visitenkarten, sondern Portale, die messbar Mandate und Deals erzeugen — Marke, Auftritt, Funnel und Automatisierung aus einer Hand, geliefert in Wochen.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
   "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
   "mk.hero.cta2": "Ergebnisse ansehen",
@@ -218,6 +219,8 @@ export const DEFAULTS: Record<string, string> = {
 
   "mk.integrationen.label": "Nahtlos mit den Tools, die Sie schon nutzen",
   "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
+
+  "mk.pm.quote": "5 %",
 };
 
 export const FIELD_LABELS: Record<string, string> = {
@@ -244,7 +247,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "fit.line2": "Filter · Schwelle 15.000 €",
   "termin.title": "/termin · Kopfzeile",
   "mk.hero.eyebrow": "Makler · Hero · Eyebrow",
-  "mk.hero.title": "Makler · Hero · H1 (*Wort* = Hervorhebung)",
+  "mk.hero.title": "Makler · Hero · H1 vor dem Rotationswort (*Wort* = Hervorhebung)",
+  "mk.hero.rotation": "Makler · Hero · Rotationswörter, mit | getrennt (Dativ, Punkt kommt automatisch)",
   "mk.hero.subtitle": "Makler · Hero · Subline",
   "mk.hero.cta": "Makler · Der eine CTA-Wortlaut",
   "mk.hero.cta_hinweis": "Makler · Mikrozeile unter dem CTA",
@@ -262,6 +266,7 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.vsl.url": "Makler · VSL-Video-URL (leer = Platzhalter)",
   "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
   "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
+  "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */

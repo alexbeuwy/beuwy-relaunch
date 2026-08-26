@@ -1,24 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AiPille } from "./AiPille";
-import { maklerAsset } from "@/lib/cdn";
+import { PORTRAIT_VIDEO, maklerAsset } from "@/lib/cdn";
 
 /**
  * 9:16-Slot für das VSL-Video (Alex nimmt es mit OBS auf). Solange
- * keine Video-URL im Studio hinterlegt ist, steht ein ruhiges
- * Poster-Bild mit Play-Affordance — die Sektion funktioniert auch ohne
- * Video, bricht also nie leer.
+ * keine Video-URL im Studio hinterlegt ist, steht ein bewegter
+ * Platzhalter: das Portrait-Loop-Video aus der Kampagnenwelt, geladen
+ * erst wenn der Slot im Viewport steht (5,2 MB, BRIEF §9) — davor und
+ * ohne JS trägt das Poster. Die Sektion bricht nie leer.
  *
  * Studio-Key: `vsl.url` (leer = Platzhalter). Formate: mp4/webm-URL.
  */
 export function VslSlot({ videoUrl, posterNummer = 14 }: { videoUrl?: string; posterNummer?: number }) {
   const [spielt, setSpielt] = useState(false);
+  const [imViewport, setImViewport] = useState(false);
+  const rahmen = useRef<HTMLDivElement>(null);
   const hatVideo = Boolean(videoUrl && videoUrl.startsWith("http"));
 
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const node = rahmen.current;
+    if (!node) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setImViewport(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+    obs.observe(node);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <div className="relative mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-[24px] border border-line-subtle bg-bg-elevated">
+    <div ref={rahmen} className="relative mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-[24px] border border-line-subtle bg-bg-elevated">
       {hatVideo && spielt ? (
         // eslint-disable-next-line jsx-a11y/media-has-caption
         <video
@@ -43,6 +63,18 @@ export function VslSlot({ videoUrl, posterNummer = 14 }: { videoUrl?: string; po
             sizes="340px"
             className="object-cover"
           />
+          {/* Bewegter Platzhalter über dem Poster, erst im Viewport geladen */}
+          {imViewport && !hatVideo && (
+            <video
+              src={PORTRAIT_VIDEO}
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
           <AiPille />
           <span className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
           <span

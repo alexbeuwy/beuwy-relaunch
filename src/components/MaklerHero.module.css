@@ -38,11 +38,72 @@
   }
 }
 
+/* Floating Card (Alex, 26.08): Glassmorphism mit umlaufender
+   Beam-Kontur und Zeitlupen-Schweben. Beide Dauerbewegungen sind wie
+   die 40s-Stempeldrehung bewusste, hier benannte Ausnahmen von der
+   Duration-Skala — die Skala endet bei 500ms, Ambient-Loops brauchen
+   Minuten-Nähe, sonst werden sie zappelig. */
+.karteRahmen {
+  position: relative;
+  border-radius: 20px;
+  padding: 1px; /* die Beam-Kontur läuft in diesem 1px-Ring */
+  overflow: hidden;
+  animation: karteSchweben 7s var(--ease-in-out) infinite alternate;
+  will-change: transform;
+}
+
+.karteRahmen::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 300deg,
+    rgba(243, 226, 127, 0.95) 330deg,
+    rgba(255, 255, 255, 0.9) 345deg,
+    transparent 360deg
+  );
+  animation: karteBeam 14s linear infinite;
+}
+
+.karteGlas {
+  position: relative;
+  border-radius: 19px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 32px rgba(20, 20, 18, 0.10);
+}
+
+@keyframes karteSchweben {
+  from {
+    transform: translateY(-5px);
+  }
+  to {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes karteBeam {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .enter,
   .mediaEnter {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+  .karteRahmen {
+    animation: none;
+  }
+  .karteRahmen::before {
+    animation: none;
+    opacity: 0.5;
   }
 }
