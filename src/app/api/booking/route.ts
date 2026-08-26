@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { sendMail, emailLayout, emailRows } from "@/lib/email";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { terminSchema, pruefeFormular } from "@/lib/validierung";
 
 /**
  * Terminanfragen aus dem Buchungstool (portiert aus dem Riegel-Projekt,
  * ohne Supabase-Persistenz — Leads gehen per Resend-Mail an EMAIL_TO).
  * Ohne RESEND_API_KEY: ehrlicher Demo-Modus — die Antwort trägt demo:true,
  * das UI kennzeichnet das; die Anfrage landet zusätzlich im Server-Log.
+ *
+ * Name/E-Mail/Telefon/Datum/Uhrzeit laufen über terminSchema aus
+ * src/lib/validierung.ts (zod statt Hand-Regex); Honeypot-Erkennung
+ * ebenfalls über pruefeFormular — Bots bekommen weiterhin 200 mit
+ * skipped:true, ohne dass eine Mail verschickt wird.
  */
 
 export const runtime = "nodejs";
@@ -32,29 +38,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "bad request" }, { status: 400 });
   }
 
-  // Honeypot: unsichtbares Feld — von Menschen leer, von Bots gefüllt.
-  if (clean(b.website, 200)) {
-    return NextResponse.json({ ok: true, delivered: false, skipped: true });
-  }
-
   const type = clean(b.type, 120);
   const mode = clean(b.mode, 60);
   const duration = clean(b.duration, 10);
-  const date = clean(b.date, 40);
-  const time = clean(b.time, 20);
-  const name = clean(b.name, 200);
-  const email = clean(b.email, 200);
-  const phone = clean(b.phone, 80);
   const messageTxt = clean(b.message, 2000);
 
-  if (
-    !name ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-    !/^\d{2}:\d{2}$/.test(time) ||
-    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)
-  ) {
+  const pruefung = pruefeFormular(terminSchema, {
+    name: b.name,
+    email: b.email,
+    phone: b.phone,
+    date: b.date,
+    time: b.time,
+    website: b.website,
+  });
+
+  if (pruefung.ok && pruefung.bot) {
+    // Honeypot: unsichtbares Feld — von Menschen leer, von Bots gefüllt.
+    // Bot sieht Erfolg, es wird aber keine Mail verschickt.
+    return NextResponse.json({ ok: true, delivered: false, skipped: true });
+  }
+
+  if (!pruefung.ok) {
     return NextResponse.json({ ok: false, error: "validation" }, { status: 422 });
   }
+
+  const { name, email, phone, date, time } = pruefung.daten;
 
   const rows = emailRows([
     { label: "Anlass", value: esc(type) },

@@ -5,6 +5,7 @@ import { rich } from "./RichText";
 import { Reveal } from "./Reveal";
 import { GelbeKarte, Highlight, KreisDeko, SektionsKopf, StempelBadge } from "./MaklerElemente";
 import { TrustMeilensteine } from "./TrustMeilensteine";
+import { WirkungsSpuren } from "./SchemaGrafiken";
 import { caseBySlug, type CaseStudy } from "@/lib/cases";
 import { maklerAsset } from "@/lib/cdn";
 import stil from "./StartUnten.module.css";
@@ -176,6 +177,18 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
           <Reveal delay={80}>
             <div className="mt-20">
               <TrustMeilensteine c={c} />
+            </div>
+          </Reveal>
+
+          {/* Vorher/Nachher je Fall — eigene Skala pro Einheit, nur
+              belegte Zahlen (die zwei als Beispielprojekt markierten
+              Fallstudien stehen bewusst NICHT hier). */}
+          <Reveal delay={90}>
+            <div className="mt-14 border-t border-line-subtle pt-14">
+              <p className="t-label !text-[10.5px]">Was danach messbar passiert ist</p>
+              <div className="mt-8">
+                <WirkungsSpuren />
+              </div>
             </div>
           </Reveal>
 

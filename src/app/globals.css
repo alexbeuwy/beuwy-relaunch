@@ -112,6 +112,15 @@
     --akzent-hover: #eed96a;
     --akzent-wash: #fbf5d6; /* zarte gelbe Fläche für Highlights */
     --gold: #c2a13c; /* Akzent als Text — das eine betonte Wort */
+
+    /* Chart-Palette (dataviz-Skill, Emphasis-Schema: ein Hue + De-
+       Emphasis-Grau). Beide Werte sind mit dem Paletten-Validator
+       geprueft: normal ΔE 26.1, unter CVD 25.4 — weit ueber der
+       Trennschwelle. --chart-akzent ist bewusst dunkler als --gold,
+       damit duenne Marks auf Weiss noch Kontrast haben. */
+    --chart-akzent: #9a7b18;
+    --chart-akzent-glow: rgba(194, 161, 60, 0.32);
+    --chart-kontext: #c9c9c3;
     --sky: var(--gold); /* Legacy-Alias */
     --sky-deep: #a8892e;
     --sky-wash: rgba(243, 226, 127, 0.25);
