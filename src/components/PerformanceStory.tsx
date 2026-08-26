@@ -83,35 +83,119 @@ function AnzeigenVisual() {
   );
 }
 
-/* ── Visual 2: der Funnel — drei Ebenen, fließende Punkte ─────────── */
+/* ── Visual 2: das Funnel-Band — organisch verjüngend wie ein
+   Analytics-Funnel (Inspo Alex 26.08), in drei Gelb-Schichten eines
+   Hues (sequential, außen hell → Kern kräftig). Die Chips tragen die
+   Prozente in Tinte-Pills, die Stufen stehen als weiße Pills an den
+   Trennlinien. Zwischenwerte sind bewusst als Schema gekennzeichnet —
+   nur die 5 % am Ende ist die kommunizierte Quote (mk.pm.quote). ── */
+const FUNNEL_STUFEN = [
+  { anteil: 100, label: null },
+  { anteil: 38, label: "Bleiben dran" },
+  { anteil: 14, label: "Rechner gestartet" },
+  { anteil: 5, label: "Registriert & qualifiziert" },
+] as const;
+
+/** Weicher Funnel-Pfad: Plateaus je Stufe, S-Kurven an den Wechseln. */
+function funnelPfad(halbhoehen: number[], xs: number[], cy: number, uebergang = 34) {
+  let oben = `M ${xs[0]} ${cy - halbhoehen[0]}`;
+  for (let i = 0; i < halbhoehen.length; i++) {
+    const bis = xs[i + 1];
+    if (i < halbhoehen.length - 1) {
+      const h1 = cy - halbhoehen[i];
+      const h2 = cy - halbhoehen[i + 1];
+      oben += ` L ${bis - uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis + uebergang} ${h2}`;
+    } else {
+      oben += ` L ${bis} ${cy - halbhoehen[i]}`;
+    }
+  }
+  let unten = "";
+  for (let i = halbhoehen.length - 1; i >= 0; i--) {
+    const von = xs[i + 1];
+    const bis = xs[i];
+    if (i === halbhoehen.length - 1) unten += ` L ${von} ${cy + halbhoehen[i]}`;
+    if (i > 0) {
+      const h1 = cy + halbhoehen[i];
+      const h2 = cy + halbhoehen[i - 1];
+      unten += ` L ${bis + uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis - uebergang} ${h2}`;
+    } else {
+      unten += ` L ${bis} ${cy + halbhoehen[i]}`;
+    }
+  }
+  return oben + unten + " Z";
+}
+
 function FunnelVisual() {
-  const EBENEN = [
-    { label: "Besucher", breite: "100%" },
-    { label: "Registriert", breite: "66%" },
-    { label: "Qualifiziert", breite: "38%" },
-  ];
+  const B = 560;
+  const H = 250;
+  const cy = 118;
+  const xs = [0, 168, 322, 452, B];
+  // Halbhöhen je Schicht — ein Hue, außen hell, Kern kräftig
+  const kern = [86, 34, 15, 7];
+  const mitte = kern.map((h) => Math.min(h * 1.45, 96));
+  const aussen = kern.map((h) => Math.min(h * 1.95, 104));
+
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-4">
-      <div className={`relative flex w-full max-w-[380px] flex-col items-center gap-4 ${stil.funnel}`}>
-        {/* fließende Punkte */}
-        <span aria-hidden className={stil.tropfenSpur}>
-          {[0, 1, 2, 3].map((n) => (
-            <span key={n} className={stil.tropfen} style={{ "--n": n } as React.CSSProperties} />
+    <div className="flex h-full flex-col items-center justify-center">
+      <div className="relative w-full max-w-[560px]">
+        <svg viewBox={`0 0 ${B} ${H}`} className="h-auto w-full" role="img" aria-label="Funnel: von 100 % Besuchern zu 5 % registrierten, qualifizierten Kontakten">
+          {/* Trennlinien */}
+          {xs.slice(1, -1).map((x) => (
+            <line key={x} x1={x} y1={10} x2={x} y2={H - 34} stroke="var(--line-subtle)" strokeWidth="1" />
           ))}
-        </span>
-        {EBENEN.map((e, i) => (
-          <div
-            key={e.label}
-            className="flex h-16 items-center justify-center rounded-[14px] border border-line-subtle bg-white"
-            style={{ width: e.breite, opacity: 1 - i * 0.0 }}
-          >
-            <span className="text-[13.5px] font-medium text-ink-cream">{e.label}</span>
-          </div>
-        ))}
-        <div className="flex h-16 w-[38%] min-w-[150px] items-center justify-center rounded-[14px] bg-akzent">
-          <span className="text-[13.5px] font-semibold text-ink-cream">Im CRM, mit Score</span>
-        </div>
+          {/* drei Schichten, ein Hue */}
+          <path d={funnelPfad(aussen, xs, cy)} fill="var(--akzent-wash)" />
+          <path d={funnelPfad(mitte, xs, cy)} fill="rgba(243, 226, 127, 0.5)" />
+          <path d={funnelPfad(kern, xs, cy)} fill="var(--akzent)" />
+          {/* Prozent-Chips in Tinte auf Plateau-Mitte */}
+          {FUNNEL_STUFEN.map((stufe, i) => {
+            const x = (xs[i] + xs[i + 1]) / 2;
+            const breit = stufe.anteil === 100 ? 52 : stufe.anteil >= 10 ? 44 : 38;
+            return (
+              <g key={stufe.anteil}>
+                <rect x={x - breit / 2} y={cy - 13} rx={13} width={breit} height={26} fill="var(--ink-cream)" />
+                <text x={x} y={cy + 4.5} textAnchor="middle" fontSize="12.5" fontWeight="600" fill="#ffffff">
+                  {stufe.anteil} %
+                </text>
+              </g>
+            );
+          })}
+          {/* Stufen-Pills unten an den Trennlinien — lange Labels brechen
+              am „&" in zwei Zeilen, sonst überdecken sich die Nachbarn */}
+          {FUNNEL_STUFEN.map((stufe, i) => {
+            if (!stufe.label) return null;
+            const zeilen =
+              stufe.label.length > 16 && stufe.label.includes(" & ")
+                ? stufe.label.split(" & ").map((t, k) => (k === 0 ? `${t} &` : t))
+                : [stufe.label];
+            const breit = Math.max(...zeilen.map((z) => z.length)) * 6.8 + 20;
+            const hoch = zeilen.length === 1 ? 22 : 34;
+            const oben = H - 8 - hoch;
+            return (
+              <g key={stufe.label}>
+                <rect x={xs[i] - breit / 2} y={oben} rx={11} width={breit} height={hoch} fill="#ffffff" stroke="var(--line-medium)" />
+                {zeilen.map((z, k) => (
+                  <text
+                    key={z}
+                    x={xs[i]}
+                    y={oben + (zeilen.length === 1 ? 15 : 14 + k * 12)}
+                    textAnchor="middle"
+                    fontSize="11"
+                    fontWeight="500"
+                    fill="var(--ink-cream)"
+                  >
+                    {z}
+                  </text>
+                ))}
+              </g>
+            );
+          })}
+        </svg>
       </div>
+      <p className="t-small mt-4 max-w-[46ch] text-center">
+        Schematischer Verlauf — Ihre echten Quoten stehen jeden Montag im
+        Wochenbericht, nicht im Bauchgefühl.
+      </p>
     </div>
   );
 }
