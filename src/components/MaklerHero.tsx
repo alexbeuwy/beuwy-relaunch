@@ -36,9 +36,6 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
     })
     .filter((x) => x.label);
   const marken = (c["mk.trust.namen"] ?? "").split("|").map((n) => n.trim()).filter(Boolean);
-  const stats = [1, 2, 3, 4]
-    .map((i) => ({ wert: c[`mk.stats.s${i}_wert`], label: c[`mk.stats.s${i}_label`] }))
-    .filter((s) => s.wert && s.label);
 
   return (
     <header className="relative bg-bg-base">
@@ -162,30 +159,15 @@ export function MaklerHero({ c }: { c: Record<string, string> }) {
         </div>
       </div>
 
-      {/* ── Abschluss-Leiste: Wordmarks in Markentypo + Zahlenband ── */}
+      {/* ── Abschluss-Leiste: nur die Wordmarks der Maklerhäuser,
+          bewusst flach — Zahlen erzählt die Seite weiter unten ── */}
       <div className="relative mx-auto -mt-2 max-w-[1360px] px-4 pb-4 lg:-mt-14">
-        <div className="rounded-[28px] border border-line-subtle bg-bg-base px-8 py-9 lg:px-12">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
-            <div>
-              <p className="t-label !text-[10.5px]">{c["mk.trust.label"]}</p>
-              <div className="mt-6 flex max-w-[520px] flex-wrap items-center gap-x-9 gap-y-5">
-                {marken.map((name) => (
-                  <LogoSlot key={name} name={name} slug={MARKEN_SLUGS[name] ?? slugifyMarke(name)} />
-                ))}
-              </div>
-            </div>
-            {stats.length > 0 && (
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-line-subtle sm:grid-cols-4 lg:border-l lg:pl-14">
-                {stats.map((s) => (
-                  <div key={s.label}>
-                    <p className="font-display text-[30px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
-                      {s.wert}
-                    </p>
-                    <p className="mt-2 text-[11.5px] leading-snug text-ink-muted">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+        <div className="rounded-[24px] border border-line-subtle bg-bg-base px-8 py-6 lg:px-12">
+          <p className="t-label !text-[10.5px]">{c["mk.trust.label"]}</p>
+          <div className="mt-5 flex flex-wrap items-center gap-x-10 gap-y-4">
+            {marken.map((name) => (
+              <LogoSlot key={name} name={name} slug={MARKEN_SLUGS[name] ?? slugifyMarke(name)} />
+            ))}
           </div>
         </div>
       </div>
