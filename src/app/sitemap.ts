@@ -20,6 +20,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /* Ranking-Asset — Ego-Loop, hohes Verlinkungspotenzial */
     { url: `${base}/beste-maklerwebsites`, changeFrequency: "monthly", priority: 0.8 },
 
+    /* R2-Seiten (BRIEF §9, Repositionierung 26.08) — AI-Pain-Page +
+       Zielgruppen-Unterseiten. Priorität zwischen Kern-Seiten und
+       Cluster: eigenständige Landingpages, aber schmaler als der Hub. */
+    { url: `${base}/ki-fuer-immobilienmakler`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/immobilienmarketing-agentur`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/marketing-projektentwickler`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/marketing-bautraeger`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/marketing-immobilienvertrieb`, changeFrequency: "monthly", priority: 0.75 },
+
     /* Cluster-Seiten (Vergleich) */
     { url: `${base}/bottimmo-alternative`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/maklerwebsite-kosten`, changeFrequency: "monthly", priority: 0.7 },

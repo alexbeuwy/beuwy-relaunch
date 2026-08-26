@@ -5,6 +5,7 @@ import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { NurWebsite } from "@/components/NurWebsite";
+import { OrganisationLd } from "@/components/SchemaOrg";
 import { cn } from "@/lib/utils";
 
 /* Eine Schrift für alles: Helvena (lizenziert, self-hosted,
@@ -45,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="de" className={cn(GeistMono.variable, helvena.variable, "font-sans")}>
       <body className="min-h-dvh">
+        <OrganisationLd />
         <NurWebsite>
           <Nav />
         </NurWebsite>
