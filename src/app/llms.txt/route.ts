@@ -85,6 +85,27 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Kapitalanlage-Vertriebe: ein Portal, das Interessenten registriert,
   nach Einkommen und Anlagehorizont qualifiziert und dem richtigen
   Berater zuordnet, bis zum Notartermin.
+- https://beuwy.com/ueber-uns — Über beuwy: Unternehmensberatung für
+  Immobilienmarketing, 17 Jahre Markenarbeit, eigene
+  Vertriebserfahrung (acta), Arbeitsweise mit Ticketsystem und
+  Wochenbericht.
+- https://beuwy.com/seo-fuer-immobilienmakler — SEO für
+  Immobilienmakler: Seitenarchitektur nach Suchintention und lokale
+  Sichtbarkeit, angeschlossen an ein Portal, das Besucher registriert.
+- https://beuwy.com/geo-fuer-immobilienmakler — GEO für
+  Immobilienmakler: sichtbar werden in KI-Antworten von ChatGPT,
+  Claude und Perplexity, mit strukturierten Daten und Seiten, die
+  Suchfragen wörtlich beantworten.
+- https://beuwy.com/social-media-immobilienmakler — Social Media für
+  Immobilienmakler: Content-System mit Story-Omnipräsenz, das aufs
+  Portal einzahlt — belegt durch den eigenen Vertrieb acta (rund 380
+  Wohneinheiten über Instagram-Anzeigen).
+- https://beuwy.com/email-marketing-immobilienmakler —
+  E-Mail-Marketing für Immobilienmakler: Follow-up-Automation und
+  personalisierte Datenmails statt Massen-Newsletter.
+- https://beuwy.com/marketing-kapitalanlage-immobilien — Marketing für
+  Kapitalanlage-Immobilien: vorqualifizierte Anleger statt gekaufter
+  Leads, aus eigener Vertriebserfahrung gebaut.
 - https://beuwy.com/bottimmo-alternative — BOTTIMMO-Alternative: der
   faire Vergleich zwischen Baukasten-Systemen und einer eigenen Marke.
 - https://beuwy.com/maklerwebsite-kosten — Was kostet eine

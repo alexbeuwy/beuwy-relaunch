@@ -106,6 +106,42 @@ const THEMEN = [
     href: "/marketing-immobilienvertrieb",
     text: "Kapitalanlage-Vertriebe leben von Terminen, nicht von Klicks. Ein System, das aus Anfragen registrierte Kontakte macht und sie an ein Vertriebsteam übergibt, das sie auch erreicht.",
   },
+  {
+    nr: "13",
+    titel: "SEO für Immobilienmakler",
+    href: "/seo-fuer-immobilienmakler",
+    text: "Bei „Immobilienmakler + Stadt“ stehen Portale und der Wettbewerb vorn, solange die eigene Seite nur für den Firmennamen rankt. Eine Seitenarchitektur nach Suchintention ändert das — und das Portal registriert, was die Rankings bringen.",
+  },
+  {
+    nr: "14",
+    titel: "GEO: Sichtbar in der KI-Suche",
+    href: "/geo-fuer-immobilienmakler",
+    text: "Eigentümer fragen heute ChatGPT, welcher Makler in ihrer Stadt gut ist. Wer in diesen Antworten nicht vorkommt, existiert für sie nicht. GEO macht Ihr Haus zitierfähig — strukturierte Daten, klare Antworten, konsistente Firmendaten.",
+  },
+  {
+    nr: "15",
+    titel: "Social Media für Immobilienmakler",
+    href: "/social-media-immobilienmakler",
+    text: "Jeden Tag posten und trotzdem keine Anfrage: Reichweite verpufft, wenn sie nirgendwo registriert wird. Ein Content-System, das aufs Portal einzahlt — belegt durch unseren eigenen Vertrieb, der 380 Wohneinheiten über Instagram verkauft hat.",
+  },
+  {
+    nr: "16",
+    titel: "E-Mail-Marketing für Immobilienmakler",
+    href: "/email-marketing-immobilienmakler",
+    text: "Im CRM schlummern hunderte Kontakte, während Anzeigen neue Leads teuer einkaufen. Follow-up-Automation und Datenmails zum konkreten Objekt wecken sie — das Postfach verkauft mit.",
+  },
+  {
+    nr: "17",
+    titel: "Marketing für Kapitalanlage-Immobilien",
+    href: "/marketing-kapitalanlage-immobilien",
+    text: "Gekaufte Anleger-Leads sind teuer, mehrfach verkauft und kalt. Ein Portal, das Anleger vorqualifiziert, bevor der Kalender belegt wird — gebaut aus eigener Vertriebserfahrung mit rund 40 Millionen Euro Volumen.",
+  },
+  {
+    nr: "18",
+    titel: "Über beuwy",
+    href: "/ueber-uns",
+    text: "Wer hinter den Portalen steht: eine Unternehmensberatung mit 17 Jahren Markenarbeit und eigener Vertriebserfahrung — drei Stationen zum Nachlesen, vier Zusagen zum Messen.",
+  },
 ] as const;
 
 const SAEULEN = [

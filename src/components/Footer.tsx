@@ -9,6 +9,11 @@ const leistungen: { label: string; href: string }[] = [
   { label: "Website für Makler", href: "/website-fuer-immobilienmakler" },
   { label: "Leadgenerierung", href: "/leadgenerierung-immobilienmakler" },
   { label: "onOffice-Websites", href: "/onoffice-website" },
+  { label: "SEO für Makler", href: "/seo-fuer-immobilienmakler" },
+  { label: "GEO: Sichtbar in KI-Suche", href: "/geo-fuer-immobilienmakler" },
+  { label: "Social Media für Makler", href: "/social-media-immobilienmakler" },
+  { label: "E-Mail-Marketing", href: "/email-marketing-immobilienmakler" },
+  { label: "Über beuwy", href: "/ueber-uns" },
 ];
 
 const wissen: { label: string; href: string }[] = [
@@ -20,6 +25,7 @@ const wissen: { label: string; href: string }[] = [
   { label: "Marketing für Projektentwickler", href: "/marketing-projektentwickler" },
   { label: "Marketing für Bauträger", href: "/marketing-bautraeger" },
   { label: "Marketing für Immobilienvertriebe", href: "/marketing-immobilienvertrieb" },
+  { label: "Kapitalanlage-Immobilien", href: "/marketing-kapitalanlage-immobilien" },
 ];
 
 export function Footer() {

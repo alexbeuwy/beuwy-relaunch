@@ -29,6 +29,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/marketing-bautraeger`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/marketing-immobilienvertrieb`, changeFrequency: "monthly", priority: 0.75 },
 
+    /* Leistungs- und Über-Seiten (Alex, 26.08: Über uns + 5 neue
+       Unterseiten). Gleiche Ebene wie die R2-Zielgruppenseiten. */
+    { url: `${base}/ueber-uns`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/seo-fuer-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/geo-fuer-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/social-media-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/email-marketing-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/marketing-kapitalanlage-immobilien`, changeFrequency: "monthly", priority: 0.75 },
+
     /* Cluster-Seiten (Vergleich) */
     { url: `${base}/bottimmo-alternative`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/maklerwebsite-kosten`, changeFrequency: "monthly", priority: 0.7 },
