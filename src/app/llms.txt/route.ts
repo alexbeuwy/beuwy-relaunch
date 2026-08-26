@@ -124,6 +124,66 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
 - https://beuwy.com/impressum — Anbieterkennzeichnung.
 - https://beuwy.com/datenschutz — Datenschutzerklärung.
 
+## Tools (im Browser nutzbar, Ergebnisse sofort sichtbar)
+- https://beuwy.com/tools/verkaufspreisrechner — Verkaufspreis einer
+  Immobilie als Spanne mit offenem Rechenweg.
+- https://beuwy.com/tools/mietpreisrechner — realistische Kaltmiete
+  mit Vergleichslogik.
+- https://beuwy.com/tools/afa-rechner — AfA und Restnutzungsdauer:
+  was ein Gutachten steuerlich bewegt, ohne Lead-Wall.
+
+## Ratgeber (jede Seite beantwortet ihre Frage im ersten Absatz)
+- https://beuwy.com/alleinauftrag-gewinnen — Wie gewinne ich als Makler den Alleinauftrag?
+- https://beuwy.com/eigentuemer-leads-generieren — Wie generiere ich als Makler Eigentümer-Leads?
+- https://beuwy.com/immobilien-farming — Was ist Farming und wie funktioniert es digital?
+- https://beuwy.com/empfehlungsgeschaeft-digitalisieren — Wie mache ich mein Empfehlungsgeschäft digital sichtbar?
+- https://beuwy.com/objektakquise-strategien — Welche Objektakquise-Strategien funktionieren 2026?
+- https://beuwy.com/verkaeufer-ansprechen — Wie erreiche ich Eigentümer vor dem Verkaufsentschluss?
+- https://beuwy.com/makler-positionierung — Wie positioniere ich mich als Makler richtig?
+- https://beuwy.com/markenaufbau-makler — Wie baue ich als Makler eine Marke auf?
+- https://beuwy.com/immobilienmakler-werbung — Welche Werbung lohnt sich für Immobilienmakler?
+- https://beuwy.com/performance-marketing-makler — Wie funktioniert Performance-Marketing für Makler?
+- https://beuwy.com/makler-in-kleinstadt — Funktioniert digitales Makler-Marketing in kleinen Städten?
+- https://beuwy.com/luxusimmobilien-vermarkten — Wie vermarkte ich hochpreisige Immobilien?
+- https://beuwy.com/bottimmo-erfahrungen — Was taugt BOTTIMMO wirklich?
+- https://beuwy.com/propstack-website — Kann ich meine Website direkt aus Propstack betreiben?
+- https://beuwy.com/flowfact-website — Wie kommt meine Website an FLOWFACT?
+- https://beuwy.com/casaone-website — Reicht eine CasaOne-Website für mein Büro?
+- https://beuwy.com/immoscout-profil-vs-eigene-website — Reicht mein ImmoScout-Profil als Online-Auftritt?
+- https://beuwy.com/makler-website-baukasten-vergleich — Welcher Website-Baukasten passt für Makler?
+- https://beuwy.com/openimmo-schnittstelle — Was ist OpenImmo und warum ruckelt der Export?
+- https://beuwy.com/makler-crm-einfuehren — Wie führe ich ein CRM im Maklerbüro ein?
+- https://beuwy.com/lead-anbieter-vergleich — Lohnen sich gekaufte Eigentümer-Leads?
+- https://beuwy.com/mcmakler-modell — Wie konkurriere ich mit Hybridmaklern?
+- https://beuwy.com/chatgpt-fuer-makler — Wofür kann ich ChatGPT als Makler nutzen?
+- https://beuwy.com/ki-expose-texte — Kann KI meine Exposé-Texte schreiben?
+- https://beuwy.com/ai-overviews-immobilien — Was bedeuten Google AI Overviews für Makler?
+- https://beuwy.com/perplexity-immobiliensuche — Suchen Eigentümer wirklich über KI-Assistenten?
+- https://beuwy.com/ki-immobilienbewertung — Wie gut ist KI-basierte Immobilienbewertung?
+- https://beuwy.com/automatisierung-maklerbuero — Welche Abläufe kann ich als Makler automatisieren?
+- https://beuwy.com/ki-richtlinien-maklerbuero — Welche Regeln braucht mein Team für KI-Tools?
+- https://beuwy.com/geo-checkliste — Wie werde ich in KI-Antworten sichtbar?
+- https://beuwy.com/exposes-die-verkaufen — Wie sieht ein Exposé aus, das den Alleinauftrag rechtfertigt?
+- https://beuwy.com/makler-website-fehler — Welche Fehler machen Makler-Websites?
+- https://beuwy.com/immobilienfotografie-briefing — Wie briefe ich einen Immobilienfotografen?
+- https://beuwy.com/video-fuer-makler — Welche Videos brauche ich als Makler?
+- https://beuwy.com/google-unternehmensprofil-makler — Wie optimiere ich mein Google-Unternehmensprofil?
+- https://beuwy.com/bewertungen-aufbauen — Wie bekomme ich systematisch Google-Bewertungen?
+- https://beuwy.com/landingpage-immobilienbewertung — Wie sieht eine Landingpage aus, die Eigentümer konvertiert?
+- https://beuwy.com/makler-newsletter-beispiele — Was schreibe ich im Makler-Newsletter?
+- https://beuwy.com/website-relaunch-makler — Verliere ich beim Relaunch meine Rankings?
+- https://beuwy.com/barrierefreie-maklerwebsite — Muss meine Makler-Website barrierefrei sein?
+- https://beuwy.com/wissen/immobilie-bewerten — Wie wird eine Immobilie bewertet?
+- https://beuwy.com/wissen/mietpreis-ermitteln — Wie ermittle ich den richtigen Mietpreis?
+- https://beuwy.com/wissen/afa-immobilien — Wie funktioniert die AfA bei Immobilien?
+- https://beuwy.com/wissen/restnutzungsdauer-gutachten — Lohnt sich ein Restnutzungsdauer-Gutachten?
+- https://beuwy.com/wissen/verkehrswert-vs-marktpreis — Was ist der Unterschied zwischen Verkehrswert und Marktpreis?
+- https://beuwy.com/wissen/spekulationssteuer-immobilien — Wann fällt Spekulationssteuer an?
+- https://beuwy.com/provision-verteidigen — Wie begründe ich meine Provision gegenüber Eigentümern?
+- https://beuwy.com/maklerbuero-skalieren — Wie skaliere ich mein Maklerbüro?
+- https://beuwy.com/makler-kennzahlen — Welche KPIs sollte ich als Makler messen?
+- https://beuwy.com/onboarding-neuer-mandate — Wie starte ich ein neues Mandat professionell?
+
 ## Referenzen
 - RIEGEL Immobilien, Immobilienmakler Rhein-Neckar: 342.000 €
   Abschlussvolumen in den ersten sechs Wochen nach dem Relaunch, neun

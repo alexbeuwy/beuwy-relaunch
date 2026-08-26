@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 const links: { label: string; href: string }[] = [
   { label: "Leistungen", href: "/#leistungen" },
   { label: "Ergebnisse", href: "/#ergebnisse" },
+  { label: "Tools", href: "/tools" },
   { label: "Über uns", href: "/ueber-uns" },
   { label: "Wissen", href: "/immobilienmarketing" },
 ];

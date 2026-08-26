@@ -26,6 +26,8 @@ const wissen: { label: string; href: string }[] = [
   { label: "Marketing für Bauträger", href: "/marketing-bautraeger" },
   { label: "Marketing für Immobilienvertriebe", href: "/marketing-immobilienvertrieb" },
   { label: "Kapitalanlage-Immobilien", href: "/marketing-kapitalanlage-immobilien" },
+  { label: "Alle Ratgeber im Überblick", href: "/wissen" },
+  { label: "Rechner & Tools", href: "/tools" },
 ];
 
 export function Footer() {
@@ -39,7 +41,7 @@ export function Footer() {
             <Logo height={28} />
             <p className="t-small">
               Unternehmensberatung für Immobilienunternehmen, die ihren
-              Vorsprung ausbauen wollen. Ludwigshafen · Mannheim · Berlin.
+              Vorsprung ausbauen wollen — im gesamten DACH-Raum.
             </p>
           </div>
 
@@ -71,7 +73,7 @@ export function Footer() {
           <p className="t-data">
             © {jahr} beuwy · Alexander Pütter
           </p>
-          <p className="t-data">Made in Ludwigshafen</p>
+          <p className="t-data">Marke · Portal · Vertriebssystem</p>
         </div>
       </div>
     </footer>

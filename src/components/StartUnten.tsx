@@ -153,6 +153,27 @@ function LogoPill({ klein = false }: { klein?: boolean }) {
   );
 }
 
+const TOOL_KARTEN = [
+  {
+    label: "Für Eigentümer",
+    titel: "Verkaufspreis-Rechner",
+    text: "Der Erstanker jeder Eigentümer-Reise: Wertspanne mit offenem Rechenweg — sofort sichtbar, kein Formular davor.",
+    href: "/tools/verkaufspreisrechner",
+  },
+  {
+    label: "Für Vermieter",
+    titel: "Mietpreis-Rechner",
+    text: "Kaltmiete realistisch einschätzen, mit Vergleichslogik statt Bauchgefühl — inklusive Hinweis zur Mietpreisbremse.",
+    href: "/tools/mietpreisrechner",
+  },
+  {
+    label: "Für Kapitalanleger",
+    titel: "AfA- & Restnutzungsdauer-Rechner",
+    text: "Zeigt in zwei Minuten, was ein Restnutzungsdauer-Gutachten steuerlich bewegt — ehrlicher als jede Lead-Wall.",
+    href: "/tools/afa-rechner",
+  },
+] as const;
+
 const DOMINANZ_SZENEN = [
   { titel: "Auf Ihren Fahrzeugen", Szene: SzeneFahrzeug },
   { titel: "Auf der Messe", Szene: SzeneMesse },
@@ -242,6 +263,43 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
   return (
     <>
+      {/* ══ Block 5b — Anfassen: die Tools als Live-Beweis (VSL:
+          Mechanismus zum Ausprobieren, Alex 26.08) ════════════════ */}
+      <section id="anfassen" className="bg-bg-elevated border-t border-line-subtle">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
+          <Reveal>
+            <SektionsKopf
+              eyebrow="Nicht glauben — ausprobieren"
+              titel="Fassen Sie das System *an*."
+              sub="Drei Rechner, wie wir sie für Ihre Eigentümer bauen — hier im beuwy-Kleid, live und ohne Anmeldung. Genau so beginnt jede Registrierung."
+              className="max-w-[720px]"
+            />
+          </Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {TOOL_KARTEN.map((t, i) => (
+              <Reveal key={t.href} delay={i * 60}>
+                <Link
+                  href={t.href}
+                  className="group flex h-full flex-col rounded-[28px] border border-line-subtle bg-white px-7 py-8 transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:border-line-medium"
+                >
+                  <p className="t-label !text-[10px]">{t.label}</p>
+                  <p className="mt-3 text-[19px] font-semibold leading-snug tracking-[-0.015em] text-ink-cream">
+                    {t.titel}
+                  </p>
+                  <p className="mt-3 t-body flex-1">{t.text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-medium text-ink-cream">
+                    Ausprobieren
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" aria-hidden>
+                      <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ══ Block 6 — Beweis ══════════════════════════════════════ */}
       <section id="ergebnisse" className="bg-bg-base">
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
@@ -336,6 +394,42 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         </div>
       </section>
 
+      {/* ══ Block 6b — Danach: der Traumzustand direkt hinterm Beweis
+          (VSL: Future Pacing VOR dem Angebot, Alex 26.08) ═════════ */}
+      <section id="danach" className="bg-bg-elevated border-t border-line-subtle">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
+          <Reveal>
+            <div>
+              <p className="t-label">Und danach?</p>
+              <h3 className="mt-4 t-h2 max-w-[720px]">
+                {rich("Dann sieht Ihre Stadt Sie *überall*.")}
+              </h3>
+              <p className="t-body-lg mt-5 max-w-[54ch]">
+                Absolute regionale Dominanz: Ihre Marke im Postfach, in der Story, auf der
+                Straße und am Spielfeldrand — bis der erste Gedanke bei „Immobilien" Ihr
+                Name ist.
+              </p>
+              <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+                {DOMINANZ_SZENEN.map(({ titel, Szene }) => (
+                  <div
+                    key={titel}
+                    className="rounded-[20px] border border-line-subtle bg-white px-4 pb-4 pt-2"
+                  >
+                    <Szene />
+                    <p className="mt-2 border-t border-line-subtle pt-3 text-center text-[12.5px] font-medium text-ink-cream">
+                      {titel}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {/* Der große Kampagnen-Zusammenschnitt — 7,5 MB, deshalb
+                  ausschließlich klick-initiiert (BRIEF §9) */}
+              <ShowreelSlot className="mt-6" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ══ Block 7 — Prozess (Einwand Zeit) ══════════════════════ */}
       <section id="ablauf" className="bg-bg-base border-t border-line-subtle">
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
@@ -397,36 +491,6 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             </GelbeKarte>
           </Reveal>
 
-          {/* „Und danach?" — die Wahrnehmung, für die das alles gebaut wird */}
-          <Reveal delay={120}>
-            <div className="mt-24 border-t border-line-subtle pt-16">
-              <p className="t-label">Und danach?</p>
-              <h3 className="mt-4 t-h2 max-w-[720px]">
-                {rich("Dann sieht Ihre Stadt Sie *überall*.")}
-              </h3>
-              <p className="t-body-lg mt-5 max-w-[54ch]">
-                Absolute regionale Dominanz: Ihre Marke im Postfach, in der Story, auf der
-                Straße und am Spielfeldrand — bis der erste Gedanke bei „Immobilien" Ihr
-                Name ist.
-              </p>
-              <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
-                {DOMINANZ_SZENEN.map(({ titel, Szene }) => (
-                  <div
-                    key={titel}
-                    className="rounded-[20px] border border-line-subtle bg-white px-4 pb-4 pt-2"
-                  >
-                    <Szene />
-                    <p className="mt-2 border-t border-line-subtle pt-3 text-center text-[12.5px] font-medium text-ink-cream">
-                      {titel}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              {/* Der große Kampagnen-Zusammenschnitt — 7,5 MB, deshalb
-                  ausschließlich klick-initiiert (BRIEF §9) */}
-              <ShowreelSlot className="mt-6" />
-            </div>
-          </Reveal>
         </div>
       </section>
 
