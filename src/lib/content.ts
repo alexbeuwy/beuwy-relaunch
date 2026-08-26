@@ -189,17 +189,17 @@ export const DEFAULTS: Record<string, string> = {
      Platzhalter mit Sought-after-Effekt; Alex passt Zahlen und
      Namen im Studio an, bevor Freigaben stehen. */
 
-  "mk.hero.eyebrow": "Marke · Website · KI-Automatisierung",
+  "mk.hero.eyebrow": "Marke · Portal · Vertriebssystem",
   "mk.hero.title": "Das System hinter Deutschlands *besten*",
   "mk.hero.rotation": "Maklern|Projektentwicklern|Bauträgern|Kapitalanlage-Vertrieben",
   "mk.hero.subtitle":
-    "beuwy baut keine schicken Visitenkarten, sondern Portale, die messbar Mandate und Deals erzeugen — Marke, Auftritt, Funnel und Automatisierung aus einer Hand, geliefert in Wochen.",
+    "beuwy baut Portale statt Visitenkarten: Besucher registrieren sich, qualifizieren sich vor — und Ihr Vertrieb spricht nur noch mit den Richtigen. In Wochen live, seit 17 Jahren messbar.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
   "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
   "mk.hero.cta2": "Ergebnisse ansehen",
   "mk.hero.checks":
-    "Marke & Design~Premium, unverwechselbar|Automation & KI~arbeitet im Hintergrund|Systeme & Wachstum~messbar, planbar",
-  "mk.hero.badge_label": "Für führende Immobilienmakler",
+    "Marke & Design~Premium, unverwechselbar|Portal & Funnel~registriert & qualifiziert vor|Automatisierung~arbeitet, während Sie verkaufen",
+  "mk.hero.badge_label": "Für führende Immobilienunternehmen",
   "mk.hero.badge_wert": "100+",
   "mk.hero.badge_text": "erfolgreiche Markenprojekte",
   "mk.trust.label": "Vertraut aus Projekten mit Maklern führender Häuser",
@@ -207,7 +207,7 @@ export const DEFAULTS: Record<string, string> = {
     "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
 
   "mk.stats.s1_wert": "40+",
-  "mk.stats.s1_label": "Premium-Projekte für Makler",
+  "mk.stats.s1_label": "Premium-Projekte im Immobilienvertrieb",
   "mk.stats.s2_wert": "3×",
   "mk.stats.s2_label": "mehr Eigentümer-Anfragen nach Relaunch",
   "mk.stats.s3_wert": "17",
@@ -217,7 +217,7 @@ export const DEFAULTS: Record<string, string> = {
 
   "mk.vsl.url": "",
 
-  "mk.integrationen.label": "Nahtlos mit den Tools, die Sie schon nutzen",
+  "mk.integrationen.label": "Angebunden an die Tools, die Sie schon nutzen",
   "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
 
   "mk.pm.quote": "5 %",
