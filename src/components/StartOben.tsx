@@ -24,7 +24,7 @@ export function StartOben({ c }: { c: Record<string, string> }) {
   return (
     <>
       <Spiegel />
-      <Abgrenzung />
+      <Abgrenzung c={c} />
       <VslKernversprechen c={c} />
       <Saeulen c={c} />
     </>
@@ -120,28 +120,30 @@ function Spiegel() {
    Vollbreiten-Band bg-bg-elevated. Zwei nüchterne Listen statt Karten-
    Spam, kein Wettbewerbername (BRIEF §5). */
 const BAUKASTEN_PUNKTE = [
-  "Austauschbar — jede dritte Maklerseite sieht gleich aus.",
-  "Template-Look — man erkennt den Baukasten auf den ersten Blick.",
-  "Keine Automatisierung — jede Anfrage braucht eine Hand, die sie einträgt.",
-  "Sie pflegen selbst — Updates, Texte, Technik: alles bei Ihnen.",
+  "Eine Website statt ein System — schicke Visitenkarte, kein Motor dahinter.",
+  "Austauschbar — Exposés und Dokumente sehen bei jedem Makler gleich aus.",
+  "Anpassung schwierig — jede Änderung landet in einer Warteschlange.",
+  "Ohne Nachweis — niemand zeigt Ihnen, wie viele Mandate dabei herauskommen.",
 ];
 
 const BEUWY_PUNKTE = [
-  "Gebaut für Ihre Marke — nicht für ein Template.",
-  "Docken an Ihr CRM an — Anfragen landen direkt im System, das Sie schon nutzen.",
-  "Automationen inklusive — was nachgefasst werden muss, läuft von selbst.",
-  "Done for you, in Wochen — Sie geben die Freigabe, wir liefern.",
+  "Ein Portal, kein Template — gebaut für Ihre Marke und Ihren Markt.",
+  "Exposés und Dokumente mit Ihrem Namen — nicht dem des Baukastens.",
+  "Docken an Ihr CRM an — jede Anfrage landet dort, wo Sie ohnehin arbeiten.",
+  "Mandate und Deals messbar — jede Zahl steht in Ihrem CRM.",
 ];
 
-function Abgrenzung() {
+function Abgrenzung({ c }: { c: Record<string, string> }) {
+  const jahre = c["mk.stats.s3_wert"] || "17";
+
   return (
     <section className="bg-bg-elevated py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
             eyebrow="Die Abgrenzung"
-            titel="Standardlösungen sind für den *Durchschnitt* gebaut."
-            sub="Ein Baukasten löst, was jeder Makler braucht. Er löst nie, was Sie von jedem anderen Makler unterscheidet."
+            titel="Eine Website ist eine Visitenkarte. Ein *Portal* bringt Mandate."
+            sub="Standardlösungen füllen Exposés und Dokumente, die bei jedem Makler gleich aussehen. Anpassen lässt sich davon wenig."
           />
         </Reveal>
 
@@ -173,8 +175,8 @@ function Abgrenzung() {
 
         <Reveal delay={160}>
           <p className="mt-16 max-w-[42ch] text-[20px] font-medium leading-snug tracking-[-0.012em] text-ink-cream md:mt-20 md:text-[24px]">
-            Ein Baukasten macht Sie sichtbar. Wir machen Sie{" "}
-            <Highlight stark>unverwechselbar</Highlight>.
+            Eine Website macht Sie sichtbar. Ein Portal bringt seit {jahre} Jahren{" "}
+            <Highlight stark>Mandate</Highlight>.
           </p>
         </Reveal>
       </div>
@@ -304,10 +306,10 @@ const SAEULEN: Saeule[] = [
   {
     nr: "04",
     titel: "Automatisierung",
-    satz: "Was sich wiederholt, läuft im Hintergrund — ohne dass Sie es steuern müssen.",
+    satz: "Modelle wechseln jede Woche, aber was bei Ihnen ankommt, bleibt einfach.",
     hebel: [
+      "ChatGPT, Claude, Kimi, DeepSeek — jede Woche ein neues Modell, kaum einer hält Schritt, und ein Prompt liefert bestenfalls einen Text oder eine Mail, nie ein System.",
       "Terminanfragen sortieren sich selbst nach Dringlichkeit und Objektwert, bevor sie in Ihrem Kalender landen.",
-      "Wiederkehrende Texte — Exposé-Entwürfe, Social-Posts, Antworten — entstehen mit KI im Hintergrund und werden von uns geprüft, nie ungesehen veröffentlicht.",
       "Wöchentlicher Bericht statt Rätselraten: Anfragen, Quelle, Status — automatisch zusammengestellt, jeden Montag im Postfach.",
     ],
     fotoSrc: maklerAsset(6),

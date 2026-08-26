@@ -111,7 +111,7 @@ const NEIN_LISTE = [
 const FAQ = [
   {
     q: "Was kostet das?",
-    a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Website und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
+    a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Portal und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
   },
   {
     q: "Wie schnell live?",
@@ -123,7 +123,7 @@ const FAQ = [
   },
   {
     q: "Funktioniert das mit onOffice/FLOWFACT?",
-    a: "Ja. Website, Rechner und Funnel docken an onOffice, FLOWFACT, Propstack, JUSTIMMO oder CasaOne an. Jede Anfrage landet mit Quelle und nächstem Schritt direkt in Ihrem System. Keine Zettel, kein Copy-Paste, kein vergessener Rückruf.",
+    a: "Ja. Portal, Rechner und Funnel docken an onOffice, FLOWFACT, Propstack, JUSTIMMO oder CasaOne an. Jede Anfrage landet mit Quelle und nächstem Schritt direkt in Ihrem System. Keine Zettel, kein Copy-Paste, kein vergessener Rückruf.",
   },
   {
     q: "Was passiert nach dem Livegang?",
@@ -254,14 +254,21 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             </div>
           </Reveal>
 
-          <Reveal delay={180}>
+          <Reveal delay={150}>
+            <p className="mt-16 max-w-[54ch] t-body-lg">
+              Ein Ansprechpartner arbeitet an Ihrem Projekt, nachweisbar nach Ticketsystem. Sie fragen nie nach zwei
+              Wochen: Wie weit ist mein Dokument? Mein Rechner? Meine Anpassung? Der Stand ist jederzeit sichtbar.
+            </p>
+          </Reveal>
+
+          <Reveal delay={210}>
             <GelbeKarte
               label="Ihr Aufwand"
               titel="Vier Termine reichen."
               glyph
               className="mt-16 max-w-[520px] ml-auto"
             >
-              Den Rest liefern wir: Marke, Website, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
+              Den Rest liefern wir: Marke, Portal, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
             </GelbeKarte>
           </Reveal>
         </div>
