@@ -7,6 +7,9 @@ import { INTERN_EINBLICK_DEFAULTS } from "@/lib/texte/intern-einblick";
 import { SektionsKopf, GelbeKarte } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { Skeleton } from "@/components/ui/skeleton";
+import unterlegerIndex from "@/lib/einblick-unterleger.json";
+
+const UNTERLEGER = unterlegerIndex as Record<string, { datei: string; seitenverhaeltnis: number }>;
 import { Heatmap, KpiZahl, PfadAuswahl, UmschalterTabs } from "./Heatmap";
 
 /**
@@ -535,6 +538,7 @@ async function EinblickDaten({
                   pfad={heatmapPfad}
                   geraet={geraetParam}
                   leerText={t("intern.einblick.heatmap_leer")}
+                  unterleger={UNTERLEGER[heatmapPfad]}
                 />
               </div>
             </>

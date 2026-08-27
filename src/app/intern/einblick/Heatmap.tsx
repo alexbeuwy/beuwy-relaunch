@@ -196,11 +196,16 @@ export function Heatmap({
   pfad,
   geraet,
   leerText,
+  unterleger,
 }: {
   punkte: Punkt[];
   pfad: string;
   geraet: "desktop" | "mobil" | "alle";
   leerText: string;
+  /** fullPage-Screenshot der Seite (tools/einblick-unterleger.mjs) —
+      Klick-Koordinaten sind dokumentrelativ, das Bild ist es auch:
+      Overlays folgen exakt der Bildgeometrie. */
+  unterleger?: { datei: string; seitenverhaeltnis: number };
 }) {
   const max = Math.max(1, ...punkte.map((p) => p.n));
   const gesamt = punkte.reduce((a, p) => a + p.n, 0);
@@ -218,11 +223,26 @@ export function Heatmap({
           <ChromePunkte />
           <span className="truncate font-mono text-[11px] text-ink-dim">beuwy.com{pfad}</span>
         </div>
+        <div className={unterleger ? "max-h-[70vh] overflow-y-auto" : undefined}>
         <div
-          className={`relative w-full border-dashed bg-white ${
-            geraet === "mobil" ? "mx-auto aspect-[9/17] max-w-[320px]" : "aspect-[16/11]"
-          }`}
+          className={
+            unterleger
+              ? "relative w-full bg-white"
+              : `relative w-full border-dashed bg-white ${
+                  geraet === "mobil" ? "mx-auto aspect-[9/17] max-w-[320px]" : "aspect-[16/11]"
+                }`
+          }
+          style={unterleger ? { aspectRatio: String(1 / unterleger.seitenverhaeltnis) } : undefined}
         >
+          {unterleger && (
+            /* eslint-disable-next-line @next/next/no-img-element -- lokales Asset in Originalgeometrie */
+            <img
+              src={unterleger.datei}
+              alt=""
+              className="absolute inset-0 h-full w-full select-none opacity-90"
+              draggable={false}
+            />
+          )}
           <DichteKarte punkte={punkte} max={max} />
 
           {hotspots.length > 0 && (
@@ -262,11 +282,13 @@ export function Heatmap({
             </p>
           )}
         </div>
+        </div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11.5px] text-ink-dim">
         <span className="tnum font-mono">
           {gesamt} Klick{gesamt === 1 ? "" : "s"} in dieser Auswahl
+          {unterleger && geraet === "mobil" ? " · Unterleger: Desktop-Ansicht" : ""}
         </span>
         <span className="inline-flex items-center gap-2">
           wenig
