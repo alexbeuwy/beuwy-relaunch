@@ -107,8 +107,6 @@ function Spiegel({ c }: { c: Record<string, string> }) {
 
   return (
     <section className="relative bg-bg-base py-24 md:py-32">
-      {/* Tiefen-Parallax aus den Kampagnen-Vasen (Alex, 27.08) */}
-      <VasenTiefe />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <Reveal className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:max-w-none">
@@ -129,6 +127,8 @@ function Spiegel({ c }: { c: Record<string, string> }) {
               groesse={104}
               className="absolute -right-5 -top-5 z-10 md:-right-7 md:-top-7"
             />
+            {/* Bokeh-Vase ueberlappt die Plate-Ecke (Anker am Wrapper) */}
+            <VasenTiefe />
           </Reveal>
 
           <Reveal delay={80}>

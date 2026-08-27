@@ -26,13 +26,16 @@ export function VasenTiefe({ variante = "buehne" }: { variante?: "buehne" | "ran
   }
 
   return (
-    // Reduktion (Alex, 27.08): NUR die unscharfe Vase — und sie liegt
-    // ueber dem Sektionsinhalt (z-20 > Inhalt z-10), sodass sie die
-    // Bild-Plate anschneidet. Bokeh vor der Fokusebene, ein Element.
-    <div aria-hidden className={`${stil.ebene} z-20`}>
-      <div className={`${stil.vase} ${stil.vorn} -left-16 bottom-[-6%] w-[240px] sm:w-[300px] lg:-left-8 lg:w-[400px]`}>
-        <Image src={vase("02-blurry")} alt="" width={1261} height={1699} sizes="400px" className="h-auto w-full" />
-      </div>
+    // Plate-Anker (Alex, 27.08, 2. Korrektur): Die Vase haengt jetzt
+    // DIREKT am relative-Wrapper der Bild-Plate — nicht mehr an der
+    // Sektion (dort sass sie unten, die Plate sitzt oben; deshalb gab
+    // es keine Ueberlappung). Als spaeteres DOM-Kind mit z-20 liegt
+    // sie garantiert UEBER der Plate und schneidet deren Ecke an.
+    <div
+      aria-hidden
+      className={`${stil.vase} ${stil.vorn} pointer-events-none -bottom-16 -left-14 z-20 w-[240px] sm:w-[300px] lg:-bottom-20 lg:-left-24 lg:w-[400px]`}
+    >
+      <Image src={vase("02-blurry")} alt="" width={1261} height={1699} sizes="400px" className="h-auto w-full" />
     </div>
   );
 }
