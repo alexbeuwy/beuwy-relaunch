@@ -1,0 +1,63 @@
+/* VasenTiefe — scroll-getriebener Tiefen-Parallax (Alex, 27.08:
+   „Wow-Effekt-Parallax mit den Vasen-Elementen").
+
+   Mechanik: CSS scroll-driven animations (animation-timeline: view()),
+   kein JS, kein Scroll-Listener. Die Dauer-Tokens greifen hier nicht —
+   Scrubbing hat keine Zeitachse, die Scroll-Position IST die Zeit
+   (dokumentierte Ausnahme wie die Ambient-Loops in globals.css).
+   Tiefenlogik fotografisch: die UNSCHARFE Vase liegt vor der
+   Fokusebene, ist gross angeschnitten und laeuft schnell; die scharfen
+   Vasen stehen hinter dem Inhalt und laufen langsam. Ohne Support und
+   bei reduced-motion stehen die Vasen einfach still — die Seite
+   verliert nichts. */
+
+.ebene {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vase {
+  position: absolute;
+  will-change: transform;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vorn {
+      animation: fahrtVorn linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .hinten {
+      animation: fahrtHinten linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .mitte {
+      animation: fahrtMitte linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* Vordergrund: grosse Spanne + minimales Groessenatmen */
+@keyframes fahrtVorn {
+  from { transform: translate3d(0, 14%, 0) scale(1.02); }
+  to   { transform: translate3d(0, -18%, 0) scale(1.06); }
+}
+
+/* Hintergrund: traege, kleine Spanne */
+@keyframes fahrtHinten {
+  from { transform: translate3d(0, 4%, 0); }
+  to   { transform: translate3d(0, -5%, 0); }
+}
+
+/* Mittelebene mit sanfter Drift zur Seite */
+@keyframes fahrtMitte {
+  from { transform: translate3d(-1.5%, 8%, 0) rotate(-1.2deg); }
+  to   { transform: translate3d(1.5%, -10%, 0) rotate(1.2deg); }
+}

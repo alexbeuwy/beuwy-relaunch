@@ -7,6 +7,7 @@ import { GelbeKarte, Highlight, KreisDeko, SektionsKopf, StempelBadge } from "./
 import { TrustMeilensteine } from "./TrustMeilensteine";
 import { PodcastSlot } from "./PodcastSlot";
 import { ShowreelSlot } from "./ShowreelSlot";
+import { VasenTiefe } from "./VasenTiefe";
 import { WirkungsSpuren } from "./SchemaGrafiken";
 import { caseBySlug, type CaseStudy } from "@/lib/cases";
 import { makler9x16, maklerAsset } from "@/lib/cdn";
@@ -396,8 +397,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
       {/* ══ Block 6b — Danach: der Traumzustand direkt hinterm Beweis
           (VSL: Future Pacing VOR dem Angebot, Alex 26.08) ═════════ */}
-      <section id="danach" className="bg-bg-elevated border-t border-line-subtle">
-        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
+      <section id="danach" className="relative bg-bg-elevated border-t border-line-subtle">
+        <VasenTiefe variante="rand" />
+        <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <div>
               <p className="t-label">Und danach?</p>

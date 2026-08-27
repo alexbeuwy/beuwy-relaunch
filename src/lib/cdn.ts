@@ -40,6 +40,16 @@ export const LOFT_VIDEO = `${BASIS}/wide-angle-loft-shot.webm`;
 export const HERO_SCHNITT = `${BASIS}/Hero-Alle-Videos.webm`;
 
 /**
+ * Freigestellte Vasen-Requisiten (Alpha-WebP, Alex 27.08) — die
+ * Pastellgelb-Vase ist DIE Requisite der Kampagnenwelt. "02" gibt es
+ * scharf und als "-blurry"-Variante: das Paar traegt den
+ * Tiefen-Parallax auf der Startseite (VasenTiefe.tsx).
+ */
+export function vase(name: "01" | "02" | "02-blurry" | "03"): string {
+  return `${BASIS}/Vase-${name}.webp`;
+}
+
+/**
  * Echtes Gründerporträt (Platzhalter-Fassung, 1200×1200) — im Gegensatz
  * zu den makler-*-Bildern KEIN KI-Bild, also nie mit <AiPille /> labeln.
  */

@@ -17,6 +17,7 @@ import { ExposeVergleich } from "./SchemaGrafiken";
 import { PerformanceStory } from "./PerformanceStory";
 import { GRUENDER_FOTO, LOFT_VIDEO, maklerAsset } from "@/lib/cdn";
 import { AmbientVideo } from "./AmbientVideo";
+import { VasenTiefe } from "./VasenTiefe";
 
 /**
  * Startseite, Sektionen 2-5 (BRIEF §6): Spiegel → Abgrenzung Baukasten →
@@ -105,8 +106,10 @@ function Spiegel({ c }: { c: Record<string, string> }) {
     .filter(Boolean);
 
   return (
-    <section className="bg-bg-base py-24 md:py-32">
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
+    <section className="relative bg-bg-base py-24 md:py-32">
+      {/* Tiefen-Parallax aus den Kampagnen-Vasen (Alex, 27.08) */}
+      <VasenTiefe />
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <Reveal className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:max-w-none">
             <KreisDeko className="-left-8 -top-8 hidden md:-left-12 md:-top-10 lg:block" />
