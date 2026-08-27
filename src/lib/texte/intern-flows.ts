@@ -66,13 +66,24 @@ export const INTERN_FLOWS_DEFAULTS: Record<string, string> = {
   "intern.flows.schritt_typ_mail": "Mail",
   "intern.flows.schritt_typ_warten": "Warten",
   "intern.flows.schritt_typ_bedingung": "Bedingung",
+  "intern.flows.schritt_typ_platzhalter": "Schritt-Typ wählen",
+  "intern.flows.schritt_zusammenfassung_ohne_betreff": "Ohne Betreff",
 
   "intern.flows.schritt_hoch_label": "Nach oben verschieben",
   "intern.flows.schritt_runter_label": "Nach unten verschieben",
+  "intern.flows.schritt_bearbeiten_button": "Schritt bearbeiten",
   "intern.flows.schritt_entfernen_label": "Entfernen",
   "intern.flows.schritt_entfernen_bestaetigen": "Wirklich entfernen?",
   "intern.flows.schritt_entfernen_ja": "Ja, entfernen",
   "intern.flows.schritt_entfernen_nein": "Abbrechen",
+
+  "intern.flows.schritt_dialog_titel": "Schritt bearbeiten",
+  "intern.flows.schritt_dialog_speichern": "Übernehmen",
+  "intern.flows.schritt_dialog_abbrechen": "Abbrechen",
+
+  "intern.flows.dialog_neu_titel": "Neuer Flow",
+  "intern.flows.dialog_weiter": "Weiter zu den Schritten",
+  "intern.flows.dialog_abbrechen": "Abbrechen",
 
   "intern.flows.mail_modus_vorlage": "Vorlage",
   "intern.flows.mail_modus_frei": "Freitext",
@@ -84,6 +95,8 @@ export const INTERN_FLOWS_DEFAULTS: Record<string, string> = {
   "intern.flows.mail_text_label": "Text",
   "intern.flows.mail_text_platzhalter": "Ein Absatz je Leerzeile. Kurz, Sie-Form, ohne Floskeln.",
   "intern.flows.mail_vorschau_label": "Vorschau",
+  "intern.flows.mail_tab_vorschau": "Vorschau",
+  "intern.flows.mail_tab_rohtext": "Rohtext",
 
   "intern.flows.vorlage_funnel_bestaetigung": "Funnel-Bestätigung",
   "intern.flows.vorlage_termin_bestaetigung": "Termin-Bestätigung",
@@ -163,13 +176,24 @@ export const INTERN_FLOWS_LABELS: Record<string, string> = {
   "intern.flows.schritt_typ_mail": "Intern · Flows · Editor · Schritt-Typ „Mail“",
   "intern.flows.schritt_typ_warten": "Intern · Flows · Editor · Schritt-Typ „Warten“",
   "intern.flows.schritt_typ_bedingung": "Intern · Flows · Editor · Schritt-Typ „Bedingung“",
+  "intern.flows.schritt_typ_platzhalter": "Intern · Flows · Editor · „+“-Einfüger · Auswahl-Platzhalter",
+  "intern.flows.schritt_zusammenfassung_ohne_betreff": "Intern · Flows · Editor · Karten-Zusammenfassung ohne Betreff",
 
   "intern.flows.schritt_hoch_label": "Intern · Flows · Editor · Aria-Label „Nach oben“",
   "intern.flows.schritt_runter_label": "Intern · Flows · Editor · Aria-Label „Nach unten“",
+  "intern.flows.schritt_bearbeiten_button": "Intern · Flows · Editor · Aria-Label „Schritt bearbeiten“",
   "intern.flows.schritt_entfernen_label": "Intern · Flows · Editor · Button „Entfernen“",
   "intern.flows.schritt_entfernen_bestaetigen": "Intern · Flows · Editor · Zwei-Klick-Bestätigung · Frage",
   "intern.flows.schritt_entfernen_ja": "Intern · Flows · Editor · Zwei-Klick-Bestätigung · Ja",
   "intern.flows.schritt_entfernen_nein": "Intern · Flows · Editor · Zwei-Klick-Bestätigung · Abbrechen",
+
+  "intern.flows.schritt_dialog_titel": "Intern · Flows · Editor · Schritt-Dialog · Titel",
+  "intern.flows.schritt_dialog_speichern": "Intern · Flows · Editor · Schritt-Dialog · Button „Übernehmen“",
+  "intern.flows.schritt_dialog_abbrechen": "Intern · Flows · Editor · Schritt-Dialog · Button „Abbrechen“",
+
+  "intern.flows.dialog_neu_titel": "Intern · Flows · Übersicht · Neu-Dialog · Titel",
+  "intern.flows.dialog_weiter": "Intern · Flows · Übersicht · Neu-Dialog · Button „Weiter“",
+  "intern.flows.dialog_abbrechen": "Intern · Flows · Übersicht · Neu-Dialog · Button „Abbrechen“",
 
   "intern.flows.mail_modus_vorlage": "Intern · Flows · Editor · Mail-Modus „Vorlage“",
   "intern.flows.mail_modus_frei": "Intern · Flows · Editor · Mail-Modus „Freitext“",
@@ -180,6 +204,8 @@ export const INTERN_FLOWS_LABELS: Record<string, string> = {
   "intern.flows.mail_text_label": "Intern · Flows · Editor · Feld Text",
   "intern.flows.mail_text_platzhalter": "Intern · Flows · Editor · Feld Text · Platzhalter",
   "intern.flows.mail_vorschau_label": "Intern · Flows · Editor · Überschrift Live-Vorschau",
+  "intern.flows.mail_tab_vorschau": "Intern · Flows · Editor · Vorschau-Tab „Vorschau“",
+  "intern.flows.mail_tab_rohtext": "Intern · Flows · Editor · Vorschau-Tab „Rohtext“",
 
   "intern.flows.vorlage_funnel_bestaetigung": "Intern · Flows · Vorlagen-Name „Funnel-Bestätigung“",
   "intern.flows.vorlage_termin_bestaetigung": "Intern · Flows · Vorlagen-Name „Termin-Bestätigung“",

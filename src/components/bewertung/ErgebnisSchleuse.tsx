@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 /**
  * ErgebnisSchleuse — die Lead-Wall vor den Rechner-Ergebnissen
@@ -19,9 +20,19 @@ import Link from "next/link";
  * drei Rechner hinweg — wer seine Angaben anpasst und neu rechnet,
  * ist schon Lead und tippt nichts doppelt. reduced-motion: alles
  * sofort, ohne Inszenierung.
+ *
+ * LEAF U6 (Wizard-Mikrotransitions) ergänzt den Erfolgs-Moment: Nach dem
+ * Bügel-Aufschwung zeichnet sich kurz ein Häkchen im Schloss-Kreis
+ * (motion.path/pathLength, fast + --ease-bounce — dieselbe Mechanik wie
+ * der Checkbox-Tick in AufgabenClient.tsx), bevor die Karte weggeht und
+ * der Blur sich löst. Fehlermeldungen shaken kurz (Token-Zeit,
+ * translateX ±4px, 3 Zyklen) statt nur einzublenden — reduced-motion
+ * lässt beides weg, nur die (ohnehin vorhandene) Fehlerfarbe bleibt.
  */
 
 const FREI_KEY = "bw_tools_frei";
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_BOUNCE: [number, number, number, number] = [0.34, 1.36, 0.64, 1];
 
 function istFrei(): boolean {
   try {
@@ -39,32 +50,73 @@ function merkeFrei() {
   }
 }
 
-/** Schloss mit animierbarem Bügel — der Bügel schwenkt beim Entsperren auf. */
-function Schloss({ offen }: { offen: boolean }) {
+/**
+ * Schloss mit animierbarem Bügel — der Bügel schwenkt beim Entsperren auf.
+ * `haken` folgt kurz danach: das Schloss-Symbol blendet zu einem
+ * gezeichneten Häkchen über (derselbe Schloss-Kreis bleibt stehen) — der
+ * kurze Erfolgs-Moment, bevor die Karte in ErgebnisSchleuse verschwindet.
+ */
+function Schloss({ offen, haken }: { offen: boolean; haken: boolean }) {
+  const reduceMotion = useReducedMotion() ?? false;
   return (
     <span
       aria-hidden
       className="grid h-12 w-12 place-items-center rounded-full bg-akzent-wash"
     >
-      <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
-        {/* Bügel: dreht beim Öffnen um seinen rechten Fußpunkt nach oben auf */}
-        <path
-          d="M6 11V7a5 5 0 0 1 10 0v4"
-          stroke="var(--ink-cream)"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          style={{
-            transformOrigin: "16px 11px",
-            transform: offen ? "rotate(-38deg) translateY(-1.5px)" : "none",
-            transition:
-              "transform var(--duration-very-slow) var(--ease-bounce)",
-          }}
-        />
-        {/* Körper */}
-        <rect x="3" y="10.6" width="16" height="11.4" rx="3" fill="var(--ink-cream)" />
-        <circle cx="11" cy="15.6" r="1.7" fill="var(--akzent)" />
-        <path d="M11 15.6v2.8" stroke="var(--akzent)" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
+      <AnimatePresence>
+        {haken ? (
+          <motion.svg
+            key="haken"
+            width="20"
+            height="20"
+            viewBox="0 0 14 14"
+            fill="none"
+            className="col-start-1 row-start-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.15, ease: EASE_SMOOTH_OUT }}
+          >
+            <motion.path
+              d="M3 7.2l2.8 2.8L11 4"
+              stroke="var(--ink-cream)"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: EASE_BOUNCE }}
+            />
+          </motion.svg>
+        ) : (
+          <motion.svg
+            key="schloss"
+            width="22"
+            height="24"
+            viewBox="0 0 22 24"
+            fill="none"
+            className="col-start-1 row-start-1"
+            exit={{ opacity: 0, transition: { duration: reduceMotion ? 0 : 0.1, ease: EASE_SMOOTH_OUT } }}
+          >
+            {/* Bügel: dreht beim Öffnen um seinen rechten Fußpunkt nach oben auf */}
+            <path
+              d="M6 11V7a5 5 0 0 1 10 0v4"
+              stroke="var(--ink-cream)"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              style={{
+                transformOrigin: "16px 11px",
+                transform: offen ? "rotate(-38deg) translateY(-1.5px)" : "none",
+                transition:
+                  "transform var(--duration-very-slow) var(--ease-bounce)",
+              }}
+            />
+            {/* Körper */}
+            <rect x="3" y="10.6" width="16" height="11.4" rx="3" fill="var(--ink-cream)" />
+            <circle cx="11" cy="15.6" r="1.7" fill="var(--akzent)" />
+            <path d="M11 15.6v2.8" stroke="var(--akzent)" strokeWidth="1.7" strokeLinecap="round" />
+          </motion.svg>
+        )}
+      </AnimatePresence>
     </span>
   );
 }
@@ -88,14 +140,23 @@ export function ErgebnisSchleuse({
       getContent() durch; ohne Props gelten die eingebauten Defaults. */
   texte?: { titel?: string; sub?: string; button?: string; hinweis?: string };
 }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const [frei, setFrei] = useState(false);
   const [entsperrt, setEntsperrt] = useState(false); // Schloss offen, Karte geht
+  const [haken, setHaken] = useState(false); // kurzer Erfolgs-Moment: Häkchen im Schloss-Kreis
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [telefon, setTelefon] = useState("");
   const [consent, setConsent] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
+  const [fehlerNonce, setFehlerNonce] = useState(0); // triggert den Shake bei jeder neuen Fehlermeldung neu
   const [sendet, setSendet] = useState(false);
+
+  /** Fehler setzen + Shake auslösen (auch bei wortgleicher Wiederholung). */
+  function zeigeFehler(msg: string) {
+    setFehler(msg);
+    setFehlerNonce((n) => n + 1);
+  }
 
   // Schon in dieser Sitzung freigeschaltet? Erst nach dem Mount lesen —
   // SSR kennt sessionStorage nicht, und der Server soll das Ergebnis
@@ -108,10 +169,10 @@ export function ErgebnisSchleuse({
   }, []);
 
   async function senden() {
-    if (name.trim().length < 2) return setFehler("Bitte Ihren Namen angeben.");
+    if (name.trim().length < 2) return zeigeFehler("Bitte Ihren Namen angeben.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
-      return setFehler("Bitte eine gültige E-Mail-Adresse angeben.");
-    if (!consent) return setFehler("Bitte der Verarbeitung Ihrer Angaben zustimmen.");
+      return zeigeFehler("Bitte eine gültige E-Mail-Adresse angeben.");
+    if (!consent) return zeigeFehler("Bitte der Verarbeitung Ihrer Angaben zustimmen.");
     setFehler(null);
     setSendet(true);
     try {
@@ -130,7 +191,7 @@ export function ErgebnisSchleuse({
       });
       const json = (await res.json().catch(() => null)) as { ok?: boolean } | null;
       if (!res.ok || !json?.ok) {
-        setFehler("Senden fehlgeschlagen — bitte kurz erneut versuchen.");
+        zeigeFehler("Senden fehlgeschlagen — bitte kurz erneut versuchen.");
         return;
       }
       merkeFrei();
@@ -140,12 +201,16 @@ export function ErgebnisSchleuse({
         setFrei(true);
         return;
       }
-      // Inszenierung: erst schwingt der Bügel auf (Schloss-Animation),
-      // dann verschwindet die Karte und der Blur löst sich.
+      // Inszenierung: erst schwingt der Bügel auf (Schloss-Animation, ~500ms),
+      // dann ein kurzer Erfolgs-Moment — das Häkchen zeichnet sich im
+      // Schloss-Kreis (s. Schloss-Komponente) —, danach verschwindet die
+      // Karte und der Blur löst sich (bestehende Sequenz + ~200ms Laufzeit
+      // für den Häkchen-Moment).
       setEntsperrt(true);
-      setTimeout(() => setFrei(true), 620);
+      setTimeout(() => setHaken(true), 460);
+      setTimeout(() => setFrei(true), 820);
     } catch {
-      setFehler("Senden fehlgeschlagen — bitte kurz erneut versuchen.");
+      zeigeFehler("Senden fehlgeschlagen — bitte kurz erneut versuchen.");
     } finally {
       setSendet(false);
     }
@@ -176,7 +241,7 @@ export function ErgebnisSchleuse({
             }`}
           >
             <div className="flex items-center gap-4">
-              <Schloss offen={entsperrt} />
+              <Schloss offen={entsperrt} haken={haken} />
               <div>
                 <p className="text-[15.5px] font-semibold text-ink-cream">
                   {texte?.titel ?? "Ihre Auswertung ist fertig."}
@@ -244,9 +309,16 @@ export function ErgebnisSchleuse({
             </label>
 
             {fehler && (
-              <p role="alert" className="mt-3 text-[13px] font-medium text-[#c2453a]">
+              <motion.p
+                key={fehlerNonce}
+                role="alert"
+                className="mt-3 text-[13px] font-medium text-[#c2453a]"
+                initial={false}
+                animate={reduceMotion ? {} : { x: [0, -4, 4, -4, 4, -4, 4, 0] }}
+                transition={{ duration: 0.3, ease: EASE_SMOOTH_OUT }}
+              >
                 {fehler}
-              </p>
+              </motion.p>
             )}
 
             <button

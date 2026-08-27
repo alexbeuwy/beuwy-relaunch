@@ -37,6 +37,8 @@ export const INTERN_PIPELINE_DEFAULTS: Record<string, string> = {
   "intern.pipeline.kein_kontakt": "Kein Kontakt verknüpft",
   "intern.pipeline.heute": "Heute",
   "intern.pipeline.menu_verschieben_nach": "Verschieben nach …",
+  "intern.pipeline.menu_bearbeiten": "Bearbeiten",
+  "intern.pipeline.menu_kontakt_oeffnen": "Kontakt öffnen",
 
   "intern.pipeline.dialog_neu_titel": "Deal anlegen",
   "intern.pipeline.feld_titel": "Titel",
@@ -52,6 +54,7 @@ export const INTERN_PIPELINE_DEFAULTS: Record<string, string> = {
 
   "intern.pipeline.verloren_titel": "Deal als verloren markieren",
   "intern.pipeline.verloren_sub": "Bitte kurz den Grund angeben — das schärft die Pipeline für später.",
+  "intern.pipeline.verloren_grund_platzhalter": "Grund auswählen",
   "intern.pipeline.verloren_notiz_platzhalter": "Freitext, optional (bei „Anderes“ Pflicht)",
   "intern.pipeline.verloren_speichern": "Als verloren speichern",
   "intern.pipeline.verloren_fehler_grund": "Bitte einen Grund auswählen.",
@@ -61,6 +64,10 @@ export const INTERN_PIPELINE_DEFAULTS: Record<string, string> = {
   "intern.pipeline.grund_wettbewerber": "Wettbewerber",
   "intern.pipeline.grund_kein_bedarf": "Kein Bedarf",
   "intern.pipeline.grund_anderes": "Anderes",
+
+  "intern.pipeline.toast_verschoben": "{titel} → {status} verschoben.",
+  "intern.pipeline.toast_rueckgaengig": "Rückgängig",
+  "intern.pipeline.toast_angelegt": "{titel} angelegt.",
 };
 
 export const INTERN_PIPELINE_LABELS: Record<string, string> = {
@@ -84,7 +91,9 @@ export const INTERN_PIPELINE_LABELS: Record<string, string> = {
   "intern.pipeline.karte_menu_label": "Intern · Pipeline · Kontextmenü-Button · Aria-Label",
   "intern.pipeline.kein_kontakt": "Intern · Pipeline · Karte ohne auflösbaren Kontakt",
   "intern.pipeline.heute": "Intern · Pipeline · Alter-Badge „Heute“",
-  "intern.pipeline.menu_verschieben_nach": "Intern · Pipeline · Kontextmenü · Überschrift",
+  "intern.pipeline.menu_verschieben_nach": "Intern · Pipeline · Kontextmenü · Untermenü „Verschieben nach …“",
+  "intern.pipeline.menu_bearbeiten": "Intern · Pipeline · Kontextmenü · Eintrag „Bearbeiten“",
+  "intern.pipeline.menu_kontakt_oeffnen": "Intern · Pipeline · Kontextmenü · Eintrag „Kontakt öffnen“ (nur bei verknüpftem Kontakt)",
 
   "intern.pipeline.dialog_neu_titel": "Intern · Pipeline · Dialog „Deal anlegen“ · Titel",
   "intern.pipeline.feld_titel": "Intern · Pipeline · Dialog „Deal anlegen“ · Feld Titel",
@@ -100,6 +109,7 @@ export const INTERN_PIPELINE_LABELS: Record<string, string> = {
 
   "intern.pipeline.verloren_titel": "Intern · Pipeline · Verloren-Dialog · Titel",
   "intern.pipeline.verloren_sub": "Intern · Pipeline · Verloren-Dialog · Satz",
+  "intern.pipeline.verloren_grund_platzhalter": "Intern · Pipeline · Verloren-Dialog · Grund-Auswahl · Platzhalter",
   "intern.pipeline.verloren_notiz_platzhalter": "Intern · Pipeline · Verloren-Dialog · Notizfeld-Platzhalter",
   "intern.pipeline.verloren_speichern": "Intern · Pipeline · Verloren-Dialog · Speichern-Button",
   "intern.pipeline.verloren_fehler_grund": "Intern · Pipeline · Verloren-Dialog · Fehler ohne Grund",
@@ -109,4 +119,10 @@ export const INTERN_PIPELINE_LABELS: Record<string, string> = {
   "intern.pipeline.grund_wettbewerber": "Intern · Pipeline · Verlust-Grund „Wettbewerber“",
   "intern.pipeline.grund_kein_bedarf": "Intern · Pipeline · Verlust-Grund „Kein Bedarf“",
   "intern.pipeline.grund_anderes": "Intern · Pipeline · Verlust-Grund „Anderes“",
+
+  "intern.pipeline.toast_verschoben":
+    "Intern · Pipeline · Toast nach Statuswechsel ({titel} = Deal-Titel, {status} = neuer Status — Platzhalter, nicht entfernen)",
+  "intern.pipeline.toast_rueckgaengig": "Intern · Pipeline · Toast nach Statuswechsel · Rückgängig-Action-Label",
+  "intern.pipeline.toast_angelegt":
+    "Intern · Pipeline · Toast nach Deal-Anlage ({titel} = Deal-Titel — Platzhalter, nicht entfernen)",
 };

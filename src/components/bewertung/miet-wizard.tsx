@@ -3,6 +3,7 @@
 import { ErgebnisSchleuse } from "./ErgebnisSchleuse";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { berechneMietwert } from "@/lib/rechner/mietwert";
 import {
@@ -29,6 +30,7 @@ import { ortAusLabel, searchAddress, type GeoResult } from "@/lib/bewertung/geoc
 import { parseDeZahl } from "@/lib/bewertung/parse-de-zahl";
 import { track, trackKlick, setAnsicht } from "@/lib/bewertung/track";
 import { Icon } from "@/components/bewertung/icon";
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Mietpreis-Wizard (LEAF P3) — eigenständiger 3-Schritt-Rechner in derselben
@@ -79,6 +81,32 @@ const STEP_NODES = ["Rechner starten", "Objektart", "Lage", "Eckdaten"];
 const PROGRESS_PCT = [32, 60, 82];
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+// Motion-Tokens (LEAF U6, transitions-dev-Disziplin) — dieselben Konstanten
+// wie in ThreadVerlauf.tsx/AufgabenClient.tsx/FlowEditor.tsx: smooth-out für
+// Ein-/Ausblenden, bounce nur für Erfolgsmomente (Häkchen-Zeichnung).
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_BOUNCE: [number, number, number, number] = [0.34, 1.36, 0.64, 1];
+
+/** Schrittwechsel im Formular: Enter y+6/fade 0.25s, Exit 0.15s (Schließen
+ *  40% schneller als Öffnen) — reduced-motion nur Fade, kein Transform. */
+function stepMotionProps(reduce: boolean) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0, transition: { duration: reduce ? 0.15 : 0.25, ease: EASE_SMOOTH_OUT } },
+    exit: { opacity: 0, y: reduce ? 0 : -6, transition: { duration: 0.15, ease: EASE_SMOOTH_OUT } },
+  } as const;
+}
+
+/** Pop-in für Ergebniszahlen: scale 0.97→1 + fade, fast (0.25s), optional
+ *  im 40ms-Rhythmus gestaffelt — reduced-motion nur Fade, kein Transform. */
+function popIn(reduce: boolean, delay = 0) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.25, ease: EASE_SMOOTH_OUT, delay: reduce ? 0 : delay },
+  } as const;
+}
 
 interface FormState {
   objekttyp: Objekttyp;
@@ -193,6 +221,7 @@ function buildQuellen(f: FormState, ergebnis: MietwertErgebnis, ort: string): Qu
 }
 
 export function MietWizard() {
+  const reduceMotion = useReducedMotion() ?? false;
   const [phase, setPhase] = useState<Phase>("form");
   const [step, setStep] = useState(0);
   const [f, setF] = useState<FormState>(EMPTY);
@@ -210,13 +239,18 @@ export function MietWizard() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Fokus-Management: bei NUTZER-Schrittwechsel zur neuen Überschrift
-  // springen (nicht beim Initial-Mount).
-  useEffect(() => {
-    if (phase === "form" && userNav.current) {
+  // springen (nicht beim Initial-Mount). Als Ref-Callback statt useEffect(
+  // [step, phase]): AnimatePresence mode="wait" (LEAF U6) hängt die neue
+  // Schrittüberschrift erst NACH der Exit-Animation des alten Schritts ein —
+  // ein Effect auf [step, phase] würde noch die verschwindende Überschrift
+  // fokussieren. Der Ref-Callback feuert exakt beim tatsächlichen Mount.
+  const setHeadingRef = (el: HTMLHeadingElement | null) => {
+    headingRef.current = el;
+    if (el && userNav.current) {
       userNav.current = false;
-      headingRef.current?.focus();
+      el.focus();
     }
-  }, [step, phase]);
+  };
 
   useEffect(() => {
     setAnsicht(
@@ -474,7 +508,10 @@ export function MietWizard() {
                   </span>
                 </div>
                 {d < STEP_NODES.length - 1 && (
-                  <div aria-hidden="true" className={`h-px flex-1 ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`} />
+                  <div
+                    aria-hidden="true"
+                    className={`h-px flex-1 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`}
+                  />
                 )}
               </li>
             );
@@ -483,9 +520,10 @@ export function MietWizard() {
       </div>
 
       <div className="rounded-[24px] border border-line-subtle bg-white p-6 sm:p-8">
+        <AnimatePresence mode="wait" initial={false}>
         {step === 0 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Was möchten Sie vermieten?
             </h2>
             <div className="grid grid-cols-3 gap-3">
@@ -524,12 +562,12 @@ export function MietWizard() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 1 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Wo liegt die Immobilie?
             </h2>
             <div className="relative">
@@ -547,6 +585,16 @@ export function MietWizard() {
               {searching && (
                 <div role="status" aria-live="polite" className="absolute right-3 top-3 text-xs text-ink-dim">
                   sucht…
+                </div>
+              )}
+              {searching && !f.address && suggestions.length === 0 && (
+                <div
+                  aria-hidden="true"
+                  className="absolute z-20 mt-2 w-full space-y-2.5 overflow-hidden rounded-[12px] border border-line-medium bg-white px-4 py-3.5 shadow-[0_18px_50px_-20px_rgba(20,20,18,0.35)]"
+                >
+                  <Skeleton className="h-3.5 w-[78%]" />
+                  <Skeleton className="h-3.5 w-[58%]" />
+                  <Skeleton className="h-3.5 w-[66%]" />
                 </div>
               )}
               {suggestions.length > 0 && !f.address && (
@@ -580,12 +628,12 @@ export function MietWizard() {
             <p className="text-xs text-ink-dim">
               Grobe Einwohnerklasse: Kleinstadt bis 20.000 · Mittelstadt bis 100.000 · Großstadt bis 500.000 · Metropole darüber.
             </p>
-          </div>
+          </motion.div>
         )}
 
         {step === 2 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Eckdaten der Immobilie
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -598,8 +646,9 @@ export function MietWizard() {
             </div>
             <PillGruppe label="Zustand" optionen={ZUSTAENDE} labelMap={ZUSTAND_LABEL} wert={f.zustand} onChange={(v) => set("zustand", v)} />
             <PillGruppe label="Ausstattung" optionen={DREI_STUFEN} labelMap={DREI_STUFEN_LABEL} wert={f.ausstattung} onChange={(v) => set("ausstattung", v)} />
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
 
         <div className="mt-5">
           <p
@@ -655,6 +704,7 @@ function Analyzing({
   ort: string;
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const pct = quellen.length ? Math.round((revealed / quellen.length) * 100) : 0;
   return (
     <div
@@ -687,11 +737,28 @@ function Analyzing({
               >
                 <div className="flex items-center gap-3">
                   <span
-                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${
+                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${
                       done ? "bg-akzent text-ink-cream" : "border border-line-medium text-ink-muted"
                     }`}
                   >
-                    {done ? "✓" : active ? "…" : ""}
+                    {done ? (
+                      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <motion.path
+                          d="M3 7.2l2.8 2.8L11 4"
+                          stroke="currentColor"
+                          strokeWidth={1.8}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: EASE_BOUNCE }}
+                        />
+                      </svg>
+                    ) : active ? (
+                      "…"
+                    ) : (
+                      ""
+                    )}
                   </span>
                   <div>
                     <div className={`text-sm ${done ? "text-ink-cream" : "text-ink-muted"}`}>{s.label}</div>
@@ -734,6 +801,7 @@ function Ergebnis({
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const idBasis = useId();
+  const reduceMotion = useReducedMotion() ?? false;
   const mid = useCountUp(result.mittelwertEuro, true);
   const proM2 = result.mittelwertEuro / eingaben.wohnflaeche;
   const rangePos =
@@ -806,15 +874,22 @@ function Ergebnis({
             </span>
           </div>
 
-          <div aria-hidden className="mt-5 font-display leading-none tnum text-ink-cream" style={{ fontSize: "clamp(26px, 6vw, 52px)" }}>
+          <motion.div
+            aria-hidden
+            className="mt-5 font-display leading-none tnum text-ink-cream"
+            style={{ fontSize: "clamp(26px, 6vw, 52px)" }}
+            {...popIn(reduceMotion, 0)}
+          >
             {formatEuro(mid)}
-          </div>
+          </motion.div>
           <span className="sr-only">Geschätzte Kaltmiete: {formatEuro(result.mittelwertEuro)}</span>
 
-          <div className="mt-3 text-sm text-ink-muted sm:text-base">
+          <motion.div className="mt-3 text-sm text-ink-muted sm:text-base" {...popIn(reduceMotion, 0.05)}>
             Spanne {formatEuro(result.vonEuro)} – {formatEuro(result.bisEuro)}
-          </div>
-          <p className="mt-1 text-sm text-ink-muted tnum">Ø {formatEuroProM2(proM2, 2)}</p>
+          </motion.div>
+          <motion.p className="mt-1 text-sm text-ink-muted tnum" {...popIn(reduceMotion, 0.09)}>
+            Ø {formatEuroProM2(proM2, 2)}
+          </motion.p>
 
           <div className="relative mx-auto mt-6 h-2 max-w-md rounded-full bg-white">
             <div className="absolute inset-y-0 left-[8%] right-[8%] rounded-full bg-gradient-to-r from-akzent/30 via-akzent to-akzent/30" />

@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Suspense } from "react";
 import { crmKonfiguriert, trackAuswertung, trackHeatmap } from "@/lib/crm/db";
 import { getContent } from "@/lib/content";
 import { INTERN_EINBLICK_DEFAULTS } from "@/lib/texte/intern-einblick";
 import { SektionsKopf, GelbeKarte } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
-import { Heatmap } from "./Heatmap";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Heatmap, KpiZahl, PfadAuswahl, UmschalterTabs } from "./Heatmap";
 
 /**
  * /intern/einblick — Erstanbieter-Analytics (R5 Leaf G5, „Einblick").
  * Server-Komponente: lädt Zeitraum-Auswertung + Heatmap-Punkte über die
  * einzig erlaubte Datenschicht (src/lib/crm/db.ts::trackAuswertung /
- * trackHeatmap) und rendert komplett serverseitig — Zeitraum-Wahl,
- * Pfad-Auswahl und Geräte-Umschalter laufen über Query-Parameter
- * (<Link href="?...">), kein Client-State nötig außer im Canvas selbst
- * (Heatmap.tsx).
+ * trackHeatmap).
  *
  * RPC-Verträge (per Supabase-Introspektion geprüft, siehe Kommentar-Kopf
  * von src/lib/track-client.ts):
@@ -33,6 +31,20 @@ import { Heatmap } from "./Heatmap";
  *   Besuche = Summe aller geraete[].besuche (jede pageload_id trägt
  *   genau EIN geraet, die Summe ist also eine exakte Gesamtzahl, kein
  *   Top-50-Ausschnitt).
+ *
+ * LEAF U5 (Alex, 27.08 — Einblick- und Konto-UX): Zeitraum-Wahl, Geräte-
+ * Umschalter und Pfad-Wahl laufen jetzt über echte shadcn-Bauteile
+ * (ui/tabs, ui/select — Client-Komponenten in ./Heatmap.tsx, siehe
+ * deren Dateikopf) statt reiner <Link>-Pillen; sie navigieren per
+ * router.push zur selben Query-Param-URL wie zuvor, State bleibt also
+ * weiterhin vollständig in der URL, kein eigener Seiten-State. Die
+ * eigentliche Datenladung (KPIs, Seiten/Ereignisse/Geräte, Heatmap)
+ * sitzt jetzt in der async Server-Komponente `EinblickDaten` unter
+ * einem <Suspense>-Rand mit ui/skeleton-Fallback — Kopfzeile,
+ * Demo-Hinweis und Zeitraum-Tabs brauchen keinen Datenabruf und
+ * rendern sofort. Die KPI-Zahlen selbst crossfaden bei Prop-Wechsel
+ * über die Client-Komponente `KpiZahl` (motion, siehe deren
+ * Dateikopf).
  */
 
 export const metadata: Metadata = {
@@ -65,6 +77,8 @@ type EventZeile = { event: string; n: number };
 type GeraetZeile = { geraet: string; besuche: number };
 type Auswertung = { seiten: SeiteZeile[]; events: EventZeile[]; geraete: GeraetZeile[] };
 type HeatmapPunkt = { x: number; y: number; n: number };
+type GeraetFilter = "alle" | "desktop" | "mobil";
+type LinkOverride = Partial<{ zeitraum: string; pfad: string; geraet: string }>;
 
 function zahl(v: unknown): number {
   return typeof v === "number" && Number.isFinite(v) ? v : Number(v) || 0;
@@ -186,38 +200,33 @@ function KpiKachel({ label, wert }: { label: string; wert: string }) {
   return (
     <div className="rounded-xl border border-line-subtle bg-white px-5 py-4">
       <p className="t-label">{label}</p>
-      <p className="tnum mt-2 font-mono text-[22px] font-semibold leading-none text-ink-cream">{wert}</p>
+      <p className="tnum mt-2 font-mono text-[22px] font-semibold leading-none text-ink-cream">
+        <KpiZahl wert={wert} />
+      </p>
     </div>
   );
 }
 
-function Pille({ href, aktiv, children }: { href: string; aktiv: boolean; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      aria-current={aktiv ? "true" : undefined}
-      className={`inline-flex items-center rounded-full border px-3.5 py-1.5 text-[12.5px] font-medium transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) ${
-        aktiv
-          ? "border-akzent bg-akzent-wash font-semibold text-ink-cream"
-          : "border-line-subtle text-ink-muted hover:border-ink-cream/30 hover:text-ink-cream"
-      }`}
-    >
-      {children}
-    </Link>
-  );
-}
+/* ── Lade-Skeleton für den Suspense-Rand um EinblickDaten ──────────── */
 
-function UmschalterLink({ href, aktiv, children }: { href: string; aktiv: boolean; children: ReactNode }) {
+function EinblickSkeleton() {
   return (
-    <Link
-      href={href}
-      aria-current={aktiv ? "true" : undefined}
-      className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) ${
-        aktiv ? "bg-akzent font-semibold text-ink-cream" : "text-ink-muted hover:text-ink-cream"
-      }`}
-    >
-      {children}
-    </Link>
+    <div className="flex flex-col gap-6">
+      <Skeleton className="h-[46px] w-full rounded-xl" />
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="h-[80px] rounded-xl" />
+        ))}
+      </div>
+      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+        <Skeleton className="h-[360px] rounded-2xl" />
+        <div className="flex flex-col gap-5">
+          <Skeleton className="h-[170px] rounded-2xl" />
+          <Skeleton className="h-[150px] rounded-2xl" />
+        </div>
+      </div>
+      <Skeleton className="h-[430px] rounded-2xl" />
+    </div>
   );
 }
 
@@ -232,47 +241,14 @@ export default async function InternEinblickPage({
   const t = (key: string) => content[key] ?? INTERN_EINBLICK_DEFAULTS[key] ?? key;
 
   const zeitraum = sp.zeitraum === "heute" || sp.zeitraum === "30" ? sp.zeitraum : "7";
-  const jetzt = new Date();
-  const von = zeitraumVon(zeitraum, jetzt);
+  const geraetParam: GeraetFilter = sp.geraet === "desktop" || sp.geraet === "mobil" ? sp.geraet : "alle";
+  const pfadParam = sp.pfad;
 
-  let auswertung: Auswertung;
-  let liveBesuche: number;
-  if (konfiguriert) {
-    const [auswertungRoh, liveRoh] = await Promise.all([
-      trackAuswertung(von.toISOString(), jetzt.toISOString()),
-      trackAuswertung(new Date(jetzt.getTime() - 30 * 60_000).toISOString(), jetzt.toISOString()),
-    ]);
-    auswertung = zuAuswertung(auswertungRoh);
-    liveBesuche = zuAuswertung(liveRoh).geraete.reduce((a, g) => a + g.besuche, 0);
-  } else {
-    auswertung = DEMO_AUSWERTUNG;
-    liveBesuche = DEMO_LIVE_BESUCHE;
-  }
-
-  const seitenaufrufe = auswertung.events.find((e) => e.event === "pageview")?.n ?? 0;
-  const klicks = auswertung.events.find((e) => e.event === "klick")?.n ?? 0;
-  const besucheGesamt = auswertung.geraete.reduce((a, g) => a + g.besuche, 0);
-  const proBesuch = besucheGesamt > 0 ? seitenaufrufe / besucheGesamt : 0;
-  const geraeteMax = Math.max(1, ...auswertung.geraete.map((g) => g.besuche));
-
-  const topSeiten = auswertung.seiten.slice(0, 8);
-  const heatmapPfad =
-    sp.pfad && topSeiten.some((s) => s.pfad === sp.pfad) ? sp.pfad : (topSeiten[0]?.pfad ?? null);
-  const heatmapGeraetParam: "alle" | "desktop" | "mobil" =
-    sp.geraet === "desktop" || sp.geraet === "mobil" ? sp.geraet : "alle";
-
-  let heatmapPunkte: HeatmapPunkt[] = [];
-  if (heatmapPfad) {
-    heatmapPunkte = konfiguriert
-      ? await trackHeatmap(heatmapPfad, heatmapGeraetParam === "alle" ? null : heatmapGeraetParam, von.toISOString())
-      : demoHeatmapPunkte();
-  }
-
-  function link(override: Partial<{ zeitraum: string; pfad: string; geraet: string }>): string {
+  function link(override: LinkOverride): string {
     const params = new URLSearchParams({
       zeitraum,
-      ...(heatmapPfad ? { pfad: heatmapPfad } : {}),
-      geraet: heatmapGeraetParam,
+      ...(pfadParam ? { pfad: pfadParam } : {}),
+      geraet: geraetParam,
       ...override,
     });
     return `/intern/einblick?${params.toString()}`;
@@ -300,200 +276,274 @@ export default async function InternEinblickPage({
         )}
 
         <Reveal delay={80}>
-          <div className="mt-8 flex items-center gap-2.5 rounded-xl border border-line-subtle bg-bg-elevated px-4 py-3">
-            {/* Statischer Punkt, keine Ad-hoc-Animation — Muster: die
-                „Läuft gerade"-Zeile in src/app/intern/page.tsx. */}
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-akzent" aria-hidden />
-            <p className="t-small !text-ink-muted">
-              {t("intern.einblick.live_titel")} ·{" "}
-              <span className="tnum font-mono font-semibold !text-ink-cream">{ZAHL.format(liveBesuche)}</span>{" "}
-              Besuch{liveBesuche === 1 ? "" : "e"} (letzte 30 Min.)
-            </p>
+          <div className="mt-8">
+            <UmschalterTabs
+              ariaLabel={t("intern.einblick.eyebrow")}
+              wert={zeitraum}
+              optionen={[
+                { wert: "heute", href: link({ zeitraum: "heute" }), label: t("intern.einblick.zeitraum_heute") },
+                { wert: "7", href: link({ zeitraum: "7" }), label: t("intern.einblick.zeitraum_7") },
+                { wert: "30", href: link({ zeitraum: "30" }), label: t("intern.einblick.zeitraum_30") },
+              ]}
+            />
           </div>
         </Reveal>
 
-        <Reveal delay={100}>
-          <div className="mt-6 flex flex-wrap gap-2">
-            <Pille href={link({ zeitraum: "heute" })} aktiv={zeitraum === "heute"}>
-              {t("intern.einblick.zeitraum_heute")}
-            </Pille>
-            <Pille href={link({ zeitraum: "7" })} aktiv={zeitraum === "7"}>
-              {t("intern.einblick.zeitraum_7")}
-            </Pille>
-            <Pille href={link({ zeitraum: "30" })} aktiv={zeitraum === "30"}>
-              {t("intern.einblick.zeitraum_30")}
-            </Pille>
-          </div>
-        </Reveal>
+        <div className="mt-6">
+          <Suspense fallback={<EinblickSkeleton />}>
+            <EinblickDaten
+              zeitraum={zeitraum}
+              geraetParam={geraetParam}
+              pfadParam={pfadParam}
+              konfiguriert={konfiguriert}
+              t={t}
+              link={link}
+            />
+          </Suspense>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-        <Reveal delay={120}>
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <KpiKachel label={t("intern.einblick.kpi_seitenaufrufe")} wert={ZAHL.format(seitenaufrufe)} />
-            <KpiKachel label={t("intern.einblick.kpi_besuche")} wert={ZAHL.format(besucheGesamt)} />
-            <KpiKachel label={t("intern.einblick.kpi_pro_besuch")} wert={ZAHL_1.format(proBesuch)} />
-            <KpiKachel label={t("intern.einblick.kpi_klicks")} wert={ZAHL.format(klicks)} />
-          </div>
-        </Reveal>
+/* ── Datenladung + restliches Markup, hinter Suspense (siehe Dateikopf) ── */
 
-        <Reveal delay={140}>
-          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px]">
-            <section className="rounded-2xl border border-line-subtle p-6">
-              <p className="t-label">{t("intern.einblick.seiten_titel")}</p>
-              <div className="mt-4">
-                {auswertung.seiten.length === 0 ? (
-                  <LeerPanel text={t("intern.einblick.seiten_leer")} />
-                ) : (
-                  <>
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse text-left">
-                        <thead>
-                          <tr className="border-b border-line-subtle">
-                            <th className="t-label px-2 py-2 font-medium">{t("intern.einblick.seiten_spalte_pfad")}</th>
-                            <th className="t-label px-2 py-2 text-right font-medium">
-                              {t("intern.einblick.seiten_spalte_views")}
-                            </th>
-                            <th className="t-label px-2 py-2 text-right font-medium">
-                              {t("intern.einblick.seiten_spalte_besuche")}
-                            </th>
+async function EinblickDaten({
+  zeitraum,
+  geraetParam,
+  pfadParam,
+  konfiguriert,
+  t,
+  link,
+}: {
+  zeitraum: string;
+  geraetParam: GeraetFilter;
+  pfadParam: string | undefined;
+  konfiguriert: boolean;
+  t: (key: string) => string;
+  link: (override: LinkOverride) => string;
+}) {
+  const jetzt = new Date();
+  const von = zeitraumVon(zeitraum, jetzt);
+
+  let auswertung: Auswertung;
+  let liveBesuche: number;
+  if (konfiguriert) {
+    const [auswertungRoh, liveRoh] = await Promise.all([
+      trackAuswertung(von.toISOString(), jetzt.toISOString()),
+      trackAuswertung(new Date(jetzt.getTime() - 30 * 60_000).toISOString(), jetzt.toISOString()),
+    ]);
+    auswertung = zuAuswertung(auswertungRoh);
+    liveBesuche = zuAuswertung(liveRoh).geraete.reduce((a, g) => a + g.besuche, 0);
+  } else {
+    auswertung = DEMO_AUSWERTUNG;
+    liveBesuche = DEMO_LIVE_BESUCHE;
+  }
+
+  const seitenaufrufe = auswertung.events.find((e) => e.event === "pageview")?.n ?? 0;
+  const klicks = auswertung.events.find((e) => e.event === "klick")?.n ?? 0;
+  const besucheGesamt = auswertung.geraete.reduce((a, g) => a + g.besuche, 0);
+  const proBesuch = besucheGesamt > 0 ? seitenaufrufe / besucheGesamt : 0;
+  const geraeteMax = Math.max(1, ...auswertung.geraete.map((g) => g.besuche));
+
+  const topSeiten = auswertung.seiten.slice(0, 8);
+  const heatmapPfad =
+    pfadParam && topSeiten.some((s) => s.pfad === pfadParam) ? pfadParam : (topSeiten[0]?.pfad ?? null);
+
+  let heatmapPunkte: HeatmapPunkt[] = [];
+  if (heatmapPfad) {
+    heatmapPunkte = konfiguriert
+      ? await trackHeatmap(heatmapPfad, geraetParam === "alle" ? null : geraetParam, von.toISOString())
+      : demoHeatmapPunkte();
+  }
+
+  return (
+    <>
+      <Reveal>
+        <div className="flex items-center gap-2.5 rounded-xl border border-line-subtle bg-bg-elevated px-4 py-3">
+          {/* Statischer Punkt, keine Ad-hoc-Animation — Muster: die
+              „Läuft gerade"-Zeile in src/app/intern/page.tsx. */}
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-akzent" aria-hidden />
+          <p className="t-small !text-ink-muted">
+            {t("intern.einblick.live_titel")} ·{" "}
+            <span className="tnum font-mono font-semibold !text-ink-cream">{ZAHL.format(liveBesuche)}</span>{" "}
+            Besuch{liveBesuche === 1 ? "" : "e"} (letzte 30 Min.)
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={20}>
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <KpiKachel label={t("intern.einblick.kpi_seitenaufrufe")} wert={ZAHL.format(seitenaufrufe)} />
+          <KpiKachel label={t("intern.einblick.kpi_besuche")} wert={ZAHL.format(besucheGesamt)} />
+          <KpiKachel label={t("intern.einblick.kpi_pro_besuch")} wert={ZAHL_1.format(proBesuch)} />
+          <KpiKachel label={t("intern.einblick.kpi_klicks")} wert={ZAHL.format(klicks)} />
+        </div>
+      </Reveal>
+
+      <Reveal delay={40}>
+        <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px]">
+          <section className="rounded-2xl border border-line-subtle p-6">
+            <p className="t-label">{t("intern.einblick.seiten_titel")}</p>
+            <div className="mt-4">
+              {auswertung.seiten.length === 0 ? (
+                <LeerPanel text={t("intern.einblick.seiten_leer")} />
+              ) : (
+                <>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-left">
+                      <thead>
+                        <tr className="border-b border-line-subtle">
+                          <th className="t-label px-2 py-2 font-medium">{t("intern.einblick.seiten_spalte_pfad")}</th>
+                          <th className="t-label px-2 py-2 text-right font-medium">
+                            {t("intern.einblick.seiten_spalte_views")}
+                          </th>
+                          <th className="t-label px-2 py-2 text-right font-medium">
+                            {t("intern.einblick.seiten_spalte_besuche")}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {auswertung.seiten.map((s) => (
+                          <tr
+                            key={s.pfad}
+                            className="border-b border-line-subtle transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) last:border-0 hover:bg-bg-elevated"
+                          >
+                            <td className="px-2 py-2.5">
+                              <Link
+                                href={`${link({ pfad: s.pfad })}#heatmap`}
+                                className="text-[13px] font-medium text-ink-cream underline decoration-transparent underline-offset-2 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:decoration-line-medium"
+                              >
+                                {s.pfad}
+                              </Link>
+                            </td>
+                            <td className="tnum px-2 py-2.5 text-right font-mono text-[13px] text-ink-muted">
+                              {ZAHL.format(s.views)}
+                            </td>
+                            <td className="tnum px-2 py-2.5 text-right font-mono text-[13px] text-ink-dim">
+                              {ZAHL.format(s.besuche)}
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {auswertung.seiten.map((s) => (
-                            <tr
-                              key={s.pfad}
-                              className="border-b border-line-subtle transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) last:border-0 hover:bg-bg-elevated"
-                            >
-                              <td className="px-2 py-2.5">
-                                <Link
-                                  href={`${link({ pfad: s.pfad })}#heatmap`}
-                                  className="text-[13px] font-medium text-ink-cream underline decoration-transparent underline-offset-2 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:decoration-line-medium"
-                                >
-                                  {s.pfad}
-                                </Link>
-                              </td>
-                              <td className="tnum px-2 py-2.5 text-right font-mono text-[13px] text-ink-muted">
-                                {ZAHL.format(s.views)}
-                              </td>
-                              <td className="tnum px-2 py-2.5 text-right font-mono text-[13px] text-ink-dim">
-                                {ZAHL.format(s.besuche)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    {auswertung.seiten.length >= 50 && (
-                      <p className="t-small mt-3 !text-ink-dim">{t("intern.einblick.seiten_deckel")}</p>
-                    )}
-                  </>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {auswertung.seiten.length >= 50 && (
+                    <p className="t-small mt-3 !text-ink-dim">{t("intern.einblick.seiten_deckel")}</p>
+                  )}
+                </>
+              )}
+            </div>
+          </section>
+
+          <div className="flex flex-col gap-5">
+            <section className="rounded-2xl border border-line-subtle p-6">
+              <p className="t-label">{t("intern.einblick.events_titel")}</p>
+              <div className="mt-4">
+                {auswertung.events.length === 0 ? (
+                  <LeerPanel text={t("intern.einblick.events_leer")} />
+                ) : (
+                  <div className="flex flex-col">
+                    {auswertung.events.map((e) => (
+                      <div
+                        key={e.event}
+                        className="flex items-center justify-between border-b border-line-subtle py-2.5 last:border-0"
+                      >
+                        <span className="text-[13px] text-ink-muted">{EVENT_LABEL[e.event] ?? e.event}</span>
+                        <span className="tnum font-mono text-[13px] font-medium text-ink-cream">
+                          {ZAHL.format(e.n)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </section>
 
-            <div className="flex flex-col gap-5">
-              <section className="rounded-2xl border border-line-subtle p-6">
-                <p className="t-label">{t("intern.einblick.events_titel")}</p>
-                <div className="mt-4">
-                  {auswertung.events.length === 0 ? (
-                    <LeerPanel text={t("intern.einblick.events_leer")} />
-                  ) : (
-                    <div className="flex flex-col">
-                      {auswertung.events.map((e) => (
-                        <div
-                          key={e.event}
-                          className="flex items-center justify-between border-b border-line-subtle py-2.5 last:border-0"
-                        >
-                          <span className="text-[13px] text-ink-muted">{EVENT_LABEL[e.event] ?? e.event}</span>
-                          <span className="tnum font-mono text-[13px] font-medium text-ink-cream">
-                            {ZAHL.format(e.n)}
-                          </span>
+            <section className="rounded-2xl border border-line-subtle p-6">
+              <p className="t-label">{t("intern.einblick.geraete_titel")}</p>
+              <div className="mt-4">
+                {auswertung.geraete.length === 0 ? (
+                  <LeerPanel text={t("intern.einblick.geraete_leer")} />
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {auswertung.geraete.map((g) => (
+                      <div key={g.geraet}>
+                        <div className="flex items-center justify-between text-[12.5px]">
+                          <span className="text-ink-muted">{GERAET_LABEL[g.geraet] ?? g.geraet}</span>
+                          <span className="tnum font-mono font-medium text-ink-cream">{ZAHL.format(g.besuche)}</span>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-line-subtle p-6">
-                <p className="t-label">{t("intern.einblick.geraete_titel")}</p>
-                <div className="mt-4">
-                  {auswertung.geraete.length === 0 ? (
-                    <LeerPanel text={t("intern.einblick.geraete_leer")} />
-                  ) : (
-                    <div className="flex flex-col gap-3">
-                      {auswertung.geraete.map((g) => (
-                        <div key={g.geraet}>
-                          <div className="flex items-center justify-between text-[12.5px]">
-                            <span className="text-ink-muted">{GERAET_LABEL[g.geraet] ?? g.geraet}</span>
-                            <span className="tnum font-mono font-medium text-ink-cream">{ZAHL.format(g.besuche)}</span>
-                          </div>
-                          <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-bg-elevated">
-                            <div
-                              className="h-full rounded-full bg-akzent transition-[width] duration-(--duration-slow) ease-(--ease-smooth-out)"
-                              style={{ width: `${Math.round((g.besuche / geraeteMax) * 100)}%` }}
-                            />
-                          </div>
+                        <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-bg-elevated">
+                          <div
+                            className="h-full rounded-full bg-akzent transition-[width] duration-(--duration-slow) ease-(--ease-smooth-out)"
+                            style={{ width: `${Math.round((g.besuche / geraeteMax) * 100)}%` }}
+                          />
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </section>
-            </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
           </div>
-        </Reveal>
+        </div>
+      </Reveal>
 
-        <Reveal delay={160}>
-          <section id="heatmap" className="mt-6 scroll-mt-20 rounded-2xl border border-line-subtle p-6">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="t-label">{t("intern.einblick.heatmap_titel")}</p>
-                <p className="t-small mt-1 !text-ink-muted">{t("intern.einblick.heatmap_sub")}</p>
-              </div>
-              <div className="inline-flex rounded-full border border-line-subtle p-0.5">
-                <UmschalterLink href={link({ geraet: "alle" })} aktiv={heatmapGeraetParam === "alle"}>
-                  {t("intern.einblick.heatmap_geraet_alle")}
-                </UmschalterLink>
-                <UmschalterLink href={link({ geraet: "desktop" })} aktiv={heatmapGeraetParam === "desktop"}>
-                  {t("intern.einblick.heatmap_geraet_desktop")}
-                </UmschalterLink>
-                <UmschalterLink href={link({ geraet: "mobil" })} aktiv={heatmapGeraetParam === "mobil"}>
-                  {t("intern.einblick.heatmap_geraet_mobil")}
-                </UmschalterLink>
-              </div>
+      <Reveal delay={60}>
+        <section id="heatmap" className="mt-6 scroll-mt-20 rounded-2xl border border-line-subtle p-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="t-label">{t("intern.einblick.heatmap_titel")}</p>
+              <p className="t-small mt-1 !text-ink-muted">{t("intern.einblick.heatmap_sub")}</p>
             </div>
+            <UmschalterTabs
+              ariaLabel={t("intern.einblick.heatmap_titel")}
+              wert={geraetParam}
+              optionen={[
+                { wert: "alle", href: link({ geraet: "alle" }), label: t("intern.einblick.heatmap_geraet_alle") },
+                {
+                  wert: "desktop",
+                  href: link({ geraet: "desktop" }),
+                  label: t("intern.einblick.heatmap_geraet_desktop"),
+                },
+                { wert: "mobil", href: link({ geraet: "mobil" }), label: t("intern.einblick.heatmap_geraet_mobil") },
+              ]}
+            />
+          </div>
 
-            {topSeiten.length === 0 || !heatmapPfad ? (
-              <div className="mt-5">
-                <LeerPanel text={t("intern.einblick.heatmap_keine_seiten")} />
+          {topSeiten.length === 0 || !heatmapPfad ? (
+            <div className="mt-5">
+              <LeerPanel text={t("intern.einblick.heatmap_keine_seiten")} />
+            </div>
+          ) : (
+            <>
+              <div className="mt-4">
+                <PfadAuswahl
+                  ariaLabel={t("intern.einblick.heatmap_titel")}
+                  wert={heatmapPfad}
+                  optionen={topSeiten.map((s) => ({
+                    pfad: s.pfad,
+                    href: `${link({ pfad: s.pfad })}#heatmap`,
+                    label: `${ZAHL.format(s.views)} ${t("intern.einblick.seiten_spalte_views")}`,
+                  }))}
+                />
               </div>
-            ) : (
-              <>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {topSeiten.map((s) => (
-                    <Pille key={s.pfad} href={`${link({ pfad: s.pfad })}#heatmap`} aktiv={s.pfad === heatmapPfad}>
-                      {s.pfad}
-                      <span className="tnum ml-1.5 font-mono opacity-70">{ZAHL.format(s.views)}</span>
-                    </Pille>
-                  ))}
-                </div>
 
-                <div className="mt-5 max-w-[640px]">
-                  <Heatmap
-                    punkte={heatmapPunkte}
-                    pfad={heatmapPfad}
-                    geraet={heatmapGeraetParam}
-                    leerText={t("intern.einblick.heatmap_leer")}
-                  />
-                </div>
-              </>
-            )}
+              <div className="mt-5 max-w-[640px]">
+                <Heatmap
+                  punkte={heatmapPunkte}
+                  pfad={heatmapPfad}
+                  geraet={geraetParam}
+                  leerText={t("intern.einblick.heatmap_leer")}
+                />
+              </div>
+            </>
+          )}
 
-            <p className="t-small mt-4 !text-ink-dim">{t("intern.einblick.heatmap_platzhalter_hinweis")}</p>
-            <p className="t-small mt-1 !text-ink-dim">{t("intern.einblick.heatmap_deckel")}</p>
-          </section>
-        </Reveal>
-      </div>
-    </div>
+          <p className="t-small mt-4 !text-ink-dim">{t("intern.einblick.heatmap_platzhalter_hinweis")}</p>
+          <p className="t-small mt-1 !text-ink-dim">{t("intern.einblick.heatmap_deckel")}</p>
+        </section>
+      </Reveal>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Eye, Send } from "lucide-react";
 import {
   crmKonfiguriert,
   kontakteListe,
@@ -11,6 +11,9 @@ import { getContent } from "@/lib/content";
 import { INTERN_KUNDEN_DEFAULTS } from "@/lib/texte/intern-kunden";
 import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
 import { emailLayout, emailRows } from "@/lib/email";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { KontoAuswahl, type KontoOption } from "./KontoAuswahl";
+import { SendenButton, StatusToast } from "./SendenAktionen";
 
 /**
  * /intern/wochenbericht — Vorschau + Versand des Montags-Berichts (R5
@@ -24,13 +27,29 @@ import { emailLayout, emailRows } from "@/lib/email";
  * kontakteListe() + kontoDetail() je E-Mail (bewusst dupliziert statt
  * geteilt, siehe Kommentar dort).
  *
- * Kein Client-JS: Konto-Auswahl und "Vorschau aktualisieren" laufen über
+ * Konto-Auswahl und "Vorschau aktualisieren" laufen weiterhin über
  * GET-Query-Parameter (?konto=&notiz=), "Jetzt senden" und "Als gesendet
- * protokollieren" sind zwei benannte Submit-Buttons desselben Formulars,
- * die per formAction/formMethod auf /api/intern-wochenbericht (POST)
- * umleiten — Standard-HTML, kein JavaScript nötig. Die Vorschau selbst
- * ist ein <iframe srcDoc=…> mit der echten emailLayout()-Ausgabe, damit
- * "was Alex sieht" exakt "was der Kunde bekommt" entspricht.
+ * protokollieren" bleiben zwei benannte Submit-Buttons desselben
+ * Formulars, die per formAction/formMethod auf /api/intern-wochenbericht
+ * (POST) umleiten — Standard-HTML-Formular-Kontrakt unverändert. Die
+ * Vorschau selbst ist ein <iframe srcDoc=…> mit der echten
+ * emailLayout()-Ausgabe, damit "was Alex sieht" exakt "was der Kunde
+ * bekommt" entspricht.
+ *
+ * LEAF U4 (27.08, CRM-UX-Politur): drei kleine Client-Bausteine kommen
+ * dazu. KontoAuswahl.tsx ersetzt die Sidebar-Linkliste durch ui/select
+ * (navigiert per router.push() auf dieselbe ?konto=…-Route). Vorschau und
+ * Versand stecken jetzt in ui/tabs — die Vorschau-Tab zeigt nur das
+ * iframe, die Versand-Tab bündelt Notiz-Formular + alle drei Buttons in
+ * einem Block (wichtig: Radix TabsContent hängt inaktive Panels aus dem
+ * DOM aus, das Notiz-Feld muss also im selben Panel wie die Sende-Buttons
+ * liegen, sonst würde sein Wert beim Submit fehlen). SendenAktionen.tsx
+ * liefert SendenButton (derselbe Submit-Button wie zuvor — ohne
+ * JavaScript sendet ein Klick sofort, mit JavaScript öffnet er erst
+ * einen Bestätigungs-Dialog und löst den echten Submit über
+ * requestSubmit() aus) und StatusToast (feuert einmalig einen Toast
+ * passend zum ?status=…-Redirect-Parameter, der bestehende Text-Banner
+ * bleibt zusätzlich stehen).
  */
 
 export const metadata: Metadata = {
@@ -257,6 +276,13 @@ export default async function WochenberichtPage({
           ? { text: t("intern.kunden.wochenbericht.status_fehler"), fehler: true }
           : null;
 
+  /* Für KontoAuswahl.tsx (ui/select statt Sidebar-Linkliste, Leaf U4). */
+  const kontoOptions: KontoOption[] = konten.map((k) => ({
+    email: k.email,
+    label: k.name || k.firma || k.email,
+    statusLabel: STUFEN_LABEL[k.projektStatus] ?? k.projektStatus,
+  }));
+
   return (
     <div className="px-5 py-7 lg:px-8 lg:py-8">
       <div className="mx-auto max-w-[1200px]">
@@ -285,34 +311,15 @@ export default async function WochenberichtPage({
           </div>
         ) : (
           <div className="mt-8 grid gap-5 lg:grid-cols-[280px_1fr]">
-            {/* ── Kunde wählen ─────────────────────────────────────────── */}
-            <aside className="h-fit rounded-2xl border border-line-subtle lg:sticky lg:top-6">
-              <div className="border-b border-line-subtle px-4 py-3">
-                <p className="t-label">{t("intern.kunden.wochenbericht.konten_titel")}</p>
-              </div>
-              <div className="flex flex-col lg:max-h-[calc(100vh-260px)] lg:overflow-y-auto">
-                {konten.map((k) => {
-                  const aktiv = ausgewaehlt?.email === k.email;
-                  return (
-                    <Link
-                      key={k.email}
-                      href={`/intern/wochenbericht?konto=${encodeURIComponent(k.email)}`}
-                      className={`flex items-center justify-between gap-2 border-b border-line-subtle px-4 py-3 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) last:border-0 hover:bg-bg-elevated ${
-                        aktiv ? "bg-akzent-wash" : ""
-                      }`}
-                    >
-                      <span className="min-w-0">
-                        <span className="block truncate text-[13.5px] font-medium text-ink-cream">
-                          {k.name || k.firma || k.email}
-                        </span>
-                        {k.firma && k.name && <span className="block truncate text-[12px] text-ink-muted">{k.firma}</span>}
-                      </span>
-                      <span className="t-data tnum shrink-0 !text-ink-dim">
-                        {STUFEN_LABEL[k.projektStatus] ?? k.projektStatus}
-                      </span>
-                    </Link>
-                  );
-                })}
+            {/* ── Kunde wählen (ui/select, Leaf U4) ────────────────────── */}
+            <aside className="h-fit rounded-2xl border border-line-subtle p-4 lg:sticky lg:top-6">
+              <p className="t-label">{t("intern.kunden.wochenbericht.konten_titel")}</p>
+              <div className="mt-2.5">
+                <KontoAuswahl
+                  konten={kontoOptions}
+                  ausgewaehltEmail={ausgewaehlt?.email ?? null}
+                  platzhalter={t("intern.kunden.wochenbericht.konten_titel")}
+                />
               </div>
             </aside>
 
@@ -322,6 +329,13 @@ export default async function WochenberichtPage({
                 <p className="t-small !text-ink-dim">{t("intern.kunden.wochenbericht.konten_leer_text")}</p>
               ) : (
                 <>
+                  <StatusToast
+                    status={statusParam ?? null}
+                    gesendetText={t("intern.kunden.wochenbericht.status_gesendet")}
+                    demoText={t("intern.kunden.wochenbericht.status_demo")}
+                    fehlerText={t("intern.kunden.wochenbericht.status_fehler")}
+                  />
+
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="t-label">Konto</p>
@@ -356,53 +370,70 @@ export default async function WochenberichtPage({
                     </div>
                   )}
 
-                  <p className="t-label mt-6">{t("intern.kunden.wochenbericht.vorschau_titel")}</p>
-                  <iframe
-                    title={t("intern.kunden.wochenbericht.vorschau_titel")}
-                    srcDoc={vorschau.html}
-                    className="mt-3 h-[520px] w-full rounded-xl border border-line-subtle bg-white"
-                  />
+                  <Tabs defaultValue="vorschau" className="mt-6 gap-4">
+                    <TabsList>
+                      <TabsTrigger value="vorschau" className="gap-1.5">
+                        <Eye size={14} aria-hidden />
+                        {t("intern.kunden.wochenbericht.tab_vorschau")}
+                      </TabsTrigger>
+                      <TabsTrigger value="versand" className="gap-1.5">
+                        <Send size={14} aria-hidden />
+                        {t("intern.kunden.wochenbericht.tab_versand")}
+                      </TabsTrigger>
+                    </TabsList>
 
-                  <form action="/intern/wochenbericht" method="get" className="mt-6">
-                    <input type="hidden" name="konto" value={ausgewaehlt.email} />
-                    <label htmlFor="wb-notiz" className="t-label block">
-                      {t("intern.kunden.wochenbericht.notiz_label")}
-                    </label>
-                    <p className="t-small mt-1">{t("intern.kunden.wochenbericht.notiz_hinweis")}</p>
-                    <textarea
-                      id="wb-notiz"
-                      name="notiz"
-                      rows={3}
-                      defaultValue={notiz}
-                      placeholder={t("intern.kunden.wochenbericht.notiz_platzhalter")}
-                      className="booking-input mt-2 w-full resize-y"
-                    />
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <button type="submit" formMethod="get" formAction="/intern/wochenbericht" className={BTN_QUIET}>
-                        {t("intern.kunden.wochenbericht.button_vorschau")}
-                      </button>
-                      <button
-                        type="submit"
-                        formMethod="post"
-                        formAction="/api/intern-wochenbericht"
-                        name="aktion"
-                        value="senden"
-                        className={BTN_PRIMARY}
-                      >
-                        {t("intern.kunden.wochenbericht.button_senden")}
-                      </button>
-                      <button
-                        type="submit"
-                        formMethod="post"
-                        formAction="/api/intern-wochenbericht"
-                        name="aktion"
-                        value="protokollieren"
-                        className={BTN_QUIET}
-                      >
-                        {t("intern.kunden.wochenbericht.button_protokollieren")}
-                      </button>
-                    </div>
-                  </form>
+                    <TabsContent value="vorschau">
+                      <iframe
+                        title={t("intern.kunden.wochenbericht.vorschau_titel")}
+                        srcDoc={vorschau.html}
+                        className="h-[520px] w-full rounded-xl border border-line-subtle bg-white"
+                      />
+                    </TabsContent>
+
+                    <TabsContent value="versand">
+                      <form action="/intern/wochenbericht" method="get">
+                        <input type="hidden" name="konto" value={ausgewaehlt.email} />
+                        <label htmlFor="wb-notiz" className="t-label block">
+                          {t("intern.kunden.wochenbericht.notiz_label")}
+                        </label>
+                        <p className="t-small mt-1">{t("intern.kunden.wochenbericht.notiz_hinweis")}</p>
+                        <textarea
+                          id="wb-notiz"
+                          name="notiz"
+                          rows={3}
+                          defaultValue={notiz}
+                          placeholder={t("intern.kunden.wochenbericht.notiz_platzhalter")}
+                          className="booking-input mt-2 w-full resize-y"
+                        />
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <button type="submit" formMethod="get" formAction="/intern/wochenbericht" className={BTN_QUIET}>
+                            {t("intern.kunden.wochenbericht.button_vorschau")}
+                          </button>
+                          <SendenButton
+                            label={t("intern.kunden.wochenbericht.button_senden")}
+                            dialogTitel={t("intern.kunden.wochenbericht.senden_dialog_titel")}
+                            dialogText={t("intern.kunden.wochenbericht.senden_dialog_text").replace(
+                              "{email}",
+                              ausgewaehlt.email,
+                            )}
+                            bestaetigenLabel={t("intern.kunden.wochenbericht.senden_dialog_bestaetigen")}
+                            abbrechenLabel={t("intern.kunden.wochenbericht.senden_dialog_abbrechen")}
+                            className={BTN_PRIMARY}
+                          />
+                          <button
+                            type="submit"
+                            formMethod="post"
+                            formAction="/api/intern-wochenbericht"
+                            name="aktion"
+                            value="protokollieren"
+                            className={BTN_QUIET}
+                          >
+                            {t("intern.kunden.wochenbericht.button_protokollieren")}
+                          </button>
+                        </div>
+                      </form>
+                    </TabsContent>
+                  </Tabs>
                 </>
               )}
             </div>

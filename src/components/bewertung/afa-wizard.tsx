@@ -3,6 +3,7 @@
 import { ErgebnisSchleuse } from "./ErgebnisSchleuse";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 
 import { berechneAfa } from "@/lib/rechner/afa";
@@ -86,6 +87,32 @@ const STEP_NODES = ["Rechner starten", "Objekt & Kauf", "Modernisierung", "Steue
 const PROGRESS_PCT = [32, 60, 82];
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+// Motion-Tokens (LEAF U6, transitions-dev-Disziplin) — dieselben Konstanten
+// wie in ThreadVerlauf.tsx/AufgabenClient.tsx/FlowEditor.tsx: smooth-out für
+// Ein-/Ausblenden, bounce nur für Erfolgsmomente (Häkchen-Zeichnung).
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_BOUNCE: [number, number, number, number] = [0.34, 1.36, 0.64, 1];
+
+/** Schrittwechsel im Formular: Enter y+6/fade 0.25s, Exit 0.15s (Schließen
+ *  40% schneller als Öffnen) — reduced-motion nur Fade, kein Transform. */
+function stepMotionProps(reduce: boolean) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0, transition: { duration: reduce ? 0.15 : 0.25, ease: EASE_SMOOTH_OUT } },
+    exit: { opacity: 0, y: reduce ? 0 : -6, transition: { duration: 0.15, ease: EASE_SMOOTH_OUT } },
+  } as const;
+}
+
+/** Pop-in für Ergebniszahlen: scale 0.97→1 + fade, fast (0.25s), optional
+ *  im 40ms-Rhythmus gestaffelt — reduced-motion nur Fade, kein Transform. */
+function popIn(reduce: boolean, delay = 0) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.25, ease: EASE_SMOOTH_OUT, delay: reduce ? 0 : delay },
+  } as const;
+}
 
 const KAUFPREIS_DEFAULT = "450.000";
 const GEBAEUDEANTEIL_MIN = 50;
@@ -446,6 +473,7 @@ function ladeHerunter(bytes: Uint8Array, dateiname: string) {
 /* ── Komponente ────────────────────────────────────────────────────── */
 
 export function AfaWizard() {
+  const reduceMotion = useReducedMotion() ?? false;
   const [phase, setPhase] = useState<Phase>("form");
   const [step, setStep] = useState(0);
   const [f, setF] = useState<FormState>(EMPTY);
@@ -461,12 +489,18 @@ export function AfaWizard() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Fokus-Management: bei NUTZER-Schrittwechsel zur neuen Überschrift springen.
-  useEffect(() => {
-    if (phase === "form" && userNav.current) {
+  // Als Ref-Callback statt useEffect([step, phase]): AnimatePresence
+  // mode="wait" (LEAF U6) hängt die neue Schrittüberschrift erst NACH der
+  // Exit-Animation des alten Schritts ein — ein Effect auf [step, phase]
+  // würde noch die verschwindende Überschrift fokussieren. Der Ref-Callback
+  // feuert exakt beim tatsächlichen Mount.
+  const setHeadingRef = (el: HTMLHeadingElement | null) => {
+    headingRef.current = el;
+    if (el && userNav.current) {
       userNav.current = false;
-      headingRef.current?.focus();
+      el.focus();
     }
-  }, [step, phase]);
+  };
 
   useEffect(() => {
     setAnsicht(
@@ -651,7 +685,12 @@ export function AfaWizard() {
                   </div>
                   <span className={`hidden truncate text-xs sm:inline ${current ? "font-medium text-ink-cream" : done ? "text-ink-muted" : "text-ink-dim"}`}>{label}</span>
                 </div>
-                {d < STEP_NODES.length - 1 && <div aria-hidden="true" className={`h-px flex-1 ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`} />}
+                {d < STEP_NODES.length - 1 && (
+                  <div
+                    aria-hidden="true"
+                    className={`h-px flex-1 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`}
+                  />
+                )}
               </li>
             );
           })}
@@ -659,9 +698,10 @@ export function AfaWizard() {
       </div>
 
       <div className="rounded-[24px] border border-line-subtle bg-white p-6 sm:p-8">
+        <AnimatePresence mode="wait" initial={false}>
         {step === 0 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Objekt &amp; Kaufpreis
             </h2>
 
@@ -742,12 +782,12 @@ export function AfaWizard() {
               </div>
               <p className="mt-2 text-xs text-ink-dim">Beeinflusst nur die Einordnung Ihrer Anfrage, nicht die Berechnung.</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 1 && (
-          <div className="space-y-5">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-5" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Modernisierungs-Zustand
             </h2>
             <p className="text-xs text-ink-dim">0 = nicht modernisiert · 1 = teilmodernisiert · 2 = vollständig modernisiert</p>
@@ -765,12 +805,12 @@ export function AfaWizard() {
             <p className="text-sm text-ink-muted">
               Modernisierungsgrad: <span className="tnum font-medium text-ink-cream">{punkteGesamt} von 12</span> Punkten.
             </p>
-          </div>
+          </motion.div>
         )}
 
         {step === 2 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Steuer
             </h2>
             <div>
@@ -811,8 +851,9 @@ export function AfaWizard() {
               Ohne Angabe rechnen wir mit {formatJahr(aktuellesJahr())} als Bewertungsjahr — das beeinflusst nur das Alter des Gebäudes zum
               Stichtag, nicht den Kaufpreis.
             </p>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
 
         <div className="mt-5">
           <p className={`text-sm text-[#b3402a] transition-opacity duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] ${error ? "opacity-100" : "opacity-0"}`} role="alert">
@@ -863,6 +904,7 @@ function Analyzing({
   f: FormState;
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const pct = quellen.length ? Math.round((revealed / quellen.length) * 100) : 0;
   return (
     <div ref={sectionRef} className="overflow-hidden rounded-[24px] border border-line-subtle bg-white" role="status" aria-live="polite" aria-busy={pct < 100}>
@@ -888,8 +930,27 @@ function Analyzing({
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${done ? "bg-akzent text-ink-cream" : "border border-line-medium text-ink-muted"}`}>
-                    {done ? "✓" : active ? "…" : ""}
+                  <span
+                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${done ? "bg-akzent text-ink-cream" : "border border-line-medium text-ink-muted"}`}
+                  >
+                    {done ? (
+                      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <motion.path
+                          d="M3 7.2l2.8 2.8L11 4"
+                          stroke="currentColor"
+                          strokeWidth={1.8}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: EASE_BOUNCE }}
+                        />
+                      </svg>
+                    ) : active ? (
+                      "…"
+                    ) : (
+                      ""
+                    )}
                   </span>
                   <div>
                     <div className={`text-sm ${done ? "text-ink-cream" : "text-ink-muted"}`}>{s.label}</div>
@@ -932,6 +993,7 @@ function Ergebnis({
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const idBasis = useId();
+  const reduceMotion = useReducedMotion() ?? false;
   const steuerersparnis10 = useCountUp(result.steuerersparnisUeber10JahreEuro, true);
   const tabelle = useMemo(() => baueTabelle(result), [result]);
 
@@ -1016,11 +1078,18 @@ function Ergebnis({
             </span>
           </div>
 
-          <div aria-hidden className="mt-5 font-display leading-none tnum text-ink-cream" style={{ fontSize: "clamp(26px, 6vw, 52px)" }}>
+          <motion.div
+            aria-hidden
+            className="mt-5 font-display leading-none tnum text-ink-cream"
+            style={{ fontSize: "clamp(26px, 6vw, 52px)" }}
+            {...popIn(reduceMotion, 0)}
+          >
             {formatEuro(steuerersparnis10)}
-          </div>
+          </motion.div>
           <span className="sr-only">Steuerersparnis über {JAHRE_TABELLE} Jahre: {formatEuro(result.steuerersparnisUeber10JahreEuro)}</span>
-          <p className="mt-2 text-sm text-ink-muted">bei {formatProzent(result.grenzsteuersatzProzent, 0)} Grenzsteuersatz</p>
+          <motion.p className="mt-2 text-sm text-ink-muted" {...popIn(reduceMotion, 0.05)}>
+            bei {formatProzent(result.grenzsteuersatzProzent, 0)} Grenzsteuersatz
+          </motion.p>
 
           {!result.gutachtenGreift && (
             <div className="mt-5 rounded-r-[10px] border-l-2 border-akzent bg-white py-3 pl-4 pr-3 text-left">
@@ -1040,9 +1109,15 @@ function Ergebnis({
           />
 
           <div className="mt-8 grid grid-cols-1 gap-5 border-t border-line-medium pt-6 text-left sm:grid-cols-3">
-            <Stat label="Mehr-Abschreibung / Jahr" wert={formatEuro(result.mehrAbschreibungProJahrEuro)} />
-            <Stat label={`Über ${JAHRE_TABELLE} Jahre`} wert={formatEuro(result.mehrAbschreibungUeber10JahreEuro)} />
-            <Stat label={`Steuerersparnis / Jahr (${formatProzent(result.grenzsteuersatzProzent, 0)})`} wert={formatEuro(result.steuerersparnisProJahrEuro)} />
+            <motion.div {...popIn(reduceMotion, 0.09)}>
+              <Stat label="Mehr-Abschreibung / Jahr" wert={formatEuro(result.mehrAbschreibungProJahrEuro)} />
+            </motion.div>
+            <motion.div {...popIn(reduceMotion, 0.13)}>
+              <Stat label={`Über ${JAHRE_TABELLE} Jahre`} wert={formatEuro(result.mehrAbschreibungUeber10JahreEuro)} />
+            </motion.div>
+            <motion.div {...popIn(reduceMotion, 0.17)}>
+              <Stat label={`Steuerersparnis / Jahr (${formatProzent(result.grenzsteuersatzProzent, 0)})`} wert={formatEuro(result.steuerersparnisProJahrEuro)} />
+            </motion.div>
           </div>
 
           <p className="mt-6 text-xs text-ink-dim">{result.hinweis}</p>

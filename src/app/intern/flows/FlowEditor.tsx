@@ -1,6 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  GitBranch,
+  Mail,
+  Pencil,
+  Plus,
+  Trash2,
+  Workflow,
+  X,
+} from "lucide-react";
 import {
   mailFunnelBestaetigung,
   mailTerminBestaetigung,
@@ -10,24 +23,63 @@ import {
   mailKontoCode,
 } from "@/lib/email-vorlagen";
 import { emailLayout } from "@/lib/email";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 /**
  * FlowEditor — der komplette interaktive Teil von /intern/flows (R5 Leaf
- * G4). Eine Datei für Übersicht UND Editor (kein Router-Wechsel, kein
- * eigener [id]-Route-Ordner — außerhalb der für dieses Leaf zugewiesenen
- * Dateiliste), weil beides denselben Client-State teilt: im Demo-Modus
- * (konfiguriert=false) bleiben neu angelegte/geänderte Flows sichtbar,
- * solange die Seite nicht neu geladen wird — ein echter Seitenwechsel
- * würde das serverseitig gerenderte Demo-Set zurückholen und die
- * Änderung verschlucken (KanbanBoard.tsx macht es aus demselben Grund
- * genauso: alles bleibt eine Client-Komponente ohne Navigation).
+ * G4, CRM-UX-Politur Leaf U4). Eine Datei für Übersicht UND Editor (kein
+ * Router-Wechsel, kein eigener [id]-Route-Ordner — außerhalb der für
+ * dieses Leaf zugewiesenen Dateiliste), weil beides denselben Client-State
+ * teilt: im Demo-Modus (konfiguriert=false) bleiben neu angelegte/
+ * geänderte Flows sichtbar, solange die Seite nicht neu geladen wird — ein
+ * echter Seitenwechsel würde das serverseitig gerenderte Demo-Set
+ * zurückholen und die Änderung verschlucken (KanbanBoard.tsx macht es aus
+ * demselben Grund genauso: alles bleibt eine Client-Komponente ohne
+ * Navigation).
  *
- * Design-Direktive (docs/redesign/R5-PORTGUT.md): optimistisches Update
- * + Rollback für den Status-Umschalter auf der Karte (Regel 9),
- * Zwei-Klick-Bestätigung statt window.confirm() beim Schritt-Entfernen
- * (Regel 10), Leerzustand mit Icon+Satz+Aktion (Regel 7), Motion nur
- * über bestehende Tokens (Regel 16), eine primäre Aktion pro Ansicht
- * (Regel 4: „Flow anlegen“ in der Übersicht, „Flow speichern“ im Editor).
+ * LEAF U4 (27.08) — shadcn-Fundament auf Flows angewendet:
+ * - Der Status-Umschalter auf der Übersichtskarte ist jetzt ui/switch
+ *   (an = aktiv, aus = pausiert — "Entwurf" bleibt als Punkt+Label neben
+ *   dem Switch sichtbar, ihn per Switch zu setzen ergäbe kein sinnvolles
+ *   Boolean; ein "Entwurf"-Flow lässt sich direkt auf aktiv/pausiert
+ *   schalten, exakt wie zuvor über die Pillen). Der Auslöser ist jetzt
+ *   ui/badge.
+ * - "Flow anlegen" öffnet zuerst NeuFlowDialog (ui/dialog, Name +
+ *   Auslöser) — erst danach entsteht der Editor mit der leeren
+ *   Schritt-Kette. Eine bestehende Karte "Bearbeiten" geht weiterhin
+ *   direkt in den vollen Editor (Name/Auslöser bleiben dort inline
+ *   änderbar, der Dialog ist nur das freundlichere Einstiegstor für neue
+ *   Flows).
+ * - Jeder Schritt ist jetzt eine kompakte Zusammenfassungs-Karte;
+ *   "Bearbeiten" öffnet SchrittBearbeitenDialog (ui/dialog) mit den
+ *   vollen Feldern (Mail/Warten/Bedingung) + Live-Vorschau, "Übernehmen"
+ *   schreibt zurück in die Kette.
+ * - Der "+"-Einfüger zwischen zwei Schritten bietet den Typ jetzt als
+ *   ui/select statt drei Pillen an.
+ * - Die Mail-Vorschau (im Bearbeiten-Dialog) ist ui/tabs: Vorschau
+ *   (iframe, wie bisher) / Rohtext (das erzeugte HTML als <pre>).
+ * - Schritt-Karten animieren über motion/react: Hinzufügen poppt rein
+ *   (--duration-fast, --ease-bounce — ein kleiner Erfolgsmoment),
+ *   Entfernen ist spürbar schneller und ohne Überschwingen
+ *   (--duration-quick, --ease-smooth-out), Umsortieren federt über
+ *   layout (--duration-slow). useReducedMotion() schaltet alle
+ *   Transform-Animationen ab. Stabile Schritt-Keys (SchrittMitKey, siehe
+ *   unten) statt Array-Index, sonst würde AnimatePresence beim Entfernen
+ *   die falsche Karte für die Exit-Animation halten.
+ * - Handgezeichnete Pfeil-/Plus-/Ketten-Glyphen sind lucide-react
+ *   gewichen (Chevron/Plus/Workflow), Schritt-Typen tragen ihr Icon
+ *   (Mail/Clock/GitBranch), SLA-freie CRM-Konvention aus KanbanBoard.tsx.
  *
  * VORLAGEN-KONTRAKT: email-vorlagen.ts hat sechs Exporte mit
  * unterschiedlichen Pflichtparametern (Name allein reicht nur bei
@@ -69,6 +121,11 @@ export type FlowEintrag = {
   schritte: FlowSchritt[];
   laufendeAnzahl: number;
 };
+
+/** Motion-Tokens (globals.css) als Werte für motion/react — dieselbe
+ *  Übersetzung wie EASE_SMOOTH_OUT in KanbanBoard.tsx. */
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_BOUNCE: [number, number, number, number] = [0.34, 1.36, 0.64, 1];
 
 const AUSLOESER_ORDER: Ausloeser[] = ["lead_neu", "tool_lead", "booking", "konto_neu", "manuell"];
 const AUSLOESER_KEY: Record<Ausloeser, string> = {
@@ -200,6 +257,27 @@ function defaultSchritt(typ: FlowSchritt["typ"]): FlowSchritt {
   return { typ: "bedingung", konfig: { feld: "status", wert: "kontaktiert" } };
 }
 
+function typLabel(typ: FlowSchritt["typ"], tx: (key: string) => string): string {
+  if (typ === "mail") return tx("intern.flows.schritt_typ_mail");
+  if (typ === "warten") return tx("intern.flows.schritt_typ_warten");
+  return tx("intern.flows.schritt_typ_bedingung");
+}
+
+/** Kurze Ein-Zeilen-Zusammenfassung für die Schritt-Karte, seit die vollen
+ *  Felder in den Bearbeiten-Dialog gewandert sind. */
+function schrittZusammenfassung(schritt: FlowSchritt, tx: (key: string) => string): string {
+  if (schritt.typ === "mail") {
+    return schritt.konfig.modus === "vorlage"
+      ? tx(VORLAGE_KEY[schritt.konfig.vorlageId])
+      : schritt.konfig.betreff.trim() || tx("intern.flows.schritt_zusammenfassung_ohne_betreff");
+  }
+  if (schritt.typ === "warten") {
+    const treffer = WARTEN_PILLS.find((p) => p.stunden === schritt.konfig.stunden);
+    return treffer ? tx(treffer.key) : `${schritt.konfig.stunden} Std.`;
+  }
+  return `${tx("intern.flows.bedingung_feld_status")} = ${BEDINGUNG_STATUS_LABEL[schritt.konfig.wert] ?? schritt.konfig.wert}`;
+}
+
 async function postFlow(body: Record<string, unknown>): Promise<{ ok: boolean; id?: string | null; error?: string }> {
   try {
     const res = await fetch("/api/intern-flows", {
@@ -222,39 +300,6 @@ const BTN_QUIET =
 const PILL = "rounded-full border px-3.5 py-1.5 text-[12.5px] font-medium transition-colors duration-(--duration-quick) ease-(--ease-smooth-out)";
 const PILL_AKTIV = "border-ink-cream/40 bg-akzent-wash text-ink-cream";
 const PILL_INAKTIV = "border-line-subtle text-ink-muted hover:border-ink-cream/25 hover:text-ink-cream";
-
-/* ── Kleine, selbst gezeichnete Glyphen — kein Icon-Import ─────────────── */
-function PlusGlyph() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
-      <path d="M7 1.5v11M1.5 7h11" />
-    </svg>
-  );
-}
-function PfeilHoch() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 8l3.5-4L10 8" />
-    </svg>
-  );
-}
-function PfeilRunter() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 5l3.5 4L10 5" />
-    </svg>
-  );
-}
-function KetteGlyph() {
-  return (
-    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" stroke="var(--ink-dim)" strokeWidth="1.6" aria-hidden>
-      <circle cx="9" cy="9" r="4.5" />
-      <circle cx="27" cy="18" r="4.5" />
-      <circle cx="9" cy="27" r="4.5" />
-      <path d="M12.5 11.5l11 4.5M23.5 20.5l-11 4.5" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 /** M/W/B-Punkte mit Verbindungslinie — die Mini-Kette auf der Übersichtskarte. */
 function MiniKette({ schritte }: { schritte: FlowSchritt[] }) {
@@ -291,15 +336,19 @@ function FlowKarte({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-[15px] font-semibold text-ink-cream">{flow.name || "Ohne Namen"}</p>
-          <span className="mt-1.5 inline-flex items-center rounded-full border border-line-subtle bg-bg-elevated px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.04em] text-ink-muted">
+          <Badge
+            variant="outline"
+            className="mt-1.5 border-line-subtle bg-bg-elevated text-[10.5px] font-medium uppercase tracking-[0.04em] text-ink-muted"
+          >
             {tx(AUSLOESER_KEY[flow.ausloeser])}
-          </span>
+          </Badge>
         </div>
         <button
           type="button"
           onClick={onOeffnen}
-          className="shrink-0 text-[12.5px] font-medium text-ink-muted underline decoration-transparent underline-offset-2 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream hover:decoration-line-medium"
+          className="inline-flex shrink-0 items-center gap-1 text-[12.5px] font-medium text-ink-muted underline decoration-transparent underline-offset-2 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream hover:decoration-line-medium"
         >
+          <Pencil size={12} aria-hidden />
           {tx("intern.flows.karte_bearbeiten")}
         </button>
       </div>
@@ -313,21 +362,16 @@ function FlowKarte({
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-3 border-t border-line-subtle pt-4">
-        <div className="flex items-center gap-1.5">
-          {STATUS_ORDER.map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => onStatusAendern(s)}
-              aria-pressed={flow.status === s}
-              className={`${PILL} ${flow.status === s ? PILL_AKTIV : PILL_INAKTIV}`}
-            >
-              <span className="inline-flex items-center gap-1.5">
-                <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[s]}`} aria-hidden />
-                {tx(STATUS_KEY[s])}
-              </span>
-            </button>
-          ))}
+        <div className="flex items-center gap-2.5">
+          <Switch
+            checked={flow.status === "aktiv"}
+            onCheckedChange={(checked) => onStatusAendern(checked ? "aktiv" : "pausiert")}
+            aria-label={tx(STATUS_KEY[flow.status])}
+          />
+          <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-ink-muted">
+            <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[flow.status]}`} aria-hidden />
+            {tx(STATUS_KEY[flow.status])}
+          </span>
         </div>
         <span className="t-data tnum shrink-0 !text-ink-dim">
           {flow.laufendeAnzahl} {tx("intern.flows.laeufe_label")}
@@ -337,13 +381,20 @@ function FlowKarte({
   );
 }
 
-/* ── Editor: ein Schritt-Kärtchen ──────────────────────────────────────── */
+/* ── Editor: ein Schritt-Kärtchen (Zusammenfassung, volle Felder leben
+   jetzt im SchrittBearbeitenDialog) ─────────────────────────────────── */
+function SchrittTypIcon({ typ }: { typ: FlowSchritt["typ"] }) {
+  if (typ === "mail") return <Mail size={14} aria-hidden />;
+  if (typ === "warten") return <Clock size={14} aria-hidden />;
+  return <GitBranch size={14} aria-hidden />;
+}
+
 function SchrittKarte({
   schritt,
   index,
   gesamt,
   tx,
-  onUpdate,
+  onEdit,
   onMove,
   onRemove,
 }: {
@@ -351,7 +402,7 @@ function SchrittKarte({
   index: number;
   gesamt: number;
   tx: (key: string) => string;
-  onUpdate: (schritt: FlowSchritt) => void;
+  onEdit: () => void;
   onMove: (dir: -1 | 1) => void;
   onRemove: () => void;
 }) {
@@ -370,21 +421,21 @@ function SchrittKarte({
     armTimer.current = setTimeout(() => setEntfernenArm(false), 4000);
   }
 
-  const TYP_LABEL: Record<FlowSchritt["typ"], string> = {
-    mail: tx("intern.flows.schritt_typ_mail"),
-    warten: tx("intern.flows.schritt_typ_warten"),
-    bedingung: tx("intern.flows.schritt_typ_bedingung"),
-  };
-
   return (
-    <div className="relative rounded-2xl border border-line-subtle bg-white p-5">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2.5">
+    <div className="rounded-2xl border border-line-subtle bg-white p-4">
+      <div className="flex items-center justify-between gap-3">
+        <button type="button" onClick={onEdit} className="flex min-w-0 flex-1 items-center gap-2.5 text-left">
           <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-akzent-wash text-[11px] font-bold text-ink-cream">
             {index + 1}
           </span>
-          <p className="text-[13.5px] font-semibold text-ink-cream">{TYP_LABEL[schritt.typ]}</p>
-        </div>
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line-subtle text-ink-muted">
+            <SchrittTypIcon typ={schritt.typ} />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[13.5px] font-semibold text-ink-cream">{typLabel(schritt.typ, tx)}</span>
+            <span className="block truncate text-[12px] text-ink-muted">{schrittZusammenfassung(schritt, tx)}</span>
+          </span>
+        </button>
         <div className="flex shrink-0 items-center gap-1">
           <button
             type="button"
@@ -393,7 +444,7 @@ function SchrittKarte({
             aria-label={tx("intern.flows.schritt_hoch_label")}
             className="grid h-7 w-7 place-items-center rounded-md text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream disabled:opacity-30 disabled:hover:text-ink-dim"
           >
-            <PfeilHoch />
+            <ChevronUp size={15} aria-hidden />
           </button>
           <button
             type="button"
@@ -402,15 +453,24 @@ function SchrittKarte({
             aria-label={tx("intern.flows.schritt_runter_label")}
             className="grid h-7 w-7 place-items-center rounded-md text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream disabled:opacity-30 disabled:hover:text-ink-dim"
           >
-            <PfeilRunter />
+            <ChevronDown size={15} aria-hidden />
+          </button>
+          <button
+            type="button"
+            onClick={onEdit}
+            aria-label={tx("intern.flows.schritt_bearbeiten_button")}
+            className="grid h-7 w-7 place-items-center rounded-md text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
+          >
+            <Pencil size={14} aria-hidden />
           </button>
           {!entfernenArm ? (
             <button
               type="button"
               onClick={arm}
-              className="ml-1 rounded-full px-2.5 py-1 text-[11.5px] font-medium text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-destructive/10 hover:text-destructive"
+              aria-label={tx("intern.flows.schritt_entfernen_label")}
+              className="grid h-7 w-7 place-items-center rounded-md text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-destructive/10 hover:text-destructive"
             >
-              {tx("intern.flows.schritt_entfernen_label")}
+              <Trash2 size={14} aria-hidden />
             </button>
           ) : (
             <span className="ml-1 flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/10 px-2 py-1">
@@ -424,18 +484,6 @@ function SchrittKarte({
             </span>
           )}
         </div>
-      </div>
-
-      <div className="mt-4">
-        {schritt.typ === "mail" && (
-          <MailFelder mail={schritt.konfig} tx={tx} onChange={(konfig) => onUpdate({ typ: "mail", konfig })} />
-        )}
-        {schritt.typ === "warten" && (
-          <WartenFelder warten={schritt.konfig} tx={tx} onChange={(konfig) => onUpdate({ typ: "warten", konfig })} />
-        )}
-        {schritt.typ === "bedingung" && (
-          <BedingungFelder bedingung={schritt.konfig} tx={tx} onChange={(konfig) => onUpdate({ typ: "bedingung", konfig })} />
-        )}
       </div>
     </div>
   );
@@ -511,9 +559,26 @@ function MailFelder({
 
       <div className="mt-4">
         <p className="t-label">{tx("intern.flows.mail_vorschau_label")}</p>
-        <div className="hairline mt-2 overflow-hidden rounded-xl border bg-white">
-          <iframe title={tx("intern.flows.mail_vorschau_label")} srcDoc={vorschau.html} sandbox="" className="h-[300px] w-full" />
-        </div>
+        <Tabs defaultValue="vorschau" className="mt-2 gap-2">
+          <TabsList className="h-8">
+            <TabsTrigger value="vorschau" className="text-[12px]">
+              {tx("intern.flows.mail_tab_vorschau")}
+            </TabsTrigger>
+            <TabsTrigger value="rohtext" className="text-[12px]">
+              {tx("intern.flows.mail_tab_rohtext")}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="vorschau">
+            <div className="hairline overflow-hidden rounded-xl border bg-white">
+              <iframe title={tx("intern.flows.mail_vorschau_label")} srcDoc={vorschau.html} sandbox="" className="h-[280px] w-full" />
+            </div>
+          </TabsContent>
+          <TabsContent value="rohtext">
+            <pre className="h-[280px] overflow-auto rounded-xl border border-line-subtle bg-bg-elevated p-3 text-[11px] leading-relaxed text-ink-muted">
+              <code>{vorschau.html}</code>
+            </pre>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
@@ -576,7 +641,87 @@ function BedingungFelder({
   );
 }
 
-/* ── "+" -Einfüger zwischen zwei Schritt-Karten ────────────────────────── */
+/* ── Dialog: ein Schritt bearbeiten ──────────────────────────────────── */
+function SchrittBearbeitenDialog({
+  schritt,
+  tx,
+  onAbbrechen,
+  onSpeichern,
+}: {
+  schritt: FlowSchritt;
+  tx: (key: string) => string;
+  onAbbrechen: () => void;
+  onSpeichern: (schritt: FlowSchritt) => void;
+}) {
+  const [entwurf, setEntwurf] = useState<FlowSchritt>(schritt);
+  const [fehler, setFehler] = useState<string | null>(null);
+
+  function uebernehmen() {
+    if (entwurf.typ === "mail" && entwurf.konfig.modus === "frei" && (!entwurf.konfig.betreff.trim() || !entwurf.konfig.text.trim())) {
+      setFehler(tx("intern.flows.fehler_mail_unvollstaendig"));
+      return;
+    }
+    onSpeichern(entwurf);
+  }
+
+  return (
+    <Dialog
+      open
+      onOpenChange={(offen) => {
+        if (!offen) onAbbrechen();
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="w-full max-w-lg gap-0 rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)] sm:max-w-lg"
+      >
+        <DialogHeader className="flex-row items-start justify-between gap-4 text-left">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-akzent-wash text-ink-cream">
+              <SchrittTypIcon typ={entwurf.typ} />
+            </span>
+            <DialogTitle className="text-[15px] font-semibold text-ink-cream">
+              {tx("intern.flows.schritt_dialog_titel")} · {typLabel(entwurf.typ, tx)}
+            </DialogTitle>
+          </div>
+          <DialogClose
+            aria-label={tx("intern.flows.schritt_dialog_abbrechen")}
+            className="-m-2 -mt-1 shrink-0 rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
+          >
+            <X size={16} aria-hidden />
+          </DialogClose>
+        </DialogHeader>
+
+        <div className="mt-4 max-h-[65vh] overflow-y-auto pr-0.5">
+          {entwurf.typ === "mail" && (
+            <MailFelder mail={entwurf.konfig} tx={tx} onChange={(konfig) => setEntwurf({ typ: "mail", konfig })} />
+          )}
+          {entwurf.typ === "warten" && (
+            <WartenFelder warten={entwurf.konfig} tx={tx} onChange={(konfig) => setEntwurf({ typ: "warten", konfig })} />
+          )}
+          {entwurf.typ === "bedingung" && (
+            <BedingungFelder bedingung={entwurf.konfig} tx={tx} onChange={(konfig) => setEntwurf({ typ: "bedingung", konfig })} />
+          )}
+        </div>
+
+        {fehler && <p className="mt-3 text-[12.5px] text-destructive">{fehler}</p>}
+
+        <div className="mt-5 flex items-center gap-2">
+          <button type="button" onClick={uebernehmen} className={BTN_PRIMARY}>
+            {tx("intern.flows.schritt_dialog_speichern")}
+          </button>
+          <DialogClose asChild>
+            <button type="button" className={BTN_QUIET}>
+              {tx("intern.flows.schritt_dialog_abbrechen")}
+            </button>
+          </DialogClose>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/* ── "+" -Einfüger zwischen zwei Schritt-Karten — Typ-Wahl als ui/select ── */
 function SchrittEinfueger({
   offen,
   onToggle,
@@ -588,6 +733,7 @@ function SchrittEinfueger({
   onWaehlen: (typ: FlowSchritt["typ"]) => void;
   tx: (key: string) => string;
 }) {
+  const reduceMotion = useReducedMotion();
   return (
     <div className="relative flex items-center justify-center gap-2 py-1">
       <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-line-medium" aria-hidden />
@@ -603,27 +749,175 @@ function SchrittEinfueger({
           offen ? "rotate-45 border-ink-cream/40 text-ink-cream" : "border-line-medium text-ink-muted hover:border-ink-cream/40 hover:text-ink-cream"
         }`}
       >
-        <PlusGlyph />
+        <Plus size={14} aria-hidden />
       </button>
-      {offen && (
-        <span className="relative z-10 flex items-center gap-1.5 rounded-full border border-line-medium bg-white p-1 shadow-[0_10px_28px_-14px_rgba(20,20,18,0.35)]">
-          {(["mail", "warten", "bedingung"] as const).map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => onWaehlen(t)}
-              className="rounded-full px-3 py-1.5 text-[12px] font-medium text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-wash"
-            >
-              {tx(t === "mail" ? "intern.flows.schritt_typ_mail" : t === "warten" ? "intern.flows.schritt_typ_warten" : "intern.flows.schritt_typ_bedingung")}
-            </button>
-          ))}
-        </span>
-      )}
+      <AnimatePresence>
+        {offen && (
+          <motion.span
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1, transition: reduceMotion ? { duration: 0 } : { duration: 0.15, ease: EASE_SMOOTH_OUT } }}
+            exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, transition: { duration: 0.1, ease: EASE_SMOOTH_OUT } }}
+            className="relative z-10"
+          >
+            <Select onValueChange={(t) => onWaehlen(t as FlowSchritt["typ"])}>
+              <SelectTrigger className="h-8 w-[180px] rounded-full border-line-medium bg-white text-[12.5px]">
+                <SelectValue placeholder={tx("intern.flows.schritt_typ_platzhalter")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="mail">
+                  <Mail size={14} aria-hidden />
+                  {tx("intern.flows.schritt_typ_mail")}
+                </SelectItem>
+                <SelectItem value="warten">
+                  <Clock size={14} aria-hidden />
+                  {tx("intern.flows.schritt_typ_warten")}
+                </SelectItem>
+                <SelectItem value="bedingung">
+                  <GitBranch size={14} aria-hidden />
+                  {tx("intern.flows.schritt_typ_bedingung")}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </motion.span>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-type FlowEntwurf = { id: string | null; name: string; status: FlowStatus; ausloeser: Ausloeser; schritte: FlowSchritt[] };
+/* ── Dialog: neuer Flow (Name + Auslöser), bevor der Editor mit der leeren
+   Schritt-Kette aufgeht. Eine bestehende Karte "Bearbeiten" umgeht diesen
+   Dialog und geht direkt in den Editor (Name/Auslöser bleiben dort inline
+   änderbar). ─────────────────────────────────────────────────────────── */
+function NeuFlowDialog({
+  tx,
+  onAbbrechen,
+  onWeiter,
+}: {
+  tx: (key: string) => string;
+  onAbbrechen: () => void;
+  onWeiter: (name: string, ausloeser: Ausloeser) => void;
+}) {
+  const [name, setName] = useState("");
+  const [ausloeser, setAusloeser] = useState<Ausloeser>("lead_neu");
+  const [fehler, setFehler] = useState<string | null>(null);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const n = name.trim();
+    if (!n) {
+      setFehler(tx("intern.flows.fehler_name_leer"));
+      return;
+    }
+    onWeiter(n, ausloeser);
+  }
+
+  return (
+    <Dialog
+      open
+      onOpenChange={(offen) => {
+        if (!offen) onAbbrechen();
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="w-full max-w-md gap-0 rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)] sm:max-w-md"
+      >
+        <DialogHeader className="flex-row items-start justify-between gap-4 text-left">
+          <DialogTitle className="text-[15px] font-semibold text-ink-cream">{tx("intern.flows.dialog_neu_titel")}</DialogTitle>
+          <DialogClose
+            aria-label={tx("intern.flows.dialog_abbrechen")}
+            className="-m-2 -mt-1 shrink-0 rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
+          >
+            <X size={16} aria-hidden />
+          </DialogClose>
+        </DialogHeader>
+        <form onSubmit={submit} className="mt-4 flex flex-col gap-3">
+          <label className="block">
+            <span className="t-label">{tx("intern.flows.feld_name")}</span>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={tx("intern.flows.feld_name_platzhalter")}
+              autoFocus
+              className="booking-input mt-1.5 w-full"
+            />
+          </label>
+          <label className="block">
+            <span className="t-label">{tx("intern.flows.feld_ausloeser")}</span>
+            <select value={ausloeser} onChange={(e) => setAusloeser(e.target.value as Ausloeser)} className="booking-input mt-1.5 w-full">
+              {AUSLOESER_ORDER.map((a) => (
+                <option key={a} value={a}>
+                  {tx(AUSLOESER_KEY[a])}
+                </option>
+              ))}
+            </select>
+          </label>
+          {fehler && <p className="text-[12.5px] text-destructive">{fehler}</p>}
+          <div className="mt-1 flex items-center gap-2">
+            <button type="submit" className={BTN_PRIMARY}>
+              {tx("intern.flows.dialog_weiter")}
+            </button>
+            <DialogClose asChild>
+              <button type="button" className={BTN_QUIET}>
+                {tx("intern.flows.dialog_abbrechen")}
+              </button>
+            </DialogClose>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/* ── Ein animierter Block: Schritt-Karte + der Einfüger direkt danach.
+   Stabiler Key (SchrittMitKey.key) statt Array-Index, sonst hielte
+   AnimatePresence beim Entfernen die falsche Karte für die Exit-Animation. ── */
+function SchrittBlock({
+  schritt,
+  index,
+  gesamt,
+  offenEinfueger,
+  tx,
+  onEdit,
+  onMove,
+  onRemove,
+  onToggleEinfueger,
+  onWaehlenEinfueger,
+}: {
+  schritt: FlowSchritt;
+  index: number;
+  gesamt: number;
+  offenEinfueger: boolean;
+  tx: (key: string) => string;
+  onEdit: () => void;
+  onMove: (dir: -1 | 1) => void;
+  onRemove: () => void;
+  onToggleEinfueger: () => void;
+  onWaehlenEinfueger: (typ: FlowSchritt["typ"]) => void;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      layout={!reduceMotion}
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1, transition: reduceMotion ? { duration: 0 } : { duration: 0.25, ease: EASE_BOUNCE } }}
+      exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, transition: { duration: 0.15, ease: EASE_SMOOTH_OUT } }}
+      transition={{ layout: { duration: 0.4, ease: EASE_SMOOTH_OUT } }}
+    >
+      <SchrittKarte schritt={schritt} index={index} gesamt={gesamt} tx={tx} onEdit={onEdit} onMove={onMove} onRemove={onRemove} />
+      <SchrittEinfueger offen={offenEinfueger} onToggle={onToggleEinfueger} onWaehlen={onWaehlenEinfueger} tx={tx} />
+    </motion.div>
+  );
+}
+
+/* ── Interner Entwurfs-Typ: Schritte tragen im Editor eine stabile Id für
+   React-/AnimatePresence-Keys. Nach außen (Speichern, initiale Übernahme
+   aus einem bestehenden Flow) bleibt FlowSchritt[] ohne Id die einzige
+   Form — der Kontrakt mit page.tsx/API bleibt unverändert. ─────────────── */
+type SchrittMitKey = { key: string; schritt: FlowSchritt };
+type FlowEntwurf = { id: string | null; name: string; status: FlowStatus; ausloeser: Ausloeser; schritte: SchrittMitKey[] };
 type View = { modus: "liste" } | { modus: "editor"; entwurf: FlowEntwurf };
 
 export function FlowsClient({
@@ -642,22 +936,36 @@ export function FlowsClient({
   const [fehler, setFehler] = useState<string | null>(null);
   const [speichert, setSpeichert] = useState(false);
   const [einfuegerBei, setEinfuegerBei] = useState<number | null>(null);
+  const [neuDialogOffen, setNeuDialogOffen] = useState(false);
+  const [bearbeiteIndex, setBearbeiteIndex] = useState<number | null>(null);
 
   function oeffneNeu() {
     setFehler(null);
-    setView({ modus: "editor", entwurf: { id: null, name: "", status: "entwurf", ausloeser: "lead_neu", schritte: [] } });
+    setNeuDialogOffen(true);
+  }
+
+  function neuWeiter(name: string, ausloeser: Ausloeser) {
+    setNeuDialogOffen(false);
+    setView({ modus: "editor", entwurf: { id: null, name, status: "entwurf", ausloeser, schritte: [] } });
   }
 
   function oeffneBearbeiten(flow: FlowEintrag) {
     setFehler(null);
     setView({
       modus: "editor",
-      entwurf: { id: flow.id, name: flow.name, status: flow.status, ausloeser: flow.ausloeser, schritte: flow.schritte },
+      entwurf: {
+        id: flow.id,
+        name: flow.name,
+        status: flow.status,
+        ausloeser: flow.ausloeser,
+        schritte: flow.schritte.map((schritt) => ({ key: erzeugeId(), schritt })),
+      },
     });
   }
 
   function schliesseEditor() {
     setEinfuegerBei(null);
+    setBearbeiteIndex(null);
     setView({ modus: "liste" });
   }
 
@@ -686,14 +994,14 @@ export function FlowsClient({
   function schrittEinfuegen(index: number, typ: FlowSchritt["typ"]) {
     mitEntwurf((e) => {
       const schritte = [...e.schritte];
-      schritte.splice(index, 0, defaultSchritt(typ));
+      schritte.splice(index, 0, { key: erzeugeId(), schritt: defaultSchritt(typ) });
       return { ...e, schritte };
     });
     setEinfuegerBei(null);
   }
 
   function schrittAktualisieren(index: number, schritt: FlowSchritt) {
-    mitEntwurf((e) => ({ ...e, schritte: e.schritte.map((s, i) => (i === index ? schritt : s)) }));
+    mitEntwurf((e) => ({ ...e, schritte: e.schritte.map((s, i) => (i === index ? { ...s, schritt } : s)) }));
   }
 
   function schrittEntfernen(index: number) {
@@ -723,7 +1031,8 @@ export function FlowsClient({
       setFehler(tx("intern.flows.fehler_kein_schritt"));
       return;
     }
-    for (const s of entwurf.schritte) {
+    const schritte = entwurf.schritte.map((s) => s.schritt);
+    for (const s of schritte) {
       if (s.typ === "mail" && s.konfig.modus === "frei" && (!s.konfig.betreff.trim() || !s.konfig.text.trim())) {
         setFehler(tx("intern.flows.fehler_mail_unvollstaendig"));
         return;
@@ -734,7 +1043,7 @@ export function FlowsClient({
 
     if (!konfiguriert) {
       const id = entwurf.id ?? erzeugeId();
-      const neuerEintrag: FlowEintrag = { id, name, status: entwurf.status, ausloeser: entwurf.ausloeser, schritte: entwurf.schritte, laufendeAnzahl: 0 };
+      const neuerEintrag: FlowEintrag = { id, name, status: entwurf.status, ausloeser: entwurf.ausloeser, schritte, laufendeAnzahl: 0 };
       setFlows((prev) => {
         const bestehtSchon = prev.some((f) => f.id === id);
         return bestehtSchon ? prev.map((f) => (f.id === id ? { ...neuerEintrag, laufendeAnzahl: f.laufendeAnzahl } : f)) : [neuerEintrag, ...prev];
@@ -750,7 +1059,7 @@ export function FlowsClient({
       name,
       status: entwurf.status,
       ausloeser: entwurf.ausloeser,
-      schritte: entwurf.schritte,
+      schritte,
     });
     setSpeichert(false);
     if (!res.ok) {
@@ -758,7 +1067,7 @@ export function FlowsClient({
       return;
     }
     const id = res.id ?? entwurf.id ?? erzeugeId();
-    const neuerEintrag: FlowEintrag = { id, name, status: entwurf.status, ausloeser: entwurf.ausloeser, schritte: entwurf.schritte, laufendeAnzahl: 0 };
+    const neuerEintrag: FlowEintrag = { id, name, status: entwurf.status, ausloeser: entwurf.ausloeser, schritte, laufendeAnzahl: 0 };
     setFlows((prev) => {
       const bestehend = prev.find((f) => f.id === id);
       return bestehend
@@ -770,6 +1079,7 @@ export function FlowsClient({
 
   if (view.modus === "editor") {
     const { entwurf } = view;
+    const bearbeiteterSchritt = bearbeiteIndex !== null ? entwurf.schritte[bearbeiteIndex] : null;
     return (
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -789,7 +1099,6 @@ export function FlowsClient({
               value={entwurf.name}
               onChange={(e) => mitEntwurf((prev) => ({ ...prev, name: e.target.value }))}
               placeholder={tx("intern.flows.feld_name_platzhalter")}
-              autoFocus
               className="booking-input mt-1.5 w-full"
             />
           </label>
@@ -830,25 +1139,23 @@ export function FlowsClient({
             tx={tx}
           />
 
-          {entwurf.schritte.map((schritt, i) => (
-            <div key={i}>
-              <SchrittKarte
-                schritt={schritt}
+          <AnimatePresence initial={false}>
+            {entwurf.schritte.map((s, i) => (
+              <SchrittBlock
+                key={s.key}
+                schritt={s.schritt}
                 index={i}
                 gesamt={entwurf.schritte.length}
+                offenEinfueger={einfuegerBei === i + 1}
                 tx={tx}
-                onUpdate={(s) => schrittAktualisieren(i, s)}
+                onEdit={() => setBearbeiteIndex(i)}
                 onMove={(dir) => schrittVerschieben(i, dir)}
                 onRemove={() => schrittEntfernen(i)}
+                onToggleEinfueger={() => setEinfuegerBei((v) => (v === i + 1 ? null : i + 1))}
+                onWaehlenEinfueger={(t) => schrittEinfuegen(i + 1, t)}
               />
-              <SchrittEinfueger
-                offen={einfuegerBei === i + 1}
-                onToggle={() => setEinfuegerBei((v) => (v === i + 1 ? null : i + 1))}
-                onWaehlen={(t) => schrittEinfuegen(i + 1, t)}
-                tx={tx}
-              />
-            </div>
-          ))}
+            ))}
+          </AnimatePresence>
         </div>
 
         <div className="mt-8 flex items-center gap-2.5">
@@ -859,6 +1166,18 @@ export function FlowsClient({
             {tx("intern.flows.abbrechen_button")}
           </button>
         </div>
+
+        {bearbeiteterSchritt && (
+          <SchrittBearbeitenDialog
+            schritt={bearbeiteterSchritt.schritt}
+            tx={tx}
+            onAbbrechen={() => setBearbeiteIndex(null)}
+            onSpeichern={(neu) => {
+              if (bearbeiteIndex !== null) schrittAktualisieren(bearbeiteIndex, neu);
+              setBearbeiteIndex(null);
+            }}
+          />
+        )}
       </div>
     );
   }
@@ -882,7 +1201,7 @@ export function FlowsClient({
 
       {flows.length === 0 ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-line-subtle px-8 py-16 text-center">
-          <KetteGlyph />
+          <Workflow size={34} className="text-ink-dim" aria-hidden />
           <p className="t-body mt-4 max-w-[26rem]">{tx("intern.flows.liste_leer_text")}</p>
           <button type="button" onClick={oeffneNeu} className={`${BTN_PRIMARY} mt-5`}>
             {tx("intern.flows.liste_leer_cta")}
@@ -901,6 +1220,8 @@ export function FlowsClient({
           ))}
         </div>
       )}
+
+      {neuDialogOffen && <NeuFlowDialog tx={tx} onAbbrechen={() => setNeuDialogOffen(false)} onWeiter={neuWeiter} />}
     </div>
   );
 }

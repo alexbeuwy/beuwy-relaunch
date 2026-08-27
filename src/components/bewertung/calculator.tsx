@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Icon, type IconName } from "@/components/bewertung/icon";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MapConsentGate } from "@/components/bewertung/consent";
 import { ortAusLabel, searchAddress, type GeoResult } from "@/lib/bewertung/geocode";
 import { track, trackKlick, setAnsicht, type Ansicht } from "@/lib/bewertung/track";
@@ -69,6 +71,32 @@ const LocationMap = dynamic(() => import("@/components/bewertung/location-map").
   ssr: false,
   loading: () => <div className="h-full w-full animate-pulse bg-bg-elevated" />,
 });
+
+// Motion-Tokens (LEAF U6, transitions-dev-Disziplin) — dieselben Konstanten
+// wie in ThreadVerlauf.tsx/AufgabenClient.tsx/FlowEditor.tsx: smooth-out für
+// Ein-/Ausblenden, bounce nur für Erfolgsmomente (Häkchen-Zeichnung).
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_BOUNCE: [number, number, number, number] = [0.34, 1.36, 0.64, 1];
+
+/** Schrittwechsel im Formular: Enter y+6/fade 0.25s, Exit 0.15s (Schließen
+ *  40% schneller als Öffnen) — reduced-motion nur Fade, kein Transform. */
+function stepMotionProps(reduce: boolean) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0, transition: { duration: reduce ? 0.15 : 0.25, ease: EASE_SMOOTH_OUT } },
+    exit: { opacity: 0, y: reduce ? 0 : -6, transition: { duration: 0.15, ease: EASE_SMOOTH_OUT } },
+  } as const;
+}
+
+/** Pop-in für Ergebniszahlen: scale 0.97→1 + fade, fast (0.25s), optional
+ *  im 40ms-Rhythmus gestaffelt — reduced-motion nur Fade, kein Transform. */
+function popIn(reduce: boolean, delay = 0) {
+  return {
+    initial: reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.25, ease: EASE_SMOOTH_OUT, delay: reduce ? 0 : delay },
+  } as const;
+}
 
 type Phase = "form" | "analyzing" | "result";
 
@@ -575,6 +603,7 @@ const inputCls =
 const inputClsWichtig = inputCls.replace("border-line-medium", "border-ink-cream/30");
 
 export function Calculator() {
+  const reduceMotion = useReducedMotion() ?? false;
   const [phase, setPhase] = useState<Phase>("form");
   const [step, setStep] = useState(0);
   const [f, setF] = useState<FormState>(EMPTY);
@@ -693,15 +722,20 @@ export function Calculator() {
   const [fallbackFehler, setFallbackFehler] = useState(false);
 
   // Fokus-Management: bei NUTZER-Schrittwechsel zur neuen Überschrift springen
-  // (nicht beim Initial-Mount/URL-Prefill).
+  // (nicht beim Initial-Mount/URL-Prefill). Als Ref-Callback statt useEffect(
+  // [step, phase]): AnimatePresence mode="wait" (LEAF U6) hängt die neue
+  // Schrittüberschrift erst NACH der Exit-Animation des alten Schritts ein —
+  // ein Effect auf [step, phase] würde noch die verschwindende Überschrift
+  // fokussieren. Der Ref-Callback feuert exakt beim tatsächlichen Mount.
   const headingRef = useRef<HTMLHeadingElement>(null);
   const userNav = useRef(false);
-  useEffect(() => {
-    if (phase === "form" && userNav.current) {
+  const setHeadingRef = (el: HTMLHeadingElement | null) => {
+    headingRef.current = el;
+    if (el && userNav.current) {
       userNav.current = false;
-      headingRef.current?.focus();
+      el.focus();
     }
-  }, [step, phase]);
+  };
 
   // Wurzel-Container von Analyzing/Result — derselbe Ref, sie ersetzen sich
   // gegenseitig im selben Slot.
@@ -1044,7 +1078,10 @@ export function Calculator() {
                   </span>
                 </div>
                 {d < STEP_NODES.length - 1 && (
-                  <div aria-hidden="true" className={`h-px flex-1 ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`} />
+                  <div
+                    aria-hidden="true"
+                    className={`h-px flex-1 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${d < currentNode ? "bg-akzent" : "bg-line-subtle"}`}
+                  />
                 )}
               </li>
             );
@@ -1053,9 +1090,10 @@ export function Calculator() {
       </div>
 
       <div className="rounded-[24px] border border-line-subtle bg-white p-6 sm:p-8">
+        <AnimatePresence mode="wait" initial={false}>
         {step === 0 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Was möchten Sie bewerten?
             </h2>
             {f.address && (
@@ -1100,12 +1138,12 @@ export function Calculator() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 1 && (
-          <div className="space-y-5">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-5" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Wo befindet sich die Immobilie?
             </h2>
             <div className="relative">
@@ -1159,6 +1197,16 @@ export function Calculator() {
               {searching && (
                 <div role="status" aria-live="polite" className="absolute right-3 top-3 text-xs text-ink-dim">
                   sucht…
+                </div>
+              )}
+              {searching && !f.address && suggestions.length === 0 && (
+                <div
+                  aria-hidden="true"
+                  className="absolute z-20 mt-2 w-full space-y-2.5 overflow-hidden rounded-[12px] border border-line-medium bg-white px-4 py-3.5 shadow-[0_18px_50px_-20px_rgba(20,20,18,0.35)]"
+                >
+                  <Skeleton className="h-3.5 w-[78%]" />
+                  <Skeleton className="h-3.5 w-[58%]" />
+                  <Skeleton className="h-3.5 w-[66%]" />
                 </div>
               )}
               {suggestions.length > 0 && !f.address && (
@@ -1258,12 +1306,12 @@ export function Calculator() {
               </div>
             )}
             <p className="text-xs text-ink-dim">Adressdaten via OpenStreetMap. Die genaue Lage fließt in die Mikrolage-Bewertung ein.</p>
-          </div>
+          </motion.div>
         )}
 
         {step === 2 && (
-          <div className="space-y-6">
-            <h2 ref={headingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
+          <motion.div key={step} className="space-y-6" {...stepMotionProps(reduceMotion)}>
+            <h2 ref={setHeadingRef} tabIndex={-1} className="font-display text-xl font-semibold text-ink-cream outline-none">
               Eckdaten der Immobilie
             </h2>
 
@@ -1504,8 +1552,9 @@ export function Calculator() {
                     : "Kein Problem ohne Mieteinnahmen: Wir setzen für die gesamte Wohnfläche eine marktübliche Miete Ihrer Region an und ziehen einen Abschlag für den Leerstand ab. Grobe Heuristik, kein Ertragswertgutachten."}
               </p>
             )}
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
 
         <div className="mt-5">
           <p className={`text-sm text-[#b3402a] transition-opacity duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] ${error ? "opacity-100" : "opacity-0"}`} role="alert">
@@ -1558,6 +1607,7 @@ function Analyzing({
   bundesweit: boolean;
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const pct = Math.round((revealed / SOURCES.length) * 100);
   const markt = useMemo(() => marktortByOrt(f.address?.city ?? "", f.address?.lat, f.address?.lng), [f.address?.city, f.address?.lat, f.address?.lng]);
   const ctx: SourceCtx = { boris, markt, bundesweit };
@@ -1585,8 +1635,27 @@ function Analyzing({
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${done ? "bg-akzent text-ink-cream" : "border border-line-medium text-ink-muted"}`}>
-                    {done ? "✓" : active ? "…" : ""}
+                  <span
+                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] ${done ? "bg-akzent text-ink-cream" : "border border-line-medium text-ink-muted"}`}
+                  >
+                    {done ? (
+                      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <motion.path
+                          d="M3 7.2l2.8 2.8L11 4"
+                          stroke="currentColor"
+                          strokeWidth={1.8}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: EASE_BOUNCE }}
+                        />
+                      </svg>
+                    ) : active ? (
+                      "…"
+                    ) : (
+                      ""
+                    )}
                   </span>
                   <div>
                     <div className={`text-sm ${done ? "text-ink-cream" : "text-ink-muted"}`}>{s.label}</div>
@@ -1629,6 +1698,7 @@ function Result({
   bundesweit: boolean;
   sectionRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const mid = useCountUp(result.mid, true);
   const endBetrag = formatEUR(result.mid);
   const [zifferm, einheitm] = betragTeile(formatEUR(mid));
@@ -1683,20 +1753,30 @@ function Result({
             </div>
 
             <div className="-mx-3 mt-5 max-w-3xl rounded-[24px] border border-line-medium bg-white px-3 py-6 sm:mx-auto sm:px-8 sm:py-9">
-              <div aria-hidden className="font-display leading-none tnum text-ink-cream" style={{ fontSize: "clamp(26px, 7vw, 60px)" }}>
+              <motion.div
+                aria-hidden
+                className="font-display leading-none tnum text-ink-cream"
+                style={{ fontSize: "clamp(26px, 7vw, 60px)" }}
+                {...popIn(reduceMotion, 0)}
+              >
                 {zifferm}
                 <span className="ml-1 align-top text-[0.42em] font-semibold">{einheitm}</span>
-              </div>
+              </motion.div>
               <span className="sr-only">Geschätzter Marktwert: {endBetrag}</span>
             </div>
 
-            <div className="mt-4 text-sm text-ink-muted sm:text-base">
+            <motion.div className="mt-4 text-sm text-ink-muted sm:text-base" {...popIn(reduceMotion, 0.05)}>
               Spanne {formatEUR(result.low)} – {formatEUR(result.high)}
-            </div>
+            </motion.div>
             <div className="relative mx-auto mt-6 h-2 max-w-md rounded-full bg-white">
               <div className="absolute inset-y-0 left-[8%] right-[8%] rounded-full bg-gradient-to-r from-akzent/30 via-akzent to-akzent/30" />
               <div className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-akzent shadow-[0_2px_6px_rgba(20,20,18,0.25)]" style={{ left: `${8 + rangePos * 0.84}%` }} />
             </div>
+            {boris.loading && !b && (
+              <div aria-hidden="true" className="mx-auto mt-3 flex max-w-xs items-center justify-center">
+                <Skeleton className="h-5 w-48 rounded-full" />
+              </div>
+            )}
             {b && (
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs text-ink-muted">
                 <span key={`${b.brw}-${b.zone}`} className="tnum">
@@ -1752,8 +1832,12 @@ function Result({
         </div>
 
         <div className={`mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 ${tiles.length > 5 ? "lg:grid-cols-6" : "lg:grid-cols-5"}`}>
-          {tiles.map((s) => (
-            <div key={s.k} className="rounded-[16px] border border-line-subtle bg-white p-4 text-center">
+          {tiles.map((s, i) => (
+            <motion.div
+              key={s.k}
+              className="rounded-[16px] border border-line-subtle bg-white p-4 text-center"
+              {...popIn(reduceMotion, 0.09 + i * 0.04)}
+            >
               <div className="mb-2 flex justify-center">
                 <span className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-line-medium bg-akzent-wash text-ink-cream">
                   <Icon name={s.icon} size={18} />
@@ -1763,7 +1847,7 @@ function Result({
                 {s.k}
               </div>
               <div className="mt-1 text-base font-semibold text-ink-cream tnum">{s.v}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

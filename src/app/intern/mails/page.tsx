@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { LayoutTemplate, FileCode2 } from "lucide-react";
 import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
 import { StudioLogin } from "@/components/StudioLogin";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { KopierenKnopf } from "./KopierenKnopf";
 import {
   mailFunnelBestaetigung,
   mailTerminBestaetigung,
@@ -12,15 +15,23 @@ import {
 } from "@/lib/email-vorlagen";
 
 /**
- * Studio-geschützte Vorschau aller E-Mail-Vorlagen (R3 Leaf B7). Gleiches
- * Cookie/Muster wie /studio und /os (src/lib/studio-auth.ts) — ohne Login
- * gibt es hier nichts zu sehen. Kein eigenes Layout: die Seite ist eine
- * eigenständige Section mit eigenem Hintergrund/Innenabstand, funktioniert
- * also auch, falls (noch) kein umschließendes /intern-Layout existiert.
+ * Studio-geschützte Vorschau aller E-Mail-Vorlagen (R3 Leaf B7, CRM-UX-
+ * Politur Leaf U4). Gleiches Cookie/Muster wie /studio und /os
+ * (src/lib/studio-auth.ts) — ohne Login gibt es hier nichts zu sehen. Kein
+ * eigenes Layout: die Seite ist eine eigenständige Section mit eigenem
+ * Hintergrund/Innenabstand, funktioniert also auch, falls (noch) kein
+ * umschließendes /intern-Layout existiert.
  *
  * Jede Karte zeigt Vorlagen-Name + Betreff und rendert das erzeugte HTML
- * unverändert in einem sandboxed iframe (srcDoc) — genau das, was im
- * Posteingang ankommt, ohne dass Website-CSS hineinwirkt.
+ * in ui/tabs: "Desktop" (sandboxed iframe srcDoc — genau das, was im
+ * Posteingang ankommt, ohne dass Website-CSS hineinwirkt) und "Quelltext"
+ * (das rohe HTML als <pre>, zum Nachschlagen/Debuggen). <Tabs> trägt sein
+ * eigenes "use client" in ui/tabs.tsx — diese Seite selbst bleibt eine
+ * Server-Komponente (Cookie-Auth), kein Grund, sie dafür umzubauen.
+ *
+ * Der Kopieren-Knopf braucht echten Browser-Zugriff (navigator.clipboard)
+ * + Toast — daher KopierenKnopf.tsx als einzige eigene "use client"-Datei
+ * dieser Seite (siehe Kommentar dort).
  */
 
 export const metadata: Metadata = {
@@ -97,15 +108,33 @@ export default async function InternMailsPage() {
             <div key={v.name} className="panel rounded-2xl p-5 sm:p-6">
               <p className="t-label">{v.name}</p>
               <p className="t-small mt-1">{v.hinweis}</p>
-              <p className="t-h3 mt-3">{v.betreff}</p>
-              <div className="hairline mt-4 overflow-hidden rounded-xl border bg-white">
-                <iframe
-                  title={`${v.name} — Vorschau`}
-                  srcDoc={v.html}
-                  sandbox=""
-                  className="h-[440px] w-full"
-                />
+              <div className="mt-3 flex items-start justify-between gap-3">
+                <p className="t-h3">{v.betreff}</p>
+                <KopierenKnopf betreff={v.betreff} />
               </div>
+
+              <Tabs defaultValue="desktop" className="mt-4 gap-3">
+                <TabsList>
+                  <TabsTrigger value="desktop" className="gap-1.5">
+                    <LayoutTemplate size={14} aria-hidden />
+                    Desktop
+                  </TabsTrigger>
+                  <TabsTrigger value="quelltext" className="gap-1.5">
+                    <FileCode2 size={14} aria-hidden />
+                    Quelltext
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="desktop">
+                  <div className="hairline overflow-hidden rounded-xl border bg-white">
+                    <iframe title={`${v.name} — Vorschau`} srcDoc={v.html} sandbox="" className="h-[440px] w-full" />
+                  </div>
+                </TabsContent>
+                <TabsContent value="quelltext">
+                  <pre className="h-[440px] overflow-auto rounded-xl border border-line-subtle bg-bg-elevated p-4 text-[11.5px] leading-relaxed text-ink-muted">
+                    <code>{v.html}</code>
+                  </pre>
+                </TabsContent>
+              </Tabs>
             </div>
           ))}
         </div>

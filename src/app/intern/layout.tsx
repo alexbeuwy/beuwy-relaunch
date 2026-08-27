@@ -2,8 +2,26 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import {
+  Activity,
+  CheckSquare,
+  FileText,
+  Kanban,
+  Mail,
+  MessageSquare,
+  PenLine,
+  Radio,
+  Sun,
+  Users,
+  Workflow,
+  type LucideIcon,
+} from "lucide-react";
 import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
 import { Logo } from "@/components/Logo";
+import { Toaster } from "@/components/ui/sonner";
+import { getContent } from "@/lib/content";
+import { INTERN_SHELL_DEFAULTS } from "@/lib/texte/intern-shell";
+import { CommandPalette } from "./CommandPalette";
 
 /**
  * Layout für /intern (R5 Leaf G1 — Shell + Dashboard). Löst das schmale
@@ -42,6 +60,17 @@ import { Logo } from "@/components/Logo";
  * per peer-checked. Website-Nav/Footer werden weiterhin über die
  * NurWebsite-Mechanik in src/app/layout.tsx ausgeblendet — "/intern" dort
  * zu ergänzen ist Sache des Integrationsschritts, nicht dieses Leafs.
+ *
+ * LEAF U1 (CRM-Shell-Politur, 27.08): jeder Nav-Punkt trägt jetzt sein
+ * lucide-Icon (18px, Farbe erbt über currentColor — sh. Zuordnung direkt
+ * über NAV unten), der Kopfzeile hängt ein "⌘K"-Hinweis-Chip an, der
+ * CommandPalette.tsx öffnet (globales Cmd/Ctrl+K, eigene "use client"-
+ * Datei — die Beschränkung aus dem Absatz oben galt für DIESES Layout,
+ * nicht für neue Geschwisterdateien im selben Leaf), und der sonner-
+ * Toaster hängt global hier, damit jede /intern-Unterseite toast()
+ * nutzen kann, ohne selbst einen Toaster zu mounten. Das Datum in der
+ * Kopfzeile weicht auf sm: aus, damit Titel + Chip auf schmalen
+ * Bildschirmen nicht mit ihm konkurrieren.
  */
 
 export const metadata: Metadata = {
@@ -51,39 +80,46 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-type NavPunkt = { href: string; label: string };
+type NavPunkt = { href: string; label: string; Icon: LucideIcon };
 type NavGruppe = { titel: string; punkte: NavPunkt[] };
 
+/* Icon je Nav-Punkt (lucide-react, 18px im Markup unten, Farbe erbt via
+   currentColor) — Zuordnung passend zum Seiteninhalt: Heute=Sun (Tages-
+   überblick), Pipeline=Kanban (Board), Kontakte=Users, Aufgaben=
+   CheckSquare, Flows=Workflow (Automatisierungsketten), Einblick=Activity
+   (Kennzahlen/Trends), Tickets=MessageSquare, Wochenbericht=FileText,
+   Mails=Mail, Studio=PenLine (Text-CMS), OS=Radio (Content-/Signal-
+   Ingest aus Instagram/TikTok, Branding-OS-Dashboard). */
 const NAV: NavGruppe[] = [
   {
     titel: "Arbeit",
     punkte: [
-      { href: "/intern", label: "Heute" },
-      { href: "/intern/pipeline", label: "Pipeline" },
-      { href: "/intern/kontakte", label: "Kontakte" },
-      { href: "/intern/aufgaben", label: "Aufgaben" },
+      { href: "/intern", label: "Heute", Icon: Sun },
+      { href: "/intern/pipeline", label: "Pipeline", Icon: Kanban },
+      { href: "/intern/kontakte", label: "Kontakte", Icon: Users },
+      { href: "/intern/aufgaben", label: "Aufgaben", Icon: CheckSquare },
     ],
   },
   {
     titel: "Wachstum",
     punkte: [
-      { href: "/intern/flows", label: "Flows" },
-      { href: "/intern/einblick", label: "Einblick" },
+      { href: "/intern/flows", label: "Flows", Icon: Workflow },
+      { href: "/intern/einblick", label: "Einblick", Icon: Activity },
     ],
   },
   {
     titel: "Kunden",
     punkte: [
-      { href: "/intern/tickets", label: "Tickets" },
-      { href: "/intern/wochenbericht", label: "Wochenbericht" },
+      { href: "/intern/tickets", label: "Tickets", Icon: MessageSquare },
+      { href: "/intern/wochenbericht", label: "Wochenbericht", Icon: FileText },
     ],
   },
   {
     titel: "System",
     punkte: [
-      { href: "/intern/mails", label: "Mails" },
-      { href: "/studio", label: "Studio" },
-      { href: "/os", label: "OS" },
+      { href: "/intern/mails", label: "Mails", Icon: Mail },
+      { href: "/studio", label: "Studio", Icon: PenLine },
+      { href: "/os", label: "OS", Icon: Radio },
     ],
   },
 ];
@@ -130,6 +166,9 @@ export default async function InternLayout({
     redirect("/login?weiter=/intern");
   }
 
+  const c = await getContent();
+  const t = (key: string) => c[key] ?? INTERN_SHELL_DEFAULTS[key] ?? key;
+
   const datum = new Date().toLocaleDateString("de-DE", {
     weekday: "long",
     day: "numeric",
@@ -162,8 +201,9 @@ export default async function InternLayout({
                     key={punkt.href}
                     href={punkt.href}
                     data-intern-nav
-                    className="rounded-lg border-l-2 border-transparent px-3 py-2 text-[13.5px] font-medium text-ink-muted transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-bg-elevated hover:text-ink-cream data-[aktiv]:border-akzent data-[aktiv]:bg-akzent-wash data-[aktiv]:font-semibold data-[aktiv]:text-ink-cream"
+                    className="flex items-center gap-2.5 rounded-lg border-l-2 border-transparent px-3 py-2 text-[13.5px] font-medium text-ink-muted transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-bg-elevated hover:text-ink-cream data-[aktiv]:border-akzent data-[aktiv]:bg-akzent-wash data-[aktiv]:font-semibold data-[aktiv]:text-ink-cream"
                   >
+                    <punkt.Icon size={18} className="shrink-0" aria-hidden />
                     {punkt.label}
                   </Link>
                 ))}
@@ -186,13 +226,25 @@ export default async function InternLayout({
               Intern
             </p>
           </div>
-          <time dateTime={new Date().toISOString().slice(0, 10)} className="t-data tnum shrink-0 !text-ink-dim">
-            {datum}
-          </time>
+          <div className="flex shrink-0 items-center gap-3">
+            <CommandPalette
+              texte={{
+                titel: t("intern.shell.palette.titel"),
+                beschreibung: t("intern.shell.palette.beschreibung"),
+                platzhalter: t("intern.shell.palette.platzhalter"),
+                leer: t("intern.shell.palette.leer"),
+                oeffnenLabel: t("intern.shell.palette.oeffnen_label"),
+              }}
+            />
+            <time dateTime={new Date().toISOString().slice(0, 10)} className="t-data tnum hidden !text-ink-dim sm:inline">
+              {datum}
+            </time>
+          </div>
         </header>
         <main className="flex-1">{children}</main>
       </div>
 
+      <Toaster position="bottom-right" richColors={false} />
       <script dangerouslySetInnerHTML={{ __html: NAV_SYNC_SCRIPT }} />
     </div>
   );

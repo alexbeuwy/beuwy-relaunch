@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AlarmClock } from "lucide-react";
 import {
   crmKonfiguriert,
   kontakteListe,
@@ -11,6 +12,10 @@ import {
 import { getContent } from "@/lib/content";
 import { INTERN_KUNDEN_DEFAULTS } from "@/lib/texte/intern-kunden";
 import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
+import { KontoListe, type KontoSummary } from "./KontoListe";
+import { ThreadVerlauf } from "./ThreadVerlauf";
+import { StatusAuswahl } from "./StatusAuswahl";
+import { AntwortForm } from "./AntwortForm";
 
 /**
  * /intern/tickets — Tickets mit Threads (R5 Leaf G7). Es gibt kein
@@ -37,6 +42,16 @@ import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
  * bei kleinen Ticketmengen (Design-Direktive Regel 24: Datendeckel
  * sichtbar machen, hier unnötig, weil die Fallzahl naturgemäß klein
  * bleibt) unkritisch.
+ *
+ * LEAF U4 (27.08, CRM-UX-Politur): der interaktive Teil wandert in vier
+ * kleine Client-Bausteine direkt in diesem Ordner, diese Seite bleibt die
+ * Server-Komponente mit der ganzen Daten-/SLA-Logik oben unverändert:
+ * KontoListe.tsx (Konten-Spalte, ui/skeleton während der Übergangs-
+ * Navigation), ThreadVerlauf.tsx (Antwort-Blasen, motion-Stagger),
+ * StatusAuswahl.tsx (ui/select statt drei Status-Buttons, fetch+Toast),
+ * AntwortForm.tsx (echtes <form>, JS hijackt onSubmit zu fetch+Toast,
+ * No-JS-Fallback bleibt der klassische Formular-POST). Das SLA-Badge
+ * trägt jetzt lucide AlarmClock statt eines reinen Farbpunkts.
  */
 
 export const metadata: Metadata = {
@@ -50,8 +65,9 @@ type TicketZeile = BwKontoDetail["tickets"][number];
 type KontoMitTickets = { email: string; name: string; firma: string; tickets: TicketZeile[] };
 type AntwortZeile = { id: number; erstellt: string; von: string; text: string };
 
-const STATUS_ORDER = ["offen", "in-arbeit", "erledigt"] as const;
-const STATUS_LABEL: Record<string, string> = { offen: "Offen", "in-arbeit": "In Arbeit", erledigt: "Erledigt" };
+/* STATUS_LABEL/STATUS_ORDER leben jetzt in StatusAuswahl.tsx (Leaf U4 —
+   ui/select statt der drei Status-Buttons); STATUS_DOT bleibt hier für
+   den Punkt in den Ticket-Auswahl-Chips unten. */
 const STATUS_DOT: Record<string, string> = { offen: "bg-ink-cream", "in-arbeit": "bg-ink-muted", erledigt: "bg-line-medium" };
 
 const SLA_MS = 48 * 3_600_000;
@@ -224,26 +240,6 @@ function TicketGlyph() {
   );
 }
 
-/* ── Bausteine ────────────────────────────────────────────────────── */
-
-function AntwortBubble({ antwort }: { antwort: AntwortZeile }) {
-  const vonBeuwy = antwort.von === "beuwy";
-  return (
-    <div className={`flex ${vonBeuwy ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-[85%] rounded-xl px-3.5 py-2.5 ${
-          vonBeuwy ? "bg-akzent-wash" : "border border-line-subtle bg-bg-elevated"
-        }`}
-      >
-        <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-ink-cream">{antwort.text}</p>
-        <p className="t-data tnum mt-1 !text-ink-dim">
-          {vonBeuwy ? "beuwy" : "Kunde"} · {zeitRelativ(antwort.erstellt)}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export default async function TicketsPage({
   searchParams,
 }: {
@@ -288,6 +284,17 @@ export default async function TicketsPage({
       : DEMO_ANTWORTEN[ausgewaehltesTicket.id] ?? [];
   }
 
+  /* Zusammenfassung je Konto für KontoListe.tsx (Client-Baustein, Leaf
+     U4) — dieselbe Logik wie zuvor inline in der Konten-Spalte, nur
+     einmal vorberechnet statt im JSX. */
+  const kontoSummaries: KontoSummary[] = konten.map((k) => ({
+    email: k.email,
+    name: k.name,
+    firma: k.firma,
+    offenAnzahl: k.tickets.filter((ti) => ti.status !== "erledigt").length || k.tickets.length,
+    ueberfaellig: k.tickets.some((ti) => slaSet.has(ti.id)),
+  }));
+
   return (
     <div className="px-5 py-7 lg:px-8 lg:py-8">
       <div className="mx-auto max-w-[1200px]">
@@ -324,32 +331,8 @@ export default async function TicketsPage({
               <div className="border-b border-line-subtle px-4 py-3">
                 <p className="t-label">{t("intern.kunden.tickets.konten_titel")}</p>
               </div>
-              <div className="flex flex-col lg:max-h-[calc(100vh-260px)] lg:overflow-y-auto">
-                {konten.map((k) => {
-                  const aktiv = ausgewaehltesKonto?.email === k.email;
-                  const ueberfaellig = k.tickets.some((ti) => slaSet.has(ti.id));
-                  const offenAnzahl = k.tickets.filter((ti) => ti.status !== "erledigt").length;
-                  return (
-                    <Link
-                      key={k.email}
-                      href={`/intern/tickets?konto=${encodeURIComponent(k.email)}`}
-                      className={`flex items-center justify-between gap-2 border-b border-line-subtle px-4 py-3 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) last:border-0 hover:bg-bg-elevated ${
-                        aktiv ? "bg-akzent-wash" : ""
-                      }`}
-                    >
-                      <span className="min-w-0">
-                        <span className="block truncate text-[13.5px] font-medium text-ink-cream">
-                          {k.name || k.firma || k.email}
-                        </span>
-                        {k.firma && k.name && <span className="block truncate text-[12px] text-ink-muted">{k.firma}</span>}
-                      </span>
-                      <span className="flex shrink-0 items-center gap-1.5">
-                        {ueberfaellig && <span className="h-1.5 w-1.5 rounded-full bg-destructive" aria-hidden />}
-                        <span className="t-data tnum !text-ink-dim">{offenAnzahl || k.tickets.length}</span>
-                      </span>
-                    </Link>
-                  );
-                })}
+              <div className="lg:max-h-[calc(100vh-260px)] lg:overflow-y-auto">
+                <KontoListe konten={kontoSummaries} ausgewaehltEmail={ausgewaehltesKonto?.email ?? null} />
               </div>
             </aside>
 
@@ -409,7 +392,7 @@ export default async function TicketsPage({
 
                       {slaSet.has(ausgewaehltesTicket.id) && (
                         <div className="mt-4 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3.5 py-2.5">
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-destructive" aria-hidden />
+                          <AlarmClock size={15} className="shrink-0 text-destructive" aria-hidden />
                           <p className="text-[12.5px] font-medium text-destructive">
                             {t("intern.kunden.tickets.sla_badge")} ·{" "}
                             {t("intern.kunden.tickets.sla_zeile").replace(
@@ -423,65 +406,36 @@ export default async function TicketsPage({
                       {/* ── Status-Wechsel ─────────────────────────────── */}
                       <div className="mt-5">
                         <p className="t-label">{t("intern.kunden.tickets.status_titel")}</p>
-                        <div className="mt-2.5 flex flex-wrap gap-2">
-                          {STATUS_ORDER.map((status) => {
-                            const aktiv = status === ausgewaehltesTicket.status;
-                            return (
-                              <form action="/api/intern-tickets" method="POST" key={status}>
-                                <input type="hidden" name="aktion" value="status" />
-                                <input type="hidden" name="id" value={ausgewaehltesTicket.id} />
-                                <input type="hidden" name="wert" value={status} />
-                                <input type="hidden" name="konto" value={ausgewaehltesKonto.email} />
-                                <button
-                                  type="submit"
-                                  disabled={aktiv}
-                                  className={
-                                    aktiv
-                                      ? "rounded-full bg-akzent px-4 py-2 text-[13px] font-semibold text-ink-cream"
-                                      : "rounded-full border border-line-subtle px-4 py-2 text-[13px] font-medium text-ink-muted transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-ink-cream/30 hover:text-ink-cream"
-                                  }
-                                >
-                                  {STATUS_LABEL[status]}
-                                </button>
-                              </form>
-                            );
-                          })}
+                        <div className="mt-2.5">
+                          <StatusAuswahl
+                            ticketId={ausgewaehltesTicket.id}
+                            kontoEmail={ausgewaehltesKonto.email}
+                            status={ausgewaehltesTicket.status}
+                            toastErfolg={t("intern.kunden.tickets.status_toast_erfolg")}
+                            toastFehler={t("intern.kunden.tickets.status_toast_fehler")}
+                          />
                         </div>
                       </div>
 
                       {/* ── Verlauf ─────────────────────────────────────── */}
                       <div className="mt-6">
                         <p className="t-label">{t("intern.kunden.tickets.thread_titel")}</p>
-                        <div className="mt-3 flex flex-col gap-2.5">
-                          {antworten.length === 0 ? (
-                            <p className="t-small !text-ink-dim">{t("intern.kunden.tickets.thread_leer")}</p>
-                          ) : (
-                            antworten.map((a) => <AntwortBubble key={a.id} antwort={a} />)
-                          )}
+                        <div className="mt-3">
+                          <ThreadVerlauf antworten={antworten} leerText={t("intern.kunden.tickets.thread_leer")} />
                         </div>
                       </div>
 
                       {/* ── Antwortformular ─────────────────────────────── */}
                       <div className="mt-6 rounded-xl border border-line-subtle p-5">
                         <p className="t-label">{t("intern.kunden.tickets.antwort_titel")}</p>
-                        <form action="/api/intern-tickets" method="POST" className="mt-3 flex flex-col gap-3">
-                          <input type="hidden" name="aktion" value="antwort" />
-                          <input type="hidden" name="id" value={ausgewaehltesTicket.id} />
-                          <input type="hidden" name="konto" value={ausgewaehltesKonto.email} />
-                          <textarea
-                            name="text"
-                            required
-                            rows={3}
-                            placeholder={t("intern.kunden.tickets.antwort_platzhalter")}
-                            className="booking-input w-full resize-y"
-                          />
-                          <button
-                            type="submit"
-                            className="self-start rounded-full bg-akzent px-6 py-2.5 text-[14px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover"
-                          >
-                            {t("intern.kunden.tickets.antwort_senden")}
-                          </button>
-                        </form>
+                        <AntwortForm
+                          ticketId={ausgewaehltesTicket.id}
+                          kontoEmail={ausgewaehltesKonto.email}
+                          platzhalter={t("intern.kunden.tickets.antwort_platzhalter")}
+                          sendenLabel={t("intern.kunden.tickets.antwort_senden")}
+                          toastErfolg={t("intern.kunden.tickets.antwort_toast_erfolg")}
+                          toastFehler={t("intern.kunden.tickets.antwort_toast_fehler")}
+                        />
                       </div>
                     </div>
                   )}

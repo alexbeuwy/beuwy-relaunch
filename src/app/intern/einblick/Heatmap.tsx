@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { KLICK_STUFEN } from "@/lib/track-client";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 /**
- * Klick-Dichtekarte für /intern/einblick (R5 Leaf G5). Zwei-Pass-Port aus
- * Riegels `DichteKarte`/`farbRampe`
+ * Client-Bauteile für /intern/einblick (R5 Leaf G5 · LEAF U5 Politur,
+ * 27.08). Zwei-Pass-Port aus Riegels `DichteKarte`/`farbRampe`
  * (/home/user/alexbeuwy/riegel/src/components/intern-dashboard.tsx,
  * Z. 3121 + 3161 — siehe docs/redesign/R5-PORTGUT.md Fundstück 4):
  * reines `<canvas>`, kein npm-Paket. Pass 1 trägt je Klick einen
@@ -21,9 +26,28 @@ import { KLICK_STUFEN } from "@/lib/track-client";
  * Kein echter Seiten-Screenshot: die Karte liegt über einem dezenten
  * Platzhalter (grauer Rahmen, Pfad als Kopfzeile wie eine Browser-
  * Adressleiste) — „ein echter Screenshot-Unterleger kommt später".
+ *
+ * LEAF U5 (Alex, 27.08): Die Dateiliste dieses Leafs umfasst NUR
+ * page.tsx und diese Datei — jedes client-seitige Bauteil, das
+ * /intern/einblick zum Umschalten von Zeitraum/Gerät/Pfad braucht
+ * (Server Component page.tsx kann selbst keine onValueChange-Handler
+ * tragen), lebt deshalb hier neben der Heatmap: `UmschalterTabs`
+ * (Zeitraum + Geräte-Umschalter, ui/tabs), `PfadAuswahl` (ui/select
+ * statt der früheren Pillen-Reihe) und `KpiZahl` (Zahlen-Pop-in bei
+ * Zeitraumwechsel). Die eigentliche Heatmap bekommt zusätzlich
+ * Hover-Tooltips (ui/tooltip, delayDuration 300) mit der Klickzahl je
+ * Punktcluster — statt eines Tooltips pro Roh-Klickzelle (könnten
+ * Hunderte sein) bündelt `hotspotsFuer` die Punkte auf ein grobes
+ * Raster, damit eine überschaubare Zahl an Radix-Tooltip-Instanzen
+ * entsteht und "Cluster" auch inhaltlich stimmt.
  */
 
 type Punkt = { x: number; y: number; n: number };
+
+const ZAHL = new Intl.NumberFormat("de-DE");
+
+/** --ease-smooth-out aus globals.css als Sekundenwert-Array für motion/react. */
+const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;
 
 /** Farbrampe: 256 RGB-Stützstellen, Pastellgelb → Tinte. */
 function farbRampe(): Uint8ClampedArray {
@@ -138,6 +162,35 @@ function ChromePunkte() {
   );
 }
 
+type Hotspot = { x: number; y: number; n: number };
+
+/** Bündelt rohe Klickpunkte auf ein grobes 22×22-Raster (gewichteter
+ *  Mittelpunkt je Zelle) und behält die stärksten `deckel` Zellen —
+ *  macht aus potenziell vielen Klick-Zellen eine überschaubare Zahl an
+ *  Hover-Zielen und liefert inhaltlich echte "Punktcluster" statt
+ *  Einzelpixel. */
+function hotspotsFuer(punkte: Punkt[], raster = 22, deckel = 60): Hotspot[] {
+  if (punkte.length === 0) return [];
+  const zellen = new Map<string, Hotspot>();
+  for (const p of punkte) {
+    const gx = Math.min(raster - 1, Math.max(0, Math.floor((p.x / KLICK_STUFEN) * raster)));
+    const gy = Math.min(raster - 1, Math.max(0, Math.floor((p.y / KLICK_STUFEN) * raster)));
+    const key = `${gx}:${gy}`;
+    const vorhanden = zellen.get(key);
+    if (vorhanden) {
+      const gesamtN = vorhanden.n + p.n;
+      vorhanden.x = (vorhanden.x * vorhanden.n + p.x * p.n) / gesamtN;
+      vorhanden.y = (vorhanden.y * vorhanden.n + p.y * p.n) / gesamtN;
+      vorhanden.n = gesamtN;
+    } else {
+      zellen.set(key, { x: p.x, y: p.y, n: p.n });
+    }
+  }
+  return Array.from(zellen.values())
+    .sort((a, b) => b.n - a.n)
+    .slice(0, deckel);
+}
+
 export function Heatmap({
   punkte,
   pfad,
@@ -151,6 +204,12 @@ export function Heatmap({
 }) {
   const max = Math.max(1, ...punkte.map((p) => p.n));
   const gesamt = punkte.reduce((a, p) => a + p.n, 0);
+  const hotspots = useMemo(() => hotspotsFuer(punkte), [punkte]);
+  const hotspotMax = Math.max(1, ...hotspots.map((h) => h.n));
+
+  function durchmesser(n: number): number {
+    return Math.round(10 + 20 * Math.sqrt(n / hotspotMax));
+  }
 
   return (
     <div>
@@ -165,6 +224,38 @@ export function Heatmap({
           }`}
         >
           <DichteKarte punkte={punkte} max={max} />
+
+          {hotspots.length > 0 && (
+            <TooltipProvider delayDuration={300}>
+              {hotspots.map((h, i) => {
+                const groesse = durchmesser(h.n);
+                const anzahl = Math.round(h.n);
+                return (
+                  <Tooltip key={i}>
+                    <TooltipTrigger asChild>
+                      <span
+                        tabIndex={0}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 cursor-default rounded-full outline-none focus-visible:ring-2 focus-visible:ring-(--ring)"
+                        style={{
+                          left: `${(h.x / KLICK_STUFEN) * 100}%`,
+                          top: `${(h.y / KLICK_STUFEN) * 100}%`,
+                          width: groesse,
+                          height: groesse,
+                        }}
+                        aria-label={`${ZAHL.format(anzahl)} Klick${anzahl === 1 ? "" : "s"}`}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      <span className="tnum font-mono">
+                        {ZAHL.format(anzahl)} Klick{anzahl === 1 ? "" : "s"}
+                      </span>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </TooltipProvider>
+          )}
+
           {punkte.length === 0 && (
             <p className="absolute inset-0 grid place-items-center px-6 text-center text-[13px] text-ink-dim">
               {leerText}
@@ -190,5 +281,109 @@ export function Heatmap({
         </span>
       </div>
     </div>
+  );
+}
+
+/** Eine Kennzahl als Text — die Zahl selbst crossfadet bei Prop-Wechsel
+ *  (Zeitraumwechsel navigiert serverseitig neu, aber diese Client-
+ *  Komponente behält bei einer weichen Navigation ihre Identität und
+ *  bekommt einfach einen neuen `wert`-Prop, siehe Dateikopf). Alte Zahl
+ *  fadet raus (quick, 150ms), neue kommt mit leichtem y-Shift rein
+ *  (fast, 250ms) — Schließen bewusst schneller als Öffnen. mode=
+ *  "popLayout" nimmt die austretende Zahl sofort aus dem Layoutfluss,
+ *  damit unterschiedlich breite Zahlen nicht kurz nebeneinander
+ *  hüpfen. Bei reduzierter Bewegung nur Opacity, kein y-Shift. */
+export function KpiZahl({ wert }: { wert: string }) {
+  const reduceMotion = useReducedMotion();
+  return (
+    <span className="relative inline-block">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={wert}
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease: EASE_SMOOTH } }}
+          exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE_SMOOTH } }}
+          className="inline-block"
+        >
+          {wert}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+type UmschalterOption = { wert: string; href: string; label: string };
+
+/** Zeitraum- UND Geräte-Umschalter (ui/tabs) — beide sind dieselbe Form
+ *  "eine Handvoll sich gegenseitig ausschließender Optionen, jede mit
+ *  eigenem Link", nur der Options-Satz unterscheidet sich. Navigiert
+ *  bei Auswahl per router.push statt <Link>, weil TabsTrigger ein
+ *  <button> ist — passend zu /intern, das ohnehin durchgängig JS
+ *  voraussetzt (Command-Palette, Toaster). */
+export function UmschalterTabs({
+  wert,
+  optionen,
+  ariaLabel,
+}: {
+  wert: string;
+  optionen: UmschalterOption[];
+  ariaLabel?: string;
+}) {
+  const router = useRouter();
+  return (
+    <Tabs
+      value={wert}
+      onValueChange={(neu) => {
+        if (neu === wert) return;
+        const ziel = optionen.find((o) => o.wert === neu);
+        if (ziel) router.push(ziel.href);
+      }}
+    >
+      <TabsList aria-label={ariaLabel}>
+        {optionen.map((o) => (
+          <TabsTrigger key={o.wert} value={o.wert}>
+            {o.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+}
+
+/** Pfad-Wahl für die Heatmap (ui/select statt der früheren Pillen-
+ *  Reihe) — zeigt Pfad + Views je Option, navigiert bei Auswahl. */
+export function PfadAuswahl({
+  wert,
+  optionen,
+  ariaLabel,
+}: {
+  wert: string;
+  optionen: { pfad: string; href: string; label: string }[];
+  ariaLabel?: string;
+}) {
+  const router = useRouter();
+  return (
+    <Select
+      value={wert}
+      onValueChange={(neu) => {
+        if (neu === wert) return;
+        const ziel = optionen.find((o) => o.pfad === neu);
+        if (ziel) router.push(ziel.href);
+      }}
+    >
+      <SelectTrigger className="w-full sm:w-[340px]" aria-label={ariaLabel}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {optionen.map((o) => (
+          <SelectItem key={o.pfad} value={o.pfad}>
+            <span className="flex w-full min-w-0 items-center justify-between gap-3">
+              <span className="truncate">{o.pfad}</span>
+              <span className="tnum shrink-0 font-mono text-[11px] text-ink-dim">{o.label}</span>
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

@@ -41,11 +41,15 @@ export const INTERN_KUNDEN_DEFAULTS: Record<string, string> = {
   "intern.kunden.tickets.sla_zeile": "Wartet seit {zeit} auf eine Antwort von beuwy.",
 
   "intern.kunden.tickets.status_titel": "Status",
+  "intern.kunden.tickets.status_toast_erfolg": "Status geändert auf {status}.",
+  "intern.kunden.tickets.status_toast_fehler": "Status konnte nicht geändert werden.",
   "intern.kunden.tickets.thread_titel": "Verlauf",
   "intern.kunden.tickets.thread_leer": "Noch keine Nachrichten in diesem Ticket.",
   "intern.kunden.tickets.antwort_titel": "Antwort schreiben",
   "intern.kunden.tickets.antwort_platzhalter": "Was ist der Stand?",
   "intern.kunden.tickets.antwort_senden": "Antwort senden",
+  "intern.kunden.tickets.antwort_toast_erfolg": "Antwort gesendet.",
+  "intern.kunden.tickets.antwort_toast_fehler": "Antwort konnte nicht gesendet werden.",
   "intern.kunden.tickets.kein_ticket_text": "Ticket links auswählen, um den Verlauf zu sehen.",
 
   /* ── /intern/wochenbericht ────────────────────────────────────────── */
@@ -65,6 +69,8 @@ export const INTERN_KUNDEN_DEFAULTS: Record<string, string> = {
     "Sobald ein Kunde sein Konto einrichtet, lässt sich hier ein Wochenbericht für ihn vorbereiten.",
 
   "intern.kunden.wochenbericht.vorschau_titel": "Vorschau der E-Mail",
+  "intern.kunden.wochenbericht.tab_vorschau": "Vorschau",
+  "intern.kunden.wochenbericht.tab_versand": "Versand",
   "intern.kunden.wochenbericht.projektstatus_titel": "Projektstatus",
   "intern.kunden.wochenbericht.erledigt_titel": "Diese Woche erledigt",
   "intern.kunden.wochenbericht.erledigt_leer": "Diese Woche wurde kein Anliegen abgeschlossen.",
@@ -79,6 +85,11 @@ export const INTERN_KUNDEN_DEFAULTS: Record<string, string> = {
   "intern.kunden.wochenbericht.button_vorschau": "Vorschau aktualisieren",
   "intern.kunden.wochenbericht.button_senden": "Jetzt senden",
   "intern.kunden.wochenbericht.button_protokollieren": "Als gesendet protokollieren ohne Versand",
+
+  "intern.kunden.wochenbericht.senden_dialog_titel": "Wochenbericht jetzt senden?",
+  "intern.kunden.wochenbericht.senden_dialog_text": "Die E-Mail geht direkt an {email} raus.",
+  "intern.kunden.wochenbericht.senden_dialog_bestaetigen": "Ja, jetzt senden",
+  "intern.kunden.wochenbericht.senden_dialog_abbrechen": "Abbrechen",
 
   "intern.kunden.wochenbericht.status_gesendet": "Wochenbericht verschickt.",
   "intern.kunden.wochenbericht.status_demo": "Als gesendet protokolliert — kein Versand in diesem Modus.",
@@ -107,11 +118,15 @@ export const INTERN_KUNDEN_LABELS: Record<string, string> = {
   "intern.kunden.tickets.sla_zeile": "Intern · Kunden · Tickets · SLA-Hinweiszeile ({zeit} = Platzhalter, nicht entfernen)",
 
   "intern.kunden.tickets.status_titel": "Intern · Kunden · Tickets · Thread · Status-Spaltenkopf",
+  "intern.kunden.tickets.status_toast_erfolg": "Intern · Kunden · Tickets · Status-Auswahl · Erfolgs-Toast ({status} = Platzhalter, nicht entfernen)",
+  "intern.kunden.tickets.status_toast_fehler": "Intern · Kunden · Tickets · Status-Auswahl · Fehler-Toast",
   "intern.kunden.tickets.thread_titel": "Intern · Kunden · Tickets · Thread · Spaltenkopf „Verlauf“",
   "intern.kunden.tickets.thread_leer": "Intern · Kunden · Tickets · Thread · Leerzustand",
   "intern.kunden.tickets.antwort_titel": "Intern · Kunden · Tickets · Antwortformular · Titel",
   "intern.kunden.tickets.antwort_platzhalter": "Intern · Kunden · Tickets · Antwortformular · Platzhalter",
   "intern.kunden.tickets.antwort_senden": "Intern · Kunden · Tickets · Antwortformular · Button",
+  "intern.kunden.tickets.antwort_toast_erfolg": "Intern · Kunden · Tickets · Antwortformular · Erfolgs-Toast",
+  "intern.kunden.tickets.antwort_toast_fehler": "Intern · Kunden · Tickets · Antwortformular · Fehler-Toast",
   "intern.kunden.tickets.kein_ticket_text": "Intern · Kunden · Tickets · Hinweis ohne Auswahl",
 
   "intern.kunden.wochenbericht.eyebrow": "Intern · Kunden · Wochenbericht · Eyebrow über der Überschrift",
@@ -127,6 +142,8 @@ export const INTERN_KUNDEN_LABELS: Record<string, string> = {
   "intern.kunden.wochenbericht.konten_leer_text": "Intern · Kunden · Wochenbericht · Leerzustand · Satz",
 
   "intern.kunden.wochenbericht.vorschau_titel": "Intern · Kunden · Wochenbericht · Spaltenkopf „Vorschau der E-Mail“",
+  "intern.kunden.wochenbericht.tab_vorschau": "Intern · Kunden · Wochenbericht · Tab „Vorschau“",
+  "intern.kunden.wochenbericht.tab_versand": "Intern · Kunden · Wochenbericht · Tab „Versand“",
   "intern.kunden.wochenbericht.projektstatus_titel": "Intern · Kunden · Wochenbericht · Vorschau · Abschnitt Projektstatus",
   "intern.kunden.wochenbericht.erledigt_titel": "Intern · Kunden · Wochenbericht · Vorschau · Abschnitt „Diese Woche erledigt“",
   "intern.kunden.wochenbericht.erledigt_leer": "Intern · Kunden · Wochenbericht · Vorschau · Leerzustand erledigt",
@@ -140,6 +157,11 @@ export const INTERN_KUNDEN_LABELS: Record<string, string> = {
   "intern.kunden.wochenbericht.button_vorschau": "Intern · Kunden · Wochenbericht · Button „Vorschau aktualisieren“",
   "intern.kunden.wochenbericht.button_senden": "Intern · Kunden · Wochenbericht · Button „Jetzt senden“",
   "intern.kunden.wochenbericht.button_protokollieren": "Intern · Kunden · Wochenbericht · Button „Als gesendet protokollieren“",
+
+  "intern.kunden.wochenbericht.senden_dialog_titel": "Intern · Kunden · Wochenbericht · Sende-Bestätigung · Titel",
+  "intern.kunden.wochenbericht.senden_dialog_text": "Intern · Kunden · Wochenbericht · Sende-Bestätigung · Text ({email} = Platzhalter, nicht entfernen)",
+  "intern.kunden.wochenbericht.senden_dialog_bestaetigen": "Intern · Kunden · Wochenbericht · Sende-Bestätigung · Button „Ja, jetzt senden“",
+  "intern.kunden.wochenbericht.senden_dialog_abbrechen": "Intern · Kunden · Wochenbericht · Sende-Bestätigung · Button „Abbrechen“",
 
   "intern.kunden.wochenbericht.status_gesendet": "Intern · Kunden · Wochenbericht · Statuszeile nach Versand",
   "intern.kunden.wochenbericht.status_demo": "Intern · Kunden · Wochenbericht · Statuszeile nach Protokollieren/Demo",

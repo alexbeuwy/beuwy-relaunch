@@ -1,20 +1,73 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type MouseEvent } from "react";
+import { useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
+import { toast } from "sonner";
+import {
+  Clock,
+  Contact,
+  EllipsisVertical,
+  Euro,
+  GripVertical,
+  Kanban as KanbanIcon,
+  PencilLine,
+  X,
+} from "lucide-react";
 import type { BwDeal, BwLead } from "@/lib/crm/db";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 /**
- * KanbanBoard — der interaktive Teil von /intern/pipeline (R5 Leaf G2).
- * Client-Komponente, weil Drag & Drop, optimistische Updates und Dialoge
- * Browser-State brauchen; die Seite selbst (page.tsx) bleibt Server-
- * Komponente und liefert nur die geladenen Daten + Studio-Texte rein.
+ * KanbanBoard — der interaktive Teil von /intern/pipeline (R5 Leaf G2,
+ * Kanban-UX-Politur Leaf U2). Client-Komponente, weil Drag & Drop,
+ * optimistische Updates und Dialoge Browser-State brauchen; die Seite
+ * selbst (page.tsx) bleibt Server-Komponente und liefert nur die
+ * geladenen Daten + Studio-Texte rein.
  *
- * Muster aus der Design-Direktive (docs/redesign/R5-PORTGUT.md):
- * optimistisches Update mit Rollback (Regel 9), Zwei-Klick/Dialog statt
- * window.confirm() für die destruktive "Verloren"-Entscheidung (Regel 10),
- * Leerzustand mit Icon+Satz+Aktion (Regel 7), Zahlen konsequent
- * GeistMono + tabular-nums (Regel 18), Motion nur über die bestehenden
- * Tokens (Regel 16).
+ * Fundament aus dem neuen shadcn-Set (new-york, auf beuwy gemappt):
+ * - "Deal anlegen" + der Verlustgrund-Dialog laufen über ui/dialog
+ *   (Radix), inkl. eingebauter Escape-/Backdrop-/Fokus-Behandlung statt
+ *   der vorherigen handgebauten Keydown-Listener.
+ * - Der Verlustgrund selbst ist ui/select, Freitext- und Wertfelder sind
+ *   ui/input.
+ * - Das Karten-Kontextmenü (⋯) ist ui/dropdown-menu mit "Verschieben
+ *   nach …" als echtem Untermenü (Radix übernimmt Positionierung/
+ *   Kollisionserkennung, keine manuelle Koordinatenrechnung mehr nötig).
+ * - Icons konsequent lucide-react, size/strokeWidth nach Konvention,
+ *   Farbe erbt über currentColor.
+ * - motion/react animiert Karten (layout + layoutId — layoutId ist der
+ *   Teil, der eine Karte beim Spaltenwechsel tatsächlich "mitnimmt",
+ *   weil sie dabei aus dem einen Spalten-.map() verschwindet und im
+ *   anderen neu entsteht; layout allein federt nur Positionswechsel
+ *   innerhalb derselben Spalte ab). Neue Karten poppen kurz rein.
+ *   useReducedMotion() schaltet alle Transform-Animationen ab.
+ * - toast() aus sonner meldet jeden Statuswechsel und jedes Anlegen,
+ *   Statuswechsel mit Rückgängig-Action (erneuter Status-Call zurück).
+ *
+ * Native HTML5-Drag-&-Drop (draggable/onDragStart/onDragEnd) bleibt auf
+ * einem schlichten <div>, NICHT auf dem motion.div: motion-Komponenten
+ * überschreiben onDragStart/onDragEnd mit ihrer eigenen Pointer-Gesten-
+ * Signatur (event, PanInfo), die mit nativen DragEvents nicht kompatibel
+ * ist. Der motion.div sitzt deshalb innen und übernimmt nur die Optik +
+ * die layout-Animation.
  *
  * Demo-Modus (konfiguriert=false): Änderungen bleiben rein im Browser-
  * State — kein Fetch, kein Rollback nötig, das Board fühlt sich trotzdem
@@ -60,6 +113,9 @@ const VERLUST_GRUENDE = [
 
 const EURO = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
+/** Motion-Token --ease-smooth-out (globals.css) als Bezier-Array für motion/react. */
+const EASE_SMOOTH_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const BTN_PRIMARY =
   "rounded-full bg-akzent px-5 py-2.5 text-[13.5px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover active:scale-[0.98]";
 const BTN_QUIET =
@@ -93,37 +149,6 @@ async function postDeal(
   } catch {
     return { ok: false, error: undefined };
   }
-}
-
-/* ── Kleine, selbst gezeichnete Glyphen — kein Icon-Import (Konvention aus
-   src/components/MaklerElemente.tsx) ─────────────────────────────────── */
-
-function DreiPunkte() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-      <circle cx="8" cy="3.2" r="1.35" />
-      <circle cx="8" cy="8" r="1.35" />
-      <circle cx="8" cy="12.8" r="1.35" />
-    </svg>
-  );
-}
-
-function Kreuz() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 17 17" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
-      <path d="M3.5 3.5l10 10M13.5 3.5l-10 10" />
-    </svg>
-  );
-}
-
-function BoardIcon() {
-  return (
-    <svg width="36" height="36" viewBox="0 0 40 40" fill="none" stroke="var(--ink-dim)" strokeWidth="1.6" aria-hidden>
-      <rect x="4" y="7" width="9" height="26" rx="3" />
-      <rect x="15.5" y="7" width="9" height="18" rx="3" />
-      <rect x="27" y="7" width="9" height="22" rx="3" />
-    </svg>
-  );
 }
 
 /* ── Wert-Zelle: Klick macht die Karte zum Zahlenfeld, Enter/Blur speichert,
@@ -188,65 +213,120 @@ function DealKarte({
   deal,
   dragging,
   wertEditing,
+  istNeu,
   onDragStart,
   onDragEnd,
-  onMenuOpen,
   onWertStart,
   onWertCommit,
   onWertCancel,
+  onVerschieben,
+  onBearbeiten,
   tx,
 }: {
   deal: KanbanDeal;
   dragging: boolean;
   wertEditing: boolean;
+  istNeu: boolean;
   onDragStart: (e: React.DragEvent, id: string) => void;
   onDragEnd: () => void;
-  onMenuOpen: (e: MouseEvent, id: string) => void;
   onWertStart: (id: string) => void;
   onWertCommit: (id: string, wert: string) => void;
   onWertCancel: () => void;
+  onVerschieben: (id: string, status: Status) => void;
+  onBearbeiten: (id: string) => void;
   tx: (key: string) => string;
 }) {
+  const reduceMotion = useReducedMotion();
   const tage = tageAlt(deal.erstellt);
   const gestaut = AKTIVE_STATI.includes(deal.status) && tage >= STAU_SCHWELLE_TAGE;
+  const zielStati = STATUS_ORDER.filter((s) => s !== deal.status);
 
   return (
     <div
       draggable={!wertEditing}
       onDragStart={(e) => onDragStart(e, deal.id)}
       onDragEnd={onDragEnd}
-      className={`rounded-xl border border-line-subtle bg-white p-4 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-ink-cream/25 hover:bg-bg-elevated ${wertEditing ? "" : "cursor-grab active:cursor-grabbing"} ${dragging ? "opacity-40" : ""}`}
+      className={wertEditing ? "" : "cursor-grab active:cursor-grabbing"}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="min-w-0 truncate text-[14px] font-semibold text-ink-cream">{deal.titel || "Ohne Titel"}</p>
-        <button
-          type="button"
-          aria-label={tx("intern.pipeline.karte_menu_label")}
-          aria-haspopup="menu"
-          onClick={(e) => onMenuOpen(e, deal.id)}
-          className="-m-1 shrink-0 rounded-md p-1 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
-        >
-          <DreiPunkte />
-        </button>
-      </div>
-      <p className="mt-0.5 truncate text-[12.5px] text-ink-muted">
-        {deal.kontaktName || tx("intern.pipeline.kein_kontakt")}
-      </p>
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <WertZelle
-          deal={deal}
-          editing={wertEditing}
-          onStart={() => onWertStart(deal.id)}
-          onCommit={(wert) => onWertCommit(deal.id, wert)}
-          onCancel={onWertCancel}
-        />
-        <span className={`t-data tnum ${gestaut ? "!text-destructive" : "!text-ink-dim"}`}>
-          {tage === 0 ? tx("intern.pipeline.heute") : `${tage} Tage`}
-        </span>
-      </div>
-      {deal.status === "verloren" && deal.verlust_grund && (
-        <p className="mt-2 truncate text-[11.5px] text-ink-dim">{deal.verlust_grund}</p>
-      )}
+      {/* motion.div statt native onDrag*-Props: motion überschreibt
+          onDragStart/onDragEnd mit seiner eigenen Pointer-Gesten-Signatur
+          (event, PanInfo) — mit nativen DragEvents inkompatibel. Native
+          Drag & Drop bleibt deshalb auf dem umschließenden <div>, dieser
+          motion.div übernimmt nur Optik + layout-Animation. */}
+      <motion.div
+        layout={!reduceMotion}
+        layoutId={reduceMotion ? undefined : deal.id}
+        initial={istNeu && !reduceMotion ? { opacity: 0, scale: 0.96 } : false}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          layout: { duration: 0.4, ease: EASE_SMOOTH_OUT },
+          opacity: { duration: 0.25, ease: EASE_SMOOTH_OUT },
+          scale: { duration: 0.25, ease: EASE_SMOOTH_OUT },
+        }}
+        className={`rounded-xl border border-line-subtle bg-white p-4 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-ink-cream/25 hover:bg-bg-elevated ${dragging ? "opacity-40" : ""}`}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex min-w-0 items-start gap-1.5">
+            <GripVertical size={14} className="mt-0.5 shrink-0 text-ink-dim/40" aria-hidden />
+            <p className="min-w-0 truncate text-[14px] font-semibold text-ink-cream">{deal.titel || "Ohne Titel"}</p>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label={tx("intern.pipeline.karte_menu_label")}
+                className="-m-1 shrink-0 rounded-md p-1 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
+              >
+                <EllipsisVertical size={16} aria-hidden />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>{tx("intern.pipeline.menu_verschieben_nach")}</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {zielStati.map((status) => (
+                    <DropdownMenuItem key={status} onSelect={() => onVerschieben(deal.id, status)}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[status]}`} aria-hidden />
+                      {STATUS_LABELS[status]}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuItem onSelect={() => onBearbeiten(deal.id)}>
+                <PencilLine aria-hidden />
+                {tx("intern.pipeline.menu_bearbeiten")}
+              </DropdownMenuItem>
+              {deal.kontakt_id && (
+                <DropdownMenuItem asChild>
+                  <Link href={`/intern/kontakte/${deal.kontakt_id}`}>
+                    <Contact aria-hidden />
+                    {tx("intern.pipeline.menu_kontakt_oeffnen")}
+                  </Link>
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <p className="mt-0.5 truncate text-[12.5px] text-ink-muted">
+          {deal.kontaktName || tx("intern.pipeline.kein_kontakt")}
+        </p>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <WertZelle
+            deal={deal}
+            editing={wertEditing}
+            onStart={() => onWertStart(deal.id)}
+            onCommit={(wert) => onWertCommit(deal.id, wert)}
+            onCancel={onWertCancel}
+          />
+          <span className={`inline-flex items-center gap-1 t-data tnum ${gestaut ? "!text-destructive" : "!text-ink-dim"}`}>
+            {gestaut && <Clock size={12} aria-hidden />}
+            {tage === 0 ? tx("intern.pipeline.heute") : `${tage} Tage`}
+          </span>
+        </div>
+        {deal.status === "verloren" && deal.verlust_grund && (
+          <p className="mt-2 truncate text-[11.5px] text-ink-dim">{deal.verlust_grund}</p>
+        )}
+      </motion.div>
     </div>
   );
 }
@@ -270,7 +350,10 @@ function LeadKarte({ lead, onZuDeal, tx }: { lead: BwLead; onZuDeal: () => void;
   );
 }
 
-/* ── Dialog: neuer Deal (auch für "Zu Deal machen" aus Unqualifiziert) ── */
+/* ── Dialog: neuer Deal (auch für "Zu Deal machen" aus Unqualifiziert) ──
+   ui/dialog übernimmt Escape/Backdrop-Klick/Fokusfalle selbst — offen
+   bleibt die Komponente immer (open), das Schließen läuft komplett über
+   onOpenChange → onAbbrechen. ─────────────────────────────────────────── */
 function NeuDealDialog({
   initial,
   konfiguriert,
@@ -289,14 +372,6 @@ function NeuDealDialog({
   const [email, setEmail] = useState(initial.email);
   const [speichert, setSpeichert] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
-
-  useEffect(() => {
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") onAbbrechen();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onAbbrechen]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -335,71 +410,62 @@ function NeuDealDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink-cream/50 p-3 backdrop-blur-sm">
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="pipeline-neu-titel"
-        className="w-full max-w-md rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)]"
+    <Dialog
+      open
+      onOpenChange={(offen) => {
+        if (!offen) onAbbrechen();
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="w-full max-w-md gap-0 rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)] sm:max-w-md"
       >
-        <div className="flex items-start justify-between gap-4">
-          <h2 id="pipeline-neu-titel" className="text-[15px] font-semibold text-ink-cream">
+        <DialogHeader className="flex-row items-start justify-between gap-4 text-left">
+          <DialogTitle className="text-[15px] font-semibold text-ink-cream">
             {tx("intern.pipeline.dialog_neu_titel")}
-          </h2>
-          <button
-            type="button"
-            onClick={onAbbrechen}
+          </DialogTitle>
+          <DialogClose
             aria-label={tx("intern.pipeline.dialog_abbrechen")}
-            className="-m-2 shrink-0 rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
+            className="-m-2 -mt-1 shrink-0 rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
           >
-            <Kreuz />
-          </button>
-        </div>
+            <X size={16} aria-hidden />
+          </DialogClose>
+        </DialogHeader>
         <form onSubmit={submit} className="mt-4 flex flex-col gap-3">
           <label className="block">
             <span className="t-label">{tx("intern.pipeline.feld_titel")}</span>
-            <input
-              value={titel}
-              onChange={(e) => setTitel(e.target.value)}
-              required
-              autoFocus
-              className="booking-input mt-1.5 w-full"
-            />
+            <Input value={titel} onChange={(e) => setTitel(e.target.value)} required autoFocus className="mt-1.5 w-full" />
           </label>
           <label className="block">
             <span className="t-label">{tx("intern.pipeline.feld_wert")}</span>
-            <input
+            <Input
               value={wert}
               onChange={(e) => setWert(e.target.value)}
               type="number"
               min={0}
               step={100}
               placeholder="0"
-              className="booking-input mt-1.5 w-full"
+              className="mt-1.5 w-full"
             />
           </label>
           <label className="block">
             <span className="t-label">{tx("intern.pipeline.feld_email")}</span>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              required
-              className="booking-input mt-1.5 w-full"
-            />
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required className="mt-1.5 w-full" />
           </label>
           {fehler && <p className="text-[12.5px] text-destructive">{fehler}</p>}
           <div className="mt-1 flex items-center gap-2">
             <button type="submit" disabled={speichert} className={`${BTN_PRIMARY} disabled:opacity-60`}>
               {tx("intern.pipeline.dialog_speichern")}
             </button>
-            <button type="button" onClick={onAbbrechen} className={BTN_QUIET}>
-              {tx("intern.pipeline.dialog_abbrechen")}
-            </button>
+            <DialogClose asChild>
+              <button type="button" className={BTN_QUIET}>
+                {tx("intern.pipeline.dialog_abbrechen")}
+              </button>
+            </DialogClose>
           </div>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -417,14 +483,6 @@ function VerlorenDialog({
   const [notiz, setNotiz] = useState("");
   const [fehler, setFehler] = useState<string | null>(null);
 
-  useEffect(() => {
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") onAbbrechen();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onAbbrechen]);
-
   function submit(e: FormEvent) {
     e.preventDefault();
     if (!grund) {
@@ -439,122 +497,65 @@ function VerlorenDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink-cream/50 p-3 backdrop-blur-sm">
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="pipeline-verloren-titel"
-        className="w-full max-w-sm rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)]"
+    <Dialog
+      open
+      onOpenChange={(offen) => {
+        if (!offen) onAbbrechen();
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="w-full max-w-sm gap-0 rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)] sm:max-w-sm"
       >
-        <div className="flex items-start justify-between gap-4">
+        <DialogHeader className="flex-row items-start justify-between gap-4 text-left">
           <div>
-            <h2 id="pipeline-verloren-titel" className="text-[15px] font-semibold text-ink-cream">
+            <DialogTitle className="text-[15px] font-semibold text-ink-cream">
               {tx("intern.pipeline.verloren_titel")}
-            </h2>
-            <p className="mt-1 text-[12.5px] text-ink-muted">{tx("intern.pipeline.verloren_sub")}</p>
+            </DialogTitle>
+            <DialogDescription className="mt-1 text-[12.5px] text-ink-muted">
+              {tx("intern.pipeline.verloren_sub")}
+            </DialogDescription>
           </div>
-          <button
-            type="button"
-            onClick={onAbbrechen}
+          <DialogClose
             aria-label={tx("intern.pipeline.dialog_abbrechen")}
             className="-m-2 shrink-0 rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
           >
-            <Kreuz />
-          </button>
-        </div>
+            <X size={16} aria-hidden />
+          </DialogClose>
+        </DialogHeader>
         <form onSubmit={submit} className="mt-4 flex flex-col gap-3">
-          <div className="flex flex-col gap-1.5">
-            {VERLUST_GRUENDE.map((g) => (
-              <label
-                key={g.code}
-                className="flex cursor-pointer items-center gap-2.5 rounded-lg border border-line-subtle px-3 py-2 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-bg-elevated has-[:checked]:border-ink-cream/40 has-[:checked]:bg-akzent-wash"
-              >
-                <input
-                  type="radio"
-                  name="verlust-grund"
-                  value={g.code}
-                  checked={grund === g.code}
-                  onChange={() => setGrund(g.code)}
-                  style={{ accentColor: "var(--akzent)" }}
-                  className="h-3.5 w-3.5"
-                />
-                <span className="text-[13.5px] text-ink-cream">{tx(g.labelKey)}</span>
-              </label>
-            ))}
-          </div>
-          <textarea
+          <Select value={grund ?? undefined} onValueChange={(wert) => setGrund(wert)}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={tx("intern.pipeline.verloren_grund_platzhalter")} />
+            </SelectTrigger>
+            <SelectContent>
+              {VERLUST_GRUENDE.map((g) => (
+                <SelectItem key={g.code} value={g.code}>
+                  {tx(g.labelKey)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input
             value={notiz}
             onChange={(e) => setNotiz(e.target.value)}
-            rows={2}
             placeholder={tx("intern.pipeline.verloren_notiz_platzhalter")}
-            className="booking-input w-full resize-y"
+            className="w-full"
           />
           {fehler && <p className="text-[12.5px] text-destructive">{fehler}</p>}
           <div className="mt-1 flex items-center gap-2">
             <button type="submit" className={BTN_PRIMARY}>
               {tx("intern.pipeline.verloren_speichern")}
             </button>
-            <button type="button" onClick={onAbbrechen} className={BTN_QUIET}>
-              {tx("intern.pipeline.dialog_abbrechen")}
-            </button>
+            <DialogClose asChild>
+              <button type="button" className={BTN_QUIET}>
+                {tx("intern.pipeline.dialog_abbrechen")}
+              </button>
+            </DialogClose>
           </div>
         </form>
-      </div>
-    </div>
-  );
-}
-
-/* ── Kontextmenü: Tastatur-/Klick-Fallback fürs Drag & Drop ────────────── */
-function VerschiebenMenu({
-  x,
-  y,
-  aktuellerStatus,
-  tx,
-  onWaehlen,
-  onSchliessen,
-}: {
-  x: number;
-  y: number;
-  aktuellerStatus: string;
-  tx: (key: string) => string;
-  onWaehlen: (status: Status) => void;
-  onSchliessen: () => void;
-}) {
-  useEffect(() => {
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") onSchliessen();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onSchliessen]);
-
-  const optionen = STATUS_ORDER.filter((s) => s !== aktuellerStatus);
-
-  return (
-    <>
-      <div className="fixed inset-0 z-40" onClick={onSchliessen} />
-      <div
-        role="menu"
-        style={{ top: y, left: x }}
-        className="fixed z-50 w-52 overflow-hidden rounded-xl border border-line-medium bg-white py-1.5 shadow-[0_18px_45px_-18px_rgba(20,20,18,0.35)]"
-      >
-        <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-dim">
-          {tx("intern.pipeline.menu_verschieben_nach")}
-        </p>
-        {optionen.map((status) => (
-          <button
-            key={status}
-            role="menuitem"
-            type="button"
-            onClick={() => onWaehlen(status)}
-            className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-bg-elevated"
-          >
-            <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[status]}`} aria-hidden />
-            {STATUS_LABELS[status]}
-          </button>
-        ))}
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -578,10 +579,15 @@ export function KanbanBoard({
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverStatus, setDragOverStatus] = useState<Status | null>(null);
 
-  const [menuAnchor, setMenuAnchor] = useState<{ id: string; x: number; y: number } | null>(null);
   const [wertEditFor, setWertEditFor] = useState<string | null>(null);
   const [verlorenDialogFor, setVerlorenDialogFor] = useState<string | null>(null);
   const [neuDialog, setNeuDialog] = useState<{ leadId: string | null; titel: string; email: string } | null>(null);
+  /** Ids, die in DIESER Sitzung neu angelegt wurden — nur die bekommen
+   *  den Pop-Effekt beim Mounten. Ohne dieses Flag würde beim ersten
+   *  Rendern des Boards das ganze initiale Deal-Set gleichzeitig
+   *  "reinpoppen", weil motion/react jedes erstmalige Mounten für einen
+   *  echten Neuzugang hält. */
+  const [neuIds, setNeuIds] = useState<Set<string>>(() => new Set());
 
   /* ── Status ändern (Drag & Drop oder Kontextmenü) ────────────────────── */
   function requestMove(dealId: string, neuerStatus: Status) {
@@ -595,6 +601,9 @@ export function KanbanBoard({
   }
 
   function commitStatus(dealId: string, neuerStatus: Status, grundCode?: string, notiz?: string) {
+    const deal = deals.find((d) => d.id === dealId);
+    if (!deal) return;
+    const vorherStatus = deal.status as Status;
     const vorher = deals;
     const grundLabel = grundCode
       ? VERLUST_GRUENDE.find((g) => g.code === grundCode)?.labelKey
@@ -607,6 +616,18 @@ export function KanbanBoard({
       ),
     );
     setFehler(null);
+
+    if (vorherStatus !== neuerStatus) {
+      const nachricht = tx("intern.pipeline.toast_verschoben")
+        .replace("{titel}", deal.titel || "Deal")
+        .replace("{status}", STATUS_LABELS[neuerStatus]);
+      toast.success(nachricht, {
+        action: {
+          label: tx("intern.pipeline.toast_rueckgaengig"),
+          onClick: () => commitStatus(dealId, vorherStatus),
+        },
+      });
+    }
 
     if (!konfiguriert) return;
 
@@ -650,15 +671,10 @@ export function KanbanBoard({
     if (id) requestMove(id, status);
   }
 
-  /* ── Kontextmenü ──────────────────────────────────────────────────────── */
-  function onMenuOpen(e: MouseEvent, dealId: string) {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = Math.min(rect.left, window.innerWidth - 224);
-    const y = Math.min(rect.bottom + 4, window.innerHeight - 260);
-    setMenuAnchor({ id: dealId, x, y });
-  }
-
-  /* ── Wert-Inline-Edit ─────────────────────────────────────────────────── */
+  /* ── Wert-Inline-Edit — dient zugleich als "Bearbeiten" im Kontextmenü:
+     Titel/E-Mail haben keine eigene Update-Aktion in /api/intern-deals
+     (nur status/wert/anlegen), der Euro-Wert ist das einzige Feld eines
+     bestehenden Deals, das sich wirklich ändern lässt. ─────────────────── */
   function commitWert(dealId: string, roh: string) {
     setWertEditFor(null);
     const deal = deals.find((d) => d.id === dealId);
@@ -698,14 +714,15 @@ export function KanbanBoard({
       },
       ...prev,
     ]);
+    setNeuIds((prev) => new Set(prev).add(neu.id));
     if (neu.leadId) {
       setUnqualifiziert((prev) => prev.filter((l) => l.id !== neu.leadId));
     }
     setNeuDialog(null);
+    toast.success(tx("intern.pipeline.toast_angelegt").replace("{titel}", neu.titel));
   }
 
   const boardLeer = deals.length === 0 && unqualifiziert.length === 0;
-  const menuDeal = menuAnchor ? deals.find((d) => d.id === menuAnchor.id) : null;
 
   return (
     <div>
@@ -734,7 +751,7 @@ export function KanbanBoard({
 
       {boardLeer ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-line-subtle px-8 py-16 text-center">
-          <BoardIcon />
+          <KanbanIcon size={36} className="text-ink-dim" aria-hidden />
           <p className="t-body mt-4 max-w-[26rem]">{tx("intern.pipeline.board_leer_text")}</p>
           <button
             type="button"
@@ -776,6 +793,7 @@ export function KanbanBoard({
           {STATUS_ORDER.map((status) => {
             const spaltenDeals = deals.filter((d) => d.status === status);
             const summe = spaltenDeals.reduce((s, d) => s + (d.wert_eur || 0), 0);
+            const istOver = dragOverStatus === status;
             return (
               <div key={status} className="w-[300px] shrink-0">
                 <div className="mb-3 flex items-center justify-between px-1">
@@ -783,10 +801,11 @@ export function KanbanBoard({
                     <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[status]}`} aria-hidden />
                     <p className="t-label">{STATUS_LABELS[status]}</p>
                   </div>
-                  <span className="flex items-baseline gap-1.5">
+                  <span className="flex items-baseline gap-2">
                     <span className="t-data tnum !text-ink-dim">{spaltenDeals.length}</span>
-                    <span className="font-mono text-[11.5px] tabular-nums text-ink-dim">
-                      · {EURO.format(summe)}
+                    <span className="inline-flex items-center gap-1 font-mono text-[11.5px] tabular-nums text-ink-dim">
+                      <Euro size={12} aria-hidden />
+                      {EURO.format(summe)}
                     </span>
                   </span>
                 </div>
@@ -794,8 +813,15 @@ export function KanbanBoard({
                   onDragOver={(e) => onColumnDragOver(e, status)}
                   onDragLeave={() => onColumnDragLeave(status)}
                   onDrop={(e) => onColumnDrop(e, status)}
-                  className={`flex min-h-20 flex-col gap-3 rounded-2xl p-1.5 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) ${
-                    dragOverStatus === status ? "bg-akzent-wash/50 ring-1 ring-inset ring-akzent" : ""
+                  className={`flex min-h-20 flex-col gap-3 rounded-2xl p-1.5 transition-colors ease-(--ease-smooth-out) ${
+                    // Asymmetrische Ein-/Ausblendzeit: Tailwind übernimmt für
+                    // eine laufende Transition die Dauer aus der jeweils
+                    // NEUEN (Ziel-)Klasse — dadurch wird das Highlight beim
+                    // Reindraggen mit --duration-quick weich eingeblendet
+                    // und beim Rausdraggen mit --duration-fast wieder aus.
+                    istOver
+                      ? "duration-(--duration-quick) bg-akzent-wash/50 ring-1 ring-inset ring-akzent"
+                      : "duration-(--duration-fast)"
                   }`}
                 >
                   {spaltenDeals.length === 0 ? (
@@ -809,12 +835,14 @@ export function KanbanBoard({
                         deal={deal}
                         dragging={draggingId === deal.id}
                         wertEditing={wertEditFor === deal.id}
+                        istNeu={neuIds.has(deal.id)}
                         onDragStart={onCardDragStart}
                         onDragEnd={onCardDragEnd}
-                        onMenuOpen={onMenuOpen}
                         onWertStart={setWertEditFor}
                         onWertCommit={commitWert}
                         onWertCancel={() => setWertEditFor(null)}
+                        onVerschieben={requestMove}
+                        onBearbeiten={setWertEditFor}
                         tx={tx}
                       />
                     ))
@@ -824,20 +852,6 @@ export function KanbanBoard({
             );
           })}
         </div>
-      )}
-
-      {menuAnchor && menuDeal && (
-        <VerschiebenMenu
-          x={menuAnchor.x}
-          y={menuAnchor.y}
-          aktuellerStatus={menuDeal.status}
-          tx={tx}
-          onWaehlen={(status) => {
-            setMenuAnchor(null);
-            requestMove(menuDeal.id, status);
-          }}
-          onSchliessen={() => setMenuAnchor(null)}
-        />
       )}
 
       {verlorenDialogFor && (

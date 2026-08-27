@@ -12,7 +12,13 @@
  * NICHT hier: die Navigationsbeschriftungen der Sidebar (Heute, Pipeline,
  * Kontakte, …) — das ist Struktur/IA, kein editierbarer Fließtext, und
  * folgt damit demselben Muster wie die alten TABS-Labels im Vor-Umbau-
- * Layout (ebenfalls hart im Code).
+ * Layout (ebenfalls hart im Code). Aus demselben Grund NICHT hier: die
+ * Ziel- und Aktionslabels der CommandPalette (R5 Leaf U1,
+ * src/app/intern/CommandPalette.tsx) — sie spiegeln exakt dieselbe IA
+ * (bzw. feste CRM-Aktionen mit festen Query-Params) und blieben sonst in
+ * zwei Quellen zu pflegen. Die Palette-„Chrome"-Texte (Platzhalter,
+ * Leerzustand, Screenreader-Titel/-Beschreibung, Chip-Label) SIND hier
+ * unten registriert — das ist austauschbare Copy, keine Struktur.
  */
 
 export const INTERN_SHELL_DEFAULTS: Record<string, string> = {
@@ -37,6 +43,12 @@ export const INTERN_SHELL_DEFAULTS: Record<string, string> = {
   "intern.shell.demo.titel": "Diese Ansicht zeigt Beispieldaten.",
   "intern.shell.demo.text":
     "Auf diesem Deployment ist keine CRM-Datenbank angebunden. Sobald Supabase eingerichtet ist, ersetzen echte Zahlen, Aufgaben und Leads die Beispiele automatisch.",
+
+  "intern.shell.palette.titel": "Befehlspalette",
+  "intern.shell.palette.beschreibung": "Springe zu einem Bereich oder starte eine Aktion.",
+  "intern.shell.palette.platzhalter": "Bereich oder Aktion suchen …",
+  "intern.shell.palette.leer": "Kein Treffer.",
+  "intern.shell.palette.oeffnen_label": "Befehlspalette öffnen",
 };
 
 export const INTERN_SHELL_LABELS: Record<string, string> = {
@@ -60,4 +72,10 @@ export const INTERN_SHELL_LABELS: Record<string, string> = {
   "intern.shell.demo.label": "Intern · Demo-Hinweis · Pille",
   "intern.shell.demo.titel": "Intern · Demo-Hinweis · Überschrift",
   "intern.shell.demo.text": "Intern · Demo-Hinweis · Erklärtext",
+
+  "intern.shell.palette.titel": "Intern · Befehlspalette (⌘K) · Titel (Screenreader)",
+  "intern.shell.palette.beschreibung": "Intern · Befehlspalette (⌘K) · Beschreibung (Screenreader)",
+  "intern.shell.palette.platzhalter": "Intern · Befehlspalette (⌘K) · Sucheingabe-Platzhalter",
+  "intern.shell.palette.leer": "Intern · Befehlspalette (⌘K) · Text bei keinem Treffer",
+  "intern.shell.palette.oeffnen_label": "Intern · Befehlspalette (⌘K) · Kopfzeilen-Chip · Barrierefreiheits-Label",
 };

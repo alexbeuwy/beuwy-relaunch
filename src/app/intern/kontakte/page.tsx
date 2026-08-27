@@ -1,31 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { crmKonfiguriert, kontakteListe, type BwKontakt } from "@/lib/crm/db";
+import { crmKonfiguriert, kontakteListe, kontakt360, type BwKontakt } from "@/lib/crm/db";
 import { getContent } from "@/lib/content";
 import { INTERN_KONTAKTE_DEFAULTS } from "@/lib/texte/intern-kontakte";
 import { SektionsKopf, GelbeKarte } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
+import { KontakteClient } from "./KontakteClient";
 
 /**
- * /intern/kontakte — Kontaktliste (R5 Leaf G3 — Kontakte & 360-Akte).
- * Server-Komponente: lädt die dedupliizierte Kontaktliste über die einzig
- * erlaubte Datenschicht (src/lib/crm/db.ts) und die Studio-Texte, rendert
- * eine kompakte Tabelle (Desktop) bzw. gestapelte Karten (Mobile, Design-
- * Direktive Regel 6) und reicht jede Zeile per Link auf die 360-Akte unter
- * /intern/kontakte/[id] weiter.
+ * /intern/kontakte — Kontaktliste (R5 Leaf G3 — Kontakte & 360-Akte;
+ * LEAF U3, 27.08 — Kontakte-/Aufgaben-UX-Politur).
  *
- * Zwei Interaktionen laufen bewusst OHNE React-Client-Komponente, weil die
- * für dieses Leaf erlaubte Dateiliste keine eigene Client-Datei vorsieht
- * (nur die vier Dateien im Auftrag) — beide folgen bereits im Repo
- * etablierten, JS-armen Mustern:
- *  - "Kontakt anlegen": Checkbox-Hack (wie das mobile Sidebar-Overlay in
- *    src/app/intern/layout.tsx) öffnet/schließt den Dialog rein über CSS,
- *    das Formular selbst ist ein klassischer POST gegen /api/intern-kontakte
- *    (Muster: /intern/leads/[id]/page.tsx).
- *  - Suchfeld: ein minimales, Framework-loses Vanilla-JS-Snippet (Muster:
- *    NAV_SYNC_SCRIPT in layout.tsx) filtert Tabellenzeilen/Karten über ein
- *    data-suche-Attribut. Ohne JS bleiben alle Kontakte sichtbar — fail
- *    open, kein leerer Bildschirm.
+ * Server-Komponente: lädt die deduplizierte Kontaktliste über die einzig
+ * erlaubte Datenschicht (src/lib/crm/db.ts) und die Studio-Texte. Die
+ * gesamte Interaktion — Suche, sortierbare Tabelle, Kontakt-Anlegen-Dialog,
+ * Kontakt-Schnellansicht (Sheet) — wandert in die neue Geschwisterdatei
+ * KontakteClient.tsx ("use client"), weil ui/dialog, ui/sheet und
+ * useState/onClick zwingend Client-Komponenten sind (Muster: CommandPalette
+ * .tsx neben layout.tsx aus Leaf U1 — eine neue "use client"-Datei INNERHALB
+ * des eigenen Leaf-Verzeichnisses ist erlaubt, auch wenn sie nicht wörtlich
+ * in der ursprünglichen Auftrags-Dateiliste stand). Diese Seite bleibt eine
+ * reine Server-Komponente, weil kontakteListe()/kontakt360() serverseitige
+ * Supabase-Secrets brauchen (siehe db.ts) und niemals in den Client-Bundle
+ * dürfen.
+ *
+ * KONTAKT-SCHNELLANSICHT — Server Action statt Vorab-Fetch: kontaktVorschau()
+ * unten trägt "use server" und wird als Prop an KontakteClient gereicht;
+ * die Sheet-Chronik wird also erst beim Klick auf eine Zeile serverseitig
+ * nachgeladen (kontakt360() pro Klick), NICHT für alle Kontakte beim
+ * Seitenaufbau — das vermeidet N+1-RPC-Aufrufe beim reinen Listen-Rendern
+ * und gibt der Sheet-Ladephase einen ehrlichen Sinn für den
+ * ui/skeleton-Ladezustand im Client.
  */
 
 export const metadata: Metadata = {
@@ -95,138 +100,149 @@ const DEMO_KONTAKTE: BwKontakt[] = [
   },
 ];
 
-const BTN_PRIMARY =
-  "inline-flex shrink-0 items-center rounded-full bg-akzent px-5 py-2.5 text-[13.5px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover active:scale-[0.98] cursor-pointer";
-const BTN_QUIET =
-  "inline-flex shrink-0 items-center rounded-full border border-line-subtle px-5 py-2.5 text-[13.5px] font-medium text-ink-muted transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-ink-cream/30 hover:text-ink-cream cursor-pointer";
+/* ── Schnellansicht: Chronik-Vorschau (letzte 5 Einträge) ─────────────
+   Schlanke, eigenständige Variante von zuAkte()/chronikAus() aus
+   kontakte/[id]/page.tsx — bewusst dupliziert statt importiert (dortige
+   Konvention, siehe Kopfkommentar dieser Datei): die Sheet-Vorschau
+   braucht weder Ergebnis-Listen noch Intent-Chips, nur Typ/Titel/Zeit/
+   Kurztext für fünf Zeilen. ─────────────────────────────────────────── */
 
-/* ── Kleine, selbst gezeichnete Glyphen — kein Icon-Import (Konvention aus
-   src/components/MaklerElemente.tsx / KanbanBoard.tsx) ─────────────────── */
+export type VorschauTyp = "lead" | "mail" | "deal" | "notiz" | "konto";
+export type VorschauEintrag = { key: string; typ: VorschauTyp; titel: string; erstellt: string; text?: string };
 
-function SucheGlyph() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <circle cx="7" cy="7" r="5" />
-      <path d="M11 11l3.5 3.5" strokeLinecap="round" />
-    </svg>
-  );
+const QUELLE_LABEL: Record<string, string> = {
+  funnel: "Funnel",
+  booking: "Buchung",
+  tool: "Tool",
+  manuell: "Manuell",
+};
+
+const MAIL_STATUS_LABEL: Record<string, string> = {
+  gesendet: "Gesendet",
+  demo: "Demo",
+  fehler: "Fehlgeschlagen",
+};
+
+function txt(v: unknown, fallback = ""): string {
+  return typeof v === "string" ? v : fallback;
+}
+function objekt(v: unknown): Record<string, unknown> {
+  return v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
 }
 
-function Kreuz() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 17 17" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
-      <path d="M3.5 3.5l10 10M13.5 3.5l-10 10" />
-    </svg>
-  );
-}
+function vorschauAusRaw(raw: Record<string, unknown> | null): VorschauEintrag[] {
+  if (!raw) return [];
+  const eintraege: VorschauEintrag[] = [];
 
-function KontakteGlyph() {
-  return (
-    <svg width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="var(--ink-dim)" strokeWidth="1.6" aria-hidden>
-      <circle cx="15" cy="14" r="6" />
-      <path d="M4 34c1-7 5.5-11 11-11s10 4 11 11" strokeLinecap="round" />
-      <circle cx="29" cy="12" r="4.5" />
-      <path d="M25 21c4-.8 8.3.6 10.8 5.4" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-/** Kurze relative Zeitangabe (deutsch) — keine externe Library nötig
- *  (dieselbe kleine Implementierung wie in src/app/intern/page.tsx und
- *  .../leads/[id]/page.tsx, bewusst dupliziert statt geteilt). */
-function zeitRelativ(iso: string): string {
-  const dann = new Date(iso).getTime();
-  if (Number.isNaN(dann)) return "–";
-  const minuten = Math.round((Date.now() - dann) / 60_000);
-  if (minuten < 1) return "gerade eben";
-  if (minuten < 60) return `vor ${minuten} Min.`;
-  const stunden = Math.round(minuten / 60);
-  if (stunden < 24) return `vor ${stunden} Std.`;
-  const tage = Math.round(stunden / 24);
-  if (tage < 7) return `vor ${tage} Tag${tage === 1 ? "" : "en"}`;
-  const wochen = Math.round(tage / 7);
-  if (wochen < 5) return `vor ${wochen} Woche${wochen === 1 ? "" : "n"}`;
-  const monate = Math.round(tage / 30);
-  return `vor ${monate} Monat${monate === 1 ? "" : "en"}`;
-}
-
-function sucheText(k: BwKontakt): string {
-  return [k.name, k.firma, k.rolle, k.email].filter(Boolean).join(" ").toLowerCase();
-}
-
-/* Vanilla-JS-Filter — Muster: NAV_SYNC_SCRIPT in src/app/intern/layout.tsx.
-   Setzt inline style.display nur beim Verstecken; beim Zeigen wird die
-   Inline-Property geleert, danach entscheidet wieder die Tailwind-Klasse
-   ("hidden lg:table-row" / "lg:hidden") über Desktop/Mobile-Sichtbarkeit —
-   Suche und responsives Layout überschreiben sich so nicht gegenseitig. */
-const SUCHE_SCRIPT = `(function(){
-  var eingabe = document.getElementById('kontakte-suche');
-  if (!eingabe) return;
-  var zeilen = Array.prototype.slice.call(document.querySelectorAll('[data-kontakt-zeile]'));
-  var leer = document.getElementById('kontakte-keine-treffer');
-  function filtern(){
-    var q = eingabe.value.trim().toLowerCase();
-    var treffer = 0;
-    zeilen.forEach(function(zeile){
-      var text = zeile.getAttribute('data-suche') || '';
-      var passt = !q || text.indexOf(q) !== -1;
-      zeile.style.display = passt ? '' : 'none';
-      if (passt) treffer++;
+  (Array.isArray(raw.leads) ? raw.leads : []).forEach((eintrag, i) => {
+    const o = objekt(eintrag);
+    const erstellt = txt(o.erstellt);
+    if (!erstellt) return;
+    eintraege.push({
+      key: `lead-${txt(o.id, String(i))}`,
+      typ: "lead",
+      titel: QUELLE_LABEL[txt(o.quelle, "manuell")] ?? txt(o.quelle, "Anfrage"),
+      erstellt,
+      text: txt(o.nachricht) || undefined,
     });
-    if (leer) leer.hidden = treffer !== 0;
-  }
-  eingabe.addEventListener('input', filtern);
-})();`;
+  });
 
-function KontaktZeileDesktop({ k, href }: { k: BwKontakt; href: string }) {
-  return (
-    <tr
-      data-kontakt-zeile
-      data-suche={sucheText(k)}
-      className="relative border-b border-line-subtle transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) last:border-0 hover:bg-bg-elevated"
-    >
-      {/* Absolut positioniert relativ zur <tr> (position:relative oben) —
-          macht die GANZE Zeile klickbar, nicht nur diese Zelle. */}
-      <td className="px-4 py-3">
-        <Link href={href} className="absolute inset-0 z-10" aria-label={k.name || k.email} />
-        <span className="relative truncate text-[13.5px] font-medium text-ink-cream">{k.name || "Ohne Namen"}</span>
-      </td>
-      <td className="px-4 py-3 text-[13px] text-ink-muted">{k.firma || "–"}</td>
-      <td className="px-4 py-3 text-[13px] text-ink-muted">{k.rolle || "–"}</td>
-      <td className="px-4 py-3 text-[13px] text-ink-muted">{k.email}</td>
-      <td className="t-data tnum px-4 py-3 text-right !text-ink-dim">{zeitRelativ(k.erstellt)}</td>
-    </tr>
-  );
+  (Array.isArray(raw.deals) ? raw.deals : []).forEach((eintrag, i) => {
+    const o = objekt(eintrag);
+    const erstellt = txt(o.erstellt);
+    if (!erstellt) return;
+    eintraege.push({
+      key: `deal-${txt(o.id, String(i))}`,
+      typ: "deal",
+      titel: `Deal angelegt: „${txt(o.titel, "Ohne Titel")}“`,
+      erstellt,
+    });
+  });
+
+  (Array.isArray(raw.mails) ? raw.mails : []).forEach((eintrag, i) => {
+    const o = objekt(eintrag);
+    const erstellt = txt(o.erstellt);
+    if (!erstellt) return;
+    eintraege.push({
+      key: `mail-${i}-${erstellt}`,
+      typ: "mail",
+      titel: txt(o.betreff) || txt(o.vorlage) || "E-Mail",
+      erstellt,
+      text: MAIL_STATUS_LABEL[txt(o.status)] ?? (txt(o.status) || undefined),
+    });
+  });
+
+  (Array.isArray(raw.notizen) ? raw.notizen : []).forEach((eintrag, i) => {
+    const o = objekt(eintrag);
+    const erstellt = txt(o.erstellt);
+    if (!erstellt) return;
+    eintraege.push({
+      key: `notiz-${txt(o.id, String(i))}`,
+      typ: "notiz",
+      titel: `Notiz von ${txt(o.autor, "alex")}`,
+      erstellt,
+      text: txt(o.text) || undefined,
+    });
+  });
+
+  const kontoRoh = objekt(raw.konto);
+  const kontoErstellt = txt(kontoRoh.erstellt);
+  if (kontoErstellt) {
+    eintraege.push({ key: "konto", typ: "konto", titel: "Kunde geworden", erstellt: kontoErstellt });
+  }
+
+  return eintraege
+    .sort((a, b) => new Date(b.erstellt).getTime() - new Date(a.erstellt).getTime())
+    .slice(0, 5);
 }
 
-function KontaktKarteMobil({ k, href }: { k: BwKontakt; href: string }) {
-  return (
-    <div
-      data-kontakt-zeile
-      data-suche={sucheText(k)}
-      className="relative rounded-xl border border-line-subtle bg-white p-4"
-    >
-      <Link href={href} className="absolute inset-0" aria-label={k.name || k.email} />
-      <div className="flex items-start justify-between gap-3">
-        <p className="truncate text-[14px] font-semibold text-ink-cream">{k.name || "Ohne Namen"}</p>
-        <span className="t-data tnum shrink-0 !text-ink-dim">{zeitRelativ(k.erstellt)}</span>
-      </div>
-      {(k.firma || k.rolle) && (
-        <p className="mt-1 truncate text-[12.5px] text-ink-muted">
-          {[k.firma, k.rolle].filter(Boolean).join(" · ")}
-        </p>
-      )}
-      <p className="mt-1.5 truncate text-[12.5px] text-ink-dim">{k.email}</p>
-    </div>
-  );
+/* Eigenständiges Demo-Set für die Sheet-Vorschau — inhaltlich an die
+   Demo-Akten in kontakte/[id]/page.tsx angelehnt (gleiche Namen/Ereignisse
+   für ein stimmiges Demo-Erlebnis), aber unabhängig gepflegt (Konvention
+   siehe oben) und auf das reduziert, was die Vorschau zeigt. */
+const vorTagen = (tage: number) => new Date(Date.now() - tage * TAG).toISOString();
+
+const DEMO_VORSCHAU: Record<string, VorschauEintrag[]> = {
+  "demo-k1": [
+    { key: "v1", typ: "notiz", titel: "Notiz von alex", erstellt: vorTagen(5), text: "Rückruf vereinbart für nächste Woche." },
+    { key: "v2", typ: "deal", titel: "Deal angelegt: „Erweiterungsmandat — Zweitmarke“", erstellt: vorTagen(10) },
+    { key: "v3", typ: "lead", titel: "Tool", erstellt: vorTagen(26), text: "Detaillierte Auswertung angefordert: Verkaufspreisrechner." },
+    { key: "v4", typ: "mail", titel: "Willkommen bei beuwy", erstellt: vorTagen(27), text: "Gesendet" },
+    { key: "v5", typ: "lead", titel: "Funnel", erstellt: vorTagen(30), text: "Interesse an Marke & Website." },
+  ],
+  "demo-k2": [
+    { key: "v1", typ: "deal", titel: "Deal angelegt: „Website & Anfragen — Vogt & Partner“", erstellt: vorTagen(10) },
+    { key: "v2", typ: "mail", titel: "Ihr Termin ist bestätigt", erstellt: vorTagen(11), text: "Gesendet" },
+    { key: "v3", typ: "lead", titel: "Buchung", erstellt: vorTagen(12), text: "Terminwunsch: Erstgespräch." },
+  ],
+  "demo-k3": [
+    { key: "v1", typ: "notiz", titel: "Notiz von alex", erstellt: vorTagen(15), text: "Erste Woche im Betrieb — läuft gut." },
+    { key: "v2", typ: "konto", titel: "Kunde geworden", erstellt: vorTagen(20) },
+    { key: "v3", typ: "mail", titel: "Willkommen im Kundenbereich", erstellt: vorTagen(20), text: "Gesendet" },
+    { key: "v4", typ: "deal", titel: "Deal angelegt: „E-Mail & Nachfassen — Roth Immobilien“", erstellt: vorTagen(20) },
+    { key: "v5", typ: "deal", titel: "Deal angelegt: „Kombipaket — Roth Immobilien“", erstellt: vorTagen(38) },
+  ],
+  "demo-k4": [{ key: "v1", typ: "lead", titel: "Funnel", erstellt: vorTagen(9), text: "Interesse an Vertriebssystem." }],
+  "demo-k5": [],
+};
+
+/** Server Action (per-Klick, kein N+1 beim Listen-Rendern — siehe
+ *  Datei-Kopf) — reicht als Prop an KontakteClient, das sie beim Öffnen
+ *  der Schnellansicht aufruft. */
+async function kontaktVorschau(id: string): Promise<VorschauEintrag[]> {
+  "use server";
+  if (!crmKonfiguriert()) {
+    return DEMO_VORSCHAU[id] ?? [];
+  }
+  return vorschauAusRaw(await kontakt360(id));
 }
 
 export default async function KontaktePage({
   searchParams,
 }: {
-  searchParams: Promise<{ fehler?: string }>;
+  searchParams: Promise<{ fehler?: string; neu?: string }>;
 }) {
-  const { fehler } = await searchParams;
+  const { fehler, neu } = await searchParams;
   const konfiguriert = crmKonfiguriert();
   const content = await getContent();
   const t = (key: string) => content[key] ?? INTERN_KONTAKTE_DEFAULTS[key] ?? key;
@@ -241,22 +257,9 @@ export default async function KontaktePage({
   return (
     <div className="px-6 pb-24 pt-12 lg:px-10">
       <div className="mx-auto max-w-[1200px]">
-        <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SektionsKopf
-              eyebrow={t("intern.kontakte.eyebrow")}
-              titel={t("intern.kontakte.titel")}
-              sub={t("intern.kontakte.sub")}
-            />
-            <label htmlFor="kontakte-neu" className={BTN_PRIMARY}>
-              {t("intern.kontakte.neu_button")}
-            </label>
-          </div>
-        </Reveal>
-
         {!konfiguriert && (
           <Reveal delay={40}>
-            <div className="mt-8 max-w-[640px]">
+            <div className="mb-8 max-w-[640px]">
               <GelbeKarte label={t("intern.kontakte.demo_label")} titel={t("intern.kontakte.demo_titel")}>
                 {t("intern.kontakte.demo_text")}
               </GelbeKarte>
@@ -265,7 +268,7 @@ export default async function KontaktePage({
         )}
 
         {fehlerText && (
-          <div className="mt-6 flex items-center justify-between gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3">
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3">
             <p className="text-[13px] text-destructive">{fehlerText}</p>
             <Link
               href="/intern/kontakte"
@@ -276,130 +279,51 @@ export default async function KontaktePage({
           </div>
         )}
 
-        <Reveal delay={80}>
-          <div className="mt-8">
-            <div className="relative max-w-[360px]">
-              <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-dim">
-                <SucheGlyph />
-              </span>
-              <input
-                id="kontakte-suche"
-                type="search"
-                placeholder={t("intern.kontakte.suche_placeholder")}
-                /* Inline statt Tailwind-Utility für padding-left: .booking-input
-                   lebt selbst in @layer utilities (globals.css) und würde eine
-                   Klassen-Utility gleicher Spezifität sonst per Quellreihenfolge
-                   schlagen — inline gewinnt garantiert. */
-                style={{ paddingLeft: "2.25rem" }}
-                className="booking-input w-full"
-              />
-            </div>
-
-            {kontakte.length === 0 ? (
-              <div className="mt-8 flex flex-col items-center rounded-2xl border border-dashed border-line-subtle px-8 py-16 text-center">
-                <KontakteGlyph />
-                <p className="t-body mt-4 max-w-[26rem]">{t("intern.kontakte.leer_text")}</p>
-                <label htmlFor="kontakte-neu" className={`${BTN_PRIMARY} mt-5`}>
-                  {t("intern.kontakte.leer_cta")}
-                </label>
-              </div>
-            ) : (
-              <>
-                <div className="mt-5 hidden overflow-x-auto rounded-2xl border border-line-subtle lg:block">
-                  <table className="w-full border-collapse text-left">
-                    <thead>
-                      <tr className="border-b border-line-subtle bg-bg-elevated">
-                        <th className="t-label px-4 py-3 font-medium">{t("intern.kontakte.spalte_name")}</th>
-                        <th className="t-label px-4 py-3 font-medium">{t("intern.kontakte.spalte_firma")}</th>
-                        <th className="t-label px-4 py-3 font-medium">{t("intern.kontakte.spalte_rolle")}</th>
-                        <th className="t-label px-4 py-3 font-medium">{t("intern.kontakte.spalte_email")}</th>
-                        <th className="t-label px-4 py-3 text-right font-medium">{t("intern.kontakte.spalte_seit")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {kontakte.map((k) => (
-                        <KontaktZeileDesktop key={k.id} k={k} href={`/intern/kontakte/${k.id}`} />
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-5 flex flex-col gap-3 lg:hidden">
-                  {kontakte.map((k) => (
-                    <KontaktKarteMobil key={k.id} k={k} href={`/intern/kontakte/${k.id}`} />
-                  ))}
-                </div>
-
-                <div id="kontakte-keine-treffer" hidden className="mt-5 rounded-2xl border border-dashed border-line-subtle px-8 py-12 text-center">
-                  <p className="t-small !text-ink-dim">{t("intern.kontakte.keine_treffer")}</p>
-                </div>
-              </>
-            )}
-          </div>
-        </Reveal>
+        <KontakteClient
+          kopf={
+            <SektionsKopf
+              eyebrow={t("intern.kontakte.eyebrow")}
+              titel={t("intern.kontakte.titel")}
+              sub={t("intern.kontakte.sub")}
+            />
+          }
+          kontakte={kontakte}
+          vorschauAction={kontaktVorschau}
+          neuOffen={neu === "1"}
+          texte={{
+            neuButton: t("intern.kontakte.neu_button"),
+            suchePlatzhalter: t("intern.kontakte.suche_placeholder"),
+            spalteName: t("intern.kontakte.spalte_name"),
+            spalteFirma: t("intern.kontakte.spalte_firma"),
+            spalteRolle: t("intern.kontakte.spalte_rolle"),
+            spalteEmail: t("intern.kontakte.spalte_email"),
+            spalteSeit: t("intern.kontakte.spalte_seit"),
+            keineTreffer: t("intern.kontakte.keine_treffer"),
+            leerText: t("intern.kontakte.leer_text"),
+            leerCta: t("intern.kontakte.leer_cta"),
+            dialogTitel: t("intern.kontakte.dialog_titel"),
+            dialogBeschreibung: t("intern.kontakte.dialog_beschreibung"),
+            feldName: t("intern.kontakte.feld_name"),
+            feldEmail: t("intern.kontakte.feld_email"),
+            feldTelefon: t("intern.kontakte.feld_telefon"),
+            feldFirma: t("intern.kontakte.feld_firma"),
+            feldRolle: t("intern.kontakte.feld_rolle"),
+            dialogSpeichern: t("intern.kontakte.dialog_speichern"),
+            dialogAbbrechen: t("intern.kontakte.dialog_abbrechen"),
+            dialogErfolg: t("intern.kontakte.dialog_erfolg"),
+            dialogFehlerAllgemein: t("intern.kontakte.dialog_fehler_allgemein"),
+            fehlerEmail: t("intern.kontakte.fehler_email"),
+            sheetGanzeAkte: t("intern.kontakte.sheet.ganze_akte"),
+            sheetLaedt: t("intern.kontakte.sheet.laedt"),
+            akteKontaktSeit: t("intern.kontakte.akte.kontakt_seit"),
+            akteKeineTelefon: t("intern.kontakte.akte.keine_telefon"),
+            akteMailLabel: t("intern.kontakte.akte.mail_label"),
+            akteTelLabel: t("intern.kontakte.akte.tel_label"),
+            akteChronikTitel: t("intern.kontakte.akte.chronik_titel"),
+            akteChronikLeer: t("intern.kontakte.akte.chronik_leer"),
+          }}
+        />
       </div>
-
-      {/* ── Dialog: Kontakt anlegen — Checkbox-Hack, kein Client-JS ─────── */}
-      <input type="checkbox" id="kontakte-neu" className="peer sr-only" aria-label={t("intern.kontakte.dialog_titel")} />
-      <label
-        htmlFor="kontakte-neu"
-        aria-hidden
-        className="fixed inset-0 z-[60] hidden bg-ink-cream/50 backdrop-blur-sm peer-checked:block"
-      />
-      <div className="pointer-events-none fixed inset-0 z-[70] hidden items-center justify-center p-3 peer-checked:flex">
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="kontakte-neu-titel"
-          className="pointer-events-auto w-full max-w-md rounded-[18px] border border-line-medium bg-white p-5 shadow-[0_24px_60px_-24px_rgba(20,20,18,0.45)]"
-        >
-          <div className="flex items-start justify-between gap-4">
-            <h2 id="kontakte-neu-titel" className="text-[15px] font-semibold text-ink-cream">
-              {t("intern.kontakte.dialog_titel")}
-            </h2>
-            <label
-              htmlFor="kontakte-neu"
-              aria-label={t("intern.kontakte.dialog_abbrechen")}
-              className="-m-2 shrink-0 cursor-pointer rounded-md p-2 text-ink-dim transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
-            >
-              <Kreuz />
-            </label>
-          </div>
-          <form action="/api/intern-kontakte" method="POST" className="mt-4 flex flex-col gap-3">
-            <input type="hidden" name="aktion" value="anlegen" />
-            <label className="block">
-              <span className="t-label">{t("intern.kontakte.feld_name")}</span>
-              <input name="name" className="booking-input mt-1.5 w-full" />
-            </label>
-            <label className="block">
-              <span className="t-label">{t("intern.kontakte.feld_email")}</span>
-              <input name="email" type="email" required className="booking-input mt-1.5 w-full" />
-            </label>
-            <label className="block">
-              <span className="t-label">{t("intern.kontakte.feld_telefon")}</span>
-              <input name="telefon" className="booking-input mt-1.5 w-full" />
-            </label>
-            <label className="block">
-              <span className="t-label">{t("intern.kontakte.feld_firma")}</span>
-              <input name="firma" className="booking-input mt-1.5 w-full" />
-            </label>
-            <label className="block">
-              <span className="t-label">{t("intern.kontakte.feld_rolle")}</span>
-              <input name="rolle" className="booking-input mt-1.5 w-full" />
-            </label>
-            <div className="mt-1 flex items-center gap-2">
-              <button type="submit" className={BTN_PRIMARY}>
-                {t("intern.kontakte.dialog_speichern")}
-              </button>
-              <label htmlFor="kontakte-neu" className={BTN_QUIET}>
-                {t("intern.kontakte.dialog_abbrechen")}
-              </label>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <script dangerouslySetInnerHTML={{ __html: SUCHE_SCRIPT }} />
     </div>
   );
 }

@@ -81,6 +81,20 @@ export const INTERN_KONTAKTE_DEFAULTS: Record<string, string> = {
   "intern.kontakte.akte.notiz_kein_lead":
     "Für diesen Kontakt gibt es noch keinen verknüpften Lead — eine Notiz lässt sich erst speichern, sobald eine Anfrage oder ein Deal existiert.",
   "intern.kontakte.akte.notiz_leer": "Bitte eine Notiz eingeben.",
+
+  /* ── Schnellansicht (Sheet, LEAF U3) ─────────────────────────────────
+     Kopf/Chronik-Titel/Leerzustand teilen sich bewusst die Akte-Keys
+     oben (identischer Inhalt in Sheet und [id]-Seite) — nur die zwei
+     wirklich neuen Textflächen bekommen eigene Keys. */
+  "intern.kontakte.sheet.ganze_akte": "Ganze Akte öffnen",
+  "intern.kontakte.sheet.laedt": "Chronik wird geladen …",
+
+  /* ── Dialog „Kontakt anlegen" — Dialog-Chrome + Toast (LEAF U3) ──────
+     dialog_titel, alle feld_-Keys, dialog_speichern, dialog_abbrechen und
+     fehler_email oben werden unverändert weiterverwendet, nur ergänzt. */
+  "intern.kontakte.dialog_beschreibung": "Neuer Kontakt für die CRM-Liste.",
+  "intern.kontakte.dialog_erfolg": "Kontakt angelegt.",
+  "intern.kontakte.dialog_fehler_allgemein": "Kontakt konnte nicht gespeichert werden — bitte erneut versuchen.",
 };
 
 export const INTERN_KONTAKTE_LABELS: Record<string, string> = {
@@ -143,4 +157,11 @@ export const INTERN_KONTAKTE_LABELS: Record<string, string> = {
   "intern.kontakte.akte.notiz_speichern": "Intern · Kontakte · Akte · Notizfeld · Button",
   "intern.kontakte.akte.notiz_kein_lead": "Intern · Kontakte · Akte · Notizfeld · Fehler ohne Lead",
   "intern.kontakte.akte.notiz_leer": "Intern · Kontakte · Akte · Notizfeld · Fehler leere Notiz",
+
+  "intern.kontakte.sheet.ganze_akte": "Intern · Kontakte · Schnellansicht (Sheet) · Link „Ganze Akte öffnen“",
+  "intern.kontakte.sheet.laedt": "Intern · Kontakte · Schnellansicht (Sheet) · Ladetext Chronik",
+
+  "intern.kontakte.dialog_beschreibung": "Intern · Kontakte · Dialog „Kontakt anlegen“ · Beschreibung",
+  "intern.kontakte.dialog_erfolg": "Intern · Kontakte · Dialog · Toast nach Erfolg",
+  "intern.kontakte.dialog_fehler_allgemein": "Intern · Kontakte · Dialog · Toast bei allgemeinem Fehler",
 };
