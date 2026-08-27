@@ -1,82 +1,36 @@
-import { Button as ButtonPrimitive } from "@base-ui/react/button"
+import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  [
-    "group/button inline-flex shrink-0 items-center justify-center",
-    "border border-transparent bg-clip-padding",
-    "rounded-[10px] font-medium whitespace-nowrap select-none",
-    "tracking-[-0.005em]",
-    // Bewegung nur, wenn der Nutzer sie zulaesst
-    "transition-[background-color,box-shadow,color,border-color,transform]",
-    "duration-150 ease-out motion-reduce:transition-none",
-    "motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98]",
-    // Fokus: Ultramarin-Ring aus --ring
-    "outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40",
-    "disabled:pointer-events-none disabled:opacity-45",
-    "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/30",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  ].join(" "),
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        /* Primaer — flache Ultramarin-Flaeche (Riso: Schmuckfarbe, kein
-           Verlauf, kein Glanz). Hover = tieferes Ultramarin. */
-        default: "bg-sky text-snow hover:bg-sky-deep",
-        /* Sekundaer — Kontur auf Papier */
-        secondary: [
-          "text-ink-cream bg-transparent",
-          "shadow-[inset_0_0_0_1px_var(--line-medium)]",
-          "hover:bg-(--sky-wash) hover:text-sky",
-          "hover:shadow-[inset_0_0_0_1px_rgba(12,75,195,0.45)]",
-          "aria-expanded:bg-(--sky-wash)",
-        ].join(" "),
-        /* Outline — nur Kontur, fuer tertiaere Aktionen */
-        outline: [
-          "text-ink-cream bg-transparent border-line-medium",
-          "hover:border-ink-cream hover:bg-(--sky-wash)",
-          "aria-expanded:bg-(--sky-wash)",
-        ].join(" "),
-        ghost: [
-          "text-ink-muted bg-transparent",
-          "hover:bg-(--sky-wash) hover:text-ink-cream",
-          "aria-expanded:bg-(--sky-wash) aria-expanded:text-ink-cream",
-        ].join(" "),
-        link: [
-          "text-sky bg-transparent",
-          "underline underline-offset-4 decoration-sky/40",
-          "hover:decoration-sky",
-        ].join(" "),
-        destructive: [
-          "text-destructive bg-destructive/10 border-destructive/25",
-          "hover:bg-destructive/20 hover:border-destructive/40",
-          "focus-visible:border-destructive/50 focus-visible:ring-destructive/25",
-        ].join(" "),
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
+        outline:
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        /* default und lg liegen ueber 44px — bequem fuer den Daumen */
-        default: "h-11 gap-2 px-5 text-[0.9375rem]",
-        xs: "h-7 gap-1 px-2.5 text-xs rounded-[7px] [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-9 gap-1.5 px-3.5 text-sm rounded-[9px]",
-        /* Hero-CTA */
-        lg: "h-[52px] gap-2.5 px-7 text-base rounded-[12px]",
-        icon: "size-11",
-        "icon-xs": "size-7 rounded-[7px] [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-9 rounded-[9px]",
-        "icon-lg": "size-[52px] rounded-[12px]",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        icon: "size-9",
+        "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm": "size-8",
+        "icon-lg": "size-10",
       },
     },
-    /* Der Textlink traegt keine Flaeche — Hoehe, Innenabstand und Radius
-       der Groessen werden hier bewusst wieder zurueckgenommen. */
-    compoundVariants: [
-      {
-        variant: "link",
-        class:
-          "h-auto rounded-none px-0 motion-safe:hover:translate-y-0 motion-safe:active:scale-100",
-      },
-    ],
     defaultVariants: {
       variant: "default",
       size: "default",
@@ -88,12 +42,19 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  asChild = false,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
+  const Comp = asChild ? Slot.Root : "button"
+
   return (
-    <ButtonPrimitive
+    <Comp
       data-slot="button"
-      data-variant={variant ?? "default"}
+      data-variant={variant}
+      data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

@@ -2484,7 +2484,7 @@
     --destructive: #b3402a;
     --border: rgba(20, 20, 18, 0.1);
     --input: rgba(20, 20, 18, 0.16);
-    --ring: rgba(194, 161, 60, 0.5);
+    --ring: rgba(22, 22, 19, 0.35);
     --chart-1: #f3e27f;
     --chart-2: #161613;
     --chart-3: #5d5d58;
@@ -2498,7 +2498,7 @@
     --sidebar-accent: #fbf5d6;
     --sidebar-accent-foreground: #161613;
     --sidebar-border: rgba(20, 20, 18, 0.1);
-    --sidebar-ring: rgba(194, 161, 60, 0.5);
+    --sidebar-ring: rgba(22, 22, 19, 0.35);
   }
   .theme {
     --font-sans: var(--font-sans);
