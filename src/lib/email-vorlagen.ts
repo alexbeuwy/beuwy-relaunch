@@ -1,4 +1,5 @@
-import { emailLayout, emailRows } from "@/lib/email";
+import { emailChecks, emailLayout, emailRows } from "@/lib/email";
+import { maklerAsset } from "@/lib/cdn";
 
 /**
  * E-Mail-Vorlagen (R3 Leaf B7) — sechs Vorlagen über die eine Hülle aus
@@ -67,13 +68,13 @@ export function mailFunnelBestaetigung(
   const html = emailLayout({
     heading: `Ihre Anfrage ist da, ${n}.`,
     intro: `Notiert: ${esc(wunsch)}. Das reicht uns, um vorbereitet ins Gespräch zu gehen.`,
+    fotoUrl: maklerAsset(2),
     bodyHtml:
-      absatz(
-        "So geht es weiter: Wir sichten Ihre Angaben und melden uns innerhalb eines Werktags mit zwei bis drei Terminvorschlägen.",
-      ) +
-      absatz(
-        "Sie müssen jetzt nichts weiter tun. Kein zweites Formular, kein Rückruf zur Vorqualifizierung.",
-      ),
+      emailChecks([
+        "Wir sichten Ihre Angaben und melden uns innerhalb eines Werktags.",
+        "Sie bekommen zwei bis drei konkrete Terminvorschläge.",
+        "Kein zweites Formular, kein Rückruf zur Vorqualifizierung.",
+      ]),
   });
   return { betreff, html };
 }
@@ -92,13 +93,13 @@ export function mailTerminBestaetigung(
   const html = emailLayout({
     heading: `Termin bestätigt, ${n}.`,
     intro: `${esc(d)}, ${esc(u)}. Den Termin haben wir fest eingeplant.`,
+    fotoUrl: maklerAsset(8),
     bodyHtml:
-      absatz(
-        "Kurz vorher bekommen Sie noch eine Erinnerung. Bis dahin müssen Sie nichts vorbereiten und nichts bestätigen.",
-      ) +
-      absatz(
-        "Passt der Termin doch nicht, antworten Sie einfach auf diese E-Mail. Wir verschieben ihn dann.",
-      ),
+      emailChecks([
+        "Kurz vorher bekommen Sie eine Erinnerung.",
+        "Nichts vorzubereiten, nichts zu bestätigen.",
+        "Passt es doch nicht: einfach auf diese E-Mail antworten, wir verschieben.",
+      ]),
   });
   return { betreff, html };
 }
@@ -117,6 +118,7 @@ export function mailTerminErinnerung(
   const html = emailLayout({
     heading: `${n}, Ihr Termin: ${esc(d)}, ${esc(u)}.`,
     intro: "Wir rufen Sie zur vereinbarten Zeit an. Sie müssen nichts vorbereiten und nichts bestätigen.",
+    fotoUrl: maklerAsset(5),
     bodyHtml: absatz(
       "Passt die Zeit doch nicht mehr, antworten Sie einfach auf diese E-Mail. Ein neuer Termin ist schnell gefunden.",
     ),
@@ -132,6 +134,7 @@ export function mailNachfass(name: string): { betreff: string; html: string } {
   const html = emailLayout({
     heading: `${n}, das können Sie vorab schon prüfen.`,
     intro: "Damit unser Gespräch direkt in die Tiefe geht, drei Dinge, die Sie in fünf Minuten selbst nachsehen können.",
+    fotoUrl: maklerAsset(10),
     bodyHtml:
       liste([
         "Wie lange dauert es aktuell, bis eine neue Anfrage über Ihre Website eine Antwort bekommt?",
@@ -156,6 +159,7 @@ export function mailToolErgebnis(
   const html = emailLayout({
     heading: `${n}, hier ist Ihre Auswertung.`,
     intro: `Die Ergebnisse aus dem ${t} zum Nachlesen, ohne dass Sie etwas erneut eingeben müssen.`,
+    fotoUrl: maklerAsset(18),
     bodyHtml:
       emailRows(ergebnisZeilen.map((z) => ({ label: esc(z.label), value: esc(z.value) }))) +
       absatz("Fragen zu den Zahlen beantworten wir gern, einfach auf diese E-Mail antworten."),
@@ -172,7 +176,7 @@ export function mailKontoCode(code: string): { betreff: string; html: string } {
     heading: "Ihr Anmeldecode",
     intro: "Geben Sie diesen Code auf der Login-Seite ein, er ist 15 Minuten gültig.",
     bodyHtml:
-      `<p style="margin:0 0 16px;padding:16px 0;font-family:'Courier New',Courier,monospace;font-size:28px;font-weight:700;letter-spacing:0.12em;color:#141414;text-align:center;">${c}</p>` +
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 18px;"><tr><td bgcolor="#fbf5d6" align="center" style="border-radius:16px;padding:22px 0;font-family:'Courier New',Courier,monospace;font-size:30px;font-weight:700;letter-spacing:0.14em;color:#161613;">${c}</td></tr></table>` +
       absatz("Haben Sie diesen Code nicht angefordert, ignorieren Sie diese E-Mail einfach."),
   });
   return { betreff, html };

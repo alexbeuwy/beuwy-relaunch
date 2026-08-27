@@ -57,7 +57,15 @@ export function emailLayout(opts: {
   intro: string;
   bodyHtml: string;
   cta?: { label: string; url: string };
+  /** Kampagnen-Foto als Hero-Karte (BunnyCDN-URL) — Anlass-passend
+      je Vorlage; ohne Angabe bleibt der Kopf kompakt. */
+  fotoUrl?: string;
 }): string {
+  const foto = opts.fotoUrl
+    ? `<tr><td style="padding:0 20px;">
+        <img src="${opts.fotoUrl}" width="540" alt="" style="display:block;border:0;width:100%;max-width:540px;height:auto;border-radius:16px;">
+      </td></tr>`
+    : "";
   const cta = opts.cta
     ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0 4px;"><tr>
         <td bgcolor="#f3e27f" style="border-radius:999px;">
@@ -72,25 +80,22 @@ export function emailLayout(opts: {
     <tr><td align="center">
       <table role="presentation" width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #e9e9e6;">
         <tr>
-          <td bgcolor="#f3e27f" style="background:linear-gradient(135deg,#f3e27f 0%,#f7ecab 100%);padding:0;">
+          <td style="padding:24px 36px 18px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
               <tr>
-                <td style="padding:26px 36px 22px;vertical-align:middle;">
-                  <span style="font-size:23px;font-weight:800;letter-spacing:-0.03em;color:#161613;">beuwy</span><br>
-                  <span style="font-size:11px;letter-spacing:0.12em;color:#161613;opacity:0.6;">MARKE&nbsp;&middot;&nbsp;PORTAL&nbsp;&middot;&nbsp;VERTRIEBSSYSTEM</span>
+                <td style="vertical-align:middle;">
+                  <span style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:#161613;">beuwy</span>
                 </td>
-                <td width="120" style="padding:10px 24px 0 0;vertical-align:bottom;" align="right">
-                  <img src="https://beuwy-2.b-cdn.net/assets/makler%20assets/Vase-01.webp" width="86" alt="" style="display:block;border:0;max-width:86px;height:auto;">
+                <td align="right" style="vertical-align:middle;">
+                  <span style="font-size:10.5px;letter-spacing:0.12em;color:#8a8a84;">MARKE&nbsp;&middot;&nbsp;PORTAL&nbsp;&middot;&nbsp;VERTRIEBSSYSTEM</span>
                 </td>
               </tr>
             </table>
           </td>
         </tr>
+        ${foto}
         <tr>
-          <td bgcolor="#fbf5d6" style="background:linear-gradient(180deg,#f7ecab 0%,#ffffff 100%);font-size:0;line-height:0;height:32px;">&nbsp;</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 36px 36px;">
+          <td style="padding:22px 36px 36px;">
             <h1 style="margin:0 0 10px;font-size:30px;line-height:1.12;letter-spacing:-0.02em;font-weight:800;color:#161613;">${opts.heading}</h1>
             <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#5d5d58;">${opts.intro}</p>
             ${opts.bodyHtml}
@@ -125,4 +130,26 @@ export function emailRows(rows: Array<{ label: string; value: string }>): string
     )
     .join("");
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f7f7f5" style="background:#f7f7f5;border-radius:14px;margin:4px 0 8px;"><tr><td style="font-size:0;line-height:0;height:10px;">&nbsp;</td></tr>${tr}<tr><td style="font-size:0;line-height:0;height:10px;">&nbsp;</td></tr></table>`;
+}
+
+
+/**
+ * Häkchen-Liste im Website-Stil: gelber Kreis mit Tinte-Haken je Zeile
+ * (reine Tabellen + bgcolor — funktioniert auch in Outlook).
+ */
+export function emailChecks(items: string[]): string {
+  const tr = items
+    .filter(Boolean)
+    .map(
+      (t) => `<tr>
+  <td width="30" style="padding:7px 0;vertical-align:top;">
+    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+      <td width="22" height="22" bgcolor="#f3e27f" align="center" style="border-radius:11px;font-size:13px;line-height:22px;color:#161613;font-weight:bold;">&#10003;</td>
+    </tr></table>
+  </td>
+  <td style="padding:7px 0 7px 10px;font-size:14.5px;line-height:1.55;color:#161613;">${t}</td>
+</tr>`
+    )
+    .join("");
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 10px;">${tr}</table>`;
 }
