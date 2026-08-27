@@ -103,3 +103,4 @@ alter table public.bw_ticket enable row level security;
 -- bw_kontakte_liste, bw_deal_speichern, bw_deals_liste,
 -- bw_aufgabe_speichern, bw_tageskommando, bw_ticket_antworten(+_anlegen).
 -- Voller Wortlaut in Supabase-Migration r5_kontakt_deal_aufgabe.
+-- r5_konto_status_protokoll: bw_konto_upsert protokolliert Statuswechsel in bw_konto_status_event

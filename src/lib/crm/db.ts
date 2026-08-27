@@ -161,3 +161,94 @@ export async function ticketAnlegen(email: string, titel: string, detail = ""): 
 export async function ticketStatusSetzen(id: number, status: string): Promise<void> {
   await rpc("bw_ticket_status_setzen", { p_id: id, p_status: status });
 }
+
+
+/* ── R5: Kontakte, Deals, Aufgaben, Tageskommando ─────────────────── */
+
+export type BwKontakt = {
+  id: string; erstellt: string; email: string; name: string;
+  telefon: string; firma: string; rolle: string; notiz: string;
+};
+
+export type BwDeal = {
+  id: string; erstellt: string; kontakt_id: string | null; lead_id: string | null;
+  titel: string; wert_eur: number; status: string; verlust_grund: string; erwartet: string | null;
+};
+
+export async function kontaktUpsert(k: { email: string; name?: string; telefon?: string; firma?: string; rolle?: string }): Promise<string | null> {
+  return rpc<string>("bw_kontakt_upsert", { p_email: k.email, p_name: k.name ?? "", p_telefon: k.telefon ?? "", p_firma: k.firma ?? "", p_rolle: k.rolle ?? "" });
+}
+
+export async function kontakteListe(): Promise<BwKontakt[]> {
+  return (await rpc<BwKontakt[]>("bw_kontakte_liste", {})) ?? [];
+}
+
+export async function kontakt360(id: string): Promise<Record<string, unknown> | null> {
+  return rpc("bw_kontakt_360", { p_id: id });
+}
+
+export async function dealSpeichern(d: { id?: string | null; kontaktId?: string | null; leadId?: string | null; titel: string; wert?: number; status?: string; verlustGrund?: string; erwartet?: string | null }): Promise<string | null> {
+  return rpc<string>("bw_deal_speichern", { p_id: d.id ?? null, p_kontakt: d.kontaktId ?? null, p_lead: d.leadId ?? null, p_titel: d.titel, p_wert: d.wert ?? 0, p_status: d.status ?? null, p_verlust: d.verlustGrund ?? null, p_erwartet: d.erwartet ?? null });
+}
+
+export async function dealsListe(): Promise<BwDeal[]> {
+  return (await rpc<BwDeal[]>("bw_deals_liste", {})) ?? [];
+}
+
+export async function aufgabeSpeichern(a: { id?: number | null; titel?: string; faellig?: string | null; erledigt?: boolean; kontaktId?: string | null; dealId?: string | null }): Promise<void> {
+  await rpc("bw_aufgabe_speichern", { p_id: a.id ?? null, p_titel: a.titel ?? null, p_faellig: a.faellig ?? null, p_erledigt: a.erledigt ?? null, p_kontakt: a.kontaktId ?? null, p_deal: a.dealId ?? null });
+}
+
+export async function tageskommando(): Promise<Record<string, unknown> | null> {
+  return rpc("bw_tageskommando", {});
+}
+
+/* ── R5: Tickets-Threads ──────────────────────────────────────────── */
+
+export async function ticketAntworten(ticketId: number): Promise<Array<{ id: number; erstellt: string; von: string; text: string }>> {
+  return ((await rpc("bw_ticket_antworten", { p_ticket: ticketId })) as Array<{ id: number; erstellt: string; von: string; text: string }> | null) ?? [];
+}
+
+export async function ticketAntwortAnlegen(ticketId: number, von: "beuwy" | "kunde", text: string): Promise<void> {
+  await rpc("bw_ticket_antworten_anlegen", { p_ticket: ticketId, p_von: von, p_text: text });
+}
+
+/* ── R5: Einblick-Tracking ────────────────────────────────────────── */
+
+export async function trackAnlegen(events: Array<Record<string, unknown>>): Promise<void> {
+  await rpc("bw_track_anlegen", { p_events: events });
+}
+
+export async function trackAuswertung(von: string, bis: string): Promise<Record<string, unknown> | null> {
+  return rpc("bw_track_auswertung", { p_von: von, p_bis: bis });
+}
+
+export async function trackHeatmap(pfad: string, geraet: string | null, von: string): Promise<Array<{ x: number; y: number; n: number }>> {
+  return ((await rpc("bw_track_heatmap", { p_pfad: pfad, p_geraet: geraet, p_von: von })) as Array<{ x: number; y: number; n: number }> | null) ?? [];
+}
+
+/* ── R5: E-Mail-Flows ─────────────────────────────────────────────── */
+
+export async function flowSpeichern(f: { id?: string | null; name: string; status?: string; ausloeser?: string; schritte: Array<{ typ: string; konfig: Record<string, unknown> }> }): Promise<string | null> {
+  return rpc<string>("bw_flow_speichern", { p_id: f.id ?? null, p_name: f.name, p_status: f.status ?? null, p_ausloeser: f.ausloeser ?? null, p_schritte: f.schritte });
+}
+
+export async function flowsListe(): Promise<Array<Record<string, unknown>>> {
+  return ((await rpc("bw_flows_liste", {})) as Array<Record<string, unknown>> | null) ?? [];
+}
+
+export async function flowStarten(flowId: string, leadId: string | null, email: string): Promise<void> {
+  await rpc("bw_flow_starten", { p_flow: flowId, p_lead: leadId, p_email: email });
+}
+
+export async function flowFaellige(): Promise<Array<Record<string, unknown>>> {
+  return ((await rpc("bw_flow_faellige", {})) as Array<Record<string, unknown>> | null) ?? [];
+}
+
+export async function flowFortschreiben(laufId: number, position: number, status: string | null, naechste: string | null): Promise<void> {
+  await rpc("bw_flow_fortschreiben", { p_lauf: laufId, p_position: position, p_status: status, p_naechste: naechste });
+}
+
+export async function abmelden(email: string): Promise<void> {
+  await rpc("bw_abmelden", { p_email: email });
+}
