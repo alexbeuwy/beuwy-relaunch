@@ -11,6 +11,7 @@ import {
   Monitor,
   RefreshCw,
   RotateCcw,
+  Search,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -106,6 +107,44 @@ export function StudioEditor({
   );
 
   const [showPreview, setShowPreview] = useState(false);
+
+  // Suche über ALLE Felder (Label + Key + aktueller Wert) mit
+  // Prefill-Vorschlägen beim Tippen; Auswahl springt in den Bereich,
+  // scrollt zur Karte und hebt sie kurz hervor.
+  const [suche, setSuche] = useState("");
+  const [gefundenerKey, setGefundenerKey] = useState<string | null>(null);
+  const treffer = useMemo(() => {
+    const q = suche.trim().toLowerCase();
+    if (q.length < 2) return [];
+    const alle: Array<{ key: string; label: string; bereich: string; praefix: string }> = [];
+    for (const b of bereiche) {
+      for (const g of b.gruppen) {
+        for (const key of g.keys) {
+          const label = labels[key] ?? key;
+          const wert = values[key] ?? "";
+          if (
+            label.toLowerCase().includes(q) ||
+            key.toLowerCase().includes(q) ||
+            wert.toLowerCase().includes(q)
+          ) {
+            alle.push({ key, label, bereich: b.titel, praefix: b.praefix });
+          }
+        }
+      }
+    }
+    return alle.slice(0, 12);
+  }, [suche, bereiche, labels, values]);
+
+  function springeZuFeld(t: { key: string; praefix: string }) {
+    setAktiverPraefix(t.praefix);
+    setSuche("");
+    setGefundenerKey(t.key);
+    // Nach dem Bereichswechsel rendern, dann scrollen + Highlight auslaufen lassen
+    setTimeout(() => {
+      document.getElementById(`studio-karte-${t.key}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 60);
+    setTimeout(() => setGefundenerKey(null), 2600);
+  }
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const dirtyKeys = Object.keys(values).filter((key) => values[key] !== baseline[key]);
@@ -207,6 +246,43 @@ export function StudioEditor({
 
   return (
     <div>
+      {/* Suche über alle Felder — Vorschläge beim Tippen (Alex, 27.08) */}
+      <div className="relative mb-6 max-w-[520px]">
+        <Search size={15} aria-hidden className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-dim" />
+        <input
+          type="search"
+          value={suche}
+          onChange={(e) => setSuche(e.target.value)}
+          placeholder="Text, Feld oder Key suchen — z. B. „Hero“ oder „Provision“"
+          aria-label="Felder durchsuchen"
+          className="w-full rounded-full border border-line-medium bg-white py-2.5 pl-10 pr-4 text-[14px] text-ink-cream outline-none transition-colors duration-[var(--duration-quick)] placeholder:text-ink-dim focus:border-ink-cream"
+        />
+        {treffer.length > 0 && (
+          <ul className="absolute inset-x-0 top-full z-30 mt-1.5 max-h-[340px] overflow-y-auto rounded-2xl border border-line-subtle bg-white py-1.5 shadow-[0_14px_40px_rgba(20,20,18,0.14)]">
+            {treffer.map((t) => (
+              <li key={t.key}>
+                <button
+                  type="button"
+                  onClick={() => springeZuFeld(t)}
+                  className="flex w-full items-baseline justify-between gap-3 px-4 py-2 text-left transition-colors duration-[var(--duration-instant)] hover:bg-bg-elevated"
+                >
+                  <span className="min-w-0">
+                    <span className="block truncate text-[13.5px] text-ink-cream">{t.label}</span>
+                    <span className="block truncate font-mono text-[10.5px] text-ink-dim">{t.key}</span>
+                  </span>
+                  <span className="shrink-0 rounded-full bg-bg-elevated px-2 py-0.5 text-[10.5px] text-ink-muted">{t.bereich}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {suche.trim().length >= 2 && treffer.length === 0 && (
+          <p className="absolute inset-x-0 top-full z-30 mt-1.5 rounded-2xl border border-line-subtle bg-white px-4 py-3 text-[13px] text-ink-dim shadow-[0_14px_40px_rgba(20,20,18,0.14)]">
+            Nichts gefunden — anderes Wort probieren, gesucht wird in Label, Key und Text.
+          </p>
+        )}
+      </div>
+
       {/* Mobil: horizontale Chips statt linker Navi */}
       <nav aria-label="Studio-Bereiche" className="mb-6 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:hidden">
         {bereiche.map((b) => {
@@ -364,8 +440,11 @@ export function StudioEditor({
                     return (
                       <div
                         key={key}
-                        className="rounded-xl border border-line-subtle bg-white p-5"
-                        style={changedFromDefault ? { boxShadow: "inset 3px 0 0 0 var(--akzent)" } : undefined}
+                        id={`studio-karte-${key}`}
+                        className={`rounded-xl border bg-white p-5 transition-[border-color,box-shadow] duration-[var(--duration-slow)] ease-[var(--ease-smooth-out)] ${
+                          gefundenerKey === key ? "border-akzent-hover ring-2 ring-akzent" : "border-line-subtle"
+                        }`}
+                        style={changedFromDefault && gefundenerKey !== key ? { boxShadow: "inset 3px 0 0 0 var(--akzent)" } : undefined}
                       >
                         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                           <label
