@@ -5,22 +5,27 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { VerkaufspreisRechner } from "@/components/rechner/VerkaufspreisRechner";
+import { ConsentProvider } from "@/components/bewertung/consent";
+import { Calculator } from "@/components/bewertung/calculator";
 
 /**
- * LEAF B2 — /tools/verkaufspreisrechner. Das Tool selbst ist der Held der
- * Seite: kompakter Hero (kein 70vh), sofort danach der Rechner, Ergebnis
- * ohne Lead-Gate — der bewusste Unterschied zu BOTTIMMO & Co. (siehe
- * VerkaufspreisRechner.tsx). "kostenlos" ist hier laut Vertrag
- * (R3-PLAN.md) ausdrücklich erlaubt, weil /tools/* das Eigentümer-Suchwort
- * bedient.
+ * LEAF P2 — /tools/verkaufspreisrechner, jetzt mit dem portierten
+ * Verkaufspreis-Wizard (Objektart → Standort → Eckdaten → Analyse →
+ * Ergebnis, s. components/bewertung/calculator.tsx). Der Wizard ist above
+ * the fold der Held der Seite; das Ergebnis steht sofort da, der optionale
+ * PDF-Report kommt danach, ohne Lead-Gate davor. "kostenlos" ist unter
+ * /tools/* ausdrücklich erlaubt.
+ *
+ * ConsentProvider umschließt nur diese Seite (nicht global im Layout) —
+ * der Satelliten-Kartenblick im Wizard ist die einzige Stelle der Seite,
+ * die externe Kartenkacheln lädt.
  */
 
 export const revalidate = 3600;
 
 const TITLE = "Verkaufspreis berechnen: Was ist Ihre Immobilie wert? | beuwy";
 const DESCRIPTION =
-  "Kostenlos und sofort: Wohnfläche, Baujahr, Lage eingeben und die Verkaufswert-Spanne Ihrer Immobilie sehen — ohne E-Mail-Pflicht, mit nachvollziehbarem Rechenweg.";
+  "Kostenlos und sofort: Adresse, Objektart und Eckdaten eingeben und die Verkaufswert-Spanne Ihrer Immobilie sehen — mit amtlichen Bodenrichtwerten, Satellitenblick und PDF-Report, ohne E-Mail-Pflicht vorab.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -41,22 +46,26 @@ const VERFAHREN = [
   },
   {
     titel: "Sachwertverfahren",
-    text: "Bau- und Bodenwert werden getrennt ermittelt und addiert. Wichtig bei Häusern mit Grundstück, wo Grund und Gebäude unterschiedlich altern — dieser Rechner nutzt diese Logik zusätzlich bei EFH/MFH.",
+    text: "Bau- und Bodenwert werden getrennt ermittelt und addiert. Der Rechner gleicht dafür live mit den amtlichen Bodenrichtwerten (BORIS) ab — wichtig bei Häusern, Grundstücken und Gewerbeobjekten, wo Grund und Gebäude unterschiedlich altern.",
   },
   {
     titel: "Ertragswertverfahren",
-    text: "Der Wert ergibt sich aus der erzielbaren Miete. Standard bei vermieteten Wohnungen und reinen Anlageimmobilien — dieser Rechner bildet es nicht ab, das übernimmt der Mietpreisrechner als Grundlage.",
+    text: "Der Wert ergibt sich aus der erzielbaren Miete. Standard bei vermieteten Objekten — bei Mehrfamilienhäusern bildet dieser Rechner es direkt über Ihre Jahresnettokaltmiete und einen regionalen Vervielfältiger ab.",
   },
 ] as const;
 
 const FAQS = [
   {
     q: "Wie genau ist das?",
-    a: "So genau, wie ein Modell ohne Objektbesichtigung sein kann: eine Orientierungswert-Spanne von ±10 % um den Mittelwert, kein Gutachten. Zustand, Lage und Ausstattung sehen wir nicht — die schätzen Sie über die Regler ein. Für einen belastbaren Wert braucht es am Ende einen Besichtigungstermin.",
+    a: "So genau, wie ein Modell ohne Objektbesichtigung sein kann: eine Orientierungswert-Spanne um den Mittelwert, kein Gutachten. Die Adresse gleichen wir per Satellitenblick und amtlichen Bodenrichtwerten ab, Zustand, Ausstattung und Energieklasse geben Sie an. Für einen belastbaren Wert braucht es am Ende eine Besichtigung.",
   },
   {
     q: "Was beeinflusst den Preis?",
-    a: "Objekttyp, Wohnfläche, Baujahr, Zustand, Stadtgröße und Mikrolage — bei Häusern und Mehrfamilienhäusern zusätzlich die Grundstücksfläche. Jede Änderung an einem Regler wirkt sich sofort auf die Spanne aus, im Rechenweg sehen Sie genau, mit welchem Faktor.",
+    a: "Objektart, Lage, Wohn- und Grundstücksfläche, Baujahr, Zustand, Ausstattung und Energieeffizienzklasse — bei Mehrfamilienhäusern zusätzlich die Jahresnettokaltmiete. Im Ergebnis sehen Sie die einzelnen Werttreiber mit ihrem prozentualen Effekt, keine Black Box.",
+  },
+  {
+    q: "Woher kommen die amtlichen Bodenrichtwerte?",
+    a: "Aus BORIS, dem Bodenrichtwertinformationssystem der Vermessungs- und Katasterverwaltung. Der Rechner fragt automatisch den Wert für Ihre Koordinaten ab, sobald die Adresse bestätigt ist, und kennzeichnet ihn im Ergebnis deutlich als amtliche Quelle.",
   },
   {
     q: "Verkaufen mit oder ohne Makler?",
@@ -64,7 +73,7 @@ const FAQS = [
   },
   {
     q: "Was macht beuwy mit meiner Berechnung?",
-    a: "Ohne Ihre E-Mail-Adresse: nichts. Die Berechnung läuft im Browser, es wird nichts gespeichert und niemand kontaktiert Sie. Erst wenn Sie freiwillig die detaillierte Auswertung per E-Mail anfordern, landet Ihre Anfrage bei uns.",
+    a: "Ohne Ihre E-Mail-Adresse: nichts. Die Berechnung läuft im Browser, es wird nichts gespeichert und niemand kontaktiert Sie. Der PDF-Report entsteht ebenfalls lokal bei Ihnen und lässt sich direkt herunterladen — erst wenn Sie ihn zusätzlich per E-Mail anfordern, landet Ihre Anfrage bei uns.",
   },
 ] as const;
 
@@ -84,7 +93,7 @@ export default function VerkaufspreisrechnerPage() {
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* ── Hero kompakt — Tool ist der Held, above the fold ────────────── */}
+      {/* ── Hero kompakt — der Wizard ist der Held, above the fold ────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-8 pt-28 lg:px-10 lg:pb-10 lg:pt-32">
           <p className="t-label !text-ink-yellow">Kostenloser Rechner für Eigentümer</p>
@@ -92,8 +101,8 @@ export default function VerkaufspreisrechnerPage() {
             {rich("Verkaufspreis berechnen: Was ist Ihre Immobilie *wert*?")}
           </h1>
           <p className="t-body-lg mt-4 max-w-[620px]">
-            Sechs Angaben, eine Spanne — sofort sichtbar, ohne dass Sie vorher Ihre E-Mail-Adresse
-            eintippen müssen.
+            Adresse, Objektart und ein paar Eckdaten — Satellitenblick, amtliche Bodenrichtwerte und Ihre
+            Verkaufswert-Spanne, sofort sichtbar, ohne dass Sie vorher Ihre E-Mail-Adresse eintippen müssen.
           </p>
         </div>
       </section>
@@ -101,7 +110,9 @@ export default function VerkaufspreisrechnerPage() {
       {/* ── Rechner ──────────────────────────────────────────────────── */}
       <section id="rechner" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-20 lg:px-10 lg:pb-28">
-          <VerkaufspreisRechner />
+          <ConsentProvider>
+            <Calculator />
+          </ConsentProvider>
         </div>
       </section>
 
@@ -112,7 +123,7 @@ export default function VerkaufspreisrechnerPage() {
             <SektionsKopf
               eyebrow="Die Methode"
               titel="Woher die *Zahl* kommt."
-              sub="Immobilienbewertung kennt drei anerkannte Verfahren. Dieser Rechner kombiniert die ersten beiden — transparent, nicht als Black Box."
+              sub="Immobilienbewertung kennt drei anerkannte Verfahren. Dieser Rechner kombiniert alle drei, je nach Objektart — transparent, nicht als Black Box."
               className="max-w-[720px]"
             />
           </Reveal>
@@ -120,9 +131,7 @@ export default function VerkaufspreisrechnerPage() {
             {VERFAHREN.map((verfahren, i) => (
               <Reveal key={verfahren.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
-                  <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
+                  <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">{String(i + 1).padStart(2, "0")}</p>
                   <p className="t-h3 mt-4">{verfahren.titel}</p>
                   <p className="t-body mt-3">{verfahren.text}</p>
                 </div>
@@ -158,8 +167,8 @@ export default function VerkaufspreisrechnerPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte label="Für Makler" titel="Sie sind Makler?" glyph>
-              Genau dieses Tool bauen wir in Ihren Farben auf Ihre Domain — Ihr Branding, Ihre
-              Leads, angebunden an Ihr CRM.{" "}
+              Genau dieses Tool bauen wir in Ihren Farben auf Ihre Domain — Ihr Branding, Ihre Leads, angebunden
+              an Ihr CRM.{" "}
               <Link href="/anfrage" className="font-semibold text-ink-cream underline decoration-ink-cream/30 underline-offset-4">
                 Zusammenarbeit anfragen →
               </Link>

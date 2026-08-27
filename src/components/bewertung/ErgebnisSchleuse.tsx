@@ -79,9 +79,9 @@ export function ErgebnisSchleuse({
   /** Kennung für /api/tool-lead und das CRM. */
   tool: "verkaufspreis" | "mietpreis" | "afa";
   /** Struktur der Nutzereingaben — landet im Lead (CRM zeigt sie als Liste). */
-  eingaben: Record<string, unknown>;
+  eingaben: object;
   /** Das berechnete Ergebnis — landet strukturiert im Lead. */
-  ergebnis: Record<string, unknown>;
+  ergebnis: object;
   /** Der fertige Ergebnis-Block, der hinter der Schleuse liegt. */
   children: React.ReactNode;
   /** Studio-Texte (tools.schleuse.*) — die Server-Seite reicht sie aus

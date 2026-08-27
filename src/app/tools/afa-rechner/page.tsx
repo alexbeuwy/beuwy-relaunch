@@ -5,22 +5,24 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { AfaRechner } from "@/components/rechner/AfaRechner";
+import { AfaWizard } from "@/components/bewertung/afa-wizard";
 
 /**
- * LEAF B4 — /tools/afa-rechner, das Flaggschiff unter den drei
- * Rechner-Tools (R3-PLAN.md). Anspruch: besser als nutzungsdauer.com und
- * immoabschreibung.de — beide zeigen das Ergebnis erst nach der
- * Lead-Wall, dieser Rechner sofort (siehe AfaRechner.tsx). Kompakter Kopf
- * statt 70vh-Hero, der Rechner ist der Blickfang direkt darunter.
- * "kostenlos" ist unter /tools/* ausdrücklich erlaubt (Vertrag).
+ * LEAF P4 — /tools/afa-rechner, jetzt mit dem portierten AfA-Wizard
+ * (Objekt & Kauf → Modernisierung → Steuer → Analyse → Ergebnis, s.
+ * components/bewertung/afa-wizard.tsx). Anspruch: besser als
+ * nutzungsdauer.com und immoabschreibung.de — beide zeigen das Ergebnis
+ * erst nach der Lead-Wall, dieser Rechner sofort, inklusive PDF-Download
+ * ohne Namens-/E-Mail-Pflicht. Kompakter Kopf statt 70vh-Hero, der Wizard
+ * ist der Blickfang direkt darunter. "kostenlos" ist unter /tools/*
+ * ausdrücklich erlaubt (Vertrag).
  */
 
 export const revalidate = 3600;
 
 const TITLE = "AfA-Rechner: Restnutzungsdauer und Abschreibung berechnen | beuwy";
 const DESCRIPTION =
-  "Kostenlos und sofort: Kaufpreis, Baujahr und Modernisierung eingeben und sehen, ob ein Restnutzungsdauer-Gutachten Ihre AfA erhöht — mit offenem Rechenweg, ohne E-Mail-Pflicht.";
+  "Kostenlos und sofort: Kaufpreis, Baujahr und Modernisierung eingeben und sehen, ob ein Restnutzungsdauer-Gutachten Ihre AfA erhöht — mit offenem Rechenweg und PDF-Auswertung zum Sofort-Download, ohne E-Mail-Pflicht.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -80,7 +82,7 @@ const FAQS = [
   },
   {
     q: "Was macht beuwy mit meiner Berechnung?",
-    a: "Ohne Ihre E-Mail-Adresse: nichts. Die Berechnung läuft im Browser, es wird nichts gespeichert und niemand kontaktiert Sie. Erst wenn Sie freiwillig die detaillierte Auswertung per E-Mail anfordern, landet Ihre Anfrage bei uns.",
+    a: "Ohne Ihre E-Mail-Adresse: nichts. Die Berechnung läuft im Browser, es wird nichts gespeichert und niemand kontaktiert Sie. Der PDF-Report entsteht ebenfalls lokal bei Ihnen und lässt sich direkt herunterladen — erst wenn Sie zusätzlich die Auswertung per E-Mail anfordern, landet Ihre Anfrage bei uns.",
   },
 ] as const;
 
@@ -109,8 +111,8 @@ export default function AfaRechnerPage() {
           </h1>
           <p className="t-body-lg mt-4 max-w-[640px]">
             Kaufpreis, Baujahr und Modernisierung eingeben — die Spanne zwischen regulärer AfA und AfA mit
-            Restnutzungsdauer-Gutachten steht sofort da.{" "}
-            <Highlight>Kein E-Mail-Zwang, um das Ergebnis zu sehen</Highlight>, anders als bei den meisten
+            Restnutzungsdauer-Gutachten steht sofort da, als PDF direkt zum Herunterladen.{" "}
+            <Highlight>Kein E-Mail-Zwang, um Ergebnis oder PDF zu sehen</Highlight>, anders als bei den meisten
             AfA-Rechnern im Netz.
           </p>
         </div>
@@ -119,7 +121,7 @@ export default function AfaRechnerPage() {
       {/* ── Rechner ──────────────────────────────────────────────────── */}
       <section id="rechner" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-20 lg:px-10 lg:pb-28">
-          <AfaRechner />
+          <AfaWizard />
         </div>
       </section>
 

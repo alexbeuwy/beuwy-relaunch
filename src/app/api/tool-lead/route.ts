@@ -69,7 +69,8 @@ export async function POST(req: Request) {
   const pruefung = pruefeFormular(kontaktSchema, {
     name: b.name,
     email: b.email,
-    phone: undefined,
+    // Telefon ist in der ErgebnisSchleuse optional — leer bleibt leer.
+    phone: typeof b.telefon === "string" && b.telefon.trim() ? b.telefon : undefined,
     website: b.website,
   });
 
@@ -82,7 +83,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "validation" }, { status: 422 });
   }
 
-  const { name, email } = pruefung.daten;
+  const { name, email, phone } = pruefung.daten;
   const eingaben = begrenzteDaten(b.eingaben);
   const ergebnis = begrenzteDaten(b.ergebnis);
 
@@ -90,7 +91,8 @@ export async function POST(req: Request) {
     quelle: "tool",
     name,
     email,
-    nachricht: `Detaillierte Auswertung angefordert: ${toolLabel}.`,
+    telefon: phone ?? "",
+    nachricht: `Auswertung freigeschaltet: ${toolLabel}.`,
     daten: { tool, eingaben, ergebnis },
   });
 

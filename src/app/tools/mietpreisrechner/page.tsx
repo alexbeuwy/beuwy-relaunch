@@ -4,15 +4,15 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { MietpreisRechner } from "@/components/rechner/MietpreisRechner";
+import { MietWizard } from "@/components/bewertung/miet-wizard";
 
 /**
  * B3 — /tools/mietpreisrechner (R3-SEITENPLAN.json, T-Cluster). Kompakter
- * Wissens-Kopf statt 70vh-Hero (der Rechner selbst ist der Blickfang),
- * darunter direkt der Live-Rechner ohne Gate. "kostenlos" ist unter
- * /tools/* erlaubt (R3-PLAN.md, Abschnitt "Verträge"). Der Rechner
- * importiert seine Logik ausschließlich aus src/lib/rechner/*.ts — diese
- * Seite fasst die Zahlen nie selbst an.
+ * Wissens-Kopf statt 70vh-Hero, darunter direkt der Mietpreis-Wizard
+ * (Objektart → Lage → Eckdaten, kein Gate vor dem Ergebnis). "kostenlos"
+ * ist unter /tools/* erlaubt (R3-PLAN.md, Abschnitt "Verträge"). Der
+ * Wizard importiert seine Rechenlogik ausschließlich aus
+ * src/lib/rechner/mietwert.ts — diese Seite fasst die Zahlen nie selbst an.
  */
 
 export const metadata: Metadata = {
@@ -100,18 +100,18 @@ export default function MietpreisrechnerPage() {
             {rich("Welche Miete ist für Ihr Objekt *realistisch*?")}
           </h1>
           <p className="t-body-lg mt-6 max-w-[62ch]">
-            Kaltmiete-Spanne und Preis je Quadratmeter, live berechnet aus Objekttyp,
-            Stadtgröße, Zustand, Ausstattung und Baujahr — kostenlos und ohne Anmeldung.{" "}
+            Kaltmiete-Spanne und Preis je Quadratmeter, in drei kurzen Schritten aus
+            Objektart, Lage, Zustand, Ausstattung und Baujahr — kostenlos und ohne Anmeldung.{" "}
             <Highlight>Der Rechenweg liegt offen, damit Sie nachvollziehen, wie die Zahl
             entsteht</Highlight>.
           </p>
         </div>
       </section>
 
-      {/* ── Rechner — sofort sichtbar, kein Gate ────────────────────── */}
+      {/* ── Wizard — sofort startklar, kein Gate vor dem Ergebnis ────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1040px] px-6 pb-20 md:pb-28 lg:px-10">
-          <MietpreisRechner />
+          <MietWizard />
         </div>
       </section>
 
