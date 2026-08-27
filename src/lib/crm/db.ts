@@ -150,6 +150,10 @@ export async function kontoUpsert(k: { email: string; name?: string; firma?: str
   });
 }
 
+export async function kontoDatenSetzen(email: string, daten: Record<string, unknown>): Promise<void> {
+  await rpc("bw_konto_daten_setzen", { p_email: email, p_daten: daten });
+}
+
 export async function ticketAnlegen(email: string, titel: string, detail = ""): Promise<void> {
   await rpc("bw_ticket_anlegen", { p_email: email, p_titel: titel, p_detail: detail });
 }

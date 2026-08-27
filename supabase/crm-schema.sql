@@ -87,3 +87,5 @@ alter table public.bw_ticket enable row level security;
 -- bw_konto_code_anlegen · bw_konto_code_einloesen · bw_konto_detail ·
 -- bw_konto_upsert · bw_ticket_anlegen · bw_ticket_status_setzen
 -- Alle SECURITY DEFINER, Secret-Prüfung gegen website_secrets/content_write.
+
+-- r3_konto_daten: bw_konto.daten jsonb + RPC bw_konto_daten_setzen (Intent-Onboarding)
