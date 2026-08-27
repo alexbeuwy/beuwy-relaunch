@@ -44,3 +44,5 @@ in drei Workflow-Wellen, Orchestrator prüft jede Welle gegen die Gates.
 - [x] Integration vorbereitet: sitemap+llms+Nav+Footer+/wissen-Hub (datengetrieben)
 - [x] Welle B abgenommen (9/9, Tests 56/56) · Welle D abgenommen (50/50 Seiten) · Welle E abgenommen (98 geprüft, 28 geändert)
 - [x] F: Build 111/111 · verify.mjs "VERIFY: OK" (91 Routen, rot 0) · Ledger komplett, keine pending-Gates
+- [x] R4 abgenommen (Riegel-Port, Schleuse verdrahtet, Auth, Onboarding) · Vasen-Parallax live
+- [x] R5 abgenommen: CRM-Konsole 8 Module, Crons aktiv, Tracking live, VERIFY: OK (123/123)
