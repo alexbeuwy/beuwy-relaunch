@@ -74,6 +74,7 @@ export function ErgebnisSchleuse({
   eingaben,
   ergebnis,
   children,
+  texte,
 }: {
   /** Kennung für /api/tool-lead und das CRM. */
   tool: "verkaufspreis" | "mietpreis" | "afa";
@@ -83,6 +84,9 @@ export function ErgebnisSchleuse({
   ergebnis: Record<string, unknown>;
   /** Der fertige Ergebnis-Block, der hinter der Schleuse liegt. */
   children: React.ReactNode;
+  /** Studio-Texte (tools.schleuse.*) — die Server-Seite reicht sie aus
+      getContent() durch; ohne Props gelten die eingebauten Defaults. */
+  texte?: { titel?: string; sub?: string; button?: string; hinweis?: string };
 }) {
   const [frei, setFrei] = useState(false);
   const [entsperrt, setEntsperrt] = useState(false); // Schloss offen, Karte geht
@@ -175,11 +179,10 @@ export function ErgebnisSchleuse({
               <Schloss offen={entsperrt} />
               <div>
                 <p className="text-[15.5px] font-semibold text-ink-cream">
-                  Ihre Auswertung ist fertig.
+                  {texte?.titel ?? "Ihre Auswertung ist fertig."}
                 </p>
                 <p className="t-small mt-0.5">
-                  Sagen Sie uns kurz, für wen wir rechnen — das Ergebnis
-                  erscheint direkt danach.
+                  {texte?.sub ?? "Sagen Sie uns kurz, für wen wir rechnen — das Ergebnis erscheint direkt danach."}
                 </p>
               </div>
             </div>
@@ -252,10 +255,10 @@ export function ErgebnisSchleuse({
               disabled={sendet || entsperrt}
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover disabled:opacity-60"
             >
-              {sendet ? "Wird gesendet …" : entsperrt ? "Entsperrt" : "Ergebnis freischalten"}
+              {sendet ? "Wird gesendet …" : entsperrt ? "Entsperrt" : (texte?.button ?? "Ergebnis freischalten")}
             </button>
             <p className="t-small mt-3 text-center !text-[11.5px]">
-              Keine Werbung, kein Anruf ohne Anlass — Ihre Auswertung, sonst nichts.
+              {texte?.hinweis ?? "Keine Werbung, kein Anruf ohne Anlass — Ihre Auswertung, sonst nichts."}
             </p>
           </div>
         </div>

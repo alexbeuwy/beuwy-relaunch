@@ -13,7 +13,10 @@
  * Ein CTA-Wortlaut: „Systemgespräch anfragen". Kein Preis, nirgends.
  */
 
+import { TOOLS_DEFAULTS, TOOLS_LABELS } from "./texte/tools";
+
 export const DEFAULTS: Record<string, string> = {
+  ...TOOLS_DEFAULTS,
   /* ── 01 Hero — Traumzustand, positiv, belegbare Prozess-Aussage ────── */
   "hero.title": "Neukunden nach *System*.",
   "hero.subtitle":
@@ -237,6 +240,7 @@ export const DEFAULTS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  ...TOOLS_LABELS,
   "beleg.title": "Übersicht · Überschrift (*Wort* = Hervorhebung)",
   "beleg.intro": "Übersicht · Einleitungssatz",
   "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",
