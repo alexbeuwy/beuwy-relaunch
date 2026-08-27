@@ -96,3 +96,10 @@ alter table public.bw_ticket enable row level security;
 -- bw_track_auswertung, bw_track_heatmap, bw_flow_speichern, bw_flows_liste,
 -- bw_flow_starten, bw_flow_faellige, bw_flow_fortschreiben, bw_abmelden.
 -- Voller Wortlaut in Supabase-Migration r5_track_und_flows.
+
+-- r5_kontakt_deal_aufgabe: bw_kontakt (Dedup ueber E-Mail), bw_deal
+-- (Wert/Verlustgrund), bw_aufgabe, bw_ticket_antwort (Threads),
+-- bw_konto_status_event. RPCs: bw_kontakt_upsert, bw_kontakt_360,
+-- bw_kontakte_liste, bw_deal_speichern, bw_deals_liste,
+-- bw_aufgabe_speichern, bw_tageskommando, bw_ticket_antworten(+_anlegen).
+-- Voller Wortlaut in Supabase-Migration r5_kontakt_deal_aufgabe.
