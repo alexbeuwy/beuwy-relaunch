@@ -2,7 +2,15 @@ import { NextResponse } from "next/server";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { sendMail } from "@/lib/email";
 import { mailKontoCode } from "@/lib/email-vorlagen";
-import { crmKonfiguriert, kontoCodeAnlegen, kontoCodeEinloesen, ticketAnlegen } from "@/lib/crm/db";
+import {
+  crmKonfiguriert,
+  kontoCodeAnlegen,
+  kontoCodeEinloesen,
+  kontoDatenSetzen,
+  kontoUpsert,
+  leadAnlegen,
+  ticketAnlegen,
+} from "@/lib/crm/db";
 import { kontaktSchema } from "@/lib/validierung";
 import {
   demoKontoCode,
@@ -14,9 +22,10 @@ import {
 } from "@/lib/konto-auth";
 
 /**
- * API für /konto (R3 Leaf B9). Vier Aktionen über ein Feld `aktion`,
- * Muster identisch zu /api/booking und /api/tool-lead (Rate-Limit über
- * src/lib/rate-limit, Supabase ausschließlich über src/lib/crm/db.ts).
+ * API für /konto (R3 Leaf B9, Onboarding-Umbau R3). Fünf Aktionen über ein
+ * Feld `aktion`, Muster identisch zu /api/booking und /api/tool-lead
+ * (Rate-Limit über src/lib/rate-limit, Supabase ausschließlich über
+ * src/lib/crm/db.ts).
  *
  * "code" und "einloesen" laufen in zwei Modi, je nachdem ob eine Datenbank
  * konfiguriert ist (crmKonfiguriert()):
@@ -31,11 +40,26 @@ import {
  * ohnehin keine Mail an — die Antwort trägt dann demo:true und den Code
  * selbst als demoCode, ehrlich gekennzeichnet, damit der Flow ohne
  * Postfach durchklickbar bleibt.
+ *
+ * "onboarding" speichert die vier Fragegruppen aus dem Wizard in
+ * KontoBereich.tsx (Rolle/Intent/Team/Stadt, plus Firma/Name über
+ * kontoUpsert) — nur mit gültigem Konto-Cookie, sonst 401. Der Client ruft
+ * sie direkt nach erfolgreichem "einloesen" auf; schlägt das Speichern
+ * fehl, bleibt die Antwort trotzdem ok:true (fail-open), weil die
+ * eigentliche Registrierung mit der Code-Einlösung schon durch ist.
  */
 
 export const runtime = "nodejs";
 
 const clean = (s: unknown, max: number) => String(s ?? "").trim().slice(0, max);
+
+/** "score nach Teamgröße" — grobe Priorisierung fürs CRM, kein Ersatz für echtes Lead-Scoring. */
+const TEAM_SCORE: Record<string, number> = {
+  allein: 20,
+  "2–5": 40,
+  "6–15": 65,
+  "16+": 90,
+};
 
 /** E-Mail-Prüfung/-Normalisierung über dieselbe Regel wie alle anderen Formulare. */
 function pruefeEmail(wert: unknown): string | null {
@@ -133,6 +157,46 @@ export async function POST(req: Request) {
 
     await ticketAnlegen(email, titel, detail);
     return NextResponse.json({ ok: true, demo: !crmKonfiguriert() });
+  }
+
+  if (aktion === "onboarding") {
+    const email = await leseKontoCookie();
+    if (!email) {
+      return NextResponse.json({ ok: false, error: "Bitte zuerst anmelden." }, { status: 401 });
+    }
+    if (!rateLimit(`konto-onboarding:${email}`, 5, 10 * 60_000)) {
+      return NextResponse.json({ ok: false, error: "Zu viele Versuche — bitte in ein paar Minuten erneut probieren." }, { status: 429 });
+    }
+
+    const rolle = clean(b.rolle, 60);
+    const intent = Array.isArray(b.intent) ? b.intent.map((i) => clean(i, 80)).filter(Boolean).slice(0, 10) : [];
+    const team = clean(b.team, 20);
+    const stadt = clean(b.stadt, 100);
+    const firma = clean(b.firma, 200);
+    const name = clean(b.name, 200);
+
+    // Fail-open (R3 — Intent-Onboarding): egal was hier schiefgeht, die
+    // Registrierung selbst ist mit der Code-Einlösung bereits abgeschlossen.
+    // kontoUpsert/kontoDatenSetzen/leadAnlegen liefern bei fehlender
+    // Datenbank ohnehin still null/void statt zu werfen (src/lib/crm/db.ts).
+    try {
+      if (name || firma) {
+        await kontoUpsert({ email, name, firma, projektStatus: "aufnahme" });
+      }
+      await kontoDatenSetzen(email, { rolle, intent, team, stadt });
+      await leadAnlegen({
+        quelle: "konto",
+        name,
+        email,
+        firma,
+        daten: { rolle, intent, team, stadt },
+        score: TEAM_SCORE[team] ?? 0,
+      });
+    } catch (err) {
+      console.warn("[konto] onboarding-Speicherung fehlgeschlagen — fail-open:", err);
+    }
+
+    return NextResponse.json({ ok: true });
   }
 
   if (aktion === "abmelden") {

@@ -17,6 +17,20 @@ import { cookies } from "next/headers";
 
 export const KONTO_COOKIE = "konto_auth";
 
+/**
+ * Reines Anzeige-Cookie, zusätzlich zum echten Sitzungscookie gesetzt
+ * (R3 Leaf R2 — Auth-UX). Anlass: Das Konto-Icon in der Nav
+ * (src/components/Nav.tsx) ist eine Client-Komponente und kann das
+ * httpOnly-Cookie KONTO_COOKIE serverseitig gar nicht lesen. Die saubere
+ * Lösung wäre der Login-Zustand als Prop aus dem Root-Layout — das liegt
+ * aber außerhalb der für dieses Leaf zugewiesenen Dateien. Also die
+ * kleinste zusätzliche Lösung: ein zweites, NICHT httpOnly Cookie ohne
+ * Signatur oder Nutzlast (nur "1"), das keine Identität preisgibt und für
+ * keine Auth-Entscheidung herangezogen werden darf — es dient einzig
+ * dazu, client-seitig den Akzent-Punkt am Konto-Icon zu zeigen.
+ */
+export const KONTO_DA_COOKIE = "konto_da";
+
 const DEMO_FALLBACK_SECRET = "beuwy-konto-demo-secret-ohne-env";
 
 function secret(): string {
@@ -53,16 +67,24 @@ function emailFromCookieValue(value: string): string | null {
   }
 }
 
-/** Setzt das signierte Session-Cookie für eine bestätigte E-Mail-Adresse (httpOnly, 30 Tage). */
+/**
+ * Setzt das signierte Session-Cookie für eine bestätigte E-Mail-Adresse
+ * (httpOnly, 30 Tage) — plus das nicht-httpOnly Anzeige-Cookie KONTO_DA_COOKIE
+ * mit denselben Lebensdauer-/Sicherheits-Optionen, siehe Kommentar dort.
+ */
 export async function setzeKontoCookie(email: string): Promise<void> {
   const jar = await cookies();
-  jar.set(KONTO_COOKIE, cookieValueFor(email.trim().toLowerCase()), {
-    httpOnly: true,
+  const gemeinsam = {
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
-    sameSite: "lax",
+    sameSite: "lax" as const,
     secure: process.env.NODE_ENV === "production",
+  };
+  jar.set(KONTO_COOKIE, cookieValueFor(email.trim().toLowerCase()), {
+    ...gemeinsam,
+    httpOnly: true,
   });
+  jar.set(KONTO_DA_COOKIE, "1", gemeinsam);
 }
 
 /** Liest die aktuell angemeldete E-Mail-Adresse aus dem Cookie, oder null ohne gültige Sitzung. */
@@ -73,10 +95,11 @@ export async function leseKontoCookie(): Promise<string | null> {
   return emailFromCookieValue(wert);
 }
 
-/** Meldet ab: löscht das Session-Cookie. */
+/** Meldet ab: löscht Session- und Anzeige-Cookie. */
 export async function loescheKontoCookie(): Promise<void> {
   const jar = await cookies();
   jar.delete(KONTO_COOKIE);
+  jar.delete(KONTO_DA_COOKIE);
 }
 
 /** Zufälliger 6-stelliger Code (führende Nullen erlaubt) für den echten, DB-gestützten Login. */

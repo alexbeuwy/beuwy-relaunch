@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
 import { Logo } from "@/components/Logo";
 
 /**
- * Layout für /intern (R3 Leaf B8 — CRM). Gleiches Cookie/Muster wie /os
- * und /studio (src/lib/studio-auth.ts): ohne gültiges Cookie gibt es
- * hier nichts zu sehen, nur einen Hinweis mit Link zur Anmeldung
- * (/login → leitet auf /studio weiter, das den Login-Screen zeigt).
+ * Layout für /intern (R3 Leaf B8 — CRM, Redirect seit R2 — Auth-UX).
+ * Gleiches Cookie/Muster wie /os und /studio (src/lib/studio-auth.ts):
+ * ohne gültiges Cookie gibt es hier nichts zu sehen — statt einer
+ * Hinweis-Karte jetzt ein direkter redirect("/login?weiter=/intern"),
+ * damit der Zugangsweg für alle internen Bereiche gleich aussieht. Nach
+ * erfolgreichem Login (src/app/login/page.tsx honoriert den weiter-Param)
+ * geht es direkt zurück hierher statt über einen Zwischenklick.
  *
  * Mit Cookie: eine schmale interne Kopfzeile (kleines Logo + Tabs zu den
  * vier internen Bereichen) über jeder /intern-Unterseite — Pipeline,
@@ -43,29 +47,7 @@ export default async function InternLayout({
   const authed = await isStudioAuthed((await cookies()).get(STUDIO_COOKIE)?.value);
 
   if (!authed) {
-    return (
-      <div className="flex min-h-dvh items-center justify-center bg-bg-base px-6">
-        <div className="max-w-[380px] text-center">
-          <p className="t-label">Intern</p>
-          <h1 className="t-h2 mt-4">Nicht angemeldet</h1>
-          <p className="t-body mt-4">
-            Pipeline, Mails und die anderen internen Werkzeuge sind Studio-Zugängen vorbehalten.
-          </p>
-          <Link
-            href="/login"
-            className="group mt-7 inline-flex items-center gap-2 rounded-full bg-akzent px-6 py-3 text-[14px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover"
-          >
-            Zur Anmeldung
-            <span
-              aria-hidden
-              className="transition-transform duration-(--duration-quick) ease-(--ease-smooth-out) group-hover:translate-x-0.5"
-            >
-              →
-            </span>
-          </Link>
-        </div>
-      </div>
-    );
+    redirect("/login?weiter=/intern");
   }
 
   return (
