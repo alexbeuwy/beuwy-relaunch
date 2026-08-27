@@ -25,7 +25,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Alleinauftrag gewinnen: So entscheidet sich der Eigentümer für Sie | beuwy",
   description:
-    "Alleinauftrag gewinnen: Eigentümer prüfen Google, Website und Exposé vor dem Termin. beuwy baut den Auftritt, der überzeugt – Beweisführung statt Rabatt.",
+    "Alleinauftrag gewinnen: Eigentümer prüfen Google, Website und Exposé vor dem Termin. beuwy baut den Auftritt, der überzeugt: Beweisführung statt Rabatt.",
   openGraph: {
     title: "Alleinauftrag gewinnen: So entscheidet sich der Eigentümer für Sie | beuwy",
     description:

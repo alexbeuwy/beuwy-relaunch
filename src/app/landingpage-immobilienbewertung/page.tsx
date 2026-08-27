@@ -23,11 +23,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
   description:
-    "Die Bewertungs-Landingpage überzeugt Eigentümer in vier Sektionen: Hook, Rechner, Beweis, Formular — die Seite, die aus einem Klick eine Anfrage macht.",
+    "Die Bewertungs-Landingpage überzeugt Eigentümer in vier Sektionen: Hook, Rechner, Beweis, Formular. Die Seite, die aus einem Klick eine Anfrage macht.",
   openGraph: {
     title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
     description:
-      "Sektion für Sektion am lebenden Beispiel: Hook, Rechner, Beweis, Formular — die Anatomie einer Bewertungs-Landingpage, die Eigentümer tatsächlich konvertiert.",
+      "Sektion für Sektion am lebenden Beispiel: Hook, Rechner, Beweis, Formular. Die Anatomie einer Bewertungs-Landingpage, die Eigentümer tatsächlich konvertiert.",
     type: "website",
     locale: "de_DE",
   },
@@ -48,7 +48,7 @@ const STUFEN = [
   },
   {
     titel: "Das Formular",
-    text: "Name, Telefonnummer, Wunschzeitpunkt — mehr nicht. Jedes zusätzliche Feld kostet Abschlüsse. Die Anfrage landet strukturiert im CRM, mit Quelle und Score, nicht als loser Zettel im Postfach.",
+    text: "Name, Telefonnummer, Wunschzeitpunkt, mehr nicht. Jedes zusätzliche Feld kostet Abschlüsse. Die Anfrage landet strukturiert im CRM, mit Quelle und Score, nicht als loser Zettel im Postfach.",
   },
 ] as const;
 
@@ -168,7 +168,7 @@ export default function LandingpageImmobilienbewertungPage() {
             <SektionsKopf
               eyebrow="Die Anatomie"
               titel="Vier Stufen. Jede mit *einer* Aufgabe."
-              sub="Kein Flyer im Web, sondern ein Funnel: Hook, Rechner, Beweis, Formular — jede Stufe führt den Besucher genau einen Schritt weiter."
+              sub="Kein Flyer im Web, sondern ein Funnel: Hook, Rechner, Beweis, Formular. Jede Stufe führt den Besucher genau einen Schritt weiter."
               className="max-w-[720px]"
             />
           </Reveal>

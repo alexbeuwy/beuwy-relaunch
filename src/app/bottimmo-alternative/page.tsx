@@ -14,7 +14,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "BOTTIMMO Alternative: Maßarbeit statt Baukasten | beuwy",
   description:
-    "Der faire Vergleich zwischen Baukasten-Systemen wie BOTTIMMO und einer eigenen Marke für Immobilienmakler: was jede Lösung wirklich bringt — und für wen sie richtig ist.",
+    "Der faire Vergleich zwischen Baukasten-Systemen wie BOTTIMMO und einer eigenen Marke für Immobilienmakler: was jede Lösung wirklich bringt, und für wen sie richtig ist.",
 };
 
 const RAILS: {
@@ -28,7 +28,7 @@ const RAILS: {
     thema: "Vorlagen vs. eigene Marke",
     linksLabel: "Vorlage",
     linksText:
-      "Design und Struktur stammen aus dem Baukasten — dasselbe Grundgerüst läuft parallel bei anderen Kunden desselben Anbieters.",
+      "Design und Struktur stammen aus dem Baukasten. Dasselbe Grundgerüst läuft parallel bei anderen Kunden desselben Anbieters.",
     rechtsLabel: "Eigene Marke",
     rechtsText:
       "Typografie, Farbwelt und Sprache werden für Ihr Haus entwickelt. Wiedererkennbar, auch ohne Logo im Bild.",
@@ -37,7 +37,7 @@ const RAILS: {
     thema: "Gemietete Inhalte vs. eigenes System",
     linksLabel: "Gemietete Inhalte",
     linksText:
-      "Texte, Bilder und Funnel gehören zur Lizenz — sie laufen, solange Sie zahlen, und stehen mit der Kündigung still.",
+      "Texte, Bilder und Funnel gehören zur Lizenz. Sie laufen, solange Sie zahlen, und stehen mit der Kündigung still.",
     rechtsLabel: "Eigenes System",
     rechtsText:
       "Website, Inhalte und Funnel gehören Ihnen. Sie bleiben, auch wenn sich die Zusammenarbeit irgendwann ändert.",
@@ -46,7 +46,7 @@ const RAILS: {
     thema: "Selbstbedienung vs. done for you",
     linksLabel: "Selbstbedienung",
     linksText:
-      "Einrichtung, Pflege und Anpassungen übernehmen Sie selbst, im Dashboard des Baukastens — neben dem Tagesgeschäft.",
+      "Einrichtung, Pflege und Anpassungen übernehmen Sie selbst, im Dashboard des Baukastens, neben dem Tagesgeschäft.",
     rechtsLabel: "Done for you",
     rechtsText:
       "Aufbau, Pflege und Weiterentwicklung übernehmen wir. Sie bekommen Ergebnisse zu sehen, keine Aufgabenliste.",
@@ -66,7 +66,7 @@ export default function BottimmoAlternativePage() {
       <ClusterHero
         eyebrow="Vergleich · BOTTIMMO"
         titel="Die BOTTIMMO-Alternative für Makler, die *auffallen* wollen."
-        sub="BOTTIMMO baut ein bewährtes Marketing-Paket für den Einstieg. Wer schon zu den führenden Häusern seiner Stadt zählt, braucht mehr als das Paket, das auch der Mitbewerber zwei Straßen weiter nutzt — hier lesen Sie den fairen Vergleich."
+        sub="BOTTIMMO baut ein bewährtes Marketing-Paket für den Einstieg. Wer schon zu den führenden Häusern seiner Stadt zählt, braucht mehr als das Paket, das auch der Mitbewerber zwei Straßen weiter nutzt. Hier lesen Sie den fairen Vergleich."
         primaryHref="/anfrage"
         ctaLabel2="Was BOTTIMMO gut kann →"
         ctaHref2="#einordnung"
@@ -78,14 +78,14 @@ export default function BottimmoAlternativePage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Einordnung"
-              titel="Baukasten-Systeme sind für den Einstieg gebaut — nicht für den *Vorsprung*."
+              titel="Baukasten-Systeme sind für den Einstieg gebaut, nicht für den *Vorsprung*."
             />
             <div className="mt-8 max-w-[62ch] space-y-5">
               <p className="t-body">
                 Anbieter wie BOTTIMMO liefern ein bewährtes Marketing-Paket: eigene Website,
                 vorgefertigte Anzeigen, ein Funnel, der grundsätzlich funktioniert. Für ein Büro,
-                das gerade erst online sichtbar werden will, ist das ein schneller, solider Start
-                — ohne dass jemand bei null anfängt.
+                das gerade erst online sichtbar werden will, ist das ein schneller, solider Start,
+                ohne dass jemand bei null anfängt.
               </p>
               <p className="t-body">
                 Die Grenze liegt im System selbst:{" "}
@@ -131,14 +131,14 @@ export default function BottimmoAlternativePage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Ehrlich gesagt"
-              titel="Nicht jedes Haus braucht *Maßarbeit* — noch nicht."
+              titel="Nicht jedes Haus braucht *Maßarbeit*, noch nicht."
             />
             <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
               <div className="border-t border-line-subtle pt-6">
                 <p className="t-h3">Für wen BOTTIMMO die richtige Wahl bleibt</p>
                 <p className="t-body mt-3 max-w-[40ch]">
                   Für den ersten eigenen Online-Auftritt, ein kleines Marketingbudget im
-                  dreistelligen Monatsbereich — oder wenn Website und Anzeigen einfach nur
+                  dreistelligen Monatsbereich, oder wenn Website und Anzeigen einfach nur
                   laufen sollen, ohne dass die Marke im Mittelpunkt steht. Eine vernünftige
                   Entscheidung, keine Notlösung.
                 </p>
@@ -146,7 +146,7 @@ export default function BottimmoAlternativePage() {
               <div className="border-t border-line-subtle pt-6">
                 <p className="t-h3">Für wen beuwy richtig ist</p>
                 <p className="t-body mt-3 max-w-[40ch]">
-                  Für Häuser, die bereits einen Marktanteil verteidigen oder ausbauen — deren
+                  Für Häuser, die bereits einen Marktanteil verteidigen oder ausbauen, deren
                   nächster Wettbewerber nicht der Baukasten-Nachbar ist, sondern das führende
                   Büro der Stadt. Hier zahlt sich ein eigenes System aus, weil der Unterschied im
                   Auftritt direkt den Unterschied im Alleinauftrag macht. 17 Jahre Markenarbeit
@@ -161,9 +161,9 @@ export default function BottimmoAlternativePage() {
       <ClusterAbschluss
         karteLabel="Für Häuser mit Anspruch"
         karteTitel="Sie haben den Baukasten längst hinter sich gelassen."
-        karteText="Ein Vorlagen-System bringt Sie online. Ein eigenes System bringt Sie an die Spitze Ihres Markts — und bleibt, wenn sich sonst etwas ändert."
-        schlussTitel="Lassen Sie uns über Ihren Auftritt sprechen — nicht über eine Vorlage."
-        schlussText="In einem kurzen Gespräch sehen wir, wo Ihr aktueller Auftritt Sie unter Wert verkauft — und was ein eigenes System dagegen tut."
+        karteText="Ein Vorlagen-System bringt Sie online. Ein eigenes System bringt Sie an die Spitze Ihres Markts, und bleibt, wenn sich sonst etwas ändert."
+        schlussTitel="Lassen Sie uns über Ihren Auftritt sprechen, nicht über eine Vorlage."
+        schlussText="In einem kurzen Gespräch sehen wir, wo Ihr aktueller Auftritt Sie unter Wert verkauft, und was ein eigenes System dagegen tut."
         primaryHref="/anfrage"
         footnote="BOTTIMMO ist eine Marke der BOTTIMMO AG. beuwy steht in keiner Verbindung zu BOTTIMMO."
         weitereLinks={[

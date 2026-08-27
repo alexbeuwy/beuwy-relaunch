@@ -24,7 +24,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "KI-Richtlinien fürs Maklerbüro: Nutzen ohne Datenpanne | beuwy",
   description:
-    "KI-Richtlinien fürs Maklerbüro: eine Kurz-Policy zum Übernehmen für Kundendaten, Freigaben und Kennzeichnung — damit ChatGPT & Co. Zeit sparen statt Ärger.",
+    "KI-Richtlinien fürs Maklerbüro: eine Kurz-Policy zum Übernehmen für Kundendaten, Freigaben und Kennzeichnung, damit ChatGPT & Co. Zeit sparen statt Ärger.",
   openGraph: {
     title: "KI-Richtlinien fürs Maklerbüro: Nutzen ohne Datenpanne | beuwy",
     description:
@@ -41,7 +41,7 @@ const PAINS = [
       "Wer Name, Adresse oder Verkaufsgrund in ein öffentliches KI-Tool tippt, gibt Daten an einen Anbieter weiter, mit dem meist kein Auftragsverarbeitungsvertrag besteht. Ohne Regel entscheidet das jeder im Team für sich, mal richtig, mal falsch.",
   },
   {
-    quote: "Ein KI-Text geht als eigener Text raus — bis jemand fragt, wer ihn geprüft hat.",
+    quote: "Ein KI-Text geht als eigener Text raus, bis jemand fragt, wer ihn geprüft hat.",
     answer:
       "Ein Exposé-Absatz aus ChatGPT ist ein Rohentwurf, keine geprüfte Objektbeschreibung. Ohne festen Freigabe-Schritt verlässt der Text das Büro so, wie ihn die KI ausgespuckt hat, samt möglicher Falschangabe.",
   },
@@ -83,7 +83,7 @@ const POLICY: PolicyZeile[] = [
   {
     thema: "Rechtsfragen & Steuerthemen",
     erlaubt: "KI-Antworten zu Steuer- oder Rechtsfragen als ersten Überblick lesen.",
-    tabu: "Eine KI-Antwort zu Steuer- oder Rechtsfragen als Auskunft an den Kunden weitergeben — das bleibt Sache von Steuerberater oder Anwalt.",
+    tabu: "Eine KI-Antwort zu Steuer- oder Rechtsfragen als Auskunft an den Kunden weitergeben. Das bleibt Sache von Steuerberater oder Anwalt.",
   },
 ];
 
@@ -194,7 +194,7 @@ export default function KiRichtlinienMaklerbueroPage() {
               Veröffentlichung freigibt, wie KI-Bilder gekennzeichnet werden und wer im Büro
               über ein neues Tool entscheidet.{" "}
               <Highlight>
-                Ohne diese Linie entscheidet jeder im Team für sich — mal richtig, mal mit
+                Ohne diese Linie entscheidet jeder im Team für sich, mal richtig, mal mit
                 Kundendaten im falschen Fenster
               </Highlight>
               .

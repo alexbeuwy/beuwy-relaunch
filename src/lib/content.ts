@@ -227,7 +227,7 @@ export const DEFAULTS: Record<string, string> = {
   "mk.podcast.url": "",
   "mk.podcast.titel": "Im Gespräch: Leon Lin",
   "mk.podcast.sub":
-    "Alexander Pütter mit Leon Lin — einem der meistgenutzten KI-Skill-Entwickler der Welt. Über Systeme, die im Makleralltag wirklich arbeiten.",
+    "Alexander Pütter mit Leon Lin — einem der bekanntesten KI-Skill-Entwickler. Über Systeme, die im Makleralltag wirklich arbeiten.",
 
   "mk.beweis.label": "Größenordnungen, keine Versprechen",
   "mk.beweis.kacheln":

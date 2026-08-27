@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Website für Immobilienmakler: Premium statt Baukasten | beuwy",
     description:
-      "Bewertungsrechner, CRM-Anbindung, Tempo und Objekt-Präsentation, die Alleinaufträge rechtfertigt. Live in vier Wochen, keine Vorlage.",
+      "Bewertungsrechner, CRM-Anbindung, Tempo und Objekt-Präsentation, die Alleinaufträge rechtfertigen. Live in vier Wochen, keine Vorlage.",
     type: "website",
     locale: "de_DE",
   },

@@ -26,11 +26,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO & Co. | beuwy",
   description:
-    "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO und weitere nach Tempo, CRM, Exposés und SEO geprüft — mit klarer Grenze zum eigenen Maßportal.",
+    "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO und weitere nach Tempo, CRM, Exposés und SEO geprüft, mit klarer Grenze zum eigenen Maßportal.",
   openGraph: {
     title: "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO & Co. | beuwy",
     description:
-      "Fünf Kriterien, vier Systeme: wo ein Website-Baukasten für Makler reicht — und wo die Grenze zum eigenen Maßportal beginnt.",
+      "Fünf Kriterien, vier Systeme: wo ein Website-Baukasten für Makler reicht und wo die Grenze zum eigenen Maßportal beginnt.",
     type: "website",
     locale: "de_DE",
   },
@@ -51,7 +51,7 @@ const MATRIX: Zeile[] = [
     wix: "Keine native Anbindung an Maklersoftware, Formulare oft manuell übertragen",
     bottimmo: "Eigenes System, Anbindung an externe CRMs eingeschränkt",
     casaone: "Direkt am eigenen CRM, kaum Anbindung außerhalb des CasaOne-Ökosystems",
-    massportal: "Anbindung an das CRM, das Sie bereits nutzen — onOffice, FLOWFACT, Propstack",
+    massportal: "Anbindung an das CRM, das Sie bereits nutzen: onOffice, FLOWFACT, Propstack",
   },
   {
     kriterium: "Exposé-Qualität",
@@ -87,7 +87,7 @@ const FAQS = [
   },
   {
     q: "Warum dauert ein Maßportal länger als ein Baukasten?",
-    a: "Ein Baukasten füllt eine bestehende Vorlage mit Ihren Daten. Ein Maßportal entsteht neu, von der Marke über die Seitenarchitektur bis zur CRM-Anbindung — das braucht vier bis sechs Wochen, dafür ist das Ergebnis nicht mit dem des Mitbewerbers austauschbar.",
+    a: "Ein Baukasten füllt eine bestehende Vorlage mit Ihren Daten. Ein Maßportal entsteht neu, von der Marke über die Seitenarchitektur bis zur CRM-Anbindung. Das braucht vier bis sechs Wochen, dafür ist das Ergebnis nicht mit dem des Mitbewerbers austauschbar.",
   },
   {
     q: "Was kostet ein eigenes Portal im Vergleich zum Baukasten?",
@@ -146,7 +146,7 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
           <Reveal>
             <p className="t-label !text-ink-yellow">Vergleich</p>
             <h1 className="t-display mt-4">
-              {rich("Welcher Website-Baukasten passt für *Makler* — und wann keiner mehr reicht.")}
+              {rich("Welcher Website-Baukasten passt für *Makler*, und wann keiner mehr reicht.")}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
               Welcher Website-Baukasten für Makler passt, hängt von Ihrem Anspruch ab, nicht von
@@ -187,7 +187,7 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Unsere Position"
-              titel="Es gibt keinen *besten* Baukasten — nur die passende Grenze für Ihr Haus."
+              titel="Es gibt keinen *besten* Baukasten, nur die passende Grenze für Ihr Haus."
               sub="Diese Seite bewertet nicht, welches System gewinnt. Sie zeigt, an welchem Punkt ein geteiltes System an seine Grenze stößt und ein eigenes Portal mehr bringt als jede weitere Vorlagen-Anpassung."
               className="max-w-[720px]"
             />
@@ -249,7 +249,7 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
           <Reveal>
             <GelbeKarte label="Der Unterschied" titel="Ein Baukasten ist kein Maßportal." glyph>
               Er füllt eine bestehende Vorlage mit Ihren Daten, schnell und zuverlässig. Ein
-              Maßportal entsteht neu um Ihre Marke herum — Seitenarchitektur, CRM-Anbindung und
+              Maßportal entsteht neu um Ihre Marke herum: Seitenarchitektur, CRM-Anbindung und
               SEO-Fundament eingeschlossen. Das braucht mehr Zeit beim Bau, dafür kein zweites
               Büro mit derselben Vorlage.
             </GelbeKarte>

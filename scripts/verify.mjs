@@ -17,7 +17,9 @@ const sh = (cmd) => execSync(cmd, { encoding: "utf8", stdio: ["ignore", "pipe", 
 let routen = [];
 try {
   const manifest = JSON.parse(fs.readFileSync(".next/prerender-manifest.json", "utf8"));
-  routen = Object.keys(manifest.routes).filter((r) => !r.includes("["));
+  routen = Object.keys(manifest.routes).filter(
+    (r) => !r.includes("[") && r !== "/_not-found"
+  );
 } catch {
   fehler.push("kein Build-Manifest (.next) — erst npm run build");
 }
@@ -27,7 +29,7 @@ if (!routen.includes("/")) fehler.push("Startseite fehlt im Manifest");
 let rot = [];
 for (const r of routen) {
   try {
-    const code = sh(`curl -s -o /dev/null -w "%{http_code}" --noproxy localhost "http://localhost:3100${r}"`).trim();
+    const code = sh(`curl -sL -o /dev/null -w "%{http_code}" --noproxy localhost "http://localhost:3100${r}"`).trim();
     if (code !== "200") rot.push(`${r}=${code}`);
   } catch { rot.push(`${r}=ERR`); }
 }

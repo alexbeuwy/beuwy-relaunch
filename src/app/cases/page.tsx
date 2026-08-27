@@ -33,7 +33,7 @@ export default function CasesUebersichtPage() {
             Was passiert, wenn Marke und System zusammenpassen.
           </h1>
           <p className="t-body-lg mt-5 max-w-[560px]">
-            Reale Projekte, reale Zahlen — <Highlight>kein Fall ohne Beleg</Highlight>.
+            Reale Projekte, reale Zahlen: <Highlight>kein Fall ohne Beleg</Highlight>.
             17 Jahre Markenarbeit, messbar an echten Ergebnissen statt an
             Behauptungen. Beispielprojekte sind sichtbar markiert und tragen
             keine echten Referenzen.

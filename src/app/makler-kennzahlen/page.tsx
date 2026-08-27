@@ -65,7 +65,7 @@ const KENNZAHLEN = [
   },
   {
     titel: "Cost per Abschluss",
-    text: "Marketingkosten eines Zeitraums ÷ Notartermine im selben Zeitraum. Beispiel: 2.400 € im Quartal bei 4 Abschlüssen ergeben 600 € je Abschluss – die Zahl, die am Ende über die Wirtschaftlichkeit entscheidet, nicht der Cost per Lead allein.",
+    text: "Marketingkosten eines Zeitraums ÷ Notartermine im selben Zeitraum. Beispiel: 2.400 € im Quartal bei 4 Abschlüssen ergeben 600 € je Abschluss: die Zahl, die am Ende über die Wirtschaftlichkeit entscheidet, nicht der Cost per Lead allein.",
   },
   {
     titel: "Bewertungsquote",
@@ -83,7 +83,7 @@ const WOCHEN = [
 const FAQS = [
   {
     q: "Muss ich alle neun Kennzahlen von Anfang an tracken?",
-    a: "Nein. Starten Sie mit Anfragequote, Terminquote und Alleinauftragsquote – die drei zeigen die größten Lücken im Trichter zwischen Website und Notartermin. Die übrigen sechs Kennzahlen ergänzen Sie, sobald eine Tabelle oder ein CRM die Zahlen ohnehin mitschreibt.",
+    a: "Nein. Starten Sie mit Anfragequote, Terminquote und Alleinauftragsquote, denn die drei zeigen die größten Lücken im Trichter zwischen Website und Notartermin. Die übrigen sechs Kennzahlen ergänzen Sie, sobald eine Tabelle oder ein CRM die Zahlen ohnehin mitschreibt.",
   },
   {
     q: "Wie oft sollte ich die Zahlen auswerten?",
@@ -91,7 +91,7 @@ const FAQS = [
   },
   {
     q: "Was, wenn eine einzelne Woche schlecht aussieht?",
-    a: "Eine Woche ist kein Trend, wie die Beispieltabelle mit Woche 33 zeigt. Reagieren Sie erst, wenn sich eine Abweichung über drei bis vier Wochen bestätigt – sonst korrigieren Sie ein System, das eigentlich funktioniert, wegen eines Ausreißers.",
+    a: "Eine Woche ist kein Trend, wie die Beispieltabelle mit Woche 33 zeigt. Reagieren Sie erst, wenn sich eine Abweichung über drei bis vier Wochen bestätigt, sonst korrigieren Sie ein System, das eigentlich funktioniert, wegen eines Ausreißers.",
   },
   {
     q: "Reicht eine einfache Tabelle, oder brauche ich dafür ein CRM?",
@@ -160,8 +160,8 @@ export default function MaklerKennzahlenPage() {
               <Highlight>
                 erst zusammen ergeben sie ein Bild, dem ein Büro folgen kann, statt einem Gefühl
               </Highlight>
-              . Ohne diese Zahlen bleibt jede Entscheidung – mehr Werbebudget, eine Einstellung,
-              ein Rabatt auf die Provision – eine Vermutung.
+              . Ohne diese Zahlen bleibt jede Entscheidung (mehr Werbebudget, eine Einstellung,
+              ein Rabatt auf die Provision) eine Vermutung.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <ZusammenarbeitCta />
@@ -258,7 +258,7 @@ export default function MaklerKennzahlenPage() {
               Woche 33 sieht schlecht aus: weniger Anfragen, keine Alleinaufträge, ein Cost per
               Lead von 55 €. Ein Bauchgefühl hätte an dieser Stelle das Budget gekürzt oder die
               Kampagne pausiert. Der Wochenbericht zeigt stattdessen, dass Woche 34 wieder über dem
-              Schnitt liegt – derselbe Aufbau, dieselbe Zielgruppe, nur eine schwächere Woche
+              Schnitt liegt: derselbe Aufbau, dieselbe Zielgruppe, nur eine schwächere Woche
               dazwischen.
             </p>
           </Reveal>
@@ -287,7 +287,7 @@ export default function MaklerKennzahlenPage() {
             <p className="t-h3 mt-3 max-w-[52ch]">
               Bei RIEGEL Immobilien landet jede Anfrage mit Quelle im System, samt Terminstrecke
               und Rückrufregel. Sechs Wochen nach dem Relaunch stand die Zahl fest: neun Abschlüsse,
-              342.000 € Volumen – nachvollziehbar über genau die Kennzahlen, die vorher fehlten.
+              342.000 € Volumen, nachvollziehbar über genau die Kennzahlen, die vorher fehlten.
             </p>
             <Link href="/cases/riegel-immobilien" className="ref-link mt-6 inline-block">
               Fallstudie RIEGEL Immobilien lesen →

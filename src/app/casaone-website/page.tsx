@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "CasaOne-Website: Grenzen des Baukastens im Premium-Segment | beuwy",
     description:
-      "CasaOne verwaltet Objekte zuverlässig. Sobald Eigentümer hochpreisiger Objekte vergleichen, entscheidet die eigene Marke — der ehrliche Migrationspfad ohne Systemwechsel.",
+      "CasaOne verwaltet Objekte zuverlässig. Sobald Eigentümer hochpreisiger Objekte vergleichen, entscheidet die eigene Marke: der ehrliche Migrationspfad ohne Systemwechsel.",
     type: "website",
     locale: "de_DE",
   },
@@ -60,7 +60,7 @@ const SCHRITTE = [
   },
   {
     titel: "Livegang mit Parallelbetrieb",
-    text: "Das neue Portal steht, bevor die alte Website abgeschaltet wird — kein Tag ohne Auftritt, kein verlorener Eigentümer-Kontakt.",
+    text: "Das neue Portal steht, bevor die alte Website abgeschaltet wird: kein Tag ohne Auftritt, kein verlorener Eigentümer-Kontakt.",
   },
 ] as const;
 
@@ -158,7 +158,7 @@ export default function CasaOneWebsitePage() {
               liefert eine CRM-Website, die läuft. Für ein Büro im Premium-Segment reicht sie
               meist nicht mehr, weil{" "}
               <Highlight>Typografie, Bildwelt und Funnel aus der Vorlage stammen</Highlight>,
-              nicht aus Ihrer Positionierung — ein Eigentümer einer 1,2-Mio.-€-Immobilie
+              nicht aus Ihrer Positionierung. Ein Eigentümer einer 1,2-Mio.-€-Immobilie
               vergleicht Sie mit Maklern, die einen eigenen Auftritt zeigen. Der Wechsel ist kein
               Bruch: CasaOne bleibt CRM, nur der Auftritt davor wird ausgetauscht.
             </p>

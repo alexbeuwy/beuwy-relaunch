@@ -22,11 +22,11 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "AI Overviews: Wenn Google selbst antwortet — und Sie zitiert werden | beuwy",
+  title: "AI Overviews: Wenn Google selbst antwortet, und Sie zitiert werden | beuwy",
   description:
     "AI Overviews beantworten Suchfragen direkt in Google, oft ohne Klick. Was das für Immobilienmakler konkret bedeutet und wie Ihre Seite trotzdem zitiert wird.",
   openGraph: {
-    title: "AI Overviews: Wenn Google selbst antwortet — und Sie zitiert werden | beuwy",
+    title: "AI Overviews: Wenn Google selbst antwortet, und Sie zitiert werden | beuwy",
     description:
       "Klickverlust bei generischen Fragen, neue Sichtbarkeit durch Zitate: Wie Google AI Overviews Immobilienmakler treffen und wie Seitenstruktur darauf reagiert.",
     type: "website",
@@ -274,7 +274,7 @@ export default function AiOverviewsImmobilienPage() {
           <Reveal>
             <p className="t-label">Beweis, kein Buzzword</p>
             <p className="t-h3 mt-3 max-w-[46ch]">
-              {rich("*Siebzehn* Jahre Markenarbeit — heute prüft nicht nur der Mensch, auch das Sprachmodell zitiert nur, was es belegen kann.")}
+              {rich("*Siebzehn* Jahre Markenarbeit, geprüft heute doppelt: vom Menschen und vom Sprachmodell, das nur zitiert, was es belegen kann.")}
             </p>
             <Link href="/geo-fuer-immobilienmakler" className="ref-link mt-6 inline-block">
               Wie wir Seiten zitierfähig machen →

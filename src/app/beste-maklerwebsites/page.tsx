@@ -30,7 +30,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Die 30 besten Maklerwebsites Deutschlands 2026 | beuwy",
   description:
-    "Die 30 besten Maklerwebsites Deutschlands 2026 — bewertet nach Design, Ladezeit und Conversion-Pfad. Redaktionsstand: die Bewertung läuft, die Kriterien liegen offen.",
+    "Die 30 besten Maklerwebsites Deutschlands 2026, bewertet nach Design, Ladezeit und Conversion-Pfad. Redaktionsstand: die Bewertung läuft, die Kriterien liegen offen.",
 };
 
 /* Reihenfolge = BRIEF §6 / GOAL Kriterium 5, identisch zu MARKEN_SLUGS in
@@ -54,13 +54,13 @@ const KRITERIEN = [
     icon: RiPaletteLine,
     gewicht: "40 %",
     titel: "Design",
-    text: "Wir sehen, was in den ersten Sekunden hängen bleibt: Bildsprache, Typografie, Weißraum. Ein Blick reicht — dann entscheidet der Eindruck, nicht die Beschreibung.",
+    text: "Wir sehen, was in den ersten Sekunden hängen bleibt: Bildsprache, Typografie, Weißraum. Ein Blick reicht, dann entscheidet der Eindruck, nicht die Beschreibung.",
   },
   {
     icon: RiTimerFlashLine,
     gewicht: "30 %",
     titel: "Ladezeit",
-    text: "Wir messen, wie lange die Startseite bis zur echten Bedienbarkeit braucht — auf dem Mobiltelefon, nicht im Idealfall. Wer drei Sekunden wartet, ist beim nächsten Ergebnis.",
+    text: "Wir messen, wie lange die Startseite bis zur echten Bedienbarkeit braucht, auf dem Mobiltelefon, nicht im Idealfall. Wer drei Sekunden wartet, ist beim nächsten Ergebnis.",
   },
   {
     icon: RiRouteLine,
@@ -140,7 +140,7 @@ const FAQ_JSON_LD = {
       name: "Wie kommt man in die Liste?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Wir prüfen jede Website nach der Kriterienliste oben: Design, Ladezeit, Conversion-Pfad. Die acht großen Netzwerke stehen zuerst, weil wir mit ihnen begonnen haben — der Rest folgt in der Reihenfolge, in der wir ihn geprüft haben. Ein Platz in der Liste ist keine Bewerbung. Er ist das Ergebnis einer Prüfung.",
+        text: "Wir prüfen jede Website nach der Kriterienliste oben: Design, Ladezeit, Conversion-Pfad. Die acht großen Netzwerke stehen zuerst, weil wir mit ihnen begonnen haben. Der Rest folgt in der Reihenfolge, in der wir ihn geprüft haben. Ein Platz in der Liste ist keine Bewerbung. Er ist das Ergebnis einer Prüfung.",
       },
     },
     {
@@ -148,7 +148,7 @@ const FAQ_JSON_LD = {
       name: "Kann man sich einkaufen?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Nein. Ihr Listenplatz hat nichts mit einem Auftrag bei uns zu tun — auch nicht umgekehrt. Wer bei uns baut, taucht in der Liste auf, sobald die Website die Kriterien erfüllt. Nicht früher, nicht automatisch.",
+        text: "Nein. Ihr Listenplatz hat nichts mit einem Auftrag bei uns zu tun, auch nicht umgekehrt. Wer bei uns baut, taucht in der Liste auf, sobald die Website die Kriterien erfüllt. Nicht früher, nicht automatisch.",
       },
     },
   ],
@@ -170,7 +170,7 @@ export default function BesteMaklerwebsitenPage() {
             {rich("Die 30 besten Maklerwebsites Deutschlands *2026*.")}
           </h1>
           <p className="t-body-lg mt-6 max-w-[36rem]">
-            Bewertet nach Design, Ladezeit und Conversion-Pfad —{" "}
+            Bewertet nach Design, Ladezeit und Conversion-Pfad,{" "}
             <Highlight>von Leuten, die Maklerwebsites bauen</Highlight>.
           </p>
         </div>
@@ -183,7 +183,7 @@ export default function BesteMaklerwebsitenPage() {
             <SektionsKopf
               eyebrow="Methodik"
               titel="Drei Kriterien, *ein* Maßstab."
-              sub="Jede Website in dieser Liste durchläuft dieselbe Prüfung — kein Bauchgefühl, keine Sonderregeln."
+              sub="Jede Website in dieser Liste durchläuft dieselbe Prüfung: kein Bauchgefühl, keine Sonderregeln."
             />
           </Reveal>
           <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-0">
@@ -219,7 +219,7 @@ export default function BesteMaklerwebsitenPage() {
             <SektionsKopf
               eyebrow="Das Ranking"
               titel="Platz 1 bis *30*."
-              sub="Wir beginnen mit den acht größten Maklernetzwerken Deutschlands — nicht, weil ihr Platz feststeht, sondern weil sie zuerst geprüft werden. Die Reihenfolge unten ist noch kein Urteil."
+              sub="Wir beginnen mit den acht größten Maklernetzwerken Deutschlands. Nicht, weil ihr Platz feststeht, sondern weil sie zuerst geprüft werden. Die Reihenfolge unten ist noch kein Urteil."
             />
             <RedaktionsPille className="mt-6" />
           </Reveal>
@@ -257,7 +257,7 @@ export default function BesteMaklerwebsitenPage() {
               className="mx-auto max-w-[640px]"
             >
               <p>
-                Es gibt zwei Gründe: Wir haben Ihre Website noch nicht geprüft — oder sie ist noch
+                Es gibt zwei Gründe: Wir haben Ihre Website noch nicht geprüft, oder sie ist noch
                 nicht so weit. Beides lässt sich ändern.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -292,7 +292,7 @@ export default function BesteMaklerwebsitenPage() {
                 <p className="t-body mt-3">
                   Wir prüfen jede Website nach der Kriterienliste oben: Design, Ladezeit,
                   Conversion-Pfad. Die acht großen Netzwerke stehen zuerst, weil wir mit ihnen
-                  begonnen haben — der Rest folgt in der Reihenfolge, in der wir ihn geprüft haben.
+                  begonnen haben. Der Rest folgt in der Reihenfolge, in der wir ihn geprüft haben.
                   Ein Platz in der Liste ist keine Bewerbung. Er ist das Ergebnis einer Prüfung.
                 </p>
               </div>
@@ -301,7 +301,7 @@ export default function BesteMaklerwebsitenPage() {
               <div>
                 <h3 className="t-h3">Kann man sich einkaufen?</h3>
                 <p className="t-body mt-3">
-                  Nein. Ihr Listenplatz hat nichts mit einem Auftrag bei uns zu tun — auch nicht
+                  Nein. Ihr Listenplatz hat nichts mit einem Auftrag bei uns zu tun, auch nicht
                   umgekehrt. Wer bei uns baut, taucht in der Liste auf, sobald die Website die
                   Kriterien erfüllt. Nicht früher, nicht automatisch.
                 </p>

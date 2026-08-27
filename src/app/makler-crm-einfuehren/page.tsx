@@ -25,11 +25,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Makler-CRM einführen ohne Chaos: Der 30-Tage-Plan | beuwy",
   description:
-    "Makler-CRM einführen ohne Chaos: Der 30-Tage-Plan für Migration, Datenhygiene und Team-Adoption — ein CRM wird erst mit Zufluss aus dem Portal wertvoll.",
+    "Makler-CRM einführen ohne Chaos: Der 30-Tage-Plan für Migration, Datenhygiene und Team-Adoption. Ein CRM wird erst mit Zufluss aus dem Portal wertvoll.",
   openGraph: {
     title: "Makler-CRM einführen ohne Chaos: Der 30-Tage-Plan | beuwy",
     description:
-      "Vier Phasen, dreißig Tage: Datenhygiene vor Migration, Struktur vor Zugriff, Anbindung vor Schulung — und warum ein CRM erst mit echtem Zufluss wertvoll wird.",
+      "Vier Phasen, dreißig Tage: Datenhygiene vor Migration, Struktur vor Zugriff, Anbindung vor Schulung, und warum ein CRM erst mit echtem Zufluss wertvoll wird.",
     type: "website",
     locale: "de_DE",
   },
@@ -54,7 +54,7 @@ const PHASEN = [
   {
     nr: "Tag 23–30",
     titel: "Team-Adoption",
-    text: "Schulung im laufenden Betrieb, nicht nur am Starttag. Nach den ersten echten Anfragen zeigt sich, wo noch Rückfragen bleiben — die werden hier geklärt, bevor sie zur Gewohnheit werden.",
+    text: "Schulung im laufenden Betrieb, nicht nur am Starttag. Nach den ersten echten Anfragen zeigt sich, wo noch Rückfragen bleiben. Die werden hier geklärt, bevor sie zur Gewohnheit werden.",
   },
 ] as const;
 
@@ -72,7 +72,7 @@ const PAINS = [
   {
     quote: "Das CRM läuft, aber die Website spielt nicht mit.",
     answer:
-      "Ohne Anbindung an Formulare und Bewertungsrechner bleibt der wichtigste Zufluss aus. Das System füllt sich nur, wenn jemand von Hand einträgt — und das passiert selten zuverlässig.",
+      "Ohne Anbindung an Formulare und Bewertungsrechner bleibt der wichtigste Zufluss aus. Das System füllt sich nur, wenn jemand von Hand einträgt, und das passiert selten zuverlässig.",
   },
   {
     quote: "Die Schulung fand einmalig am Starttag statt.",
@@ -96,7 +96,7 @@ const FAQS = [
   },
   {
     q: "Wie bekomme ich das Team zum Mitziehen?",
-    a: "Über klare Rollen, wiederholte Schulung statt einmaligem Termin, und einen sichtbaren Nutzen im Alltag — etwa dass niemand mehr eine Anfrage von Hand aus dem Postfach ins System kopiert.",
+    a: "Über klare Rollen, wiederholte Schulung statt einmaligem Termin, und einen sichtbaren Nutzen im Alltag, etwa dass niemand mehr eine Anfrage von Hand aus dem Postfach ins System kopiert.",
   },
 ] as const;
 
@@ -193,7 +193,7 @@ export default function MaklerCrmEinfuehrenPage() {
             <SektionsKopf
               eyebrow="Der Plan"
               titel="Vier Phasen. Dreißig Tage. Keine *umgedrehte* Reihenfolge."
-              sub="Jede Phase baut auf der vorherigen auf — wer eine Phase überspringt, holt den Aufwand später doppelt nach."
+              sub="Jede Phase baut auf der vorherigen auf. Wer eine Phase überspringt, holt den Aufwand später doppelt nach."
               className="max-w-[720px]"
             />
           </Reveal>
@@ -233,7 +233,7 @@ export default function MaklerCrmEinfuehrenPage() {
           <Reveal>
             <GelbeKarte label="Der Unterschied" titel="Ein leeres CRM ist eine teure Tabelle." glyph>
               Migration, Struktur und Schulung sind die Vorarbeit. Wert entsteht erst, wenn
-              Anfragen von der eigenen Website automatisch dort landen — nicht, wenn ein weiteres
+              Anfragen von der eigenen Website automatisch dort landen, nicht wenn ein weiteres
               System eingerichtet, aber nie gefüttert wird.
             </GelbeKarte>
           </Reveal>

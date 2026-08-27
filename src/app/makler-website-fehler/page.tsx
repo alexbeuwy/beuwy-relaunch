@@ -22,11 +22,11 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Die 11 häufigsten Makler-Website-Fehler — und ihre Kosten | beuwy",
+  title: "Die 11 häufigsten Makler-Website-Fehler und ihre Kosten | beuwy",
   description:
     "Die 11 häufigsten Makler-Website-Fehler: jedes Muster mit sichtbarem Beispiel und seiner Kosten in Anfragen, plus Selbst-Audit in 10 Minuten zum Nachprüfen.",
   openGraph: {
-    title: "Die 11 häufigsten Makler-Website-Fehler — und ihre Kosten | beuwy",
+    title: "Die 11 häufigsten Makler-Website-Fehler und ihre Kosten | beuwy",
     description:
       "Von langsamer Ladezeit bis fehlender CRM-Anbindung: 11 Muster, an denen Makler-Websites Anfragen verlieren, mit Selbst-Audit in 10 Minuten.",
     type: "website",
@@ -40,12 +40,12 @@ const FEHLER: Fehler[] = [
   {
     titel: "Ladezeit über drei Sekunden",
     muster: "Die Startseite baut sich sichtbar Stück für Stück auf, weil Bilder in voller Auflösung ungeoptimiert nachladen.",
-    kosten: "Der Eigentümer öffnet parallel den nächsten Makler-Tab, während Ihre Seite noch lädt — die Konkurrenz gewinnt, bevor Ihr Angebot überhaupt sichtbar ist.",
+    kosten: "Der Eigentümer öffnet parallel den nächsten Makler-Tab, während Ihre Seite noch lädt. Die Konkurrenz gewinnt, bevor Ihr Angebot überhaupt sichtbar ist.",
   },
   {
     titel: "Kein direkter Weg zur Anfrage",
     muster: "Wer eine Immobilie bewerten lassen will, findet nur eine allgemeine Kontaktseite mit Postanschrift statt eines Rechners oder Formulars, das sofort startet.",
-    kosten: "Jeder Klick, der zu einer weiteren Seite führt, verliert einen Teil der Besucher — wer suchen muss, bricht ab, statt anzufragen.",
+    kosten: "Jeder Klick, der zu einer weiteren Seite führt, verliert einen Teil der Besucher. Wer suchen muss, bricht ab, statt anzufragen.",
   },
   {
     titel: "Kontaktformular ohne Rückmeldung",
@@ -55,12 +55,12 @@ const FEHLER: Fehler[] = [
   {
     titel: "Nicht wirklich mobil optimiert",
     muster: "Texte lassen sich auf dem Smartphone nur mit Pinch-to-Zoom lesen, Buttons liegen so eng, dass der falsche Link geöffnet wird.",
-    kosten: "Der größte Teil der Besucher kommt heute über das Smartphone — eine Seite, die dort schlecht bedienbar ist, verliert genau diese Mehrheit zuerst.",
+    kosten: "Der größte Teil der Besucher kommt heute über das Smartphone. Eine Seite, die dort schlecht bedienbar ist, verliert genau diese Mehrheit zuerst.",
   },
   {
     titel: "Stockfotos statt echter Bilder",
     muster: "Das immer gleiche Lächeln-Team-Stockfoto, das auch auf zehn anderen Makler-Websites in anderen Städten auftaucht.",
-    kosten: "Wer ein Stockfoto wiedererkennt, verliert Vertrauen in den ganzen Auftritt — inklusive der echten Zahlen, die daneben stehen.",
+    kosten: "Wer ein Stockfoto wiedererkennt, verliert Vertrauen in den ganzen Auftritt, inklusive der echten Zahlen, die daneben stehen.",
   },
   {
     titel: "Exposé nur als PDF hinter einem Formular",
@@ -70,7 +70,7 @@ const FEHLER: Fehler[] = [
   {
     titel: "Rechtlich unvollständiges Impressum",
     muster: "Angaben zur Berufshaftpflicht oder zur zuständigen Aufsichtsbehörde fehlen, obwohl sie für Immobilienmakler vorgeschrieben sind.",
-    kosten: "Eine Lücke, die ein aufmerksamer Eigentümer als Nachlässigkeit liest — bei einem Geschäft, das auf Vertrauen aufbaut, wirkt das gegen Sie.",
+    kosten: "Eine Lücke, die ein aufmerksamer Eigentümer als Nachlässigkeit liest. Bei einem Geschäft, das auf Vertrauen aufbaut, wirkt das gegen Sie.",
   },
   {
     titel: "Eine Seite für alle Städte und Stadtteile",
@@ -79,18 +79,18 @@ const FEHLER: Fehler[] = [
   },
   {
     titel: "Keine sichtbaren Trust-Signale",
-    muster: "Keine Bewertung, keine Zahl, keine Fallstudie — nur ein Fließtext darüber, wie sehr man sich um jeden Kunden kümmert.",
+    muster: "Keine Bewertung, keine Zahl, keine Fallstudie: nur ein Fließtext darüber, wie sehr man sich um jeden Kunden kümmert.",
     kosten: "Eine Behauptung ohne Beleg überzeugt niemanden, der gerade drei Maklerauftritte nebeneinander offen hat.",
   },
   {
     titel: "Schlechte Kontraste und keine Tastaturbedienung",
     muster: "Hellgrauer Text auf weißem Grund, Buttons, die sich ohne Maus nicht anklicken lassen.",
-    kosten: "Ein Teil der Besucher kann die Seite so schlicht nicht nutzen — unabhängig von Sehschärfe oder Endgerät. Details zur Pflicht dahinter unter Barrierefreie Maklerwebsite.",
+    kosten: "Ein Teil der Besucher kann die Seite so schlicht nicht nutzen, unabhängig von Sehschärfe oder Endgerät. Details zur Pflicht dahinter unter Barrierefreie Maklerwebsite.",
   },
   {
     titel: "Keine Anbindung ans CRM",
     muster: "Anfragen landen in einem allgemeinen Postfach, das mehrere Personen im Büro mitlesen, ohne feste Zuständigkeit.",
-    kosten: "Was in keinem System mit Frist steht, wird im Tagesgeschäft vergessen — die Anfrage von gestern Abend ist morgen früh keine Priorität mehr.",
+    kosten: "Was in keinem System mit Frist steht, wird im Tagesgeschäft vergessen. Die Anfrage von gestern Abend ist morgen früh keine Priorität mehr.",
   },
 ];
 
@@ -103,7 +103,7 @@ const FAQS = [
   },
   {
     q: "Welcher Fehler kostet am meisten?",
-    a: "Meist die Kombination aus langsamer Ladezeit und fehlendem direktem Weg zur Anfrage — beide zusammen sorgen dafür, dass ein interessierter Besucher die Seite verlässt, bevor er überhaupt eine Möglichkeit hatte, Kontakt aufzunehmen.",
+    a: "Meist die Kombination aus langsamer Ladezeit und fehlendem direktem Weg zur Anfrage. Beide zusammen sorgen dafür, dass ein interessierter Besucher die Seite verlässt, bevor er überhaupt eine Möglichkeit hatte, Kontakt aufzunehmen.",
   },
   {
     q: "Reicht es, einzelne Fehler zu beheben?",
@@ -188,7 +188,7 @@ export default function MaklerWebsiteFehlerPage() {
           <Reveal>
             <p className="t-label !text-ink-yellow">Website-Fehler</p>
             <h1 className="t-display mt-4">
-              {rich("Die 11 häufigsten Makler-Website-*Fehler* — und ihre Kosten.")}
+              {rich("Die 11 häufigsten Makler-Website-*Fehler* und ihre Kosten.")}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
               Makler-Websites verlieren Anfragen selten an einem einzigen großen Problem,
@@ -229,7 +229,7 @@ export default function MaklerWebsiteFehlerPage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Elf Muster"
-              titel="Jeder Fehler hat ein sichtbares Muster — und eine *Kosten*-Seite."
+              titel="Jeder Fehler hat ein sichtbares Muster und eine *Kosten*-Seite."
               sub="Kein Fehler steht für sich allein. Zusammen erklären sie, warum eine Website online steht und trotzdem keine Anfragen bringt."
               className="max-w-[760px]"
             />

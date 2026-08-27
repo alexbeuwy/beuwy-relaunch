@@ -92,7 +92,7 @@ const FAQS = [
   },
   {
     q: "Darf ich Kundendaten in ChatGPT eingeben?",
-    a: "Seien Sie zurückhaltend mit personenbezogenen Daten in einem offenen Chat-Fenster ohne passende Datenverarbeitungsvereinbarung. Anonymisierte Eckdaten wie Wohnfläche oder Baujahr sind unkritisch, Namen, Adressen und Vertragsdetails gehören eher in ein geprüftes System als in einen Chat. Das ist eine allgemeine Einordnung, keine Rechtsberatung — bei Zweifeln fragen Sie Ihren Datenschutzbeauftragten.",
+    a: "Seien Sie zurückhaltend mit personenbezogenen Daten in einem offenen Chat-Fenster ohne passende Datenverarbeitungsvereinbarung. Anonymisierte Eckdaten wie Wohnfläche oder Baujahr sind unkritisch, Namen, Adressen und Vertragsdetails gehören eher in ein geprüftes System als in einen Chat. Das ist eine allgemeine Einordnung, keine Rechtsberatung. Bei Zweifeln fragen Sie Ihren Datenschutzbeauftragten.",
   },
   {
     q: "Wie genau sind KI-generierte Texte über die Immobilie?",

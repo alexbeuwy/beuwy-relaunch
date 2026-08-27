@@ -12,7 +12,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Was kostet eine Maklerwebsite? Preise 2026 im Überblick | beuwy",
   description:
-    "Baukasten, Template-Agentur, individuelle Agentur oder Premium-System mit CRM-Anbindung: die realistischen Preisspannen für Maklerwebsites 2026 — und warum die günstigste Website oft die teuerste ist.",
+    "Baukasten, Template-Agentur, individuelle Agentur oder Premium-System mit CRM-Anbindung: die realistischen Preisspannen für Maklerwebsites 2026, und warum die günstigste Website oft die teuerste ist.",
 };
 
 const STUFEN: {
@@ -28,7 +28,7 @@ const STUFEN: {
     name: "Baukasten-Website",
     preis: "0–50 €/Monat",
     bekommt:
-      "Fertige Vorlage, Standard-Baustein-Editor, Hosting inklusive — in Stunden online.",
+      "Fertige Vorlage, Standard-Baustein-Editor, Hosting inklusive, in Stunden online.",
     grenze:
       "Austauschbares Design mit wenig Spielraum für eine eigene Marke, kaum Anbindung an CRM oder Automatisierung.",
     versteckt:
@@ -41,7 +41,7 @@ const STUFEN: {
     bekommt:
       "Professionelles Design auf Basis eines Templates, eigene Inhalte, meist auf einem gängigen Baukastensystem.",
     grenze:
-      "Das Design bleibt im Rahmen der Vorlage — individuelle Funktionen wie Rechner oder CRM-Anbindung sind Zusatzaufwand.",
+      "Das Design bleibt im Rahmen der Vorlage. Individuelle Funktionen wie Rechner oder CRM-Anbindung sind Zusatzaufwand.",
     versteckt:
       "Wartung, Plugin-Updates und Hosting laufen häufig separat weiter, Änderungen nach Launch werden meist nach Aufwand berechnet.",
   },
@@ -61,7 +61,7 @@ const STUFEN: {
     name: "Premium-System mit CRM-Anbindung & Automatisierung",
     preis: "15.000–50.000+ €",
     bekommt:
-      "Ein eigenes System mit direkter CRM-Anbindung, automatisierten Abläufen — Rechner, Follow-up, Lead-Scoring.",
+      "Ein eigenes System mit direkter CRM-Anbindung, automatisierten Abläufen: Rechner, Follow-up, Lead-Scoring.",
     grenze:
       "Lohnt sich nur, wenn genug Anfragevolumen da ist, das System auch zu füttern.",
     versteckt:
@@ -78,7 +78,7 @@ const FAQ_JSON_LD = {
       name: "Warum steht hier kein beuwy-Preis?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Weil ein seriöser Preis erst nach der Diagnose feststeht — welches CRM angebunden werden soll, wie viele Objekttypen, welche Automatisierung. Die Marktspannen oben zeigen die Bandbreite; Ihren Festpreis nennen wir nach dem ersten Gespräch, schriftlich.",
+        text: "Weil ein seriöser Preis erst nach der Diagnose feststeht: welches CRM angebunden werden soll, wie viele Objekttypen, welche Automatisierung. Die Marktspannen oben zeigen die Bandbreite; Ihren Festpreis nennen wir nach dem ersten Gespräch, schriftlich.",
       },
     },
     {
@@ -86,7 +86,7 @@ const FAQ_JSON_LD = {
       name: "Lohnt sich ein Premium-System auch für kleinere Büros?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Nur, wenn genug Anfragevolumen da ist, das System auch zu füttern. Für ein Ein-Personen-Büro mit wenigen Objekten im Jahr ist häufig eine individuelle Agentur-Lösung die vernünftigere Stufe — das sagen wir auch so, wenn es zutrifft.",
+        text: "Nur, wenn genug Anfragevolumen da ist, das System auch zu füttern. Für ein Ein-Personen-Büro mit wenigen Objekten im Jahr ist häufig eine individuelle Agentur-Lösung die vernünftigere Stufe. Das sagen wir auch so, wenn es zutrifft.",
       },
     },
   ],
@@ -102,7 +102,7 @@ export default function MaklerwebsiteKostenPage() {
       <ClusterHero
         eyebrow="Preise 2026"
         titel="Was kostet eine *Maklerwebsite* wirklich?"
-        sub="Vier Preisstufen, vier verschiedene Ergebnisse. Der Überblick über die realistischen Marktspannen 2026 — inklusive der Kosten, die auf keiner Rechnung stehen."
+        sub="Vier Preisstufen, vier verschiedene Ergebnisse. Der Überblick über die realistischen Marktspannen 2026, inklusive der Kosten, die auf keiner Rechnung stehen."
         primaryHref="/anfrage"
         ctaLabel2="Direkt zu den Preisstufen ↓"
         ctaHref2="#preisstufen"
@@ -175,7 +175,7 @@ export default function MaklerwebsiteKostenPage() {
               <div>
                 <p className="t-stat">Rechnet sich</p>
                 <p className="t-body mt-2 max-w-[26ch]">
-                  auf jeder der vier Preisstufen — die Baukasten-Website eingeschlossen.
+                  auf jeder der vier Preisstufen, die Baukasten-Website eingeschlossen.
                 </p>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function MaklerwebsiteKostenPage() {
               <Rail>
                 <p className="t-h3">Warum steht hier kein beuwy-Preis?</p>
                 <p className="t-body mt-3">
-                  Weil ein seriöser Preis erst nach der Diagnose feststeht — welches CRM
+                  Weil ein seriöser Preis erst nach der Diagnose feststeht: welches CRM
                   angebunden werden soll, wie viele Objekttypen, welche Automatisierung. Die
                   Marktspannen oben zeigen die Bandbreite; Ihren Festpreis nennen wir nach dem
                   ersten Gespräch, schriftlich.
@@ -205,7 +205,7 @@ export default function MaklerwebsiteKostenPage() {
                 <p className="t-body mt-3">
                   Nur, wenn genug Anfragevolumen da ist, das System auch zu füttern. Für ein
                   Ein-Personen-Büro mit wenigen Objekten im Jahr ist häufig eine individuelle
-                  Agentur-Lösung die vernünftigere Stufe — das sagen wir auch so, wenn es
+                  Agentur-Lösung die vernünftigere Stufe. Das sagen wir auch so, wenn es
                   zutrifft.
                 </p>
               </Rail>
@@ -217,7 +217,7 @@ export default function MaklerwebsiteKostenPage() {
       <ClusterAbschluss
         karteLabel="Bevor Sie sich entscheiden"
         karteTitel="Wir sagen Ihnen ehrlich, welche Stufe zu Ihrem Haus passt."
-        karteText="Nicht jedes Haus braucht ein Premium-System. Im ersten Gespräch schauen wir auf Ihr Anfragevolumen und Ihren Markt — und sagen Ihnen, ob sich der Sprung überhaupt rechnet. 17 Jahre Markterfahrung zeigen, wann sich eine Stufe lohnt und wann nicht."
+        karteText="Nicht jedes Haus braucht ein Premium-System. Im ersten Gespräch schauen wir auf Ihr Anfragevolumen und Ihren Markt und sagen Ihnen, ob sich der Sprung überhaupt rechnet. 17 Jahre Markterfahrung zeigen, wann sich eine Stufe lohnt und wann nicht."
         schlussTitel="Sprechen wir über Ihre Zahlen, nicht über eine Preisliste."
         schlussText="Wie viele Alleinaufträge bräuchte Ihre Website pro Jahr, damit sich eine neue Stufe rechnet? Das beantworten wir gemeinsam, in einem kurzen Gespräch."
         primaryHref="/anfrage"

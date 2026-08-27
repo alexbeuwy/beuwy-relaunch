@@ -53,7 +53,7 @@ const SCHRITTE = [
   },
   {
     titel: "Ausgabe als Spanne",
-    text: "Am Ende steht eine Wertspanne, keine einzelne Zahl — die verbleibende Unsicherheit wird sichtbar gemacht, nicht versteckt.",
+    text: "Am Ende steht eine Wertspanne, keine einzelne Zahl. Die verbleibende Unsicherheit wird sichtbar gemacht, nicht versteckt.",
   },
 ] as const;
 
@@ -158,10 +158,10 @@ export default function KiImmobilienbewertungPage() {
             <p className="t-body-lg mt-6 max-w-[62ch]">
               KI-basierte Immobilienbewertung, auch AVM genannt (Automated Valuation Model),
               liefert eine Wertspanne aus tausenden vergleichbaren Verkäufen und Objektdaten,
-              meist in Sekunden — gut genug für eine erste Orientierung.{" "}
+              meist in Sekunden, gut genug für eine erste Orientierung.{" "}
               <Highlight>Was das Modell nicht sieht: den Sanierungszustand hinter
-              der Fassade, die tatsächliche Mikrolage, ein zweites Bad im Dachgeschoss</Highlight>{" "}
-              — das bleibt eine Fehlerquelle, die nur eine Besichtigung schließt. Für den Verkauf
+              der Fassade, die tatsächliche Mikrolage, ein zweites Bad im Dachgeschoss.</Highlight>{" "}
+              Das bleibt eine Fehlerquelle, die nur eine Besichtigung schließt. Für den Verkauf
               reicht die Schätzung als Startpunkt, für Gericht, Finanzamt oder Erbauseinandersetzung
               braucht es ein Gutachten von einem Sachverständigen.
             </p>
@@ -285,7 +285,7 @@ export default function KiImmobilienbewertungPage() {
             <p className="t-label">Beweis, kein Prototyp</p>
             <p className="t-h3 mt-3 max-w-[46ch]">
               Für RIEGEL Immobilien haben wir einen Bewertungsrechner mit amtlichen
-              Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen gebaut — Adresse rein,
+              Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen gebaut. Adresse rein,
               Ersteinschätzung raus, der Lead liegt mit Score im CRM.
             </p>
             <p className="t-body mt-4 max-w-[52ch]">

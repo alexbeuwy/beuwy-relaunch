@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
     description:
-      "Sieben wiederkehrende Mail-Anlässe mit Betreffzeile und Aufbau, direkt zum Übernehmen — und warum eine Datenmail meist mehr bringt als der Massen-Newsletter.",
+      "Sieben wiederkehrende Mail-Anlässe mit Betreffzeile und Aufbau, direkt zum Übernehmen, und warum eine Datenmail meist mehr bringt als der Massen-Newsletter.",
     type: "website",
     locale: "de_DE",
   },
@@ -40,7 +40,7 @@ const ANLAESSE: NewsletterAnlass[] = [
     titel: "Marktbericht zum Quartal",
     betreff: "Ihr Markt in Zahlen: drittes Quartal 2026",
     aufbau:
-      "Drei Kennzahlen aus Ihrer Region — Anzahl Verkäufe, Preisentwicklung, durchschnittliche Vermarktungsdauer —, je mit einem Satz Einordnung. Am Ende ein Link zur eigenen Ersteinschätzung, kein Verkaufsdruck.",
+      "Drei Kennzahlen aus Ihrer Region (Anzahl Verkäufe, Preisentwicklung, durchschnittliche Vermarktungsdauer), je mit einem Satz Einordnung. Am Ende ein Link zur eigenen Ersteinschätzung, kein Verkaufsdruck.",
   },
   {
     titel: "Neuer Bodenrichtwert",
@@ -68,13 +68,13 @@ const ANLAESSE: NewsletterAnlass[] = [
   },
   {
     titel: "Jahreswechsel-Dank",
-    betreff: "Danke für ein Jahr Vertrauen — und ein kurzer Ausblick",
+    betreff: "Danke für ein Jahr Vertrauen und ein kurzer Ausblick",
     aufbau:
       "Persönlicher Ton, ein kurzer Rückblick auf die Region, keine Verkaufsabsicht. Diese Mail hält den Kontakt warm bei allen, die aktuell nicht verkaufen wollen, aber es in zwei Jahren vielleicht tun.",
   },
   {
     titel: "Dank nach dem Notartermin",
-    betreff: "Geschafft — und eine kurze Bitte",
+    betreff: "Geschafft, dazu eine kurze Bitte",
     aufbau:
       "Drei Tage nach dem Notartermin verschickt, nicht am selben Tag. Dank für die Zusammenarbeit, dazu die Bitte um eine Google-Bewertung. Der richtige Zeitpunkt entscheidet hier mehr als der Text.",
   },
@@ -91,11 +91,11 @@ const FAQS = [
   },
   {
     q: "Ist der Versand an Bestandskontakte DSGVO-konform?",
-    a: "Das hängt vom Einzelfall ab: Grundsätzlich brauchen Sie eine Einwilligung, für werbliche Mails an bestehende Kundenbeziehungen gelten enge gesetzliche Ausnahmen. Das ist keine Rechtsberatung — lassen Sie Ihren konkreten Versandprozess von einer Fachperson prüfen, bevor Sie eine Liste anschreiben.",
+    a: "Das hängt vom Einzelfall ab: Grundsätzlich brauchen Sie eine Einwilligung, für werbliche Mails an bestehende Kundenbeziehungen gelten enge gesetzliche Ausnahmen. Das ist keine Rechtsberatung. Lassen Sie Ihren konkreten Versandprozess von einer Fachperson prüfen, bevor Sie eine Liste anschreiben.",
   },
   {
     q: "Was, wenn ich noch keine E-Mail-Liste habe?",
-    a: "Dann beginnt der Aufbau über ein Formular mit echtem Nutzen für den Absender — etwa eine Ersteinschätzung zum eigenen Objekt. Verkäufer ansprechen, bevor sie suchen zeigt, wie sich diese Liste schon vor dem Verkaufsentschluss füllt.",
+    a: "Dann beginnt der Aufbau über ein Formular mit echtem Nutzen für den Absender, etwa eine Ersteinschätzung zum eigenen Objekt. Verkäufer ansprechen, bevor sie suchen zeigt, wie sich diese Liste schon vor dem Verkaufsentschluss füllt.",
   },
 ] as const;
 
@@ -233,7 +233,7 @@ export default function MaklerNewsletterBeispielePage() {
                 <p className="t-body mt-4">
                   Ein Inhalt geht an die gesamte Liste, meist im festen Rhythmus. Gut für
                   Markenpräsenz und Kontinuität, aber jeder Empfänger bekommt dieselbe Zahl, egal
-                  ob sie ihn gerade betrifft oder nicht — die Relevanz je Empfänger bleibt niedrig.
+                  ob sie ihn gerade betrifft oder nicht: Die Relevanz je Empfänger bleibt niedrig.
                 </p>
               </div>
             </Reveal>
@@ -241,7 +241,7 @@ export default function MaklerNewsletterBeispielePage() {
               <div className="rounded-[24px] bg-akzent-wash p-7">
                 <p className="t-label !text-ink-dim">Datenmail</p>
                 <p className="t-body mt-4">
-                  Ausgelöst durch ein Ereignis oder ein Datenmerkmal — ein Objekt in der Region, ein
+                  Ausgelöst durch ein Ereignis oder ein Datenmerkmal: ein Objekt in der Region, ein
                   Fristablauf, eine Bewertungsanfrage. Automatisiert versendet, aber persönlich in
                   der Sache: Öffnungs- und Klickrate liegen deutlich über dem Massenversand.
                 </p>
@@ -270,7 +270,7 @@ export default function MaklerNewsletterBeispielePage() {
             <p className="t-label">Beweis, kein Textbaustein</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
               17 Jahre Markenarbeit, davor für Bosch, Continental und Michelin. Vorlagen, die einmal
-              sauber gebaut sind, laufen Monate ohne neuen Aufwand — das ist der Unterschied
+              sauber gebaut sind, laufen Monate ohne neuen Aufwand. Das ist der Unterschied
               zwischen einem System und einem einzelnen Newsletter.
             </p>
           </Reveal>

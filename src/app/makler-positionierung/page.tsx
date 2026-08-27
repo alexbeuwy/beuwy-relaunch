@@ -218,7 +218,7 @@ export default function MaklerPositionierungPage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Die drei Achsen"
-              titel="Zielgruppe, Objektklasse, *Region* — wählen Sie mindestens eine scharf."
+              titel="Zielgruppe, Objektklasse, *Region*: wählen Sie mindestens eine scharf."
               sub="Eine einzelne scharfe Achse reicht oft schon. Zwei kombiniert, etwa Objektklasse und Region, ergeben in den meisten Märkten eine unverwechselbare Position."
               className="max-w-[760px]"
             />

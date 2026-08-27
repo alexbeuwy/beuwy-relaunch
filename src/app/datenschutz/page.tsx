@@ -90,7 +90,7 @@ export default function DatenschutzPage() {
             Datenverarbeitung im Zusammenhang mit dieser Website ist:
           </p>
           <p className="t-body mt-3">
-            beuwy — Alexander Pütter
+            beuwy, Alexander Pütter
             <br />
             Max-Bill-Str. 3
             <br />
@@ -116,7 +116,7 @@ export default function DatenschutzPage() {
             automatisch ein Server-Logfile mit IP-Adresse, Datum und Uhrzeit
             des Zugriffs, der aufgerufenen URL, dem HTTP-Statuscode sowie
             Browser- und Betriebssystem-Kennung. Das ist rein technisch
-            bedingt — ohne diese Daten kann kein Server eine Seite ausliefern.
+            bedingt: Ohne diese Daten kann kein Server eine Seite ausliefern.
             Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (Betrieb und
             Absicherung der Website).
           </p>
@@ -124,7 +124,7 @@ export default function DatenschutzPage() {
             Mit Vercel besteht ein Auftragsverarbeitungsvertrag; die
             Übermittlung in die USA erfolgt auf Grundlage der
             EU-Standardvertragsklauseln. Auf die genaue Speicherdauer dieser
-            Logfiles bei Vercel haben wir keinen Einfluss — nach unserer
+            Logfiles bei Vercel haben wir keinen Einfluss. Nach unserer
             Kenntnis werden sie nur kurzfristig vorgehalten und nicht mit
             anderen Datenbeständen zusammengeführt.
           </p>
@@ -137,9 +137,9 @@ export default function DatenschutzPage() {
             sondern über die Content-Delivery-Pull-Zone von bunny.net
             (beuwy-2.b-cdn.net). Beim Laden eines Bildes oder Videos
             verarbeitet BunnyCDN die IP-Adresse Ihres Geräts, um die Datei
-            über den nächstgelegenen Auslieferungsserver auszuspielen —
-            technisch notwendig, damit Medien schnell laden, unabhängig
-            davon, wo Sie sich befinden. Rechtsgrundlage ist Art. 6 Abs. 1
+            über den nächstgelegenen Auslieferungsserver auszuspielen
+            (technisch notwendig, damit Medien schnell laden, unabhängig
+            davon, wo Sie sich befinden). Rechtsgrundlage ist Art. 6 Abs. 1
             lit. f DSGVO. Mit BunnyCDN besteht ein
             Auftragsverarbeitungsvertrag.
           </p>
@@ -154,8 +154,8 @@ export default function DatenschutzPage() {
         <section id="schriftarten">
           <h2 className="t-h3">4. Schriftarten</h2>
           <p className="t-body mt-3">
-            Alle Schriftarten dieser Website — Helvena für Überschriften und
-            Fließtext, Geist Mono für tabellarische Zahlen — liegen als
+            Alle Schriftarten dieser Website (Helvena für Überschriften und
+            Fließtext, Geist Mono für tabellarische Zahlen) liegen als
             Dateien in dieser Website selbst und werden über die oben
             genannten Auslieferungswege ausgespielt. Es werden keine
             Schriftarten von Google Fonts oder einem anderen externen
@@ -177,7 +177,7 @@ export default function DatenschutzPage() {
             <li>
               Anfragen aus den Rechner-Tools (Abschnitt 8): Name,
               E-Mail-Adresse, das genutzte Tool sowie Ihre Eingaben und das
-              Rechenergebnis — nur, wenn Sie eine ausführliche Auswertung per
+              Rechenergebnis, jedoch nur, wenn Sie eine ausführliche Auswertung per
               E-Mail anfordern.
             </li>
             <li>
@@ -188,7 +188,7 @@ export default function DatenschutzPage() {
             </li>
             <li>
               Den Passwort-Hash für den internen Zugang zu Studio und
-              Branding-OS (Abschnitt 10) — kein personenbezogenes Datum eines
+              Branding-OS (Abschnitt 10), kein personenbezogenes Datum eines
               Website-Besuchers, sondern unser eigener Zugangsschutz.
             </li>
             <li>
@@ -219,8 +219,8 @@ export default function DatenschutzPage() {
           <h2 className="t-h3">6. Resend für Transaktions-E-Mails</h2>
           <p className="t-body mt-3">
             Für den Versand der E-Mails, die aus den Formularen dieser
-            Website entstehen — Terminbestätigungen, interne
-            Benachrichtigungen an uns, Antworten auf Tool-Anfragen — setzen
+            Website entstehen (Terminbestätigungen, interne
+            Benachrichtigungen an uns, Antworten auf Tool-Anfragen) setzen
             wir Resend Inc. (USA) als Versanddienstleister ein. Übermittelt
             werden dabei genau die Angaben, die Sie im jeweiligen Formular
             gemacht haben, etwa Name, E-Mail-Adresse und Nachricht.
@@ -271,7 +271,7 @@ export default function DatenschutzPage() {
           <p className="t-body mt-3">
             Beide Formulare enthalten ein für Menschen unsichtbares
             Zusatzfeld (Honeypot): Ist es befüllt, werten wir die Anfrage als
-            automatisiert und verwerfen sie kommentarlos — es wird weder eine
+            automatisiert und verwerfen sie kommentarlos: Es wird weder eine
             E-Mail verschickt noch eine Ihrer Angaben weiterverarbeitet.
             Zusätzlich merken wir uns Ihre IP-Adresse ausschließlich im
             Arbeitsspeicher des Servers, um zu viele Anfragen von derselben
@@ -293,7 +293,7 @@ export default function DatenschutzPage() {
           <p className="t-body mt-3">
             Unter /tools stehen Rechner zur Verfügung (Verkaufspreis-,
             Mietpreis- und AfA-/Restnutzungsdauer-Rechner). Die Berechnung
-            selbst läuft vollständig in Ihrem Browser — solange Sie nur
+            selbst läuft vollständig in Ihrem Browser: Solange Sie nur
             rechnen, verlässt keine Eingabe Ihr Gerät.
           </p>
           <p className="t-body mt-3">
@@ -329,8 +329,8 @@ export default function DatenschutzPage() {
               Einschätzung entsteht.
             </li>
             <li>
-              Das fertige Ergebnis — Domain, technische Befunde,
-              KI-Einschätzung und Screenshot — speichern wir automatisch
+              Das fertige Ergebnis (Domain, technische Befunde,
+              KI-Einschätzung und Screenshot) speichern wir automatisch
               unter einem festen Link (/check/&#123;domain&#125;), damit Sie
               das Ergebnis später wiederfinden oder teilen können. Diese
               Seite trägt robots noindex, wird also nicht in Suchmaschinen
@@ -345,7 +345,7 @@ export default function DatenschutzPage() {
             von Ihnen angeforderten Analyse), hilfsweise Art. 6 Abs. 1 lit. f
             DSGVO, soweit dabei Inhalte einer fremden Domain verarbeitet
             werden. Bitten Sie um Entfernung eines Gutachtens zu einer
-            bestimmten Domain, schreiben Sie uns an ap@beuwy.com — wir
+            bestimmten Domain, schreiben Sie uns an ap@beuwy.com. Wir
             löschen den Eintrag dann aus unserer Datenbank.
           </p>
           <p className="t-body mt-3">
@@ -362,7 +362,7 @@ export default function DatenschutzPage() {
             Diese Website setzt genau ein Cookie:{" "}
             <span className="t-data">studio_auth</span>. Es wird ausschließlich
             gesetzt, wenn sich jemand mit dem internen Passwort im Studio
-            (Text-Redaktion) oder im Branding-OS-Dashboard anmeldet — beides
+            (Text-Redaktion) oder im Branding-OS-Dashboard anmeldet, beides
             interne Arbeitswerkzeuge, keine für Besucher bestimmten Bereiche.
             Das Cookie ist httpOnly (per JavaScript nicht auslesbar), auf 30
             Tage befristet und enthält keinen Klartext des Passworts, sondern
@@ -375,7 +375,7 @@ export default function DatenschutzPage() {
             <p className="t-small is-cream">
               Darüber hinaus setzt diese Website keine Cookies. Es gibt kein
               Analyse-Tool, keinen Werbepixel, kein Social-Media-Plugin und
-              keine Marketing-Cookies — weder von uns noch von den oben
+              keine Marketing-Cookies, weder von uns noch von den oben
               genannten Dienstleistern. Weil ausschließlich ein technisch
               notwendiges Cookie zum Einsatz kommt, ist nach § 25 Abs. 2
               TTDSG keine Einwilligung über einen Cookie-Banner erforderlich.

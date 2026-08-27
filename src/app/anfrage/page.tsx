@@ -16,9 +16,9 @@ import { maklerAsset } from "@/lib/cdn";
  */
 
 export const metadata: Metadata = {
-  title: "Zusammenarbeit anfragen — beuwy",
+  title: "Zusammenarbeit anfragen | beuwy",
   description:
-    "Vier kurze Fragen zu Ihrem Haus — danach meldet sich beuwy persönlich, ohne Pitch und ohne Massenmail.",
+    "Vier kurze Fragen zu Ihrem Haus. Danach meldet sich beuwy persönlich, ohne Pitch und ohne Massenmail.",
   robots: { index: false, follow: false },
 };
 
@@ -84,7 +84,7 @@ export default function AnfragePage() {
             Damit das erste Gespräch schon sitzt.
           </h1>
           <p className="t-body-lg mt-4 max-w-[440px]">
-            Vier kurze Fragen — keine Angebotsvorlage, kein Pitch von der Stange. Danach melden
+            Vier kurze Fragen: keine Angebotsvorlage, kein Pitch von der Stange. Danach melden
             wir uns persönlich, mit einer Einschätzung für genau Ihr Haus.
           </p>
 

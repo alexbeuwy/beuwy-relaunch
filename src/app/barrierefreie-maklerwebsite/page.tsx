@@ -25,11 +25,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Barrierefreie Maklerwebsite: Pflicht, Chance und Praxis (BFSG) | beuwy",
   description:
-    "Barrierefreie Maklerwebsite nach BFSG: wer wirklich betroffen ist, die 10 wirksamsten Maßnahmen für den Alltag — und warum sie die Conversion erhöhen.",
+    "Barrierefreie Maklerwebsite nach BFSG: wer wirklich betroffen ist, die 10 wirksamsten Maßnahmen für den Alltag, und warum sie die Conversion erhöhen.",
   openGraph: {
     title: "Barrierefreie Maklerwebsite: Pflicht, Chance und Praxis (BFSG) | beuwy",
     description:
-      "BFSG ohne Panik eingeordnet, die 10 wirksamsten Maßnahmen für eine barrierefreie Maklerwebsite — und warum sie mehr Anfragen bringt, nicht nur Compliance erfüllt.",
+      "BFSG ohne Panik eingeordnet, die 10 wirksamsten Maßnahmen für eine barrierefreie Maklerwebsite, und warum sie mehr Anfragen bringt, nicht nur Compliance erfüllt.",
     type: "website",
     locale: "de_DE",
   },
@@ -81,7 +81,7 @@ const MASSNAHMEN = [
 const FAQS = [
   {
     q: "Gilt das BFSG auch für kleine Maklerbüros?",
-    a: "Für reine Dienstleistungen gibt es eine Ausnahme für Kleinstunternehmen mit weniger als 10 Mitarbeitenden und begrenztem Jahresumsatz. Ob diese Ausnahme im eigenen Fall greift und ob die Website überhaupt in den Anwendungsbereich fällt, ist eine Einzelfallfrage — das ist keine Rechtsberatung.",
+    a: "Für reine Dienstleistungen gibt es eine Ausnahme für Kleinstunternehmen mit weniger als 10 Mitarbeitenden und begrenztem Jahresumsatz. Ob diese Ausnahme im eigenen Fall greift und ob die Website überhaupt in den Anwendungsbereich fällt, ist eine Einzelfallfrage. Das ist keine Rechtsberatung.",
   },
   {
     q: "Ab wann muss eine Website barrierefrei sein?",
@@ -89,11 +89,11 @@ const FAQS = [
   },
   {
     q: "Reicht ein Overlay-Plugin für automatische Barrierefreiheit?",
-    a: "Nein, in der Praxis meist nicht. Solche Plugins legen eine Schicht über bestehenden Code, ohne die zugrunde liegende Struktur zu verändern — Screenreader stolpern trotzdem über fehlende Labels oder eine falsche Überschriften-Reihenfolge. Echte Fixes passieren im Code, nicht per Zusatz-Skript.",
+    a: "Nein, in der Praxis meist nicht. Solche Plugins legen eine Schicht über bestehenden Code, ohne die zugrunde liegende Struktur zu verändern. Screenreader stolpern trotzdem über fehlende Labels oder eine falsche Überschriften-Reihenfolge. Echte Fixes passieren im Code, nicht per Zusatz-Skript.",
   },
   {
     q: "Ist diese Seite eine Rechtsberatung zum BFSG?",
-    a: "Nein. Diese Seite ordnet ein, was Barrierefreiheit für eine Maklerwebsite praktisch bedeutet, und zeigt wirksame Maßnahmen. Eine rechtssichere Bewertung, ob und in welchem Umfang Ihre Website unter das Gesetz fällt, ersetzt das nicht — das gehört in die Hände einer Fachperson.",
+    a: "Nein. Diese Seite ordnet ein, was Barrierefreiheit für eine Maklerwebsite praktisch bedeutet, und zeigt wirksame Maßnahmen. Eine rechtssichere Bewertung, ob und in welchem Umfang Ihre Website unter das Gesetz fällt, ersetzt das nicht. Das gehört in die Hände einer Fachperson.",
   },
 ] as const;
 
@@ -246,7 +246,7 @@ export default function BarrierefreieMaklerwebsitePage() {
             <p className="t-label">Beweis, kein Beispiel</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
               17 Jahre Markenarbeit, davor für Bosch, Continental und Michelin. Ein Portal entsteht
-              bei beuwy in vier bis sechs Wochen — diese zehn Maßnahmen sind darin von Anfang an
+              bei beuwy in vier bis sechs Wochen. Diese zehn Maßnahmen sind darin von Anfang an
               enthalten, statt später in ein bestehendes System gepresst zu werden.
             </p>
           </Reveal>

@@ -24,11 +24,11 @@ import { caseBySlug } from "@/lib/cases";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann — und was nicht | beuwy",
+  title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann und was nicht | beuwy",
   description:
     "BOTTIMMO Erfahrungen 2026: der faire Blick auf Tempo und Themenwelt gegen die Grenze aus Vorlage und gemieteten Inhalten. Wann der Baukasten reicht, wann nicht.",
   openGraph: {
-    title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann — und was nicht | beuwy",
+    title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann und was nicht | beuwy",
     description:
       "Der faire Vergleich: BOTTIMMO liefert Tempo und eine fertige Themenwelt, die Grenze ist die geteilte Vorlage. Wann ein eigenes Portal mehr bringt als der Baukasten.",
     type: "website",
@@ -97,7 +97,7 @@ const FAQS = [
   },
   {
     q: "Woran erkenne ich, dass ich aus dem Baukasten herausgewachsen bin?",
-    a: "Wenn Eigentümer Sie mit einem Mitbewerber vergleichen, der eine eigene Marke zeigt — und Sie den Alleinauftrag genau dort verlieren. Oder wenn ein Konkurrent in derselben Stadt dasselbe System nutzt und beide Auftritte sich kaum unterscheiden.",
+    a: "Wenn Eigentümer Sie mit einem Mitbewerber vergleichen, der eine eigene Marke zeigt, und Sie den Alleinauftrag genau dort verlieren. Oder wenn ein Konkurrent in derselben Stadt dasselbe System nutzt und beide Auftritte sich kaum unterscheiden.",
   },
   {
     q: "Muss ich BOTTIMMO kündigen, um zu wechseln?",
@@ -171,7 +171,7 @@ export default function BottimmoErfahrungenPage() {
               Die Grenze liegt im System selbst:{" "}
               <Highlight>Design, Funnel und Inhalte laufen als Vorlage bei vielen
               anderen Maklern im selben Markt parallel</Highlight>. Ob das reicht, hängt vom
-              Anspruch ab — als Einstieg gut, als Unterscheidung gegen den führenden Makler der
+              Anspruch ab: als Einstieg gut, als Unterscheidung gegen den führenden Makler der
               Stadt nicht.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
@@ -229,7 +229,7 @@ export default function BottimmoErfahrungenPage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Der ehrliche Vergleich"
-              titel="Sechs Kriterien: wann der Baukasten *reicht* — wann nicht."
+              titel="Sechs Kriterien: wann der Baukasten *reicht*, wann nicht."
               sub="Keine Wertung über BOTTIMMO als System, sondern über die Frage, die zählt: passt eine geteilte Vorlage zu Ihrem Anspruch in Ihrer Stadt?"
               className="max-w-[760px]"
             />

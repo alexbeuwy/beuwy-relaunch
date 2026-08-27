@@ -16,7 +16,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Maklersoftware im Vergleich: onOffice, FLOWFACT, Propstack & Co. | beuwy",
   description:
-    "Maklersoftware Vergleich 2026: onOffice, FLOWFACT, Propstack, JUSTIMMO, CasaOne — jede kann mehr, als ihr Standard-Auftritt zeigt. Der Überblick, und wie beuwy dort andockt, wo Ihr CRM aufhört.",
+    "Maklersoftware Vergleich 2026: onOffice, FLOWFACT, Propstack, JUSTIMMO, CasaOne. Jede kann mehr, als ihr Standard-Auftritt zeigt. Der Überblick, und wie beuwy dort andockt, wo Ihr CRM aufhört.",
 };
 
 const SYSTEME: {
@@ -35,7 +35,7 @@ const SYSTEME: {
     satz2:
       "Bekannt für Objektverwaltung, Kontaktmanagement und eine breite Schnittstellenlandschaft zu Portalen und Zusatztools.",
     andock:
-      "Wir docken Ihre Website direkt an onOffice an — Anfragen landen mit Quelle und nächstem Schritt im System, nicht im Postfach.",
+      "Wir docken Ihre Website direkt an onOffice an: Anfragen landen mit Quelle und nächstem Schritt im System, nicht im Postfach.",
     link: { label: "Website-Lösung für onOffice ansehen", href: "/onoffice-website" },
   },
   {
@@ -52,7 +52,7 @@ const SYSTEME: {
     nr: "03",
     name: "Propstack",
     satz1:
-      "Eine jüngere, cloudbasierte Maklersoftware, die zunehmend Verbreitung findet — auch bei technikaffinen Büros und im gewerblichen Segment.",
+      "Eine jüngere, cloudbasierte Maklersoftware, die zunehmend Verbreitung findet, auch bei technikaffinen Büros und im gewerblichen Segment.",
     satz2: "Bekannt für ein modernes Bedienkonzept und eine offene Schnittstellenphilosophie.",
     andock:
       "Wir nutzen genau diese Offenheit: Website-Leads und Exposé-Anfragen fließen strukturiert in Ihr Propstack.",
@@ -84,7 +84,7 @@ export default function MaklersoftwareVergleichPage() {
       <ClusterHero
         eyebrow="CRM-Vergleich"
         titel="Maklersoftware im Vergleich: *jede* kann mehr, als sie zeigt."
-        sub="Welches CRM zu Ihrem Haus passt, entscheiden Sie — nicht wir. Was wir sehen: Bei jeder dieser Plattformen bleibt der Standard-Auftritt weit hinter dem zurück, was das System eigentlich könnte."
+        sub="Welches CRM zu Ihrem Haus passt, entscheiden Sie, nicht wir. Was wir sehen: Bei jeder dieser Plattformen bleibt der Standard-Auftritt weit hinter dem zurück, was das System eigentlich könnte."
         primaryHref="/anfrage"
         ctaLabel2="Zu den Systemen ↓"
         ctaHref2="#systeme"
@@ -96,13 +96,13 @@ export default function MaklersoftwareVergleichPage() {
           <Reveal>
             <SektionsKopf
               eyebrow="Unsere Position"
-              titel="Das *beste* CRM gibt es nicht — nur das beste für Ihr Haus."
+              titel="Das *beste* CRM gibt es nicht, nur das beste für Ihr Haus."
             />
             <p className="t-body mt-6 max-w-[62ch]">
               onOffice, FLOWFACT, Propstack, JUSTIMMO, CasaOne: alle fünf haben sich am
               deutschsprachigen Maklermarkt etabliert, jedes mit eigenem Schwerpunkt. Diese Seite
               bewertet nicht, welches System &bdquo;gewinnt&ldquo;. Sie zeigt, wo bei jedem
-              System ungenutztes Potenzial liegt — zwischen dem, was die Software kann, und dem,
+              System ungenutztes Potenzial liegt: zwischen dem, was die Software kann, und dem,
               was ihr Standard-Auftritt zeigt.
             </p>
           </Reveal>
@@ -158,7 +158,7 @@ export default function MaklersoftwareVergleichPage() {
             />
             <p className="t-body mt-6 max-w-[62ch]">
               Ein starkes CRM organisiert, was im Hintergrund passiert. Ob ein Eigentümer anruft,
-              entscheidet sich am Schaufenster davor — an der Website, die zeigt, was im Motor
+              entscheidet sich am Schaufenster davor: an der Website, die zeigt, was im Motor
               steckt. Wir bauen das Schaufenster und die Leitung dazwischen: Jede Anfrage kommt
               mit Quelle und nächstem Schritt direkt in Ihrem System an, unabhängig davon, welches
               der fünf Systeme oben Sie einsetzen.
@@ -171,7 +171,7 @@ export default function MaklersoftwareVergleichPage() {
         karteLabel="Unabhängig vom System"
         karteTitel="Ihr CRM bleibt, wie es ist. Ihr Auftritt wird, was er sein sollte."
         karteText="Wir bauen keine neue Software. Wir bauen seit 17 Jahren das Portal, das Ihr bestehendes System endlich ausnutzt."
-        schlussTitel="Nennen Sie uns Ihr System — wir zeigen Ihnen, was ungenutzt bleibt."
+        schlussTitel="Nennen Sie uns Ihr System, wir zeigen Ihnen, was ungenutzt bleibt."
         schlussText="Im ersten Gespräch schauen wir uns Ihre CRM-Anbindung und Ihren Auftritt gemeinsam an."
         primaryHref="/anfrage"
         footnote="onOffice, FLOWFACT, Propstack, JUSTIMMO und CasaOne sind Marken der jeweiligen Anbieter. beuwy ist unabhängiger Dienstleister ohne Gesellschafterbindung an diese Anbieter."

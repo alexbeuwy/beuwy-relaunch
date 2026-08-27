@@ -23,11 +23,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Leadgenerierung für Immobilienmakler: Eigentümer statt Kontakte | beuwy",
   description:
-    "Kein gemieteter Portal-Kontakt: beuwy baut Immobilienmaklern die eigene Quelle für Eigentümer-Anfragen — Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System.",
+    "Kein gemieteter Portal-Kontakt: beuwy baut Immobilienmaklern die eigene Quelle für Eigentümer-Anfragen, Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System.",
   openGraph: {
     title: "Leadgenerierung für Immobilienmakler: Eigentümer statt Kontakte | beuwy",
     description:
-      "beuwy baut die eigene Quelle für Eigentümer-Anfragen — Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System, nicht als gemieteter Portal-Kontakt.",
+      "beuwy baut die eigene Quelle für Eigentümer-Anfragen, Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System, nicht als gemieteter Portal-Kontakt.",
     type: "website",
     locale: "de_DE",
   },
@@ -37,17 +37,17 @@ const PAINS = [
   {
     quote: "Derselbe Eigentümer bekommt an einem Abend vier Anrufe.",
     answer:
-      "Lead-Portale verkaufen eine Adresse an mehrere Makler gleichzeitig. Wer zuerst anruft, führt das Gespräch — nicht wer den besseren Marktpreis nennt. Sie bezahlen für einen Wettlauf, nicht für einen Kunden.",
+      "Lead-Portale verkaufen eine Adresse an mehrere Makler gleichzeitig. Wer zuerst anruft, führt das Gespräch, nicht wer den besseren Marktpreis nennt. Sie bezahlen für einen Wettlauf, nicht für einen Kunden.",
   },
   {
     quote: "Wer über ein Portal kommt, vergleicht drei Provisionen, bevor er Ihren Namen kennt.",
     answer:
-      "Der Kontakt hat noch keine Meinung von Ihnen — nur ein Formular ausgefüllt. Er prüft Angebote, nicht Menschen. Die Beziehung, die einen Alleinauftrag rechtfertigt, fängt bei null an.",
+      "Der Kontakt hat noch keine Meinung von Ihnen, nur ein Formular ausgefüllt. Er prüft Angebote, nicht Menschen. Die Beziehung, die einen Alleinauftrag rechtfertigt, fängt bei null an.",
   },
   {
     quote: "Ein gekaufter Kontakt kennt Ihren Namen nicht, bevor das Telefon klingelt.",
     answer:
-      "Er weiß nicht, wer Sie sind, was Sie verkauft haben oder warum er Ihnen vertrauen sollte. Jedes Gespräch beginnt bei der Einwandbehandlung — nie beim Verkaufen.",
+      "Er weiß nicht, wer Sie sind, was Sie verkauft haben oder warum er Ihnen vertrauen sollte. Jedes Gespräch beginnt bei der Einwandbehandlung, nie beim Verkaufen.",
   },
 ];
 
@@ -58,7 +58,7 @@ const SCHRITTE = [
   },
   {
     titel: "Der Rechner qualifiziert, während Sie besichtigen",
-    text: "Adresse rein, Ersteinschätzung raus — der Verkäufer-Lead bekommt sofort einen Score.",
+    text: "Adresse rein, Ersteinschätzung raus: Der Verkäufer-Lead bekommt sofort einen Score.",
   },
   {
     titel: "Die Anfrage landet im CRM, nicht im Postfach",
@@ -109,7 +109,7 @@ export default async function LeadgenerierungPage() {
         name: "Wie lange dauert es bis zu den ersten Eigentümer-Anfragen?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten qualifizierten Anfragen kommen meist in den Wochen danach — abhängig von Ihrem Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl nennen wir erst, wenn wir Ihren Markt kennen.",
+          text: "Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten qualifizierten Anfragen kommen meist in den Wochen danach, abhängig von Ihrem Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl nennen wir erst, wenn wir Ihren Markt kennen.",
         },
       },
       {
@@ -117,7 +117,7 @@ export default async function LeadgenerierungPage() {
         name: "Funktioniert das auch in kleinen Märkten?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Ja — mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen, aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil kaum ein Mitbewerber sie überhaupt aufbaut.",
+          text: "Ja, mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen, aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil kaum ein Mitbewerber sie überhaupt aufbaut.",
         },
       },
       {
@@ -125,7 +125,7 @@ export default async function LeadgenerierungPage() {
         name: "Was ist mit Portalen wie ImmoScout?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Bleiben Sie dort gelistet. Portale ersetzen wir nicht — wir ergänzen sie um das, was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.",
+          text: "Bleiben Sie dort gelistet. Portale ersetzen wir nicht, wir ergänzen sie um das, was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.",
         },
       },
     ],
@@ -173,7 +173,7 @@ export default async function LeadgenerierungPage() {
             <p className="t-body-lg mt-6 max-w-[34rem]">
               Lead-Portale verkaufen denselben Kontakt an mehrere Makler zeitgleich. Unser System
               sorgt dafür, dass{" "}
-              <Highlight>Eigentümer Sie finden, bevor sie beim Portal ankommen</Highlight> — und
+              <Highlight>Eigentümer Sie finden, bevor sie beim Portal ankommen</Highlight>, und
               die Anfrage bei Ihnen landet, nicht bei drei Konkurrenten gleichzeitig.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
@@ -207,7 +207,7 @@ export default async function LeadgenerierungPage() {
             <SektionsKopf
               eyebrow="Der Mechanismus"
               titel="Vier Stufen. Eine Quelle, die *Ihnen* gehört."
-              sub="Ein Lead-Portal endet, sobald Sie aufhören zu zahlen. Ein eigenes System bleibt und arbeitet weiter — auch am Wochenende, auch im Termin."
+              sub="Ein Lead-Portal endet, sobald Sie aufhören zu zahlen. Ein eigenes System bleibt und arbeitet weiter, auch am Wochenende, auch im Termin."
               className="max-w-[720px]"
             />
           </Reveal>
@@ -232,7 +232,7 @@ export default async function LeadgenerierungPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte label="Der Unterschied" titel="Portale vermieten Ihnen Kontakte." glyph>
-              Wir bauen Ihnen die Quelle: eine eigene Sichtbarkeit, die Ihnen gehört — nicht
+              Wir bauen Ihnen die Quelle: eine eigene Sichtbarkeit, die Ihnen gehört, nicht
               gemietet, nicht geteilt, nicht kündbar durch einen Algorithmus.
             </GelbeKarte>
           </Reveal>
@@ -245,7 +245,7 @@ export default async function LeadgenerierungPage() {
           <Reveal>
             <p className="t-label">Beweis, kein Beispiel</p>
             <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen — ohne einen
+              Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen
               einzigen gekauften Lead.
             </p>
             <p className="t-body mt-4 max-w-[54ch]">
@@ -281,7 +281,7 @@ export default async function LeadgenerierungPage() {
               <div className="faq-panel-inner">
                 <p className="t-body">
                   Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten
-                  qualifizierten Anfragen kommen meist in den Wochen danach — abhängig von Ihrem
+                  qualifizierten Anfragen kommen meist in den Wochen danach, abhängig von Ihrem
                   Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl
                   nennen wir erst, wenn wir Ihren Markt kennen.
                 </p>
@@ -296,7 +296,7 @@ export default async function LeadgenerierungPage() {
               </summary>
               <div className="faq-panel-inner">
                 <p className="t-body">
-                  Ja — mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen
+                  Ja, mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen
                   gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen,
                   aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil
                   kaum ein Mitbewerber sie überhaupt aufbaut.
@@ -312,7 +312,7 @@ export default async function LeadgenerierungPage() {
               </summary>
               <div className="faq-panel-inner">
                 <p className="t-body">
-                  Bleiben Sie dort gelistet. Portale ersetzen wir nicht — wir ergänzen sie um das,
+                  Bleiben Sie dort gelistet. Portale ersetzen wir nicht, wir ergänzen sie um das,
                   was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick
                   weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.
                 </p>

@@ -42,3 +42,5 @@ in drei Workflow-Wellen, Orchestrator prüft jede Welle gegen die Gates.
 - [x] Vertrag src/lib/crm/db.ts fixiert · Welle B (9 Grunts) gestartet · Welle D (13 Grunts/50 Seiten) gestartet
 - [x] C VSL-Umbau: Anfassen-Sektion (Tools) vor Beweis, Danach-Block als eigene Sektion hinter Beweis
 - [x] Integration vorbereitet: sitemap+llms+Nav+Footer+/wissen-Hub (datengetrieben)
+- [x] Welle B abgenommen (9/9, Tests 56/56) · Welle D abgenommen (50/50 Seiten) · Welle E abgenommen (98 geprüft, 28 geändert)
+- [x] F: Build 111/111 · verify.mjs "VERIFY: OK" (91 Routen, rot 0) · Ledger komplett, keine pending-Gates

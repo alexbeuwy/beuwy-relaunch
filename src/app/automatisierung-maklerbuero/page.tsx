@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Automatisierung im Maklerbüro: 9 Abläufe, die niemand vermisst | beuwy",
     description:
-      "Neun Abläufe im Maklerbüro, die sich automatisieren lassen, ohne den persönlichen Kontakt zu verlieren — nach dem Ticketsystem-Prinzip.",
+      "Neun Abläufe im Maklerbüro, die sich automatisieren lassen, ohne den persönlichen Kontakt zu verlieren: nach dem Ticketsystem-Prinzip.",
     type: "website",
     locale: "de_DE",
   },
@@ -129,7 +129,7 @@ export default function AutomatisierungMaklerbueroPage() {
               ein Mensch dabei wirklich entscheiden muss: das Follow-up nach einer Besichtigung,
               die Terminvergabe, der Wochenbericht an den Eigentümer und die Datenmail zum
               passenden Angebot.{" "}
-              <Highlight>Jeder dieser neun Abläufe folgt demselben Prinzip</Highlight> — eine
+              <Highlight>Jeder dieser neun Abläufe folgt demselben Prinzip</Highlight>: eine
               eingehende Anfrage wird zu einem Ticket mit Status, Verantwortlichem und nächstem
               Schritt, statt in einer Inbox zu verschwinden. Was bleibt, ist die Arbeit, die
               tatsächlich einen Menschen braucht: das Gespräch selbst.
@@ -209,7 +209,7 @@ export default function AutomatisierungMaklerbueroPage() {
                 <p className="t-label">Ohne System</p>
                 <p className="t-body mt-4">
                   Anfragen verteilen sich auf E-Mail-Postfach, WhatsApp und Notizzettel. Was
-                  niemand aufschreibt, wird niemand nachfassen — und was nicht nachgefasst wird,
+                  niemand aufschreibt, wird niemand nachfassen, und was nicht nachgefasst wird,
                   entscheidet sich woanders.
                 </p>
               </div>
@@ -258,7 +258,7 @@ export default function AutomatisierungMaklerbueroPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte label="Der Unterschied" titel="Automatisierung ersetzt nicht das Gespräch." glyph>
-              Sie sorgt dafür, dass es überhaupt stattfindet — weil niemand mehr vergisst,
+              Sie sorgt dafür, dass es überhaupt stattfindet, weil niemand mehr vergisst,
               zurückzurufen, nachzufassen oder den Wochenbericht zu schreiben. Das Gespräch
               selbst bleibt bei Ihnen, jedes einzelne Mal.
             </GelbeKarte>

@@ -37,20 +37,20 @@ export const metadata: Metadata = {
 
 const TIMING = [
   {
-    titel: "Tag 0 — Notartermin",
+    titel: "Tag 0: Notartermin",
     text: "Im Gespräch kurz ankündigen, dass in wenigen Tagen eine kurze Bitte um eine Bewertung kommt. Das nimmt der Nachricht später die Überraschung und erhöht die Wahrscheinlichkeit einer Antwort spürbar.",
   },
   {
-    titel: "Tag 3 — persönliche Nachricht",
+    titel: "Tag 3: persönliche Nachricht",
     text: "Eine kurze, persönliche Nachricht mit direktem Bewertungslink, per WhatsApp oder E-Mail, nie über einen Massenverteiler. Der Kunde hat den Schlüssel gerade übergeben und erinnert sich an jedes Detail des Prozesses.",
   },
   {
-    titel: "Tag 10 — eine Erinnerung",
-    text: "Bleibt eine Reaktion aus, folgt genau eine freundliche Erinnerung. Danach nicht weiter nachfassen — wiederholtes Drängen wirkt schneller schädlich als eine fehlende Bewertung.",
+    titel: "Tag 10: eine Erinnerung",
+    text: "Bleibt eine Reaktion aus, folgt genau eine freundliche Erinnerung. Danach nicht weiter nachfassen: Wiederholtes Drängen wirkt schneller schädlich als eine fehlende Bewertung.",
   },
   {
-    titel: "Danach — immer antworten",
-    text: "Jede eingehende Bewertung bekommt eine Antwort, unabhängig vom Sternewert. Ein Dank bei fünf Sternen, eine sachliche Reaktion bei Kritik — beides zeigt jedem künftigen Leser, dass hier jemand hinschaut.",
+    titel: "Danach: immer antworten",
+    text: "Jede eingehende Bewertung bekommt eine Antwort, unabhängig vom Sternewert. Ein Dank bei fünf Sternen, eine sachliche Reaktion bei Kritik: beides zeigt jedem künftigen Leser, dass hier jemand hinschaut.",
   },
 ] as const;
 
@@ -61,7 +61,7 @@ const RECHTLICH = [
       "Gekaufte oder incentivierte Bewertungen verstoßen sowohl gegen die Google-Richtlinien als auch gegen das Wettbewerbsrecht, das echte von manipulierten Kundenmeinungen unterscheidet. Im Ernstfall drohen die Löschung aller Bewertungen und eine Abmahnung durch Wettbewerber, kein Vorteil, der das Risiko aufwiegt.",
   },
   {
-    quote: "Nur zufriedene Kunden gezielt anzuschreiben ist erlaubt — schlechte Bewertungen einfach löschen lassen nicht.",
+    quote: "Nur zufriedene Kunden gezielt anzuschreiben ist erlaubt, schlechte Bewertungen einfach löschen lassen nicht.",
     answer:
       "Wen Sie um eine Bewertung bitten, dürfen Sie frei wählen, das ist normales Marketing. Eine bestehende, echte Bewertung entfernen zu lassen, gelingt bei Google nur über eine gemeldete Regelverletzung wie Spam oder Beleidigung, nicht schon deshalb, weil sie schlecht ausfällt.",
   },
@@ -75,7 +75,7 @@ const RECHTLICH = [
 const FAQS = [
   {
     q: "Darf ich Kunden aktiv um eine Bewertung bitten?",
-    a: "Ja, das ist eine übliche und zulässige Praxis. Problematisch wird es erst, wenn die Bitte mit einem Vorteil verknüpft, gezielt gefälscht oder unter Druck erzwungen wird — die reine, unaufgeforderte Bitte um eine ehrliche Rückmeldung ist davon nicht betroffen.",
+    a: "Ja, das ist eine übliche und zulässige Praxis. Problematisch wird es erst, wenn die Bitte mit einem Vorteil verknüpft, gezielt gefälscht oder unter Druck erzwungen wird. Die reine, unaufgeforderte Bitte um eine ehrliche Rückmeldung ist davon nicht betroffen.",
   },
   {
     q: "Wie reagiere ich auf eine unfaire negative Bewertung?",
@@ -87,7 +87,7 @@ const FAQS = [
   },
   {
     q: "Kann ich alte, schlechte Bewertungen einfach löschen lassen?",
-    a: "Nur über das offizielle Melde-Verfahren von Google und nur bei einem klaren Regelverstoß, etwa Fake-Konten oder beleidigenden Inhalten. Eine echte, aber kritische Bewertung bleibt bestehen — hier hilft eine gute, öffentlich sichtbare Antwort mehr als der Versuch, sie verschwinden zu lassen.",
+    a: "Nur über das offizielle Melde-Verfahren von Google und nur bei einem klaren Regelverstoß, etwa Fake-Konten oder beleidigenden Inhalten. Eine echte, aber kritische Bewertung bleibt bestehen. Hier hilft eine gute, öffentlich sichtbare Antwort mehr als der Versuch, sie verschwinden zu lassen.",
   },
 ] as const;
 
@@ -151,7 +151,7 @@ export default function BewertungenAufbauenPage() {
               später.{" "}
               <Highlight>Ein Kunde, der gerade den Schlüssel übergeben hat, ist
               bereitwilliger als einer, der sich drei Monate später kaum noch an den Namen des
-              Maklers erinnert</Highlight> — feste Formulierungen und eine klare Regel für Kritik
+              Maklers erinnert</Highlight>. Feste Formulierungen und eine klare Regel für Kritik
               gehören mit ins System.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
@@ -227,7 +227,7 @@ export default function BewertungenAufbauenPage() {
           </Reveal>
           <Reveal delay={140}>
             <p className="t-body mt-8 max-w-[640px]">
-              Der Ton bleibt derselbe wie im persönlichen Kontakt davor — keine Marketing-Sprache,
+              Der Ton bleibt derselbe wie im persönlichen Kontakt davor: keine Marketing-Sprache,
               kein Rabatt für eine bestimmte Sternezahl, nur eine klare, kurze Bitte.
             </p>
           </Reveal>
@@ -241,7 +241,7 @@ export default function BewertungenAufbauenPage() {
             <SektionsKopf
               eyebrow="Rechtliche Leitplanken"
               titel="Was erlaubt ist, und wo die *Grenze* verläuft."
-              sub="Eine allgemeine Einordnung, keine Rechtsberatung im Einzelfall — bei konkreten Streitfällen hilft ein Fachanwalt für Wettbewerbsrecht weiter."
+              sub="Eine allgemeine Einordnung, keine Rechtsberatung im Einzelfall. Bei konkreten Streitfällen hilft ein Fachanwalt für Wettbewerbsrecht weiter."
               className="max-w-[720px]"
             />
           </Reveal>
