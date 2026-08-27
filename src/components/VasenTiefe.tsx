@@ -26,18 +26,12 @@ export function VasenTiefe({ variante = "buehne" }: { variante?: "buehne" | "ran
   }
 
   return (
-    <div aria-hidden className={stil.ebene}>
-      {/* hinten: scharfe Craspedia-Vase, klein und traege */}
-      <div className={`${stil.vase} ${stil.hinten} right-[4%] top-[6%] hidden w-[150px] md:block lg:w-[190px]`}>
-        <Image src={vase("01")} alt="" width={1045} height={1776} sizes="190px" className="h-auto w-full" />
-      </div>
-      {/* mitte: Palmwedel-Vase scharf, driftet leicht */}
-      <div className={`${stil.vase} ${stil.mitte} bottom-[4%] right-[16%] hidden w-[120px] lg:block`}>
-        <Image src={vase("02")} alt="" width={1261} height={1699} sizes="120px" className="h-auto w-full" />
-      </div>
-      {/* vorn: die UNSCHARFE Vase, gross angeschnitten — Fahrt macht Tiefe */}
-      <div className={`${stil.vase} ${stil.vorn} -left-16 bottom-[-6%] w-[240px] sm:w-[300px] lg:-left-10 lg:w-[380px]`}>
-        <Image src={vase("02-blurry")} alt="" width={1261} height={1699} sizes="380px" className="h-auto w-full" />
+    // Reduktion (Alex, 27.08): NUR die unscharfe Vase — und sie liegt
+    // ueber dem Sektionsinhalt (z-20 > Inhalt z-10), sodass sie die
+    // Bild-Plate anschneidet. Bokeh vor der Fokusebene, ein Element.
+    <div aria-hidden className={`${stil.ebene} z-20`}>
+      <div className={`${stil.vase} ${stil.vorn} -left-16 bottom-[-6%] w-[240px] sm:w-[300px] lg:-left-8 lg:w-[400px]`}>
+        <Image src={vase("02-blurry")} alt="" width={1261} height={1699} sizes="400px" className="h-auto w-full" />
       </div>
     </div>
   );
