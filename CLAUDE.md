@@ -28,6 +28,11 @@ done for you, in Wochen statt Quartalen.
 - Kennzahlen/Kundennamen sind Studio-editierbar (`src/lib/content.ts`),
   nicht hart im Code.
 
+**Studio-Pflicht (Alex, 27.08):** Jede neue nutzerlesbare Textfläche
+registriert ihre Texte als Keys unter `src/lib/texte/<bereich>.ts`
+(defaults + labels, von `content.ts` gespreadet) und liest sie über
+`getContent()` — Alex korrigiert Texte im Studio ohne LLM.
+
 Masterbrief und Arbeitsstand: `docs/redesign/BRIEF.md` + `PLAN.md`.
 SEO-Seitenarchitektur (Hub, Leadgen, Maklerwebsite, onOffice, Ranking,
 Cluster) steht im Brief — deutsche Titles mit Keyword, kein Onepager.
