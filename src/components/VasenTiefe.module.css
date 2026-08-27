@@ -24,6 +24,21 @@
   will-change: transform;
 }
 
+/* Weiche Ränder für die Bokeh-Vase: das Asset ist ein rechteckiger
+   Beschnitt einer unscharfen Aufnahme — Tulpe links und Vasenfuß unten
+   enden hart an der Bildkante (Alex, 27.08: „scharfe Kante am Rand").
+   Zwei gekreuzte Verlaufs-Masken blenden alle vier Kanten aus, damit
+   der Bokeh-Effekt nirgends abgeschnitten wirkt. Ohne mask-Support
+   bleibt das Bild einfach ungemasked. */
+.weich {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .vorn {

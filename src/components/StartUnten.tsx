@@ -433,8 +433,11 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       </section>
 
       {/* ══ Block 7 — Prozess (Einwand Zeit) ══════════════════════ */}
-      <section id="ablauf" className="bg-bg-base border-t border-line-subtle">
-        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
+      <section id="ablauf" className="relative bg-bg-base border-t border-line-subtle">
+        {/* Palmwedel-Vase klein unten links — Gegengewicht zur gelben
+            Karte rechts (Alex, 27.08: kleine Vasen-Auftritte verteilen) */}
+        <VasenTiefe variante="prozess" />
+        <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <p className="t-label">Vier Schritte, ein Zeitplan</p>
             <h2 className="mt-4 t-h2 max-w-[720px]">

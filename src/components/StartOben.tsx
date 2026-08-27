@@ -197,8 +197,12 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
   const jahre = c["mk.stats.s3_wert"] || "17";
 
   return (
-    <section className="bg-bg-elevated py-24 md:py-32">
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
+    <section className="relative bg-bg-elevated py-24 md:py-32">
+      {/* Craspedia-Vase klein hinter der Punchline (Alex, 27.08:
+          die Requisite verteilt sich in kleinen Auftritten ueber die
+          Seite statt als ein grosser Blob) */}
+      <VasenTiefe variante="abgrenzung" />
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
             eyebrow="Die Abgrenzung"
