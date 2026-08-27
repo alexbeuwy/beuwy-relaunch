@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { sendMail, emailLayout, emailRows } from "@/lib/email";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { kontaktSchema, pruefeFormular } from "@/lib/validierung";
-import { leadAnlegen, mailLoggen } from "@/lib/crm/db";
+import { leadAnlegen, mailLoggen, kontaktUpsert, flowsListe, flowStarten } from "@/lib/crm/db";
 
 /**
  * Lead-Route für alle /tools/*-Rechner (Verkaufspreis, Miete, AfA — B2–B4).
@@ -17,6 +17,13 @@ import { leadAnlegen, mailLoggen } from "@/lib/crm/db";
  * `eingaben`/`ergebnis` kommen bereits fertig berechnet vom Client (den
  * Rechnern aus src/lib/rechner/*.ts) und werden hier nur als Kontext-JSON
  * im Lead gespeichert, nicht erneut durchgerechnet.
+ *
+ * R5 Leaf G8 (Datenqualität + Auslöser): nach erfolgreichem leadAnlegen
+ * läuft zusätzlich kontaktUpsert() (Dedup über bw_kontakt, fail-open) und
+ * ein Flow-Check (aktive Flows mit ausloeser "tool_lead" werden für diesen
+ * Lead gestartet, ebenfalls fail-open) — gebündelt in einem
+ * Promise.allSettled statt einer Await-Kette, damit es parallel zum
+ * Mailversand läuft statt die Antwort zusätzlich zu verzögern.
  */
 
 export const runtime = "nodejs";
@@ -49,6 +56,28 @@ function begrenzteDaten(wert: unknown): Record<string, unknown> {
   } catch {
     return {};
   }
+}
+
+/**
+ * R5 G8, Codefund 2+3: Kontakt-Dedup + Flow-Auslöser nach erfolgreichem
+ * Lead-Anlegen. Beide Aufrufe sind fail-open (Fehler werden verschluckt,
+ * ein CRM-Ausfall darf die Antwort nie verhindern) und laufen in einem
+ * gemeinsamen Promise.allSettled statt sequenziell, damit der Aufruf
+ * parallel zum Mailversand im Hintergrund läuft.
+ */
+function crmNebenwirkungen(l: { leadId: string | null; email: string; name: string; telefon: string }): Promise<unknown> {
+  return Promise.allSettled([
+    kontaktUpsert({ email: l.email, name: l.name, telefon: l.telefon }).catch(() => null),
+    (async () => {
+      const flows = await flowsListe();
+      const treffer = flows.filter(
+        (f) => f && typeof f === "object" && (f as Record<string, unknown>).status === "aktiv" && (f as Record<string, unknown>).ausloeser === "tool_lead"
+      );
+      await Promise.allSettled(
+        treffer.map((f) => flowStarten(String((f as Record<string, unknown>).id ?? ""), l.leadId, l.email))
+      );
+    })().catch(() => null),
+  ]);
 }
 
 export async function POST(req: Request) {
@@ -96,6 +125,10 @@ export async function POST(req: Request) {
     daten: { tool, eingaben, ergebnis },
   });
 
+  // Kontakt-Dedup + Flow-Auslöser laufen ab hier im Hintergrund parallel
+  // zum Mailversand — awaited erst unmittelbar vor jeder Antwort unten.
+  const nebenwirkungen = crmNebenwirkungen({ leadId, email, name, telefon: phone ?? "" });
+
   const rows = emailRows([
     { label: "Tool", value: esc(toolLabel) },
     { label: "Name", value: esc(name) },
@@ -130,6 +163,7 @@ export async function POST(req: Request) {
       empfaenger: email,
       status: "gesendet",
     });
+    await nebenwirkungen;
     return NextResponse.json({ ok: true, delivered: true });
   }
 
@@ -142,6 +176,7 @@ export async function POST(req: Request) {
       empfaenger: email,
       status: "demo",
     });
+    await nebenwirkungen;
     return NextResponse.json({ ok: true, delivered: false, demo: true });
   }
 
@@ -153,5 +188,6 @@ export async function POST(req: Request) {
     status: "fehler",
   });
   console.error("[tool-lead] Lead-Mail fehlgeschlagen — 502.");
+  await nebenwirkungen;
   return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
 }

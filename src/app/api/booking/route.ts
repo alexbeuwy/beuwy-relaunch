@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { sendMail, emailLayout, emailRows } from "@/lib/email";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { terminSchema, pruefeFormular } from "@/lib/validierung";
-import { leadAnlegen, mailLoggen } from "@/lib/crm/db";
+import { leadAnlegen, mailLoggen, kontaktUpsert, flowsListe, flowStarten } from "@/lib/crm/db";
 import { mailTerminBestaetigung } from "@/lib/email-vorlagen";
 
 /**
@@ -22,6 +23,17 @@ import { mailTerminBestaetigung } from "@/lib/email-vorlagen";
  * src/lib/validierung.ts (zod statt Hand-Regex); Honeypot-Erkennung
  * ebenfalls über pruefeFormular — Bots bekommen weiterhin 200 mit
  * skipped:true, ohne dass eine Mail verschickt wird.
+ *
+ * R5 Leaf G8 (Datenqualität + Auslöser): der AnfrageFunnel schickt seit
+ * diesem Leaf zusätzlich ein strukturiertes Feld `antworten` (Rolle/
+ * Abschlüsse/Fokus/Zeithorizont als Record<string,string>) — landet
+ * geprüft in `daten.vorquali`, die Fließtext-Nachricht bleibt unverändert
+ * für die Mail. Nach erfolgreichem leadAnlegen läuft zusätzlich
+ * kontaktUpsert() (Dedup über bw_kontakt, fail-open) und ein Flow-Check
+ * (aktive Flows mit ausloeser "booking" werden für diesen Lead gestartet,
+ * ebenfalls fail-open) — beides gebündelt in einem Promise.allSettled
+ * statt einer Await-Kette, damit es parallel zum Mailversand läuft statt
+ * die Antwort zusätzlich zu verzögern.
  */
 
 export const runtime = "nodejs";
@@ -34,6 +46,46 @@ const esc = (s: unknown) =>
     .replace(/>/g, "&gt;");
 
 const clean = (s: unknown, max: number) => String(s ?? "").trim().slice(0, max);
+
+/**
+ * R5 G8, Codefund 1: die Vorquali-Antworten aus AnfrageFunnel.tsx kommen
+ * strukturiert als `antworten: {schluessel: wert}` — Schlüssel/Werte je
+ * begrenzt, Gesamtzahl der Schlüssel gedeckelt. Additive Metadaten: eine
+ * ungültige Form wird verworfen statt die ganze Buchung abzulehnen (die
+ * Fließtext-`message` bleibt in jedem Fall der verbindliche Inhalt der
+ * internen Mail).
+ */
+const vorqualiSchema = z
+  .record(z.string().trim().min(1).max(60), z.string().trim().max(500))
+  .refine((obj) => Object.keys(obj).length <= 20, "Zu viele Vorquali-Antworten.");
+
+function vorqualiAusPayload(wert: unknown): Record<string, string> | undefined {
+  if (!wert || typeof wert !== "object" || Array.isArray(wert)) return undefined;
+  const geprueft = vorqualiSchema.safeParse(wert);
+  return geprueft.success ? geprueft.data : undefined;
+}
+
+/**
+ * R5 G8, Codefund 2+3: Kontakt-Dedup + Flow-Auslöser nach erfolgreichem
+ * Lead-Anlegen. Beide Aufrufe sind fail-open (Fehler werden verschluckt,
+ * ein CRM-Ausfall darf die Buchungsbestätigung nie verhindern) und laufen
+ * in einem gemeinsamen Promise.allSettled statt sequenziell, damit der
+ * Aufruf parallel zum Mailversand im Hintergrund läuft.
+ */
+function crmNebenwirkungen(l: { leadId: string | null; email: string; name: string; telefon: string }): Promise<unknown> {
+  return Promise.allSettled([
+    kontaktUpsert({ email: l.email, name: l.name, telefon: l.telefon }).catch(() => null),
+    (async () => {
+      const flows = await flowsListe();
+      const treffer = flows.filter(
+        (f) => f && typeof f === "object" && (f as Record<string, unknown>).status === "aktiv" && (f as Record<string, unknown>).ausloeser === "booking"
+      );
+      await Promise.allSettled(
+        treffer.map((f) => flowStarten(String((f as Record<string, unknown>).id ?? ""), l.leadId, l.email))
+      );
+    })().catch(() => null),
+  ]);
+}
 
 export async function POST(req: Request) {
   if (!rateLimit(`booking:${clientIp(req)}`, 5, 10 * 60_000)) {
@@ -72,6 +124,7 @@ export async function POST(req: Request) {
   }
 
   const { name, email, phone, date, time } = pruefung.daten;
+  const vorquali = vorqualiAusPayload(b.antworten);
 
   const leadId = await leadAnlegen({
     quelle: "booking",
@@ -79,8 +132,12 @@ export async function POST(req: Request) {
     email,
     telefon: phone,
     nachricht: messageTxt || `Terminwunsch: ${type || "Termin"} am ${date} um ${time} Uhr.`,
-    daten: { type, mode, duration, date, time },
+    daten: { type, mode, duration, date, time, ...(vorquali ? { vorquali } : {}) },
   });
+
+  // Kontakt-Dedup + Flow-Auslöser laufen ab hier im Hintergrund parallel
+  // zum Mailversand — awaited erst unmittelbar vor jeder Antwort unten.
+  const nebenwirkungen = crmNebenwirkungen({ leadId, email, name, telefon: phone });
 
   const rows = emailRows([
     { label: "Anlass", value: esc(type) },
@@ -115,6 +172,7 @@ export async function POST(req: Request) {
       empfaenger: email,
       status: kunde.ok ? "gesendet" : "fehler",
     });
+    await nebenwirkungen;
     return NextResponse.json({ ok: true, delivered: true });
   }
 
@@ -130,6 +188,7 @@ export async function POST(req: Request) {
       empfaenger: email,
       status: "demo",
     });
+    await nebenwirkungen;
     return NextResponse.json({ ok: true, delivered: false, demo: true });
   }
 
@@ -142,5 +201,6 @@ export async function POST(req: Request) {
     empfaenger: email,
     status: "fehler",
   });
+  await nebenwirkungen;
   return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
 }

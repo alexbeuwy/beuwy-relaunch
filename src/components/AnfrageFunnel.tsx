@@ -13,11 +13,16 @@ import stil from "./AnfrageFunnel.module.css";
  * IKEA-Effekt: wer schon geklickt hat, tippt auch die letzten Felder
  * fertig). Einzelauswahl springt per Klick automatisch weiter, Mehrfach-
  * auswahl (Fokus) braucht einen expliziten Weiter-Klick. Die vier
- * Antworten wandern strukturiert ins Nachricht-Feld von POST
- * /api/booking (Vertrag siehe Route — NICHT verändert): die Route
- * verlangt Datum/Uhrzeit im Terminbuchungs-Format, das hier keine echte
- * Bedeutung als Wunschtermin hat, deshalb ehrlich der Einreichungs-
- * Zeitpunkt statt eines erfundenen Slots.
+ * Antworten wandern weiterhin als Fließtext ins Nachricht-Feld von POST
+ * /api/booking (Vertrag siehe Route — an der Mail ändert sich nichts):
+ * die Route verlangt Datum/Uhrzeit im Terminbuchungs-Format, das hier
+ * keine echte Bedeutung als Wunschtermin hat, deshalb ehrlich der
+ * Einreichungs-Zeitpunkt statt eines erfundenen Slots.
+ *
+ * R5 Leaf G8 (Codefund 1): zusätzlich zum Fließtext schickt das Payload
+ * ein strukturiertes Feld `antworten: {schluessel: wert}` — dieselben
+ * vier Antworten einzeln, damit /api/booking sie durchsuchbar in
+ * `daten.vorquali` ablegen kann (Route validiert/kappt serverseitig).
  */
 
 const ROLLEN = [
@@ -106,13 +111,22 @@ export function AnfrageFunnel() {
     setError(null);
     setBusy(true);
 
-    const antworten = [
+    const antwortenText = [
       `Rolle: ${rolle ?? "–"}`,
       `Abschlüsse/Jahr: ${groesse ?? "–"}`,
       `Fokus: ${fokus.length ? fokus.join(", ") : "–"}`,
       `Zeithorizont: ${zeit ?? "–"}`,
     ].join("\n");
-    const message = notiz.trim() ? `${antworten}\n\nNachricht:\n${notiz.trim()}` : antworten;
+    const message = notiz.trim() ? `${antwortenText}\n\nNachricht:\n${notiz.trim()}` : antwortenText;
+
+    // Dieselben vier Antworten zusätzlich strukturiert (Codefund 1) — die
+    // Fließtext-`message` oben bleibt unverändert für die interne Mail.
+    const antworten: Record<string, string> = {
+      rolle: rolle ?? "",
+      groesse: groesse ?? "",
+      fokus: fokus.join(", "),
+      zeit: zeit ?? "",
+    };
 
     const jetzt = new Date();
     const payload = {
@@ -125,6 +139,7 @@ export function AnfrageFunnel() {
       email,
       phone,
       message,
+      antworten,
       website,
     };
 

@@ -7,9 +7,12 @@ import {
   kontoCodeAnlegen,
   kontoCodeEinloesen,
   kontoDatenSetzen,
+  kontoDetail,
   kontoUpsert,
   leadAnlegen,
   ticketAnlegen,
+  ticketAntwortAnlegen,
+  ticketAntworten,
 } from "@/lib/crm/db";
 import { kontaktSchema } from "@/lib/validierung";
 import {
@@ -47,6 +50,14 @@ import {
  * sie direkt nach erfolgreichem "einloesen" auf; schlägt das Speichern
  * fehl, bleibt die Antwort trotzdem ok:true (fail-open), weil die
  * eigentliche Registrierung mit der Code-Einlösung schon durch ist.
+ *
+ * R5 Leaf G7 (additiv, Tickets mit Threads): "ticket-antwort" legt eine
+ * Kundenantwort im Thread eines eigenen Tickets an (ticketAntwortAnlegen,
+ * von="kunde") — geprüft wird die Ticket-Zugehörigkeit serverseitig über
+ * kontoDetail(email), damit niemand über eine erratene Ticket-ID in einen
+ * fremden Thread schreiben kann. Zusätzlich ein neuer GET-Handler (liest
+ * ?ticket=<id>): lädt den Verlauf desselben Tickets für die Anzeige in
+ * KontoBereich.tsx — rein additiv, verändert keinen bestehenden POST-Pfad.
  */
 
 export const runtime = "nodejs";
@@ -159,6 +170,35 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, demo: !crmKonfiguriert() });
   }
 
+  if (aktion === "ticket-antwort") {
+    const email = await leseKontoCookie();
+    if (!email) {
+      return NextResponse.json({ ok: false, error: "Bitte zuerst anmelden." }, { status: 401 });
+    }
+    if (!rateLimit(`konto-ticket-antwort:${email}`, 30, 10 * 60_000)) {
+      return NextResponse.json({ ok: false, error: "Zu viele Versuche — bitte in ein paar Minuten erneut probieren." }, { status: 429 });
+    }
+    const ticketId = Number(b.ticketId);
+    const text = clean(b.text, 4000);
+    if (!Number.isInteger(ticketId) || ticketId <= 0) {
+      return NextResponse.json({ ok: false, error: "Ungültiges Ticket." }, { status: 422 });
+    }
+    if (!text) {
+      return NextResponse.json({ ok: false, error: "Bitte eine Nachricht eingeben." }, { status: 422 });
+    }
+
+    const konfiguriert = crmKonfiguriert();
+    if (konfiguriert) {
+      const detail = await kontoDetail(email);
+      const gehoertZumKonto = detail?.tickets.some((ti) => ti.id === ticketId) ?? false;
+      if (!gehoertZumKonto) {
+        return NextResponse.json({ ok: false, error: "Ticket nicht gefunden." }, { status: 404 });
+      }
+      await ticketAntwortAnlegen(ticketId, "kunde", text);
+    }
+    return NextResponse.json({ ok: true, demo: !konfiguriert });
+  }
+
   if (aktion === "onboarding") {
     const email = await leseKontoCookie();
     if (!email) {
@@ -205,4 +245,39 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ ok: false, error: "Unbekannte Aktion." }, { status: 400 });
+}
+
+/**
+ * R5 Leaf G7 (additiv): liefert den Antwort-Thread eines eigenen Tickets
+ * für die Anzeige in KontoBereich.tsx (Chat-Blasen unter "Ihre Anliegen").
+ * Rein additiv — der bestehende POST-Handler bleibt unverändert.
+ */
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const ticketId = Number(url.searchParams.get("ticket"));
+
+  if (!Number.isInteger(ticketId) || ticketId <= 0) {
+    return NextResponse.json({ ok: false, error: "Ungültige Ticket-ID." }, { status: 400 });
+  }
+
+  const email = await leseKontoCookie();
+  if (!email) {
+    return NextResponse.json({ ok: false, error: "Bitte zuerst anmelden." }, { status: 401 });
+  }
+  if (!rateLimit(`konto-ticket-lesen:${email}`, 60, 10 * 60_000)) {
+    return NextResponse.json({ ok: false, error: "Zu viele Anfragen — bitte kurz warten." }, { status: 429 });
+  }
+
+  if (!crmKonfiguriert()) {
+    return NextResponse.json({ ok: true, antworten: [] });
+  }
+
+  const detail = await kontoDetail(email);
+  const gehoertZumKonto = detail?.tickets.some((ti) => ti.id === ticketId) ?? false;
+  if (!gehoertZumKonto) {
+    return NextResponse.json({ ok: false, error: "Ticket nicht gefunden." }, { status: 404 });
+  }
+
+  const antworten = await ticketAntworten(ticketId);
+  return NextResponse.json({ ok: true, antworten });
 }

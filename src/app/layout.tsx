@@ -1,3 +1,4 @@
+import { TrackBeacon } from "@/components/TrackBeacon";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { GeistMono } from "geist/font/mono";
@@ -46,6 +47,9 @@ export default function RootLayout({
   return (
     <html lang="de" className={cn(GeistMono.variable, helvena.variable, "font-sans")}>
       <body className="min-h-dvh">
+        {/* First-Party-Tracking (Einblick, R5) — cookielos, oeffentliche
+            Seiten only (Blocklist im Client und in /api/track) */}
+        <TrackBeacon />
         <OrganisationLd />
         <NurWebsite>
           <Nav />

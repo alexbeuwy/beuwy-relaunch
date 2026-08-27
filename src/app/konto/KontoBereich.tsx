@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useState, type FormEvent } from "react";
 import { RiArrowLeftLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import stil from "./KontoBereich.module.css";
@@ -40,6 +40,15 @@ export type KontoDaten = {
   tickets: KontoTicket[];
 };
 
+/** Eine Antwort im Ticket-Thread (R5 Leaf G7 — additiv). Deckt sich mit
+ *  dem Rückgabetyp von ticketAntworten() in src/lib/crm/db.ts. */
+export type KontoTicketAntwort = {
+  id: number;
+  erstellt: string;
+  von: "beuwy" | "kunde";
+  text: string;
+};
+
 /** Antworten aus dem Onboarding-Wizard — nur lokal, für die "Ihr Fokus"-Karte direkt nach dem Onboarding. */
 type FokusAntworten = {
   rolle: string;
@@ -66,6 +75,15 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
   neu: "Neu",
   in_bearbeitung: "In Bearbeitung",
   erledigt: "Erledigt",
+  // R5 Leaf G7 (additiv): /intern/tickets schreibt Status im
+  // Schema-Vokabular (offen/in-arbeit/erledigt) statt im älteren
+  // Frontend-Vokabular oben — beide Sätze hier zusammengeführt, damit
+  // dieselbe Karte beide Quellen lesbar anzeigt (siehe R5-FUNKTIONEN.md
+  // Modul 7 zum dokumentierten Mismatch; eine echte Vereinheitlichung
+  // bleibt späteren Leafs vorbehalten, diese Datei darf nur additiv
+  // verändert werden).
+  offen: "Neu",
+  "in-arbeit": "In Bearbeitung",
 };
 
 const ROLLEN = ["Makler", "Projektentwickler", "Bauträger", "Kapitalanlage-Vertrieb"] as const;
@@ -682,14 +700,18 @@ function Dashboard({
         <div className="mt-4 space-y-3">
           {tickets.length === 0 && <p className="t-body">Noch keine Anliegen eingereicht.</p>}
           {tickets.map((ticket) => (
-            <div key={ticket.id} className="panel flex items-start justify-between gap-4 rounded-xl p-4">
-              <div>
-                <p className="t-h3 !text-[15px]">{ticket.titel}</p>
-                {ticket.detail && <p className="t-small mt-1">{ticket.detail}</p>}
+            <div key={ticket.id} className="panel rounded-xl p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="t-h3 !text-[15px]">{ticket.titel}</p>
+                  {ticket.detail && <p className="t-small mt-1">{ticket.detail}</p>}
+                </div>
+                <span className="shrink-0 whitespace-nowrap rounded-full border border-line-subtle bg-bg-elevated px-3 py-1 text-[12px] font-medium text-ink-cream">
+                  {TICKET_STATUS_LABEL[ticket.status] ?? ticket.status}
+                </span>
               </div>
-              <span className="shrink-0 whitespace-nowrap rounded-full border border-line-subtle bg-bg-elevated px-3 py-1 text-[12px] font-medium text-ink-cream">
-                {TICKET_STATUS_LABEL[ticket.status] ?? ticket.status}
-              </span>
+              {/* R5 Leaf G7 (additiv): Antwort-Thread + Kunden-Antwortfeld */}
+              <TicketThread ticketId={ticket.id} demoDaten={demoDaten} />
             </div>
           ))}
         </div>
@@ -741,6 +763,120 @@ function Dashboard({
           </button>
         </form>
       </section>
+    </div>
+  );
+}
+
+/* ── Ticket-Thread (R5 Leaf G7, additiv) ──────────────────────────────
+   Lädt den Antwortverlauf eines Tickets client-seitig nach (page.tsx liegt
+   außerhalb der für dieses Leaf erlaubten Dateiliste, kann die Antworten
+   also nicht als Server-Prop mitliefern) über den additiven GET-Handler
+   in src/app/api/konto/route.ts, und reicht neue Kunden-Antworten über die
+   ebenfalls additive Aktion "ticket-antwort" desselben POST-Handlers ein.
+   Optimistisch angelegte Tickets (negative, nicht-persistente IDs, siehe
+   ticketEinreichen oben) laden keinen Verlauf — es gibt serverseitig noch
+   nichts zu ihnen. Ohne Datenbank (demoDaten) wird ebenfalls nichts
+   nachgeladen, der Verlauf bleibt leer, die Antwort lokal/optimistisch. */
+function TicketThread({ ticketId, demoDaten }: { ticketId: number; demoDaten: boolean }) {
+  const [antworten, setAntworten] = useState<KontoTicketAntwort[]>([]);
+  const [geladen, setGeladen] = useState(demoDaten || ticketId <= 0);
+  const [text, setText] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [fehler, setFehler] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (demoDaten || ticketId <= 0) return;
+    let aktiv = true;
+    fetch(`/api/konto?ticket=${ticketId}`)
+      .then((res) => res.json())
+      .then((daten: { ok?: boolean; antworten?: KontoTicketAntwort[] }) => {
+        if (aktiv && daten?.ok) setAntworten(daten.antworten ?? []);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (aktiv) setGeladen(true);
+      });
+    return () => {
+      aktiv = false;
+    };
+  }, [ticketId, demoDaten]);
+
+  async function antwortSenden(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const sauber = text.trim();
+    if (busy || sauber.length < 1) return;
+    setBusy(true);
+    setFehler(null);
+    const { ok, daten } = await anKonto({ aktion: "ticket-antwort", ticketId, text: sauber });
+    setBusy(false);
+    if (ok && daten?.ok) {
+      setAntworten((prev) => [
+        ...prev,
+        {
+          id: prev.length ? Math.min(...prev.map((a) => a.id)) - 1 : -1,
+          erstellt: new Date().toISOString(),
+          von: "kunde",
+          text: sauber,
+        },
+      ]);
+      setText("");
+      return;
+    }
+    setFehler(daten?.error || "Die Nachricht konnte nicht gesendet werden — bitte erneut versuchen.");
+  }
+
+  return (
+    <div className="mt-4 border-t border-line-subtle pt-4">
+      {!geladen ? (
+        <p className="t-small">Lädt Nachrichten …</p>
+      ) : (
+        <div className="flex flex-col gap-2.5">
+          {antworten.length === 0 && <p className="t-small">Noch keine Antwort von uns.</p>}
+          {antworten.map((a) => (
+            <div key={a.id} className={cn("flex", a.von === "beuwy" ? "justify-start" : "justify-end")}>
+              <div
+                className={cn(
+                  "max-w-[85%] rounded-xl px-3.5 py-2.5",
+                  a.von === "beuwy" ? "bg-akzent-wash" : "border border-line-medium bg-white",
+                )}
+              >
+                {a.von === "beuwy" && (
+                  <span className="mb-1 flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-akzent-hover" aria-hidden />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.04em] text-ink-muted">beuwy</span>
+                  </span>
+                )}
+                <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-ink-cream">{a.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <form onSubmit={antwortSenden} className="mt-3 flex items-end gap-2">
+        <textarea
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+            setFehler(null);
+          }}
+          rows={1}
+          placeholder="Antworten …"
+          className="booking-input w-full resize-none"
+        />
+        <button
+          type="submit"
+          disabled={busy || text.trim().length < 1}
+          className="shrink-0 rounded-full bg-akzent px-4 py-2.5 text-[13px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover disabled:pointer-events-none disabled:opacity-40"
+        >
+          Senden
+        </button>
+      </form>
+      {fehler && (
+        <p className="t-small is-fail mt-2" role="alert">
+          {fehler}
+        </p>
+      )}
     </div>
   );
 }

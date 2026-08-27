@@ -14,9 +14,23 @@
  */
 
 import { TOOLS_DEFAULTS, TOOLS_LABELS } from "./texte/tools";
+import { INTERN_AUFGABEN_DEFAULTS, INTERN_AUFGABEN_LABELS } from "./texte/intern-aufgaben";
+import { INTERN_EINBLICK_DEFAULTS, INTERN_EINBLICK_LABELS } from "./texte/intern-einblick";
+import { INTERN_FLOWS_DEFAULTS, INTERN_FLOWS_LABELS } from "./texte/intern-flows";
+import { INTERN_KONTAKTE_DEFAULTS, INTERN_KONTAKTE_LABELS } from "./texte/intern-kontakte";
+import { INTERN_KUNDEN_DEFAULTS, INTERN_KUNDEN_LABELS } from "./texte/intern-kunden";
+import { INTERN_PIPELINE_DEFAULTS, INTERN_PIPELINE_LABELS } from "./texte/intern-pipeline";
+import { INTERN_SHELL_DEFAULTS, INTERN_SHELL_LABELS } from "./texte/intern-shell";
 
 export const DEFAULTS: Record<string, string> = {
   ...TOOLS_DEFAULTS,
+  ...INTERN_AUFGABEN_DEFAULTS,
+  ...INTERN_EINBLICK_DEFAULTS,
+  ...INTERN_FLOWS_DEFAULTS,
+  ...INTERN_KONTAKTE_DEFAULTS,
+  ...INTERN_KUNDEN_DEFAULTS,
+  ...INTERN_PIPELINE_DEFAULTS,
+  ...INTERN_SHELL_DEFAULTS,
   /* ── 01 Hero — Traumzustand, positiv, belegbare Prozess-Aussage ────── */
   "hero.title": "Neukunden nach *System*.",
   "hero.subtitle":
@@ -241,6 +255,13 @@ export const DEFAULTS: Record<string, string> = {
 
 export const FIELD_LABELS: Record<string, string> = {
   ...TOOLS_LABELS,
+  ...INTERN_AUFGABEN_LABELS,
+  ...INTERN_EINBLICK_LABELS,
+  ...INTERN_FLOWS_LABELS,
+  ...INTERN_KONTAKTE_LABELS,
+  ...INTERN_KUNDEN_LABELS,
+  ...INTERN_PIPELINE_LABELS,
+  ...INTERN_SHELL_LABELS,
   "beleg.title": "Übersicht · Überschrift (*Wort* = Hervorhebung)",
   "beleg.intro": "Übersicht · Einleitungssatz",
   "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",

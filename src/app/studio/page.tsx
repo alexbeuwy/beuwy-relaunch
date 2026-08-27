@@ -43,7 +43,19 @@ async function loadOverrides(): Promise<Record<string, string>> {
   }
 }
 
-export default async function StudioPage() {
+export default async function StudioPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ weiter?: string }>;
+}) {
+  // weiter-Param aus /login (R4 Auth-UX): nach dem Login zurueck zum
+  // Ziel (z. B. /intern). Gleiche Sicherheitsregel wie in login/page.tsx.
+  const { weiter } = await searchParams;
+  const ziel =
+    weiter && weiter.startsWith("/") && !weiter.startsWith("//") &&
+    !weiter.includes("\\") && !weiter.includes("://") && weiter.length <= 200
+      ? weiter
+      : "/studio";
   const jar = await cookies();
   const authed = await isStudioAuthed(jar.get(STUDIO_COOKIE)?.value);
 
@@ -60,7 +72,7 @@ export default async function StudioPage() {
         </p>
         <div className="panel mt-8 rounded-xl p-6 sm:p-8">
           {configured ? (
-            <StudioLogin />
+            <StudioLogin ziel={ziel} />
           ) : (
             <p className="t-small">
               Studio ist auf diesem Deployment nicht konfiguriert. Bitte die

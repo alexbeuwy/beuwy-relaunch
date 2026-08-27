@@ -1,8 +1,25 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
-    { "path": "/api/os/sync", "schedule": "0 5 * * *" },
-    { "path": "/api/os/sync", "schedule": "0 17 * * *" },
-    { "path": "/api/os/wochenreport", "schedule": "0 18 * * 0" }
+    {
+      "path": "/api/os/sync",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/os/sync",
+      "schedule": "0 17 * * *"
+    },
+    {
+      "path": "/api/os/wochenreport",
+      "schedule": "0 18 * * 0"
+    },
+    {
+      "path": "/api/cron/flows",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/erinnerungen",
+      "schedule": "0 7 * * *"
+    }
   ]
 }
