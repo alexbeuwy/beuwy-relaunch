@@ -89,3 +89,10 @@ alter table public.bw_ticket enable row level security;
 -- Alle SECURITY DEFINER, Secret-Prüfung gegen website_secrets/content_write.
 
 -- r3_konto_daten: bw_konto.daten jsonb + RPC bw_konto_daten_setzen (Intent-Onboarding)
+
+-- r5_track_und_flows: bw_track_events (First-Party-Analytics, Schema nach
+-- Riegel rechner_events erweitert um pfad) + bw_flow/bw_flow_schritt/
+-- bw_flow_lauf/bw_mail_abmeldung (E-Mail-Flows). RPCs: bw_track_anlegen,
+-- bw_track_auswertung, bw_track_heatmap, bw_flow_speichern, bw_flows_liste,
+-- bw_flow_starten, bw_flow_faellige, bw_flow_fortschreiben, bw_abmelden.
+-- Voller Wortlaut in Supabase-Migration r5_track_und_flows.
