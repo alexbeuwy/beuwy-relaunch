@@ -37,6 +37,17 @@ export const VERGLEICH_DEFAULTS: Record<string, string> = {
   "mk.vgl.bw.mail_titel": "Jede Mail pro Empfänger neu geschrieben",
   "mk.vgl.bw.mail_satz":
     "Guten Abend Frau Berger, drei Familien haben Ihr Exposé heute geöffnet — die Finanzierungsprüfung von zweien ist bereits grün.",
+  "mk.vgl.bw.mail_satz2":
+    "Guten Morgen Herr Weidner, in der Gartenstraße wurden seit Januar drei Häuser verkauft, im Schnitt 8 % über Angebotspreis. Soll ich die Auswertung für Ihre Hausnummer mitschicken?",
+  "mk.vgl.bw.mail_satz3":
+    "Hallo Familie Roth, Ihr gemerktes Haus in Friesenheim ist seit heute 20.000 € günstiger — und Samstag um 11 Uhr ist der letzte freie Besichtigungstermin.",
+  "mk.vgl.bw.mail_satz4":
+    "Guten Tag Herr Dr. Sattler, Ihre Wohnung in der Rheinallee liegt 140 € unter der erzielbaren Kaltmiete — bei Neuvermietung sind das 1.680 € mehr im Jahr.",
+  "mk.vgl.bw.mail_satz5":
+    "Liebe Familie Brandt, heute vor einem Jahr bekamen Sie den Schlüssel. Ihr Haus hat seitdem rund 4 % an Wert gewonnen — Ihr Jahresreport hängt an.",
+  "mk.vgl.bw.fakten_label": "Sätze, die nur Ihr System schreiben kann",
+  "mk.vgl.bw.fakten":
+    "Ein Nachbar in Ihrer Straße hat 2022 für 63 % Ihrer Preisvorstellung verkauft.|Ihr Exposé wurde diese Woche 41-mal gemerkt — von drei geprüften Käufern.|In Ihrem Viertel stehen gerade nur zwei vergleichbare Häuser zum Verkauf.|Der letzte Verkauf in Ihrer Lage lag 9 % über dem Gutachterwert.",
   "mk.vgl.bw.reel_label": "Echtes Objekt-Reel · RIEGEL Immobilien",
 };
 
@@ -63,6 +74,13 @@ export const VERGLEICH_LABELS: Record<string, string> = {
   "mk.vgl.bw.visual_sub": "Startseite · Vergleich · beuwy-Seite · Subline im Report-Visual",
   "mk.vgl.bw.expose_titel": "Startseite · Vergleich · beuwy-Seite · Titel der Exposé-Wechsel-Kachel",
   "mk.vgl.bw.mail_titel": "Startseite · Vergleich · beuwy-Seite · Titel der Mail-Kachel",
-  "mk.vgl.bw.mail_satz": "Startseite · Vergleich · Satz, den die Mail-Kachel live tippt",
+  "mk.vgl.bw.mail_satz": "Startseite · Vergleich · Mail-Kachel · Satz 1 (Eigentümer-Update)",
+  "mk.vgl.bw.mail_satz2": "Startseite · Vergleich · Mail-Kachel · Satz 2 (Straßen-Farming)",
+  "mk.vgl.bw.mail_satz3": "Startseite · Vergleich · Mail-Kachel · Satz 3 (Käufer-Merkliste)",
+  "mk.vgl.bw.mail_satz4": "Startseite · Vergleich · Mail-Kachel · Satz 4 (Kapitalanleger)",
+  "mk.vgl.bw.mail_satz5": "Startseite · Vergleich · Mail-Kachel · Satz 5 (Kauf-Jahrestag)",
+  "mk.vgl.bw.fakten_label": "Startseite · Vergleich · Label über der großen Wechsel-Headline",
+  "mk.vgl.bw.fakten":
+    "Startseite · Vergleich · Wechsel-Headline: Sätze mit | getrennt",
   "mk.vgl.bw.reel_label": "Startseite · Vergleich · beuwy-Seite · Bildunterschrift des Reels",
 };
