@@ -9,51 +9,57 @@ import stil from "./VasenTiefe.module.css";
  * UNTER dem Sektionsinhalt — die Sektion braucht position:relative
  * und ihr Inhalt z-10; "buehne" haengt dagegen direkt am Plate-Wrapper.
  *
- * Vier Auftritte (Alex, 27.08, 3. Korrektur — klein und beilaeufig
- * statt ein Riesen-Blob):
- *  - "buehne": unscharfe Bokeh-Vase klein an der unteren Plate-Ecke,
- *    Raender per Maske ausgeblendet — schneidet die Ecke an, verdeckt
- *    das Video aber nicht.
- *  - "rand": Calla-Vase dezent rechts im Danach-Block.
- *  - "abgrenzung": Craspedia-Strauss klein unten rechts im
- *    Vergleichs-Band (Baukasten vs. beuwy).
- *  - "prozess": Palmwedel-Vase klein unten links im Ablauf-Block.
+ * Auftritte (Alex, 31.08, 4. Korrektur — jede Vase ÜBERLAPPT eine
+ * Karte oder Plate, keine haengt mehr lose am Sektionsrand; Anker ist
+ * immer ein relative-Wrapper des ueberlappten Elements, die Vase ist
+ * dessen spaetes z-20-Kind):
+ *  - "buehne": unscharfe Bokeh-Vase an der unteren Plate-Ecke des
+ *    Spiegel-Videos, Raender per Maske ausgeblendet.
+ *  - "karte-gelb": Craspedia-Strauss schneidet die obere rechte Ecke
+ *    der gelben beuwy-Karte im Aha-Vergleich an.
+ *  - "karte-prozess": Palmwedel-Vase schneidet die untere linke Ecke
+ *    der gelben "Vier Termine"-Karte im Ablauf-Block an.
+ *  - "showreel": Calla-Vase schneidet die obere rechte Ecke des
+ *    Showreel-Rahmens im Danach-Block an.
  */
 export function VasenTiefe({
   variante = "buehne",
 }: {
-  variante?: "buehne" | "rand" | "abgrenzung" | "prozess";
+  variante?: "buehne" | "karte-gelb" | "karte-prozess" | "showreel";
 }) {
-  if (variante === "rand") {
+  if (variante === "karte-gelb") {
     return (
-      <div aria-hidden className={stil.ebene}>
-        <div className={`${stil.vase} ${stil.hinten} -right-10 top-[8%] w-[170px] opacity-80 lg:right-6 lg:w-[210px]`}>
-          <Image src={vase("03")} alt="" width={1186} height={1799} sizes="210px" className="h-auto w-full" />
-        </div>
+      <div
+        aria-hidden
+        className={`${stil.vase} ${stil.hinten} pointer-events-none -right-3 -top-12 z-20 w-[110px] rotate-2 lg:-right-7 lg:-top-16 lg:w-[150px]`}
+      >
+        <Image src={vase("01")} alt="" width={1045} height={1776} sizes="150px" className="h-auto w-full" />
       </div>
     );
   }
 
-  if (variante === "abgrenzung") {
+  if (variante === "karte-prozess") {
+    // Tief genug haengen, dass nur die Wedel-Spitzen die Karten-Ecke
+    // anschneiden — nie den Kartentext (Abnahme 31.08).
     return (
-      <div aria-hidden className={stil.ebene}>
-        <div
-          className={`${stil.vase} ${stil.hinten} -right-8 bottom-[4%] w-[120px] rotate-2 opacity-90 lg:right-10 lg:bottom-16 lg:w-[160px]`}
-        >
-          <Image src={vase("01")} alt="" width={1045} height={1776} sizes="160px" className="h-auto w-full" />
-        </div>
+      <div
+        aria-hidden
+        className={`${stil.vase} ${stil.hinten} pointer-events-none -bottom-16 -left-10 z-20 w-[95px] -rotate-2 lg:-bottom-28 lg:-left-16 lg:w-[120px]`}
+      >
+        <Image src={vase("02")} alt="" width={1261} height={1699} sizes="120px" className="h-auto w-full" />
       </div>
     );
   }
 
-  if (variante === "prozess") {
+  if (variante === "showreel") {
+    // Untere rechte Ecke des Showreel-Rahmens — oben kollidiert die
+    // Vase mit der Szenen-Reihe darueber (Abnahme 31.08).
     return (
-      <div aria-hidden className={stil.ebene}>
-        <div
-          className={`${stil.vase} ${stil.hinten} -left-8 bottom-8 w-[120px] -rotate-2 opacity-90 lg:left-[2.5%] lg:bottom-12 lg:w-[150px]`}
-        >
-          <Image src={vase("02")} alt="" width={1261} height={1699} sizes="150px" className="h-auto w-full" />
-        </div>
+      <div
+        aria-hidden
+        className={`${stil.vase} ${stil.hinten} pointer-events-none -bottom-10 -right-5 z-20 w-[110px] rotate-3 lg:-bottom-14 lg:-right-9 lg:w-[145px]`}
+      >
+        <Image src={vase("03")} alt="" width={1186} height={1799} sizes="145px" className="h-auto w-full" />
       </div>
     );
   }

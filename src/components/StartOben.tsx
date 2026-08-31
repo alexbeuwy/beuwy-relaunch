@@ -13,11 +13,14 @@ import { AiPille } from "./AiPille";
 import { Reveal } from "./Reveal";
 import { Logo } from "./Logo";
 import { VslSlot } from "./VslSlot";
-import { ExposeVergleich } from "./SchemaGrafiken";
 import { PerformanceStory } from "./PerformanceStory";
 import { GRUENDER_FOTO, LOFT_VIDEO, maklerAsset } from "@/lib/cdn";
 import { AmbientVideo } from "./AmbientVideo";
 import { VasenTiefe } from "./VasenTiefe";
+import { SpiegelFokus } from "./motion/SpiegelFokus";
+import { VergleichBuehne } from "./vergleich/VergleichBuehne";
+import { StandardKarte } from "./vergleich/StandardKarte";
+import { BeuwyKarte } from "./vergleich/BeuwyKarte";
 
 /**
  * Startseite, Sektionen 2-5 (BRIEF §6): Spiegel → Abgrenzung Baukasten →
@@ -108,50 +111,55 @@ function Spiegel({ c }: { c: Record<string, string> }) {
   return (
     <section className="relative bg-bg-base py-24 md:py-32">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
-        <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
-          <Reveal className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:max-w-none">
-            <KreisDeko className="-left-8 -top-8 hidden md:-left-12 md:-top-10 lg:block" />
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-line-subtle">
-              {/* Loft-Video als Ambient-Plate — Poster steht sofort,
-                  die 5,2 MB laden erst kurz vorm Viewport (BRIEF §9) */}
-              <AmbientVideo
-                videoSrc={LOFT_VIDEO}
-                posterSrc={maklerAsset(2)}
-                alt="Kampagnenwelt von beuwy: Loft-Szene in der Golden Hour"
-                sizes="(min-width: 1024px) 46vw, 90vw"
+        {/* SpiegelFokus (R7): Die Headline steht sofort scharf im Fokus,
+            Plate und Folgetext (data-fokus="spaet") starten unscharf/
+            gedimmt und decken sich beim Scrollen gestaffelt auf. */}
+        <SpiegelFokus>
+          <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+            <div data-fokus="spaet" className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:max-w-none">
+              <KreisDeko className="-left-8 -top-8 hidden md:-left-12 md:-top-10 lg:block" />
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-line-subtle">
+                {/* Loft-Video als Ambient-Plate — Poster steht sofort,
+                    die 5,2 MB laden erst kurz vorm Viewport (BRIEF §9) */}
+                <AmbientVideo
+                  videoSrc={LOFT_VIDEO}
+                  posterSrc={maklerAsset(2)}
+                  alt="Kampagnenwelt von beuwy: Loft-Szene in der Golden Hour"
+                  sizes="(min-width: 1024px) 46vw, 90vw"
+                />
+                <AiPille />
+              </div>
+              <StempelBadge
+                text="Erster Eindruck · Entscheidet"
+                groesse={104}
+                className="absolute -right-5 -top-5 z-10 md:-right-7 md:-top-7"
               />
-              <AiPille />
+              {/* Bokeh-Vase ueberlappt die Plate-Ecke (Anker am Wrapper) */}
+              <VasenTiefe />
             </div>
-            <StempelBadge
-              text="Erster Eindruck · Entscheidet"
-              groesse={104}
-              className="absolute -right-5 -top-5 z-10 md:-right-7 md:-top-7"
-            />
-            {/* Bokeh-Vase ueberlappt die Plate-Ecke (Anker am Wrapper) */}
-            <VasenTiefe />
-          </Reveal>
 
-          <Reveal delay={80}>
-            <SektionsKopf
-              eyebrow="Der Vergleich, den Sie nicht sehen"
-              titel="Sie sind unter den Besten. *Sieht* man Ihnen das an?"
-            />
-            <div className="mt-9 space-y-6 border-t border-line-subtle pt-9">
-              <p className="t-body-lg max-w-[42ch]">
-                Empfehlungen bringen Ihnen die Anfrage. Doch wer Sie vorher googelt, sieht eine
-                Website, die Ihrem Ruf hinterherhinkt.
-              </p>
-              <p className="t-body-lg max-w-[42ch]">
-                Eigentümer vergleichen drei Makler, bevor sie anrufen. Heimlich, am Handy, abends
-                auf dem Sofa.
-              </p>
-              <p className="t-body-lg max-w-[42ch]">
-                Der Zweitplatzierte hat schlechter verkauft als Sie. Seine Website sah nur{" "}
-                <Highlight>teurer aus</Highlight>.
-              </p>
+            <div>
+              <SektionsKopf
+                eyebrow="Der Vergleich, den Sie nicht sehen"
+                titel="Sie sind unter den Besten. *Sieht* man Ihnen das an?"
+              />
+              <div className="mt-9 space-y-6 border-t border-line-subtle pt-9">
+                <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
+                  Empfehlungen bringen Ihnen die Anfrage. Doch wer Sie vorher googelt, sieht eine
+                  Website, die Ihrem Ruf hinterherhinkt.
+                </p>
+                <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
+                  Eigentümer vergleichen drei Makler, bevor sie anrufen. Heimlich, am Handy, abends
+                  auf dem Sofa.
+                </p>
+                <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
+                  Der Zweitplatzierte hat schlechter verkauft als Sie. Seine Website sah nur{" "}
+                  <Highlight>teurer aus</Highlight>.
+                </p>
+              </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </SpiegelFokus>
 
         {/* Integrations-Band (Alex, 26.08): Pastellgelb mit dunklen
             Logos, direkt unter dem Spiegel-Argument — die Tools, die
@@ -198,10 +206,6 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
 
   return (
     <section className="relative bg-bg-elevated py-24 md:py-32">
-      {/* Craspedia-Vase klein hinter der Punchline (Alex, 27.08:
-          die Requisite verteilt sich in kleinen Auftritten ueber die
-          Seite statt als ein grosser Blob) */}
-      <VasenTiefe variante="abgrenzung" />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
@@ -239,14 +243,26 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
           </Reveal>
         </div>
 
-        {/* No-Brainer-Schema (BRIEF §9): austauschbarer Standard links,
-            Maßarbeit rechts — die Grafik trägt das Argument der Listen. */}
-        <Reveal delay={140}>
-          <div className="mt-16">
-            <ExposeVergleich />
-          </div>
-        </Reveal>
+      </div>
 
+      {/* DER Aha-Moment (R7, Alex 31.08): zwei volle-Breite-Karten je
+          ~55vh — die graue Standard-Realitaet bleibt sticky stehen, die
+          pastellgelbe beuwy-Welt schiebt sich beim Scrollen darueber.
+          Bewusst BREITER als der 1200er-Content (eigene Buehne). */}
+      <div className="relative z-10 mx-auto mt-16 max-w-[1200px] px-6 lg:px-10">
+        <Reveal>
+          <SektionsKopf
+            eyebrow={c["mk.vgl.eyebrow"] ?? "Der Unterschied, den Eigentümer sehen"}
+            titel={c["mk.vgl.titel"] ?? "Gleiche Häuser. Gleiche Portale. *Ungleiche* Wirkung."}
+            sub={c["mk.vgl.sub"] ?? ""}
+          />
+        </Reveal>
+      </div>
+      <div className="mx-auto mt-12 w-full max-w-[1520px] px-4 sm:px-6 lg:px-8">
+        <VergleichBuehne karteA={<StandardKarte c={c} />} karteB={<BeuwyKarte c={c} />} />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal delay={160}>
           <p className="mt-16 max-w-[42ch] text-[20px] font-medium leading-snug tracking-[-0.012em] text-ink-cream md:mt-20 md:text-[24px]">
             Eine Website macht Sie sichtbar. Ein Portal bringt seit {jahre} Jahren{" "}

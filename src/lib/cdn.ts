@@ -55,6 +55,21 @@ export function vase(name: "01" | "02" | "02-blurry" | "03"): string {
  */
 export const GRUENDER_FOTO = `${BASIS}/gruender-alex.webp`;
 
+/**
+ * Echte Makler-Reels aus dem RIEGEL-Projekt (Alex, 31.08 — von
+ * riegel-immobilien.de übernommen, Eigentum RIEGEL/beuwy-Projekt).
+ * KEINE KI-Visuals, also nie mit <AiPille /> labeln. 9:16, h264-mp4:
+ * 01 = Einfamilienhaus-Rundgang (2,7 MB) · 02 = Miete Speyer (5,9 MB).
+ * Größen beachten (BRIEF §9): preload="none", Abspielen nur im
+ * Viewport (IntersectionObserver), Poster steht sofort.
+ */
+export function reelRiegel(nummer: "01" | "02"): { video: string; poster: string } {
+  return {
+    video: `${BASIS}/reel-riegel-${nummer}.mp4`,
+    poster: `${BASIS}/reel-riegel-${nummer}-poster.webp`,
+  };
+}
+
 /** Poster fürs Hero-Video und reduced-motion-Fallback. */
 export const HERO_POSTER = maklerAsset(1);
 

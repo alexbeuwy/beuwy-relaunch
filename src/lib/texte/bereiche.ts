@@ -78,6 +78,8 @@ const GRUPPEN_NAMEN: Record<string, string> = {
   pm: "Performance-Grafik",
   podcast: "Podcast",
   beweis: "Beweis",
+  vgl: "Vergleich",
+  motion: "Motion",
   schleuse: "Lead-Wall",
   aufgaben: "Aufgaben",
   pipeline: "Pipeline",

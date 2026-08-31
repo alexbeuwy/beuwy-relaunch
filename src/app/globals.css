@@ -241,6 +241,16 @@
       scroll-behavior: auto;
     }
   }
+  /* Lenis (MotionRegie, R7): solange Lenis das Scrollen glaettet, darf
+     das native smooth-Scrolling nicht dagegen arbeiten — Lenis setzt
+     die Klasse selbst auf <html>. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
 
   html,
   body {

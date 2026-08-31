@@ -398,7 +398,6 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       {/* ══ Block 6b — Danach: der Traumzustand direkt hinterm Beweis
           (VSL: Future Pacing VOR dem Angebot, Alex 26.08) ═════════ */}
       <section id="danach" className="relative bg-bg-elevated border-t border-line-subtle">
-        <VasenTiefe variante="rand" />
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <div>
@@ -425,8 +424,12 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                 ))}
               </div>
               {/* Der große Kampagnen-Zusammenschnitt — 7,5 MB, deshalb
-                  ausschließlich klick-initiiert (BRIEF §9) */}
-              <ShowreelSlot className="mt-6" />
+                  ausschließlich klick-initiiert (BRIEF §9). Anker-Wrapper:
+                  die Calla-Vase schneidet die Rahmen-Ecke an. */}
+              <div className="relative mt-6">
+                <ShowreelSlot />
+                <VasenTiefe variante="showreel" />
+              </div>
             </div>
           </Reveal>
         </div>
@@ -434,9 +437,6 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
       {/* ══ Block 7 — Prozess (Einwand Zeit) ══════════════════════ */}
       <section id="ablauf" className="relative bg-bg-base border-t border-line-subtle">
-        {/* Palmwedel-Vase klein unten links — Gegengewicht zur gelben
-            Karte rechts (Alex, 27.08: kleine Vasen-Auftritte verteilen) */}
-        <VasenTiefe variante="prozess" />
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <p className="t-label">Vier Schritte, ein Zeitplan</p>
@@ -486,14 +486,14 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
           </Reveal>
 
           <Reveal delay={210}>
-            <GelbeKarte
-              label="Ihr Aufwand"
-              titel="Vier Termine reichen."
-              glyph
-              className="mt-16 max-w-[520px] ml-auto"
-            >
-              Den Rest liefern wir: Marke, Portal, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
-            </GelbeKarte>
+            {/* Anker-Wrapper: die Palmwedel-Vase schneidet die Karten-Ecke
+                an (Alex, 31.08: Vasen ueberlappen, nicht am Rand fliegen) */}
+            <div className="relative mt-16 max-w-[520px] ml-auto">
+              <GelbeKarte label="Ihr Aufwand" titel="Vier Termine reichen." glyph>
+                Den Rest liefern wir: Marke, Portal, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
+              </GelbeKarte>
+              <VasenTiefe variante="karte-prozess" />
+            </div>
           </Reveal>
 
         </div>
