@@ -25,15 +25,33 @@ import stil from "./VasenTiefe.module.css";
 export function VasenTiefe({
   variante = "buehne",
 }: {
-  variante?: "buehne" | "karte-gelb" | "karte-prozess" | "showreel";
+  variante?: "buehne" | "karte-gelb" | "karte-prozess" | "showreel" | "bokeh-klein";
 }) {
   if (variante === "karte-gelb") {
+    // Ragt bewusst WEIT über die Oberkante der gelben Karte hinaus:
+    // während die Karte die graue Standard-Karte überfährt, steht der
+    // Strauss sichtbar auf der grauen Karte — die Requisite verbindet
+    // beide Ebenen (Alex, 31.08).
     return (
       <div
         aria-hidden
-        className={`${stil.vase} ${stil.hinten} pointer-events-none -right-3 -top-12 z-20 w-[110px] rotate-2 lg:-right-7 lg:-top-16 lg:w-[150px]`}
+        className={`${stil.vase} ${stil.hinten} pointer-events-none -right-3 -top-24 z-20 w-[135px] rotate-2 lg:-right-9 lg:-top-36 lg:w-[195px]`}
       >
-        <Image src={vase("01")} alt="" width={1045} height={1776} sizes="150px" className="h-auto w-full" />
+        <Image src={vase("01")} alt="" width={1045} height={1776} sizes="195px" className="h-auto w-full" />
+      </div>
+    );
+  }
+
+  if (variante === "bokeh-klein") {
+    // Kleine Bokeh-Ebene INNERHALB der gelben Vergleichs-Karte: driftet
+    // per Scroll-Parallax ueber die Kachel-Collage (R8, Alex 31.08:
+    // "schraege Elemente, die sich beim Scrollen overlayen, Blur").
+    return (
+      <div
+        aria-hidden
+        className={`${stil.vase} ${stil.vorn} ${stil.weich} pointer-events-none -left-10 top-[34%] z-20 hidden w-[150px] lg:block xl:w-[190px]`}
+      >
+        <Image src={vase("02-blurry")} alt="" width={1261} height={1699} sizes="190px" className="h-auto w-full" />
       </div>
     );
   }

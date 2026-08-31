@@ -14,6 +14,7 @@ import { Reveal } from "./Reveal";
 import { Logo } from "./Logo";
 import { VslSlot } from "./VslSlot";
 import { PerformanceStory } from "./PerformanceStory";
+import { rich } from "./RichText";
 import { GRUENDER_FOTO, LOFT_VIDEO, maklerAsset } from "@/lib/cdn";
 import { AmbientVideo } from "./AmbientVideo";
 import { VasenTiefe } from "./VasenTiefe";
@@ -202,16 +203,15 @@ const BEUWY_PUNKTE = [
 ];
 
 function Abgrenzung({ c }: { c: Record<string, string> }) {
-  const jahre = c["mk.stats.s3_wert"] || "17";
 
   return (
     <section className="relative bg-bg-elevated py-24 md:py-32">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
-            eyebrow="Die Abgrenzung"
-            titel="Eine Website ist eine Visitenkarte. Ein *Portal* bringt Mandate."
-            sub="Standardlösungen füllen Exposés und Dokumente, die bei jedem Makler gleich aussehen. Anpassen lässt sich davon wenig."
+            eyebrow={c["mk.vgl.abgr.eyebrow"]}
+            titel={c["mk.vgl.abgr.titel"]}
+            sub={c["mk.vgl.abgr.sub"]}
           />
         </Reveal>
 
@@ -265,8 +265,7 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal delay={160}>
           <p className="mt-16 max-w-[42ch] text-[20px] font-medium leading-snug tracking-[-0.012em] text-ink-cream md:mt-20 md:text-[24px]">
-            Eine Website macht Sie sichtbar. Ein Portal bringt seit {jahre} Jahren{" "}
-            <Highlight stark>Mandate</Highlight>.
+            {rich(c["mk.vgl.punchline"] ?? "")}
           </p>
         </Reveal>
       </div>

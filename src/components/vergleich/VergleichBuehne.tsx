@@ -13,28 +13,32 @@ import { VasenTiefe } from "@/components/VasenTiefe";
  *
  * Der Stapel selbst ist reines CSS (sticky) und läuft damit überall,
  * auch mobil und bei Motion-Stufe "aus". GSAP legt bei Stufe "voll"
- * nur die Politur obenauf: die graue Karte schrumpft und dunkelt ab,
- * während die gelbe sie überfährt (Scrub — Scroll ist die Zeitachse,
- * Dauer-Tokens greifen nicht, dokumentierte Ausnahme).
+ * nur die Politur obenauf (Scrub — Scroll ist die Zeitachse, Dauer-
+ * Tokens greifen nicht, dokumentierte Ausnahme).
+ *
+ * ABDUNKELN NUR ÜBER DEN SCHLEIER, NIE ÜBER CSS-filter (Bugfix
+ * 31.08): der frühere brightness()-Scrub akkumulierte sich über
+ * ScrollTrigger-Refreshes und färbte die Karte schwarz. Der Schleier
+ * ist ein eigenes Overlay-Element, dessen Opacity gescrubbt wird —
+ * idempotent, gedeckelt bei 0.24, kann nie tiefer abdunkeln.
  *
  * Die Karten-Inhalte kommen als Server-Children (StandardKarte /
- * BeuwyKarte); die Craspedia-Vase überlappt die gelbe Karte oben
- * rechts (Alex: Vasen sollen überlappen, nicht am Rand fliegen).
+ * BeuwyKarte); die Craspedia-Vase hängt an der gelben Karte und ragt
+ * über deren Oberkante — während der Überfahrt steht sie damit
+ * sichtbar AUF der grauen Karte (Alex: Vasen sollen überlappen).
  */
 export function VergleichBuehne({ karteA, karteB }: { karteA: ReactNode; karteB: ReactNode }) {
   const stufe = useMotionStufe();
   const grauRef = useRef<HTMLDivElement>(null);
+  const schleierRef = useRef<HTMLDivElement>(null);
   const gelbRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (stufe !== "voll" || !grauRef.current || !gelbRef.current) return;
+    if (stufe !== "voll" || !grauRef.current || !gelbRef.current || !schleierRef.current) return;
     const mm = gsap.matchMedia();
     mm.add("(min-width: 768px)", () => {
-      gsap.to(grauRef.current, {
-        scale: 0.94,
-        filter: "brightness(0.8) saturate(0.85)",
-        transformOrigin: "center 20%",
-        ease: "none",
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
         scrollTrigger: {
           trigger: gelbRef.current,
           start: "top 90%",
@@ -42,6 +46,13 @@ export function VergleichBuehne({ karteA, karteB }: { karteA: ReactNode; karteB:
           scrub: 0.3,
         },
       });
+      tl.to(grauRef.current, { scale: 0.945, transformOrigin: "center 20%" }, 0);
+      tl.to(schleierRef.current, { opacity: 0.24 }, 0);
+      return () => {
+        tl.scrollTrigger?.kill();
+        tl.kill();
+        gsap.set([grauRef.current, schleierRef.current], { clearProps: "all" });
+      };
     });
     return () => mm.revert();
   }, [stufe]);
@@ -51,9 +62,15 @@ export function VergleichBuehne({ karteA, karteB }: { karteA: ReactNode; karteB:
       <div className="sticky top-[9vh]">
         <div
           ref={grauRef}
-          className="min-h-[55vh] overflow-hidden rounded-[32px] border border-line-subtle bg-bg-elevated will-change-transform"
+          className="relative min-h-[55vh] overflow-hidden rounded-[32px] border border-line-subtle bg-bg-elevated will-change-transform"
         >
           {karteA}
+          {/* Abdunkel-Schleier — Opacity wird gescrubbt, Deckel 0.24 */}
+          <div
+            ref={schleierRef}
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[32px] bg-[#161613] opacity-0"
+          />
         </div>
       </div>
       <div ref={gelbRef} className="relative z-10 mt-[9vh]">

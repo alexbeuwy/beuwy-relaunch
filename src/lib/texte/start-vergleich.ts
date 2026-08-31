@@ -9,6 +9,12 @@
  */
 
 export const VERGLEICH_DEFAULTS: Record<string, string> = {
+  "mk.vgl.abgr.eyebrow": "Die Abgrenzung",
+  "mk.vgl.abgr.titel": "Es gibt Makler mit einer Website. Und Makler mit einem *System* dahinter.",
+  "mk.vgl.abgr.sub":
+    "Standardlösungen füllen Exposés und Dokumente, die bei jedem Makler gleich aussehen. Anpassen lässt sich davon wenig.",
+  "mk.vgl.punchline": "Sichtbar sind viele. Unverwechselbar seit 17 Jahren: die mit System.",
+
   "mk.vgl.eyebrow": "Der Unterschied, den Eigentümer sehen",
   "mk.vgl.titel": "Gleiche Häuser. Gleiche Portale. *Ungleiche* Wirkung.",
   "mk.vgl.sub":
@@ -27,8 +33,7 @@ export const VERGLEICH_DEFAULTS: Record<string, string> = {
     "Ihre Marke auf jedem Pixel: Reports, die Eigentümer aufheben. Mails, die klingen wie Sie. Reels, die Ihre Stadt kennt.",
   "mk.vgl.bw.visual_headline": "Verkauft in 12 Tagen. 104 % vom Angebotspreis.",
   "mk.vgl.bw.visual_sub": "Ihr Eigentümer-Report — Seite 1 von 6",
-  "mk.vgl.bw.report_titel": "Marktbericht Q3 — Ihre Region",
-  "mk.vgl.bw.report_sub": "Automatisch aus Ihren Abschlüssen, jede Woche frisch",
+  "mk.vgl.bw.expose_titel": "Exposé auf Knopfdruck",
   "mk.vgl.bw.mail_titel": "Jede Mail pro Empfänger neu geschrieben",
   "mk.vgl.bw.mail_satz":
     "Guten Abend Frau Berger, drei Familien haben Ihr Exposé heute geöffnet — die Finanzierungsprüfung von zweien ist bereits grün.",
@@ -36,6 +41,11 @@ export const VERGLEICH_DEFAULTS: Record<string, string> = {
 };
 
 export const VERGLEICH_LABELS: Record<string, string> = {
+  "mk.vgl.abgr.eyebrow": "Startseite · Abgrenzung · Eyebrow über der Überschrift",
+  "mk.vgl.abgr.titel": "Startseite · Abgrenzung · Überschrift (*Wort* = Hervorhebung)",
+  "mk.vgl.abgr.sub": "Startseite · Abgrenzung · Einleitungssatz",
+  "mk.vgl.punchline": "Startseite · Vergleich · Schlusszeile unter den beiden Karten",
+
   "mk.vgl.eyebrow": "Startseite · Vergleich · Eyebrow über der Überschrift",
   "mk.vgl.titel": "Startseite · Vergleich · Überschrift (*Wort* = Hervorhebung)",
   "mk.vgl.sub": "Startseite · Vergleich · Einleitungssatz",
@@ -51,8 +61,7 @@ export const VERGLEICH_LABELS: Record<string, string> = {
   "mk.vgl.bw.text": "Startseite · Vergleich · beuwy-Seite · Beschreibungstext",
   "mk.vgl.bw.visual_headline": "Startseite · Vergleich · beuwy-Seite · Headline im Report-Visual",
   "mk.vgl.bw.visual_sub": "Startseite · Vergleich · beuwy-Seite · Subline im Report-Visual",
-  "mk.vgl.bw.report_titel": "Startseite · Vergleich · beuwy-Seite · Titel der Report-Kachel",
-  "mk.vgl.bw.report_sub": "Startseite · Vergleich · beuwy-Seite · Subline der Report-Kachel",
+  "mk.vgl.bw.expose_titel": "Startseite · Vergleich · beuwy-Seite · Titel der Exposé-Wechsel-Kachel",
   "mk.vgl.bw.mail_titel": "Startseite · Vergleich · beuwy-Seite · Titel der Mail-Kachel",
   "mk.vgl.bw.mail_satz": "Startseite · Vergleich · Satz, den die Mail-Kachel live tippt",
   "mk.vgl.bw.reel_label": "Startseite · Vergleich · beuwy-Seite · Bildunterschrift des Reels",
