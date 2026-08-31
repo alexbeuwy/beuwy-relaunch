@@ -10,27 +10,27 @@
 
 export const VERGLEICH_DEFAULTS: Record<string, string> = {
   "mk.vgl.abgr.eyebrow": "Die Abgrenzung",
-  "mk.vgl.abgr.titel": "Es gibt Makler mit einer Website. Und Makler mit einem *System* dahinter.",
+  "mk.vgl.abgr.titel": "Was macht Ihre Website, während Sie beim Notar sitzen?",
   "mk.vgl.abgr.sub":
-    "Standardlösungen füllen Exposés und Dokumente, die bei jedem Makler gleich aussehen. Anpassen lässt sich davon wenig.",
-  "mk.vgl.punchline": "Sichtbar sind viele. Unverwechselbar seit 17 Jahren: die mit System.",
+    "Bei den meisten: nichts. Ein System dagegen antwortet sofort selbst — der Termin steht, bevor Sie zurück im Büro sind.",
+  "mk.vgl.punchline": "Verkaufen konnten Sie schon immer. Mit einem *System* sieht man Ihnen das an.",
 
   "mk.vgl.eyebrow": "Der Unterschied, den Eigentümer sehen",
-  "mk.vgl.titel": "Gleiche Häuser. Gleiche Portale. *Ungleiche* Wirkung.",
+  "mk.vgl.titel": "Kann ein Eigentümer Ihr Exposé vom Wettbewerb *unterscheiden*?",
   "mk.vgl.sub":
-    "Scrollen Sie kurz durch beide Welten — Sie erkennen Ihre Post sofort. Und danach die Frage: Welche der beiden schickt die Nummer 1 der Stadt?",
+    "Wenn nicht, sind Sie austauschbar — egal, wie gut Sie verkaufen.",
 
   "mk.vgl.std.label": "Der Standard — 99 von 100 Büros",
-  "mk.vgl.std.titel": "Ordentlich. Austauschbar. Grau.",
+  "mk.vgl.std.titel": "Massenware. Ab 39 € im Monat.",
   "mk.vgl.std.text":
-    "Export ab Werk: Dasselbe Exposé, dieselbe Serienmail, dieselbe Objektliste — nur der Absender wechselt. Reicht für Abschlüsse. Reicht nicht, um als klare Nummer 1 wahrgenommen zu werden.",
+    "So günstig ist der Branchenstandard. Und genau so sieht er auch aus: Exposé aus der Vorlage, Design aus den 2000ern. Das reicht für Abschlüsse. Für die Nummer 1 Ihrer Stadt reicht es nicht.",
   "mk.vgl.std.tools": "onOffice|BOTTIMMO|FLOWFACT|Propstack|CASAONE|justimmo",
   "mk.vgl.std.fussnote": "Layout ab Werk — so kommt es tausendfach im Postfach an.",
 
   "mk.vgl.bw.label": "Mit beuwy",
-  "mk.vgl.bw.titel": "„Wow — das kannte ich so noch nicht.“",
+  "mk.vgl.bw.titel": "Arbeitet wie fünf Mitarbeiter. Wirkt wie Handarbeit.",
   "mk.vgl.bw.text":
-    "Ihre Marke auf jedem Pixel: Reports, die Eigentümer aufheben. Mails, die klingen wie Sie. Reels, die Ihre Stadt kennt.",
+    "Jeder Eigentümer bekommt Unterlagen, die aussehen, als hätte Ihr Büro einen Tag daran gesessen. Tatsächlich entstehen sie auf Knopfdruck, mit seinen echten Daten — auch beim dreihundertsten Mandat des Jahres. Die Zeitersparnis entspricht einem Team von fünf Mitarbeitern. Ohne eine einzige neue Stelle.",
   "mk.vgl.bw.visual_headline": "Verkauft in 12 Tagen. 104 % vom Angebotspreis.",
   "mk.vgl.bw.visual_sub": "Ihr Eigentümer-Report — Seite 1 von 6",
   "mk.vgl.bw.expose_titel": "Exposé auf Knopfdruck",
@@ -68,7 +68,7 @@ export const VERGLEICH_LABELS: Record<string, string> = {
   "mk.vgl.std.fussnote": "Startseite · Vergleich · Standard-Seite · Fußnote unter dem Mockup",
 
   "mk.vgl.bw.label": "Startseite · Vergleich · beuwy-Seite · Label über der Karte",
-  "mk.vgl.bw.titel": "Startseite · Vergleich · beuwy-Seite · Überschrift (Zitat)",
+  "mk.vgl.bw.titel": "Startseite · Vergleich · beuwy-Seite · Überschrift",
   "mk.vgl.bw.text": "Startseite · Vergleich · beuwy-Seite · Beschreibungstext",
   "mk.vgl.bw.visual_headline": "Startseite · Vergleich · beuwy-Seite · Headline im Report-Visual",
   "mk.vgl.bw.visual_sub": "Startseite · Vergleich · beuwy-Seite · Subline im Report-Visual",

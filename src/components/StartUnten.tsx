@@ -120,6 +120,17 @@ const FAQ = [
     a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Portal und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
   },
   {
+    // R8 (Alex, 31.08): Qualifizierung ueber die 10k/100k-Rechnung —
+    // disqualifiziert bewusst, Ton bleibt "Absicht, nicht Marketing".
+    q: "Für wen sind beuwy-Systeme geeignet?",
+    a: "Machen Ihnen 10.000 € Marketingkosten im Monat keine Angst? Weil Sie wissen: Daraus werden 100.000 € mehr Einnahmen. Dann ja. Wenn Sie bei diesen Zahlen schlucken, ist ein Baukasten ab 39 € im Monat die ehrlichere Wahl. Beides ist in Ordnung. Es ist nur nicht dasselbe Ziel.",
+  },
+  {
+    // R8: Client-Avatar als Spiegel — der richtige Leser erkennt sich.
+    q: "Wer sind die häufigsten beuwy-Kunden?",
+    a: "Inhaber, deren Geschäft längst läuft. Nur ihr Ehrgeiz ist größer als ihr Auftritt. Ihr Maßstab sind die Besten ihrer Stadt: Sie sparen woanders — nur nicht an dem, was man von ihnen sieht. Kommt Ihnen das bekannt vor? Aus genau solchen Gesprächen sind in 17 Jahren über 100 Markenprojekte entstanden.",
+  },
+  {
     q: "Wie schnell live?",
     a: "Vier bis sechs Wochen, je nach Umfang. Marke und Konzept stehen in Woche eins, Website und Funnel in Woche zwei und drei, Automationen und Anbindung in Woche vier.",
   },

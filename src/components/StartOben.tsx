@@ -196,7 +196,7 @@ const BAUKASTEN_PUNKTE = [
 ];
 
 const BEUWY_PUNKTE = [
-  "Ein Portal, kein Template — gebaut für Ihre Marke und Ihren Markt.",
+  "Ein System, kein Template — gebaut für Ihre Marke und Ihren Markt.",
   "Exposés und Dokumente mit Ihrem Namen — nicht dem des Baukastens.",
   "Docken an Ihr CRM an — jede Anfrage landet dort, wo Sie ohnehin arbeiten.",
   "Mandate und Deals messbar — jede Zahl steht in Ihrem CRM.",
