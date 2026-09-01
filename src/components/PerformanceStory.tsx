@@ -28,7 +28,7 @@ const STATIONEN = [
     id: "haengen",
     schritt: "02",
     titel: "Hängen bleiben",
-    satz: "Wer klickt, landet auf einem Portal in Ihrer Liga — nicht auf einer Visitenkarte.",
+    satz: "Wer klickt, kommt auf einen Auftritt, der das Versprechen der Anzeige einlöst.",
   },
   {
     id: "vorstellen",
@@ -194,8 +194,7 @@ function FunnelVisual() {
         </svg>
       </div>
       <p className="t-small mt-4 max-w-[46ch] text-center">
-        Schematischer Verlauf — Ihre echten Quoten stehen jeden Montag im
-        Wochenbericht, nicht im Bauchgefühl.
+        Schematischer Verlauf — Ihre echten Quoten stehen im Wochenbericht.
       </p>
     </div>
   );
@@ -316,8 +315,8 @@ export function PerformanceStory({
       {/* Big Box: Dream State mit Endlos-Zahl */}
       <div className="mt-20 grid gap-8 lg:mt-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-14">
         <p className="t-body-lg max-w-[46ch]">
-          Rund {quote} der erreichten Kontakte registrieren sich — Mandanten,
-          Kunden, Interessenten. Der Rest ist Mathematik:
+          Rund {quote} der erreichten Eigentümer registrieren sich. Der Rest
+          ist Mathematik:
         </p>
         <div className="rounded-[28px] bg-akzent px-8 py-9 sm:px-10 lg:min-w-[400px]">
           <p className="t-label !text-ink-cream/60">Was am Ende zählt</p>

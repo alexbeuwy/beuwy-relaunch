@@ -124,3 +124,5 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   Vorrang vor dem ersten neuen Hebel.
 - 01.09 · Tick 1 (manuell beim Einrichten): A1 llms.txt System-Sprache +
   GEO-Zitate; B1 Sitemap-Audit sauber; D5 als Folge-Hebel erkannt.
+- 01.09 · R9 integriert: Roter-Faden-Copy (4 Umschreiber + Richter, 27
+  Fixes) und Funnel-Politur gepusht — Startstrecke ist Portal-frei.

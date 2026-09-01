@@ -51,8 +51,8 @@ function PerformanceMarketing({ c }: { c: Record<string, string> }) {
         <Reveal>
           <SektionsKopf
             eyebrow="Performance-Marketing"
-            titel="So werden Fremde zu *Mandaten*."
-            sub="Anzeigen machen auf Ihre Marke aufmerksam. Das Portal übernimmt den Rest."
+            titel="So wird aus einer Anzeige ein *Mandat*."
+            sub="Fremde sehen Ihre Anzeige. Das System macht daraus einen Termin."
             ausrichtung="mitte"
           />
         </Reveal>
@@ -141,7 +141,7 @@ function Spiegel({ c }: { c: Record<string, string> }) {
 
             <div>
               <SektionsKopf
-                eyebrow="Der Vergleich, den Sie nicht sehen"
+                eyebrow="Der Blick von außen"
                 titel="Sie sind unter den Besten. *Sieht* man Ihnen das an?"
               />
               <div className="mt-9 space-y-6 border-t border-line-subtle pt-9">
@@ -189,17 +189,17 @@ function Spiegel({ c }: { c: Record<string, string> }) {
    Vollbreiten-Band bg-bg-elevated. Zwei nüchterne Listen statt Karten-
    Spam, kein Wettbewerbername (BRIEF §5). */
 const BAUKASTEN_PUNKTE = [
-  "Eine Website statt ein System — schicke Visitenkarte, kein Motor dahinter.",
-  "Austauschbar — Exposés und Dokumente sehen bei jedem Makler gleich aus.",
-  "Anpassung schwierig — jede Änderung landet in einer Warteschlange.",
-  "Ohne Nachweis — niemand zeigt Ihnen, wie viele Mandate dabei herauskommen.",
+  "Schicke Visitenkarte, aber kein Motor dahinter.",
+  "Exposés sehen bei jedem Makler gleich aus.",
+  "Jede Änderung landet in der Warteschlange.",
+  "Niemand zeigt Ihnen, wie viele Mandate dabei herauskommen.",
 ];
 
 const BEUWY_PUNKTE = [
-  "Ein System, kein Template — gebaut für Ihre Marke und Ihren Markt.",
-  "Exposés und Dokumente mit Ihrem Namen — nicht dem des Baukastens.",
-  "Docken an Ihr CRM an — jede Anfrage landet dort, wo Sie ohnehin arbeiten.",
-  "Mandate und Deals messbar — jede Zahl steht in Ihrem CRM.",
+  "Ein System für Ihre Marke, kein Template von der Stange.",
+  "Exposés tragen Ihren Namen, nicht den des Baukastens.",
+  "Änderungen erledigt Ihr direkter Ansprechpartner — ohne Warteschlange.",
+  "Mandate und Deals sind messbar. Jede Zahl steht in Ihrem CRM.",
 ];
 
 function Abgrenzung({ c }: { c: Record<string, string> }) {
@@ -253,7 +253,7 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
         <Reveal>
           <SektionsKopf
             eyebrow={c["mk.vgl.eyebrow"] ?? "Der Unterschied, den Eigentümer sehen"}
-            titel={c["mk.vgl.titel"] ?? "Gleiche Häuser. Gleiche Portale. *Ungleiche* Wirkung."}
+            titel={c["mk.vgl.titel"] ?? "Kann ein Eigentümer Ihr Exposé vom Wettbewerb *unterscheiden*?"}
             sub={c["mk.vgl.sub"] ?? ""}
           />
         </Reveal>
@@ -289,14 +289,12 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
           <Reveal delay={90}>
             <GelbeKarte
               label="In 90 Sekunden"
-              titel="Warum die besten Makler noch nicht die beste Website haben."
+              titel="Kein Pitch. Ein echtes Projekt."
               glyph
               className="max-w-[34rem]"
             >
-              Die meisten Maklerwebsites sehen aus wie die des Nachbarn — nur mit anderem Namen.
-              Unsere sehen aus wie Sie: Ihre Fotos, Ihr Ton, Ihre Zahlen, und ein System dahinter,
-              das Anfragen sortiert, bevor Sie sie überhaupt sehen. Wie das an einem echten
-              Projekt aussieht, zeigt das Video daneben.
+              Unsere Websites sehen aus wie Sie: Ihre Fotos, Ihr Ton, Ihre Zahlen. Und dahinter
+              ein Funnel, der nur durchstellt, was ein Gespräch wert ist.
             </GelbeKarte>
 
             <a
@@ -328,7 +326,7 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
             </div>
 
             <div className="mt-8 border-t border-line-subtle pt-8">
-              <AvatarReihe text="Vertraut von führenden Maklern im DACH-Raum" />
+              <AvatarReihe text="Führende Makler im DACH-Raum vertrauen beuwy" />
             </div>
           </Reveal>
         </div>
@@ -358,9 +356,9 @@ const SAEULEN: Saeule[] = [
     titel: "Marke & Design",
     satz: "Der Auftritt, der in drei Sekunden zeigt, in welcher Liga Sie spielen.",
     hebel: [
-      "Bildsprache und Typografie laufen nach einem Styleguide — jedes Exposé sieht aus, als käme es von einer Marke, nicht von drei verschiedenen Praktikanten.",
-      "Farbwelt und Ton sind auf Ihre Preisklasse kalibriert — der Eigentümer entscheidet in den ersten drei Sekunden, ob er weiterliest.",
-      "Ein Markensystem statt Einzelauftrag: Logo, Visitenkarte, Exposé-Vorlage, Signatur — aus einer Hand, in einer Sprache.",
+      "Bildsprache und Typografie folgen einem Styleguide — jedes Exposé wirkt, als käme es von einer Marke, nicht von drei Praktikanten.",
+      "Farbwelt und Ton sind auf Ihre Preisklasse kalibriert.",
+      "Ein Markensystem statt Einzelaufträge: Logo, Visitenkarte, Exposé-Vorlage und Signatur sprechen eine Sprache.",
     ],
     fotoSrc: maklerAsset(3),
     position: "50% 32%",
@@ -371,7 +369,7 @@ const SAEULEN: Saeule[] = [
     titel: "Website & Experience",
     satz: "Die Seite, die lädt, bevor der Eigentümer zum nächsten Makler wechselt.",
     hebel: [
-      "Ladezeit unter einer Sekunde — Eigentümer vergleichen drei Makler in fünf Minuten, wer zuerst da ist, wirkt wie das Büro, das sofort zurückruft.",
+      "Ladezeit unter einer Sekunde — wer zuerst da ist, wirkt wie das Büro, das sofort zurückruft.",
       "Exposés, die aussehen, wie das Objekt es verdient — und einen Alleinauftrag rechtfertigen, bevor Sie im Wohnzimmer sitzen.",
       "Immobilienbewertungs-Rechner qualifiziert Eigentümer nebenbei: Adresse rein, Ersteinschätzung raus, Lead mit Score im CRM.",
     ],
@@ -397,7 +395,7 @@ const SAEULEN: Saeule[] = [
     titel: "Automatisierung",
     satz: "Modelle wechseln jede Woche, aber was bei Ihnen ankommt, bleibt einfach.",
     hebel: [
-      "ChatGPT, Claude, Kimi, DeepSeek — jede Woche ein neues Modell, kaum einer hält Schritt, und ein Prompt liefert bestenfalls einen Text oder eine Mail, nie ein System.",
+      "ChatGPT, Claude, Kimi, DeepSeek — ein Prompt liefert bestenfalls einen Text, nie ein System.",
       "Terminanfragen sortieren sich selbst nach Dringlichkeit und Objektwert, bevor sie in Ihrem Kalender landen.",
       "Wöchentlicher Bericht statt Rätselraten: Anfragen, Quelle, Status — automatisch zusammengestellt, jeden Montag im Postfach.",
     ],

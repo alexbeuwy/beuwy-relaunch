@@ -73,7 +73,7 @@ export function Footer() {
           <p className="t-data">
             © {jahr} beuwy · Alexander Pütter
           </p>
-          <p className="t-data">Marke · Portal · Vertriebssystem</p>
+          <p className="t-data">Marke · Website · Automatisierung</p>
         </div>
       </div>
     </footer>

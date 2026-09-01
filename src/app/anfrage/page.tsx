@@ -39,7 +39,7 @@ export default function AnfragePage() {
         <AiPille className="!bottom-auto !top-4" />
         <GelbeKarte
           label="Nach dem Absenden"
-          titel="Antwort innerhalb von 24 Stunden."
+          titel="Antwort in 24 Stunden."
           className="absolute inset-x-4 bottom-4 !px-5 !py-5"
         >
           Kein Pitch, keine Massenmail.
@@ -69,7 +69,7 @@ export default function AnfragePage() {
 
           <GelbeKarte
             label="Nach dem Absenden"
-            titel="Antwort innerhalb von 24 Stunden."
+            titel="Antwort in 24 Stunden."
             glyph
             className="absolute -left-12 bottom-16 z-10 max-w-[280px] shadow-[0_1px_2px_rgba(20,20,18,0.06)]"
           >
@@ -81,11 +81,11 @@ export default function AnfragePage() {
         <div className="relative z-20 px-6 pb-24 pt-10 lg:w-[56vw] lg:pl-[max(24px,calc((100vw-1360px)/2))] lg:pr-16 lg:pt-32 lg:pb-24">
           <p className="t-label !text-ink-yellow">Zusammenarbeit anfragen</p>
           <h1 className="mt-5 max-w-[520px] font-display text-[clamp(28px,3.4vw,40px)] font-bold leading-[1.1] tracking-[-0.02em] text-ink-cream [text-wrap:balance]">
-            Damit das erste Gespräch schon sitzt.
+            Sagen Sie uns, woran es bei Ihnen hakt.
           </h1>
           <p className="t-body-lg mt-4 max-w-[440px]">
-            Vier kurze Fragen: keine Angebotsvorlage, kein Pitch von der Stange. Danach melden
-            wir uns persönlich, mit einer Einschätzung für genau Ihr Haus.
+            Vier kurze Fragen. Danach melden wir uns persönlich, mit einer
+            Einschätzung für genau Ihr Haus.
           </p>
 
           <div className="mt-10">

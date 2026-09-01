@@ -210,20 +210,20 @@ export const DEFAULTS: Record<string, string> = {
      Platzhalter mit Sought-after-Effekt; Alex passt Zahlen und
      Namen im Studio an, bevor Freigaben stehen. */
 
-  "mk.hero.eyebrow": "Marke · Portal · Vertriebssystem",
+  "mk.hero.eyebrow": "Marke · Website · Automatisierung",
   "mk.hero.title": "Das System hinter Deutschlands *besten*",
   "mk.hero.rotation": "Maklern",
   "mk.hero.subtitle":
-    "beuwy baut Portale statt Visitenkarten: Eigentümer registrieren sich, qualifizieren sich vor — und Sie sprechen nur noch mit den Richtigen. In Wochen live, seit 17 Jahren messbar.",
+    "beuwy bringt 17 Jahre Markenarbeit mit. Ihr Auftritt ist in 4–6 Wochen live.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
-  "mk.hero.cta_hinweis": "Antwort innerhalb von 24 Stunden",
+  "mk.hero.cta_hinweis": "Antwort in 24 Stunden",
   "mk.hero.cta2": "Ergebnisse ansehen",
   "mk.hero.checks":
-    "Marke & Design~Premium, unverwechselbar|Portal & Funnel~registriert & qualifiziert vor|Automatisierung~arbeitet, während Sie verkaufen",
+    "Marke & Design~beantwortet Ihren Preis|Website & Funnel~sortiert Anfragen vor, bevor Sie abheben|Automatisierung~arbeitet, während Sie verkaufen",
   "mk.hero.badge_label": "Für führende Immobilienmakler",
   "mk.hero.badge_wert": "100+",
-  "mk.hero.badge_text": "erfolgreiche Markenprojekte",
-  "mk.trust.label": "Vertraut aus Projekten mit Maklern führender Häuser",
+  "mk.hero.badge_text": "Markenprojekte seit 2009",
+  "mk.trust.label": "Projekte mit Maklern führender Häuser",
   "mk.trust.namen":
     "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
 
@@ -232,7 +232,7 @@ export const DEFAULTS: Record<string, string> = {
   "mk.stats.s2_wert": "3×",
   "mk.stats.s2_label": "mehr Eigentümer-Anfragen nach Relaunch",
   "mk.stats.s3_wert": "17",
-  "mk.stats.s3_label": "Jahre Markenarbeit — Bosch, Continental, Michelin",
+  "mk.stats.s3_label": "Jahre Markenarbeit, u. a. Bosch, Continental, Michelin",
   "mk.stats.s4_wert": "4–6",
   "mk.stats.s4_label": "Wochen bis zum Livegang",
 
@@ -248,7 +248,7 @@ export const DEFAULTS: Record<string, string> = {
   "mk.podcast.url": "",
   "mk.podcast.titel": "Im Gespräch: Leon Lin",
   "mk.podcast.sub":
-    "Alexander Pütter mit Leon Lin — einem der bekanntesten KI-Skill-Entwickler. Über Systeme, die im Makleralltag wirklich arbeiten.",
+    "Alexander Pütter mit Leon Lin, KI-Skill-Entwickler. Über Systeme, die im Makleralltag wirklich arbeiten.",
 
   "mk.beweis.label": "Größenordnungen, keine Versprechen",
   "mk.beweis.kacheln":

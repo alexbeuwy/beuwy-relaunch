@@ -67,7 +67,7 @@ const CASE_ANRISS = [
   {
     slug: "riegel-immobilien",
     ergebnis:
-      "Bewertungsrechner mit amtlichen Bodenrichtwerten, direkt an das Maklersystem angebunden. Jede Anfrage landet sofort im Ablauf, nicht im Postfach. Ergebnis: neun Abschlüsse, 342.000 € Volumen in sechs Wochen.",
+      "Bewertungsrechner mit amtlichen Bodenrichtwerten, direkt an das Maklersystem angebunden — jede Anfrage sofort im Ablauf. Ergebnis: neun Abschlüsse, 342.000 € Volumen in sechs Wochen.",
   },
   {
     slug: "vision-group",
@@ -86,7 +86,7 @@ const PROZESS_SCHRITTE = [
   {
     nr: "W2–3",
     titel: "Website & Funnel",
-    text: "Ihr neuer Auftritt entsteht, samt Vorquali-Funnel und Terminbuchung. Er qualifiziert Anfragen, bevor Sie den Hörer in die Hand nehmen.",
+    text: "Ihr neuer Auftritt entsteht, samt Vorquali-Funnel und Terminbuchung. Sie sprechen nur noch mit Eigentümern, die es ernst meinen.",
   },
   {
     nr: "W4",
@@ -95,17 +95,17 @@ const PROZESS_SCHRITTE = [
   },
   {
     nr: "∞",
-    titel: "Danach",
+    titel: "Betrieb",
     text: "Anzeigen laufen, Anfragen landen im CRM, der Wochenbericht kommt von selbst. Ihre Aufgabe: die Termine wahrnehmen.",
   },
 ] as const;
 
 /* ── Block 8 — Qualifizierung/Disqualifizierung, ehrlich ── */
 const JA_LISTE = [
-  "die absolute regionale Marktdominanz wollen — Omnipräsenz vom E-Mail-Postfach bis zur Social-Media-Story.",
-  "die die Erste oder der Erste sein wollen, wenn jemand in ihrer Stadt an Immobilien denkt.",
+  "die absolute regionale Marktdominanz wollen.",
+  "die in ihrer Stadt die Nummer 1 sein wollen, wenn jemand an Immobilien denkt.",
   "die schnell entscheiden, sobald alle Informationen und Nachweise auf dem Tisch liegen.",
-  "die Profis und Prozessen vertrauen — bewährte Abläufe, angepasst auf das eigene Haus.",
+  "die Profis und Prozessen vertrauen — bewährte Abläufe, zugeschnitten auf das eigene Haus.",
 ];
 const NEIN_LISTE = [
   "Sie die billigste Lösung suchen.",
@@ -117,7 +117,7 @@ const NEIN_LISTE = [
 const FAQ = [
   {
     q: "Was kostet das?",
-    a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Portal und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
+    a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Website und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
   },
   {
     // R8 (Alex, 31.08): Qualifizierung ueber die 10k/100k-Rechnung —
@@ -132,7 +132,7 @@ const FAQ = [
   },
   {
     q: "Wie schnell live?",
-    a: "Vier bis sechs Wochen, je nach Umfang. Marke und Konzept stehen in Woche eins, Website und Funnel in Woche zwei und drei, Automationen und Anbindung in Woche vier.",
+    a: "Vier bis sechs Wochen, je nach Umfang.",
   },
   {
     q: "Muss ich Inhalte liefern?",
@@ -140,11 +140,11 @@ const FAQ = [
   },
   {
     q: "Funktioniert das mit onOffice/FLOWFACT?",
-    a: "Ja. Portal, Rechner und Funnel docken an onOffice, FLOWFACT, Propstack, JUSTIMMO oder CasaOne an. Jede Anfrage landet mit Quelle und nächstem Schritt direkt in Ihrem System. Keine Zettel, kein Copy-Paste, kein vergessener Rückruf.",
+    a: "Ja. Website, Rechner und Funnel docken an onOffice, FLOWFACT, Propstack, JUSTIMMO oder CasaOne an. Anfragen stehen dort, wo Ihr Team ohnehin arbeitet.",
   },
   {
     q: "Was passiert nach dem Livegang?",
-    a: "Das System läuft weiter, nicht Sie hinterher. Anzeigen werden justiert, das CRM bleibt sauber, und Sie bekommen einen Wochenbericht statt eines Bauchgefühls.",
+    a: "Das System läuft weiter, nicht Sie hinterher. Wir justieren Anzeigen, halten das CRM sauber und schicken Ihnen jede Woche den Bericht.",
   },
 ];
 
@@ -169,7 +169,7 @@ const TOOL_KARTEN = [
   {
     label: "Für Eigentümer",
     titel: "Verkaufspreis-Rechner",
-    text: "Der Erstanker jeder Eigentümer-Reise: Wertspanne mit offenem Rechenweg — sofort sichtbar, kein Formular davor.",
+    text: "Zeigt die Wertspanne mit offenem Rechenweg — sofort sichtbar, kein Formular davor.",
     href: "/tools/verkaufspreisrechner",
   },
   {
@@ -181,7 +181,7 @@ const TOOL_KARTEN = [
   {
     label: "Für Kapitalanleger",
     titel: "AfA- & Restnutzungsdauer-Rechner",
-    text: "Zeigt in zwei Minuten, was ein Restnutzungsdauer-Gutachten steuerlich bewegt — ehrlicher als jede Lead-Wall.",
+    text: "Zeigt in zwei Minuten, was ein Restnutzungsdauer-Gutachten steuerlich bewegt.",
     href: "/tools/afa-rechner",
   },
 ] as const;
@@ -281,9 +281,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <SektionsKopf
-              eyebrow="Nicht glauben — ausprobieren"
+              eyebrow="Selbst testen"
               titel="Fassen Sie das System *an*."
-              sub="Drei Rechner, wie wir sie für Ihre Eigentümer bauen — hier im beuwy-Kleid, live und ohne Anmeldung. Genau so beginnt jede Registrierung."
+              sub="Drei Rechner, wie wir sie für Ihre Eigentümer bauen. Live, im beuwy-Kleid, ohne Anmeldung."
               className="max-w-[720px]"
             />
           </Reveal>
@@ -319,7 +319,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             <SektionsKopf
               eyebrow="Beweis"
               titel="Sie müssen uns nicht glauben. *Rechnen* Sie nach."
-              sub="Drei Häuser, drei Größenordnungen — zum Nachlesen, nicht zum Glauben."
+              sub="Drei Häuser, drei Größenordnungen. Zum Nachlesen."
             />
           </Reveal>
 
@@ -328,12 +328,11 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             <div className="mt-16 grid items-center gap-12 border-t border-line-subtle pt-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
               <div>
                 <p className="font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.15] tracking-[-0.02em] text-ink-cream [text-wrap:balance]">
-                  {rich("*17 Jahre* Markenarbeit. Und bei KI vorne dabei — nicht hinterher.")}
+                  {rich("*17 Jahre* Markenarbeit. Und bei KI vorne dabei.")}
                 </p>
                 <p className="t-body-lg mt-5 max-w-[44ch]">
                   Was diese Woche an Modellen erscheint, steckt nächste Woche in unseren
-                  Abläufen. Nicht als Experiment, sondern als Arbeit, die Ihr Team nicht
-                  mehr machen muss.
+                  Abläufen — als Arbeit, die Ihr Team nicht mehr selbst machen muss.
                 </p>
               </div>
               <PodcastSlot
@@ -406,7 +405,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         </div>
       </section>
 
-      {/* ══ Block 6b — Danach: der Traumzustand direkt hinterm Beweis
+      {/* ══ Block 6b — Betrieb: der Traumzustand direkt hinterm Beweis
           (VSL: Future Pacing VOR dem Angebot, Alex 26.08) ═════════ */}
       <section id="danach" className="relative bg-bg-elevated border-t border-line-subtle">
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
@@ -417,9 +416,8 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                 {rich("Dann sieht Ihre Stadt Sie *überall*.")}
               </h3>
               <p className="t-body-lg mt-5 max-w-[54ch]">
-                Absolute regionale Dominanz: Ihre Marke im Postfach, in der Story, auf der
-                Straße und am Spielfeldrand — bis der erste Gedanke bei „Immobilien" Ihr
-                Name ist.
+                Ihre Marke im Postfach, in der Story, auf der Straße und am Spielfeldrand —
+                bis der erste Gedanke bei „Immobilien" Ihr Name ist.
               </p>
               <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
                 {DOMINANZ_SZENEN.map(({ titel, Szene }) => (
@@ -490,9 +488,8 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
           <Reveal delay={150}>
             <p className="mt-16 max-w-[54ch] t-body-lg">
-              Jedes Ihrer Anliegen läuft in einem Ticketsystem — nachweisbar, mit Status,
-              bis es erledigt ist. Kein Wunsch bleibt offen, und niemand fragt nach zwei Wochen:
-              Wie weit ist mein Dokument? Mein Rechner? Meine Anpassung?
+              Jedes Ihrer Anliegen läuft in einem Ticketsystem: nachweisbar, mit Status,
+              bis es erledigt ist.
             </p>
           </Reveal>
 
@@ -501,7 +498,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                 an (Alex, 31.08: Vasen ueberlappen, nicht am Rand fliegen) */}
             <div className="relative mt-16 max-w-[520px] ml-auto">
               <GelbeKarte label="Ihr Aufwand" titel="Vier Termine reichen." glyph>
-                Den Rest liefern wir: Marke, Portal, Funnel, Automationen. Fertig in Wochen, nicht in Quartalen.
+                Den Rest liefern wir: Marke, Website, Funnel, Automationen.
               </GelbeKarte>
               <VasenTiefe variante="karte-prozess" />
             </div>
@@ -598,7 +595,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
           <Reveal>
             <p className="t-label">Der nächste Schritt</p>
             <h2 className="mt-6 font-display text-[clamp(34px,4.6vw,60px)] font-bold leading-[1.05] tracking-[-0.025em] text-ink-cream [text-wrap:balance]">
-              {rich("Ihr Ruf ist erstklassig. *Zeit*, dass man es sieht.")}
+              {rich("Ihr Ruf ist erstklassig. *Zeit* für ein System, das mithält.")}
             </h2>
             <div className="mt-12 flex flex-col items-center gap-4">
               <Link
