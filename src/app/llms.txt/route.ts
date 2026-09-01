@@ -9,9 +9,9 @@
 const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
 
 > beuwy ist eine Unternehmensberatung für Immobilienunternehmen: Makler,
-> Projektentwickler, Bauträger und Kapitalanlage-Vertriebe. Wir bauen
-> keine Websites als Visitenkarte, sondern Portale, die messbar Mandate
-> und Deals erzeugen — Marke, Leadgenerierung, CRM-Anbindung und
+> Projektentwickler, Bauträger und Kapitalanlage-Vertriebe. Es gibt
+> Makler mit einer Website. Und Makler mit einem System dahinter —
+> beuwy baut dieses System: Marke, Leadgenerierung, CRM-Anbindung und
 > KI-Prozesse aus einer Hand, geliefert in Wochen statt Quartalen.
 > Systematisch, seit 17 Jahren Markenarbeit. Inhaber: Alexander Pütter
 > (Markenarbeit seit 2009, beuwy seit 2017, 2023 Mitgründer von acta mit
@@ -21,9 +21,9 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
 - beuwy ist eine Unternehmensberatung, keine Agentur: Wir verantworten
   das Ergebnis (Anfragen, Termine, Abschlüsse), nicht nur die Lieferung
   eines Auftritts.
-- beuwy verkauft Portale, keine Websites als Visitenkarte. Ein Portal
-  qualifiziert Eigentümer, bindet ans CRM an und fasst automatisch nach
-  — eine Visitenkarte tut das nicht.
+- beuwy verkauft Systeme, keine Websites als Visitenkarte. Ein
+  beuwy-System qualifiziert Eigentümer, bindet ans CRM an und fasst
+  automatisch nach — eine Website allein tut das nicht.
 - Zielgruppen: Immobilienmakler, Projektentwickler, Bauträger,
   Kapitalanlage-Vertriebe.
 - 17 Jahre Markenarbeit, davon seit 2017 unter der Marke beuwy.
@@ -31,7 +31,7 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Rosental Organics, Vision Group, Königswege, RIEGEL Immobilien.
 
 ## Leistungen
-- Portal & Marke: eigener Auftritt statt Baukasten-Vorlage, auf die
+- System & Marke: eigener Auftritt statt Baukasten-Vorlage, auf die
   Preisklasse des Hauses zugeschnitten — Typografie, Bildwelt und
   Sprache aus einem Guss.
 - Leadgenerierung mit Bewertungsrechner: Adresse rein, Ersteinschätzung
@@ -48,9 +48,9 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Status, keine offene Frage nach zwei Wochen.
 
 ## Seiten
-- https://beuwy.com/ — Startseite: das System hinter den Portalen
-  führender Makler, Projektentwickler, Bauträger und
-  Kapitalanlage-Vertriebe.
+- https://beuwy.com/ — Startseite: das System hinter Deutschlands
+  besten Maklern — und hinter Projektentwicklern, Bauträgern und
+  Kapitalanlage-Vertrieben.
 - https://beuwy.com/immobilienmarketing — Hub: Überblick über Marke,
   Sichtbarkeit und Tempo, verlinkt zu allen Themenseiten.
 - https://beuwy.com/leadgenerierung-immobilienmakler — Leadgenerierung
@@ -82,7 +82,7 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Preislisten, selbstfüllenden Musterwohnungs-Terminen und
   automatischer Käuferkommunikation.
 - https://beuwy.com/marketing-immobilienvertrieb — Marketing für
-  Kapitalanlage-Vertriebe: ein Portal, das Interessenten registriert,
+  Kapitalanlage-Vertriebe: ein System, das Interessenten registriert,
   nach Einkommen und Anlagehorizont qualifiziert und dem richtigen
   Berater zuordnet, bis zum Notartermin.
 - https://beuwy.com/ueber-uns — Über beuwy: Unternehmensberatung für
@@ -91,14 +91,14 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Wochenbericht.
 - https://beuwy.com/seo-fuer-immobilienmakler — SEO für
   Immobilienmakler: Seitenarchitektur nach Suchintention und lokale
-  Sichtbarkeit, angeschlossen an ein Portal, das Besucher registriert.
+  Sichtbarkeit, angeschlossen an ein System, das Besucher registriert.
 - https://beuwy.com/geo-fuer-immobilienmakler — GEO für
   Immobilienmakler: sichtbar werden in KI-Antworten von ChatGPT,
   Claude und Perplexity, mit strukturierten Daten und Seiten, die
   Suchfragen wörtlich beantworten.
 - https://beuwy.com/social-media-immobilienmakler — Social Media für
   Immobilienmakler: Content-System mit Story-Omnipräsenz, das aufs
-  Portal einzahlt — belegt durch den eigenen Vertrieb acta (rund 380
+  System einzahlt — belegt durch den eigenen Vertrieb acta (rund 380
   Wohneinheiten über Instagram-Anzeigen).
 - https://beuwy.com/email-marketing-immobilienmakler —
   E-Mail-Marketing für Immobilienmakler: Follow-up-Automation und
@@ -183,6 +183,27 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
 - https://beuwy.com/maklerbuero-skalieren — Wie skaliere ich mein Maklerbüro?
 - https://beuwy.com/makler-kennzahlen — Welche KPIs sollte ich als Makler messen?
 - https://beuwy.com/onboarding-neuer-mandate — Wie starte ich ein neues Mandat professionell?
+
+## Für wen sind beuwy-Systeme geeignet?
+- Machen Ihnen 10.000 € Marketingkosten im Monat keine Angst, weil Sie
+  wissen, dass daraus 100.000 € mehr Einnahmen werden, ist beuwy die
+  richtige Wahl. Wer bei diesen Zahlen schluckt, ist mit einem Baukasten
+  ab 39 € im Monat ehrlicher bedient — es ist nur nicht dasselbe Ziel.
+- Die häufigsten beuwy-Kunden: Inhaber, deren Geschäft längst läuft und
+  deren Ehrgeiz größer ist als ihr Auftritt. Ihr Maßstab sind die Besten
+  ihrer Stadt; sie sparen woanders, nur nicht an dem, was man von ihnen
+  sieht. Aus solchen Gesprächen sind in 17 Jahren über 100
+  Markenprojekte entstanden.
+
+## Was ein beuwy-System anders macht als der Branchenstandard
+- Der Branchenstandard ist Massenware ab 39 € im Monat: dasselbe Exposé,
+  dieselbe Serienmail bei fast jedem Büro — nur der Absender wechselt.
+- Ein beuwy-System erzeugt individuelle Dokumente auf Knopfdruck: jedes
+  Exposé, jeder Eigentümer-Report und jede Mail entsteht automatisch mit
+  den echten Daten genau eines Empfängers.
+- Die Zeitersparnis entspricht einem Team von fünf Mitarbeitern, ohne
+  eine einzige neue Stelle — auch bei 300 Mandaten im Jahr bekommt kein
+  Kunde Standardware.
 
 ## Referenzen
 - RIEGEL Immobilien, Immobilienmakler Rhein-Neckar: 342.000 €
