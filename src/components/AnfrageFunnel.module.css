@@ -1,0 +1,219 @@
+/* AnfrageFunnel — Schrittwechsel + Erfolgs-Haken, ausschließlich über
+   die Motion-Tokens aus globals.css (:root vererbt in jede CSS-Datei,
+   auch Module). Kein Ad-hoc-Duration. */
+
+/* Schrittwechsel: Slide + Fade + weicher Blur (Page-Slide-Spur der
+   Token-Skala: --blur-medium gehoert zum Slide dazu), Richtung über
+   --dir (1 = vor, -1 = zurück). Distanz auf --distance-base gezogen —
+   die Polish-Regel: alles über ~danach liest sich träge, nicht schnell. */
+.schritt {
+  animation: anfrageSchrittEin var(--duration-fast) var(--ease-smooth-out) both;
+}
+.vor {
+  --dir: 1;
+}
+.zurueck {
+  --dir: -1;
+}
+
+@keyframes anfrageSchrittEin {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir, 1) * var(--distance-base)));
+    filter: blur(var(--blur-medium, 3px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* Auswahl-Bestätigung: die geklickte Pille bestätigt SICHTBAR, bevor der
+   Schritt weiterspringt — Mini-Pop (Entrance darf bouncen) plus Haken,
+   der sich nachzeichnet. Das macht den Auto-Sprung gefühlt schneller,
+   weil der Klick sofort quittiert wird. */
+.pilleAktiv {
+  animation: pillePop var(--duration-fast) var(--ease-bounce) both;
+}
+
+@keyframes pillePop {
+  from {
+    transform: scale(0.97);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.pilleHaken {
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  animation: pilleHakenZeichnen var(--duration-quick) var(--ease-smooth-out) forwards;
+}
+
+@keyframes pilleHakenZeichnen {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Fortschrittszahl: poppt beim Wechsel kurz auf (Number-Pop-Spur:
+   kleiner Scale + --blur-small). */
+.zahlPop {
+  display: inline-block;
+  animation: zahlPop var(--duration-quick) var(--ease-smooth-out) both;
+}
+
+@keyframes zahlPop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(var(--blur-small, 2px));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Endowed-Sweep: der Balken bekommt beim ersten Fuellen einen laengeren,
+   sichtbaren Anlauf (0 → 38 %) — das Geschenk soll man ANKOMMEN sehen.
+   Danach uebernimmt die schnelle Breiten-Transition im Markup. */
+.balkenSweep {
+  transition-duration: var(--duration-very-slow) !important;
+}
+
+/* Fehler-Shake (Error-State-Spur: kleine/grosse Segmente auf der
+   Distance-Skala, Segmente in --duration-micro-Naehe). */
+.shake {
+  animation: anfrageShake calc(var(--duration-micro) * 4) var(--ease-smooth-out) both;
+}
+
+@keyframes anfrageShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(calc(-1 * var(--distance-base, 8px))); }
+  45% { transform: translateX(var(--distance-small, 6px)); }
+  70% { transform: translateX(calc(-1 * var(--distance-small, 6px))); }
+  85% { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schritt,
+  .pilleAktiv,
+  .zahlPop,
+  .shake {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .pilleHaken {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .balkenSweep {
+    transition-duration: 0s !important;
+  }
+}
+
+/* Erfolgs-Zustand: Haken poppt (Bounce-Token), Pfad zeichnet sich nach. */
+.hakenKreis {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 9999px;
+  background: var(--akzent);
+  animation: anfrageHakenPop var(--duration-slow) var(--ease-bounce) both;
+}
+
+.hakenPfad {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: anfrageHakenZeichnen var(--duration-medium) var(--ease-smooth-out) forwards;
+  animation-delay: var(--duration-quick);
+}
+
+@keyframes anfrageHakenPop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes anfrageHakenZeichnen {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hakenKreis {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hakenPfad {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Beam-Kontur auf den Kontaktfeldern (Schritt 5, Alex 26.08): eine
+   Lichtsichel laeuft langsam um den Rahmen und markiert die Felder, auf
+   die es ankommt. Wie die 40s-Stempeldrehung eine bewusst benannte
+   Ausnahme von der Duration-Skala — Ambient-Loops brauchen Sekunden-
+   bis Minutennaehe, sonst zappeln sie. Der Versatz ueber --i laesst die
+   drei Felder nacheinander aufleuchten statt im Gleichschritt. */
+.beamRahmen {
+  position: relative;
+  border-radius: 11px;
+  padding: 1px;
+  overflow: hidden;
+}
+
+.beamRahmen::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  /* Sichel in Akzent + Tinte — der fruehere Goldton (194,161,60) ist
+     raus (Marken-Gate: kein Gold). */
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 296deg,
+    rgba(243, 226, 127, 0.95) 330deg,
+    rgba(22, 22, 19, 0.28) 348deg,
+    transparent 360deg
+  );
+  animation: beamDreh 9s linear infinite;
+  animation-delay: calc(var(--i, 0) * -3s);
+}
+
+.beamInhalt {
+  position: relative;
+  border-radius: 10px;
+  background: var(--bg-base);
+}
+
+@keyframes beamDreh {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beamRahmen::before {
+    animation: none;
+    opacity: 0.45;
+  }
+}

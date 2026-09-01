@@ -200,7 +200,7 @@ export default async function CheckPage({ params }: { params: Params }) {
             Video-Analyse anfordern
           </Link>
         </div>
-        <p className="t-data mt-4">Kostenlos · kein Pitch · Antwort binnen 24 h</p>
+        <p className="t-data mt-4">Kein Pitch · Antwort binnen 24 h</p>
       </div>
     </div>
   );

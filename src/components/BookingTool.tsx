@@ -20,7 +20,7 @@ const MODES: { value: Mode; label: string; sub: string }[] = [
 ];
 
 const TYPES: { label: string; sub: string; duration: string }[] = [
-  { label: "Systemgespräch", sub: "30 min · kostenlos · kein Pitch", duration: "30" },
+  { label: "Systemgespräch", sub: "30 min · kein Pitch", duration: "30" },
   { label: "Diagnose-Besprechung", sub: "45 min · für laufende Diagnosen", duration: "45" },
   { label: "Bestandskunde", sub: "30 min · laufendes Projekt", duration: "30" },
 ];
@@ -292,7 +292,7 @@ function BookingToolInner() {
           <RailRow value={time ? `${time} Uhr` : "Uhrzeit wählen"} active={Boolean(time)} />
         </div>
         <p className="t-data mt-5 border-t hairline pt-4">
-          Unverbindlich &amp; kostenlos. Bestätigung per E-Mail.
+          Unverbindlich. Bestätigung per E-Mail.
         </p>
       </aside>
 

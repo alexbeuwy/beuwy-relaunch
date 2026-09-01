@@ -1,0 +1,605 @@
+{
+ "seiten": [
+  {
+   "route": "alleinauftrag-gewinnen",
+   "title": "Alleinauftrag gewinnen: So entscheidet sich der Eigentümer für Sie | beuwy",
+   "frage": "Wie gewinne ich als Makler den Alleinauftrag?",
+   "angle": "Der Alleinauftrag fällt vor dem Termin: Google-Check, Website-Vergleich, Exposé-Qualität. Beweisführung statt Rabatt auf die Provision.",
+   "cluster": "W",
+   "links": [
+    "website-fuer-immobilienmakler",
+    "exposes-die-verkaufen",
+    "tools/verkaufspreisrechner"
+   ],
+   "foto": 3
+  },
+  {
+   "route": "eigentuemer-leads-generieren",
+   "title": "Eigentümer-Leads generieren: Die eigene Quelle statt Portal-Miete | beuwy",
+   "frage": "Wie generiere ich als Makler Eigentümer-Leads?",
+   "angle": "Eigene Lead-Quelle (Rechner+Ads+Portal) vs. gemietete Portal-Kontakte, die jeder Wettbewerber auch bekommt. 5%-Systematik.",
+   "cluster": "W",
+   "links": [
+    "leadgenerierung-immobilienmakler",
+    "tools/verkaufspreisrechner",
+    "performance-marketing-makler"
+   ],
+   "foto": 4
+  },
+  {
+   "route": "immobilien-farming",
+   "title": "Immobilien-Farming: Der Stadtteil, der an Sie denkt | beuwy",
+   "frage": "Was ist Farming und wie funktioniert es digital?",
+   "angle": "Farming klassisch (Postwurf) vs. digital: regionale Omnipräsenz vom Postfach bis zur Story. Dominanz-Erzählung.",
+   "cluster": "W",
+   "links": [
+    "social-media-immobilienmakler",
+    "email-marketing-immobilienmakler"
+   ],
+   "foto": 5
+  },
+  {
+   "route": "empfehlungsgeschaeft-digitalisieren",
+   "title": "Empfehlungsgeschäft digitalisieren: Wenn der Ruf online ankommt | beuwy",
+   "frage": "Wie mache ich mein Empfehlungsgeschäft digital sichtbar?",
+   "angle": "Empfehlung bringt die Anfrage, Google entscheidet sie. Bewertungen, Cases, konsistente Marke als Empfehlungs-Verstärker.",
+   "cluster": "W",
+   "links": [
+    "ueber-uns",
+    "website-fuer-immobilienmakler"
+   ],
+   "foto": 6
+  },
+  {
+   "route": "objektakquise-strategien",
+   "title": "Objektakquise: 7 Strategien, die 2026 wirklich Mandate bringen | beuwy",
+   "frage": "Welche Objektakquise-Strategien funktionieren 2026?",
+   "angle": "Ehrliches Ranking von Kaltakquise bis eigenes Portal — mit Aufwand/Wirkung je Strategie, keine Wunderlisten.",
+   "cluster": "W",
+   "links": [
+    "eigentuemer-leads-generieren",
+    "alleinauftrag-gewinnen"
+   ],
+   "foto": 7
+  },
+  {
+   "route": "verkaeufer-ansprechen",
+   "title": "Verkäufer ansprechen, bevor sie suchen: Frühsignale nutzen | beuwy",
+   "frage": "Wie erreiche ich Eigentümer vor dem Verkaufsentschluss?",
+   "angle": "Lebensereignisse statt Kaufsignale: Erbschaft, Auszug, Zins-Anpassung. Inhalte+Rechner als Früh-Anker, DSGVO-sauber.",
+   "cluster": "W",
+   "links": [
+    "tools/mietpreisrechner",
+    "email-marketing-immobilienmakler"
+   ],
+   "foto": 8
+  },
+  {
+   "route": "makler-positionierung",
+   "title": "Makler-Positionierung: Spezialist schlägt Bauchladen | beuwy",
+   "frage": "Wie positioniere ich mich als Makler richtig?",
+   "angle": "Spitz statt breit: Zielgruppe, Objektklasse, Region. Warum der Spezialisten-Effekt Provisionen verteidigt.",
+   "cluster": "W",
+   "links": [
+    "ueber-uns",
+    "markenaufbau-makler"
+   ],
+   "foto": 9
+  },
+  {
+   "route": "markenaufbau-makler",
+   "title": "Markenaufbau für Makler: Von der Visitenkarte zur Instanz | beuwy",
+   "frage": "Wie baue ich als Makler eine Marke auf?",
+   "angle": "Marke = Wiedererkennung × Beweis. Typografie, Bildwelt, Sprache aus einem Guss; Königswege als Beleg (60→2.300).",
+   "cluster": "W",
+   "links": [
+    "makler-positionierung",
+    "cases"
+   ],
+   "foto": 10
+  },
+  {
+   "route": "immobilienmakler-werbung",
+   "title": "Werbung für Immobilienmakler: Was wirkt, was verbrennt Geld | beuwy",
+   "frage": "Welche Werbung lohnt sich für Immobilienmakler?",
+   "angle": "Kanal-Ehrlichkeit: Print/Bus/Portale vs. Performance+Portal. Die 5%-Kette als Messlatte jeder Ausgabe.",
+   "cluster": "W",
+   "links": [
+    "performance-marketing-makler",
+    "tools/verkaufspreisrechner"
+   ],
+   "foto": 11
+  },
+  {
+   "route": "performance-marketing-makler",
+   "title": "Performance-Marketing für Makler: Die 5%-Kette erklärt | beuwy",
+   "frage": "Wie funktioniert Performance-Marketing für Makler?",
+   "angle": "Anzeige→Klick→Rechner→Registrierung: jede Stufe mit realistischer Quote, Wochenbericht statt Bauchgefühl.",
+   "cluster": "W",
+   "links": [
+    "leadgenerierung-immobilienmakler",
+    "eigentuemer-leads-generieren"
+   ],
+   "foto": 12
+  },
+  {
+   "route": "makler-in-kleinstadt",
+   "title": "Makler in der Kleinstadt: Marktführer auf 30.000 Einwohner | beuwy",
+   "frage": "Funktioniert digitales Makler-Marketing in kleinen Städten?",
+   "angle": "Kleine Stadt = schneller Dominanz-Hebel: weniger Wettbewerb um Suchbegriffe, Story-Omnipräsenz günstiger.",
+   "cluster": "W",
+   "links": [
+    "immobilien-farming",
+    "seo-fuer-immobilienmakler"
+   ],
+   "foto": 13
+  },
+  {
+   "route": "luxusimmobilien-vermarkten",
+   "title": "Luxusimmobilien vermarkten: Diskretion trifft Sichtbarkeit | beuwy",
+   "frage": "Wie vermarkte ich hochpreisige Immobilien?",
+   "angle": "Off-Market-Anspruch vs. digitale Präsenz: Marke als Türöffner, diskrete Funnels, Qualifizierung vor dem Exposé.",
+   "cluster": "W",
+   "links": [
+    "makler-positionierung",
+    "exposes-die-verkaufen"
+   ],
+   "foto": 14
+  },
+  {
+   "route": "bottimmo-erfahrungen",
+   "title": "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann — und was nicht | beuwy",
+   "frage": "Was taugt BOTTIMMO wirklich?",
+   "angle": "Fair: Stärken (schnell, Themenwelt) vs. Grenze (austauschbar, gemietete Inhalte). Wann Baukasten reicht, wann nicht.",
+   "cluster": "V",
+   "links": [
+    "bottimmo-alternative",
+    "maklerwebsite-kosten"
+   ],
+   "foto": 18
+  },
+  {
+   "route": "propstack-website",
+   "title": "Propstack-Website: Was das CRM kann und wo der Auftritt beginnt | beuwy",
+   "frage": "Kann ich meine Website direkt aus Propstack betreiben?",
+   "angle": "CRM-Websites als Datenblatt vs. Marke: wo Propstack endet und ein Portal anfängt; saubere Anbindung statt Ersatz.",
+   "cluster": "V",
+   "links": [
+    "maklersoftware-vergleich",
+    "onoffice-website"
+   ],
+   "foto": 19
+  },
+  {
+   "route": "flowfact-website",
+   "title": "FLOWFACT-Website: Anbindung statt Insellösung | beuwy",
+   "frage": "Wie kommt meine Website an FLOWFACT?",
+   "angle": "Schnittstellen-Realität, doppelte Datenpflege als stiller Kostenfaktor, Anbindungsmuster von beuwy.",
+   "cluster": "V",
+   "links": [
+    "maklersoftware-vergleich"
+   ],
+   "foto": 1
+  },
+  {
+   "route": "casaone-website",
+   "title": "CasaOne-Website: Grenzen des Baukastens im Premium-Segment | beuwy",
+   "frage": "Reicht eine CasaOne-Website für mein Büro?",
+   "angle": "Für Start ok; Premium-Häuser brauchen eigene Typo/Bildwelt/Funnel. Ehrlicher Migrationspfad.",
+   "cluster": "V",
+   "links": [
+    "maklerwebsite-kosten",
+    "website-fuer-immobilienmakler"
+   ],
+   "foto": 2
+  },
+  {
+   "route": "immoscout-profil-vs-eigene-website",
+   "title": "ImmoScout-Profil vs. eigene Website: Wo Eigentümer wirklich prüfen | beuwy",
+   "frage": "Reicht mein ImmoScout-Profil als Online-Auftritt?",
+   "angle": "Portal-Profil = gemietete Fläche neben dem Wettbewerber. Eigene Domain als einziger Ort ohne Vergleichsspalte.",
+   "cluster": "V",
+   "links": [
+    "eigentuemer-leads-generieren",
+    "website-fuer-immobilienmakler"
+   ],
+   "foto": 3
+  },
+  {
+   "route": "makler-website-baukasten-vergleich",
+   "title": "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO & Co. | beuwy",
+   "frage": "Welcher Website-Baukasten passt für Makler?",
+   "angle": "Matrix nach Kriterien (Tempo, CRM, Exposés, SEO, Eigentum an Inhalten) — mit klarer Grenze zum Maßportal.",
+   "cluster": "V",
+   "links": [
+    "bottimmo-erfahrungen",
+    "maklerwebsite-kosten"
+   ],
+   "foto": 4
+  },
+  {
+   "route": "openimmo-schnittstelle",
+   "title": "OpenImmo verstehen: Die Schnittstelle, an der Websites scheitern | beuwy",
+   "frage": "Was ist OpenImmo und warum ruckelt der Export?",
+   "angle": "Technik verständlich: Formatgrenzen, Bild-Reihenfolgen, warum Portale anders rendern; Abnahme-Checkliste.",
+   "cluster": "V",
+   "links": [
+    "maklersoftware-vergleich",
+    "flowfact-website"
+   ],
+   "foto": 5
+  },
+  {
+   "route": "makler-crm-einfuehren",
+   "title": "Makler-CRM einführen ohne Chaos: Der 30-Tage-Plan | beuwy",
+   "frage": "Wie führe ich ein CRM im Maklerbüro ein?",
+   "angle": "Migrationsreihenfolge, Datenhygiene, Team-Adoption; CRM erst wertvoll mit Zufluss aus dem Portal.",
+   "cluster": "V",
+   "links": [
+    "maklersoftware-vergleich",
+    "email-marketing-immobilienmakler"
+   ],
+   "foto": 6
+  },
+  {
+   "route": "lead-anbieter-vergleich",
+   "title": "Lead-Anbieter im Vergleich: Gekaufte Kontakte gegen eigene Quelle | beuwy",
+   "frage": "Lohnen sich gekaufte Eigentümer-Leads?",
+   "angle": "Rechnung pro Lead inkl. Mehrfachverkauf und No-Shows vs. Kosten der eigenen Kette; Break-even transparent.",
+   "cluster": "V",
+   "links": [
+    "eigentuemer-leads-generieren",
+    "marketing-kapitalanlage-immobilien"
+   ],
+   "foto": 7
+  },
+  {
+   "route": "mcmakler-modell",
+   "title": "Das McMakler-Modell: Was Hybridmakler richtig machen — und wo Sie gewinnen | beuwy",
+   "frage": "Wie konkurriere ich mit Hybridmaklern?",
+   "angle": "Deren Stärke ist Prozess+Werbedruck, nicht Ortskenntnis. Regionale Dominanz + Beweisführung als Konter.",
+   "cluster": "V",
+   "links": [
+    "makler-in-kleinstadt",
+    "markenaufbau-makler"
+   ],
+   "foto": 8
+  },
+  {
+   "route": "chatgpt-fuer-makler",
+   "title": "ChatGPT für Makler: 12 Anwendungen, die wirklich Zeit sparen | beuwy",
+   "frage": "Wofür kann ich ChatGPT als Makler nutzen?",
+   "angle": "Konkrete Promptfreie Workflows statt Prompt-Listen: Exposé-Rohtexte, Einwand-Vorbereitung, Übergabeprotokolle — und die Grenze (Systeme statt Chat).",
+   "cluster": "K",
+   "links": [
+    "ki-fuer-immobilienmakler",
+    "ki-expose-texte"
+   ],
+   "foto": 9
+  },
+  {
+   "route": "ki-expose-texte",
+   "title": "KI-Exposé-Texte: Gut genug für den Alleinauftrag? | beuwy",
+   "frage": "Kann KI meine Exposé-Texte schreiben?",
+   "angle": "Ja für Rohfassung, nein für Objektwahrheit; Stil-Leitplanken, Haftungs-Hinweise, Beispiel vorher/nachher.",
+   "cluster": "K",
+   "links": [
+    "exposes-die-verkaufen",
+    "chatgpt-fuer-makler"
+   ],
+   "foto": 10
+  },
+  {
+   "route": "ai-overviews-immobilien",
+   "title": "AI Overviews: Wenn Google selbst antwortet — und Sie zitiert werden | beuwy",
+   "frage": "Was bedeuten Google AI Overviews für Makler?",
+   "angle": "Klickverlust-Realität + Zitierfähigkeit als neue Währung; wie Seitenstruktur dafür aussehen muss.",
+   "cluster": "K",
+   "links": [
+    "geo-fuer-immobilienmakler",
+    "seo-fuer-immobilienmakler"
+   ],
+   "foto": 11
+  },
+  {
+   "route": "perplexity-immobiliensuche",
+   "title": "Perplexity & Co.: Wie Eigentümer heute Makler recherchieren | beuwy",
+   "frage": "Suchen Eigentümer wirklich über KI-Assistenten?",
+   "angle": "Recherche-Muster 2026, Quellen-Logik der Assistenten, was zitiert wird (Daten, FAQs, Konsistenz).",
+   "cluster": "K",
+   "links": [
+    "geo-fuer-immobilienmakler",
+    "ai-overviews-immobilien"
+   ],
+   "foto": 12
+  },
+  {
+   "route": "ki-immobilienbewertung",
+   "title": "KI-Immobilienbewertung: Was Modelle können und wo der Gutachter bleibt | beuwy",
+   "frage": "Wie gut ist KI-basierte Immobilienbewertung?",
+   "angle": "AVM-Prinzip verständlich, Fehlerquellen (Sanierung, Mikrolage), Rechner als Erstanker + Sachverständigen-Grenze.",
+   "cluster": "K",
+   "links": [
+    "tools/verkaufspreisrechner",
+    "ki-fuer-immobilienmakler"
+   ],
+   "foto": 13
+  },
+  {
+   "route": "automatisierung-maklerbuero",
+   "title": "Automatisierung im Maklerbüro: 9 Abläufe, die niemand vermisst | beuwy",
+   "frage": "Welche Abläufe kann ich als Makler automatisieren?",
+   "angle": "Follow-up, Terminvergabe, Berichte, Datenmails — je mit Vorher/Nachher-Minuten; Ticketsystem-Prinzip.",
+   "cluster": "K",
+   "links": [
+    "email-marketing-immobilienmakler",
+    "ki-fuer-immobilienmakler"
+   ],
+   "foto": 14
+  },
+  {
+   "route": "ki-richtlinien-maklerbuero",
+   "title": "KI-Richtlinien fürs Maklerbüro: Nutzen ohne Datenpanne | beuwy",
+   "frage": "Welche Regeln braucht mein Team für KI-Tools?",
+   "angle": "Kurz-Policy zum Übernehmen: Kundendaten, Freigaben, Kennzeichnung, Modell-Wechsel-Chaos eindämmen.",
+   "cluster": "K",
+   "links": [
+    "chatgpt-fuer-makler",
+    "automatisierung-maklerbuero"
+   ],
+   "foto": 18
+  },
+  {
+   "route": "geo-checkliste",
+   "title": "GEO-Checkliste: 21 Punkte, bis die KI Ihren Namen kennt | beuwy",
+   "frage": "Wie werde ich in KI-Antworten sichtbar?",
+   "angle": "Abarbeitbare Checkliste (Daten, Struktur, Antworten, Konsistenz) mit Prüfmethode je Punkt.",
+   "cluster": "K",
+   "links": [
+    "geo-fuer-immobilienmakler",
+    "ai-overviews-immobilien"
+   ],
+   "foto": 19
+  },
+  {
+   "route": "exposes-die-verkaufen",
+   "title": "Exposés, die verkaufen: Vom Datenblatt zum Entscheidungsdokument | beuwy",
+   "frage": "Wie sieht ein Exposé aus, das den Alleinauftrag rechtfertigt?",
+   "angle": "Dramaturgie eines Exposés, Preis-Argumentation, Beispiele; Abgrenzung Standard-Exposé aus Software.",
+   "cluster": "C",
+   "links": [
+    "alleinauftrag-gewinnen",
+    "ki-expose-texte"
+   ],
+   "foto": 1
+  },
+  {
+   "route": "makler-website-fehler",
+   "title": "Die 11 häufigsten Makler-Website-Fehler — und ihre Kosten | beuwy",
+   "frage": "Welche Fehler machen Makler-Websites?",
+   "angle": "Jeder Fehler mit sichtbarem Beispielmuster + Kosten in Anfragen; Selbst-Audit in 10 Minuten.",
+   "cluster": "C",
+   "links": [
+    "website-fuer-immobilienmakler",
+    "tools/verkaufspreisrechner"
+   ],
+   "foto": 2
+  },
+  {
+   "route": "immobilienfotografie-briefing",
+   "title": "Immobilienfotografie: Das Briefing, das Objekte größer macht | beuwy",
+   "frage": "Wie briefe ich einen Immobilienfotografen?",
+   "angle": "Übernehmbares Briefing (Golden Hour, Achsen, Details), Bildrechte, wann Video statt Foto.",
+   "cluster": "C",
+   "links": [
+    "exposes-die-verkaufen",
+    "video-fuer-makler"
+   ],
+   "foto": 3
+  },
+  {
+   "route": "video-fuer-makler",
+   "title": "Video für Makler: Vom Rundgang zum Vertrauensaufbau | beuwy",
+   "frage": "Welche Videos brauche ich als Makler?",
+   "angle": "Drei Video-Typen (Objekt, Marke, Person) mit Aufwand/Wirkung; Hero-Video-Prinzip der eigenen Seite als Beispiel.",
+   "cluster": "C",
+   "links": [
+    "social-media-immobilienmakler",
+    "immobilienfotografie-briefing"
+   ],
+   "foto": 4
+  },
+  {
+   "route": "google-unternehmensprofil-makler",
+   "title": "Google-Unternehmensprofil für Makler: Die unterschätzte Startseite | beuwy",
+   "frage": "Wie optimiere ich mein Google-Unternehmensprofil?",
+   "angle": "Profil als erste Landingpage: Kategorien, Bewertungs-Prozess, Beiträge, Q&A — mit Wochenroutine.",
+   "cluster": "C",
+   "links": [
+    "seo-fuer-immobilienmakler",
+    "empfehlungsgeschaeft-digitalisieren"
+   ],
+   "foto": 5
+  },
+  {
+   "route": "bewertungen-aufbauen",
+   "title": "Bewertungen aufbauen: Vom zufriedenen Kunden zur sichtbaren Zahl | beuwy",
+   "frage": "Wie bekomme ich systematisch Google-Bewertungen?",
+   "angle": "Timing (Notartermin+3 Tage), Formulierungs-Bausteine, rechtliche Leitplanken, Umgang mit Kritik.",
+   "cluster": "C",
+   "links": [
+    "google-unternehmensprofil-makler",
+    "empfehlungsgeschaeft-digitalisieren"
+   ],
+   "foto": 6
+  },
+  {
+   "route": "landingpage-immobilienbewertung",
+   "title": "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
+   "frage": "Wie sieht eine Landingpage aus, die Eigentümer konvertiert?",
+   "angle": "Sektion für Sektion (Hook, Rechner, Beweis, Formular) am lebenden Beispiel der beuwy-Tools.",
+   "cluster": "C",
+   "links": [
+    "tools/verkaufspreisrechner",
+    "performance-marketing-makler"
+   ],
+   "foto": 7
+  },
+  {
+   "route": "makler-newsletter-beispiele",
+   "title": "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
+   "frage": "Was schreibe ich im Makler-Newsletter?",
+   "angle": "Sieben konkrete Mail-Anlässe mit Betreff+Aufbau; Abgrenzung Massen-Newsletter vs. Datenmail.",
+   "cluster": "C",
+   "links": [
+    "email-marketing-immobilienmakler",
+    "verkaeufer-ansprechen"
+   ],
+   "foto": 8
+  },
+  {
+   "route": "website-relaunch-makler",
+   "title": "Website-Relaunch ohne Sichtbarkeitsverlust: Die Makler-Checkliste | beuwy",
+   "frage": "Verliere ich beim Relaunch meine Rankings?",
+   "angle": "Redirect-Plan, Inhalts-Inventur, Messpunkte vorher/nachher; typische Relaunch-Unfälle.",
+   "cluster": "C",
+   "links": [
+    "seo-fuer-immobilienmakler",
+    "makler-website-fehler"
+   ],
+   "foto": 9
+  },
+  {
+   "route": "barrierefreie-maklerwebsite",
+   "title": "Barrierefreie Maklerwebsite: Pflicht, Chance und Praxis (BFSG) | beuwy",
+   "frage": "Muss meine Makler-Website barrierefrei sein?",
+   "angle": "BFSG-Einordnung ohne Panik, die 10 wirksamsten Maßnahmen, warum Barrierefreiheit Conversion hilft.",
+   "cluster": "C",
+   "links": [
+    "website-relaunch-makler",
+    "makler-website-fehler"
+   ],
+   "foto": 10
+  },
+  {
+   "route": "wissen/immobilie-bewerten",
+   "title": "Immobilie bewerten: Die drei Verfahren verständlich erklärt | beuwy",
+   "frage": "Wie wird eine Immobilie bewertet?",
+   "angle": "Vergleichswert/Ertragswert/Sachwert je mit Beispielrechnung; wann welcher greift; Rechner als Einstieg.",
+   "cluster": "T",
+   "links": [
+    "tools/verkaufspreisrechner",
+    "ki-immobilienbewertung"
+   ],
+   "foto": 11
+  },
+  {
+   "route": "wissen/mietpreis-ermitteln",
+   "title": "Mietpreis ermitteln: Vergleichsmiete, Spiegel und Spielraum | beuwy",
+   "frage": "Wie ermittle ich den richtigen Mietpreis?",
+   "angle": "Mietspiegel lesen, Zu-/Abschläge, Mietpreisbremse-Basics; Rechner-Einstieg für Eigentümer.",
+   "cluster": "T",
+   "links": [
+    "tools/mietpreisrechner",
+    "wissen/immobilie-bewerten"
+   ],
+   "foto": 12
+  },
+  {
+   "route": "wissen/afa-immobilien",
+   "title": "AfA bei Immobilien: Abschreibung verständlich — mit Rechenwegen | beuwy",
+   "frage": "Wie funktioniert die AfA bei Immobilien?",
+   "angle": "2%/2,5%/3%-Fälle, Gebäude- vs. Bodenanteil, Beispielrechnungen; Grenze zur Steuerberatung klar markiert.",
+   "cluster": "T",
+   "links": [
+    "tools/afa-rechner",
+    "wissen/restnutzungsdauer-gutachten"
+   ],
+   "foto": 13
+  },
+  {
+   "route": "wissen/restnutzungsdauer-gutachten",
+   "title": "Restnutzungsdauer-Gutachten: Wann sich kürzere AfA-Zeiträume lohnen | beuwy",
+   "frage": "Lohnt sich ein Restnutzungsdauer-Gutachten?",
+   "angle": "Mechanik (kürzere RND→höhere AfA), wer profitiert, BFH-Kontext, seriöse Gutachter-Kriterien; Rechner als Ersteinschätzung.",
+   "cluster": "T",
+   "links": [
+    "tools/afa-rechner",
+    "wissen/afa-immobilien"
+   ],
+   "foto": 14
+  },
+  {
+   "route": "wissen/verkehrswert-vs-marktpreis",
+   "title": "Verkehrswert vs. Marktpreis: Warum zwei Zahlen richtig sein können | beuwy",
+   "frage": "Was ist der Unterschied zwischen Verkehrswert und Marktpreis?",
+   "angle": "Definitionen, Angebots- vs. Abschlusspreise, was Portale anzeigen; Verhandlungs-Konsequenzen.",
+   "cluster": "T",
+   "links": [
+    "wissen/immobilie-bewerten",
+    "tools/verkaufspreisrechner"
+   ],
+   "foto": 18
+  },
+  {
+   "route": "wissen/spekulationssteuer-immobilien",
+   "title": "Spekulationssteuer bei Immobilien: Fristen, Ausnahmen, Rechenbeispiele | beuwy",
+   "frage": "Wann fällt Spekulationssteuer an?",
+   "angle": "10-Jahres-Frist, Eigennutzungs-Ausnahme, Beispiele; klare Steuerberatungs-Grenze, Makler-Einordnung.",
+   "cluster": "T",
+   "links": [
+    "wissen/afa-immobilien",
+    "tools/verkaufspreisrechner"
+   ],
+   "foto": 19
+  },
+  {
+   "route": "provision-verteidigen",
+   "title": "Provision verteidigen: Beweise statt Rabatte | beuwy",
+   "frage": "Wie begründe ich meine Provision gegenüber Eigentümern?",
+   "angle": "Leistungs-Transparenz (Vermarktungsplan, Reichweiten-Nachweis, Wochenbericht) als Provisions-Anker.",
+   "cluster": "P",
+   "links": [
+    "alleinauftrag-gewinnen",
+    "performance-marketing-makler"
+   ],
+   "foto": 1
+  },
+  {
+   "route": "maklerbuero-skalieren",
+   "title": "Maklerbüro skalieren: Vom Einzelkämpfer zum Team, das trägt | beuwy",
+   "frage": "Wie skaliere ich mein Maklerbüro?",
+   "angle": "Engpass-Reihenfolge: Zufluss→Prozess→Team; welche Rolle zuerst; System vor Headcount (acta-Erfahrung).",
+   "cluster": "P",
+   "links": [
+    "ueber-uns",
+    "automatisierung-maklerbuero"
+   ],
+   "foto": 2
+  },
+  {
+   "route": "makler-kennzahlen",
+   "title": "Makler-Kennzahlen: Die 9 Zahlen, die ein Büro steuern | beuwy",
+   "frage": "Welche KPIs sollte ich als Makler messen?",
+   "angle": "Von Anfragequote bis Time-to-Notar; Wochenbericht-Prinzip; Bauchgefühl als teuerste Kennzahl.",
+   "cluster": "P",
+   "links": [
+    "performance-marketing-makler",
+    "maklerbuero-skalieren"
+   ],
+   "foto": 3
+  },
+  {
+   "route": "onboarding-neuer-mandate",
+   "title": "Onboarding neuer Mandate: Die erste Woche entscheidet die Bewertung | beuwy",
+   "frage": "Wie starte ich ein neues Mandat professionell?",
+   "angle": "Checkliste Tag 1–7 (Unterlagen, Fotos, Preisstory, Erwartungsmanagement) — die spätere 5-Sterne-Bewertung beginnt hier.",
+   "cluster": "P",
+   "links": [
+    "bewertungen-aufbauen",
+    "exposes-die-verkaufen"
+   ],
+   "foto": 4
+  }
+ ]
+}

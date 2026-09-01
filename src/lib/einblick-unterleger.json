@@ -1,0 +1,42 @@
+{
+ "/": {
+  "datei": "/einblick/start.webp",
+  "seitenverhaeltnis": 12.499305555555555
+ },
+ "/tools/verkaufspreisrechner": {
+  "datei": "/einblick/tools_verkaufspreisrechner.webp",
+  "seitenverhaeltnis": 2.698611111111111
+ },
+ "/tools/afa-rechner": {
+  "datei": "/einblick/tools_afa-rechner.webp",
+  "seitenverhaeltnis": 3.3152777777777778
+ },
+ "/wissen": {
+  "datei": "/einblick/wissen.webp",
+  "seitenverhaeltnis": 2.3916666666666666
+ },
+ "/ueber-uns": {
+  "datei": "/einblick/ueber-uns.webp",
+  "seitenverhaeltnis": 4.0159722222222225
+ },
+ "/seo-fuer-immobilienmakler": {
+  "datei": "/einblick/seo-fuer-immobilienmakler.webp",
+  "seitenverhaeltnis": 4.5784722222222225
+ },
+ "/geo-fuer-immobilienmakler": {
+  "datei": "/einblick/geo-fuer-immobilienmakler.webp",
+  "seitenverhaeltnis": 4.122916666666667
+ },
+ "/social-media-immobilienmakler": {
+  "datei": "/einblick/social-media-immobilienmakler.webp",
+  "seitenverhaeltnis": 4.66875
+ },
+ "/email-marketing-immobilienmakler": {
+  "datei": "/einblick/email-marketing-immobilienmakler.webp",
+  "seitenverhaeltnis": 4.2
+ },
+ "/marketing-kapitalanlage-immobilien": {
+  "datei": "/einblick/marketing-kapitalanlage-immobilien.webp",
+  "seitenverhaeltnis": 4.534722222222222
+ }
+}

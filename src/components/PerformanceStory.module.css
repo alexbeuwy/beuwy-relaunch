@@ -1,0 +1,70 @@
+/* PerformanceStory — Ambient-Loops der drei Visuals. Wie die
+   40s-Stempeldrehung sind die Loop-Dauern bewusste, hier benannte
+   Ausnahmen von der Duration-Skala: Ambient-Bewegung braucht
+   Sekunden, sonst zappelt sie. Alles friert bei reduced-motion ein. */
+
+/* ── Visual 1: Ad-Stapel rotiert durch drei Positionen ── */
+.adKarte {
+  animation: adRotation 9s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--k, 0) * -3s);
+  will-change: transform, opacity;
+}
+
+@keyframes adRotation {
+  0%,
+  26% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+  }
+  33%,
+  59% {
+    transform: translateX(26px) scale(0.92);
+    opacity: 0.55;
+    z-index: 2;
+  }
+  66%,
+  92% {
+    transform: translateX(-26px) scale(0.86);
+    opacity: 0.35;
+    z-index: 1;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+  }
+}
+
+/* ── Visual 3: die Anfrage-Karte schwebt sanft ── */
+.anfrageKarte {
+  animation: anfrageSchweben 6s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes anfrageSchweben {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: translateY(4px);
+  }
+}
+
+@media (max-width: 640px) {
+  .anfrageKarte {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adKarte,
+  .anfrageKarte {
+    animation: none;
+  }
+  .adKarte {
+    opacity: 1;
+  }
+  .adKarte:not(:first-child) {
+    display: none;
+  }
+}

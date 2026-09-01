@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
  * /os ist ein Dashboard, keine Verkaufsseite — Marketing-Footer und
  * heller Navigationsbalken haben dort nichts zu suchen.
  */
-const INTERN = ["/os"];
+const INTERN = ["/os", "/intern"];
 
 export function NurWebsite({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

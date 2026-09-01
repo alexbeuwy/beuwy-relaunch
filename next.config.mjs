@@ -17,14 +17,17 @@ const nextConfig = {
     "/api/os/skripte": ["./docs/branding/*.md"],
   },
   async redirects() {
-    // One-Pager-Konsolidierung (Masterplan §5): alte Unterseiten -> Anker
+    // Light-Makler-Migration (GOAL/BRIEF, Leaf G1): die alten Anker-Ziele
+    // aus dem Riso-One-Pager existieren im neuen Mehrseiter nicht mehr,
+    // deshalb auf die naechstliegenden echten Seiten gemappt.
+    // /anfrage ist jetzt der Vorquali-Funnel selbst (GOAL/BRIEF §6) —
+    // kein Anker-Redirect mehr, sonst landet jeder CTA-Klick im Leeren.
     return [
-      { source: "/method", destination: "/#prozess", permanent: false },
-      { source: "/system", destination: "/#system", permanent: false },
+      { source: "/method", destination: "/immobilienmarketing", permanent: false },
+      { source: "/system", destination: "/website-fuer-immobilienmakler", permanent: false },
       { source: "/manifesto", destination: "/", permanent: false },
-      { source: "/work", destination: "/#proof", permanent: false },
-      { source: "/anfrage", destination: "/#kontakt", permanent: false },
-      { source: "/audit", destination: "/#tool", permanent: false },
+      { source: "/work", destination: "/cases", permanent: false },
+      { source: "/audit", destination: "/anfrage", permanent: false },
     ];
   },
 };

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
 
 /**
@@ -8,6 +8,14 @@ import { STUDIO_COOKIE, isStudioAuthed } from "@/lib/studio-auth";
  * CONTENT_WRITE_SECRET verlässt den Server nie. Teilfehler werden
  * gesammelt zurückgemeldet ({ ok, saved, failed }), danach werden
  * "/" und "/studio" revalidiert.
+ *
+ * LEAF U2 (27.08): der Studio-Editor kann eine Bereichs-Seite live in
+ * einem iframe zeigen und lädt sie nach dem Speichern automatisch neu
+ * ("immer top aktuell"). getContent() cached seinen Supabase-Fetch aber
+ * per Tag ("content", 60s) — revalidatePath("/") allein erreicht davon
+ * nur die Startseite. revalidateTag("content") räumt den Daten-Cache für
+ * JEDEN getContent()-Aufrufer auf (auch künftige Bereiche), zusätzlich
+ * noch die zwei bekannten Bereichs-Routen als ISR-Seiten gezielt.
  */
 
 export const runtime = "nodejs";
@@ -104,6 +112,9 @@ export async function POST(req: NextRequest) {
   if (saved.length > 0) {
     revalidatePath("/");
     revalidatePath("/studio");
+    revalidatePath("/intern");
+    revalidatePath("/tools/verkaufspreisrechner");
+    revalidateTag("content");
   }
 
   return NextResponse.json({ ok: failed.length === 0, saved, failed });

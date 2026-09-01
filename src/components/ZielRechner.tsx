@@ -214,8 +214,8 @@ export default function ZielRechner() {
       </CardContent>
 
       <CardFooter className="flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button size="lg" render={<Link href={href} />}>
-          Dieses Ziel besprechen →
+        <Button size="lg" asChild>
+          <Link href={href}>Dieses Ziel besprechen →</Link>
         </Button>
         <p className="text-xs leading-relaxed text-ink-dim">
           Keine Prognose — Ihre Zahlen, Ihre Rechnung.

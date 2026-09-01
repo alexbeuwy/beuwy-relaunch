@@ -43,7 +43,19 @@ async function loadOverrides(): Promise<Record<string, string>> {
   }
 }
 
-export default async function StudioPage() {
+export default async function StudioPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ weiter?: string }>;
+}) {
+  // weiter-Param aus /login (R4 Auth-UX): nach dem Login zurueck zum
+  // Ziel (z. B. /intern). Gleiche Sicherheitsregel wie in login/page.tsx.
+  const { weiter } = await searchParams;
+  const ziel =
+    weiter && weiter.startsWith("/") && !weiter.startsWith("//") &&
+    !weiter.includes("\\") && !weiter.includes("://") && weiter.length <= 200
+      ? weiter
+      : "/studio";
   const jar = await cookies();
   const authed = await isStudioAuthed(jar.get(STUDIO_COOKIE)?.value);
 
@@ -60,7 +72,7 @@ export default async function StudioPage() {
         </p>
         <div className="panel mt-8 rounded-xl p-6 sm:p-8">
           {configured ? (
-            <StudioLogin />
+            <StudioLogin ziel={ziel} />
           ) : (
             <p className="t-small">
               Studio ist auf diesem Deployment nicht konfiguriert. Bitte die
@@ -80,19 +92,19 @@ export default async function StudioPage() {
   );
 
   return (
-    <div className="mx-auto max-w-[880px] px-6 lg:px-10 pt-32 pb-24">
-      <header>
+    <div className="mx-auto max-w-[1280px] px-6 lg:px-10 pt-32 pb-24">
+      <header className="max-w-[640px]">
         <p className="t-label">Studio</p>
         <h1 className="t-h2 mt-4">
           Texte <em>bearbeiten</em>
         </h1>
-        <p className="t-body mt-4 max-w-[560px]">
-          Felder anpassen und unten speichern — die Website übernimmt die
-          Änderungen innerhalb einer Minute. „Zurücksetzen“ stellt den
-          Standardtext eines Feldes wieder her.
+        <p className="t-body mt-4">
+          Bereich links wählen, Felder anpassen und unten speichern — die
+          Website übernimmt die Änderungen innerhalb einer Minute.
+          „Zurücksetzen“ stellt den Standardtext eines Feldes wieder her.
         </p>
         {!writable && (
-          <p className="t-small is-fail mt-4 max-w-[560px]">
+          <p className="t-small is-fail mt-4">
             Hinweis: Auf diesem Deployment ist keine Datenbank-Verbindung
             konfiguriert — Speichern wird fehlschlagen.
           </p>
@@ -108,7 +120,7 @@ export default async function StudioPage() {
       <div className="mt-12">
         <StudioEditor defaults={DEFAULTS} overrides={overrides} labels={FIELD_LABELS} />
       </div>
-      <div className="hairline mt-16 border-t pt-8">
+      <div className="hairline mt-16 max-w-[640px] border-t pt-8">
         <PasswortAendern />
       </div>
     </div>

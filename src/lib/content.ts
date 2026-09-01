@@ -13,7 +13,28 @@
  * Ein CTA-Wortlaut: „Systemgespräch anfragen". Kein Preis, nirgends.
  */
 
+import { TOOLS_DEFAULTS, TOOLS_LABELS } from "./texte/tools";
+import { VERGLEICH_DEFAULTS, VERGLEICH_LABELS } from "./texte/start-vergleich";
+import { MOTION_DEFAULTS, MOTION_LABELS } from "./texte/motion";
+import { INTERN_AUFGABEN_DEFAULTS, INTERN_AUFGABEN_LABELS } from "./texte/intern-aufgaben";
+import { INTERN_EINBLICK_DEFAULTS, INTERN_EINBLICK_LABELS } from "./texte/intern-einblick";
+import { INTERN_FLOWS_DEFAULTS, INTERN_FLOWS_LABELS } from "./texte/intern-flows";
+import { INTERN_KONTAKTE_DEFAULTS, INTERN_KONTAKTE_LABELS } from "./texte/intern-kontakte";
+import { INTERN_KUNDEN_DEFAULTS, INTERN_KUNDEN_LABELS } from "./texte/intern-kunden";
+import { INTERN_PIPELINE_DEFAULTS, INTERN_PIPELINE_LABELS } from "./texte/intern-pipeline";
+import { INTERN_SHELL_DEFAULTS, INTERN_SHELL_LABELS } from "./texte/intern-shell";
+
 export const DEFAULTS: Record<string, string> = {
+  ...TOOLS_DEFAULTS,
+  ...VERGLEICH_DEFAULTS,
+  ...MOTION_DEFAULTS,
+  ...INTERN_AUFGABEN_DEFAULTS,
+  ...INTERN_EINBLICK_DEFAULTS,
+  ...INTERN_FLOWS_DEFAULTS,
+  ...INTERN_KONTAKTE_DEFAULTS,
+  ...INTERN_KUNDEN_DEFAULTS,
+  ...INTERN_PIPELINE_DEFAULTS,
+  ...INTERN_SHELL_DEFAULTS,
   /* ── 01 Hero — Traumzustand, positiv, belegbare Prozess-Aussage ────── */
   "hero.title": "Neukunden nach *System*.",
   "hero.subtitle":
@@ -184,9 +205,69 @@ export const DEFAULTS: Record<string, string> = {
     "Sie schicken Ihre Domain. Sie bekommen ein persönlich aufgenommenes Video: was Interessenten heute sehen, wo Anfragen versickern, was ein System ändern würde.",
   "video.note": "Persönlich aufgenommen · Antwort binnen 24 h",
   "video.submit": "Video-Analyse anfordern",
+
+  /* ══ LIGHT MAKLER STYLE (Redesign 2026-08) — neue Welt-Keys ══
+     Platzhalter mit Sought-after-Effekt; Alex passt Zahlen und
+     Namen im Studio an, bevor Freigaben stehen. */
+
+  "mk.hero.eyebrow": "Marke · Website · Automatisierung",
+  "mk.hero.title": "Das System hinter Deutschlands *besten*",
+  "mk.hero.rotation": "Maklern",
+  "mk.hero.subtitle":
+    "beuwy bringt 17 Jahre Markenarbeit mit. Ihr Auftritt ist in 4–6 Wochen live.",
+  "mk.hero.cta": "Zusammenarbeit anfragen",
+  "mk.hero.cta_hinweis": "Antwort in 24 Stunden",
+  "mk.hero.cta2": "Ergebnisse ansehen",
+  "mk.hero.checks":
+    "Marke & Design~beantwortet Ihren Preis|Website & Funnel~sortiert Anfragen vor, bevor Sie abheben|Automatisierung~arbeitet, während Sie verkaufen",
+  "mk.hero.badge_label": "Für führende Immobilienmakler",
+  "mk.hero.badge_wert": "100+",
+  "mk.hero.badge_text": "Markenprojekte seit 2009",
+  "mk.trust.label": "Projekte mit Maklern führender Häuser",
+  "mk.trust.namen":
+    "ENGEL & VÖLKERS|VON POLL IMMOBILIEN|DAHLER & COMPANY|KENSINGTON|RE/MAX|McMakler|Homeday|BETTERHOMES",
+
+  "mk.stats.s1_wert": "40+",
+  "mk.stats.s1_label": "Premium-Projekte für Makler",
+  "mk.stats.s2_wert": "3×",
+  "mk.stats.s2_label": "mehr Eigentümer-Anfragen nach Relaunch",
+  "mk.stats.s3_wert": "17",
+  "mk.stats.s3_label": "Jahre Markenarbeit, u. a. Bosch, Continental, Michelin",
+  "mk.stats.s4_wert": "4–6",
+  "mk.stats.s4_label": "Wochen bis zum Livegang",
+
+  "mk.vsl.url": "",
+
+  "mk.integrationen.label": "Angebunden an die Tools, die Sie schon nutzen",
+  "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
+
+  "mk.pm.quote": "5 %",
+  "mk.pm.mandate": "5",
+  "mk.pm.provision": "31.285 €",
+
+  "mk.podcast.url": "",
+  "mk.podcast.titel": "Im Gespräch: Leon Lin",
+  "mk.podcast.sub":
+    "Alexander Pütter mit Leon Lin, KI-Skill-Entwickler. Über Systeme, die im Makleralltag wirklich arbeiten.",
+
+  "mk.beweis.label": "Größenordnungen, keine Versprechen",
+  "mk.beweis.kacheln":
+    "Vision Group~1.450~Wohneinheiten entwickelt · Joint Venture mit KKR über 160 Mio. €~Aus drei Leuten im Gründungsbüro wurde die Gruppe, mit der Private Equity verhandelt.|Königswege~2.300+~Partner · Top 10 der deutschen Finanzvertriebe~Mit 60 Leuten zum Relaunch gekommen. Heute rekrutiert die Marke von selbst.|acta~380~Wohneinheiten in drei Jahren verkauft · rund 40 Mio. € Volumen~Selbst mit aufgebaut: Kapitalanlage-Vertrieb, in der Spitze 15 Leute, verkauft über Instagram-Anzeigen.",
+  "mk.beweis.kunden_label": "Und gebaut für Häuser, die gerade groß werden",
+  "mk.beweis.kunden": "RIEGEL Immobilien|hzo immobilien|invyse|Königswege",
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  ...TOOLS_LABELS,
+  ...VERGLEICH_LABELS,
+  ...MOTION_LABELS,
+  ...INTERN_AUFGABEN_LABELS,
+  ...INTERN_EINBLICK_LABELS,
+  ...INTERN_FLOWS_LABELS,
+  ...INTERN_KONTAKTE_LABELS,
+  ...INTERN_KUNDEN_LABELS,
+  ...INTERN_PIPELINE_LABELS,
+  ...INTERN_SHELL_LABELS,
   "beleg.title": "Übersicht · Überschrift (*Wort* = Hervorhebung)",
   "beleg.intro": "Übersicht · Einleitungssatz",
   "hero.title": "Hero · H1 (*Wort* = Hervorhebung)",
@@ -209,6 +290,36 @@ export const FIELD_LABELS: Record<string, string> = {
   "fit.line1": "Kapazität · muss der Wahrheit entsprechen",
   "fit.line2": "Filter · Schwelle 15.000 €",
   "termin.title": "/termin · Kopfzeile",
+  "mk.hero.eyebrow": "Makler · Hero · Eyebrow",
+  "mk.hero.title": "Makler · Hero · H1 vor dem Rotationswort (*Wort* = Hervorhebung)",
+  "mk.hero.rotation": "Makler · Hero · Zielgruppen-Wort/Wörter, mit | getrennt (1 Wort = statisch, mehrere = Rotation)",
+  "mk.hero.subtitle": "Makler · Hero · Subline",
+  "mk.hero.cta": "Makler · Der eine CTA-Wortlaut",
+  "mk.hero.cta_hinweis": "Makler · Mikrozeile unter dem CTA",
+  "mk.hero.cta2": "Makler · Sekundär-CTA (Anker Ergebnisse)",
+  "mk.hero.checks": "Makler · Checkmark-Trio: Label~Subzeile, mit | getrennt",
+  "mk.hero.badge_label": "Makler · Floating Card · Label",
+  "mk.hero.badge_wert": "Makler · Floating Card · große Zahl",
+  "mk.hero.badge_text": "Makler · Floating Card · Text",
+  "mk.trust.label": "Makler · Zeile über den Wordmarks",
+  "mk.trust.namen": "Makler · Wordmarks, mit | getrennt (Freigaben!)",
+  "mk.stats.s1_wert": "Makler · Zahl 1", "mk.stats.s1_label": "Makler · Zahl 1 · Text",
+  "mk.stats.s2_wert": "Makler · Zahl 2", "mk.stats.s2_label": "Makler · Zahl 2 · Text",
+  "mk.stats.s3_wert": "Makler · Zahl 3", "mk.stats.s3_label": "Makler · Zahl 3 · Text",
+  "mk.stats.s4_wert": "Makler · Zahl 4", "mk.stats.s4_label": "Makler · Zahl 4 · Text",
+  "mk.vsl.url": "Makler · VSL-Video-URL (leer = Platzhalter)",
+  "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
+  "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
+  "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
+  "mk.pm.mandate": "Makler · Performance-Grafik · Mehr-Mandate pro Jahr (z. B. 5)",
+  "mk.pm.provision": "Makler · Performance-Grafik · Ø Provision je Mandat",
+  "mk.podcast.url": "Makler · Beweis · Podcast-Video-URL (leer = Platzhalter)",
+  "mk.podcast.titel": "Makler · Beweis · Podcast-Titel",
+  "mk.podcast.sub": "Makler · Beweis · Podcast-Unterzeile",
+  "mk.beweis.label": "Makler · Beweis-Block · Eyebrow",
+  "mk.beweis.kacheln": "Makler · Beweis-Kacheln: Name~Wert~Kontext~Story, mit | getrennt",
+  "mk.beweis.kunden_label": "Makler · Beweis · Zeile über den Kundenlogos",
+  "mk.beweis.kunden": "Makler · Beweis · Kundenlogos, mit | getrennt",
 };
 
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */
