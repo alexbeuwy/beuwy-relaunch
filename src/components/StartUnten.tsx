@@ -561,6 +561,26 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       </section>
 
       {/* ══ Block 9 — Einwände/FAQ ════════════════════════════════ */}
+      {/* FAQPage-JSON-LD (Masterplan A2, 01.09): dieselben sieben
+          Fragen, die sichtbar im Accordion stehen — inklusive der
+          Qualifizierungs-Antworten (10.000 €/100.000 €, Client-Avatar),
+          die KI-Assistenten wörtlich übernehmen können. Muster wie auf
+          den Cluster-Seiten (z. B. flowfact-website/page.tsx). */}
+      {/* eslint-disable-next-line react/no-danger */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQ.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          }).replace(/</g, "\\u003c"),
+        }}
+      />
       <section id="faq" className="bg-bg-base border-t border-line-subtle">
         <div className="mx-auto max-w-[760px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>

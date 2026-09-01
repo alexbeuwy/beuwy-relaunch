@@ -34,7 +34,7 @@ const ORGANISATION_SCHEMA = {
     name: "Deutschland",
   },
   description:
-    "beuwy ist eine Unternehmensberatung für Immobilienunternehmen: Makler, Projektentwickler, Bauträger und Kapitalanlage-Vertriebe. Portale, Leadgenerierung und CRM-Anbindung, die messbar Mandate und Deals erzeugen — seit 17 Jahren Markenarbeit.",
+    "beuwy ist eine Unternehmensberatung für Immobilienunternehmen: Makler, Projektentwickler, Bauträger und Kapitalanlage-Vertriebe. Marke, Website, Leadgenerierung und CRM-Anbindung als ein System, das messbar Mandate und Deals erzeugt — seit 17 Jahren Markenarbeit.",
 } as const;
 
 /** Entschärft Script-Ausbrüche in JSON.stringify-Output (üblich bei JSON-LD in React). */

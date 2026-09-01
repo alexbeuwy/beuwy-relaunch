@@ -40,8 +40,11 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 - [x] A1 `llms.txt` modernisiert: System-Sprache statt Portal, neue
       GEO-Zitate (10k/100k-Qualifizierung, Client-Avatar, Massenware-
       Vergleich, 5-Mitarbeiter/300-Mandate) — Tick 1, 01.09
-- [ ] A2 JSON-LD-Vollausbau: Organization + Service + FAQPage (neue
-      FAQ-Einträge!) + BreadcrumbList auf allen Clustern prüfen
+- [x] A2a Startseite: FAQPage-Schema mit allen 7 FAQ (inkl. 10k/100k +
+      Avatar) ergänzt; Organization-Description auf System-Sprache —
+      Tick 2, 01.09. Live geprüft: ProfessionalService + FAQPage auf /
+- [ ] A2b BreadcrumbList + Service-Schema-Abdeckung auf allen Clustern
+      prüfen (69 Seiten haben JSON-LD — Stichprobe auf Vollständigkeit)
 - [ ] A3 Zitierfähige Antwort-Absätze: jede Wissens-/Cluster-Seite
       beginnt mit 40–60-Wort-Direktantwort auf die Titel-Frage
 - [ ] A4 Eigene Datenpunkte publizieren (zitierbar): z. B. „Was kostet
@@ -126,3 +129,6 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   GEO-Zitate; B1 Sitemap-Audit sauber; D5 als Folge-Hebel erkannt.
 - 01.09 · R9 integriert: Roter-Faden-Copy (4 Umschreiber + Richter, 27
   Fixes) und Funnel-Politur gepusht — Startstrecke ist Portal-frei.
+- 01.09 · Tick 2 (Cron): A2a — Startseite bekommt FAQPage-JSON-LD (die
+  Qualifizierungs-Antworten sind jetzt maschinenlesbar), Organization-
+  Description Portal-frei. VERIFY OK.
