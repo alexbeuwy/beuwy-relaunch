@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { RiArrowLeftLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
@@ -51,10 +51,11 @@ const SONDIEREN = "Ich sondiere noch";
 type SchrittKey = "rolle" | "groesse" | "fokus" | "zeit" | "kontakt";
 const SCHRITTE: SchrittKey[] = ["rolle", "groesse", "fokus", "zeit", "kontakt"];
 
-// Mirrort --duration-quick (150ms) aus globals.css: kurze Pause, damit die
-// Auswahl sichtbar aufleuchtet, bevor der Schritt weiterspringt — bei
-// Änderung des Tokens bitte hier mitziehen.
-const AUTOWEITER_PAUSE = 150;
+// Erst quittieren, dann springen (transitions-polish, 01.09): die Pause
+// deckt Pillen-Pop (--duration-fast, 250ms) plus Haken-Zeichnen ab —
+// der Klick wird SICHTBAR bestätigt, dadurch fühlt sich der Sprung
+// schneller an, nicht langsamer. Bei Token-Änderung mitziehen.
+const AUTOWEITER_PAUSE = 320;
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -180,6 +181,23 @@ export function AnfrageFunnel() {
   const FORTSCHRITT_KURVE = [38, 62, 78, 88, 94];
   const fortschritt = ergebnis ? 100 : (FORTSCHRITT_KURVE[index] ?? 94);
 
+  /* Endowed-Sweep (transitions-polish, 01.09): Der Balken startet bei 0
+     und fuellt sich beim ersten Rendern SICHTBAR auf die geschenkten
+     38 % (laengere Sweep-Dauer via .balkenSweep) — das Geschenk kommt
+     an, statt einfach dazustehen. Danach schaltet die Breite mit der
+     schnellen Standard-Transition. */
+  const [balkenBreite, setBalkenBreite] = useState(0);
+  const [sweepAktiv, setSweepAktiv] = useState(true);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setBalkenBreite(fortschritt));
+    return () => cancelAnimationFrame(raf);
+  }, [fortschritt]);
+  useEffect(() => {
+    // Nach dem ersten Sweep zurueck auf die schnelle Transition.
+    const t = window.setTimeout(() => setSweepAktiv(false), 700);
+    return () => window.clearTimeout(t);
+  }, []);
+
   /* ── Erfolg ── */
   if (ergebnis) {
     return (
@@ -229,8 +247,11 @@ export function AnfrageFunnel() {
         aria-label={`Schritt ${index + 1} von ${gesamt}`}
       >
         <div
-          className="h-full rounded-full bg-akzent transition-[width] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]"
-          style={{ width: `${fortschritt}%` }}
+          className={cn(
+            "h-full rounded-full bg-akzent transition-[width] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]",
+            sweepAktiv && stil.balkenSweep,
+          )}
+          style={{ width: `${balkenBreite}%` }}
         />
       </div>
 
@@ -247,7 +268,12 @@ export function AnfrageFunnel() {
         )}
 
         <p className={cn("t-label", index > 0 ? "mt-5" : "mt-8")}>
-          Schritt {index + 1} von {gesamt}
+          Schritt {index + 1} von {gesamt} ·{" "}
+          {/* Prozent poppt bei jedem Fortschritt kurz auf (Number-Pop) —
+              quantifizierter Endowed Progress. */}
+          <span key={fortschritt} className={cn("tnum font-mono", stil.zahlPop)}>
+            {fortschritt} %
+          </span>
         </p>
 
         {/* 1 · Rolle */}
@@ -295,7 +321,7 @@ export function AnfrageFunnel() {
               type="button"
               onClick={weiter}
               disabled={fokus.length === 0}
-              className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-akzent"
+              className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-[background-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-akzent"
             >
               Weiter
               <Pfeil />
@@ -406,7 +432,7 @@ export function AnfrageFunnel() {
                   setConsent(e.target.checked);
                   setError(null);
                 }}
-                style={{ accentColor: "var(--gold)" }}
+                style={{ accentColor: "var(--akzent)" }}
                 className="mt-0.5 h-4 w-4"
               />
               <span className="t-small">
@@ -420,7 +446,9 @@ export function AnfrageFunnel() {
             </label>
 
             {error && (
-              <p className="t-small is-fail mt-4" role="alert">
+              /* key={error} startet den Shake auch, wenn nur der Text
+                 wechselt — jede neue Meldung ruettelt einmal kurz. */
+              <p key={error} className={cn("t-small is-fail mt-4", stil.shake)} role="alert">
                 {error}
               </p>
             )}
@@ -429,7 +457,7 @@ export function AnfrageFunnel() {
               type="button"
               onClick={absenden}
               disabled={busy}
-              className="group mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-akzent px-7 py-4 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover disabled:cursor-not-allowed disabled:opacity-60"
+              className="group mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-akzent px-7 py-4 text-[15px] font-semibold text-ink-cream transition-[background-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {busy ? "Wird gesendet…" : "Zusammenarbeit anfragen"}
               {!busy && <Pfeil />}
@@ -526,6 +554,23 @@ function Pfeil() {
   );
 }
 
+/** Haken, der sich beim Auswaehlen nachzeichnet — die sichtbare
+ *  Quittung vor dem Auto-Weiter (transitions-polish, 01.09). */
+function PillenHaken() {
+  return (
+    <svg viewBox="0 0 14 14" width="13" height="13" fill="none" aria-hidden className="shrink-0">
+      <path
+        className={stil.pilleHaken}
+        d="M2.5 7.5 6 11 11.5 3.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function GrossePille({
   children,
   aktiv,
@@ -541,15 +586,17 @@ function GrossePille({
       onClick={onClick}
       aria-pressed={aktiv}
       className={cn(
-        "rounded-full border px-6 py-4 text-left text-[15.5px] font-medium leading-snug",
-        "transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
+        "flex items-center justify-between gap-3 rounded-full border px-6 py-4 text-left text-[15.5px] font-medium leading-snug",
+        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
         "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)",
+        "active:scale-[0.98]",
         aktiv
-          ? "border-transparent bg-akzent text-ink-cream"
+          ? cn("border-transparent bg-akzent text-ink-cream", stil.pilleAktiv)
           : "border-line-medium bg-white text-ink-cream hover:border-transparent hover:bg-akzent-wash"
       )}
     >
-      {children}
+      <span>{children}</span>
+      {aktiv && <PillenHaken />}
     </button>
   );
 }
@@ -573,10 +620,11 @@ function Pille({
       className={cn(
         "rounded-full border px-5 py-3 text-[14px] font-medium",
         zentriert ? "text-center" : "text-left",
-        "transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
+        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
         "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)",
+        "active:scale-[0.98]",
         aktiv
-          ? "border-transparent bg-akzent text-ink-cream"
+          ? cn("border-transparent bg-akzent text-ink-cream", stil.pilleAktiv)
           : "border-line-medium bg-white text-ink-muted hover:border-transparent hover:bg-akzent-wash hover:text-ink-cream"
       )}
     >
