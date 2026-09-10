@@ -11,9 +11,13 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 
 ## Tick-Protokoll (Pflicht bei jedem Lauf)
 
+0. **Stand holen:** `git pull --rebase origin claude/light-makler-style`
+   — Codex-PRs, die in den Integrationsbranch gemerged wurden, müssen
+   vor dem Tick lokal sein (Zusammenspiel: `AGENTS.md`).
 1. **Erst integrieren, dann Neues:** laufende Workflows/Agents und
    uncommittete fremde Arbeit prüfen (`git status`, Workflow-Journale).
-   Offene Integration schlägt jeden neuen Hebel.
+   Offene Integration schlägt jeden neuen Hebel. Backlog-Punkte mit
+   `[~] Codex` sind vergeben — nicht anfassen.
 2. **Einen Hebel wählen** — den mit dem größten Hebel auf den Nordstern,
    der nicht blockiert ist. Lieber ein Hebel fertig als drei angefangen.
 3. **Gates wie immer:** tsc 0 · Build grün · `node scripts/verify.mjs` OK ·
