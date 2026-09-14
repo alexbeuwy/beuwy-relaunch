@@ -16,6 +16,7 @@
 import { TOOLS_DEFAULTS, TOOLS_LABELS } from "./texte/tools";
 import { VERGLEICH_DEFAULTS, VERGLEICH_LABELS } from "./texte/start-vergleich";
 import { MOTION_DEFAULTS, MOTION_LABELS } from "./texte/motion";
+import { VSL_FRONT_DEFAULTS, VSL_FRONT_LABELS } from "./texte/vsl";
 import { INTERN_AUFGABEN_DEFAULTS, INTERN_AUFGABEN_LABELS } from "./texte/intern-aufgaben";
 import { INTERN_EINBLICK_DEFAULTS, INTERN_EINBLICK_LABELS } from "./texte/intern-einblick";
 import { INTERN_FLOWS_DEFAULTS, INTERN_FLOWS_LABELS } from "./texte/intern-flows";
@@ -28,6 +29,7 @@ export const DEFAULTS: Record<string, string> = {
   ...TOOLS_DEFAULTS,
   ...VERGLEICH_DEFAULTS,
   ...MOTION_DEFAULTS,
+  ...VSL_FRONT_DEFAULTS,
   ...INTERN_AUFGABEN_DEFAULTS,
   ...INTERN_EINBLICK_DEFAULTS,
   ...INTERN_FLOWS_DEFAULTS,
@@ -261,6 +263,7 @@ export const FIELD_LABELS: Record<string, string> = {
   ...TOOLS_LABELS,
   ...VERGLEICH_LABELS,
   ...MOTION_LABELS,
+  ...VSL_FRONT_LABELS,
   ...INTERN_AUFGABEN_LABELS,
   ...INTERN_EINBLICK_LABELS,
   ...INTERN_FLOWS_LABELS,

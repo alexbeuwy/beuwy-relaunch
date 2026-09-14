@@ -298,6 +298,24 @@ export const MARKEN_SLUGS: Record<string, string> = {
   "hzo immobilien": "hzo",
   invyse: "invyse",
   Königswege: "koenigswege",
+  // Weitere Kunden der alten beuwy.com (SVGs von dort übernommen, 14.09)
+  getsafe: "getsafe",
+  PURELEI: "purelei",
+  Netlution: "netlution",
+  Instaffo: "instaffo",
+  PreFin: "prefin",
+  accredia: "accredia",
+  Finsolute: "finsolute",
+  ImmoAbschreibung: "immoabschreibung",
+  innovakonzept: "innovakonzept",
+  Rosental: "rosental",
+  "Kopp Consulting": "kopp-consulting",
+  "JPF Ingenieurbüro": "jpf-ingenieurbuero",
+  "TREC Careers": "trec-careers",
+  BeautyFarm: "beautyfarm",
+  "Snow Aligner": "snow-aligner",
+  "Gooodkid Records": "gooodkid-records",
+  Infocient: "infocient",
 };
 
 /** Fallback-Slug für Namen außerhalb der festen Map (Studio-Content ist frei editierbar). */

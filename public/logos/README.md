@@ -28,5 +28,29 @@ Herkunft der aktuellen Dateien (Stand 2026-08-26):
 | flowfact.svg | **Nachbau** (Original nur als Mini-PNG auffindbar) |
 | casaone.svg | **Nachbau** (kein offizielles Asset erreichbar) |
 
+Kunden der bisherigen beuwy.com (WordPress, wp-content/uploads), Stand
+2026-09-14, fuer die Frontseite /vsl uebernommen. Alle auf den Inhalt
+zugeschnitten (viewBox = Inhaltsbox, tools/logo-bbox.mjs):
+
+| Datei | Quelle (beuwy.com/wp-content/uploads/…) |
+|---|---|
+| accredia.svg | 2019/12/accredia.svg |
+| beautyfarm.svg | 2025/10/beautyfarm.svg |
+| finsolute.svg | 2025/10/finsolute.svg |
+| getsafe.svg | 2019/12/getsafe.svg |
+| gooodkid-records.svg | 2025/10/Gooodkidrecords.svg |
+| immoabschreibung.svg | 2025/10/immoabschreibung.svg |
+| infocient.svg | 2019/12/Infocient.svg |
+| innovakonzept.svg | 2025/10/innova.svg |
+| instaffo.svg | 2019/12/Instaffo.svg |
+| jpf-ingenieurbuero.svg | 2025/10/jpf-ingenieurbuero.svg |
+| kopp-consulting.svg | 2025/10/koppconsulting.svg |
+| netlution.svg | 2019/12/Netlution_Logo.svg |
+| prefin.svg | 2019/12/PreFin.svg |
+| purelei.svg | 2025/10/purelei-wide.svg |
+| rosental.svg | 2025/10/rosental.svg |
+| snow-aligner.svg | 2019/12/snow.svg |
+| trec-careers.svg | 2025/10/trec-careers.svg |
+
 Die Nachbauten bei Gelegenheit durch offizielle SVGs ersetzen —
 Datei gleichen Namens ueberschreiben, fertig.

@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation";
 /**
  * Blendet Website-Rahmen (Nav, Footer) auf den internen Werkzeugseiten aus.
  * /os ist ein Dashboard, keine Verkaufsseite — Marketing-Footer und
- * heller Navigationsbalken haben dort nichts zu suchen.
+ * heller Navigationsbalken haben dort nichts zu suchen. /vsl ist die
+ * schlanke Frontseite mit eigenem Mini-Rahmen — ein Claim, ein CTA, kein
+ * Menü, das vom Video wegführt.
  */
-const INTERN = ["/os", "/intern"];
+const INTERN = ["/os", "/intern", "/vsl"];
 
 export function NurWebsite({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

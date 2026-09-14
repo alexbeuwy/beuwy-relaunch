@@ -32,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /* Leistungs- und Über-Seiten (Alex, 26.08: Über uns + 5 neue
        Unterseiten). Gleiche Ebene wie die R2-Zielgruppenseiten. */
     { url: `${base}/ueber-uns`, changeFrequency: "monthly", priority: 0.75 },
+    /* Schlanke VSL-Frontseite (14.09): ein Claim, ein CTA, Kundenlogos */
+    { url: `${base}/vsl`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/seo-fuer-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/geo-fuer-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/social-media-immobilienmakler`, changeFrequency: "monthly", priority: 0.75 },
