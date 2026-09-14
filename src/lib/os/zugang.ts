@@ -14,14 +14,17 @@ export async function darfBedienen(req: NextRequest): Promise<boolean> {
 }
 
 export function darfAutomatik(req: NextRequest): boolean {
+  /* Gleiches Muster wie die Website-Crons (api/cron/flows, erinnerungen):
+     Bearer-Secret, wenn gesetzt — sonst reicht der Vercel-Cron-Header.
+     Vorher brach die Funktion ohne OS_CRON_SECRET sofort ab, und die
+     Crons aus vercel.json liefen nie (Launch-Audit 14.09). */
   const secret = process.env.OS_CRON_SECRET;
-  if (!secret) return false;
-  const kopf = req.headers.get("authorization") || "";
-  const wert = kopf.startsWith("Bearer ") ? kopf.slice(7) : "";
-  if (wert && safeEqual(wert, secret)) return true;
-  /* Vercel-Cron meldet sich mit eigenem Header statt Bearer-Token. */
-  const vercel = req.headers.get("x-vercel-cron");
-  return Boolean(vercel);
+  if (secret) {
+    const kopf = req.headers.get("authorization") || "";
+    const wert = kopf.startsWith("Bearer ") ? kopf.slice(7) : "";
+    if (wert && safeEqual(wert, secret)) return true;
+  }
+  return Boolean(req.headers.get("x-vercel-cron"));
 }
 
 export async function darfIrgendwie(req: NextRequest): Promise<boolean> {

@@ -86,6 +86,11 @@ export function LogoSlot({
         src={`/logos/${slug}.svg`}
         alt={geladen ? name : ""}
         height={hoehe}
+        // fetchPriority="low" verhindert, dass React für jedes Logo ein
+        // <link rel="preload"> in den <head> hoistet — 19 Requests vor dem
+        // Hero-Poster (Launch-Audit 14.09). Kein loading="lazy": das <img>
+        // ist bis zum onLoad display:none und würde lazy nie geladen.
+        fetchPriority="low"
         onLoad={() => setGeladen(true)}
         style={geladen ? { height: hoehe } : undefined}
         className={

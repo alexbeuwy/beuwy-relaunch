@@ -31,7 +31,12 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 
 ## Blockiert / wartet auf Alex
 
-- [ ] CRON_SECRET auf Vercel setzen (Flows- + Erinnerungs-Crons scharf)
+- [ ] Vercel-Env vor Livegang (LAUNCH.md 2.1): STUDIO_PASSWORD,
+      RESEND_API_KEY + EMAIL_FROM, SUPABASE_URL/ANON_KEY/
+      CONTENT_WRITE_SECRET, ANTHROPIC_API_KEY (CRON_SECRET optional —
+      Vercel-Header reicht)
+- [ ] Rechtsfakten freigeben (LAUNCH.md 2.4): Supabase-Region, Zusatz-
+      standorte im Impressum, Preview /impressum + /datenschutz lesen
 - [ ] VSL-Video-URL (mk.vsl.url) und Podcast-URL (mk.podcast.url)
 - [ ] Echte Kundenlogo-SVGs (acta, FLOWFACT, CASAONE …) + acta-Case-Assets
 - [ ] Google-Bewertungen / echte Testimonials zur Einbindung freigeben
@@ -61,13 +66,21 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 - [x] B1 Sitemap-Audit: 85 URLs, alle Lücken sind bewusste noindex-
       Seiten (/anfrage, /intern, /studio, /os, /konto) — sauber. Tick 1.
       Rest (Canonicals, 404, Redirects) → B1b offen
-- [ ] B1b Canonicals, 404-Route, Redirect-Hygiene prüfen
+- [x] B1b Redirect-Hygiene: 24 WordPress-Alt-URLs (Theme-Demos,
+      /leads, /portfolio*, Yoast-Sitemaps) per 308 umgeleitet, live
+      geprüft — R10, 14.09. Canonicals → B1c offen
+- [ ] B1c `alternates.canonical` auf ~85 Seiten nachziehen (nur 5
+      setzen es; zentraler Helper aus dem Routenpfad) — LAUNCH L4
 - [ ] B2 Core Web Vitals: LCP-Bild preloaden (Hero), Font-Display,
-      Bundle-Check (gsap/lenis nur Startseite), CLS der Karten
+      Bundle-Check (gsap/lenis nur Startseite), CLS der Karten;
+      LogoSlot-Preloads prüfen (LAUNCH L5), Hero-Video preload (L8),
+      browserslist gegen 112-KB-Polyfill-Chunk (L13)
 - [ ] B3 OG-Images: einheitliches OG pro Cluster-Seite (aktuell nur global?)
 - [ ] B4 Interne Verlinkung: Hub ↔ Cluster ↔ Tools systematisch (jede
       Seite ≥3 kontextuelle interne Links, Tools von überall erreichbar)
-- [ ] B5 Security-Header (CSP/HSTS/X-Frame) in next.config prüfen
+- [x] B5 Security-Header (HSTS, nosniff, Referrer-Policy, X-Frame,
+      Permissions-Policy) + poweredByHeader:false — R10, 14.09. Keine
+      CSP (bricht Inline-JSON-LD/gsap) — bewusst.
 - [ ] B6 Breadcrumbs sichtbar + Schema auf allen Unterseiten
 
 ### C · Funnels/Conversion — aus Besuchern Anfragen machen
@@ -94,8 +107,14 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
       Beweispunkt, lokale interne Links)
 - [ ] D4 Wissens-Hub: Top-3-Artikel auf Conversion prüfen (CTA-Platzierung,
       Tool-Brücken)
-- [ ] D5 Portal-Nutzenwort-Sweep über alle Unterseiten (llms.txt spricht
-      schon System; Leistungs- und Cluster-Seiten nachziehen)
+- [ ] D5 Portal-Nutzenwort-Sweep über alle Unterseiten: 280 Fundstellen
+      auf 42 Seiten (Content-QA R10). Muster „eigenes/Ihr/neues Portal"
+      → „System"; „Portal-Profil bei ImmoScout", „Immobilienportal"
+      bleiben Fachbegriff. Klarste Verstöße: casaone-website:63/296,
+      performance-marketing-makler:149, immobilienmakler-werbung:57.
+      Manuelle Sichtung, kein Suchen-Ersetzen — LAUNCH L3
+- [ ] D6 /vsl-Frontseite (14.09 gebaut): A/B-Idee — Startseite gegen
+      /vsl als Einstieg für Kampagnen-Traffic; OG-Image eigen (L11)
 
 ### E · Design/Brand — der Vorsprung muss sichtbar sein
 
@@ -114,8 +133,13 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 
 ### G · Technik/Infra
 
-- [ ] G1 Env-Checkliste dokumentieren (SUPABASE_*, CONTENT_WRITE_SECRET,
-      STUDIO_PASSWORD, RESEND/Mail, CRON_SECRET) in docs/branding/ANBINDUNGEN.md
+- [x] G1 Env-Checkliste: ANBINDUNGEN.md Abschnitt 0 mit Pflicht-Status
+      und Ausfallverhalten je Variable — R10, 14.09
+- [x] G4 Launch-Checkliste `docs/redesign/LAUNCH.md` (Blocker, Alex-
+      Todos, Go-Live in 10 Schritten, 48-h-Prüfliste) — R10, 14.09
+- [ ] G5 Berlin-Koordinaten laufen durch die Brandenburg-Bbox
+      (`boris.ts`) → 200 statt 422 — LAUNCH L9
+- [ ] G6 Build-Warnung `@react-email/render` (FlowEditor-Import) — L12
 - [ ] G2 Fehler-Sichtbarkeit: /api-Routen loggen nach bw_track? Minimal-
       Monitoring über Wochenbericht
 - [ ] G3 Lighthouse-Lauf als Skript (tools/) mit Budget-Grenzen
@@ -136,3 +160,11 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 - 01.09 · Tick 2 (Cron): A2a — Startseite bekommt FAQPage-JSON-LD (die
   Qualifizierungs-Antworten sind jetzt maschinenlesbar), Organization-
   Description Portal-frei. VERIFY OK.
+- 14.09 · R10 (XXL-Launch-Workflow, 6 Auditoren + Redakteur): LAUNCH.md
+  angelegt; 24 Redirects + Security-Header; Impressum ohne OS-Plattform,
+  Datenschutz mit Einblick/Konto/Geo-Proxys (TDDDG); Env-Tabelle in
+  ANBINDUNGEN.md; Mail-Kopfband ohne „Portal", Mail-Fuß ohne Adresse;
+  OS-Cron-Fallback auf Vercel-Header; poweredByHeader aus. Content-QA
+  über 83 Routen: 0 kaputte Links, 0 Platzhalter. Neu: /vsl-Frontseite
+  (ein Claim, ein CTA, 22 echte Kundenlogos der alten beuwy.com).
+  Produktions-Gate auf :3100 gelaufen (Log-Zeile darunter).

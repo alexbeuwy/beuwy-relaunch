@@ -87,7 +87,7 @@ export function emailLayout(opts: {
                   <span style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:#161613;">beuwy</span>
                 </td>
                 <td align="right" style="vertical-align:middle;">
-                  <span style="font-size:10.5px;letter-spacing:0.12em;color:#8a8a84;">MARKE&nbsp;&middot;&nbsp;PORTAL&nbsp;&middot;&nbsp;VERTRIEBSSYSTEM</span>
+                  <span style="font-size:10.5px;letter-spacing:0.12em;color:#8a8a84;">MARKE&nbsp;&middot;&nbsp;WEBSITE&nbsp;&middot;&nbsp;SYSTEM</span>
                 </td>
               </tr>
             </table>
@@ -104,7 +104,7 @@ export function emailLayout(opts: {
         </tr>
         <tr>
           <td style="padding:18px 36px 22px;border-top:1px solid #e9e9e6;">
-            <p style="margin:0;font-size:12px;line-height:1.6;color:#8a8a84;">beuwy — Alexander Pütter · Max-Bill-Str. 3 · 67061 Ludwigshafen · <a href="mailto:ap@beuwy.com" style="color:#5d5d58;">ap@beuwy.com</a></p>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#8a8a84;">beuwy — Alexander Pütter · <a href="mailto:ap@beuwy.com" style="color:#5d5d58;">ap@beuwy.com</a> · <a href="https://beuwy.com/impressum" style="color:#5d5d58;">Impressum</a></p>
           </td>
         </tr>
       </table>
