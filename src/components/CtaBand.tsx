@@ -26,9 +26,9 @@ export function CtaBand({
           <p className="t-h3 max-w-[560px]">{title}</p>
           {note ? <p className="t-small mt-1.5">{note}</p> : null}
         </div>
-        <Button render={<Link href={href} />}>
-          {buttonLabel}
-          <span aria-hidden>→</span>
+        <Button asChild>
+          <Link href={href}>{buttonLabel}
+          <span aria-hidden>→</span></Link>
         </Button>
       </div>
     </section>

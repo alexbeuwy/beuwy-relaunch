@@ -3,11 +3,27 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import type { CaseStudy } from "@/lib/cases";
 
-/* Fallstudien als Reise-Karten. Die Überschrift verrät den Weg, nicht die
-   Leistung — das ist der Grund zu klicken. Der erste Fall läuft über die
-   volle Breite mit Bild, die übrigen als ruhige Zeilen: eine Hierarchie
-   statt fünf gleich lauter Kacheln. */
-export function CaseGrid({ cases }: { cases: CaseStudy[] }) {
+/**
+ * Fallstudien als Reise-Karten. Die Überschrift verrät den Weg, nicht
+ * die Leistung — das ist der Grund zu klicken. Der erste Fall läuft
+ * über die volle Breite mit Bild, die übrigen als ruhige Zeilen: eine
+ * Hierarchie statt fünf gleich lauter Kacheln.
+ *
+ * CaseGrid wird von vielen Unterseiten außerhalb dieser Datei aufgerufen
+ * (R11, 14.09) — mehrText/beispielLabel sind deshalb optionale Props mit
+ * dem bisherigen Text als Default, damit fremde Aufrufer unverändert
+ * weiter kompilieren und identisch rendern. Kein Studio-Aufrufer in
+ * Reichweite (StartOben/StartUnten binden CaseGrid nicht ein).
+ */
+export function CaseGrid({
+  cases,
+  mehrText = "Fallstudie lesen →",
+  beispielLabel = "Beispielprojekt",
+}: {
+  cases: CaseStudy[];
+  mehrText?: string;
+  beispielLabel?: string;
+}) {
   const [erster, ...weitere] = cases;
 
   return (
@@ -47,7 +63,7 @@ export function CaseGrid({ cases }: { cases: CaseStudy[] }) {
                   </div>
                 ))}
               </div>
-              <span className="case-mehr mt-6">Fallstudie lesen →</span>
+              <span className="case-mehr mt-6">{mehrText}</span>
             </div>
           </Link>
         </Reveal>
@@ -60,12 +76,12 @@ export function CaseGrid({ cases }: { cases: CaseStudy[] }) {
               <div>
                 <p className="t-label">
                   {c.kunde} · {c.branche}
-                  {c.beispiel ? <span className="case-marke">Beispielprojekt</span> : null}
+                  {c.beispiel ? <span className="case-marke">{beispielLabel}</span> : null}
                 </p>
                 <h3 className="t-h3 case-reise mt-2">{c.reise}</h3>
                 <p className="t-body mt-2 max-w-[62ch]">{c.teaser}</p>
               </div>
-              <span className="case-mehr shrink-0">Fallstudie lesen →</span>
+              <span className="case-mehr shrink-0">{mehrText}</span>
             </Link>
           </Reveal>
         ))}

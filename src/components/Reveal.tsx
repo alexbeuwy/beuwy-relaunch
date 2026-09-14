@@ -19,11 +19,16 @@ export function Reveal({
   delay = 0,
   className = "",
   variant = "panel",
+  spaet = false,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   variant?: Variant;
+  /** Erst auslösen, wenn das Element wirklich sichtbar ist — für
+      Animationen, die man SEHEN soll (Balken, Zähler). Ohne spaet
+      feuert Reveal früh, damit Inhalte nie "nachklappern". */
+  spaet?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<State>("ssr");
@@ -51,7 +56,9 @@ export function Reveal({
           obs.disconnect();
         }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+      spaet
+        ? { rootMargin: "0px 0px -25% 0px", threshold: 0.35 }
+        : { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
     );
     obs.observe(node);
     return () => obs.disconnect();

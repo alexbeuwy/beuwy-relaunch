@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { VideoAnalyseForm } from "@/components/VideoAnalyseForm";
 import { rich } from "@/components/RichText";
 import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Video-Analyse — beuwy",
-  description:
-    "Domain schicken, persönlich aufgenommene Video-Analyse bekommen: was Interessenten und Maschinen heute sehen — und was ein System ändern würde. Kostenlos.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "video-analyse");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+  };
+}
 
 export default async function VideoAnalysePage() {
   const c = await getContent();

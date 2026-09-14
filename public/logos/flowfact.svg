@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 120">
+  <!-- Platzhalter-Nachbau der FLOWFACT-Wortmarke (Original-Asset nur als Mini-PNG
+       auffindbar); wird durch eine offizielle SVG ersetzt, sobald vorhanden. -->
+  <rect x="0" y="0" width="120" height="120" fill="#161613"/>
+  <path d="M34 84 L70 48" stroke="#fff" stroke-width="17"/>
+  <polygon points="52,28 92,28 92,68" fill="#fff"/>
+  <text x="150" y="97" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif" font-weight="800" font-size="92" letter-spacing="2" fill="#161613">FLOWFACT</text>
+</svg>

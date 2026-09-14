@@ -1,0 +1,76 @@
+/* SchemaGrafiken — Reveal-getriggerte Animationen der Grafiken.
+   Nur Motion-Tokens aus globals.css; reduced-motion zeigt alles
+   statisch. */
+
+/* ── WirkungsSpuren: Balken fahren beim Reveal unterschiedlich schnell
+   hoch, am vollen Balken poppt Konfetti (einmalig). CSS-only, ueber
+   die Reveal-Huelle getriggert; reduced-motion zeigt alles statisch. */
+.fuellung {
+  width: var(--ziel, 100%);
+}
+[data-reveal][data-state="hidden"] .fuellung {
+  width: 0;
+}
+[data-reveal][data-state="shown"] .fuellung {
+  width: var(--ziel, 100%);
+  transition: width var(--dauer, 1000ms) var(--ease-smooth-out) 150ms;
+}
+
+.konfetti {
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  pointer-events: none;
+}
+.partikel {
+  position: absolute;
+  width: 5px;
+  height: 8px;
+  border-radius: 1px;
+  opacity: 0;
+  background: var(--akzent);
+}
+.partikel:nth-child(2n) {
+  background: var(--ink-cream);
+  height: 5px;
+}
+.partikel:nth-child(3n) {
+  background: var(--akzent-hover);
+}
+[data-reveal][data-state="shown"] .partikel {
+  animation: konfettiPop var(--duration-very-slow) var(--ease-smooth-out) 1 both;
+  animation-delay: calc(var(--dauer, 1000ms) + 150ms);
+}
+.partikel:nth-child(1) { --wx: 14px;  --wy: -18px; --rot: 80deg; }
+.partikel:nth-child(2) { --wx: 22px;  --wy: -6px;  --rot: -60deg; }
+.partikel:nth-child(3) { --wx: 10px;  --wy: 12px;  --rot: 140deg; }
+.partikel:nth-child(4) { --wx: 26px;  --wy: -16px; --rot: -120deg; }
+.partikel:nth-child(5) { --wx: 18px;  --wy: 8px;   --rot: 40deg; }
+.partikel:nth-child(6) { --wx: 8px;   --wy: -26px; --rot: -40deg; }
+
+@keyframes konfettiPop {
+  0% {
+    opacity: 0;
+    transform: translate(0, -50%) rotate(0) scale(0.4);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--wx, 16px), calc(-50% + var(--wy, -14px))) rotate(var(--rot, 90deg)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal][data-state="hidden"] .fuellung,
+  [data-reveal][data-state="shown"] .fuellung {
+    width: var(--ziel, 100%);
+    transition: none;
+  }
+  .partikel,
+  [data-reveal][data-state="shown"] .partikel {
+    animation: none;
+    opacity: 0;
+  }
+}
