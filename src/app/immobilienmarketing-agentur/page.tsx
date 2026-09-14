@@ -9,6 +9,8 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { AnfrageCta, ClusterAbschluss, Rail, RailListe } from "@/components/ClusterElemente";
 import { maklerAsset } from "@/lib/cdn";
+import { getContent } from "@/lib/content";
+import { seitenTexte, type SeitenTexte } from "@/lib/texte/lesen";
 
 /**
  * R2-4 — /immobilienmarketing-agentur (Capture-Seite, Leaf-Auftrag R2-4).
@@ -27,124 +29,34 @@ import { maklerAsset } from "@/lib/cdn";
  * besser als Foto 2 (reines Porträt) und wird bereits auf dem Hub verwendet
  * — Wiederverwendung von Kampagnenfotos über mehrere Seiten ist im
  * bestehenden System üblich (z. B. Foto 18/19).
+ * Texte: src/lib/texte/seiten/immobilienmarketing-agentur.ts (Studio-Keys
+ * s.immobilienmarketing-agentur.*).
  */
 
-export const metadata: Metadata = {
-  title: "Immobilienmarketing Agentur gesucht? Warum führende Makler anders wählen | beuwy",
-  description:
-    "Was eine Immobilienmarketing-Agentur leistet, was sie realistisch kostet und wann eine Unternehmensberatung wie beuwy die passendere Wahl ist: der faire Vergleich, Analyse zuerst statt Kampagne zuerst.",
-  alternates: { canonical: "/immobilienmarketing-agentur" },
-  openGraph: {
-    title: "Immobilienmarketing Agentur gesucht? Warum führende Makler anders wählen",
-    description:
-      "Der faire Vergleich: was eine Immobilienmarketing-Agentur leistet und kostet, und wofür Immobilienunternehmen inzwischen eine Unternehmensberatung beauftragen.",
-    type: "article",
-    locale: "de_DE",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "immobilienmarketing-agentur");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    alternates: { canonical: "/immobilienmarketing-agentur" },
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "article",
+      locale: "de_DE",
+    },
+  };
+}
 
-const RAILS: {
-  thema: string;
-  linksLabel: string;
-  linksText: string;
-  rechtsLabel: string;
-  rechtsText: string;
-}[] = [
-  {
-    thema: "Start der Zusammenarbeit",
-    linksLabel: "Briefing",
-    linksText:
-      "Sie beschreiben, was entstehen soll: Farben, Wording, ein neues Logo. Die Agentur setzt um, was im Briefing steht.",
-    rechtsLabel: "Analyse",
-    rechtsText:
-      "Wir schauen zuerst auf Zahlen: wo Anfragen heute liegen bleiben, welches CRM läuft, was ein System bringen müsste, damit es sich rechnet.",
-  },
-  {
-    thema: "Abrechnung",
-    linksLabel: "Nach Aufwand",
-    linksText:
-      "Stunden, Projekttage oder ein Paketpreis für Design und Kampagne. Bezahlt wird die Arbeit, unabhängig vom Effekt danach.",
-    rechtsLabel: "Nach Diagnose",
-    rechtsText:
-      "Der Festpreis steht nach der Analyse fest, schriftlich, ausgerichtet an dem, was das System an Mandaten bringen soll.",
-  },
-  {
-    thema: "Ergebnis",
-    linksLabel: "Ein Auftritt",
-    linksText:
-      "Website, Anzeige oder Broschüre: fertige Bausteine, die Sie danach selbst bespielen oder weiter beauftragen.",
-    rechtsLabel: "Ein System",
-    rechtsText:
-      "Portal, Funnel und Automatisierung greifen ineinander und arbeiten weiter, auch wenn gerade niemand am Schreibtisch sitzt.",
-  },
-  {
-    thema: "Betreuung",
-    linksLabel: "Wechselndes Team",
-    linksText:
-      "Account Manager, Grafiker, Texter: Je nach Auslastung der Agentur wechseln die Gesichter, Ihre Anfrage läuft über mehrere Postfächer.",
-    rechtsLabel: "Ein Ansprechpartner",
-    rechtsText:
-      "Eine feste Kontaktperson, jede Anfrage nachvollziehbar im Ticketsystem. Sie fragen nicht zwei Wochen später, wie weit Ihre Anpassung ist.",
-  },
-];
+/* JSON-LD-Antwort weicht bewusst leicht vom sichtbaren Text ab (schema-
+   taugliche Kurzform ohne Link-Markup) — spiegelt daher nicht dieselben
+   Keys wie die Seite (Konvention: studio:aus/an). */
+/* studio:aus */
+const FAQ3_ANTWORT_JSONLD =
+  "Klassische Agenturen liegen je nach Umfang zwischen 2.000 und 25.000 Euro pro Projekt, die realistischen Marktspannen dazu stehen auf unserer Seite zu den Maklerwebsite-Kosten. Der Preis für ein beuwy-System steht erst nach der Analyse fest, weil er von CRM-Anbindung, Objektzahl und Automatisierungsgrad abhängt, und wird schriftlich genannt, bevor ein Projekt startet.";
+/* studio:an */
 
-const FAQ_ITEMS: { q: string; a: ReactNode; aText: string }[] = [
-  {
-    q: "Ist beuwy eine Agentur?",
-    a: (
-      <>
-        Nein. beuwy ist eine Unternehmensberatung für Immobilienunternehmen. Statt direkt mit
-        Design zu starten, beginnen wir mit einer Analyse Ihres Anfragevolumens und Ihres CRM und
-        bauen danach ein System aus Portal, Funnel und Automatisierung, mit einem festen
-        Ansprechpartner, dessen Arbeit im Ticketsystem nachvollziehbar bleibt.
-      </>
-    ),
-    aText:
-      "Nein. beuwy ist eine Unternehmensberatung für Immobilienunternehmen. Statt direkt mit Design zu starten, beginnen wir mit einer Analyse Ihres Anfragevolumens und Ihres CRM und bauen danach ein System aus Portal, Funnel und Automatisierung, mit einem festen Ansprechpartner, dessen Arbeit im Ticketsystem nachvollziehbar bleibt.",
-  },
-  {
-    q: "Wann reicht eine klassische Immobilienmarketing-Agentur?",
-    a: (
-      <>
-        Für eine einzelne Kampagne, ein neues Logo oder reines Design ohne CRM-Anbindung ist eine
-        Agentur oft die schnellere und günstigere Wahl. Erst wenn ein System entstehen soll, das
-        Anfragen automatisch verarbeitet und Mandate nachweisbar macht, lohnt sich der Wechsel zu
-        einer Beratung wie beuwy.
-      </>
-    ),
-    aText:
-      "Für eine einzelne Kampagne, ein neues Logo oder reines Design ohne CRM-Anbindung ist eine Agentur oft die schnellere und günstigere Wahl. Erst wenn ein System entstehen soll, das Anfragen automatisch verarbeitet und Mandate nachweisbar macht, lohnt sich der Wechsel zu einer Beratung wie beuwy.",
-  },
-  {
-    q: "Was kostet eine Immobilienmarketing-Agentur im Vergleich zu beuwy?",
-    a: (
-      <>
-        Klassische Agenturen liegen je nach Umfang zwischen 2.000 und 25.000 Euro pro Projekt,
-        die realistischen Marktspannen dazu stehen auf unserer Seite{" "}
-        <Link href="/maklerwebsite-kosten" className="btn-link">
-          Was kostet eine Maklerwebsite
-        </Link>
-        . Der Preis für ein beuwy-System steht erst nach der Analyse fest, weil er von
-        CRM-Anbindung, Objektzahl und Automatisierungsgrad abhängt, und wird schriftlich genannt,
-        bevor ein Projekt startet.
-      </>
-    ),
-    aText:
-      "Klassische Agenturen liegen je nach Umfang zwischen 2.000 und 25.000 Euro pro Projekt, die realistischen Marktspannen dazu stehen auf unserer Seite zu den Maklerwebsite-Kosten. Der Preis für ein beuwy-System steht erst nach der Analyse fest, weil er von CRM-Anbindung, Objektzahl und Automatisierungsgrad abhängt, und wird schriftlich genannt, bevor ein Projekt startet.",
-  },
-];
-
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQ_ITEMS.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.aText },
-  })),
-};
-
-function Hero() {
+function Hero({ t }: { t: SeitenTexte }) {
   return (
     <header className="relative bg-bg-base">
       <div className="relative min-h-[70dvh] lg:min-h-[78dvh]">
@@ -169,24 +81,18 @@ function Hero() {
             href="/immobilienmarketing"
             className="t-small w-fit transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
           >
-            ← Zur Immobilienmarketing-Übersicht
+            ← {t("hero.zurueck")}
           </Link>
-          <p className="t-label !text-ink-yellow mt-8">Vergleich · Immobilienmarketing Agentur</p>
-          <h1 className="t-display mt-5 max-w-[20ch]">
-            {rich("Immobilienmarketing Agentur gesucht? Führende Makler wählen *anders*.")}
-          </h1>
-          <p className="t-body-lg mt-6 max-w-[36rem]">
-            Eine Immobilienmarketing-Agentur liefert Kampagnen und ein neues Design. Wer schon zu
-            den führenden Häusern seiner Stadt zählt, will mehr: eine Analyse zuerst, danach ein
-            System, das Anfragen von selbst in Mandate verwandelt.
-          </p>
+          <p className="t-label !text-ink-yellow mt-8">{t("hero.eyebrow")}</p>
+          <h1 className="t-display mt-5 max-w-[20ch]">{rich(t("hero.titel"))}</h1>
+          <p className="t-body-lg mt-6 max-w-[36rem]">{t("hero.intro")}</p>
           <div className="mt-9 flex flex-wrap items-center gap-5">
-            <AnfrageCta href="/anfrage" />
+            <AnfrageCta href="/anfrage" label={t("hero.cta_label")} />
             <Link
               href="#einordnung"
               className="text-[14px] font-medium text-ink-muted underline decoration-line-medium underline-offset-4 transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream"
             >
-              Was eine Agentur wirklich leistet ↓
+              {t("hero.scroll_link")}
             </Link>
           </div>
         </div>
@@ -195,41 +101,75 @@ function Hero() {
   );
 }
 
-export default function ImmobilienmarketingAgenturPage() {
+export default async function ImmobilienmarketingAgenturPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "immobilienmarketing-agentur");
+
+  const RAILS = t.liste(
+    "rails",
+    ["thema", "linksLabel", "linksText", "rechtsLabel", "rechtsText"] as const,
+  );
+
+  const FAQ_ITEMS: { q: string; a: ReactNode; aText: string }[] = [
+    {
+      q: t("faq.1.frage"),
+      a: <>{t("faq.1.antwort")}</>,
+      aText: t("faq.1.antwort"),
+    },
+    {
+      q: t("faq.2.frage"),
+      a: <>{t("faq.2.antwort")}</>,
+      aText: t("faq.2.antwort"),
+    },
+    {
+      q: t("faq.3.frage"),
+      a: (
+        <>
+          {t("faq.3.antwort_vor")}{" "}
+          <Link href="/maklerwebsite-kosten" className="btn-link">
+            {t("faq.3.antwort_link")}
+          </Link>
+          {t("faq.3.antwort_nach")}
+        </>
+      ),
+      aText: FAQ3_ANTWORT_JSONLD,
+    },
+  ];
+
+  const FAQ_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.aText },
+    })),
+  };
+
   return (
     <>
-      <Hero />
+      <Hero t={t} />
 
       {/* ── Einordnung: Suchfrage wörtlich beantwortet ─────────────── */}
       <section id="einordnung" className="border-t border-line-subtle bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Einordnung"
-              titel="Was eine Immobilienmarketing-Agentur *leistet*, und was sie kostet."
+              eyebrow={t("einordnung.eyebrow")}
+              titel={t("einordnung.titel")}
               className="max-w-[720px]"
             />
             <div className="mt-8 max-w-[62ch] space-y-5">
               <p className="t-body">
-                Eine Immobilienmarketing-Agentur plant, gestaltet und betreut Kampagnen für
-                Immobilienmakler: Anzeigen, Website, Broschüren, gelegentlich auch die Betreuung
-                der Social-Media-Kanäle. Abgerechnet wird nach Projekt oder nach Aufwand, üblich
-                sind zwischen 2.000 Euro für ein Template-Projekt und 25.000 Euro für eine
-                individuelle Konzeption, so die realistischen Marktspannen auf unserer Seite{" "}
+                {t("einordnung.p1_vor")}{" "}
                 <Link href="/maklerwebsite-kosten" className="btn-link">
-                  Was kostet eine Maklerwebsite
+                  {t("einordnung.p1_link")}
                 </Link>
-                . Am Ende der Zusammenarbeit steht ein Auftritt: eine Website, eine Anzeigenserie,
-                ein neues Logo.
+                {t("einordnung.p1_nach")}
               </p>
               <p className="t-body">
-                beuwy setzt vor dem Design an. Bevor ein Entwurf entsteht, steht die Analyse: wo
-                Anfragen heute liegen bleiben, welches CRM im Hintergrund läuft und wie viele
-                Mandate ein neues System pro Jahr bräuchte, damit es sich rechnet. Aus dieser
-                Analyse entsteht kein einzelner Auftritt, sondern{" "}
-                <Highlight>ein System aus Portal, Funnel und Automatisierung</Highlight>. Das
-                Ergebnis sind keine schönen Bilder, sondern messbare Mandate und Deals, betreut
-                von einem Ansprechpartner, dessen Arbeit im Ticketsystem nachvollziehbar bleibt.
+                {t("einordnung.p2_vor")} <Highlight>{t("einordnung.p2_highlight")}</Highlight>
+                {t("einordnung.p2_nach")}
               </p>
             </div>
           </Reveal>
@@ -239,10 +179,10 @@ export default function ImmobilienmarketingAgenturPage() {
       {/* ── Gegenüberstellung ────────────────────────────────────────── */}
       <section className="border-t border-line-subtle bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
-          <SektionsKopf eyebrow="Der Unterschied" titel="Agentur-Modell. Oder *Beratungs-Modell*." />
+          <SektionsKopf eyebrow={t("unterschied.eyebrow")} titel={t("unterschied.titel")} />
           <RailListe className="mt-8">
             {RAILS.map((r, i) => (
-              <Reveal key={r.thema} delay={i * 60}>
+              <Reveal key={`rail-${i}`} delay={i * 60}>
                 <Rail>
                   <p className="t-label !text-[10.5px]">{r.thema}</p>
                   <div className="mt-4 grid gap-6 md:grid-cols-2 md:gap-12">
@@ -266,28 +206,15 @@ export default function ImmobilienmarketingAgenturPage() {
       <section className="border-t border-line-subtle bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Ehrlich gesagt"
-              titel="Nicht jede Aufgabe braucht eine *Unternehmensberatung*."
-            />
+            <SektionsKopf eyebrow={t("ehrlich.eyebrow")} titel={t("ehrlich.titel")} />
             <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
               <div className="border-t border-line-subtle pt-6">
-                <p className="t-h3">Für wen eine Agentur die richtige Wahl bleibt</p>
-                <p className="t-body mt-3 max-w-[40ch]">
-                  Für eine einzelne Kampagne, ein neues Logo oder reines Design ohne Anbindung an
-                  CRM oder Automatisierung. Wenn die Aufgabe klar umrissen ist und danach niemand
-                  ein System pflegen muss, ist eine Agentur oft schneller und günstiger. Eine
-                  vernünftige Entscheidung, keine Notlösung.
-                </p>
+                <p className="t-h3">{t("ehrlich.agentur_titel")}</p>
+                <p className="t-body mt-3 max-w-[40ch]">{t("ehrlich.agentur_text")}</p>
               </div>
               <div className="border-t border-line-subtle pt-6">
-                <p className="t-h3">Für wen beuwy richtig ist</p>
-                <p className="t-body mt-3 max-w-[40ch]">
-                  Für Makler, Projektentwickler, Bauträger und Vertriebsteams, die ihren Vorsprung
-                  ausbauen wollen: mehr Mandate, mehr Deals, weniger liegen gebliebene Anfragen.
-                  Hier zahlt sich Analyse vor Design aus, weil ein System mehr trägt als ein
-                  einzelner Auftritt.
-                </p>
+                <p className="t-h3">{t("ehrlich.beuwy_titel")}</p>
+                <p className="t-body mt-3 max-w-[40ch]">{t("ehrlich.beuwy_text")}</p>
               </div>
             </div>
           </Reveal>
@@ -297,10 +224,7 @@ export default function ImmobilienmarketingAgenturPage() {
       {/* ── FAQ + FAQPage-JSON-LD ────────────────────────────────────── */}
       <section className="border-t border-line-subtle bg-bg-base">
         <div className="mx-auto max-w-[760px] px-6 py-20 lg:px-10 lg:py-28">
-          <SektionsKopf
-            eyebrow="Häufige Fragen"
-            titel="Agentur oder Beratung: Was Sie *vorher* wissen sollten."
-          />
+          <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} />
           <div className="mt-12">
             <FaqAccordion items={FAQ_ITEMS.map(({ q, a }) => ({ q, a }))} />
           </div>
@@ -313,16 +237,16 @@ export default function ImmobilienmarketingAgenturPage() {
 
       {/* ── GelbeKarte-Finale + CTA ───────────────────────────────────── */}
       <ClusterAbschluss
-        karteLabel="Für Ihr Haus"
-        karteTitel="Eine Agentur liefert einen Auftritt. Wir liefern ein System, das Mandate bringt."
-        karteText="Kampagnen und Design sind das Handwerk einer Agentur. Wir fangen bei der Analyse an und bauen danach ein System aus Portal, Funnel und Automatisierung, mit einem Ansprechpartner, der jede Anfrage im Ticketsystem nachweisbar bearbeitet."
-        schlussTitel="Sprechen wir über Ihr System, nicht über ein Briefing."
-        schlussText="Im ersten Gespräch schauen wir auf Ihr Anfragevolumen und Ihr CRM und sagen Ihnen ehrlich, ob eine Beratung wie beuwy der richtige nächste Schritt ist oder eine klassische Agentur für Ihre Aufgabe reicht."
+        karteLabel={t("abschluss.karte_label")}
+        karteTitel={t("abschluss.karte_titel")}
+        karteText={t("abschluss.karte_text")}
+        schlussTitel={t("abschluss.schluss_titel")}
+        schlussText={t("abschluss.schluss_text")}
         primaryHref="/anfrage"
         weitereLinks={[
-          { label: "Was kostet eine Maklerwebsite?", href: "/maklerwebsite-kosten" },
-          { label: "Website für Makler", href: "/website-fuer-immobilienmakler" },
-          { label: "Zur Immobilienmarketing-Übersicht", href: "/immobilienmarketing" },
+          { label: t("abschluss.link1"), href: "/maklerwebsite-kosten" },
+          { label: t("abschluss.link2"), href: "/website-fuer-immobilienmakler" },
+          { label: t("abschluss.link3"), href: "/immobilienmarketing" },
         ]}
       />
     </>

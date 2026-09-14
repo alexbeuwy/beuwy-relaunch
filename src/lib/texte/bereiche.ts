@@ -15,6 +15,8 @@
  * auf, statt im Studio zu verschwinden.
  */
 
+import { SEITEN_MANIFEST } from "./seiten";
+
 export type Bereich = {
   /** Key-Präfix inkl. Trenner, z. B. "mk." — "" markiert den Sammel-Bereich. */
   praefix: string;
@@ -29,14 +31,24 @@ export type Bereich = {
 
 export type Feldgruppe = { titel: string; keys: string[] };
 
+/** Eine Unterseite im Bereich „Unterseiten": eigene Route, eigene Gruppen. */
+export type SeiteMitFeldern = { slug: string; titel: string; route: string; keys: string[]; gruppen: Feldgruppe[] };
+
 export type BereichMitFeldern = Bereich & {
   keys: string[];
   gruppen: Feldgruppe[];
+  /** Nur im Bereich „Unterseiten" (Präfix s.): Seitenwahl im Editor. */
+  seiten?: SeiteMitFeldern[];
 };
 
 /** Die drei bekannten Bereiche — Reihenfolge = Reihenfolge in der Navi. */
 export const BEREICHE: Bereich[] = [
+  /* Spezifischer Präfix VOR "mk." — baueBereiche ordnet in Reihenfolge zu. */
+  { praefix: "mk.vsl.front_", titel: "Frontseite /vsl", icon: "Clapperboard", route: "/vsl" },
   { praefix: "mk.", titel: "Startseite", icon: "Home", route: "/", thumb: "/studio-thumbs/start.webp" },
+  /* R11 (14.09): alle Unterseiten — Keys s.<slug>.<gruppe>.<feld>, Datei je
+     Seite unter src/lib/texte/seiten/, Manifest generiert (tools/texte-index.mjs). */
+  { praefix: "s.", titel: "Unterseiten", icon: "Files", route: "" },
   {
     praefix: "tools.",
     titel: "Rechner & Tools",
@@ -63,6 +75,7 @@ export const WEITERE_TEXTE: Bereich = {
 
 /** Label-Vorspann, den FIELD_LABELS je Bereich voranstellt (siehe content.ts). */
 const VORSPANN: Record<string, string> = {
+  "mk.vsl.front_": "Frontseite /vsl",
   "mk.": "Makler",
   "tools.": "Tools",
   "intern.": "Intern",
@@ -88,6 +101,23 @@ const GRUPPEN_NAMEN: Record<string, string> = {
   flows: "Flows",
   einblick: "Einblick",
   shell: "Dashboard",
+  /* Unterseiten-Sektionen (R11) */
+  meta: "SEO — Titel & Beschreibung",
+  intro: "Einstieg",
+  faq: "FAQ",
+  cta: "Call-to-Action",
+  fazit: "Fazit",
+  prozess: "Prozess",
+  saeulen: "Säulen",
+  abgrenzung: "Abgrenzung",
+  spiegel: "Spiegel",
+  anfassen: "Selbst testen",
+  showreel: "Showreel",
+  finale: "Finale",
+  footer: "Footer",
+  nav: "Navigation",
+  funnel: "Anfrage-Funnel",
+  buchung: "Terminbuchung",
 };
 
 function gruppenName(segment: string): string {
@@ -125,8 +155,19 @@ export function baueBereiche(defaults: Record<string, string>): BereichMitFelder
   const zugeordnet = new Set<string>();
 
   const bekannte = BEREICHE.map((bereich) => {
-    const keys = alleKeys.filter((k) => k.startsWith(bereich.praefix));
+    const keys = alleKeys.filter((k) => k.startsWith(bereich.praefix) && !zugeordnet.has(k));
     keys.forEach((k) => zugeordnet.add(k));
+    if (bereich.praefix === "s.") {
+      /* Unterseiten: erst nach Seite (Slug), innerhalb der Seite nach Sektion. */
+      const seiten: SeiteMitFeldern[] = SEITEN_MANIFEST.map((seite) => {
+        const seitenPraefix = `s.${seite.slug}.`;
+        const seitenKeys = keys.filter((k) => k.startsWith(seitenPraefix));
+        return { ...seite, keys: seitenKeys, gruppen: gruppieren(seitenKeys, seitenPraefix) };
+      })
+        .filter((seite) => seite.keys.length > 0)
+        .sort((a, b) => a.titel.localeCompare(b.titel, "de"));
+      return { ...bereich, keys, gruppen: gruppieren(keys, bereich.praefix), seiten };
+    }
     return { ...bereich, keys, gruppen: gruppieren(keys, bereich.praefix) };
   });
 

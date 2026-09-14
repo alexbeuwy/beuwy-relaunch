@@ -11,6 +11,7 @@ import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
 import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -26,88 +27,27 @@ import stil from "./hero.module.css";
  * Beweis (17 Jahre, Wochen statt Quartale, Studio-Zahlen referenziert) →
  * Qualifizierung → FAQ (+ FAQPage-JSON-LD) → Finale. Foto
  * 11 ist bereits für dieselbe Bildaussage kalibriert (Objektposition aus
- * leadgenerierung-immobilienmakler übernommen). Copy hart im Code
- * (R-Leaves fassen content.ts nicht an, außer referenzierten Studio-Zahlen).
+ * leadgenerierung-immobilienmakler übernommen). Texte über Studio-Keys
+ * (R11) — Ausnahme: mk.stats.s3_* / mk.stats.s4_* bleiben in content.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "KI für Immobilienmakler: Systeme statt Prompt-Frust | beuwy",
-  description:
-    "KI für Immobilienmakler heißt nicht mehr Prompts lernen: beuwy übersetzt ChatGPT, Claude & Co. in feste Abläufe für Anfragen, Exposés und Nachfassen. Als Unternehmensberatung, in Wochen statt Quartalen.",
-  openGraph: {
-    title: "KI für Immobilienmakler: Systeme statt Prompt-Frust | beuwy",
-    description:
-      "beuwy übersetzt KI-Werkzeuge in feste Abläufe für Anfragen, Exposés und Nachfassen — als Unternehmensberatung, in Wochen statt Quartalen.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "ki-fuer-immobilienmakler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
-const PAINS = [
-  {
-    quote: "Ein guter Prompt liefert einen guten Text.",
-    answer:
-      "Aber nur einen Text. Morgen brauchen Sie den nächsten Prompt, für die nächste Mail, das nächste Exposé. Die Arbeit fängt jedes Mal wieder bei null an.",
-  },
-  {
-    quote: "Automatisieren wollen alle. Wie, weiß selten jemand.",
-    answer:
-      "Prozesse abgeben, Agenten einrichten, Systeme verbinden: Dafür fehlt in den meisten Maklerbüros weder der Wille noch das Team. Es fehlt die Zeit, sich selbst einzuarbeiten.",
-  },
-  {
-    quote: "Die Anfrage von heute Abend liegt morgen früh noch im Postfach.",
-    answer:
-      "Kein einzelnes Werkzeug merkt sich das von selbst. Ohne festen Ablauf bleibt jede Automatisierung ein Versuch, den irgendwann keiner mehr weiterverfolgt.",
-  },
-];
-
-const BAUSTEINE = [
-  {
-    icon: RiMailSendLine,
-    label: "Follow-up-Automation",
-    satz:
-      "Ein Ablauf merkt sich, wer heute nicht kauft, und schickt in sechs Monaten automatisch die richtige Mail. Niemand im Team muss sich das Datum notieren.",
-  },
-  {
-    icon: RiCalculatorLine,
-    label: "Bewertungsrechner-Qualifizierung",
-    satz:
-      "Adresse rein, Ersteinschätzung raus. Der Rechner bewertet im Hintergrund und legt den Verkäufer-Lead mit Score ins CRM, während Sie noch besichtigen.",
-  },
-  {
-    icon: RiFileTextLine,
-    label: "Exposés im eigenen Markenlook",
-    satz:
-      "Objektdaten, Fotos und Ihr Markenlook laufen automatisch zu einem fertigen Exposé zusammen. Kein Dokument, das am Ende noch von Hand nachgebaut wird.",
-  },
-  {
-    icon: RiListCheck3,
-    label: "Prozesse, die an alles denken",
-    satz:
-      "Ein Nachfass-Termin, eine Frist, eine offene Unterschrift: Das System merkt es sich und meldet sich von selbst. Ihr Team muss nur noch entscheiden, nicht mehr daran denken.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Ersetzt das mein Team?",
-    a: "Nein. Der Ablauf übernimmt die Wege, die heute liegen bleiben: Nachfassen, Sortieren, den Exposé-Zusammenbau. Entscheidungen, Besichtigungen und das Gespräch mit dem Eigentümer bleiben bei Ihrem Team. Es bekommt nur mehr Zeit dafür.",
-  },
-  {
-    q: "Welche Tools nutzen Sie?",
-    a: "Das wechselt ständig und ist für Ihr Ergebnis nicht entscheidend. Wir wählen bei jedem Baustein das Werkzeug, das gerade am zuverlässigsten arbeitet, und tauschen es aus, sobald ein besseres verfügbar ist. Sie merken davon nichts außer dem Ergebnis.",
-  },
-  {
-    q: "Was, wenn nächste Woche wieder alles neu ist?",
-    a: "Dann ändert sich, was unter der Haube läuft, nicht Ihr Ablauf. Das System ist so gebaut, dass ein neues Modell ausgetauscht werden kann, ohne dass Ihre Prozesse, Formulare oder Ihr CRM neu aufgesetzt werden müssen.",
-  },
-  {
-    q: "Muss mein Team lernen, wie man promptet?",
-    a: "Nein. Der Ablauf läuft im Hintergrund, ohne dass jemand ein Prompt-Fenster öffnet. Ihr Team bedient gewohnte Oberflächen wie CRM, Postfach und Website. Die KI-Arbeit passiert dahinter, unsichtbar.",
-  },
-];
+const BAUSTEINE_ICONS = [RiMailSendLine, RiCalculatorLine, RiFileTextLine, RiListCheck3] as const;
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -123,13 +63,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-(--duration-quick) ease-(--ease-smooth-out) group-hover:translate-x-0.5" />
     </Link>
   );
@@ -137,11 +77,22 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function KiFuerImmobilienmaklerPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "ki-fuer-immobilienmakler");
+
+  const pains = t
+    .liste("problem", ["quote", "antwort"] as const)
+    .map((p) => ({ quote: p.quote, answer: p.antwort }));
+  const bausteine = t
+    .liste("system", ["label", "satz"] as const)
+    .map((b, i) => ({ ...b, icon: BAUSTEINE_ICONS[i] }));
+  const faqs = t
+    .liste("faq", ["frage", "antwort"] as const)
+    .map((f) => ({ q: f.frage, a: f.antwort }));
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((item) => ({
+    mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.q,
       acceptedAnswer: {
@@ -167,7 +118,7 @@ export default async function KiFuerImmobilienmaklerPage() {
           >
             <Image
               src={maklerAsset(11)}
-              alt="Makler zeigt Kollegen ein digitales System auf dem Tablet, warmes Licht im Büro"
+              alt={t("hero.bild_alt")}
               fill
               priority
               sizes="(min-width: 1024px) 55vw, 100vw"
@@ -179,7 +130,7 @@ export default async function KiFuerImmobilienmaklerPage() {
 
             {/* Floating Card — Studio-Zahl mk.stats.s4, eigene Rahmen-Zeile */}
             <div className="absolute bottom-8 left-6 max-w-[13.5rem] rounded-2xl bg-white/95 p-5 backdrop-blur-sm lg:bottom-12 lg:left-10">
-              <p className="t-label !text-[10px]">Von der Diagnose bis zum ersten Ablauf</p>
+              <p className="t-label !text-[10px]">{t("hero.karte_label")}</p>
               <p className="mt-1 font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                 {c["mk.stats.s4_wert"]}
               </p>
@@ -194,30 +145,28 @@ export default async function KiFuerImmobilienmaklerPage() {
               className={`t-label !text-ink-yellow ${stil.enter}`}
               style={{ "--i": 0 } as React.CSSProperties}
             >
-              KI für Immobilienmakler
+              {t("hero.eyebrow")}
             </p>
             <h1
               className={`mt-5 font-display text-[clamp(34px,4.4vw,58px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance] ${stil.enter}`}
               style={{ "--i": 1 } as React.CSSProperties}
             >
-              {rich("KI für Immobilienmakler — *Systeme*, kein Prompt-Frust.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p
               className={`t-body-lg mt-6 max-w-[34rem] ${stil.enter}`}
               style={{ "--i": 2 } as React.CSSProperties}
             >
-              KI für Immobilienmakler heißt nicht, mit ChatGPT, Claude, Kimi oder DeepSeek
-              herumzuprobieren, bis ein brauchbarer Text steht, während schon das nächste
-              Modell ansteht. Es heißt, aus diesen Werkzeugen{" "}
-              <Highlight>feste Abläufe für Anfragen, Exposés und Nachfassen</Highlight> zu bauen,
-              die laufen, ohne dass jemand im Team jeden Tag daran denken muss.
+              {t("hero.text_vor")}{" "}
+              <Highlight>{t("hero.text_mitte")}</Highlight>{" "}
+              {t("hero.text_nach")}
             </p>
             <div
               className={`mt-9 flex flex-wrap items-center gap-5 ${stil.enter}`}
               style={{ "--i": 3 } as React.CSSProperties}
             >
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </div>
         </div>
@@ -228,14 +177,14 @@ export default async function KiFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Das Prompt-Problem"
-              titel="Wer *promptet*, bekommt Nettes. Nicht was trägt."
-              sub="Ein Prompt ist schnell getippt. Ein Ablauf, der jede Woche von selbst läuft, ist etwas anderes. Genau da hören die meisten Erklärungen zu KI im Maklerbüro auf."
+              eyebrow={t("problem.eyebrow")}
+              titel={t("problem.titel")}
+              sub={t("problem.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={pains} />
           </div>
         </div>
       </section>
@@ -245,14 +194,14 @@ export default async function KiFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Was daraus wird"
-              titel="Wir übersetzen KI in Abläufe, die *bleiben*."
-              sub="Vier Bausteine, die heute in Maklerbüros laufen. Welches Modell gerade im Hintergrund rechnet, muss niemand im Team wissen."
+              eyebrow={t("system.eyebrow")}
+              titel={t("system.titel")}
+              sub={t("system.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 border-t border-line-subtle">
-            {BAUSTEINE.map((b, i) => {
+            {bausteine.map((b, i) => {
               const Icon = b.icon;
               return (
                 <Reveal key={b.label} delay={i * 50}>
@@ -279,18 +228,12 @@ export default async function KiFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte
-              label="Die Abgrenzung"
-              titel="Wir sind eine Unternehmensberatung, kein Prompt-Kurs."
+              label={t("abgrenzung.label")}
+              titel={t("abgrenzung.titel")}
               glyph
             >
-              <p>
-                Wir verkaufen keine Fortbildung im Prompten und keine Liste von Werkzeugen, die
-                Ihr Team selbst zusammenstecken muss.
-              </p>
-              <p className="mt-3">
-                Wir bauen die Abläufe, testen sie an Ihrem Betrieb und liefern ein System, das
-                läuft. Beratung mit Ergebnis, keine Hausaufgabe.
-              </p>
+              <p>{t("abgrenzung.text_1")}</p>
+              <p className="mt-3">{t("abgrenzung.text_2")}</p>
             </GelbeKarte>
           </Reveal>
         </div>
@@ -300,10 +243,8 @@ export default async function KiFuerImmobilienmaklerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Prompt-Versuch</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              {rich("*Siebzehn* Jahre Systembau, nicht erst seit dem ersten Sprachmodell.")}
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{rich(t("beweis.titel"))}</p>
           </Reveal>
           <Reveal delay={60}>
             <div className="mt-10 grid max-w-[560px] gap-10 sm:grid-cols-2">
@@ -320,11 +261,7 @@ export default async function KiFuerImmobilienmaklerPage() {
                 <p className="t-body mt-2">{c["mk.stats.s4_label"]}</p>
               </div>
             </div>
-            <p className="t-body mt-8 max-w-[46ch]">
-              Wochen, nicht Quartale: Ein Modellwechsel irgendwo im Hintergrund lässt Sie nicht
-              wieder bei null anfangen, weil der Ablauf drumherum gebaut ist, nicht um ein
-              einzelnes Werkzeug.
-            </p>
+            <p className="t-body mt-8 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -334,9 +271,9 @@ export default async function KiFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Für wen das gebaut ist"
-              titel="Nicht für den ersten *Versuch* mit einem Sprachmodell."
-              sub="Das hier ist für Büros mit laufendem Betrieb, die keine Vorlaufzeit mehr zum Ausprobieren haben. Stehen Sie noch ganz am Anfang, lohnt sich ein Gespräch trotzdem: Wir sagen ehrlich, ob sich der Aufbau eines Systems für Sie schon rechnet oder ob ein guter Prompt fürs Erste reicht."
+              eyebrow={t("qualifizierung.eyebrow")}
+              titel={t("qualifizierung.titel")}
+              sub={t("qualifizierung.sub")}
               className="max-w-[680px]"
             />
           </Reveal>
@@ -348,13 +285,13 @@ export default async function KiFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Makler vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -363,27 +300,23 @@ export default async function KiFuerImmobilienmaklerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">
-              {rich("Bauen wir das *System*, nicht den nächsten Prompt.")}
-            </h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[52ch]">
-              Schreiben Sie, welchen Ablauf Ihr Team heute noch von Hand erledigt. Im Gespräch
-              sagen wir Ihnen, was ein System davon übernehmen kann. Wie das in eine eigene{" "}
+              {t("finale.text_a")}{" "}
               <Link href="/website-fuer-immobilienmakler" className="ref-link">
-                Maklerwebsite
+                {t("finale.link_website")}
               </Link>{" "}
-              eingebettet aussieht, zeigt die Kernleistung; einen Überblick über alle Bausteine
-              gibt der{" "}
+              {t("finale.text_b")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_c")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

@@ -15,6 +15,7 @@ import {
 } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Über-uns-Seite (Alex, 26.08: „über uns ausarbeiten und high end
@@ -27,77 +28,19 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Über beuwy: Unternehmensberatung für Immobilienmarketing | beuwy",
-  description:
-    "beuwy ist eine Unternehmensberatung für Immobilienmarketing: Marke, Portal und Vertriebssystem aus einer Hand. 17 Jahre Markenarbeit, eigene Vertriebserfahrung, messbar in Mandaten und Deals.",
-  openGraph: {
-    title: "Über beuwy: Unternehmensberatung für Immobilienmarketing | beuwy",
-    description:
-      "Marke, Portal und Vertriebssystem aus einer Hand — von einer Beratung, die Vertrieb aus eigenem Geld kennt, nicht aus Fallstudien.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const STATIONEN = [
-  {
-    marke: "Vision Group",
-    zeitraum: "Begleitet vom Gründungsbüro an",
-    titel: "Aus drei Leuten wurde eine Gruppe, mit der Private Equity verhandelt.",
-    text: "Als die Vision Group anfing, passte das Team in ein Büro. beuwy hat Marke, Auftritt und Anfragesystem über die Jahre mitentwickelt — bis zu 1.450 Wohneinheiten im Bestand und einem Joint Venture mit KKR über 160 Millionen Euro.",
-  },
-  {
-    marke: "Königswege",
-    zeitraum: "Vom Mittelfeld in die Top 10",
-    titel: "Von 60 Partnern auf über 2.300 — die Marke rekrutiert heute von selbst.",
-    text: "Königswege kam mit 60 Partnern. Heute gehört das Haus zu den zehn größten Finanzvertrieben Deutschlands, und der Auftritt, den wir gebaut haben, ist das Erste, was jeder neue Partner sieht.",
-  },
-  {
-    marke: "acta",
-    zeitraum: "Selbst gegründet, selbst betrieben",
-    titel: "Unser eigener Vertrieb: 380 Wohneinheiten über Instagram-Anzeigen.",
-    text: "acta war kein Kunde, sondern unsere eigene Firma: in der Spitze 15 Leute, rund 380 verkaufte Wohneinheiten in drei Jahren, etwa 40 Millionen Euro Volumen — akquiriert über Anzeigen, Rechner und Registrierung. Genau dieses System bauen wir heute für Sie.",
-  },
-] as const;
-
-const ARBEITSWEISE = [
-  {
-    titel: "Done for you, in Wochen",
-    text: "Marke, Portal, Funnel und Automationen liefern wir fertig. Ihr Aufwand: vier Termine. Livegang in Wochen, nicht in Quartalen — den Termin bekommen Sie schriftlich.",
-  },
-  {
-    titel: "Ticketsystem statt Zuruf",
-    text: "Jedes Ihrer Anliegen läuft als Ticket, mit Status und Nachweis, bis es erledigt ist. Niemand fragt nach zwei Wochen, wie weit sein Dokument ist.",
-  },
-  {
-    titel: "Maßarbeit statt Baukasten",
-    text: "Kein Template, keine Standard-Exposés, die auch der Wettbewerber nutzt. Jedes Portal wird für ein Haus gebaut und gehört diesem Haus.",
-  },
-  {
-    titel: "Quoten statt Bauchgefühl",
-    text: "Jeden Montag steht der Wochenbericht im Postfach: Anfragen, Quellen, Status. Sie sehen, was das System liefert — nicht, was jemand behauptet.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Was ist beuwy — Agentur oder Beratung?",
-    a: "Eine Unternehmensberatung für Immobilienmarketing. Der Unterschied ist die Verantwortung: Eine Agentur liefert Werbemittel ab, wir verantworten ein System, das messbar Mandate und Deals bringt — und weisen das jeden Montag im Wochenbericht nach.",
-  },
-  {
-    q: "Welche Erfahrung steht hinter beuwy?",
-    a: "17 Jahre Markenarbeit, unter anderem für Bosch, Continental und Michelin — und eigene Vertriebserfahrung: Mit acta haben wir einen Kapitalanlage-Vertrieb selbst aufgebaut und rund 380 Wohneinheiten über Instagram-Anzeigen verkauft.",
-  },
-  {
-    q: "Arbeitet beuwy nur mit Immobilienmaklern?",
-    a: "Der Fokus liegt auf führenden Maklern. Daneben betreuen wir Projektentwickler, Bauträger und Immobilienvertriebe — Zielgruppen, deren Vertrieb nach derselben Logik funktioniert: registrieren, qualifizieren, abschließen.",
-  },
-  {
-    q: "Wer betreut mich in der Zusammenarbeit?",
-    a: "Sie haben einen festen Ansprechpartner, und jedes Anliegen läuft zusätzlich über ein Ticketsystem — nachweisbar, mit Status, bis es erledigt ist. Kein Wunsch bleibt offen.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "ueber-uns");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -113,13 +56,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -127,11 +70,15 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function UeberUnsPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "ueber-uns");
+  const stationen = t.liste("stationen", ["marke", "zeitraum", "titel", "text"] as const);
+  const arbeitsweise = t.liste("arbeitsweise", ["titel", "text"] as const);
+  const faq = t.liste("faq", ["q", "a"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faq.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -163,7 +110,7 @@ export default async function UeberUnsPage() {
             <AiPille className="!bottom-auto !top-4 right-4" />
 
             <div className="absolute bottom-8 left-6 max-w-[13.5rem] rounded-2xl bg-white/95 p-5 backdrop-blur-sm lg:bottom-12 lg:left-10">
-              <p className="t-label !text-[10px]">Das Fundament</p>
+              <p className="t-label !text-[10px]">{t("hero.karte_label")}</p>
               <p className="mt-1 font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                 {c["mk.stats.s3_wert"]}
               </p>
@@ -174,18 +121,18 @@ export default async function UeberUnsPage() {
           </div>
 
           <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-14 pt-28 lg:min-h-[70dvh] lg:max-w-none lg:pl-[max(40px,calc((100vw-1120px)/2))] lg:pr-[55vw] lg:pt-24">
-            <p className="t-label !text-ink-yellow">Über beuwy</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="mt-5 font-display text-[clamp(32px,3.5vw,50px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-              {rich("Wir bauen die Systeme, mit denen Immobilienhäuser *groß* werden.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[36rem]">
-              beuwy ist eine Unternehmensberatung für Immobilienmarketing: Marke, Portal und
-              Vertriebssystem aus einer Hand. <Highlight>Seit 17 Jahren, messbar in Mandaten
-              und Deals</Highlight> — nicht in Klicks.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_mark")}</Highlight>{" "}
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.antwort")}</span>
             </div>
           </div>
         </div>
@@ -196,37 +143,24 @@ export default async function UeberUnsPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Warum es beuwy gibt"
-              titel="Wir haben zu viele gute Häuser mit *austauschbaren* Auftritten gesehen."
+              eyebrow={t("haltung.eyebrow")}
+              titel={t("haltung.titel")}
               className="max-w-[760px]"
             />
           </Reveal>
           <Reveal delay={60}>
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
               <div className="space-y-6">
-                <p className="t-body-lg">
-                  Angefangen hat alles in der Markenarbeit für Häuser wie Bosch, Continental und
-                  Michelin — dort lernt man, was eine Marke tragen muss, wenn Millionen auf sie
-                  schauen.
-                </p>
-                <p className="t-body-lg">
-                  Dann kam die Immobilienbranche. Und mit ihr eine Beobachtung, die uns nicht
-                  losließ: Die besten Makler ihrer Stadt treten online auf wie der Drittbeste.
-                  Gleiche Baukasten-Website, gleiche Standard-Exposés, gleiches Bauchgefühl statt
-                  Bericht.
-                </p>
+                <p className="t-body-lg">{t("haltung.spalte1_p1")}</p>
+                <p className="t-body-lg">{t("haltung.spalte1_p2")}</p>
               </div>
               <div className="space-y-6">
                 <p className="t-body-lg">
-                  Deshalb verkauft beuwy keine Websites. Wir bauen Portale, die Eigentümer
-                  registrieren und vorqualifizieren — und ein System drumherum, das{" "}
-                  <Highlight>jede Woche nachweist, was es liefert</Highlight>.
+                  {t("haltung.spalte2_p1_vor")}{" "}
+                  <Highlight>{t("haltung.spalte2_p1_mark")}</Highlight>
+                  {t("haltung.spalte2_p1_nach")}
                 </p>
-                <p className="t-body-lg">
-                  Und weil Beratung ohne eigene Narben wohlfeil ist, haben wir einen Vertrieb
-                  selbst gegründet und betrieben. Was wir empfehlen, haben wir mit eigenem Geld
-                  bezahlt und mit eigenem Team verkauft.
-                </p>
+                <p className="t-body-lg">{t("haltung.spalte2_p2")}</p>
               </div>
             </div>
           </Reveal>
@@ -238,14 +172,14 @@ export default async function UeberUnsPage() {
         <div className="mx-auto max-w-[1200px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Drei Stationen"
-              titel="Drei Häuser, drei Größenordnungen — *ein* Muster."
-              sub="Zum Nachlesen, nicht zum Glauben: Was aus Häusern wird, wenn Marke und System zusammen gebaut werden."
+              eyebrow={t("stationen.eyebrow")}
+              titel={t("stationen.titel")}
+              sub={t("stationen.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {STATIONEN.map((s, i) => (
+            {stationen.map((s, i) => (
               <Reveal key={s.marke} delay={i * 70}>
                 <article className="flex h-full flex-col rounded-[28px] border border-line-subtle bg-white px-7 py-8">
                   <span className="flex h-6 items-center">
@@ -274,13 +208,13 @@ export default async function UeberUnsPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="So arbeiten wir"
-              titel="Vier Zusagen, an denen Sie uns *messen* können."
+              eyebrow={t("arbeitsweise.eyebrow")}
+              titel={t("arbeitsweise.titel")}
               className="max-w-[680px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {ARBEITSWEISE.map((punkt, i) => (
+            {arbeitsweise.map((punkt, i) => (
               <Reveal key={punkt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -311,13 +245,12 @@ export default async function UeberUnsPage() {
                 />
               </div>
               <div>
-                <p className="t-label !text-[10.5px]">Gründer</p>
-                <p className="mt-2 text-[19px] font-semibold text-ink-cream">Alexander Pütter</p>
+                <p className="t-label !text-[10.5px]">{t("gruender.label")}</p>
+                <p className="mt-2 text-[19px] font-semibold text-ink-cream">{t("gruender.name")}</p>
                 <p className="t-body mt-3 max-w-[46ch]">
-                  Führt beuwy seit dem ersten Projekt.{" "}
-                  <Highlight>„Ins Rampenlicht gehört Ihre Marke, nicht meine."</Highlight> Deshalb
-                  finden Sie hier keine Bühnenfotos — sondern Wochenberichte, Quoten und drei
-                  Stationen zum Nachlesen.
+                  {t("gruender.text_vor")}{" "}
+                  <Highlight>{t("gruender.text_mark")}</Highlight>{" "}
+                  {t("gruender.text_nach")}
                 </p>
               </div>
             </div>
@@ -329,10 +262,8 @@ export default async function UeberUnsPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Wir sind keine Agentur." glyph>
-              Eine Agentur liefert Werbemittel ab und ist fertig. Eine Unternehmensberatung
-              verantwortet ein Ergebnis: ein System, das Eigentümer registriert, Termine bringt
-              und jeden Montag Rechenschaft ablegt.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -343,13 +274,13 @@ export default async function UeberUnsPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Häuser über *beuwy* wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faq} />
           </div>
         </div>
       </section>
@@ -358,23 +289,23 @@ export default async function UeberUnsPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Lernen wir uns über Ihre *Zahlen* kennen.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[52ch]">
-              Was beuwy baut, sehen Sie im{" "}
+              {t("finale.satz_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link1")}
               </Link>
-              , was dabei herauskommt, in den{" "}
+              {t("finale.satz_mitte")}{" "}
               <Link href="/cases" className="ref-link">
-                Fallstudien
+                {t("finale.link2")}
               </Link>
-              .
+              {t("finale.satz_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.antwort")}</p>
           </Reveal>
         </div>
       </section>

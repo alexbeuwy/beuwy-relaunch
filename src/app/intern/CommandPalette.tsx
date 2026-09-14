@@ -11,6 +11,7 @@ import {
   MessageSquare,
   PenLine,
   Radio,
+  Settings,
   Search,
   Sun,
   Users,
@@ -70,6 +71,7 @@ const NAVIGATION_ZIELE: Ziel[] = [
   { href: "/intern/mails", label: "Mails", Icon: Mail },
   { href: "/studio", label: "Studio", Icon: PenLine },
   { href: "/os", label: "OS", Icon: Radio },
+  { href: "/intern/einstellungen", label: "Einstellungen", Icon: Settings },
 ];
 
 const AKTIONEN_ZIELE: Ziel[] = [

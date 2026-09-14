@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -20,84 +22,25 @@ import { caseBySlug } from "@/lib/cases";
  * GelbeKarte, textlicher Beweis-Anriss (Riegel, Rhein-Neckar-Region), FAQ
  * + FAQPage-JSON-LD. Foto 13 laut R3-SEITENPLAN.json (Hochformat, per
  * object-cover im 21:9-Band beschnitten).
+ *
+ * R11 (14.09): Texte laufen über s.makler-in-kleinstadt.* (seitenTexte).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Makler in der Kleinstadt: Marktführer auf 30.000 Einwohner | beuwy",
-  description:
-    "Makler in der Kleinstadt: weniger Wettbewerb um Suchbegriffe, günstigere Story-Omnipräsenz. beuwy zeigt, wie digitales Marketing dort schneller zur Dominanz führt.",
-  openGraph: {
-    title: "Makler in der Kleinstadt: Marktführer auf 30.000 Einwohner | beuwy",
-    description:
-      "Kleine Stadt, schneller Hebel: weniger Wettbewerb um „Makler + Stadt“, günstigere Reichweite. beuwy baut die Kette, die aus einem Büro den bekannten Namen im Ort macht.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const VERGLEICH = [
-  {
-    kriterium: "Wettbewerb um „Makler + Stadt“",
-    grossstadt: "meist zehn und mehr Büros mit eigenem Auftritt",
-    kleinstadt: "oft nur ein bis zwei Büros mit eigener Seite",
-  },
-  {
-    kriterium: "Suchvolumen pro Monat",
-    grossstadt: "hoch, aber stark umkämpft",
-    kleinstadt: "niedriger, dafür fast ohne Streuung",
-  },
-  {
-    kriterium: "Reichweite pro Werbe-Euro",
-    grossstadt: "teuer, viele Mitbieter auf dieselbe Zielgruppe",
-    kleinstadt: "günstiger, weniger Bieter im selben Radius",
-  },
-  {
-    kriterium: "Weg zu Platz eins",
-    grossstadt: "Monate, oft gegen Portale und Ketten",
-    kleinstadt: "häufig Wochen, wenn kaum ein Wettbewerber eine Landingpage hat",
-  },
-  {
-    kriterium: "Wirkung von Empfehlungen",
-    grossstadt: "verpufft im großen Netzwerk",
-    kleinstadt: "trägt schnell weiter, kurze Wege zwischen Nachbarn",
-  },
-] as const;
-
-const HEBEL = [
-  {
-    titel: "Eine Landingpage, die den Ort besetzt",
-    text: "„Makler in [Stadtname]“ oder „Immobilie verkaufen [Stadtname]“: In einer Stadt mit 30.000 Einwohnern reicht oft eine sauber gebaute Seite, um auf Platz eins zu stehen, weil kaum ein Wettbewerber überhaupt eine eigene Seite für den Ort gebaut hat.",
-  },
-  {
-    titel: "Farming, das sich schneller rechnet",
-    text: "Eine wöchentliche Story mit echten Objekten aus dem Ort erreicht in einer Kleinstadt einen größeren Anteil der relevanten Einwohner pro eingesetztem Euro als dieselbe Story in einer Großstadt mit zersplitterter Zielgruppe.",
-  },
-  {
-    titel: "Der Ruf schließt den Kreis",
-    text: "Wer in einer Kleinstadt einmal auffällt, dessen Name trägt weiter, oft über den Nachbarn, den Verein, den Handwerker, mit dem man gerade zu tun hatte. Digitale Sichtbarkeit und dieses Netzwerk verstärken sich gegenseitig, statt getrennt zu laufen.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Lohnt sich eine eigene Landingpage für eine Stadt mit nur 30.000 Einwohnern?",
-    a: "Ja, gerade weil das Suchvolumen kleiner ist als in einer Großstadt, bauen dort selten mehrere Wettbewerber eine eigene Seite für exakt diesen Ort. Eine einzelne saubere Landingpage reicht oft für Platz eins, wo sie in einer Großstadt gegen zehn Konkurrenten antreten müsste.",
-  },
-  {
-    q: "Wie groß muss das Werbebudget in einer Kleinstadt sein?",
-    a: "Deutlich kleiner als in einer Großstadt, weil weniger Mitbieter um dieselbe Zielgruppe konkurrieren. Wie viel genau sinnvoll ist, hängt von der Zahl der Eigentümer ab, die dort tatsächlich verkaufen, das prüfen wir vor jeder Kampagne.",
-  },
-  {
-    q: "Reicht Farming allein, ohne SEO?",
-    a: "Für den Anfang ja, für Dauerhaftigkeit selten. Farming baut den Ruf im Ort auf, SEO sorgt dafür, dass jemand, der digital sucht statt zu fragen, Sie trotzdem findet. Beides zusammen trägt weiter als jeder Baustein allein.",
-  },
-  {
-    q: "Was, wenn ein großes Portal auch in meiner Kleinstadt aktiv wirbt?",
-    a: "Portale werben meist überregional und ohne lokalen Bezug. Eine Landingpage mit echten Ortsbezügen, echten Objekten und einem Namen, den die Nachbarschaft kennt, schlägt eine generische Portal-Anzeige gerade in kleinen Städten häufig, weil Vertrauen dort persönlicher entsteht.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "makler-in-kleinstadt");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -113,28 +56,32 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ text, className = "" }: { text: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {text}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function MaklerInKleinstadtPage() {
+export default async function MaklerInKleinstadtPage() {
+  const t = seitenTexte(await getContent(), "makler-in-kleinstadt");
   const riegel = caseBySlug("riegel-immobilien");
+  const vergleich = t.liste("vergleich", ["kriterium", "grossstadt", "kleinstadt"] as const);
+  const hebel = t.liste("hebel", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -150,21 +97,16 @@ export default function MaklerInKleinstadtPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wachstum</p>
-            <h1 className="t-display mt-4">
-              {rich("In der Kleinstadt reicht meist *eine* gute Seite.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Ja, digitales Marketing funktioniert in kleinen Städten, oft sogar schneller als in
-              Großstädten. Der Grund ist nicht Ihr Budget, sondern die Konkurrenz: Wer „Makler in
-              [Stadtname]“ sucht, findet in einer Stadt mit 30.000 Einwohnern häufig{" "}
-              <Highlight>ein bis zwei Wettbewerber mit eigener Seite statt zehn</Highlight>. Eine
-              saubere Landingpage und eine wöchentliche Story im Ort reichen dort oft für die
-              Position, für die es in der Großstadt ein ganzes System bräuchte.
+              {t("kopf.sub_vor")}{" "}
+              <Highlight>{t("kopf.sub_highlight")}</Highlight>
+              {t("kopf.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta text={t("kopf.cta")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -191,8 +133,8 @@ export default function MaklerInKleinstadtPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Unterschied auf einen Blick"
-              titel="Weniger Suchvolumen, aber ein *klareres* Feld."
+              eyebrow={t("vergleich.eyebrow")}
+              titel={t("vergleich.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -201,15 +143,15 @@ export default function MaklerInKleinstadtPage() {
               <table className="w-full min-w-[720px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line-subtle">
-                    <th className="t-label py-3 pr-6 font-semibold">Kriterium</th>
-                    <th className="t-label py-3 pr-6 font-semibold">Großstadt</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("vergleich.kopf_kriterium")}</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("vergleich.kopf_grossstadt")}</th>
                     <th className="t-label py-3 font-semibold !text-ink-cream">
-                      Kleinstadt (bis ca. 30.000 Einwohner)
+                      {t("vergleich.kopf_kleinstadt")}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {VERGLEICH.map((row) => (
+                  {vergleich.map((row) => (
                     <tr key={row.kriterium} className="border-b border-line-subtle">
                       <td className="t-data py-4 pr-6 !text-ink-cream">{row.kriterium}</td>
                       <td className="t-body py-4 pr-6 tnum">{row.grossstadt}</td>
@@ -228,14 +170,14 @@ export default function MaklerInKleinstadtPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Dominanz-Hebel"
-              titel="Drei Schritte zum bekannten *Namen* im Ort."
-              sub="Alle drei Schritte wirken zusammen. Die volle Systematik hinter dem ersten Schritt steht auf der Seite SEO für Immobilienmakler, hinter dem zweiten auf der Seite Immobilien-Farming."
+              eyebrow={t("hebel.eyebrow")}
+              titel={t("hebel.titel")}
+              sub={t("hebel.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {HEBEL.map((schritt, i) => (
+            {hebel.map((schritt, i) => (
               <Reveal key={schritt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -249,15 +191,15 @@ export default function MaklerInKleinstadtPage() {
           </div>
           <Reveal delay={240}>
             <p className="t-body mt-12 max-w-[640px]">
-              Ausführlich beschrieben auf{" "}
+              {t("hebel.text_vor")}{" "}
               <Link href="/seo-fuer-immobilienmakler" className="ref-link">
-                SEO für Immobilienmakler
+                {t("hebel.text_link1")}
               </Link>{" "}
-              und{" "}
+              {t("hebel.text_mid")}{" "}
               <Link href="/immobilien-farming" className="ref-link">
-                Immobilien-Farming
+                {t("hebel.text_link2")}
               </Link>
-              .
+              {t("hebel.text_nach")}
             </p>
           </Reveal>
         </div>
@@ -267,10 +209,8 @@ export default function MaklerInKleinstadtPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Klein ist kein Nachteil. Klein ist ein Hebel." glyph>
-              In einer Großstadt kämpfen Sie um Platz vier von zehn. In einer Kleinstadt kämpfen
-              Sie oft um Platz eins von zwei, gegen einen Wettbewerber, der überhaupt keine eigene
-              Seite für den Ort gebaut hat. Derselbe Aufwand bringt dort ein anderes Ergebnis.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -280,13 +220,8 @@ export default function MaklerInKleinstadtPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Ein regionaler Makler in der Rhein-Neckar-Region: sechs Wochen nach dem Relaunch
-              neun Abschlüsse, 342.000 € Volumen, und Platz 21 von über 25.000 Maklern beim
-              ImmoScout24-Award, nicht als bundesweite Kette, sondern als bekannter Name in der
-              eigenen Region.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -295,7 +230,7 @@ export default function MaklerInKleinstadtPage() {
           ) : null}
           <Reveal delay={60}>
             <Link href="/cases" className="ref-link mt-8 inline-block">
-              Weitere Fallstudien ansehen →
+              {t("beweis.cases_link")}
             </Link>
           </Reveal>
         </div>
@@ -306,13 +241,13 @@ export default function MaklerInKleinstadtPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -321,27 +256,27 @@ export default function MaklerInKleinstadtPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Dominanz* im Ort.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link1")}
               </Link>
-              , die Systematik der Omnipräsenz auf{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/immobilien-farming" className="ref-link">
-                Immobilien-Farming
+                {t("finale.text_link2")}
               </Link>{" "}
-              und der Weg auf Platz eins bei Google auf{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/seo-fuer-immobilienmakler" className="ref-link">
-                SEO für Immobilienmakler
+                {t("finale.text_link3")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta text={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

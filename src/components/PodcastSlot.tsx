@@ -9,16 +9,18 @@ import { GRUENDER_FOTO } from "@/lib/cdn";
  * mit Leon Lin). Gleiche Logik wie VslSlot: ohne Studio-URL steht das
  * Poster (Gründerfoto — echt, keine AiPille) mit Play-Affordance und
  * „folgt"-Pill; mit URL spielt der Klick das Video. Studio-Keys:
- * mk.podcast.url / mk.podcast.titel / mk.podcast.sub.
+ * mk.podcast.url / mk.podcast.titel / mk.podcast.sub / mk.podcast.folgt_pill.
  */
 export function PodcastSlot({
   videoUrl,
   titel,
   sub,
+  folgtText,
 }: {
   videoUrl?: string;
   titel: string;
   sub: string;
+  folgtText: string;
 }) {
   const [spielt, setSpielt] = useState(false);
   const hatVideo = Boolean(videoUrl && videoUrl.startsWith("http"));
@@ -56,7 +58,7 @@ export function PodcastSlot({
             </span>
             {!hatVideo && (
               <span className="absolute bottom-4 left-4 whitespace-nowrap rounded-full bg-white/85 px-3 py-1 text-[11px] font-medium tracking-[0.04em] text-ink-muted backdrop-blur-sm">
-                Folge erscheint in Kürze
+                {folgtText}
               </span>
             )}
           </button>

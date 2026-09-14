@@ -10,6 +10,8 @@ import { PainRows } from "@/components/PainRows";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CaseGrid } from "@/components/CaseGrid";
 import { caseBySlug } from "@/lib/cases";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * W-Cluster — /objektakquise-strategien (R3-SEITENPLAN.json). Antwort auf
@@ -19,111 +21,25 @@ import { caseBySlug } from "@/lib/cases";
  * gegen generische Ranglisten-Artikel und einer GelbeKarte gegen die
  * Illusion der einen Wunderstrategie. Beweis: RIEGEL (Kap. 342.000 €/9
  * Abschlüsse in 6 Wochen). Kompakter Wissens-Kopf statt 70vh-Hero, Foto 7.
+ * Texte: src/lib/texte/seiten/objektakquise-strategien.ts (Studio-Keys
+ * s.objektakquise-strategien.*).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Objektakquise: 7 Strategien, die 2026 wirklich Mandate bringen | beuwy",
-  description:
-    "Objektakquise 2026: 7 Strategien ehrlich verglichen, von Kaltakquise bis zum eigenen Portal, mit Aufwand und Eignung je Kanal statt einer Wunderliste.",
-  openGraph: {
-    title: "Objektakquise: 7 Strategien, die 2026 wirklich Mandate bringen | beuwy",
-    description:
-      "Ehrliches Ranking der Objektakquise-Strategien 2026: Aufwand, erste Wirkung und Eignung je Kanal, von Kaltakquise bis zum eigenen Portal als SEO-Fundament.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote: "Zehn Objektakquise-Tipps in einer Liste, aber keine Zeile dazu, welcher Tipp wie viel Zeit frisst.",
-    answer:
-      "Eine Rangliste ohne Aufwand-Wirkung-Verhältnis ist keine Entscheidungshilfe. Ein Makler mit zwei Wochenstunden für Akquise braucht andere Kanäle als ein Büro mit eigenem Marketing-Budget.",
-  },
-  {
-    quote: "Der Artikel empfiehlt Kaltakquise und Social Media und SEO und Empfehlungsmarketing, gleichzeitig, ab morgen.",
-    answer:
-      "Wer alles gleichzeitig anfängt, bringt keinen Kanal auf ein Niveau, das trägt. Jede Strategie braucht eine eigene Anlaufzeit, bevor sie überhaupt Ergebnisse zeigen kann.",
-  },
-  {
-    quote: "Kein Wort dazu, wie lange es bis zur ersten Anfrage dauert.",
-    answer:
-      "Kaltakquise kann in derselben Woche ein Mandat bringen, ein eigenes Portal frühestens nach Wochen. Ohne diese Zeitachse plant kein Büro sein Budget oder seine Geduld richtig.",
-  },
-] as const;
-
-type Strategie = {
-  name: string;
-  aufwand: string;
-  wirkung: string;
-  eignung: string;
-};
-
-const STRATEGIEN: Strategie[] = [
-  {
-    name: "Kaltakquise (Anruf, Klingeln)",
-    aufwand: "Sehr hoch, mehrere Stunden am Tag, dauerhaft",
-    wirkung: "Sofort möglich, aber unberechenbar",
-    eignung: "Einzelmakler mit viel Zeit, wenig Marketingbudget",
-  },
-  {
-    name: "Postwurf und Flyer",
-    aufwand: "Mittel, Layout und Verteilung je Runde",
-    wirkung: "Wochen bis Monate, breite Streuung",
-    eignung: "Ergänzung zum digitalen Auftritt, keine Alleinstrategie",
-  },
-  {
-    name: "Empfehlungsmarketing",
-    aufwand: "Gering laufend, hoch beim Aufbau der Servicequalität",
-    wirkung: "Monate bis Jahre, dann konstant",
-    eignung: "Jedes etablierte Büro, kaum in der Geschwindigkeit steuerbar",
-  },
-  {
-    name: "Google-Unternehmensprofil und Bewertungen",
-    aufwand: "Gering, laufende Pflege statt Projekt",
-    wirkung: "Wochen bis erste Sichtbarkeit, Monate bis Wirkung",
-    eignung: "Pflichtprogramm für jedes Büro, unabhängig von der Größe",
-  },
-  {
-    name: "Regionales Social-Media-Farming",
-    aufwand: "Hoch, fester Content-Rhythmus über Monate",
-    wirkung: "Monate bis Reichweite im Stadtteil spürbar wird",
-    eignung: "Makler vor der Kamera oder mit Team dafür",
-  },
-  {
-    name: "Performance-Marketing mit Bewertungsrechner",
-    aufwand: "Hoch beim Aufbau, gering in der laufenden Steuerung",
-    wirkung: "Wochen bis erste Leads, planbar über das Budget",
-    eignung: "Büros mit klarem Anfrageziel und Anzeigenbudget",
-  },
-  {
-    name: "Eigenes Portal als SEO-Fundament",
-    aufwand: "Hoch beim Aufbau, sehr gering laufend",
-    wirkung: "Monate bis erste Rankings, danach dauerhaft wachsend",
-    eignung: "Büros mit langfristigem Anspruch, nicht für schnelle Einzelfälle",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Ist Kaltakquise 2026 noch sinnvoll?",
-    a: "Als eine von mehreren Strategien ja, vor allem für schnelle Einzelmandate. Als einzige Quelle nicht: Der Zeitaufwand pro Termin ist hoch, und jedes Ergebnis endet mit dem Anruf, statt weiterzuwirken wie eine Landingpage oder ein Rechner, die auch nachts arbeiten.",
-  },
-  {
-    q: "Wie viele Akquise-Kanäle sollte ich gleichzeitig bespielen?",
-    a: "Zwei bis drei, mit einem klaren Schwerpunkt. Ein schneller Kanal für kurzfristige Mandate, kombiniert mit einem Kanal, der über Monate compoundiert, etwa ein Google-Profil oder ein eigenes Portal. Fünf Kanäle gleichzeitig bedeuten meist fünf halb gepflegte Kanäle.",
-  },
-  {
-    q: "Was kostet der Aufbau eines eigenen Portals im Vergleich zu laufender Kaltakquise?",
-    a: "Ein Portal ist eine Investition im Voraus, Kaltakquise eine laufende Zeitkosten-Rechnung ohne Ende. Nach dem Aufbau sinkt der Aufwand beim Portal auf Pflege, während Kaltakquise jede Woche denselben Einsatz verlangt. Einen konkreten Betrag nennen wir erst nach dem ersten Gespräch.",
-  },
-  {
-    q: "Wie schnell zeigen sich erste Ergebnisse?",
-    a: "Kaltakquise kann in derselben Woche einen Termin bringen. Performance-Marketing mit Rechner zeigt erste Leads meist innerhalb weniger Wochen. Ein eigenes Portal als SEO-Fundament braucht Monate, bevor es zuverlässig rankt, dafür trägt es danach ohne täglichen Einsatz weiter.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "objektakquise-strategien");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -139,20 +55,26 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function ObjektakquiseStrategienPage() {
+export default async function ObjektakquiseStrategienPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "objektakquise-strategien");
   const riegel = caseBySlug("riegel-immobilien");
+
+  const PAINS = t.liste("pains", ["quote", "answer"] as const);
+  const STRATEGIEN = t.liste("strategien", ["name", "aufwand", "wirkung", "eignung"] as const);
+  const FAQS = t.liste("faq", ["frage", "antwort"] as const).map((f) => ({ q: f.frage, a: f.antwort }));
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -175,21 +97,12 @@ export default function ObjektakquiseStrategienPage() {
       {/* ── Kompakter Wissens-Kopf ───────────────────────────────────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[860px] px-6 pb-12 pt-32 md:pt-40 lg:px-10">
-          <p className="t-label !text-ink-yellow">Wachstum</p>
-          <h1 className="t-display mt-5 max-w-[22ch]">
-            {rich("Sieben Objektakquise-Strategien – und welche 2026 wirklich *Mandate* bringen.")}
-          </h1>
-          <p className="t-body-lg mt-6 max-w-[62ch]">
-            2026 funktionieren Objektakquise-Strategien am besten kombiniert: Kaltakquise und
-            Postwurf bringen einzelne Mandate, aber mit hohem Zeitaufwand pro Abschluss.
-            Empfehlungsmarketing und ein gepflegtes Google-Profil skalieren langsamer, dafür ohne
-            laufende Kosten. Performance-Marketing mit eigenem Bewertungsrechner und ein eigenes
-            Portal als SEO-Fundament liefern den planbarsten, am besten skalierenden Zufluss,
-            brauchen aber Vorlauf, bevor die ersten Anfragen kommen.
-          </p>
+          <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+          <h1 className="t-display mt-5 max-w-[22ch]">{rich(t("hero.titel"))}</h1>
+          <p className="t-body-lg mt-6 max-w-[62ch]">{t("hero.intro")}</p>
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <ZusammenarbeitCta />
-            <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+            <ZusammenarbeitCta label={t("hero.cta_label")} />
+            <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
           </div>
         </div>
       </section>
@@ -215,13 +128,13 @@ export default function ObjektakquiseStrategienPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Warum Ranglisten meistens nicht helfen"
-              titel="Eine Liste ohne *Aufwand* ist keine Strategie."
+              eyebrow={t("problem.eyebrow")}
+              titel={t("problem.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={[...PAINS]} />
+            <PainRows items={PAINS} />
           </div>
         </div>
       </section>
@@ -231,9 +144,9 @@ export default function ObjektakquiseStrategienPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der ehrliche Vergleich"
-              titel="Sieben Kanäle, von *Kaltakquise* bis zum eigenen Portal."
-              sub="Kein Ranking nach Sympathie, sondern nach Aufwand, erster Wirkung und Eignung. Die Reihenfolge folgt der Logik: was zuerst trägt, bis das nächste compoundiert."
+              eyebrow={t("strategien.eyebrow")}
+              titel={t("strategien.titel")}
+              sub={t("strategien.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
@@ -241,16 +154,16 @@ export default function ObjektakquiseStrategienPage() {
             <table className="w-full min-w-[760px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line-medium">
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Rang</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Strategie</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Aufwand</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Erste Wirkung</th>
-                  <th className="py-3 t-label !text-[10.5px]">Eignung</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("strategien.spalte_rang")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("strategien.spalte_name")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("strategien.spalte_aufwand")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("strategien.spalte_wirkung")}</th>
+                  <th className="py-3 t-label !text-[10.5px]">{t("strategien.spalte_eignung")}</th>
                 </tr>
               </thead>
               <tbody>
                 {STRATEGIEN.map((s, i) => (
-                  <tr key={s.name} className="border-b border-line-subtle align-top">
+                  <tr key={`strategie-${i}`} className="border-b border-line-subtle align-top">
                     <td className="py-4 pr-4 font-mono text-[13px] text-ink-muted tnum">
                       {String(i + 1).padStart(2, "0")}
                     </td>
@@ -266,12 +179,7 @@ export default function ObjektakquiseStrategienPage() {
             </table>
           </div>
           <Reveal delay={80}>
-            <p className="t-body mt-8 max-w-[70ch]">
-              Die letzte Zeile ist bewusst die letzte: Ein eigenes Portal braucht am längsten, bis
-              es rankt, dafür arbeitet es danach weiter, ohne dass jede Woche neuer Einsatz
-              nötig wird. Genau darauf ist unsere Arbeit als Unternehmensberatung ausgelegt, nicht
-              auf eine einzelne Kampagne.
-            </p>
+            <p className="t-body mt-8 max-w-[70ch]">{t("strategien.fazit")}</p>
           </Reveal>
         </div>
       </section>
@@ -280,14 +188,8 @@ export default function ObjektakquiseStrategienPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte
-              label="Der Unterschied"
-              titel="Es gibt keine beste Strategie. Es gibt die richtige Kette."
-              glyph
-            >
-              Kaltakquise füllt die Lücke, bis das eigene Portal rankt. Ein Bewertungsrechner
-              fängt die Anfrage ab, die eine Anzeige gerade geweckt hat. Keine dieser Strategien
-              ersetzt die andere, sie übergeben sich gegenseitig den nächsten Interessenten.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -297,11 +199,8 @@ export default function ObjektakquiseStrategienPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen
-              einzigen gekauften Lead, allein über den eigenen Bewertungsrechner.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -315,11 +214,7 @@ export default function ObjektakquiseStrategienPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *ersten* Kampagne wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
             <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
@@ -331,27 +226,27 @@ export default function ObjektakquiseStrategienPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Kette*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Objektakquise ist ein Baustein unter mehreren. Vertiefend zu einzelnen Kanälen:{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/eigentuemer-leads-generieren" className="ref-link">
-                Eigentümer-Leads generieren
+                {t("finale.text_link1")}
               </Link>{" "}
-              und{" "}
+              {t("finale.text_mitte1")}{" "}
               <Link href="/alleinauftrag-gewinnen" className="ref-link">
-                Alleinauftrag gewinnen
+                {t("finale.text_link2")}
               </Link>
-              . Den Überblick über alle Bausteine zeigt der{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link3")}
               </Link>
               .
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

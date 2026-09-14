@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -17,62 +19,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * dieser drei Beispiele (tnum). GelbeKarte als Pointe, Beweis-Anriss über
  * den RIEGEL-Case (eigener Bewertungsrechner, belegte Zahlen), FAQ +
  * FAQPage-JSON-LD. Foto 11 laut R3-SEITENPLAN.json.
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * wissen-immobilie-bewerten.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Immobilie bewerten: Die drei Verfahren verständlich erklärt | beuwy",
-  description:
-    "Immobilie bewerten: Vergleichswert-, Ertrags- oder Sachwertverfahren — mit Beispielrechnung, wann welches Verfahren greift, und einem Rechner als Einstieg.",
-  openGraph: {
-    title: "Immobilie bewerten: Die drei Verfahren verständlich erklärt | beuwy",
-    description:
-      "Die drei gesetzlich anerkannten Bewertungsverfahren mit vollständiger Beispielrechnung — und warum ein Online-Rechner keines von ihnen ersetzt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const VERFAHREN = [
-  {
-    titel: "Vergleichswertverfahren",
-    text: "Der Wert ergibt sich aus tatsächlich erzielten Preisen ähnlicher Objekte. Beispiel: eine 85 m² große Eigentumswohnung in einer Mittelstadt. Aus den letzten zwölf Monaten liegen sieben vergleichbare Verkäufe zwischen 2.250 €/m² und 2.480 €/m² vor, der Median liegt bei 2.380 €/m². 85 m² × 2.380 €/m² ergibt 202.300 €. Ein Abschlag für den fehlenden Balkon (−2 %) und ein Zuschlag für die Südlage (+3 %) führen zu einem Vergleichswert von rund 204.300 €. Eingesetzt wird das Verfahren dort, wo genug Vergleichsverkäufe vorliegen: bei Eigentumswohnungen, Reihen- und Einfamilienhäusern in normalen Lagen.",
-  },
-  {
-    titel: "Ertragswertverfahren",
-    text: "Der Wert ergibt sich aus der kapitalisierten Miete. Beispiel: ein Mehrfamilienhaus mit sechs Wohnungen erzielt einen Jahresrohertrag von 54.000 €. Bewirtschaftungskosten von 20 % (Verwaltung, Instandhaltungsrücklage, Mietausfallwagnis) ziehen 10.800 € ab, es bleibt ein Reinertrag von 43.200 €. Der Bodenwert von 140.000 € wird mit dem Liegenschaftszins von 4 % verzinst, das sind 5.600 € pro Jahr, die vom Reinertrag abgehen: 37.600 € Gebäudereinertrag. Bei einer Restnutzungsdauer von 45 Jahren und demselben Zins liefert die Vervielfältiger-Tabelle einen Faktor von rund 20,7. 37.600 € × 20,7 ergibt 778.320 € Gebäudeertragswert, plus 140.000 € Bodenwert: ein Ertragswert von rund 918.000 €. Eingesetzt wird das Verfahren bei vermieteten Mehrfamilienhäusern und Renditeobjekten.",
-  },
-  {
-    titel: "Sachwertverfahren",
-    text: "Der Wert ergibt sich getrennt aus Bau- und Bodenkosten. Beispiel: ein freistehendes Einfamilienhaus, 160 m² Wohnfläche, Baujahr 2005, 550 m² Grundstück. Regelherstellungskosten von 1.850 €/m² ergeben 296.000 € Herstellungswert. Nach 21 Jahren Alter bei 80 Jahren Gesamtnutzungsdauer zieht die Alterswertminderung von 26,3 % rund 77.850 € ab, macht 218.150 € Gebäudesachwert. Der Bodenwert (550 m² × 320 €/m²) beträgt 176.000 €. Vorläufiger Sachwert: 394.150 €, ein Marktanpassungsfaktor von 1,05 für die gefragte Lage hebt ihn auf rund 414.000 €. Eingesetzt wird das Verfahren bei selbstgenutzten Häusern ohne genug Vergleichsfälle und bei Sonderimmobilien.",
-  },
-] as const;
-
-const VERGLEICH = [
-  { verfahren: "Vergleichswert", fall: "Eigentumswohnung, ausreichend Vergleichsverkäufe", ergebnis: "204.300 €" },
-  { verfahren: "Ertragswert", fall: "Vermietetes Mehrfamilienhaus", ergebnis: "918.000 €" },
-  { verfahren: "Sachwert", fall: "Selbstgenutztes Haus ohne Vergleichsfälle", ergebnis: "414.000 €" },
-] as const;
-
-const FAQS = [
-  {
-    q: "Ersetzt eine Online-Bewertung ein Gutachten oder eine Maklereinschätzung?",
-    a: "Nein. Ein Online-Rechner liefert in wenigen Minuten eine erste Hausnummer auf Basis von Durchschnittswerten. Ein Gutachten oder eine Einschätzung vor Ort berücksichtigt zusätzlich Zustand, Modernisierungsgrad und die tatsächliche Mikrolage — Faktoren, die ein Formular nicht sehen kann.",
-  },
-  {
-    q: "Welches der drei Verfahren nutzt eine Bank bei der Finanzierung?",
-    a: "Banken rechnen meist konservativer als der Markt und ermitteln zusätzlich einen eigenen Beleihungswert, der unter dem Verkehrswert liegt. Je nach Objekt fließen dabei Elemente des Sachwert- oder Ertragswertverfahrens ein, mit Sicherheitsabschlägen, die über die reine Wertermittlung hinausgehen.",
-  },
-  {
-    q: "Warum weichen zwei Bewertungen für dieselbe Immobilie oft voneinander ab?",
-    a: "Meist, weil unterschiedliche Vergleichsobjekte, ein anderer Stichtag oder ein anderes Verfahren zugrunde gelegt wurden. Auch Zu- und Abschläge für Zustand und Lage sind zu einem gewissen Grad Ermessenssache — zwei Sachverständige können hier unterschiedlich gewichten, ohne dass einer falsch liegt.",
-  },
-  {
-    q: "Was ist der Unterschied zwischen dem berechneten Wert und dem Preis, der am Ende erzielt wird?",
-    a: "Alle drei Verfahren liefern einen Verkehrswert — eine objektive Einschätzung zum Stichtag. Was ein Käufer tatsächlich zahlt, hängt zusätzlich von Nachfrage, Verhandlung und Vermarktung ab. Die Einordnung dieser beiden Zahlen zeigt die Seite Verkehrswert vs. Marktpreis.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "wissen-immobilie-bewerten");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -88,23 +53,28 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function ImmobilieBewertenPage() {
+export default async function ImmobilieBewertenPage() {
+  const t = seitenTexte(await getContent(), "wissen-immobilie-bewerten");
+  const verfahren = t.liste("verfahren", ["titel", "text"] as const);
+  const vergleich = t.liste("vergleichstabelle", ["verfahren", "fall", "ergebnis"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -123,26 +93,16 @@ export default function ImmobilieBewertenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wissen</p>
-            <h1 className="t-display mt-4">
-              {rich("Immobilie bewerten: drei Verfahren, eine *verlässliche* Zahl.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Eine Immobilie wird nach einem von drei gesetzlich anerkannten Verfahren bewertet:
-              dem Vergleichswertverfahren, das den Preis ähnlicher verkaufter Objekte heranzieht,
-              dem Ertragswertverfahren, das die erzielbare Miete kapitalisiert, und dem
-              Sachwertverfahren, das Bau- und Bodenkosten getrennt berechnet.{" "}
-              <Highlight>
-                Welches Verfahren greift, hängt vom Objekt ab — ein Online-Rechner ersetzt keines
-                der drei, liefert aber in wenigen Minuten eine erste Hausnummer
-              </Highlight>
-              . Wohnungen und Häuser mit genug Vergleichsverkäufen laufen meist über den
-              Vergleichswert, vermietete Mehrfamilienhäuser über den Ertragswert, Sonderobjekte
-              über den Sachwert.
+              {t("kopf.text_vor")}{" "}
+              <Highlight>{t("kopf.text_mark")}</Highlight>
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -168,13 +128,13 @@ export default function ImmobilieBewertenPage() {
         <div className="mx-auto max-w-[880px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die drei Verfahren"
-              titel="Jedes Verfahren rechnet *anders* — und kommt trotzdem zu einer belastbaren Zahl."
+              eyebrow={t("verfahren.eyebrow")}
+              titel={t("verfahren.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 divide-y divide-line-subtle border-t border-line-subtle">
-            {VERFAHREN.map((v, i) => (
+            {verfahren.map((v, i) => (
               <Reveal key={v.titel} delay={i * 60}>
                 <div className="grid gap-3 py-10 sm:grid-cols-[88px_1fr] sm:gap-8">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -196,8 +156,8 @@ export default function ImmobilieBewertenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Auf einen Blick"
-              titel="Wann welches Verfahren greift."
+              eyebrow={t("vergleichstabelle.eyebrow")}
+              titel={t("vergleichstabelle.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -205,13 +165,13 @@ export default function ImmobilieBewertenPage() {
             <table className="w-full min-w-[640px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line-medium">
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Verfahren</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Typischer Fall</th>
-                  <th className="py-3 t-label !text-[10.5px]">Ergebnis im Beispiel oben</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("vergleichstabelle.spalte_verfahren")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("vergleichstabelle.spalte_fall")}</th>
+                  <th className="py-3 t-label !text-[10.5px]">{t("vergleichstabelle.spalte_ergebnis")}</th>
                 </tr>
               </thead>
               <tbody>
-                {VERGLEICH.map((z) => (
+                {vergleich.map((z) => (
                   <tr key={z.verfahren} className="border-b border-line-subtle align-top">
                     <td className="py-4 pr-4 t-body max-w-[13rem] !text-ink-cream font-medium">
                       {z.verfahren}
@@ -224,11 +184,7 @@ export default function ImmobilieBewertenPage() {
             </table>
           </div>
           <Reveal delay={100}>
-            <p className="t-small mt-6 max-w-[640px] !text-ink-dim">
-              Orientierungswert, kein Gutachten. Alle drei Beispiele rechnen mit angenommenen,
-              realistischen Marktdaten — Ihre tatsächliche Zahl hängt von der echten Mikrolage und
-              dem Zustand vor Ort ab.
-            </p>
+            <p className="t-small mt-6 max-w-[640px] !text-ink-dim">{t("vergleichstabelle.hinweis")}</p>
           </Reveal>
         </div>
       </section>
@@ -237,11 +193,8 @@ export default function ImmobilieBewertenPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Ein Rechner ist keine Wertermittlung." glyph>
-              Ein Online-Rechner nutzt Durchschnittswerte für Objekttyp und Stadtgröße, weil er
-              Ihre Immobilie nie betreten hat. Ein Gutachten oder eine fundierte
-              Maklereinschätzung sieht den Zustand, die Mikrolage und den Modernisierungsgrad —
-              genau die Faktoren, die am Ende über mehrere zehntausend Euro entscheiden.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -251,13 +204,8 @@ export default function ImmobilieBewertenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Für RIEGEL Immobilien haben wir einen Bewertungsrechner mit amtlichen
-              Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen gebaut: Adresse rein,
-              Ersteinschätzung raus, der Lead liegt mit Score im CRM. Ergebnis in den ersten sechs
-              Wochen: neun Abschlüsse, 342.000 € Volumen.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -267,13 +215,13 @@ export default function ImmobilieBewertenPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *ersten* Zahl wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -282,28 +230,27 @@ export default function ImmobilieBewertenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Bewertungsstrecke*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Eine erste Einschätzung liefert unser{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.link_rechner")}
               </Link>{" "}
-              kostenlos in wenigen Minuten. Wie gut KI-basierte Bewertungen inzwischen sind und wo
-              der Sachverständige bleibt, zeigt{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/ki-immobilienbewertung" className="ref-link">
-                KI-Immobilienbewertung
+                {t("finale.link_ki")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

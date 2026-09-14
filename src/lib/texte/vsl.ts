@@ -22,6 +22,10 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
     "Vision Group|Königswege|RIEGEL Immobilien|hzo immobilien|invyse|getsafe|PURELEI|Netlution|Instaffo|PreFin|accredia|Finsolute|ImmoAbschreibung|innovakonzept|Rosental|Kopp Consulting|JPF Ingenieurbüro|TREC Careers|BeautyFarm|Snow Aligner|Gooodkid Records|Infocient",
   "mk.vsl.front_fuss": "Marke, Website & Automatisierung für Immobilienmakler",
   "mk.vsl.front_mehr": "Zur ausführlichen Seite",
+  "mk.vsl.front_meta_titel": "beuwy — Marke, Website und Automatisierung für Immobilienmakler",
+  "mk.vsl.front_meta_beschreibung":
+    "Schneller wachsen, weil Sie aussehen wie der Marktführer. Marke, Website und Automatisierung für Immobilienmakler — done for you, live in 4–6 Wochen.",
+  "mk.vsl.platzhalter": "90 Sekunden — folgt in Kürze",
 };
 
 export const VSL_FRONT_LABELS: Record<string, string> = {
@@ -34,4 +38,7 @@ export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_logos": "Frontseite /vsl · Kundenlogos, mit | getrennt (Freigaben!)",
   "mk.vsl.front_fuss": "Frontseite /vsl · Fußzeile neben dem Logo",
   "mk.vsl.front_mehr": "Frontseite /vsl · Link zur Startseite (Fußzeile)",
+  "mk.vsl.front_meta_titel": "Frontseite /vsl · Browser-Titel (SEO)",
+  "mk.vsl.front_meta_beschreibung": "Frontseite /vsl · Meta-Beschreibung (SEO, Google-Snippet)",
+  "mk.vsl.platzhalter": "Makler · VSL-Video · Pill auf dem Platzhalter, solange keine Video-URL da ist",
 };

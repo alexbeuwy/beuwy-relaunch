@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -22,85 +24,19 @@ import { caseBySlug } from "@/lib/cases";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Verkäufer ansprechen, bevor sie suchen: Frühsignale nutzen | beuwy",
-  description:
-    "Verkäufer ansprechen, bevor sie suchen: Frühsignale wie Erbschaft, Auszug und Zinsanpassung als Anker, mit Inhalten und Rechnern statt gekaufter Daten.",
-  openGraph: {
-    title: "Verkäufer ansprechen, bevor sie suchen: Frühsignale nutzen | beuwy",
-    description:
-      "Sechs Lebensereignisse, die einem Verkauf meist vorausgehen, und wie Inhalte und Rechner dort ansetzen, DSGVO-sauber, statt auf das fertige Kaufsignal zu warten.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-type Fruehsignal = {
-  titel: string;
-  signal: string;
-  anker: string;
-};
-
-const FRUEHSIGNALE: Fruehsignal[] = [
-  {
-    titel: "Erbschaft",
-    signal:
-      "Eine Immobilie fällt in eine Erbengemeinschaft, oft mit unterschiedlichen Interessen zwischen Verkaufen und Behalten.",
-    anker:
-      "Ein Ratgeber-Artikel zu „Geerbte Immobilie verkaufen oder vermieten“ plus Bewertungsrechner rankt genau dann, wenn ein Erbe zu recherchieren beginnt, ohne dass jemand personenbezogene Daten aus einem Nachlassregister zieht.",
-  },
-  {
-    titel: "Auszug der Kinder",
-    signal:
-      "Das Haus wird zu groß, die Frage nach Downsizing oder Vermieten der freien Zimmer taucht zum ersten Mal auf.",
-    anker:
-      "Content zu „Haus zu groß, was jetzt?“ mit einem Vergleichsrechner Verkauf gegen Vermietung fängt genau diesen Moment ab, lange bevor ein Exposé überhaupt in Frage kommt.",
-  },
-  {
-    titel: "Auslaufende Zinsbindung",
-    signal:
-      "Die Anschlussfinanzierung steht an, der Eigentümer prüft zum ersten Mal ernsthaft Alternativen zum Halten.",
-    anker:
-      "Ein Artikel zu „Zinsbindung läuft aus: Verkaufen oder refinanzieren?“, ergänzt um eine Datenmail an bereits eingewilligte Kontakte zum passenden Zeitpunkt.",
-  },
-  {
-    titel: "Jobwechsel oder Umzug",
-    signal: "Ein Ortswechsel erzwingt eine Entscheidung über die bisherige Immobilie.",
-    anker:
-      "Eine lokale Landingpage samt Rechner für den Fernverkauf-Prozess erreicht diese Zielgruppe, während sie noch nach dem neuen Wohnort sucht, nicht erst nach einem Makler.",
-  },
-  {
-    titel: "Trennung oder Scheidung",
-    signal: "Die gemeinsame Immobilie muss aufgeteilt werden, ein sensibles, oft belastetes Thema.",
-    anker:
-      "Sachlicher, einfühlsamer Content ohne Verkaufsdruck baut Vertrauen auf, bevor der erste Kontakt entsteht, statt mit einer Werbeanzeige in eine ohnehin schwierige Lage zu platzen.",
-  },
-  {
-    titel: "Renteneintritt",
-    signal: "Altersgerechtes Wohnen wird zum ersten Mal ernsthaft zum Thema.",
-    anker:
-      "Ein Artikel zu „Immobilie im Ruhestand: verkaufen, vermieten oder umbauen“ positioniert Sie als Ansprechpartner, bevor der Entschluss überhaupt feststeht.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Ist die Ansprache vor dem Verkaufsentschluss DSGVO-konform?",
-    a: "Ja, solange sie über Inhalte läuft, die jemand freiwillig aufruft, statt über gekaufte oder gescrapte Daten zu Lebensereignissen. Ein Rechner oder Ratgeber-Artikel, der bei Google gefunden wird, verarbeitet keine personenbezogenen Daten, bevor der Eigentümer selbst ein Kontaktformular ausfüllt.",
-  },
-  {
-    q: "Woher weiß ich, wer gerade ein Frühsignal hat?",
-    a: "Gar nicht im Vorfeld, und das ist der Punkt. Sie bauen Inhalte für jedes Signal, und wer davon betroffen ist, findet sie über die eigene Suche. Sie sprechen niemanden gezielt an, bevor er sich nicht selbst gemeldet hat.",
-  },
-  {
-    q: "Wie lange dauert es, bis diese Strategie Anfragen bringt?",
-    a: "Die ersten Inhalte und Rechner stehen innerhalb weniger Wochen. Bis sie zuverlässig ranken und regelmäßig Anfragen bringen, vergehen meist mehrere Monate, abhängig von der Konkurrenz in Ihrer Stadt für die jeweilige Suchfrage.",
-  },
-  {
-    q: "Ersetzt das die klassische Ansprache nach Exposé-Anfrage?",
-    a: "Nein, es ergänzt sie. Wer bereits über ein Portal anfragt, ist im Kaufsignal-Stadium und braucht die gewohnte, schnelle Reaktion. Die Frühsignal-Strategie holt zusätzlich die Eigentümer ab, die noch gar nicht wissen, dass sie bald verkaufen.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "verkaeufer-ansprechen");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -116,25 +52,29 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function VerkaeuferAnsprechenPage() {
+export default async function VerkaeuferAnsprechenPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "verkaeufer-ansprechen");
+  const signale = t.liste("signale", ["titel", "signal", "anker"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
   const riegel = caseBySlug("riegel-immobilien");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -152,22 +92,18 @@ export default function VerkaeuferAnsprechenPage() {
       {/* ── Kompakter Wissens-Kopf ───────────────────────────────────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[860px] px-6 pb-12 pt-32 md:pt-40 lg:px-10">
-          <p className="t-label !text-ink-yellow">Wachstum</p>
+          <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
           <h1 className="t-display mt-5 max-w-[22ch]">
-            {rich("Eigentümer ansprechen, lange bevor sie einen Makler *suchen*.")}
+            {rich(t("kopf.titel"))}
           </h1>
           <p className="t-body-lg mt-6 max-w-[62ch]">
-            Sie erreichen Eigentümer vor dem Verkaufsentschluss, indem Sie nicht auf das
-            Kaufsignal warten, sondern auf die Lebensereignisse davor reagieren: Erbschaft,
-            Auszug der Kinder, auslaufende Zinsbindung, Trennung oder Renteneintritt. Statt Daten
-            zu diesen Ereignissen zu sammeln, was DSGVO-rechtlich nicht zulässig wäre, bauen Sie{" "}
-            <Highlight>Inhalte und Rechner, die genau dann gefunden werden, wenn ein
-            Eigentümer beginnt, sich zu informieren</Highlight>. So werden Sie sichtbar, bevor der
-            erste Suchbegriff „Makler“ überhaupt eingegeben wird.
+            {t("kopf.text_vor")}{" "}
+            <Highlight>{t("kopf.text_hervor")}</Highlight>
+            {t("kopf.text_nach")}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <ZusammenarbeitCta />
-            <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+            <ZusammenarbeitCta label={t("kopf.cta")} />
+            <span className="t-small w-full sm:w-auto">{t("kopf.cta_note")}</span>
           </div>
         </div>
       </section>
@@ -193,29 +129,21 @@ export default function VerkaeuferAnsprechenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Zwei Ausgangspunkte"
-              titel="Das Kaufsignal ist der *letzte*, nicht der erste Moment."
+              eyebrow={t("unterschied.eyebrow")}
+              titel={t("unterschied.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 border-t border-line-subtle pt-10 md:grid-cols-2 md:gap-16">
             <Reveal>
-              <p className="t-label">Reaktive Ansprache</p>
-              <p className="t-h3 mt-3">Sie warten auf das fertige Exposé-Signal.</p>
-              <p className="t-body mt-3">
-                Der Eigentümer hat sich längst entschieden und vergleicht bereits drei bis fünf
-                Makler. Sie treten in eine Konkurrenzsituation ein, in der nur noch Preis und
-                erster Eindruck zählen.
-              </p>
+              <p className="t-label">{t("unterschied.reaktiv_label")}</p>
+              <p className="t-h3 mt-3">{t("unterschied.reaktiv_titel")}</p>
+              <p className="t-body mt-3">{t("unterschied.reaktiv_text")}</p>
             </Reveal>
             <Reveal delay={80}>
-              <p className="t-label">Frühsignal-Ansprache</p>
-              <p className="t-h3 mt-3">Sie sind schon da, wenn die Frage erst entsteht.</p>
-              <p className="t-body mt-3">
-                Der Eigentümer informiert sich zum ersten Mal, findet Ihren Inhalt statt eine
-                Werbeanzeige, und verbindet Ihren Namen mit der Antwort, nicht mit dem Verkauf.
-                Bis zur Entscheidung sind Sie bereits die vertraute Adresse.
-              </p>
+              <p className="t-label">{t("unterschied.frueh_label")}</p>
+              <p className="t-h3 mt-3">{t("unterschied.frueh_titel")}</p>
+              <p className="t-body mt-3">{t("unterschied.frueh_text")}</p>
             </Reveal>
           </div>
         </div>
@@ -226,14 +154,14 @@ export default function VerkaeuferAnsprechenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die sechs Frühsignale"
-              titel="Jedes Lebensereignis bekommt seinen eigenen *Anker*."
-              sub="Kein Zugriff auf Register oder Datenhändler. Jeder Anker ist ein Inhalt oder Rechner, den ein Eigentümer selbst findet, sobald er zu recherchieren beginnt."
+              eyebrow={t("signale.eyebrow")}
+              titel={t("signale.titel")}
+              sub={t("signale.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
           <div className="mt-12 divide-y divide-line-subtle border-t border-line-subtle">
-            {FRUEHSIGNALE.map((f, i) => (
+            {signale.map((f, i) => (
               <Reveal key={f.titel} delay={i * 60}>
                 <div className="grid gap-4 py-8 md:grid-cols-[3rem_14rem_1fr] md:gap-10">
                   <span className="font-display text-[22px] font-bold text-ink-yellow tnum">
@@ -261,13 +189,11 @@ export default function VerkaeuferAnsprechenPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte
-              label="Der Unterschied"
-              titel="Wer zuerst hilft, wird zuerst gefragt."
+              label={t("unterschied2.label")}
+              titel={t("unterschied2.titel")}
               glyph
             >
-              Sie kaufen keine Adressen und schreiben niemanden ungefragt an. Sie bauen die
-              Antwort, die ein Eigentümer selbst sucht, sobald das Lebensereignis eintritt. Der
-              Kontakt entsteht, wenn er bereit ist, nicht wenn eine Liste behauptet, er sei es.
+              {t("unterschied2.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -277,12 +203,8 @@ export default function VerkaeuferAnsprechenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Ein Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten
-              Verkäufen: Adresse rein, Ersteinschätzung raus, der Lead liegt mit Score im CRM,
-              nicht erst im Postfach.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -297,13 +219,13 @@ export default function VerkaeuferAnsprechenPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Inhalt wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -312,27 +234,27 @@ export default function VerkaeuferAnsprechenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Frühsignal*-Kette.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Frühsignal-Ansprache ist ein Baustein unter mehreren. Passend dazu:{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/tools/mietpreisrechner" className="ref-link">
-                der Mietpreisrechner
+                {t("finale.link_rechner")}
               </Link>{" "}
-              als Downsizing-Anker und{" "}
+              {t("finale.text_mitte")}{" "}
               <Link href="/email-marketing-immobilienmakler" className="ref-link">
-                E-Mail-Marketing für Immobilienmakler
+                {t("finale.link_email")}
               </Link>{" "}
-              für die zeitlich getriggerte Datenmail. Den Überblick zeigt der{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_note")}</p>
           </Reveal>
         </div>
       </section>

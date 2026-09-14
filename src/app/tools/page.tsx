@@ -4,6 +4,8 @@ import Link from "next/link";
 import { rich } from "@/components/RichText";
 import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * LEAF B2 — /tools Hub. Drei Rechner als Karten (Verkaufspreis live,
@@ -12,57 +14,51 @@ import { Reveal } from "@/components/Reveal";
  * laut Vertrag (R3-PLAN.md) ausdrücklich erlaubt.
  */
 
-const TITLE = "Kostenlose Immobilien-Rechner für Eigentümer | beuwy";
-const DESCRIPTION =
-  "Verkaufspreis, Mietpreis und AfA-Restnutzungsdauer selbst berechnen — kostenlos, sofort, ohne E-Mail-Pflicht. Mit nachvollziehbarem Rechenweg statt Black Box.";
+export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: "/tools" },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const TOOLS = [
-  {
-    nr: "01",
-    titel: "Verkaufspreisrechner",
-    href: "/tools/verkaufspreisrechner",
-    text: "Was ist Ihre Immobilie wert? Wohnfläche, Baujahr, Zustand und Lage eingeben — die Verkaufswert-Spanne steht sofort da, mit Rechenweg.",
-  },
-  {
-    nr: "02",
-    titel: "Mietpreisrechner",
-    href: "/tools/mietpreisrechner",
-    text: "Welche Kaltmiete ist realistisch? Objekttyp, Zustand und Ausstattung ergeben eine Spanne für Ihre Vermietung — inklusive Hinweis zur Mietpreisbremse.",
-  },
-  {
-    nr: "03",
-    titel: "AfA-/Restnutzungsdauer-Rechner",
-    href: "/tools/afa-rechner",
-    text: "Wie viel Abschreibung ist drin? Regulärer Satz gegen ein mögliches Restnutzungsdauer-Gutachten im Vergleich, mit dem Steuereffekt in Euro.",
-  },
+/* Struktur (Links, Reihenfolge) bleibt im Code — Texte kommen aus dem Studio. */
+const TOOLS_STRUKTUR = [
+  { href: "/tools/verkaufspreisrechner" },
+  { href: "/tools/mietpreisrechner" },
+  { href: "/tools/afa-rechner" },
 ] as const;
 
-export default function ToolsHubPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "tools");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    alternates: { canonical: "/tools" },
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
+
+export default async function ToolsHubPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "tools");
+  const werkzeuge = t.liste("werkzeuge", ["titel", "text"] as const);
+  const tools = TOOLS_STRUKTUR.map((s, i) => ({
+    ...s,
+    nr: String(i + 1).padStart(2, "0"),
+    titel: werkzeuge[i]?.titel ?? "",
+    text: werkzeuge[i]?.text ?? "",
+  }));
+
   return (
     <>
       {/* ── Hero kompakt ─────────────────────────────────────────────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-10 pt-28 lg:px-10 lg:pb-14 lg:pt-32">
-          <p className="t-label !text-ink-yellow">Kostenlose Rechner für Eigentümer</p>
+          <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
           <h1 className="mt-4 max-w-[760px] font-display text-[clamp(30px,4vw,46px)] font-bold leading-[1.08] tracking-[-0.025em] text-ink-cream [text-wrap:balance]">
-            {rich("Rechnen Sie selbst — *bevor* Sie fragen.")}
+            {rich(t("hero.titel"))}
           </h1>
-          <p className="t-body-lg mt-4 max-w-[620px]">
-            Drei Rechner, ein Prinzip: Das Ergebnis steht sofort da, ohne dass Sie vorher Ihre
-            E-Mail-Adresse eintippen müssen. Wer mehr will, fordert die Auswertung freiwillig an.
-          </p>
+          <p className="t-body-lg mt-4 max-w-[620px]">{t("hero.sub")}</p>
         </div>
       </section>
 
@@ -70,7 +66,7 @@ export default function ToolsHubPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-20 lg:px-10 lg:pb-28">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {TOOLS.map((tool, i) => (
+            {tools.map((tool, i) => (
               <Reveal key={tool.href} delay={i * 60}>
                 <Link
                   href={tool.href}
@@ -82,7 +78,7 @@ export default function ToolsHubPage() {
                   </p>
                   <p className="mt-3 text-[14.5px] leading-[1.6] text-ink-muted">{tool.text}</p>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-cream">
-                    Rechner öffnen
+                    {t("karte.cta")}
                     <svg
                       width="14"
                       height="14"
@@ -111,18 +107,17 @@ export default function ToolsHubPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf eyebrow="Für Makler" titel="Diese Rechner können auch *Ihre* Website tragen." ausrichtung="mitte" />
+            <SektionsKopf eyebrow={t("pitch.eyebrow")} titel={t("pitch.titel")} ausrichtung="mitte" />
           </Reveal>
           <Reveal delay={80}>
             <div className="mt-10">
-              <GelbeKarte label="Der Unterschied" titel="Kein Baukasten-Widget." glyph>
-                Wir bauen genau diese Rechner in Ihren Farben auf Ihre Domain — als
-                Eigentümer-Magnet, der Anfragen direkt in Ihr CRM qualifiziert.{" "}
+              <GelbeKarte label={t("pitch.karte_label")} titel={t("pitch.karte_titel")} glyph>
+                {t("pitch.karte_text_vor")}{" "}
                 <Link
                   href="/anfrage"
                   className="font-semibold text-ink-cream underline decoration-ink-cream/30 underline-offset-4"
                 >
-                  Zusammenarbeit anfragen →
+                  {t("pitch.karte_link")}
                 </Link>
               </GelbeKarte>
             </div>

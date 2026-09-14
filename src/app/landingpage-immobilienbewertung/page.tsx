@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -16,60 +18,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * Stufe zeigt konkret, was auf /tools/verkaufspreisrechner tatsächlich
  * passiert. Beweis läuft als Text-Anriss (RIEGEL), Traffic-Frage landet in
  * der FAQ mit Verweis auf /performance-marketing-makler. Foto 7 laut Spec.
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * landingpage-immobilienbewertung.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
-  description:
-    "Die Bewertungs-Landingpage überzeugt Eigentümer in vier Sektionen: Hook, Rechner, Beweis, Formular. Die Seite, die aus einem Klick eine Anfrage macht.",
-  openGraph: {
-    title: "Die Bewertungs-Landingpage: Anatomie einer Seite, die registriert | beuwy",
-    description:
-      "Sektion für Sektion am lebenden Beispiel: Hook, Rechner, Beweis, Formular. Die Anatomie einer Bewertungs-Landingpage, die Eigentümer tatsächlich konvertiert.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const STUFEN = [
-  {
-    titel: "Der Hook",
-    text: "Headline und Subline stellen die Preisfrage direkt, ohne Umweg über die Firmengeschichte. Wer auf die Seite kommt, weiß in drei Sekunden, dass hier eine Zahl zum eigenen Objekt wartet, keine allgemeine Werbeaussage.",
-  },
-  {
-    titel: "Das Rechner-Modul",
-    text: "Adresse eingeben, fertig. Im Hintergrund laufen amtliche Bodenrichtwerte und ausgewertete Vergleichsverkäufe mit, das Ergebnis erscheint mit Score. Genau dieses Modul steht live unter Verkaufspreisrechner.",
-  },
-  {
-    titel: "Der Beweis-Block",
-    text: "Bevor das Formular kommt, sieht der Besucher eine belegte Zahl statt eines Werbeversprechens: echte Abschlüsse, echtes Volumen. Das macht die Rechner-Ausgabe glaubwürdig, statt sie wie einen Werbetrick wirken zu lassen.",
-  },
-  {
-    titel: "Das Formular",
-    text: "Name, Telefonnummer, Wunschzeitpunkt, mehr nicht. Jedes zusätzliche Feld kostet Abschlüsse. Die Anfrage landet strukturiert im CRM, mit Quelle und Score, nicht als loser Zettel im Postfach.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Muss eine Bewertungs-Landingpage immer einen Rechner haben?",
-    a: "Nicht zwingend, aber sie profitiert enorm davon. Ein Formular ohne sofortige Gegenleistung fühlt sich für den Eigentümer wie eine Anfrage bei einer fremden Behörde an. Ein Rechner liefert innerhalb einer Minute etwas Konkretes zurück, bevor überhaupt eine Kontaktdaten-Frage kommt.",
-  },
-  {
-    q: "Wie lang sollte das Formular am Ende sein?",
-    a: "So kurz wie möglich für den ersten Schritt: Name, Telefonnummer, ein grober Zeitpunkt. Details wie Wohnfläche oder Zustand fragen Sie im zweiten Schritt oder im ersten Telefonat ab, nicht alle auf einmal in einem Formular, das dann keiner zu Ende ausfüllt.",
-  },
-  {
-    q: "Wohin fließen die Leads aus der Landingpage?",
-    a: "Direkt ins CRM, mit Quelle, Score aus dem Rechner und dem nächsten Arbeitsschritt. Kein Copy-Paste aus einem Formular-Postfach, keine Anfrage, die zwischen zwei Mitarbeitern liegen bleibt.",
-  },
-  {
-    q: "Reicht eine Landingpage allein, ohne Anzeigen?",
-    a: "Nein. Eine Landingpage ist ein Werkzeug, kein Traffic-Kanal. Ohne Zufluss aus Suche, Anzeigen oder Empfehlung liegt sie nur bereit, aber niemand findet sie. Wie der Zufluss aussieht, zeigt Performance-Marketing für Makler.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "landingpage-immobilienbewertung");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -85,23 +52,27 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function LandingpageImmobilienbewertungPage() {
+export default async function LandingpageImmobilienbewertungPage() {
+  const t = seitenTexte(await getContent(), "landingpage-immobilienbewertung");
+  const stufen = t.liste("stufen", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -120,27 +91,20 @@ export default function LandingpageImmobilienbewertungPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Landingpage-Anatomie</p>
-            <h1 className="t-display mt-4">
-              {rich("Die Bewertungs-Landingpage: Anatomie einer Seite, die *registriert*.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Eine Landingpage, die Eigentümer konvertiert, führt in vier Sektionen: ein Hook, der
-              die Preisfrage direkt stellt, ein Rechner, der in unter einer Minute eine erste Zahl
-              liefert, ein Beweis-Block mit belegten Abschlusszahlen und ein Formular, das nur so
-              viel fragt, wie für den nächsten Schritt nötig ist.{" "}
-              <Highlight>
-                Jede Sektion hat genau eine Aufgabe, keine Sektion wirbt einfach nur für sich
-              </Highlight>
-              . Am eigenen{" "}
+              {t("kopf.text_vor")}{" "}
+              <Highlight>{t("kopf.text_mark")}</Highlight>
+              {t("kopf.text_mid")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("kopf.link_rechner")}
               </Link>{" "}
-              lässt sich das Muster live nachvollziehen.
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -166,14 +130,14 @@ export default function LandingpageImmobilienbewertungPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Anatomie"
-              titel="Vier Stufen. Jede mit *einer* Aufgabe."
-              sub="Kein Flyer im Web, sondern ein Funnel: Hook, Rechner, Beweis, Formular. Jede Stufe führt den Besucher genau einen Schritt weiter."
+              eyebrow={t("stufen.eyebrow")}
+              titel={t("stufen.titel")}
+              sub={t("stufen.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {STUFEN.map((stufe, i) => (
+            {stufen.map((stufe, i) => (
               <Reveal key={stufe.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -192,11 +156,8 @@ export default function LandingpageImmobilienbewertungPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Eine Landingpage ist kein digitaler Flyer." glyph>
-              Ein Flyer erklärt, wer Sie sind. Eine Landingpage führt einen Besucher in unter zwei
-              Minuten vom ersten Klick zu einer qualifizierten Anfrage im CRM. Beides sieht auf den
-              ersten Blick ähnlich aus, nur eine der beiden Varianten registriert tatsächlich
-              Eigentümer.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -206,12 +167,8 @@ export default function LandingpageImmobilienbewertungPage() {
       <section id="beweis" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Für RIEGEL Immobilien lief genau dieser Aufbau live: Rechner, Beweis, Formular. In
-              den ersten sechs Wochen danach neun Abschlüsse, 342.000 € Volumen, Platz 21 von über
-              25.000 Maklern beim ImmoScout24-Award.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -221,13 +178,13 @@ export default function LandingpageImmobilienbewertungPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *eigenen* Aufbau wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -236,27 +193,27 @@ export default function LandingpageImmobilienbewertungPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Landingpage*, keinen weiteren Flyer.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Das Rechner-Modul aus dieser Anatomie sehen Sie live im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.link_rechner")}
               </Link>
-              , wie der Zufluss auf die Seite entsteht, zeigt{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/performance-marketing-makler" className="ref-link">
-                Performance-Marketing für Makler
+                {t("finale.link_performance")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

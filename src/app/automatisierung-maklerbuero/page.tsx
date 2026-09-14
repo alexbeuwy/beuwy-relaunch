@@ -5,6 +5,8 @@ import { RiCheckLine } from "@remixicon/react";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -16,60 +18,26 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * Zweispalter zum Ticketsystem-Prinzip, eine Checkliste "was beim Menschen
  * bleibt". GelbeKarte, Beweis-Anriss (RIEGEL-Rückrufregel aus cases.ts).
  * FAQ + FAQPage-JSON-LD. Foto 14 (Hochformat) laut R3-SEITENPLAN.json.
+ *
+ * R11: alle Texte laufen über Studio-Keys, siehe
+ * src/lib/texte/seiten/automatisierung-maklerbuero.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Automatisierung im Maklerbüro: 9 Abläufe, die niemand vermisst | beuwy",
-  description:
-    "Automatisierung im Maklerbüro: 9 Abläufe von Follow-up bis Wochenbericht, mit Vorher/Nachher-Richtwerten, plus das Ticketsystem-Prinzip dahinter erklärt.",
-  openGraph: {
-    title: "Automatisierung im Maklerbüro: 9 Abläufe, die niemand vermisst | beuwy",
-    description:
-      "Neun Abläufe im Maklerbüro, die sich automatisieren lassen, ohne den persönlichen Kontakt zu verlieren: nach dem Ticketsystem-Prinzip.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const ABLAEUFE = [
-  { ablauf: "Follow-up nach der Besichtigung", manuell: "~10 Min, oft vergessen", automatisiert: "läuft am Folgetag von selbst" },
-  { ablauf: "Terminvergabe für die nächste Besichtigung", manuell: "~15 Min hin und her", automatisiert: "Kalenderlink, 2 Min bis fix" },
-  { ablauf: "Wochenbericht an den Eigentümer", manuell: "~30 Min zusammentragen", automatisiert: "läuft freitags automatisch raus" },
-  { ablauf: "Datenmail bei neuem passendem Objekt", manuell: "wird häufig vergessen", automatisiert: "läuft sofort bei Objekteingang" },
-  { ablauf: "Rückruf nach sechs Monaten Funkstille", manuell: "passiert in der Praxis kaum", automatisiert: "läuft automatisch zum Stichtag" },
-  { ablauf: "Übergabeprotokoll erstellen", manuell: "~20 Min abtippen", automatisiert: "Vorlage füllt sich aus Stichpunkten" },
-  { ablauf: "CRM-Eintrag bei neuer Anfrage", manuell: "~5 Min Copy-Paste", automatisiert: "landet direkt mit Quelle im System" },
-  { ablauf: "Erinnerung an fehlende Unterlagen", manuell: "wird leicht übersehen", automatisiert: "läuft X Tage nach Mandatsstart" },
-  { ablauf: "Bewertungsanfrage nach dem Notartermin", manuell: "wird oft vergessen", automatisiert: "läuft 3 Tage nach dem Termin" },
-] as const;
-
-const BLEIBT_BEIM_MENSCHEN = [
-  "Das Besichtigungsgespräch selbst, samt Einwänden und Preisverhandlung.",
-  "Die Entscheidung, ob ein Sonderfall vom Standardablauf abweichen muss.",
-  "Der erste persönliche Anruf bei einem neuen Mandat.",
-  "Die Prüfung jeder automatisch versendeten Nachricht, bevor der Ablauf live geht.",
-] as const;
-
-const FAQS = [
-  {
-    q: "Verliert die Automatisierung den persönlichen Kontakt zum Kunden?",
-    a: "Nein, sie übernimmt nur das Erinnern und Nachfassen, nicht das Gespräch selbst. Ein Eigentümer merkt vor allem, dass niemand vergisst zurückzurufen, nicht, dass im Hintergrund ein System läuft.",
-  },
-  {
-    q: "Brauche ich dafür ein komplett neues CRM?",
-    a: "Nicht zwingend. Entscheidend ist, ob das bestehende System Automatisierung überhaupt zulässt und ob Anfragen dort zuverlässig ankommen. Trägt es das nicht, lohnt sich ein Wechsel eher wegen fehlender Anbindung als wegen der Automatisierung selbst.",
-  },
-  {
-    q: "Was passiert, wenn ein Fall wirklich individuelle Aufmerksamkeit braucht?",
-    a: "Das System schlägt den nächsten Schritt vor, ein Mensch entscheidet weiterhin. Kein Ablauf versendet automatisch eine Nachricht, wenn ein Fall als Sonderfall markiert wurde.",
-  },
-  {
-    q: "Wie lange dauert es, bis solche Abläufe wirklich laufen?",
-    a: "Je nach Umfang meist wenige Wochen, nicht Quartale, weil es sich um feste Bausteine handelt, nicht um eine Individualentwicklung von null. Wie schnell es bei Ihnen konkret geht, hängt vom bestehenden System ab.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "automatisierung-maklerbuero");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -85,26 +53,32 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function AutomatisierungMaklerbueroPage() {
+export default async function AutomatisierungMaklerbueroPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "automatisierung-maklerbuero");
+  const ablaeufe = t.liste("ablaeufe", ["ablauf", "manuell", "automatisiert"] as const);
+  const bleibtBeimMenschen = t.liste("beimenschen", ["punkt"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -120,23 +94,18 @@ export default function AutomatisierungMaklerbueroPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">KI im Maklerbüro</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Automatisierung im Maklerbüro: neun Abläufe, die *niemand* vermisst.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Automatisieren lassen sich vor allem die Abläufe, die heute Zeit fressen, ohne dass
-              ein Mensch dabei wirklich entscheiden muss: das Follow-up nach einer Besichtigung,
-              die Terminvergabe, der Wochenbericht an den Eigentümer und die Datenmail zum
-              passenden Angebot.{" "}
-              <Highlight>Jeder dieser neun Abläufe folgt demselben Prinzip</Highlight>: eine
-              eingehende Anfrage wird zu einem Ticket mit Status, Verantwortlichem und nächstem
-              Schritt, statt in einer Inbox zu verschwinden. Was bleibt, ist die Arbeit, die
-              tatsächlich einen Menschen braucht: das Gespräch selbst.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -162,9 +131,9 @@ export default function AutomatisierungMaklerbueroPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die 9 Abläufe"
-              titel="Neun Aufgaben, Vorher und *Nachher*."
-              sub="Richtwerte aus der Praxis, keine Zusage für Ihr konkretes Büro. Die Größenordnung bleibt in fast jedem Fall ähnlich."
+              eyebrow={t("ablaeufe.eyebrow")}
+              titel={t("ablaeufe.titel")}
+              sub={t("ablaeufe.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -173,13 +142,13 @@ export default function AutomatisierungMaklerbueroPage() {
               <table className="w-full min-w-[640px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line-subtle">
-                    <th className="t-label py-3 pr-6 font-semibold">Ablauf</th>
-                    <th className="t-label py-3 pr-6 font-semibold">Manuell</th>
-                    <th className="t-label py-3 font-semibold !text-ink-cream">Automatisiert</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("ablaeufe.spalte_ablauf")}</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("ablaeufe.spalte_manuell")}</th>
+                    <th className="t-label py-3 font-semibold !text-ink-cream">{t("ablaeufe.spalte_automatisiert")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {ABLAEUFE.map((row) => (
+                  {ablaeufe.map((row) => (
                     <tr key={row.ablauf} className="border-b border-line-subtle">
                       <td className="t-data py-4 pr-6 !text-ink-cream">{row.ablauf}</td>
                       <td className="t-body py-4 pr-6 tnum">{row.manuell}</td>
@@ -198,29 +167,25 @@ export default function AutomatisierungMaklerbueroPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Das Ticketsystem-Prinzip"
-              titel="Jede Anfrage bekommt einen *Status*, keine verschwindet."
+              eyebrow={t("ticketsystem.eyebrow")}
+              titel={t("ticketsystem.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="h-full rounded-[24px] border border-line-subtle bg-bg-elevated p-7">
-                <p className="t-label">Ohne System</p>
+                <p className="t-label">{t("ticketsystem.ohne_label")}</p>
                 <p className="t-body mt-4">
-                  Anfragen verteilen sich auf E-Mail-Postfach, WhatsApp und Notizzettel. Was
-                  niemand aufschreibt, wird niemand nachfassen, und was nicht nachgefasst wird,
-                  entscheidet sich woanders.
+                  {t("ticketsystem.ohne_text")}
                 </p>
               </div>
             </Reveal>
             <Reveal delay={60}>
               <div className="h-full rounded-[24px] border-l-2 border-akzent bg-bg-elevated p-7">
-                <p className="t-label">Mit Ticketsystem</p>
+                <p className="t-label">{t("ticketsystem.mit_label")}</p>
                 <p className="t-body mt-4">
-                  Jede Anfrage bekommt einen Status, einen Verantwortlichen und einen nächsten
-                  Schritt mit Datum. Nichts bleibt offen, ohne dass es für jemanden sichtbar
-                  offen ist.
+                  {t("ticketsystem.mit_text")}
                 </p>
               </div>
             </Reveal>
@@ -233,19 +198,19 @@ export default function AutomatisierungMaklerbueroPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Grenze"
-              titel="Was auch nach der Automatisierung beim *Menschen* bleibt."
+              eyebrow={t("beimenschen.eyebrow")}
+              titel={t("beimenschen.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <Reveal delay={80}>
             <ul className="mt-10 max-w-[640px] space-y-4">
-              {BLEIBT_BEIM_MENSCHEN.map((punkt) => (
-                <li key={punkt} className="flex items-start gap-3">
+              {bleibtBeimMenschen.map((p) => (
+                <li key={p.punkt} className="flex items-start gap-3">
                   <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-akzent-wash">
                     <RiCheckLine className="h-4 w-4 text-ink-cream" />
                   </span>
-                  <span className="t-body">{punkt}</span>
+                  <span className="t-body">{p.punkt}</span>
                 </li>
               ))}
             </ul>
@@ -257,10 +222,8 @@ export default function AutomatisierungMaklerbueroPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Automatisierung ersetzt nicht das Gespräch." glyph>
-              Sie sorgt dafür, dass es überhaupt stattfindet, weil niemand mehr vergisst,
-              zurückzurufen, nachzufassen oder den Wochenbericht zu schreiben. Das Gespräch
-              selbst bleibt bei Ihnen, jedes einzelne Mal.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -270,13 +233,12 @@ export default function AutomatisierungMaklerbueroPage() {
       <section id="beweis" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Konzept</p>
+            <p className="t-label">{t("beweis.label")}</p>
             <p className="t-h3 mt-3 max-w-[46ch]">
-              Bei RIEGEL Immobilien läuft die Terminstrecke und Rückrufregel automatisch: Wer
-              heute nicht verkauft, bekommt in sechs Monaten von selbst die richtige Mail.
+              {t("beweis.text")}
             </p>
             <Link href="/cases/riegel-immobilien" className="ref-link mt-6 inline-block">
-              Fallstudie RIEGEL Immobilien lesen →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -287,13 +249,13 @@ export default function AutomatisierungMaklerbueroPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -302,27 +264,27 @@ export default function AutomatisierungMaklerbueroPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir die *Abläufe*, die niemand mehr vergisst.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[56ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.satz_1")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_1")}
               </Link>
-              , Follow-up und Datenmails im Detail auf{" "}
+              {t("finale.satz_2")}{" "}
               <Link href="/email-marketing-immobilienmakler" className="ref-link">
-                E-Mail-Marketing für Immobilienmakler
+                {t("finale.link_2")}
               </Link>
-              , wie KI insgesamt zum System statt zum Prompt wird, zeigt{" "}
+              {t("finale.satz_3")}{" "}
               <Link href="/ki-fuer-immobilienmakler" className="ref-link">
-                KI für Immobilienmakler
+                {t("finale.link_3")}
               </Link>
-              .
+              {t("finale.satz_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

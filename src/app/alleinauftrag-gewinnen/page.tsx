@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -18,74 +20,25 @@ import { caseBySlug } from "@/lib/cases";
  * PainRows für die Rabatt-Einwände, GelbeKarte-Pointe, Riegel-Beweis,
  * FAQ + FAQPage-JSON-LD im Muster von /seo-fuer-immobilienmakler.
  * Foto 3 laut R3-SEITENPLAN.json.
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * alleinauftrag-gewinnen.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Alleinauftrag gewinnen: So entscheidet sich der Eigentümer für Sie | beuwy",
-  description:
-    "Alleinauftrag gewinnen: Eigentümer prüfen Google, Website und Exposé vor dem Termin. beuwy baut den Auftritt, der überzeugt: Beweisführung statt Rabatt.",
-  openGraph: {
-    title: "Alleinauftrag gewinnen: So entscheidet sich der Eigentümer für Sie | beuwy",
-    description:
-      "Der Alleinauftrag fällt vor dem Termin: Google-Check, Website-Vergleich, Exposé-Qualität. beuwy baut den Auftritt, der überzeugt, bevor Sie klingeln.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const CHECKS = [
-  {
-    titel: "Der Google-Check",
-    text: "Der Eigentümer tippt Ihren Namen oder „Makler + Stadt“ in die Suche, oft noch am Küchentisch, bevor der Termin überhaupt bestätigt ist. Was dort auftaucht, oder eben nicht auftaucht, entscheidet mit, ob er sich auf das Gespräch freut oder es nur aus Höflichkeit führt.",
-  },
-  {
-    titel: "Der Website-Vergleich",
-    text: "Drei Tabs offen, drei Makler nebeneinander: Wer wirkt wie ein Unternehmen mit über zwanzig Jahren Erfahrung, wer wie eine digitale Visitenkarte aus dem Baukasten? Diesen Vergleich trifft der Eigentümer in unter einer Minute, meist unbewusst.",
-  },
-  {
-    titel: "Der Exposé-Blick",
-    text: "Viele Eigentümer bitten vor dem ersten Termin um ein Muster-Exposé oder finden eines auf der Website. Ein Datenblatt mit Grundriss und drei Handyfotos sagt: Standard-Abwicklung. Ein Exposé mit Preis-Argumentation und durchdachten Bildern sagt: Diese Person verkauft, nicht nur verwaltet.",
-  },
-] as const;
-
-const PAINS = [
-  {
-    quote: "„Ich biete einfach eine niedrigere Provision an, dann entscheidet sich der Eigentümer für mich.“",
-    answer:
-      "Ein Rabatt beantwortet keine der drei Fragen von oben. Er bestätigt sogar den Verdacht, den ein schwacher Auftritt weckt: dass hier über den Preis verkauft wird, weil sonst nichts überzeugt.",
-  },
-  {
-    quote: "„Meine Erfahrung spricht doch für sich.“",
-    answer:
-      "Erfahrung, die online nicht sichtbar ist, existiert für den Eigentümer nicht. Zwanzig Jahre im Markt zählen erst, wenn Website, Exposé und Bewertungen sie belegen, nicht weil Sie sie im Termin erwähnen.",
-  },
-  {
-    quote: "„Ich habe doch ein ImmoScout-Profil.“",
-    answer:
-      "Ein Portal-Profil zeigt Sie neben drei Wettbewerbern auf derselben Fläche. Es beantwortet nicht, warum der Eigentümer ausgerechnet Sie beauftragen sollte. Dafür braucht es einen eigenen Auftritt, den niemand sonst teilt.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Wie lange dauert es, bis ein neuer Auftritt beim Alleinauftrag hilft?",
-    a: "Der eigene Auftritt, Website, Exposé-Vorlage, Bewertungsprofil, steht in vier bis sechs Wochen. Ab dann läuft er bei jedem neuen Termin mit. Ob er den nächsten Alleinauftrag bringt, entscheidet weiterhin das Gespräch selbst, nicht die Website allein.",
-  },
-  {
-    q: "Reicht ein besseres Exposé nicht schon aus?",
-    a: "Ein besseres Exposé hilft, ersetzt aber nicht den Google-Check und den Website-Vergleich, die meist davor liegen. Alle drei Checks zusammen entscheiden, nicht ein einzelner Baustein.",
-  },
-  {
-    q: "Was, wenn der Eigentümer schon zwei andere Makler kennt?",
-    a: "Dann läuft genau der Vergleich, um den es hier geht. Der Auftritt entscheidet, ob Sie als Dritter mithalten oder als der wirken, der die Sache versteht.",
-  },
-  {
-    q: "Funktioniert das auch ohne Bewertungen?",
-    a: "Ja, mit etwas mehr Gewicht auf Website und Exposé am Anfang. Bewertungen kommen mit jedem Abschluss dazu und verstärken den Auftritt, sie tragen ihn aber nicht allein.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "alleinauftrag-gewinnen");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -101,25 +54,29 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function AlleinauftragGewinnenPage() {
+export default async function AlleinauftragGewinnenPage() {
+  const t = seitenTexte(await getContent(), "alleinauftrag-gewinnen");
   const riegel = caseBySlug("riegel-immobilien");
+  const checks = t.liste("checks", ["titel", "text"] as const);
+  const pains = t.liste("pains", ["quote", "answer"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -138,21 +95,15 @@ export default function AlleinauftragGewinnenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Akquise</p>
-            <h1 className="t-display mt-4">
-              {rich("Der Alleinauftrag fällt, bevor Sie *klingeln*.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie gewinnen den Alleinauftrag, indem Sie die Entscheidung{" "}
-              <Highlight>schon vor dem Termin</Highlight> für sich klären: Der Eigentümer googelt
-              Ihren Namen, vergleicht drei Maklerwebsites und schaut sich an, wie ein Exposé von
-              Ihnen aussieht. Wer dort überzeugt, muss im Wohnzimmer nur noch bestätigen, was er
-              online schon gesehen hat. Wer dort verliert, verhandelt gegen einen Nachlass auf die
-              Provision, gegen etwas, das der Eigentümer ohnehin nicht bewerten kann.
+              {t("kopf.text_vor")} <Highlight>{t("kopf.text_mark")}</Highlight>{" "}
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -178,14 +129,14 @@ export default function AlleinauftragGewinnenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Mechanismus"
-              titel="Drei Checks. Und Sie sitzen noch gar nicht am *Tisch*."
-              sub="Der Eigentümer trifft die Vorentscheidung, bevor das erste Wort im Termin fällt. Diese drei Prüfungen laufen fast immer davor ab, oft ohne dass er es selbst bemerkt."
+              eyebrow={t("checks.eyebrow")}
+              titel={t("checks.titel")}
+              sub={t("checks.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {CHECKS.map((check, i) => (
+            {checks.map((check, i) => (
               <Reveal key={check.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -205,13 +156,13 @@ export default function AlleinauftragGewinnenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der übliche Reflex"
-              titel="Der Rabatt löst das *falsche* Problem."
+              eyebrow={t("einwaende.eyebrow")}
+              titel={t("einwaende.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={[...PAINS]} />
+            <PainRows items={pains} />
           </div>
         </div>
       </section>
@@ -220,11 +171,8 @@ export default function AlleinauftragGewinnenPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Beweisführung schlägt Rabatt." glyph>
-              Ein Nachlass auf die Provision beantwortet keine der drei Fragen, die sich der
-              Eigentümer stellt. Ein Auftritt, der Google-Check, Website-Vergleich und Exposé-Blick
-              besteht, beantwortet alle drei und macht den Alleinauftrag zur logischen Folge, nicht
-              zur Verhandlungssache.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -234,11 +182,8 @@ export default function AlleinauftragGewinnenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Auftritt-Relaunch bei RIEGEL Immobilien: neun unterschriebene
-              Aufträge, 342.000 € Abschlussvolumen, ohne einen einzigen Rabatt auf die Provision.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -247,7 +192,7 @@ export default function AlleinauftragGewinnenPage() {
           ) : null}
           <Reveal delay={60}>
             <Link href="/cases" className="ref-link mt-8 inline-block">
-              Weitere Fallstudien ansehen →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -258,13 +203,13 @@ export default function AlleinauftragGewinnenPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -273,31 +218,31 @@ export default function AlleinauftragGewinnenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihren *Alleinauftrag*-Auftritt.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Der Auftritt ist ein Baustein unter mehreren. Einen Überblick finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              , dazu die passende{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/website-fuer-immobilienmakler" className="ref-link">
-                Maklerwebsite
+                {t("finale.link_website")}
               </Link>
-              ,{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/exposes-die-verkaufen" className="ref-link">
-                Exposés, die verkaufen
+                {t("finale.link_expose")}
               </Link>{" "}
-              und der{" "}
+              {t("finale.text_mid3")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.link_rechner")}
               </Link>{" "}
-              als Erstanker für den Eigentümer.
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

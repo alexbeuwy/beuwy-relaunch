@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -17,76 +19,25 @@ import { caseBySlug } from "@/lib/cases";
  * eine Checkliste, mit der jede Werbeausgabe an der 5%-Kette gemessen wird.
  * GelbeKarte, textlicher Beweis-Anriss (Riegel), FAQ + FAQPage-JSON-LD.
  * Foto 11 laut R3-SEITENPLAN.json.
+ *
+ * R11 (14.09): Texte laufen über s.immobilienmakler-werbung.* (seitenTexte).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Werbung für Immobilienmakler: Was wirkt, was verbrennt Geld | beuwy",
-  description:
-    "Werbung für Immobilienmakler: Print, Bus und Portal-Buchung erzeugen Sichtbarkeit ohne Kette zur Anfrage. beuwy misst jede Ausgabe an der 5%-Kette bis zum Mandat.",
-  openGraph: {
-    title: "Werbung für Immobilienmakler: Was wirkt, was verbrennt Geld | beuwy",
-    description:
-      "Kanal-Ehrlichkeit statt Werbeglaube: Print, Bus und Portal-Buchung vs. Performance-Marketing plus eigenes Portal. beuwy misst jede Ausgabe an der 5%-Kette.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const KANAELE = [
-  {
-    kanal: "Postwurf / Flyer",
-    messbarkeit: "kaum messbar, kein Klick, kein Rechner",
-    ziel: "Startseite oder gar keine",
-    eignung: "Anker im Farming-Gebiet, kein Anfrage-Kanal",
-  },
-  {
-    kanal: "Bus- / Plakatwerbung",
-    messbarkeit: "keine Klick-Daten, nur Markenwirkung",
-    ziel: "keine Landingpage dahinter",
-    eignung: "Namensbekanntheit, keine Vorqualifizierung",
-  },
-  {
-    kanal: "Portal-Featured-Listing",
-    messbarkeit: "Klicks beim Portal, nicht bei Ihnen",
-    ziel: "Portal-Profil neben dem Wettbewerber",
-    eignung: "kurzfristiger Schub, endet mit dem Abo",
-  },
-  {
-    kanal: "Performance-Marketing + eigenes Portal",
-    messbarkeit: "jede Stufe messbar, wöchentlich",
-    ziel: "Landingpage mit Rechner, Registrierung im CRM",
-    eignung: "planbare, wiederholbare Anfragen",
-  },
-] as const;
-
-const PRUEFUNG = [
-  "Führt der Klick auf eine Landingpage oder nur auf die Startseite?",
-  "Gibt es dort einen Rechner oder ein Formular, das registriert?",
-  "Landet die Anfrage mit Quelle im CRM oder in einem geteilten Postfach?",
-  "Lässt sich ein Preis je Registrierung berechnen, nicht nur ein Media-Budget?",
-  "Bekommen Sie einen Wochenbericht oder erst die Rechnung am Monatsende?",
-] as const;
-
-const FAQS = [
-  {
-    q: "Ist klassische Werbung wie Flyer oder Plakat komplett nutzlos?",
-    a: "Nein, aber sie beantwortet eine andere Frage als Performance-Marketing. Ein Flyer im Farming-Gebiet erinnert an Ihren Namen, er registriert aber niemanden und lässt sich nicht in Anfragen zurückrechnen. Als alleinige Werbeausgabe reicht das selten.",
-  },
-  {
-    q: "Wie viel sollte ich für Werbung als Makler ausgeben?",
-    a: "Das hängt von Ihrer Region, dem Wettbewerb und Ihrem Mandats-Ziel ab. Wichtiger als die Summe ist die Kette dahinter: Ohne Landingpage, Rechner und CRM-Anbindung verpufft auch ein großes Budget in reiner Sichtbarkeit.",
-  },
-  {
-    q: "Lohnt sich ein Featured-Listing bei ImmoScout?",
-    a: "Als kurzfristiger Schub für ein einzelnes Objekt kann das funktionieren. Als Werbestrategie für Ihr Büro nicht, weil die Anfrage über das Portal läuft, nicht über Sie, und mit dem Abo endet.",
-  },
-  {
-    q: "Was unterscheidet beuwy von einer klassischen Werbeagentur?",
-    a: "Eine Agentur liefert meist Anzeigen. beuwy arbeitet als Unternehmensberatung an der ganzen Kette: Anzeige, Landingpage, Rechner, CRM und Wochenbericht, damit jede Ausgabe eine Zahl bekommt statt nur eine Rechnung.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "immobilienmakler-werbung");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -117,28 +68,32 @@ function HakenIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ text, className = "" }: { text: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {text}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function ImmobilienmaklerWerbungPage() {
+export default async function ImmobilienmaklerWerbungPage() {
+  const t = seitenTexte(await getContent(), "immobilienmakler-werbung");
   const riegel = caseBySlug("riegel-immobilien");
+  const kanaele = t.liste("kanaele", ["kanal", "messbarkeit", "ziel", "eignung"] as const);
+  const pruefung = t.liste("pruefung", ["text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -154,21 +109,16 @@ export default function ImmobilienmaklerWerbungPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Akquise</p>
-            <h1 className="t-display mt-4">
-              {rich("Werbung, die *nachweisbar* wirkt, nicht die, die auffällt.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Werbung lohnt sich für Immobilienmakler, wenn sie sich an einer Kette messen lässt:
-              Anzeige, Klick, Rechner, Registrierung, Mandat. Postwurf, Bus-Plakat und ungezielte
-              Portal-Buchungen erzeugen{" "}
-              <Highlight>Sichtbarkeit, die sich nicht in Anfragen zurückrechnen lässt</Highlight>.
-              Performance-Marketing mit einem eigenen Portal dahinter lässt sich lückenlos messen,
-              von der ersten Anzeige bis zur registrierten Anfrage im CRM.
+              {t("kopf.sub_vor")}{" "}
+              <Highlight>{t("kopf.sub_highlight")}</Highlight>
+              {t("kopf.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta text={t("kopf.cta")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -194,9 +144,9 @@ export default function ImmobilienmaklerWerbungPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Kanal-Ehrlichkeit"
-              titel="Vier Kanäle, ein *ehrlicher* Blick auf die Messbarkeit."
-              sub="Nicht jede Ausgabe, die nach Werbung aussieht, endet in einer Kette bis zur Anfrage. Diese vier Kanäle im ehrlichen Vergleich, ohne einen davon schlechtzureden."
+              eyebrow={t("kanaele.eyebrow")}
+              titel={t("kanaele.titel")}
+              sub={t("kanaele.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
@@ -205,14 +155,14 @@ export default function ImmobilienmaklerWerbungPage() {
               <table className="w-full min-w-[720px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line-subtle">
-                    <th className="t-label py-3 pr-6 font-semibold !text-ink-cream">Kanal</th>
-                    <th className="t-label py-3 pr-6 font-semibold">Messbarkeit</th>
-                    <th className="t-label py-3 pr-6 font-semibold">Wohin führt der Klick</th>
-                    <th className="t-label py-3 font-semibold">Eignung</th>
+                    <th className="t-label py-3 pr-6 font-semibold !text-ink-cream">{t("kanaele.kopf_kanal")}</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("kanaele.kopf_messbarkeit")}</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("kanaele.kopf_ziel")}</th>
+                    <th className="t-label py-3 font-semibold">{t("kanaele.kopf_eignung")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {KANAELE.map((row) => (
+                  {kanaele.map((row) => (
                     <tr key={row.kanal} className="border-b border-line-subtle">
                       <td className="t-data py-4 pr-6 !text-ink-cream">{row.kanal}</td>
                       <td className="t-body py-4 pr-6 tnum">{row.messbarkeit}</td>
@@ -226,13 +176,11 @@ export default function ImmobilienmaklerWerbungPage() {
           </Reveal>
           <Reveal delay={140}>
             <p className="t-body mt-10 max-w-[680px]">
-              Die letzte Zeile ist keine Kanal-Empfehlung, sondern eine Kette: Wie diese vier
-              Stufen im Detail funktionieren und mit welcher Quote sie realistisch rechnen können,
-              zeigt die Seite{" "}
+              {t("kanaele.text_vor")}{" "}
               <Link href="/performance-marketing-makler" className="ref-link">
-                Performance-Marketing für Makler
+                {t("kanaele.text_link")}
               </Link>
-              .
+              {t("kanaele.text_nach")}
             </p>
           </Reveal>
         </div>
@@ -243,20 +191,20 @@ export default function ImmobilienmaklerWerbungPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Vor der nächsten Buchung"
-              titel="Fünf Fragen, bevor Sie das *nächste* Budget freigeben."
-              sub="Stellen Sie diese fünf Fragen jeder Werbeausgabe, egal ob Print, Portal oder Anzeige. Wer zwei oder mehr mit Nein beantwortet, kauft Sichtbarkeit statt Anfragen."
+              eyebrow={t("pruefung.eyebrow")}
+              titel={t("pruefung.titel")}
+              sub={t("pruefung.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid max-w-[720px] gap-5">
-            {PRUEFUNG.map((item, i) => (
-              <Reveal key={item} delay={i * 50}>
+            {pruefung.map((item, i) => (
+              <Reveal key={item.text} delay={i * 50}>
                 <div className="flex items-start gap-3">
                   <span className="mt-0.5 shrink-0 text-akzent-hover">
                     <HakenIcon />
                   </span>
-                  <p className="t-body">{item}</p>
+                  <p className="t-body">{item.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -268,10 +216,8 @@ export default function ImmobilienmaklerWerbungPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Sichtbarkeit ist keine Anfrage." glyph>
-              Ein Plakat, das jeder sieht, und eine Anzeige, die niemand anklickt, kosten oft
-              ähnlich viel. Der Unterschied zeigt sich erst am Ende der Kette: bei der Zahl der
-              Anfragen, die tatsächlich im CRM landen, nicht bei der Zahl der Blicke.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -281,12 +227,8 @@ export default function ImmobilienmaklerWerbungPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Sechs Wochen nach dem Relaunch bei RIEGEL Immobilien: neun Abschlüsse, 342.000 €
-              Volumen, jeder davon über eine Kette aus Anzeige, Rechner und CRM, ohne einen
-              einzigen gekauften Lead.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -295,7 +237,7 @@ export default function ImmobilienmaklerWerbungPage() {
           ) : null}
           <Reveal delay={60}>
             <Link href="/cases" className="ref-link mt-8 inline-block">
-              Weitere Fallstudien ansehen →
+              {t("beweis.cases_link")}
             </Link>
           </Reveal>
         </div>
@@ -306,13 +248,13 @@ export default function ImmobilienmaklerWerbungPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Budget wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -321,27 +263,27 @@ export default function ImmobilienmaklerWerbungPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *messbare* Kette.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link1")}
               </Link>
-              , die Mechanik der Kette auf der Seite{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/performance-marketing-makler" className="ref-link">
-                Performance-Marketing für Makler
+                {t("finale.text_link2")}
               </Link>{" "}
-              und den ersten Anker für Eigentümer im{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.text_link3")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta text={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

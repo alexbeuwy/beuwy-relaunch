@@ -3,6 +3,8 @@ import Link from "next/link";
 import { rich } from "@/components/RichText";
 import { Reveal } from "@/components/Reveal";
 import { GelbeKarte, SektionsKopf } from "@/components/MaklerElemente";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import plan from "../../../docs/redesign/R3-SEITENPLAN.json";
 
 /**
@@ -13,56 +15,55 @@ import plan from "../../../docs/redesign/R3-SEITENPLAN.json";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Makler-Wissen: Akquise, Marketing, KI und Zahlen | beuwy",
-  description:
-    "Das Wissens-Archiv von beuwy: 50 Ratgeber zu Akquise, Marke, KI, Conversion und Immobilien-Zahlen — jede Seite beantwortet ihre Frage im ersten Absatz.",
-  openGraph: {
-    title: "Makler-Wissen: Akquise, Marketing, KI und Zahlen | beuwy",
-    description:
-      "50 Ratgeber zu Akquise, Marke, KI, Conversion und Immobilien-Zahlen — ohne Floskeln, mit Rechenwegen.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const CLUSTER: Record<string, { titel: string; sub: string }> = {
-  W: { titel: "Akquise & Alleinauftrag", sub: "Wie aus Eigentümern Mandate werden." },
-  V: { titel: "Vergleiche & Werkzeuge", sub: "Baukästen, CRMs und Portale — ehrlich eingeordnet." },
-  K: { titel: "KI & Sichtbarkeit", sub: "Von ChatGPT im Alltag bis zur Zitierfähigkeit in KI-Antworten." },
-  C: { titel: "Auftritt & Conversion", sub: "Was aus Besuchern Anfragen macht." },
-  T: { titel: "Immobilien-Zahlen", sub: "Bewertung, Miete, AfA — mit Rechenwegen statt Bauchgefühl." },
-  P: { titel: "Büro & Prozesse", sub: "Provision, Team, Kennzahlen." },
-};
-
+/* Struktur (welcher Cluster-Buchstabe, welche Rechner-Route) bleibt im Code — Titel/Sub kommen aus dem Studio, in dieser Reihenfolge. */
 const REIHENFOLGE = ["W", "C", "K", "V", "T", "P"] as const;
-
-const TOOLS = [
-  { titel: "Verkaufspreis-Rechner", href: "/tools/verkaufspreisrechner" },
-  { titel: "Mietpreis-Rechner", href: "/tools/mietpreisrechner" },
-  { titel: "AfA- & Restnutzungsdauer-Rechner", href: "/tools/afa-rechner" },
+const TOOLS_STRUKTUR = [
+  { href: "/tools/verkaufspreisrechner" },
+  { href: "/tools/mietpreisrechner" },
+  { href: "/tools/afa-rechner" },
 ] as const;
 
-export default function WissenPage() {
-  const gruppen = REIHENFOLGE.map((k) => ({
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "wissen");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
+
+export default async function WissenPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "wissen");
+  const clusterTexte = t.liste("cluster", ["titel", "sub"] as const);
+  const toolsTexte = t.liste("tools", ["titel"] as const);
+
+  const gruppen = REIHENFOLGE.map((k, i) => ({
     key: k,
-    ...CLUSTER[k],
+    titel: clusterTexte[i]?.titel ?? "",
+    sub: clusterTexte[i]?.sub ?? "",
     seiten: plan.seiten.filter((s) => s.cluster === k),
   })).filter((g) => g.seiten.length > 0);
+
+  const tools = TOOLS_STRUKTUR.map((s, i) => ({ ...s, titel: toolsTexte[i]?.titel ?? "" }));
 
   return (
     <>
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1200px] px-6 pb-10 pt-32 lg:px-10 lg:pt-40">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wissen</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="mt-5 font-display text-[clamp(32px,3.5vw,50px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-              {rich("Alles, was ein Makler über *Sichtbarkeit* wissen muss.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[40rem]">
-              {plan.seiten.length} Ratgeber, sechs Themenfelder, drei Rechner. Jede Seite
-              beantwortet ihre Frage im ersten Absatz — zum Nachschlagen gebaut, nicht zum
-              Scrollen.
+              {plan.seiten.length}
+              {t("hero.sub_nach")}
             </p>
           </Reveal>
         </div>
@@ -96,18 +97,17 @@ export default function WissenPage() {
 
           <Reveal delay={80}>
             <div className="mt-20 grid gap-6 lg:grid-cols-[1fr_360px]">
-              <GelbeKarte label="Zum Ausprobieren" titel="Drei Rechner, sofort nutzbar." glyph>
-                Verkaufspreis, Mietpreis, AfA mit Restnutzungsdauer — dieselben Werkzeuge, die
-                in beuwy-Portalen Eigentümer registrieren, hier offen im Browser.
+              <GelbeKarte label={t("ausprobieren.label")} titel={t("ausprobieren.titel")} glyph>
+                {t("ausprobieren.text")}
               </GelbeKarte>
               <div className="flex flex-col justify-center gap-3">
-                {TOOLS.map((t) => (
+                {tools.map((tool) => (
                   <Link
-                    key={t.href}
-                    href={t.href}
+                    key={tool.href}
+                    href={tool.href}
                     className="rounded-full border border-line-subtle bg-white px-6 py-3.5 text-center text-[14.5px] font-medium text-ink-cream transition-colors duration-[var(--duration-quick)] hover:border-line-medium"
                   >
-                    {t.titel}
+                    {tool.titel}
                   </Link>
                 ))}
               </div>

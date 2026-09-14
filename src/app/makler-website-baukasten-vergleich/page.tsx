@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -23,77 +25,19 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO & Co. | beuwy",
-  description:
-    "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO und weitere nach Tempo, CRM, Exposés und SEO geprüft, mit klarer Grenze zum eigenen Maßportal.",
-  openGraph: {
-    title: "Makler-Website-Baukästen im Vergleich: Wix, Jimdo, BOTTIMMO & Co. | beuwy",
-    description:
-      "Fünf Kriterien, vier Systeme: wo ein Website-Baukasten für Makler reicht und wo die Grenze zum eigenen Maßportal beginnt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-type Zeile = { kriterium: string; wix: string; bottimmo: string; casaone: string; massportal: string };
-
-const MATRIX: Zeile[] = [
-  {
-    kriterium: "Tempo bis Livegang",
-    wix: "In Tagen online, generisches Vorlagen-Layout",
-    bottimmo: "Website und Anzeigenvorlagen in kurzer Zeit startklar",
-    casaone: "Läuft direkt aus dem CRM-System, schnell für Bestandsdaten",
-    massportal: "Vier bis sechs Wochen, dafür auf die eigene Marke zugeschnitten",
-  },
-  {
-    kriterium: "CRM-Anbindung",
-    wix: "Keine native Anbindung an Maklersoftware, Formulare oft manuell übertragen",
-    bottimmo: "Eigenes System, Anbindung an externe CRMs eingeschränkt",
-    casaone: "Direkt am eigenen CRM, kaum Anbindung außerhalb des CasaOne-Ökosystems",
-    massportal: "Anbindung an das CRM, das Sie bereits nutzen: onOffice, FLOWFACT, Propstack",
-  },
-  {
-    kriterium: "Exposé-Qualität",
-    wix: "Freies Baukasten-Layout, Exposé-Logik muss selbst gebaut werden",
-    bottimmo: "Vorgefertigte Exposé-Vorlage im Systemlook",
-    casaone: "Exposé direkt aus den CRM-Objektdaten, im CasaOne-Raster",
-    massportal: "Dramaturgie, die den Preis begründet, im eigenen Markenlook",
-  },
-  {
-    kriterium: "SEO-Fähigkeit",
-    wix: "Technische SEO-Grundausstattung vorhanden, Seitenstruktur bleibt generisch",
-    bottimmo: "Fertige Themenwelt an Ratgeberinhalten, geteilt mit anderen Kunden des Systems",
-    casaone: "Fokus liegt auf Objektverwaltung, SEO bleibt Nebensache",
-    massportal: "Eine Seite pro Suchfrage, lokale Landingpages, technisches Fundament fürs Ranking",
-  },
-  {
-    kriterium: "Eigentum an Inhalten",
-    wix: "Inhalte bleiben im Baukasten-System gebunden, Umzug bedeutet Neubau",
-    bottimmo: "Ratgebertexte sind gemietet, laufen mit der Lizenz aus",
-    casaone: "Website bleibt an das CRM-Abo gekoppelt",
-    massportal: "Domain, Code und Inhalte gehören dauerhaft Ihrem Büro",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Welcher Baukasten ist der beste für Makler?",
-    a: "Das hängt vom Anspruch ab, nicht von einer festen Rangliste. Für den ersten Online-Auftritt mit kleinem Budget ist ein Baukasten oft ausreichend. Für den Alleinauftrag gegen den führenden Makler der Stadt entscheidet meist die eigene Marke, nicht die geteilte Vorlage.",
-  },
-  {
-    q: "Kann ich später vom Baukasten auf ein eigenes Portal wechseln?",
-    a: "Ja, das ist der übliche Weg. Domains und Inhalte aus dem Baukasten lassen sich meist nicht direkt übernehmen, weil sie an das jeweilige System gebunden sind. Der Wechsel läuft parallel: das neue Portal steht, bevor die alte Lizenz endet.",
-  },
-  {
-    q: "Warum dauert ein Maßportal länger als ein Baukasten?",
-    a: "Ein Baukasten füllt eine bestehende Vorlage mit Ihren Daten. Ein Maßportal entsteht neu, von der Marke über die Seitenarchitektur bis zur CRM-Anbindung. Das braucht vier bis sechs Wochen, dafür ist das Ergebnis nicht mit dem des Mitbewerbers austauschbar.",
-  },
-  {
-    q: "Was kostet ein eigenes Portal im Vergleich zum Baukasten?",
-    a: "Ein Baukasten läuft meist über eine monatliche Lizenz im dreistelligen Bereich, ein Maßportal über eine höhere Investition im Voraus, dafür gehört Ihnen das Ergebnis dauerhaft. Details und Spannen stehen unter Maklerwebsite-Kosten.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "makler-website-baukasten-vergleich");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -109,23 +53,28 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function MaklerWebsiteBaukastenVergleichPage() {
+export default async function MaklerWebsiteBaukastenVergleichPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "makler-website-baukasten-vergleich");
+  const matrix = t.liste("matrix", ["kriterium", "wix", "bottimmo", "casaone", "massportal"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -144,23 +93,18 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Vergleich</p>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Welcher Website-Baukasten passt für *Makler*, und wann keiner mehr reicht.")}
+              {rich(t("kopf.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Welcher Website-Baukasten für Makler passt, hängt von Ihrem Anspruch ab, nicht von
-              einer festen Rangliste. Wix und Jimdo liefern ein freies Layout ohne Maklerbezug, BOTTIMMO eine
-              fertige Themenwelt speziell für Makler, CasaOne eine Website direkt aus dem
-              CRM-System heraus.{" "}
-              <Highlight>
-                Bei allen dreien bleiben Design und Inhalte an das jeweilige System gebunden
-              </Highlight>
-              . Ein eigenes Maßportal löst genau diese Bindung, kostet dafür mehr Zeit beim Bau.
+              {t("kopf.text_vor")}{" "}
+              <Highlight>{t("kopf.text_hervor")}</Highlight>
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_note")}</span>
             </div>
           </Reveal>
         </div>
@@ -186,9 +130,9 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Unsere Position"
-              titel="Es gibt keinen *besten* Baukasten, nur die passende Grenze für Ihr Haus."
-              sub="Diese Seite bewertet nicht, welches System gewinnt. Sie zeigt, an welchem Punkt ein geteiltes System an seine Grenze stößt und ein eigenes Portal mehr bringt als jede weitere Vorlagen-Anpassung."
+              eyebrow={t("position.eyebrow")}
+              titel={t("position.titel")}
+              sub={t("position.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -200,8 +144,8 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
         <div className="mx-auto max-w-[1200px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Matrix"
-              titel="Fünf Kriterien, vier Systeme im *direkten* Vergleich."
+              eyebrow={t("matrix.eyebrow")}
+              titel={t("matrix.titel")}
               className="max-w-[760px]"
             />
           </Reveal>
@@ -209,15 +153,15 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
             <table className="w-full min-w-[960px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line-medium">
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Kriterium</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Wix / Jimdo</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">BOTTIMMO</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">CasaOne</th>
-                  <th className="py-3 t-label !text-[10.5px] !text-ink-yellow">Maßportal</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("matrix.kopf_kriterium")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("matrix.kopf_wix")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("matrix.kopf_bottimmo")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("matrix.kopf_casaone")}</th>
+                  <th className="py-3 t-label !text-[10.5px] !text-ink-yellow">{t("matrix.kopf_massportal")}</th>
                 </tr>
               </thead>
               <tbody>
-                {MATRIX.map((z) => (
+                {matrix.map((z) => (
                   <tr key={z.kriterium} className="border-b border-line-subtle align-top">
                     <td className="py-4 pr-4 t-body max-w-[10rem] !text-ink-cream font-medium">
                       {z.kriterium}
@@ -232,13 +176,11 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
             </table>
           </div>
           <p className="t-small mt-8 max-w-[62ch]">
-            Wix, Jimdo, BOTTIMMO und CasaOne sind Marken der jeweiligen Anbieter. beuwy ist
-            unabhängiger Dienstleister ohne Gesellschafterbindung an diese Anbieter. Ausführlicher
-            zu BOTTIMMO:{" "}
+            {t("matrix.fussnote_vor")}{" "}
             <Link href="/bottimmo-erfahrungen" className="ref-link">
-              BOTTIMMO Erfahrungen
+              {t("matrix.fussnote_link")}
             </Link>
-            .
+            {t("matrix.fussnote_nach")}
           </p>
         </div>
       </section>
@@ -247,11 +189,8 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Ein Baukasten ist kein Maßportal." glyph>
-              Er füllt eine bestehende Vorlage mit Ihren Daten, schnell und zuverlässig. Ein
-              Maßportal entsteht neu um Ihre Marke herum: Seitenarchitektur, CRM-Anbindung und
-              SEO-Fundament eingeschlossen. Das braucht mehr Zeit beim Bau, dafür kein zweites
-              Büro mit derselben Vorlage.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -261,13 +200,8 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              17 Jahre Markenarbeit, davor für Bosch und Continental. Für RIEGEL Immobilien
-              bedeutete der Wechsel vom Vorlagen-Auftritt zum eigenen Portal: neun Abschlüsse,
-              342.000 € Volumen in sechs Wochen, Platz 21 von über 25.000 Maklern beim
-              ImmoScout24-Award.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -277,13 +211,13 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *Systemwahl* wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -292,27 +226,27 @@ export default function MaklerWebsiteBaukastenVergleichPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihr *Maßportal*, keine weitere Vorlage.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Den ausführlichen Erfahrungsbericht zu einem der Systeme lesen Sie unter{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/bottimmo-erfahrungen" className="ref-link">
-                BOTTIMMO Erfahrungen
+                {t("finale.link_bottimmo")}
               </Link>
-              , was ein eigenes Portal kostet zeigt{" "}
+              {t("finale.text_mitte")}{" "}
               <Link href="/maklerwebsite-kosten" className="ref-link">
-                Maklerwebsite-Kosten
+                {t("finale.link_kosten")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_note")}</p>
           </Reveal>
         </div>
       </section>

@@ -79,6 +79,10 @@ Variables.
 
 ## 3. In diesem Lauf erledigt
 
+**R11 (14.09, nach dem Audit) — Studio ist immer 1:1 live**
+- Speichern im Studio revalidiert den ganzen Seitenbaum; jede der 86 öffentlichen Routen liest ihre Texte aus Studio-Keys (80 Textdateien unter `src/lib/texte/seiten/`). Gate `tools/texte-scan.mjs` in `scripts/verify.mjs`.
+- Alex-Todo (klein): `supabase/crm-dummy.sql` einmal im Supabase-SQL-Editor ausführen, damit „Dummy-Daten löschen" und die Zeitverteilung in `/intern/einstellungen` funktionieren (docs/branding/ANBINDUNGEN.md, Abschnitt 7).
+
 **Frontseite — `src/app/vsl/page.tsx` (Orchestrator, parallel zum Audit)**
 - Neue Route `/vsl`: ein Claim, 16:9-Videobühne (`VslSlot format="breit"`, gleiche Studio-URL `mk.vsl.url`), ein CTA in den Anfrage-Funnel, 22 echte Kundenlogos der alten beuwy.com (17 SVGs neu unter `public/logos/`, Herkunft im README), Mini-Rahmen ohne Menü. Texte als Studio-Keys `mk.vsl.front_*`. In der Sitemap; Screenshots `docs/redesign/refs/review/r10-vsl-*.png`.
 

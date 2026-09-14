@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { SektionsKopf, Highlight } from "@/components/MaklerElemente";
 import { ClusterHero, ClusterAbschluss, Rail, RailListe } from "@/components/ClusterElemente";
 import { Reveal } from "@/components/Reveal";
@@ -9,66 +11,32 @@ import { Reveal } from "@/components/Reveal";
  * Einstieg stark, die Grenze ist die geteilte Vorlage. Keine Behauptung
  * über BOTTIMMO, die nicht allgemein bekannt/unstrittig ist — im Zweifel
  * weggelassen (Leaf-Vorgabe).
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * bottimmo-alternative.ts.
  */
 
-export const metadata: Metadata = {
-  title: "BOTTIMMO Alternative: Maßarbeit statt Baukasten | beuwy",
-  description:
-    "Der faire Vergleich zwischen Baukasten-Systemen wie BOTTIMMO und einer eigenen Marke für Immobilienmakler: was jede Lösung wirklich bringt, und für wen sie richtig ist.",
-};
+export const revalidate = 60;
 
-const RAILS: {
-  thema: string;
-  linksLabel: string;
-  linksText: string;
-  rechtsLabel: string;
-  rechtsText: string;
-}[] = [
-  {
-    thema: "Vorlagen vs. eigene Marke",
-    linksLabel: "Vorlage",
-    linksText:
-      "Design und Struktur stammen aus dem Baukasten. Dasselbe Grundgerüst läuft parallel bei anderen Kunden desselben Anbieters.",
-    rechtsLabel: "Eigene Marke",
-    rechtsText:
-      "Typografie, Farbwelt und Sprache werden für Ihr Haus entwickelt. Wiedererkennbar, auch ohne Logo im Bild.",
-  },
-  {
-    thema: "Gemietete Inhalte vs. eigenes System",
-    linksLabel: "Gemietete Inhalte",
-    linksText:
-      "Texte, Bilder und Funnel gehören zur Lizenz. Sie laufen, solange Sie zahlen, und stehen mit der Kündigung still.",
-    rechtsLabel: "Eigenes System",
-    rechtsText:
-      "Website, Inhalte und Funnel gehören Ihnen. Sie bleiben, auch wenn sich die Zusammenarbeit irgendwann ändert.",
-  },
-  {
-    thema: "Selbstbedienung vs. done for you",
-    linksLabel: "Selbstbedienung",
-    linksText:
-      "Einrichtung, Pflege und Anpassungen übernehmen Sie selbst, im Dashboard des Baukastens, neben dem Tagesgeschäft.",
-    rechtsLabel: "Done for you",
-    rechtsText:
-      "Aufbau, Pflege und Weiterentwicklung übernehmen wir. Sie bekommen Ergebnisse zu sehen, keine Aufgabenliste.",
-  },
-  {
-    thema: "Monatliche Lizenz vs. eigener Vermögenswert",
-    linksLabel: "Monatliche Lizenz",
-    linksText: "Sie zahlen für die Nutzung. Endet die Lizenz, endet auch die Website.",
-    rechtsLabel: "Eigener Vermögenswert",
-    rechtsText: "Sie bezahlen für ein System, das Ihnen gehört und mit Ihrem Haus mitwächst.",
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "bottimmo-alternative");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+  };
+}
 
-export default function BottimmoAlternativePage() {
+export default async function BottimmoAlternativePage() {
+  const t = seitenTexte(await getContent(), "bottimmo-alternative");
+  const rails = t.liste("rails", ["thema", "linksLabel", "linksText", "rechtsLabel", "rechtsText"] as const);
+
   return (
     <>
       <ClusterHero
-        eyebrow="Vergleich · BOTTIMMO"
-        titel="Die BOTTIMMO-Alternative für Makler, die *auffallen* wollen."
-        sub="BOTTIMMO baut ein bewährtes Marketing-Paket für den Einstieg. Wer schon zu den führenden Häusern seiner Stadt zählt, braucht mehr als das Paket, das auch der Mitbewerber zwei Straßen weiter nutzt. Hier lesen Sie den fairen Vergleich."
+        eyebrow={t("hero.eyebrow")}
+        titel={t("hero.titel")}
+        sub={t("hero.sub")}
         primaryHref="/anfrage"
-        ctaLabel2="Was BOTTIMMO gut kann →"
+        ctaLabel2={t("hero.cta2")}
         ctaHref2="#einordnung"
       />
 
@@ -77,22 +45,15 @@ export default function BottimmoAlternativePage() {
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Einordnung"
-              titel="Baukasten-Systeme sind für den Einstieg gebaut, nicht für den *Vorsprung*."
+              eyebrow={t("einordnung.eyebrow")}
+              titel={t("einordnung.titel")}
             />
             <div className="mt-8 max-w-[62ch] space-y-5">
+              <p className="t-body">{t("einordnung.text1")}</p>
               <p className="t-body">
-                Anbieter wie BOTTIMMO liefern ein bewährtes Marketing-Paket: eigene Website,
-                vorgefertigte Anzeigen, ein Funnel, der grundsätzlich funktioniert. Für ein Büro,
-                das gerade erst online sichtbar werden will, ist das ein schneller, solider Start,
-                ohne dass jemand bei null anfängt.
-              </p>
-              <p className="t-body">
-                Die Grenze liegt im System selbst:{" "}
-                <Highlight>gleiche Vorlagen, gleiche Funnels, gleiche Ratgeber</Highlight> laufen
-                parallel bei vielen anderen Maklern im selben Markt. Was für den Einstieg reicht,
-                wird zur Bremse, sobald zwei Häuser in derselben Stadt mit demselben Baukasten
-                werben.
+                {t("einordnung.text2_vor")}{" "}
+                <Highlight>{t("einordnung.text2_mark")}</Highlight>{" "}
+                {t("einordnung.text2_nach")}
               </p>
             </div>
           </Reveal>
@@ -102,9 +63,9 @@ export default function BottimmoAlternativePage() {
       {/* ── Gegenüberstellung ───────────────────────────────────────── */}
       <section className="border-t border-line-subtle bg-bg-elevated py-20 md:py-28">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
-          <SektionsKopf eyebrow="Der Unterschied" titel="Standard-Paket. Oder *Maßarbeit*." />
+          <SektionsKopf eyebrow={t("gegenueberstellung.eyebrow")} titel={t("gegenueberstellung.titel")} />
           <RailListe className="mt-8">
-            {RAILS.map((r, i) => (
+            {rails.map((r, i) => (
               <Reveal key={r.thema} delay={i * 60}>
                 <Rail>
                   <p className="t-label !text-[10.5px]">{r.thema}</p>
@@ -129,29 +90,15 @@ export default function BottimmoAlternativePage() {
       <section className="bg-bg-base py-20 md:py-28">
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Ehrlich gesagt"
-              titel="Nicht jedes Haus braucht *Maßarbeit*, noch nicht."
-            />
+            <SektionsKopf eyebrow={t("ehrlich.eyebrow")} titel={t("ehrlich.titel")} />
             <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
               <div className="border-t border-line-subtle pt-6">
-                <p className="t-h3">Für wen BOTTIMMO die richtige Wahl bleibt</p>
-                <p className="t-body mt-3 max-w-[40ch]">
-                  Für den ersten eigenen Online-Auftritt, ein kleines Marketingbudget im
-                  dreistelligen Monatsbereich, oder wenn Website und Anzeigen einfach nur
-                  laufen sollen, ohne dass die Marke im Mittelpunkt steht. Eine vernünftige
-                  Entscheidung, keine Notlösung.
-                </p>
+                <p className="t-h3">{t("ehrlich.bottimmo_titel")}</p>
+                <p className="t-body mt-3 max-w-[40ch]">{t("ehrlich.bottimmo_text")}</p>
               </div>
               <div className="border-t border-line-subtle pt-6">
-                <p className="t-h3">Für wen beuwy richtig ist</p>
-                <p className="t-body mt-3 max-w-[40ch]">
-                  Für Häuser, die bereits einen Marktanteil verteidigen oder ausbauen, deren
-                  nächster Wettbewerber nicht der Baukasten-Nachbar ist, sondern das führende
-                  Büro der Stadt. Hier zahlt sich ein eigenes System aus, weil der Unterschied im
-                  Auftritt direkt den Unterschied im Alleinauftrag macht. 17 Jahre Markenarbeit
-                  stecken in jedem System, das wir bauen, kein Pilotprojekt.
-                </p>
+                <p className="t-h3">{t("ehrlich.beuwy_titel")}</p>
+                <p className="t-body mt-3 max-w-[40ch]">{t("ehrlich.beuwy_text")}</p>
               </div>
             </div>
           </Reveal>
@@ -159,17 +106,17 @@ export default function BottimmoAlternativePage() {
       </section>
 
       <ClusterAbschluss
-        karteLabel="Für Häuser mit Anspruch"
-        karteTitel="Sie haben den Baukasten längst hinter sich gelassen."
-        karteText="Ein Vorlagen-System bringt Sie online. Ein eigenes System bringt Sie an die Spitze Ihres Markts, und bleibt, wenn sich sonst etwas ändert."
-        schlussTitel="Lassen Sie uns über Ihren Auftritt sprechen, nicht über eine Vorlage."
-        schlussText="In einem kurzen Gespräch sehen wir, wo Ihr aktueller Auftritt Sie unter Wert verkauft, und was ein eigenes System dagegen tut."
+        karteLabel={t("abschluss.karte_label")}
+        karteTitel={t("abschluss.karte_titel")}
+        karteText={t("abschluss.karte_text")}
+        schlussTitel={t("abschluss.schluss_titel")}
+        schlussText={t("abschluss.schluss_text")}
         primaryHref="/anfrage"
-        footnote="BOTTIMMO ist eine Marke der BOTTIMMO AG. beuwy steht in keiner Verbindung zu BOTTIMMO."
+        footnote={t("abschluss.footnote")}
         weitereLinks={[
-          { label: "Was kostet eine Maklerwebsite?", href: "/maklerwebsite-kosten" },
-          { label: "Maklersoftware im Vergleich", href: "/maklersoftware-vergleich" },
-          { label: "Website für Makler", href: "/website-fuer-immobilienmakler" },
+          { label: t("abschluss.link_kosten"), href: "/maklerwebsite-kosten" },
+          { label: t("abschluss.link_software"), href: "/maklersoftware-vergleich" },
+          { label: t("abschluss.link_website"), href: "/website-fuer-immobilienmakler" },
         ]}
       />
     </>

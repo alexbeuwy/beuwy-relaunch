@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissens-Seite — /makler-website-fehler (R3-SEITENPLAN.json, Cluster C).
@@ -17,103 +19,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * Selbst-Audit-Checkliste, die dieselben elf Punkte als Ja/Nein-Fragen
  * bündelt. Kosten-Angaben bleiben qualitativ (keine erfundenen Prozent- oder
  * Anfragenzahlen), wie im Rest der Seite. Foto 2 laut Spec.
+ * Texte: src/lib/texte/seiten/makler-website-fehler.ts (Studio-Keys
+ * s.makler-website-fehler.*).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Die 11 häufigsten Makler-Website-Fehler und ihre Kosten | beuwy",
-  description:
-    "Die 11 häufigsten Makler-Website-Fehler: jedes Muster mit sichtbarem Beispiel und seiner Kosten in Anfragen, plus Selbst-Audit in 10 Minuten zum Nachprüfen.",
-  openGraph: {
-    title: "Die 11 häufigsten Makler-Website-Fehler und ihre Kosten | beuwy",
-    description:
-      "Von langsamer Ladezeit bis fehlender CRM-Anbindung: 11 Muster, an denen Makler-Websites Anfragen verlieren, mit Selbst-Audit in 10 Minuten.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-type Fehler = { titel: string; muster: string; kosten: string };
-
-const FEHLER: Fehler[] = [
-  {
-    titel: "Ladezeit über drei Sekunden",
-    muster: "Die Startseite baut sich sichtbar Stück für Stück auf, weil Bilder in voller Auflösung ungeoptimiert nachladen.",
-    kosten: "Der Eigentümer öffnet parallel den nächsten Makler-Tab, während Ihre Seite noch lädt. Die Konkurrenz gewinnt, bevor Ihr Angebot überhaupt sichtbar ist.",
-  },
-  {
-    titel: "Kein direkter Weg zur Anfrage",
-    muster: "Wer eine Immobilie bewerten lassen will, findet nur eine allgemeine Kontaktseite mit Postanschrift statt eines Rechners oder Formulars, das sofort startet.",
-    kosten: "Jeder Klick, der zu einer weiteren Seite führt, verliert einen Teil der Besucher. Wer suchen muss, bricht ab, statt anzufragen.",
-  },
-  {
-    titel: "Kontaktformular ohne Rückmeldung",
-    muster: "Nach dem Absenden erscheint keine Bestätigung, keine Mail geht raus, kein Hinweis, wann sich jemand meldet.",
-    kosten: "Der Absender weiß nicht, ob die Anfrage angekommen ist, und schreibt sicherheitshalber gleich noch einem zweiten Makler.",
-  },
-  {
-    titel: "Nicht wirklich mobil optimiert",
-    muster: "Texte lassen sich auf dem Smartphone nur mit Pinch-to-Zoom lesen, Buttons liegen so eng, dass der falsche Link geöffnet wird.",
-    kosten: "Der größte Teil der Besucher kommt heute über das Smartphone. Eine Seite, die dort schlecht bedienbar ist, verliert genau diese Mehrheit zuerst.",
-  },
-  {
-    titel: "Stockfotos statt echter Bilder",
-    muster: "Das immer gleiche Lächeln-Team-Stockfoto, das auch auf zehn anderen Makler-Websites in anderen Städten auftaucht.",
-    kosten: "Wer ein Stockfoto wiedererkennt, verliert Vertrauen in den ganzen Auftritt, inklusive der echten Zahlen, die daneben stehen.",
-  },
-  {
-    titel: "Exposé nur als PDF hinter einem Formular",
-    muster: "Wer sich ein Objekt ansehen will, muss erst Name und Telefonnummer hinterlassen, bevor ein einziges Foto zu sehen ist.",
-    kosten: "Ein Teil der Interessenten bricht genau an dieser Hürde ab, statt die Kontaktdaten für ein Objekt herzugeben, das sie noch nicht einmal gesehen haben.",
-  },
-  {
-    titel: "Rechtlich unvollständiges Impressum",
-    muster: "Angaben zur Berufshaftpflicht oder zur zuständigen Aufsichtsbehörde fehlen, obwohl sie für Immobilienmakler vorgeschrieben sind.",
-    kosten: "Eine Lücke, die ein aufmerksamer Eigentümer als Nachlässigkeit liest. Bei einem Geschäft, das auf Vertrauen aufbaut, wirkt das gegen Sie.",
-  },
-  {
-    titel: "Eine Seite für alle Städte und Stadtteile",
-    muster: "Die Startseite nennt vage „unsere Region“, ohne dass eine einzige Seite die Stadt oder den Stadtteil beim Namen nennt, in dem gesucht wird.",
-    kosten: "Wer „Makler [Stadtteil]“ sucht, findet stattdessen den Mitbewerber, der genau dafür eine eigene Seite gebaut hat.",
-  },
-  {
-    titel: "Keine sichtbaren Trust-Signale",
-    muster: "Keine Bewertung, keine Zahl, keine Fallstudie: nur ein Fließtext darüber, wie sehr man sich um jeden Kunden kümmert.",
-    kosten: "Eine Behauptung ohne Beleg überzeugt niemanden, der gerade drei Maklerauftritte nebeneinander offen hat.",
-  },
-  {
-    titel: "Schlechte Kontraste und keine Tastaturbedienung",
-    muster: "Hellgrauer Text auf weißem Grund, Buttons, die sich ohne Maus nicht anklicken lassen.",
-    kosten: "Ein Teil der Besucher kann die Seite so schlicht nicht nutzen, unabhängig von Sehschärfe oder Endgerät. Details zur Pflicht dahinter unter Barrierefreie Maklerwebsite.",
-  },
-  {
-    titel: "Keine Anbindung ans CRM",
-    muster: "Anfragen landen in einem allgemeinen Postfach, das mehrere Personen im Büro mitlesen, ohne feste Zuständigkeit.",
-    kosten: "Was in keinem System mit Frist steht, wird im Tagesgeschäft vergessen. Die Anfrage von gestern Abend ist morgen früh keine Priorität mehr.",
-  },
-];
-
-const AUDIT = FEHLER.map((f) => `${f.titel}: geprüft?`);
-
-const FAQS = [
-  {
-    q: "Wie lange dauert der Selbst-Audit wirklich?",
-    a: "Zehn Minuten reichen, wenn Sie die eigene Website parallel auf dem Smartphone und am Rechner öffnen und die elf Punkte der Reihe nach durchgehen. Für eine rechtliche Prüfung von Impressum und Datenschutz braucht es danach trotzdem einen genaueren Blick.",
-  },
-  {
-    q: "Welcher Fehler kostet am meisten?",
-    a: "Meist die Kombination aus langsamer Ladezeit und fehlendem direktem Weg zur Anfrage. Beide zusammen sorgen dafür, dass ein interessierter Besucher die Seite verlässt, bevor er überhaupt eine Möglichkeit hatte, Kontakt aufzunehmen.",
-  },
-  {
-    q: "Reicht es, einzelne Fehler zu beheben?",
-    a: "Kurzfristig hilft das, langfristig bleibt eine Website mit Software-Vorlage anfällig für den nächsten Fehler auf der Liste. Ein Portal, das von Anfang an auf diese Punkte ausgelegt ist, spart die wiederkehrende Fehlersuche.",
-  },
-  {
-    q: "Was kostet ein Website-Relaunch, der diese Fehler vermeidet?",
-    a: "Das hängt vom Umfang ab, eine Einordnung nach Leistungsstufen zeigt Maklerwebsite-Kosten.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "makler-website-fehler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -129,13 +53,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -163,7 +87,14 @@ function HaekchenIcon() {
   );
 }
 
-export default function MaklerWebsiteFehlerPage() {
+export default async function MaklerWebsiteFehlerPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "makler-website-fehler");
+
+  const FEHLER = t.liste("fehler", ["titel", "muster", "kosten"] as const);
+  const AUDIT = FEHLER.map((f) => `${f.titel}: ${t("audit.punkt_suffix")}`); // studio:ok — Template aus Studio-Keys, kein hartkodierter Satz
+  const FAQS = t.liste("faq", ["frage", "antwort"] as const).map((f) => ({ q: f.frage, a: f.antwort }));
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -186,23 +117,14 @@ export default function MaklerWebsiteFehlerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Website-Fehler</p>
-            <h1 className="t-display mt-4">
-              {rich("Die 11 häufigsten Makler-Website-*Fehler* und ihre Kosten.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("hero.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Makler-Websites verlieren Anfragen selten an einem einzigen großen Problem,
-              sondern an elf immer wiederkehrenden Mustern: von der Ladezeit über fehlende
-              Trust-Signale bis zur Anfrage, die im allgemeinen Postfach verschwindet.{" "}
-              <Highlight>
-                Jeder Fehler kostet nicht Geld direkt, sondern die Anfrage, die dadurch nie
-                entsteht
-              </Highlight>
-              .
+              {t("hero.intro")} <Highlight>{t("hero.intro_highlight")}</Highlight>.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -228,15 +150,15 @@ export default function MaklerWebsiteFehlerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Elf Muster"
-              titel="Jeder Fehler hat ein sichtbares Muster und eine *Kosten*-Seite."
-              sub="Kein Fehler steht für sich allein. Zusammen erklären sie, warum eine Website online steht und trotzdem keine Anfragen bringt."
+              eyebrow={t("fehler.eyebrow")}
+              titel={t("fehler.titel")}
+              sub={t("fehler.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
           <div className="mt-14 space-y-10 border-t border-line-subtle pt-10">
             {FEHLER.map((fehler, i) => (
-              <Reveal key={fehler.titel} delay={(i % 6) * 40}>
+              <Reveal key={`fehler-${i}`} delay={(i % 6) * 40}>
                 <div className="grid gap-3 sm:grid-cols-[64px_1fr] sm:gap-8">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
                     {String(i + 1).padStart(2, "0")}
@@ -258,15 +180,15 @@ export default function MaklerWebsiteFehlerPage() {
         <div className="mx-auto max-w-[860px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Selbst-Audit"
-              titel="Elf Fragen, *zehn* Minuten, ein ehrliches Bild Ihrer Website."
-              sub="Öffnen Sie Ihre Website parallel auf dem Smartphone und gehen Sie jeden Punkt einmal durch."
+              eyebrow={t("audit.eyebrow")}
+              titel={t("audit.titel")}
+              sub={t("audit.sub")}
               className="max-w-[640px]"
             />
           </Reveal>
           <div className="mt-10 space-y-4">
             {AUDIT.map((punkt, i) => (
-              <Reveal key={punkt} delay={i * 30}>
+              <Reveal key={`audit-${i}`} delay={i * 30}>
                 <div className="flex items-start gap-3 border-b border-line-subtle pb-4">
                   <span className="mt-0.5">
                     <HaekchenIcon />
@@ -283,10 +205,8 @@ export default function MaklerWebsiteFehlerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Elf einzelne Fixes sind kein Fundament." glyph>
-              Jeder Punkt oben lässt sich einzeln flicken. Ein Portal, das von Anfang an auf
-              Tempo, Struktur und CRM-Anbindung gebaut ist, muss diese Liste kein zweites Mal
-              abarbeiten, weil keiner der elf Fehler im Bauplan vorkommt.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -296,12 +216,8 @@ export default function MaklerWebsiteFehlerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              RIEGEL Immobilien startete mit genau diesen Fehlern im alten Auftritt. Nach dem
-              Relaunch: neun Abschlüsse, 342.000 € Volumen in sechs Wochen, Platz 21 von über
-              25.000 Maklern beim ImmoScout24-Award.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -310,11 +226,7 @@ export default function MaklerWebsiteFehlerPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem eigenen *Audit* wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
             <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
@@ -326,27 +238,27 @@ export default function MaklerWebsiteFehlerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir eine Website ohne diese *elf* Fehler.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Wie ein Auftritt aussieht, der von Anfang an keinen dieser Fehler macht, zeigt{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/website-fuer-immobilienmakler" className="ref-link">
-                Website für Immobilienmakler
+                {t("finale.text_link1")}
               </Link>
-              . Einen direkten Weg zur Anfrage testen Sie am{" "}
+              {t("finale.text_mitte1")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.text_link2")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link3")}
               </Link>
               .
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

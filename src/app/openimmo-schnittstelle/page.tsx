@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissens-Seite D20 — /openimmo-schnittstelle (R3-SEITENPLAN.json, Cluster
@@ -19,66 +21,26 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * selbst, nur allgemein bekannte Mechanik. Beweis läuft als Text-Anriss auf
  * RIEGEL, weil die saubere Anbindung dort Teil des belegten Ergebnisses
  * war. Foto 5 laut Spec.
+ *
+ * R11: alle Texte laufen über Studio-Keys
+ * (src/lib/texte/seiten/openimmo-schnittstelle.ts).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "OpenImmo verstehen: Die Schnittstelle, an der Websites scheitern | beuwy",
-  description:
-    "OpenImmo verstehen: Die Schnittstelle, an der Maklerwebsites scheitern — Formatgrenzen, Bild-Reihenfolgen, Render-Unterschiede, plus Abnahme-Checkliste.",
-  openGraph: {
-    title: "OpenImmo verstehen: Die Schnittstelle, an der Websites scheitern | beuwy",
-    description:
-      "Was OpenImmo ist, warum der Objekt-Export trotzdem ruckelt, und die Abnahme-Checkliste, die vor dem Livegang jeden Fehler abfängt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const STELLEN = [
-  {
-    titel: "Formatgrenzen",
-    text: "OpenImmo legt fest, welche Felder es gibt, nicht wie jedes System sie befüllt. Freitextfelder, Sonderausstattung oder Energiewerte landen je nach Software in leicht anderer Struktur — beim Import zeigt sich das als fehlendes oder falsch zugeordnetes Feld.",
-  },
-  {
-    titel: "Bild-Reihenfolgen",
-    text: "Die Sortierung der Fotos ist im Standard vorgesehen, geht beim Export aus manchen Systemen aber verloren. Ergebnis: Das Titelbild landet an dritter Stelle, die Grundriss-Skizze ganz vorn, ohne dass jemand das im Büro so eingestellt hat.",
-  },
-  {
-    titel: "Render-Unterschiede",
-    text: "Dieselbe OpenImmo-Datei liest jedes Portal mit eigener Darstellungslogik: Absätze, Sonderzeichen und Bildausschnitte sehen auf ImmoScout anders aus als auf der eigenen Website, selbst wenn die Quelldaten identisch sind.",
-  },
-] as const;
-
-const CHECKLISTE = [
-  "Titelbild ist nach dem Export tatsächlich das erste Bild, nicht der Grundriss",
-  "Alle Sonderzeichen (Umlaute, €-Zeichen, Bindestriche) erscheinen korrekt, nicht als Fragezeichen",
-  "Energiewerte und Pflichtangaben sind vollständig, nicht nur teilweise übernommen",
-  "Freitext-Beschreibung bricht nicht mitten im Satz ab",
-  "Preisänderung im CRM erscheint innerhalb der zugesagten Frist auch auf der Website",
-  "Ein deaktiviertes Objekt verschwindet auf allen angebundenen Flächen, nicht nur auf einer",
-  "Kontaktdaten der Anfrage landen mit Objektbezug im CRM, nicht in einem allgemeinen Postfach",
-] as const;
-
-const FAQS = [
-  {
-    q: "Brauche ich für jedes Portal eine eigene Export-Datei?",
-    a: "Nein. Der Export erzeugt eine OpenImmo-Datei, die mehrere Portale gleichzeitig lesen. Wie diese Datei am Ende aussieht, entscheidet trotzdem jedes Portal selbst — deshalb kann dieselbe Datei auf zwei Flächen unterschiedlich wirken.",
-  },
-  {
-    q: "Warum fehlen nach dem Export manchmal Fotos?",
-    a: "Meist liegt es an Dateinamen, Reihenfolge oder einem Format, das die Zielseite nicht verarbeitet. Eine Abnahme vor dem Livegang, wie in der Checkliste oben, fängt genau das ab, bevor ein Eigentümer die Lücke sieht.",
-  },
-  {
-    q: "Kann ich OpenImmo auch ohne Maklersoftware nutzen?",
-    a: "Technisch ja, in der Praxis läuft der Export fast immer über die vorhandene Maklersoftware oder das CRM. Einen Überblick über die gängigen Systeme und ihre Anbindung finden Sie im Maklersoftware-Vergleich.",
-  },
-  {
-    q: "Wie lange dauert eine saubere Abnahme?",
-    a: "Im Rahmen eines Website-Projekts meist wenige Tage, weil die Prüfung entlang der Checkliste läuft, statt jedes Feld einzeln zu suchen. Bei einer bestehenden, ungeprüften Anbindung kann die erste Abnahme länger dauern.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "openimmo-schnittstelle");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -94,13 +56,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -128,14 +90,20 @@ function HaekchenIcon() {
   );
 }
 
-export default function OpenimmoSchnittstellePage() {
+export default async function OpenimmoSchnittstellePage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "openimmo-schnittstelle");
+  const stellen = t.liste("stellen", ["titel", "text"] as const);
+  const checkliste = t.liste("checkliste", ["text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -151,23 +119,16 @@ export default function OpenimmoSchnittstellePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Schnittstelle</p>
-            <h1 className="t-display mt-4">
-              {rich("OpenImmo verstehen: die Schnittstelle, an der *Websites* scheitern.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              OpenImmo ist ein deutschlandweiter Datenstandard, über den Maklersoftware
-              Objektdaten wie Preis, Fläche und Fotos an Portale und Websites exportiert, ohne
-              dass jemand jedes Feld von Hand abtippt.{" "}
-              <Highlight>
-                Ruckelt der Export trotzdem, liegt es fast immer an drei Stellen
-              </Highlight>
-              : Feldern, die der Standard offenlässt, Bildern, deren Reihenfolge verloren geht,
-              und Portalen, die dieselbe Datei unterschiedlich darstellen.
+              {t("kopf.intro_vor")}{" "}
+              <Highlight>{t("kopf.intro_highlight")}</Highlight>
+              {t("kopf.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -193,14 +154,14 @@ export default function OpenimmoSchnittstellePage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Warum der Export ruckelt"
-              titel="Drei Stellen, an denen aus einer sauberen Datei ein *falsches* Exposé wird."
-              sub="Der Standard selbst ist stabil. Die Probleme entstehen an den Rändern — dort, wo jedes System eigene Entscheidungen trifft."
+              eyebrow={t("stellen.eyebrow")}
+              titel={t("stellen.titel")}
+              sub={t("stellen.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {STELLEN.map((s, i) => (
+            {stellen.map((s, i) => (
               <Reveal key={s.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -219,20 +180,16 @@ export default function OpenimmoSchnittstellePage() {
       <section id="checkliste" className="bg-bg-base">
         <div className="mx-auto max-w-[860px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Vor dem Livegang"
-              titel="Die Abnahme-Checkliste, die jeder Export *bestehen* sollte."
-              className="max-w-[640px]"
-            />
+            <SektionsKopf eyebrow={t("checkliste.eyebrow")} titel={t("checkliste.titel")} className="max-w-[640px]" />
           </Reveal>
           <div className="mt-10 space-y-4">
-            {CHECKLISTE.map((punkt, i) => (
-              <Reveal key={punkt} delay={i * 40}>
+            {checkliste.map((punkt, i) => (
+              <Reveal key={punkt.text} delay={i * 40}>
                 <div className="flex items-start gap-3 border-b border-line-subtle pb-4">
                   <span className="mt-0.5">
                     <HaekchenIcon />
                   </span>
-                  <p className="t-body">{punkt}</p>
+                  <p className="t-body">{punkt.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -244,10 +201,8 @@ export default function OpenimmoSchnittstellePage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Die Schnittstelle ist unsichtbar — bis sie fehlt." glyph>
-              Läuft der Export sauber, merkt kein Eigentümer, dass dahinter ein Datenstandard
-              arbeitet. Läuft er nicht sauber, sieht er ein Exposé mit vertauschten Bildern — und
-              zieht daraus einen Schluss über Ihr ganzes Büro.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -257,12 +212,8 @@ export default function OpenimmoSchnittstellePage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Bei RIEGEL Immobilien lief der Objekt-Export von Anfang an sauber, weil die
-              Abnahme-Checkliste vor dem Livegang durchlaufen wurde. Ergebnis: 342.000 €
-              Abschlussvolumen in sechs Wochen, ohne einen einzigen doppelt gepflegten Datensatz.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -271,14 +222,10 @@ export default function OpenimmoSchnittstellePage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *Anbindung* wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -287,27 +234,27 @@ export default function OpenimmoSchnittstellePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir eine Anbindung, die *keiner* bemerkt.")}</h2>
+            <p className="t-label">{t("fazit.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("fazit.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Welches CRM Sie einsetzen und wie die Anbindung dort im Detail aussieht, steht im{" "}
+              {t("fazit.text_1")}{" "}
               <Link href="/maklersoftware-vergleich" className="ref-link">
-                Maklersoftware-Vergleich
+                {t("fazit.link1")}
               </Link>
-              . Speziell zur Anbindung an FLOWFACT lesen Sie{" "}
+              {t("fazit.text_2")}{" "}
               <Link href="/flowfact-website" className="ref-link">
-                FLOWFACT-Website
+                {t("fazit.link2")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("fazit.text_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("fazit.link3")}
               </Link>
-              .
+              {t("fazit.text_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("fazit.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

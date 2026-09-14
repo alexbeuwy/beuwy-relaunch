@@ -6,6 +6,8 @@ import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { AfaWizard } from "@/components/bewertung/afa-wizard";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * LEAF P4 — /tools/afa-rechner, jetzt mit dem portierten AfA-Wizard
@@ -20,80 +22,36 @@ import { AfaWizard } from "@/components/bewertung/afa-wizard";
 
 export const revalidate = 3600;
 
-const TITLE = "AfA-Rechner: Restnutzungsdauer und Abschreibung berechnen | beuwy";
-const DESCRIPTION =
-  "Kostenlos und sofort: Kaufpreis, Baujahr und Modernisierung eingeben und sehen, ob ein Restnutzungsdauer-Gutachten Ihre AfA erhöht — mit offenem Rechenweg und PDF-Auswertung zum Sofort-Download, ohne E-Mail-Pflicht.";
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "tools-afa-rechner");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    alternates: { canonical: "/tools/afa-rechner" },
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: "/tools/afa-rechner" },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export default async function AfaRechnerPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "tools-afa-rechner");
+  const mechanik = t.liste("mechanik", ["titel", "text"] as const);
+  const wer = t.liste("wer", ["text"] as const);
+  const gutachter = t.liste("gutachter", ["text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
 
-const MECHANIK = [
-  {
-    titel: "Der reguläre Satz unterstellt eine feste Nutzungsdauer",
-    text: "Das Finanzamt rechnet bei vermieteten Bestandsimmobilien standardmäßig mit 2 % pro Jahr, bei Neubauten ab 2023 mit 3 % — unabhängig davon, wie alt das Gebäude wirklich ist oder wie gut es in Schuss ist. Das ist eine Pauschale, keine Einzelfallprüfung.",
-  },
-  {
-    titel: "Ein Gutachten ersetzt die Pauschale durch eine echte Zahl",
-    text: "Ein Restnutzungsdauer-Gutachten ermittelt, wie viele Jahre das konkrete Gebäude nach Alter, Bauweise und Modernisierungsstand realistisch noch nutzbar ist. Ist diese Zahl kürzer als die gesetzlich unterstellte Nutzungsdauer, steigt die jährliche AfA — Sie schreiben denselben Gebäudewert schneller ab.",
-  },
-  {
-    titel: "Der Bundesfinanzhof hat den Weg dafür 2021 bestätigt",
-    text: "Seitdem gilt: Eigentümer dürfen die kürzere Nutzungsdauer mit jeder geeigneten, nachvollziehbaren Methode belegen — nicht nur mit dem starren Rechenweg aus der ImmoWertV. Das Gutachten muss aber methodisch sauber sein, nicht nur eine Behauptung.",
-  },
-] as const;
-
-const WER_PROFITIERT = [
-  "Vermietete Bestandsimmobilien, die deutlich älter sind als 20–30 Jahre — je größer der Abstand zwischen Alter und gesetzlich unterstellter Nutzungsdauer, desto größer der mögliche Effekt.",
-  "Käufe mit hohem Grenzsteuersatz — der steuerliche Effekt einer höheren AfA skaliert direkt mit dem persönlichen Steuersatz.",
-  "Gebäude ohne umfassende Kernsanierung — ein frisch durchmodernisiertes Haus hat oft schon eine lange Restnutzungsdauer, hier bringt ein Gutachten seltener einen Sprung.",
-] as const;
-
-const GUTACHTER_KRITERIEN = [
-  "Öffentlich bestellt und vereidigt oder von einer anerkannten Institution zertifiziert (z. B. DEKRA, TÜV, DIA) — keine reine Selbstauskunft ohne Qualifikationsnachweis.",
-  "Vor-Ort-Begehung des Gebäudes, nicht nur eine Einschätzung aus Fotos oder Katasterdaten.",
-  "Vollständiges Gutachten nach ImmoWertV-Methodik mit nachvollziehbarer Herleitung — kein Kurzgutachten, das nur eine Zahl ohne Begründung liefert.",
-] as const;
-
-const FAQS = [
-  {
-    q: "Wie genau ist dieser Rechner?",
-    a: "Er zeigt eine Orientierung auf Basis von Baujahr, Modernisierungsgrad und einer vereinfachten Nutzungsdauer-Logik, kein Gutachtenergebnis. Ob sich ein Gutachten für Ihr konkretes Objekt lohnt, prüft am Ende ein Sachverständiger vor Ort.",
-  },
-  {
-    q: "Erkennt das Finanzamt das an?",
-    a: "Grundsätzlich ja, mit Einschränkungen: Seit dem BFH-Urteil von 2021 dürfen Sie eine kürzere Nutzungsdauer mit jeder geeigneten Methode nachweisen. Das Finanzamt prüft das Gutachten im Einzelfall — akzeptiert werden in der Praxis vor allem methodisch saubere Gutachten von qualifizierten, unabhängigen Sachverständigen, nicht jede pauschale Kurzeinschätzung. Eine Garantie gibt es nie, das ist Aufgabe Ihres Steuerberaters.",
-  },
-  {
-    q: "Was kostet ein Restnutzungsdauer-Gutachten?",
-    a: "Das hängt von Objektgröße und Gutachter ab. Ob sich die Kosten lohnen, zeigt der Vergleich mit der Mehr-Abschreibung über mehrere Jahre, die dieser Rechner als Orientierung ausgibt — bei kleinen Kaufpreisen oder bereits kurzer verbleibender Nutzungsdauer kann sich ein Gutachten schlicht nicht rechnen.",
-  },
-  {
-    q: "Gilt das auch für selbst genutzte Immobilien?",
-    a: "Nein. Die AfA nach § 7 EStG und damit auch dieser Rechner betreffen ausschließlich vermietete Immobilien im Privatvermögen. Bei einer selbst genutzten Wohnung gibt es keine Abschreibung auf den Kaufpreis.",
-  },
-  {
-    q: "Was macht beuwy mit meiner Berechnung?",
-    a: "Ohne Ihre E-Mail-Adresse: nichts. Die Berechnung läuft im Browser, es wird nichts gespeichert und niemand kontaktiert Sie. Der PDF-Report entsteht ebenfalls lokal bei Ihnen und lässt sich direkt herunterladen — erst wenn Sie zusätzlich die Auswertung per E-Mail anfordern, landet Ihre Anfrage bei uns.",
-  },
-] as const;
-
-export default function AfaRechnerPage() {
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -105,15 +63,14 @@ export default function AfaRechnerPage() {
       {/* ── Hero kompakt — Tool ist der Held, above the fold ────────────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 pb-8 pt-28 lg:px-10 lg:pb-10 lg:pt-32">
-          <p className="t-label !text-ink-yellow">Kostenloser AfA-Rechner für Eigentümer</p>
+          <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
           <h1 className="mt-4 max-w-[780px] font-display text-[clamp(30px,4vw,46px)] font-bold leading-[1.08] tracking-[-0.025em] text-ink-cream [text-wrap:balance]">
-            {rich("AfA-Rechner: Wie viel *mehr* Abschreibung steckt in Ihrer Immobilie?")}
+            {rich(t("hero.titel"))}
           </h1>
           <p className="t-body-lg mt-4 max-w-[640px]">
-            Kaufpreis, Baujahr und Modernisierung eingeben — die Spanne zwischen regulärer AfA und AfA mit
-            Restnutzungsdauer-Gutachten steht sofort da, als PDF direkt zum Herunterladen.{" "}
-            <Highlight>Kein E-Mail-Zwang, um Ergebnis oder PDF zu sehen</Highlight>, anders als bei den meisten
-            AfA-Rechnern im Netz.
+            {t("hero.sub_vor")}{" "}
+            <Highlight>{t("hero.sub_highlight")}</Highlight>
+            {t("hero.sub_nach")}
           </p>
         </div>
       </section>
@@ -130,14 +87,14 @@ export default function AfaRechnerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Mechanik"
-              titel="Wie ein Restnutzungsdauer-Gutachten die *AfA* erhöht."
-              sub="Drei Schritte erklären den Effekt, den der Rechner oben in Zahlen zeigt."
+              eyebrow={t("mechanik.eyebrow")}
+              titel={t("mechanik.titel")}
+              sub={t("mechanik.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 border-t border-line-subtle pt-10 md:grid-cols-3">
-            {MECHANIK.map((punkt, i) => (
+            {mechanik.map((punkt, i) => (
               <Reveal key={punkt.titel} delay={i * 60}>
                 <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
                   {String(i + 1).padStart(2, "0")}
@@ -151,23 +108,23 @@ export default function AfaRechnerPage() {
           <Reveal delay={200}>
             <div className="mt-16 grid gap-10 md:grid-cols-2">
               <div>
-                <p className="t-h3">Für wen sich ein Gutachten meistens lohnt</p>
+                <p className="t-h3">{t("mechanik.wer_titel")}</p>
                 <ul className="mt-4 space-y-3">
-                  {WER_PROFITIERT.map((punkt) => (
-                    <li key={punkt} className="t-body flex gap-3">
+                  {wer.map((punkt) => (
+                    <li key={punkt.text} className="t-body flex gap-3">
                       <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-akzent" />
-                      <span>{punkt}</span>
+                      <span>{punkt.text}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="t-h3">Woran Sie einen seriösen Gutachter erkennen</p>
+                <p className="t-h3">{t("mechanik.gutachter_titel")}</p>
                 <ul className="mt-4 space-y-3">
-                  {GUTACHTER_KRITERIEN.map((punkt) => (
-                    <li key={punkt} className="t-body flex gap-3">
+                  {gutachter.map((punkt) => (
+                    <li key={punkt.text} className="t-body flex gap-3">
                       <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-akzent" />
-                      <span>{punkt}</span>
+                      <span>{punkt.text}</span>
                     </li>
                   ))}
                 </ul>
@@ -177,15 +134,15 @@ export default function AfaRechnerPage() {
 
           <Reveal delay={260}>
             <p className="t-body mt-12 max-w-[720px]">
-              Mehr zum Ablauf eines Gutachtens und was es kostet:{" "}
+              {t("mechanik.quelle_vor1")}{" "}
               <Link href="/wissen/restnutzungsdauer-gutachten" className="ref-link">
-                Restnutzungsdauer-Gutachten
+                {t("mechanik.quelle_link1")}
               </Link>
-              . Wie die AfA für Immobilien grundsätzlich funktioniert, auch jenseits dieses Rechners:{" "}
+              {t("mechanik.quelle_vor2")}{" "}
               <Link href="/wissen/afa-immobilien" className="ref-link">
-                AfA Immobilien
+                {t("mechanik.quelle_link2")}
               </Link>
-              .
+              {t("mechanik.quelle_nach")}
             </p>
           </Reveal>
         </div>
@@ -195,10 +152,10 @@ export default function AfaRechnerPage() {
       <section id="faq" className="bg-bg-base">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf eyebrow="Häufige Fragen" titel="Was Sie vor dem *Gutachten* wissen wollen." ausrichtung="mitte" />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -207,11 +164,10 @@ export default function AfaRechnerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Für Makler" titel="Sie sind Makler?" glyph>
-              Genau dieses Tool bauen wir in Ihren Farben auf Ihre Domain — Ihr Branding, Ihre
-              Leads, angebunden an Ihr CRM.{" "}
+            <GelbeKarte label={t("pitch.label")} titel={t("pitch.titel")} glyph>
+              {t("pitch.text_vor")}{" "}
               <Link href="/anfrage" className="font-semibold text-ink-cream underline decoration-ink-cream/30 underline-offset-4">
-                Zusammenarbeit anfragen →
+                {t("pitch.link")}
               </Link>
             </GelbeKarte>
           </Reveal>

@@ -5,21 +5,49 @@ import { useEffect, useState } from "react";
 import { RiArrowRightUpLine } from "@remixicon/react";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
+import { RAHMEN_DEFAULTS } from "@/lib/texte/rahmen";
 
 /* Light Makler Style: die Nav steht von Anfang an auf Weiß — kein
-   Himmel-Zustand mehr. Nach 8px Scroll bekommt sie eine Haarlinie und
+   Himmel-Zustand mehr. Nach 8px Scroll bekommt sie eine Haarlinie und // studio:ok
    etwas Deckkraft samt Weichzeichner, damit Inhalt beim Scrollen nicht
    nahtlos durchscheint. Drei Anker, ein CTA — bewusst reduziert, kein
-   Hamburger, mobil bleiben nur Logo und Schaltfläche. */
-const links: { label: string; href: string }[] = [
-  { label: "Leistungen", href: "/#leistungen" },
-  { label: "Ergebnisse", href: "/#ergebnisse" },
-  { label: "Tools", href: "/tools" },
-  { label: "Über uns", href: "/ueber-uns" },
-  { label: "Wissen", href: "/immobilienmarketing" },
-];
+   Hamburger, mobil bleiben nur Logo und Schaltfläche. */ // studio:ok
 
-export function Nav() {
+/* R11: Labels kommen als Studio-Key (mk.nav.*) über das `texte`-Prop aus
+   layout.tsx (Server-Komponente, liest getContent()). hrefs bleiben Code
+   — nur die Anzeigetexte sind Studio-editierbar. Die Defaults hier sind
+   der Fallback, falls ein fremder Aufrufer Nav ohne Prop einbindet. */
+export type NavTexte = {
+  skip: string;
+  punkt1: string;
+  punkt2: string;
+  punkt3: string;
+  punkt4: string;
+  punkt5: string;
+  cta: string;
+};
+
+const NAV_TEXTE_STANDARD: NavTexte = {
+  skip: RAHMEN_DEFAULTS["mk.nav.skip"],
+  punkt1: RAHMEN_DEFAULTS["mk.nav.punkt1_label"],
+  punkt2: RAHMEN_DEFAULTS["mk.nav.punkt2_label"],
+  punkt3: RAHMEN_DEFAULTS["mk.nav.punkt3_label"],
+  punkt4: RAHMEN_DEFAULTS["mk.nav.punkt4_label"],
+  punkt5: RAHMEN_DEFAULTS["mk.nav.punkt5_label"],
+  cta: RAHMEN_DEFAULTS["mk.nav.cta"],
+};
+
+const NAV_HREFS = ["/#leistungen", "/#ergebnisse", "/tools", "/ueber-uns", "/immobilienmarketing"] as const;
+
+export function Nav({ texte }: { texte?: Partial<NavTexte> }) {
+  const t = { ...NAV_TEXTE_STANDARD, ...texte };
+  const links: { label: string; href: string }[] = [
+    { label: t.punkt1, href: NAV_HREFS[0] },
+    { label: t.punkt2, href: NAV_HREFS[1] },
+    { label: t.punkt3, href: NAV_HREFS[2] },
+    { label: t.punkt4, href: NAV_HREFS[3] },
+    { label: t.punkt5, href: NAV_HREFS[4] },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [eingeloggt, setEingeloggt] = useState(false);
 
@@ -33,9 +61,9 @@ export function Nav() {
   /* Nav ist eine Client-Komponente — sie kann das httpOnly-Sitzungscookie
      "konto_auth" (src/lib/konto-auth.ts) serverseitig gar nicht lesen, ohne
      den Login-Zustand als Prop durchs Root-Layout zu reichen. Das Root-
-     Layout (src/app/layout.tsx) liegt außerhalb der für dieses Leaf
+     Layout (src/app/layout.tsx) liegt außerhalb der für dieses Leaf // studio:ok
      zugewiesenen Dateien, deshalb die kleinste saubere Alternative: beim
-     Login setzt konto-auth.ts zusätzlich ein reines Anzeige-Cookie
+     Login setzt konto-auth.ts zusätzlich ein reines Anzeige-Cookie // studio:ok
      "konto_da=1" — nicht httpOnly, ohne Signatur oder Identität, dient nur
      dazu, hier den Akzent-Punkt am Konto-Icon zu zeigen. Anfangszustand
      bleibt false (kein Hydration-Mismatch), erst nach dem Mount wird
@@ -49,14 +77,14 @@ export function Nav() {
       data-scrolled={scrolled ? "true" : "false"}
       className={cn(
         "fixed top-0 inset-x-0 z-50 border-b",
-        "transition-[background-color,border-color,backdrop-filter] duration-(--duration-fast) ease-(--ease-smooth-out)",
+        "transition-[background-color,border-color,backdrop-filter] duration-(--duration-fast) ease-(--ease-smooth-out)", // studio:ok
         scrolled
-          ? "bg-bg-base/90 border-line-subtle backdrop-blur-md"
+          ? "bg-bg-base/90 border-line-subtle backdrop-blur-md" // studio:ok
           : "bg-bg-base border-transparent"
       )}
     >
       <a href="#main" className="skip-link">
-        Zum Inhalt springen
+        {t.skip}
       </a>
 
       <div className="mx-auto grid h-16 max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-10">
@@ -78,13 +106,13 @@ export function Nav() {
             href="/anfrage"
             className={cn(
               "group inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-akzent",
-              "px-3.5 py-2 text-[12px] leading-[1.55] font-medium text-ink-cream",
-              "sm:gap-1.5 sm:px-5 sm:py-2.5 sm:text-[13px]",
-              "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover",
-              "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)"
+              "px-3.5 py-2 text-[12px] leading-[1.55] font-medium text-ink-cream", // studio:ok
+              "sm:gap-1.5 sm:px-5 sm:py-2.5 sm:text-[13px]", // studio:ok
+              "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover", // studio:ok
+              "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)" // studio:ok
             )}
           >
-            Zusammenarbeit anfragen
+            {t.cta}
             <RiArrowRightUpLine
               aria-hidden="true"
               className="size-3.5 shrink-0 transition-transform duration-(--duration-quick) ease-(--ease-smooth-out) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:size-4"
@@ -98,9 +126,9 @@ export function Nav() {
 }
 
 /* Dezentes Konto-Icon rechts neben dem CTA (Person im Kreis, 32px) —
-   UX-Referenz Riegel (site-header.tsx AccountLink), hier ohne fremde
+   UX-Referenz Riegel (site-header.tsx AccountLink), hier ohne fremde // studio:ok
    Icon-Bibliothek: reines Inline-SVG-Subset. Eingeloggt = gefüllter
-   Akzent-Punkt oben rechts am Icon, sonst nur der ruhige Kreis. Bleibt auf
+   Akzent-Punkt oben rechts am Icon, sonst nur der ruhige Kreis. Bleibt auf // studio:ok
    allen Breiten sichtbar, auch mobil — kein hidden/md:flex. */
 function KontoIcon({ eingeloggt }: { eingeloggt: boolean }) {
   return (
@@ -109,8 +137,8 @@ function KontoIcon({ eingeloggt }: { eingeloggt: boolean }) {
       aria-label={eingeloggt ? "Ihr Konto (angemeldet)" : "Konto / Anmelden"}
       className={cn(
         "relative flex size-8 shrink-0 items-center justify-center rounded-full border border-line-subtle text-ink-muted",
-        "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-line-medium hover:text-ink-cream",
-        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)"
+        "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:border-line-medium hover:text-ink-cream", // studio:ok
+        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)" // studio:ok
       )}
     >
       <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden="true">
@@ -137,18 +165,18 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <Link
       href={href}
       className={cn(
-        "group relative inline-flex items-center text-[13px] leading-[1.55] text-ink-muted",
-        "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream",
-        "outline-offset-4 focus-visible:outline-2 focus-visible:outline-(--ring)"
+        "group relative inline-flex items-center text-[13px] leading-[1.55] text-ink-muted", // studio:ok
+        "transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:text-ink-cream", // studio:ok
+        "outline-offset-4 focus-visible:outline-2 focus-visible:outline-(--ring)" // studio:ok
       )}
     >
       {label}
       <span
         aria-hidden="true"
         className={cn(
-          "pointer-events-none absolute inset-x-0 -bottom-1.5 h-px origin-left scale-x-0 bg-ink-cream",
-          "transition-transform duration-(--duration-quick) ease-(--ease-smooth-out)",
-          "group-hover:scale-x-100 group-focus-visible:scale-x-100"
+          "pointer-events-none absolute inset-x-0 -bottom-1.5 h-px origin-left scale-x-0 bg-ink-cream", // studio:ok
+          "transition-transform duration-(--duration-quick) ease-(--ease-smooth-out)", // studio:ok
+          "group-hover:scale-x-100 group-focus-visible:scale-x-100" // studio:ok
         )}
       />
     </Link>

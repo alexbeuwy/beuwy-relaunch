@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AiPille } from "./AiPille";
 import { HERO_POSTER, HERO_VIDEO, PORTRAIT_VIDEO, maklerAsset } from "@/lib/cdn";
+import { VSL_FRONT_DEFAULTS } from "@/lib/texte/vsl";
 
 /**
  * 9:16-Slot für das VSL-Video (Alex nimmt es mit OBS auf). Solange
@@ -22,10 +23,13 @@ export function VslSlot({
   videoUrl,
   posterNummer = 14,
   format = "hoch",
+  platzhalterText = VSL_FRONT_DEFAULTS["mk.vsl.platzhalter"],
 }: {
   videoUrl?: string;
   posterNummer?: number;
   format?: "hoch" | "breit";
+  /** Studio-Key mk.vsl.platzhalter — Pill, solange kein Video hinterlegt ist. */
+  platzhalterText?: string;
 }) {
   const [spielt, setSpielt] = useState(false);
   const [imViewport, setImViewport] = useState(false);
@@ -36,7 +40,7 @@ export function VslSlot({
   const platzhalter = breit ? HERO_VIDEO : PORTRAIT_VIDEO;
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // studio:ok
     const node = rahmen.current;
     if (!node) return;
     const obs = new IntersectionObserver(
@@ -113,7 +117,7 @@ export function VslSlot({
           )}
           {!hatVideo && (
             <span className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/85 px-3 py-1 text-[11px] font-medium tracking-[0.04em] text-ink-muted backdrop-blur-sm">
-              90 Sekunden — folgt in Kürze
+              {platzhalterText}
             </span>
           )}
         </button>

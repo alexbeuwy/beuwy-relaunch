@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissensseite (R3 Welle 2, Cluster T) — /wissen/mietpreis-ermitteln.
@@ -17,75 +19,29 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * Beweis-Anriss über 17 Jahre Erfahrung im Bau von Rechenmodellen, FAQ +
  * FAQPage-JSON-LD. Foto 12 (hochkant) laut R3-SEITENPLAN.json, per
  * object-cover im 21:9-Band wie im geo-checkliste-Muster.
+ *
+ * R11 (14.09): jeder Text läuft über Studio-Keys s.wissen-mietpreis-ermitteln.*
+ * (src/lib/texte/seiten/wissen-mietpreis-ermitteln.ts). Die Zu-/Abschlags-
+ * Richtung (+/−) bleibt Struktur im Code (steuert Icon-Farbe), kein Text.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Mietpreis ermitteln: Vergleichsmiete, Spiegel und Spielraum | beuwy",
-  description:
-    "Mietpreis ermitteln: Mietspiegel lesen, Vergleichsmiete finden, Zu- und Abschläge rechnen, Mietpreisbremse prüfen. Mit Rechenbeispiel und Rechner als Einstieg.",
-  openGraph: {
-    title: "Mietpreis ermitteln: Vergleichsmiete, Spiegel und Spielraum | beuwy",
-    description:
-      "Vom Mietspiegel über Zu- und Abschläge bis zur Mietpreisbremse: die richtige Miete in fünf nachvollziehbaren Schritten, mit Rechenbeispiel.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "wissen-mietpreis-ermitteln");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
-const SCHRITTE = [
-  {
-    titel: "Mietspiegel der Gemeinde prüfen",
-    text: "Größere Städte führen einen qualifizierten Mietspiegel nach § 558d BGB, wissenschaftlich erstellt und alle zwei Jahre fortgeschrieben. Kleinere Gemeinden haben oft nur einen einfachen Mietspiegel oder gar keinen — dort helfen Vergleichsangebote aus Portalen für ähnliche Objekte in derselben Lage weiter.",
-  },
-  {
-    titel: "Vergleichsmiete im Mietspiegel finden",
-    text: "Im Mietspiegel-Feld für Wohnfläche, Baujahr und Ausstattung steht eine Spanne, kein Punktwert. Beispiel: 75 m², Baujahr 2003, mittlere Ausstattung — das Feld nennt 8,40 bis 9,10 €/m², Mittelwert 8,75 €/m².",
-  },
-  {
-    titel: "Zu- und Abschläge anwenden",
-    text: "Merkmale, die der Mietspiegel nicht direkt erfasst, wandern als Zu- oder Abschlag in den m²-Preis. Beispielrechnung auf dem Wert von oben: Balkon +0,30 €/m², Einbauküche +0,20 €/m², Lage an einer Hauptverkehrsachse −0,25 €/m². 8,75 + 0,30 + 0,20 − 0,25 ergibt 9,00 €/m². Bei 75 m² macht das 675 € Kaltmiete im Monat.",
-  },
-  {
-    titel: "Mietpreisbremse prüfen",
-    text: "In Gebieten, die eine Landesregierung als angespannten Wohnungsmarkt ausgewiesen hat, darf die Miete bei einer Neuvermietung höchstens zehn Prozent über der ortsüblichen Vergleichsmiete liegen (§ 556d BGB). Ausnahmen gelten für Neubauten nach dem 1. Oktober 2014 und nach umfassender Modernisierung. Diese Seite ist keine Rechtsberatung — ob Ihre Adresse in einem solchen Gebiet liegt und welche Ausnahme greift, klärt im Zweifel ein Anwalt oder Mieterverein.",
-  },
-  {
-    titel: "Rechner als Einstieg nutzen",
-    text: "Unser Mietpreisrechner rechnet nach demselben Prinzip wie ein Mietspiegel: eine Basis-Kaltmiete je Objekttyp und Stadtgröße, korrigiert um Zustand, Ausstattung und Baujahr, mit einer Spanne von rund acht Prozent statt einem Punktwert — kostenlos und in unter zwei Minuten nutzbar.",
-  },
-] as const;
-
-const ZUSCHLAEGE = [
-  { text: "Balkon oder Terrasse", richtung: "+" },
-  { text: "Einbauküche", richtung: "+" },
-  { text: "Aufzug im Mehrfamilienhaus", richtung: "+" },
-  { text: "Stellplatz oder Garage", richtung: "+" },
-  { text: "Fußbodenheizung oder hochwertige Sanitäranlagen", richtung: "+" },
-  { text: "Lage an einer Hauptverkehrsachse", richtung: "−" },
-  { text: "Erdgeschoss ohne Balkon oder Garten", richtung: "−" },
-  { text: "Sichtbarer Sanierungsstau", richtung: "−" },
-] as const;
-
-const FAQS = [
-  {
-    q: "Darf ich als Eigentümer die Miete einfach über den Mietspiegel-Mittelwert setzen?",
-    a: "Bei einer Neuvermietung ja, solange keine Mietpreisbremse greift oder eine zulässige Ausnahme vorliegt. Bei einer laufenden Mieterhöhung gelten zusätzliche Grenzen wie die Kappungsgrenze — dafür lohnt sich vorab ein Blick in den aktuellen Mietspiegel Ihrer Gemeinde.",
-  },
-  {
-    q: "Was mache ich, wenn meine Gemeinde keinen Mietspiegel hat?",
-    a: "Dann orientieren Sie sich an mindestens drei bis vier vergleichbaren Angeboten aus Portalen, möglichst mit ähnlicher Wohnfläche, Baujahr und Lage. Je weniger Vergleichsfälle vorliegen, desto größer sollte die Spanne sein, die Sie einkalkulieren.",
-  },
-  {
-    q: "Wie oft sollte ich den Mietpreis meiner Bestandsimmobilie neu prüfen?",
-    a: "Ein jährlicher Check reicht in den meisten Märkten. Bei spürbaren Veränderungen in der Nachbarschaft — neue Infrastruktur, größere Sanierungsprojekte in der Umgebung, ein neuer Mietspiegel — lohnt sich ein Blick auch außerhalb des Rhythmus.",
-  },
-  {
-    q: "Wie hängt der Mietpreis mit dem Verkaufswert meiner Immobilie zusammen?",
-    a: "Bei vermieteten Objekten fließt die erzielbare Miete direkt in den Verkehrswert ein, über das Ertragswertverfahren. Wie das im Detail gerechnet wird, zeigt die Seite Immobilie bewerten.",
-  },
-] as const;
+const ZUSCHLAEGE_RICHTUNG: Array<"+" | "−"> = ["+", "+", "+", "+", "+", "−", "−", "−"];
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -101,13 +57,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -127,14 +83,20 @@ function ZuschlagIcon({ richtung }: { richtung: "+" | "−" }) {
   );
 }
 
-export default function MietpreisErmittelnPage() {
+export default async function MietpreisErmittelnPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "wissen-mietpreis-ermitteln");
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const zuschlaege = t.liste("zuschlaege", ["text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -150,26 +112,16 @@ export default function MietpreisErmittelnPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wissen</p>
-            <h1 className="t-display mt-4">
-              {rich("Mietpreis ermitteln: die *richtige* Zahl vor der ersten Anzeige.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("hero.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Der richtige Mietpreis ergibt sich aus dem Mietspiegel oder vergleichbaren
-              Angeboten Ihrer Stadt, korrigiert um Zu- und Abschläge für Lage, Ausstattung und
-              Zustand.{" "}
-              <Highlight>
-                In Städten mit angespanntem Wohnungsmarkt begrenzt zusätzlich die
-                Mietpreisbremse die zulässige Miete bei einer Neuvermietung auf höchstens zehn
-                Prozent über der ortsüblichen Vergleichsmiete
-              </Highlight>
-              . Ein Online-Rechner mit Basiswerten für Objekttyp und Stadtgröße liefert in wenigen
-              Minuten eine erste Spanne, ersetzt aber weder den Mietspiegel noch eine rechtliche
-              Prüfung im Einzelfall.
+              {t("hero.intro_vor")}{" "}
+              <Highlight>{t("hero.intro_highlight")}</Highlight>
+              {t("hero.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_antwortzeit")}</span>
             </div>
           </Reveal>
         </div>
@@ -196,13 +148,13 @@ export default function MietpreisErmittelnPage() {
         <div className="mx-auto max-w-[880px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="In fünf Schritten"
-              titel="Vom Mietspiegel zur *belastbaren* Zahl."
+              eyebrow={t("schritte.eyebrow")}
+              titel={t("schritte.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 divide-y divide-line-subtle border-t border-line-subtle">
-            {SCHRITTE.map((s, i) => (
+            {schritte.map((s, i) => (
               <Reveal key={s.titel} delay={i * 60}>
                 <div className="grid gap-3 py-10 sm:grid-cols-[88px_1fr] sm:gap-8">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -224,16 +176,16 @@ export default function MietpreisErmittelnPage() {
         <div className="mx-auto max-w-[880px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Zum Nachschlagen"
-              titel="Die häufigsten *Zu- und Abschläge* auf einen Blick."
+              eyebrow={t("zuschlaege.eyebrow")}
+              titel={t("zuschlaege.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {ZUSCHLAEGE.map((z, i) => (
+            {zuschlaege.map((z, i) => (
               <Reveal key={z.text} delay={i * 40}>
                 <div className="flex items-center gap-3">
-                  <ZuschlagIcon richtung={z.richtung} />
+                  <ZuschlagIcon richtung={ZUSCHLAEGE_RICHTUNG[i]} />
                   <p className="t-body">{z.text}</p>
                 </div>
               </Reveal>
@@ -246,10 +198,8 @@ export default function MietpreisErmittelnPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Ein Rechner kennt keinen Straßenlärm." glyph>
-              Ein Algorithmus rechnet mit Durchschnittswerten für Ihre Stadtgröße, nicht mit der
-              Baustelle vor dem Fenster oder dem Blick ins Grüne. Die Zahl aus dem Rechner ist der
-              Startpunkt für ein Gespräch, nicht das letzte Wort dazu.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -259,12 +209,8 @@ export default function MietpreisErmittelnPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              17 Jahre Erfahrung darin, Zahlen für Menschen verständlich zu machen, die keine
-              Fachleute sind, stecken in jedem Rechenmodell, das wir bauen — vom Investoren-Pitch
-              bis zum Mietpreisrechner, der Ihre Eigentümer-Anfragen registriert.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -274,13 +220,13 @@ export default function MietpreisErmittelnPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *ersten* Anzeige wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -289,28 +235,27 @@ export default function MietpreisErmittelnPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Vermietungsstrecke*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Eine erste Spanne liefert unser{" "}
+              {t("finale.text_1")}{" "}
               <Link href="/tools/mietpreisrechner" className="ref-link">
-                Mietpreisrechner
+                {t("finale.link_mietpreisrechner")}
               </Link>{" "}
-              kostenlos in unter zwei Minuten. Wie dieselben Grundfragen bei einem Verkauf
-              beantwortet werden, zeigt{" "}
+              {t("finale.text_2")}{" "}
               <Link href="/wissen/immobilie-bewerten" className="ref-link">
-                Immobilie bewerten
+                {t("finale.link_bewerten")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.text_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_antwortzeit")}</p>
           </Reveal>
         </div>
       </section>

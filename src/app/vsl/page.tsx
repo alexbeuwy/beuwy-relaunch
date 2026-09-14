@@ -17,19 +17,17 @@ export const revalidate = 60;
  * über Studio-Keys mk.vsl.front_* (src/lib/texte/vsl.ts).
  */
 
-export const metadata: Metadata = {
-  title: "beuwy — Marke, Website und Automatisierung für Immobilienmakler",
-  description:
-    "Schneller wachsen, weil Sie aussehen wie der Marktführer. Marke, Website und Automatisierung für Immobilienmakler — done for you, live in 4–6 Wochen.",
-  alternates: { canonical: "/vsl" },
-  openGraph: {
-    title: "beuwy — Marke, Website und Automatisierung für Immobilienmakler",
-    description:
-      "Schneller wachsen, weil Sie aussehen wie der Marktführer. Done for you, live in 4–6 Wochen.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getContent();
+  const titel = c["mk.vsl.front_meta_titel"];
+  const beschreibung = c["mk.vsl.front_meta_beschreibung"];
+  return {
+    title: titel,
+    description: beschreibung,
+    alternates: { canonical: "/vsl" },
+    openGraph: { title: titel, description: beschreibung, type: "website", locale: "de_DE" },
+  };
+}
 
 /* Optischer Größenausgleich: kompakte, gestapelte Lockups (Wort +
    Claim, Icon + kurzes Wort) brauchen mehr Höhe als lange Wortmarken,
@@ -69,7 +67,7 @@ export default async function VslPage() {
         <p className="t-body-lg mx-auto mt-5 max-w-[34rem]">{c["mk.vsl.front_sub"]}</p>
 
         <div className="mt-10 lg:mt-12">
-          <VslSlot format="breit" videoUrl={c["mk.vsl.url"]} />
+          <VslSlot format="breit" videoUrl={c["mk.vsl.url"]} platzhalterText={c["mk.vsl.platzhalter"]} />
         </div>
 
         <div className="mt-9 flex flex-col items-center gap-3 lg:mt-11">

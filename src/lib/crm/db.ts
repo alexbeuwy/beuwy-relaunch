@@ -252,3 +252,23 @@ export async function flowFortschreiben(laufId: number, position: number, status
 export async function abmelden(email: string): Promise<void> {
   await rpc("bw_abmelden", { p_email: email });
 }
+
+/* ── R11b: Dummy-Daten (supabase/crm-dummy.sql) ───────────────────── */
+
+export type DummyZaehler = Record<string, number>;
+
+/** Verteilt die Zeitstempel aller Dummy-Zeilen über die letzten Wochen. null = Migration fehlt. */
+export async function dummyVerteilen(): Promise<DummyZaehler | null> {
+  return rpc<DummyZaehler>("bw_dummy_verteilen", {});
+}
+
+/** Löscht alle Dummy-Zeilen (Domain @muster-makler.de, pageload dummy-*, Flows „[Demo]"). null = Migration fehlt. */
+export async function dummyLoeschen(): Promise<DummyZaehler | null> {
+  return rpc<DummyZaehler>("bw_dummy_loeschen", {});
+}
+
+/** Gibt es Dummy-Kontakte? Für die Statuszeile in /intern/einstellungen. */
+export async function dummyVorhanden(): Promise<boolean> {
+  const kontakte = await kontakteListe();
+  return kontakte.some((k) => k.email.endsWith("@muster-makler.de"));
+}

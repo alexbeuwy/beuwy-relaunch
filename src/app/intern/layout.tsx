@@ -11,6 +11,7 @@ import {
   MessageSquare,
   PenLine,
   Radio,
+  Settings,
   Sun,
   Users,
   Workflow,
@@ -120,6 +121,7 @@ const NAV: NavGruppe[] = [
       { href: "/intern/mails", label: "Mails", Icon: Mail },
       { href: "/studio", label: "Studio", Icon: PenLine },
       { href: "/os", label: "OS", Icon: Radio },
+      { href: "/intern/einstellungen", label: "Einstellungen", Icon: Settings },
     ],
   },
 ];

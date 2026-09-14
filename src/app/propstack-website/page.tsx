@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -18,74 +20,26 @@ import { caseBySlug } from "@/lib/cases";
  * GelbeKarte im Motor/Schaufenster-Bild (konsistent zu
  * /maklersoftware-vergleich), Beweis-Anriss RIEGEL (CRM-Anbindung), FAQ +
  * FAQPage-JSON-LD. Foto 19 laut R3-SEITENPLAN.json.
+ *
+ * R11: alle Texte laufen über Studio-Keys, siehe
+ * src/lib/texte/seiten/propstack-website.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Propstack-Website: Was das CRM kann und wo der Auftritt beginnt | beuwy",
-  description:
-    "Propstack-Website: Das CRM liefert eine funktionierende Objekt-Website, aber ein Datenblatt, keine Marke. Wo Propstack endet und ein eigenes Portal beginnt.",
-  openGraph: {
-    title: "Propstack-Website: Was das CRM kann und wo der Auftritt beginnt | beuwy",
-    description:
-      "Propstack liefert eine funktionierende CRM-Website. Für den Alleinauftrag zählt, was ein Eigentümer vorher sieht — dafür braucht es Marke und saubere Anbindung statt Ersatz.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PROPSTACK_LIEFERT = [
-  "Automatische Objekt-Veröffentlichung direkt aus dem CRM-Datensatz",
-  "Ein technisch laufendes Grundgerüst ohne separate Website-Software",
-  "Konsistente Objektdaten, weil Website und CRM dieselbe Quelle nutzen",
-  "Eine offene Schnittstellenphilosophie, die Anbindungen grundsätzlich erlaubt",
-] as const;
-
-const PORTAL_BRAUCHT_ZUSAETZLICH = [
-  "Eigene Typografie, Farbwelt und Bildsprache statt CRM-Vorlage",
-  "Einen Bewertungsrechner, der Eigentümer-Leads vorqualifiziert, nicht nur ein Kontaktformular",
-  "Lokale Landingpages pro Stadtteil, die eine reine Objekt-Website nicht kennt",
-  "Eine Registrierungs- und Nachfassstrecke, die weiterläuft, wenn der Eigentümer nicht sofort verkauft",
-] as const;
-
-const SCHRITTE = [
-  {
-    titel: "Objekt-Sync direkt aus Propstack",
-    text: "Objekte laufen automatisch aus Propstack auf die Website — im Layout Ihrer Marke, nicht im Raster des CRM. Ändern Sie den Preis im System, zieht die Website nach.",
-  },
-  {
-    titel: "Anfragen mit Quelle und Score zurück ins CRM",
-    text: "Jede Anfrage landet mit Quelle und Score direkt in Ihrem Propstack, kein Copy-Paste, kein Zettel, kein vergessener Rückruf.",
-  },
-  {
-    titel: "Bewertungsrechner als Vorqualifizierung",
-    text: "Der Rechner nimmt die Adresse auf und liefert eine Ersteinschätzung — der Eigentümer-Lead liegt als Kontakt mit Score im CRM, nicht nur als E-Mail im Postfach.",
-  },
-  {
-    titel: "Ein Datensatz, keine Parallelpflege",
-    text: "Objektdaten bleiben ausschließlich in Propstack. Die Website liest sie über die bestehende Schnittstelle, statt eine zweite Wahrheit aufzubauen.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Ersetzt ein eigenes Portal Propstack?",
-    a: "Nein. Propstack bleibt Ihr CRM und Ihre Objektverwaltung. Ein eigenes Portal ist der Auftritt davor, der an genau dieses System andockt, statt es zu ersetzen.",
-  },
-  {
-    q: "Reicht die Propstack-Website für den Start?",
-    a: "Für die reine Objektpräsenz ja. Für den Alleinauftrag gegen einen Mitbewerber mit eigener Marke entscheidet meist, was der Eigentümer vorher im Netz sieht, nicht nur, ob das Objekt korrekt dargestellt ist.",
-  },
-  {
-    q: "Wie lange dauert die Anbindung an Propstack?",
-    a: "Analyse, Design und Anbindung stehen üblicherweise innerhalb weniger Wochen. Eine feste Zahl nennen wir erst, wenn wir Ihre bestehende Datenstruktur kennen.",
-  },
-  {
-    q: "Funktioniert dasselbe Prinzip auch mit anderen CRMs?",
-    a: "Ja, das Prinzip ist bei jedem System dasselbe. Welche Anbindung sich für Ihr Haus lohnt, zeigt der Maklersoftware-Vergleich.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "propstack-website");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -101,28 +55,34 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function PropstackWebsitePage() {
+export default async function PropstackWebsitePage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "propstack-website");
+  const propstackLiefert = t.liste("propstack_liefert", ["punkt"] as const);
+  const portalBraucht = t.liste("portal_braucht", ["punkt"] as const);
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
   const riegel = caseBySlug("riegel-immobilien");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -138,21 +98,18 @@ export default function PropstackWebsitePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">CRM · Propstack</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Propstack-Website: wo das CRM endet und Ihr *Auftritt* beginnt.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Ja, Propstack liefert eine eigene Objekt-Website, die Objekte automatisch aus dem
-              CRM-Datensatz veröffentlicht — technisch reicht das für einen laufenden Auftritt.
-              Das Ergebnis bleibt aber ein Datenblatt, keine Marke:{" "}
-              <Highlight>Layout, Struktur und Sprache folgen der CRM-Vorlage</Highlight>, nicht
-              Ihrer Positionierung. Für die reine Objektpräsenz reicht das. Für den
-              Alleinauftrag entscheidet, was der Eigentümer vor dem Termin über Sie sieht.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -178,28 +135,28 @@ export default function PropstackWebsitePage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Zwei Ebenen, ein System"
-              titel="Was Propstack liefert. Was ein *Portal* zusätzlich braucht."
+              eyebrow={t("zweispalter.eyebrow")}
+              titel={t("zweispalter.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
             <Reveal>
-              <p className="t-label">Propstack liefert</p>
+              <p className="t-label">{t("zweispalter.propstack_label")}</p>
               <ul className="mt-5 space-y-4 border-t border-line-subtle pt-5">
-                {PROPSTACK_LIEFERT.map((zeile) => (
-                  <li key={zeile} className="t-body border-b border-line-subtle pb-4">
-                    {zeile}
+                {propstackLiefert.map((z) => (
+                  <li key={z.punkt} className="t-body border-b border-line-subtle pb-4">
+                    {z.punkt}
                   </li>
                 ))}
               </ul>
             </Reveal>
             <Reveal delay={80}>
-              <p className="t-label !text-ink-cream">Ein eigenes Portal braucht zusätzlich</p>
+              <p className="t-label !text-ink-cream">{t("zweispalter.portal_label")}</p>
               <ul className="mt-5 space-y-4 border-t border-line-subtle pt-5">
-                {PORTAL_BRAUCHT_ZUSAETZLICH.map((zeile) => (
-                  <li key={zeile} className="t-body border-b border-line-subtle pb-4">
-                    {zeile}
+                {portalBraucht.map((z) => (
+                  <li key={z.punkt} className="t-body border-b border-line-subtle pb-4">
+                    {z.punkt}
                   </li>
                 ))}
               </ul>
@@ -213,14 +170,14 @@ export default function PropstackWebsitePage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Anbindung statt Ersatz"
-              titel="Vier Schritte, wie eine *saubere* Anbindung aussieht."
-              sub="Kein neues System, keine Schulung fürs Team — vier Verbindungen zwischen Ihrem Portal und dem Propstack, das Sie schon nutzen."
+              eyebrow={t("anbindung.eyebrow")}
+              titel={t("anbindung.titel")}
+              sub={t("anbindung.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 border-t border-line-subtle">
-            {SCHRITTE.map((s, i) => (
+            {schritte.map((s, i) => (
               <Reveal key={s.titel} delay={i * 40}>
                 <div className="grid gap-3 border-b border-line-subtle py-8 sm:grid-cols-[56px_1fr] sm:gap-8 md:grid-cols-[56px_15rem_1fr] md:gap-10">
                   <span className="font-mono text-[13px] text-ink-dim tnum">
@@ -239,10 +196,8 @@ export default function PropstackWebsitePage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Propstack ist der Motor. Der Auftritt ist das Schaufenster." glyph>
-              Ein starkes CRM organisiert, was im Hintergrund passiert. Ob ein Eigentümer anruft,
-              entscheidet sich am Schaufenster davor. Wir bauen das Schaufenster und die Leitung
-              dazwischen — Ihr Propstack bleibt exakt so, wie es ist.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -252,10 +207,9 @@ export default function PropstackWebsitePage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
+            <p className="t-label">{t("beweis.label")}</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
-              Bei RIEGEL Immobilien landet jede Anfrage mit Quelle und nächstem Schritt direkt im
-              Maklersystem. Ergebnis der ersten sechs Wochen: neun Abschlüsse, 342.000 € Volumen.
+              {t("beweis.text")}
             </p>
           </Reveal>
           {riegel ? (
@@ -271,16 +225,16 @@ export default function PropstackWebsitePage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
           <p className="t-small mt-10 max-w-[54ch]">
-            Propstack ist eine Marke der Propstack GmbH. beuwy ist unabhängiger Dienstleister.
+            {t("faq.hinweis")}
           </p>
         </div>
       </section>
@@ -289,27 +243,27 @@ export default function PropstackWebsitePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Ihr Propstack bleibt. Ihr *Auftritt* wechselt die Liga.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Wie sich andere CRM-Systeme anbinden lassen, zeigt der{" "}
+              {t("finale.satz_1")}{" "}
               <Link href="/maklersoftware-vergleich" className="ref-link">
-                Maklersoftware-Vergleich
+                {t("finale.link_1")}
               </Link>
-              , das gleiche Prinzip für onOffice steht unter{" "}
+              {t("finale.satz_2")}{" "}
               <Link href="/onoffice-website" className="ref-link">
-                onOffice-Website
+                {t("finale.link_2")}
               </Link>
-              . Den Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.satz_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_3")}
               </Link>
-              .
+              {t("finale.satz_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

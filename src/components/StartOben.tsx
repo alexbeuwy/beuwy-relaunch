@@ -41,26 +41,59 @@ export function StartOben({ c }: { c: Record<string, string> }) {
   );
 }
 
-/* ── Block 5b — Performance-Marketing als Schema (BRIEF §9): wie aus
-   Aufmerksamkeit von außen systematisch registrierte Kontakte werden.
-   Die Quote ist Studio-editierbar (mk.pm.quote). ─────────────────── */
+/**
+ * Block 5b — Performance-Marketing als Schema (BRIEF §9): wie aus
+ * Aufmerksamkeit von außen systematisch registrierte Kontakte werden.
+ * Alle Texte inkl. der Stationen/Visuals in PerformanceStory und der
+ * Endlos-Zahl in MandateLoop laufen über die mk.pm.*-Keys.
+ */
 function PerformanceMarketing({ c }: { c: Record<string, string> }) {
   return (
     <section className="border-t border-line-subtle bg-bg-base">
       <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
         <Reveal>
           <SektionsKopf
-            eyebrow="Performance-Marketing"
-            titel="So wird aus einer Anzeige ein *Mandat*."
-            sub="Fremde sehen Ihre Anzeige. Das System macht daraus einen Termin."
+            eyebrow={c["mk.pm.eyebrow"]}
+            titel={c["mk.pm.titel"]}
+            sub={c["mk.pm.sub"]}
             ausrichtung="mitte"
           />
         </Reveal>
         <div className="mt-14">
           <PerformanceStory
-            quote={c["mk.pm.quote"] ?? "5 %"}
-            mandate={c["mk.pm.mandate"] ?? "5"}
-            provision={c["mk.pm.provision"] ?? "31.285 €"}
+            quote={c["mk.pm.quote"]}
+            mandate={c["mk.pm.mandate"]}
+            provision={c["mk.pm.provision"]}
+            stationen={[
+              {
+                schritt: c["mk.pm.station.1.schritt"],
+                titel: c["mk.pm.station.1.titel"],
+                satz: c["mk.pm.station.1.satz"],
+              },
+              {
+                schritt: c["mk.pm.station.2.schritt"],
+                titel: c["mk.pm.station.2.titel"],
+                satz: c["mk.pm.station.2.satz"],
+              },
+              {
+                schritt: c["mk.pm.station.3.schritt"],
+                titel: c["mk.pm.station.3.titel"],
+                satz: c["mk.pm.station.3.satz"],
+              },
+            ]}
+            adLabel={c["mk.pm.ad_label"]}
+            funnelLabels={[c["mk.pm.funnel_label1"], c["mk.pm.funnel_label2"], c["mk.pm.funnel_label3"]]}
+            funnelCaption={c["mk.pm.funnel_caption"]}
+            kontaktLabel={c["mk.pm.kontakt_label"]}
+            kontaktTitel={c["mk.pm.kontakt_titel"]}
+            kontaktText={c["mk.pm.kontakt_text"]}
+            dreamVor={c["mk.pm.dream_vor"]}
+            dreamNach={c["mk.pm.dream_nach"]}
+            dreamLabel={c["mk.pm.dream_label"]}
+            loopLabel={c["mk.pm.loop_label"]}
+            faktorVor={c["mk.pm.loop_faktor_vor"]}
+            faktorNach={c["mk.pm.loop_faktor_nach"]}
+            summeText={c["mk.pm.loop_summe_text"]}
           />
         </div>
       </div>
@@ -100,9 +133,11 @@ function Strich() {
   );
 }
 
-/* ── Block 2 — Spiegel: Ego + Problem ─────────────────────────────────
-   Bild links (Referenz-3-Plate + StempelBadge auf der Ecke), Text rechts
-   — bewusste Umkehr der Hero-Anordnung (dort Text links, Medium rechts). */
+/**
+ * Block 2 — Spiegel: Ego + Problem. Bild links (Referenz-3-Plate +
+ * StempelBadge auf der Ecke), Text rechts — bewusste Umkehr der
+ * Hero-Anordnung (dort Text links, Medium rechts).
+ */
 function Spiegel({ c }: { c: Record<string, string> }) {
   const integrationen = (c["mk.integrationen.namen"] ?? "")
     .split("|")
@@ -131,7 +166,7 @@ function Spiegel({ c }: { c: Record<string, string> }) {
                 <AiPille />
               </div>
               <StempelBadge
-                text="Erster Eindruck · Entscheidet"
+                text={c["mk.spiegel.badge"]}
                 groesse={104}
                 className="absolute -right-5 -top-5 z-10 md:-right-7 md:-top-7"
               />
@@ -140,22 +175,16 @@ function Spiegel({ c }: { c: Record<string, string> }) {
             </div>
 
             <div>
-              <SektionsKopf
-                eyebrow="Der Blick von außen"
-                titel="Sie sind unter den Besten. *Sieht* man Ihnen das an?"
-              />
+              <SektionsKopf eyebrow={c["mk.spiegel.eyebrow"]} titel={c["mk.spiegel.titel"]} />
               <div className="mt-9 space-y-6 border-t border-line-subtle pt-9">
                 <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
-                  Empfehlungen bringen Ihnen die Anfrage. Doch wer Sie vorher googelt, sieht eine
-                  Website, die Ihrem Ruf hinterherhinkt.
+                  {c["mk.spiegel.p1"]}
                 </p>
                 <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
-                  Eigentümer vergleichen drei Makler, bevor sie anrufen. Heimlich, am Handy, abends
-                  auf dem Sofa.
+                  {c["mk.spiegel.p2"]}
                 </p>
                 <p data-fokus="spaet" className="t-body-lg max-w-[42ch]">
-                  Der Zweitplatzierte hat schlechter verkauft als Sie. Seine Website sah nur{" "}
-                  <Highlight>teurer aus</Highlight>.
+                  {c["mk.spiegel.p3_vor"]} <Highlight>{c["mk.spiegel.p3_stark"]}</Highlight>.
                 </p>
               </div>
             </div>
@@ -163,9 +192,9 @@ function Spiegel({ c }: { c: Record<string, string> }) {
         </SpiegelFokus>
 
         {/* Integrations-Band (Alex, 26.08): Pastellgelb mit dunklen
-            Logos, direkt unter dem Spiegel-Argument — die Tools, die
-            das Haus schon nutzt, docken hier an. Bewusste zweite
-            Gelb-Fläche in diesem Block auf Alex' Wunsch. */}
+         * Logos, direkt unter dem Spiegel-Argument — die Tools, die
+         * das Haus schon nutzt, docken hier an. Bewusste zweite
+         * Gelb-Fläche in diesem Block auf Alex' Wunsch. */}
         {integrationen.length > 0 && (
           <Reveal delay={140}>
             <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-5 rounded-[28px] bg-akzent px-7 py-6 md:px-9 md:py-7">
@@ -185,25 +214,21 @@ function Spiegel({ c }: { c: Record<string, string> }) {
   );
 }
 
-/* ── Block 3 — Feindbild Baukasten: Abgrenzung ────────────────────────
-   Vollbreiten-Band bg-bg-elevated. Zwei nüchterne Listen statt Karten-
-   Spam, kein Wettbewerbername (BRIEF §5). */
-const BAUKASTEN_PUNKTE = [
-  "Schicke Visitenkarte, aber kein Motor dahinter.",
-  "Exposés sehen bei jedem Makler gleich aus.",
-  "Jede Änderung landet in der Warteschlange.",
-  "Niemand zeigt Ihnen, wie viele Mandate dabei herauskommen.",
-];
+/**
+ * Block 3 — Feindbild Baukasten: Abgrenzung. Vollbreiten-Band
+ * bg-bg-elevated. Zwei nüchterne Listen statt Karten-Spam, kein
+ * Wettbewerbername (BRIEF §5). Listen-Texte: mk.abgrenzung.baukasten.*
+ * / mk.abgrenzung.beuwy.* (von Hand nummeriert, vier Einträge je Liste).
+ */
+function baukastenPunkte(c: Record<string, string>): string[] {
+  return [1, 2, 3, 4].map((n) => c[`mk.abgrenzung.baukasten.${n}.text`]); // studio:ok (Key-Template, kein Text)
+}
 
-const BEUWY_PUNKTE = [
-  "Ein System für Ihre Marke, kein Template von der Stange.",
-  "Exposés tragen Ihren Namen, nicht den des Baukastens.",
-  "Änderungen erledigt Ihr direkter Ansprechpartner — ohne Warteschlange.",
-  "Mandate und Deals sind messbar. Jede Zahl steht in Ihrem CRM.",
-];
+function beuwyPunkte(c: Record<string, string>): string[] {
+  return [1, 2, 3, 4].map((n) => c[`mk.abgrenzung.beuwy.${n}.text`]); // studio:ok (Key-Template, kein Text)
+}
 
 function Abgrenzung({ c }: { c: Record<string, string> }) {
-
   return (
     <section className="relative bg-bg-elevated py-24 md:py-32">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
@@ -217,9 +242,9 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
 
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
           <Reveal delay={60}>
-            <p className="t-label">Baukasten</p>
+            <p className="t-label">{c["mk.abgrenzung.baukasten_label"]}</p>
             <ul className="mt-6 space-y-5 border-t border-line-subtle pt-6">
-              {BAUKASTEN_PUNKTE.map((punkt) => (
+              {baukastenPunkte(c).map((punkt) => (
                 <li key={punkt} className="flex items-start gap-3.5">
                   <Strich />
                   <span className="t-body pt-0.5 !text-ink-dim">{punkt}</span>
@@ -233,7 +258,7 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
             <Logo statisch height={17} />
             <div className="mt-1" />
             <ul className="mt-6 space-y-5 border-t border-line-medium pt-6">
-              {BEUWY_PUNKTE.map((punkt) => (
+              {beuwyPunkte(c).map((punkt) => (
                 <li key={punkt} className="flex items-start gap-3.5">
                   <Haken />
                   <span className="t-body pt-0.5 !text-ink-cream">{punkt}</span>
@@ -252,9 +277,9 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
       <div className="relative z-10 mx-auto mt-16 max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
-            eyebrow={c["mk.vgl.eyebrow"] ?? "Der Unterschied, den Eigentümer sehen"}
-            titel={c["mk.vgl.titel"] ?? "Kann ein Eigentümer Ihr Exposé vom Wettbewerb *unterscheiden*?"}
-            sub={c["mk.vgl.sub"] ?? ""}
+            eyebrow={c["mk.vgl.eyebrow"]}
+            titel={c["mk.vgl.titel"]}
+            sub={c["mk.vgl.sub"]}
           />
         </Reveal>
       </div>
@@ -265,7 +290,7 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal delay={160}>
           <p className="mt-16 max-w-[42ch] text-[20px] font-medium leading-snug tracking-[-0.012em] text-ink-cream md:mt-20 md:text-[24px]">
-            {rich(c["mk.vgl.punchline"] ?? "")}
+            {rich(c["mk.vgl.punchline"])}
           </p>
         </Reveal>
       </div>
@@ -273,9 +298,11 @@ function Abgrenzung({ c }: { c: Record<string, string> }) {
   );
 }
 
-/* ── Block 4 — VSL-Slot + Kernversprechen ─────────────────────────────
-   Links das 9:16-Video, rechts die gelbe Karte mit dem Versprechen, dem
-   Play-Hinweis (springt per Anker zurück zum Video) und der Avatar-Reihe. */
+/**
+ * Block 4 — VSL-Slot + Kernversprechen. Links das 9:16-Video, rechts
+ * die gelbe Karte mit dem Versprechen, dem Play-Hinweis (springt per
+ * Anker zurück zum Video) und der Avatar-Reihe.
+ */
 function VslKernversprechen({ c }: { c: Record<string, string> }) {
   return (
     <section id="vsl" className="bg-bg-base py-24 md:py-32">
@@ -283,18 +310,17 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
         <div className="grid items-center gap-12 lg:grid-cols-[360px_1fr] lg:gap-16">
           {/* VSL-Poster: maklerAsset(14) lädt intern in VslSlot.tsx über posterNummer. */}
           <Reveal className="mx-auto w-full max-w-[340px] lg:mx-0">
-            <VslSlot posterNummer={14} videoUrl={c["mk.vsl.url"]} />
+            <VslSlot posterNummer={14} videoUrl={c["mk.vsl.url"]} platzhalterText={c["mk.vsl.platzhalter"]} />
           </Reveal>
 
           <Reveal delay={90}>
             <GelbeKarte
-              label="In 90 Sekunden"
-              titel="Kein Pitch. Ein echtes Projekt."
+              label={c["mk.vsl.karte_label"]}
+              titel={c["mk.vsl.karte_titel"]}
               glyph
               className="max-w-[34rem]"
             >
-              Unsere Websites sehen aus wie Sie: Ihre Fotos, Ihr Ton, Ihre Zahlen. Und dahinter
-              ein Funnel, der nur durchstellt, was ein Gespräch wert ist.
+              {c["mk.vsl.karte_text"]}
             </GelbeKarte>
 
             <a
@@ -307,7 +333,7 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
                   <path d="M0 1.13C0 .27.95-.25 1.67.2l10.3 6.37c.68.42.68 1.4 0 1.82L1.67 14.76C.95 15.21 0 14.69 0 13.83V1.13Z" />
                 </svg>
               </span>
-              <span className="text-[14px] font-medium text-ink-cream">Video ansehen</span>
+              <span className="text-[14px] font-medium text-ink-cream">{c["mk.vsl.link_text"]}</span>
             </a>
 
             {/* Founder-Byline: echtes Porträt (GRUENDER_FOTO), deshalb ohne AiPille. */}
@@ -320,13 +346,13 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
                 className="h-11 w-11 rounded-full border border-line-subtle object-cover"
               />
               <p className="text-[13.5px] leading-snug text-ink-muted">
-                <span className="font-medium text-ink-cream">Alexander Pütter</span> — Gründer
-                beuwy, Ihr direkter Ansprechpartner im Projekt.
+                <span className="font-medium text-ink-cream">{c["mk.vsl.byline_name"]}</span>{" "}
+                {c["mk.vsl.byline_rolle"]}
               </p>
             </div>
 
             <div className="mt-8 border-t border-line-subtle pt-8">
-              <AvatarReihe text="Führende Makler im DACH-Raum vertrauen beuwy" />
+              <AvatarReihe text={c["mk.vsl.avatar_text"]} />
             </div>
           </Reveal>
         </div>
@@ -335,11 +361,14 @@ function VslKernversprechen({ c }: { c: Record<string, string> }) {
   );
 }
 
-/* ── Block 5 — Mechanismus: 4 Säulen als Editorial-Rails ──────────────
-   Nummer groß in GeistMono/tnum hellgrau (dieselbe Größenklasse wie
-   .t-stat, aber Mono + gedämpfte Tinte statt Gold — bewusste, hier
-   benannte Ausnahme von der Typo-Leiter, weil die Leiter keine
-   Mono-Zifferngröße kennt). Rechts je Rail eine schmale Foto-Plate. */
+/**
+ * Block 5 — Mechanismus: 4 Säulen als Editorial-Rails. Nummer groß in
+ * GeistMono/tnum hellgrau (dieselbe Größenklasse wie .t-stat, aber
+ * Mono + gedämpfte Tinte statt Gold — bewusste, hier benannte Ausnahme
+ * von der Typo-Leiter, weil die Leiter keine Mono-Zifferngröße kennt).
+ * Rechts je Rail eine schmale Foto-Plate. Texte: mk.saeulen.1..4.* —
+ * fotoSrc/position/alt bleiben strukturell im Code (kein Studio-Text).
+ */
 type Saeule = {
   nr: string;
   titel: string;
@@ -350,78 +379,63 @@ type Saeule = {
   alt: string;
 };
 
-const SAEULEN: Saeule[] = [
-  {
-    nr: "01",
-    titel: "Marke & Design",
-    satz: "Der Auftritt, der in drei Sekunden zeigt, in welcher Liga Sie spielen.",
-    hebel: [
-      "Bildsprache und Typografie folgen einem Styleguide — jedes Exposé wirkt, als käme es von einer Marke, nicht von drei Praktikanten.",
-      "Farbwelt und Ton sind auf Ihre Preisklasse kalibriert.",
-      "Ein Markensystem statt Einzelaufträge: Logo, Visitenkarte, Exposé-Vorlage und Signatur sprechen eine Sprache.",
-    ],
-    fotoSrc: maklerAsset(3),
-    position: "50% 32%",
-    alt: "Kampagnenwelt von beuwy: Zwei Makler stimmen sich zu Marke und Design ab",
-  },
-  {
-    nr: "02",
-    titel: "Website & Experience",
-    satz: "Die Seite, die lädt, bevor der Eigentümer zum nächsten Makler wechselt.",
-    hebel: [
-      "Ladezeit unter einer Sekunde — wer zuerst da ist, wirkt wie das Büro, das sofort zurückruft.",
-      "Exposés, die aussehen, wie das Objekt es verdient — und einen Alleinauftrag rechtfertigen, bevor Sie im Wohnzimmer sitzen.",
-      "Immobilienbewertungs-Rechner qualifiziert Eigentümer nebenbei: Adresse rein, Ersteinschätzung raus, Lead mit Score im CRM.",
-    ],
-    fotoSrc: maklerAsset(4),
-    position: "64% 42%",
-    alt: "Kampagnenwelt von beuwy: Team plant eine Website-Struktur anhand von Grundrissen",
-  },
-  {
-    nr: "03",
-    titel: "E-Mail & Funnel",
-    satz: "Keine Anfrage verhungert im Postfach, weil niemand zurückgerufen hat.",
-    hebel: [
-      "Jede Anfrage landet mit Quelle und nächstem Schritt direkt in Ihrem CRM — kein Zettel, kein Copy-Paste, kein vergessener Rückruf.",
-      "Follow-up-Automation: Wer heute nicht kauft, bekommt in sechs Monaten automatisch die richtige E-Mail.",
-      "Personalisierte Datenmails zum konkreten Objekt — der Eigentümer bekommt eine Antwort, keine Massen-Mail.",
-    ],
-    fotoSrc: maklerAsset(5),
-    position: "48% 38%",
-    alt: "Kampagnenwelt von beuwy: Runde am Küchentresen bespricht Anfragen auf dem Tablet",
-  },
-  {
-    nr: "04",
-    titel: "Automatisierung",
-    satz: "Modelle wechseln jede Woche, aber was bei Ihnen ankommt, bleibt einfach.",
-    hebel: [
-      "ChatGPT, Claude, Kimi, DeepSeek — ein Prompt liefert bestenfalls einen Text, nie ein System.",
-      "Terminanfragen sortieren sich selbst nach Dringlichkeit und Objektwert, bevor sie in Ihrem Kalender landen.",
-      "Wöchentlicher Bericht statt Rätselraten: Anfragen, Quelle, Status — automatisch zusammengestellt, jeden Montag im Postfach.",
-    ],
-    fotoSrc: maklerAsset(6),
-    position: "50% 40%",
-    alt: "Kampagnenwelt von beuwy: Fünf Personen im Wohnraum, ein eingespieltes System",
-  },
-];
+function saeulen(c: Record<string, string>): Saeule[] {
+  return [
+    {
+      nr: c["mk.saeulen.1.nr"],
+      titel: c["mk.saeulen.1.titel"],
+      satz: c["mk.saeulen.1.satz"],
+      hebel: [c["mk.saeulen.1.hebel1"], c["mk.saeulen.1.hebel2"], c["mk.saeulen.1.hebel3"]],
+      fotoSrc: maklerAsset(3),
+      position: "50% 32%",
+      alt: "Kampagnenwelt von beuwy: Zwei Makler stimmen sich zu Marke und Design ab",  // studio:ok (alt-Text, kein Studio-Key)
+    },
+    {
+      nr: c["mk.saeulen.2.nr"],
+      titel: c["mk.saeulen.2.titel"],
+      satz: c["mk.saeulen.2.satz"],
+      hebel: [c["mk.saeulen.2.hebel1"], c["mk.saeulen.2.hebel2"], c["mk.saeulen.2.hebel3"]],
+      fotoSrc: maklerAsset(4),
+      position: "64% 42%",
+      alt: "Kampagnenwelt von beuwy: Team plant eine Website-Struktur anhand von Grundrissen",  // studio:ok (alt-Text, kein Studio-Key)
+    },
+    {
+      nr: c["mk.saeulen.3.nr"],
+      titel: c["mk.saeulen.3.titel"],
+      satz: c["mk.saeulen.3.satz"],
+      hebel: [c["mk.saeulen.3.hebel1"], c["mk.saeulen.3.hebel2"], c["mk.saeulen.3.hebel3"]],
+      fotoSrc: maklerAsset(5),
+      position: "48% 38%",
+      alt: "Kampagnenwelt von beuwy: Runde am Küchentresen bespricht Anfragen auf dem Tablet",  // studio:ok (alt-Text, kein Studio-Key)
+    },
+    {
+      nr: c["mk.saeulen.4.nr"],
+      titel: c["mk.saeulen.4.titel"],
+      satz: c["mk.saeulen.4.satz"],
+      hebel: [c["mk.saeulen.4.hebel1"], c["mk.saeulen.4.hebel2"], c["mk.saeulen.4.hebel3"]],
+      fotoSrc: maklerAsset(6),
+      position: "50% 40%",
+      alt: "Kampagnenwelt von beuwy: Fünf Personen im Wohnraum, ein eingespieltes System",  // studio:ok (alt-Text, kein Studio-Key)
+    },
+  ];
+}
 
 /* Der Integrations-Strip lebt seit 26.08 als gelbes Band im Spiegel-
-   Block (Alex' Platzierung); Saeulen braucht c nur noch nicht mehr,
-   behält die Prop aber für künftige Studio-Keys. */
-function Saeulen({ c: _c }: { c: Record<string, string> }) {
+   Block (Alex' Platzierung). */
+function Saeulen({ c }: { c: Record<string, string> }) {
   return (
     <section id="leistungen" className="bg-bg-base py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
         <Reveal>
           <SektionsKopf
-            eyebrow="Der Mechanismus"
-            titel="Vier Säulen tragen Ihren *Vorsprung*."
-            sub="Marke, Website, E-Mail und Automatisierung — als ein System gebaut, nicht als vier separate Rechnungen."
+            eyebrow={c["mk.saeulen.eyebrow"]}
+            titel={c["mk.saeulen.titel"]}
+            sub={c["mk.saeulen.sub"]}
           />
         </Reveal>
 
         <div className="mt-16 md:mt-20">
-          {SAEULEN.map((saeule, i) => (
+          {saeulen(c).map((saeule, i) => (
             <Reveal
               key={saeule.nr}
               delay={i * 40}

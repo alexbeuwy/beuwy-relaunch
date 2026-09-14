@@ -218,3 +218,28 @@ n8n). Im Dashboard geht es jederzeit über „Zahlen holen".
 2. **Claude** — füllt die Pipeline, damit täglich etwas zu drehen ist.
 3. **TikTok** — Reichweite und Follower, nicht entscheidungskritisch.
 4. **ElevenLabs** — nur relevant, wenn Faceless-Reels dazukommen.
+
+---
+
+## 7. CRM-Konsole · Dummy-Daten (R11b, 14.09)
+
+`/intern/einstellungen` hat zwei Knöpfe: **Dummy-Daten befüllen** und
+**Dummy-Daten löschen**. Das Befüllen läuft komplett über die vorhandenen
+`bw_*`-RPCs (Kontakte, Leads mit Status/Notizen, Deals, Aufgaben, Konten
+mit Tickets, Mail-Protokoll, zwei pausierte Flows, ~4.000 Einblick-
+Ereignisse) und braucht keine Migration. Zwei Dinge brauchen SQL:
+
+| RPC | Zweck | Ohne Migration |
+|---|---|---|
+| `bw_dummy_verteilen(p_secret)` | verteilt die Zeitstempel der Dummy-Zeilen über die letzten 6 Wochen | Befüllen klappt, alle Einträge tragen das heutige Datum (Meldung „teilweise") |
+| `bw_dummy_loeschen(p_secret)` | entfernt ausschließlich Dummy-Zeilen (Domain `@muster-makler.de`, `pageload_id dummy-*`, Flows `[Demo] …`) | Löschen meldet „Migration fehlt" |
+
+**Einrichten (einmalig, ~1 Minute):** `supabase/crm-dummy.sql` im Supabase-
+SQL-Editor des Projekts „beuwy Funnels" ausführen. Vorher den Block
+`-- SECRET` prüfen: er vergleicht `p_secret` mit
+`website_secrets.content_write` (Spalten `name`/`value`) — heißen die
+Spalten anders, an `public.bw_pruefe_secret` angleichen.
+
+Sicherheit: Flows werden pausiert angelegt, damit die Nachfass-Crons keine
+Mails an Fantasie-Adressen schicken. Echte Daten sind von beiden Knöpfen
+nie betroffen — alles ist über die Markierungen oben abgegrenzt.

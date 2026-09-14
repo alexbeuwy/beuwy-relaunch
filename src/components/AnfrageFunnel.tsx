@@ -5,6 +5,7 @@ import Link from "next/link";
 import { RiArrowLeftLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import stil from "./AnfrageFunnel.module.css";
+import { DEFAULTS as ANFRAGE_DEFAULTS } from "@/lib/texte/seiten/anfrage";
 
 /**
  * Vorquali-Funnel für /anfrage — das Konversionsziel der ganzen Seite
@@ -25,28 +26,105 @@ import stil from "./AnfrageFunnel.module.css";
  * `daten.vorquali` ablegen kann (Route validiert/kappt serverseitig).
  */
 
-const ROLLEN = [
-  "Inhaber/Geschäftsführer eines Maklerhauses",
-  "Selbstständiger Makler",
-  "Etwas anderes",
-] as const;
+/* R11: sämtliche Anzeigetexte kommen als Studio-Key (s.anfrage.funnel.*,
+   src/lib/texte/seiten/anfrage.ts) über das `texte`-Prop aus der Page
+   (Server-Komponente, liest getContent()). Die Defaults hier greifen nur,
+   falls ein fremder Aufrufer den Funnel ohne Prop einbindet. */
+export type AnfrageFunnelTexte = {
+  fortschrittVor: string;
+  fortschrittMitte: string;
+  zurueck: string;
+  schritt1Titel: string;
+  rollen: string[];
+  schritt2Titel: string;
+  groessen: string[];
+  schritt3Titel: string;
+  schritt3Hinweis: string;
+  fokusse: string[];
+  weiter: string;
+  schritt4Titel: string;
+  zeiten: string[];
+  schritt5TitelSondiert: string;
+  schritt5TitelStandard: string;
+  schritt5TextSondiert: string;
+  schritt5TextStandard: string;
+  feldNameLabel: string;
+  feldNamePlatzhalter: string;
+  feldEmailLabel: string;
+  feldEmailPlatzhalter: string;
+  feldTelefonLabel: string;
+  feldTelefonPlatzhalter: string;
+  feldNachrichtLabel: string;
+  feldNachrichtPlatzhalter: string;
+  pflichtfeld: string;
+  consentVor: string;
+  consentLink: string;
+  consentNach: string;
+  fehlerName: string;
+  fehlerEmail: string;
+  fehlerTelefon: string;
+  fehlerConsent: string;
+  fehlerRateLimit: string;
+  fehlerValidierung: string;
+  fehlerTechnisch: string;
+  absenden: string;
+  absendenAktiv: string;
+  erfolgTitel: string;
+  erfolgVor: string;
+  erfolgNach: string;
+  erfolgDemoHinweis: string;
+  erfolgLink: string;
+};
 
-const GROESSEN = ["unter 10", "10–30", "30–100", "über 100"] as const;
+const D = ANFRAGE_DEFAULTS;
+const listeLabels = (name: string, n: number) =>
+  Array.from({ length: n }, (_, i) => D[`s.anfrage.funnel.${name}.${i + 1}.label`]); // studio:ok
 
-const FOKUSSE = [
-  "Marke & Auftritt",
-  "Website & Anfragen",
-  "E-Mail & Nachfassen",
-  "Automatisierung/CRM",
-] as const;
-
-const ZEITEN = [
-  "So schnell wie möglich",
-  "In den nächsten 3 Monaten",
-  "Ich sondiere noch",
-] as const;
-
-const SONDIEREN = "Ich sondiere noch";
+const ANFRAGE_FUNNEL_TEXTE_STANDARD: AnfrageFunnelTexte = {
+  fortschrittVor: D["s.anfrage.funnel.fortschritt_vor"], // studio:ok
+  fortschrittMitte: D["s.anfrage.funnel.fortschritt_mitte"], // studio:ok
+  zurueck: D["s.anfrage.funnel.zurueck"],
+  schritt1Titel: D["s.anfrage.funnel.schritt1_titel"], // studio:ok
+  rollen: listeLabels("rolle", 3),
+  schritt2Titel: D["s.anfrage.funnel.schritt2_titel"], // studio:ok
+  groessen: listeLabels("groesse", 4),
+  schritt3Titel: D["s.anfrage.funnel.schritt3_titel"], // studio:ok
+  schritt3Hinweis: D["s.anfrage.funnel.schritt3_hinweis"], // studio:ok
+  fokusse: listeLabels("fokus", 4),
+  weiter: D["s.anfrage.funnel.weiter"],
+  schritt4Titel: D["s.anfrage.funnel.schritt4_titel"], // studio:ok
+  zeiten: listeLabels("zeit", 3),
+  schritt5TitelSondiert: D["s.anfrage.funnel.schritt5_titel_sondiert"], // studio:ok
+  schritt5TitelStandard: D["s.anfrage.funnel.schritt5_titel_standard"], // studio:ok
+  schritt5TextSondiert: D["s.anfrage.funnel.schritt5_text_sondiert"], // studio:ok
+  schritt5TextStandard: D["s.anfrage.funnel.schritt5_text_standard"], // studio:ok
+  feldNameLabel: D["s.anfrage.funnel.feld_name_label"], // studio:ok
+  feldNamePlatzhalter: D["s.anfrage.funnel.feld_name_platzhalter"], // studio:ok
+  feldEmailLabel: D["s.anfrage.funnel.feld_email_label"], // studio:ok
+  feldEmailPlatzhalter: D["s.anfrage.funnel.feld_email_platzhalter"], // studio:ok
+  feldTelefonLabel: D["s.anfrage.funnel.feld_telefon_label"], // studio:ok
+  feldTelefonPlatzhalter: D["s.anfrage.funnel.feld_telefon_platzhalter"], // studio:ok
+  feldNachrichtLabel: D["s.anfrage.funnel.feld_nachricht_label"], // studio:ok
+  feldNachrichtPlatzhalter: D["s.anfrage.funnel.feld_nachricht_platzhalter"], // studio:ok
+  pflichtfeld: D["s.anfrage.funnel.pflichtfeld"],
+  consentVor: D["s.anfrage.funnel.consent_vor"], // studio:ok
+  consentLink: D["s.anfrage.funnel.consent_link"], // studio:ok
+  consentNach: D["s.anfrage.funnel.consent_nach"], // studio:ok
+  fehlerName: D["s.anfrage.funnel.fehler_name"], // studio:ok
+  fehlerEmail: D["s.anfrage.funnel.fehler_email"], // studio:ok
+  fehlerTelefon: D["s.anfrage.funnel.fehler_telefon"], // studio:ok
+  fehlerConsent: D["s.anfrage.funnel.fehler_consent"], // studio:ok
+  fehlerRateLimit: D["s.anfrage.funnel.fehler_rate_limit"], // studio:ok
+  fehlerValidierung: D["s.anfrage.funnel.fehler_validierung"], // studio:ok
+  fehlerTechnisch: D["s.anfrage.funnel.fehler_technisch"], // studio:ok
+  absenden: D["s.anfrage.funnel.absenden"],
+  absendenAktiv: D["s.anfrage.funnel.absenden_aktiv"], // studio:ok
+  erfolgTitel: D["s.anfrage.funnel.erfolg_titel"], // studio:ok
+  erfolgVor: D["s.anfrage.funnel.erfolg_vor"], // studio:ok
+  erfolgNach: D["s.anfrage.funnel.erfolg_nach"], // studio:ok
+  erfolgDemoHinweis: D["s.anfrage.funnel.erfolg_demo_hinweis"], // studio:ok
+  erfolgLink: D["s.anfrage.funnel.erfolg_link"], // studio:ok
+};
 
 type SchrittKey = "rolle" | "groesse" | "fokus" | "zeit" | "kontakt";
 const SCHRITTE: SchrittKey[] = ["rolle", "groesse", "fokus", "zeit", "kontakt"];
@@ -61,7 +139,8 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export function AnfrageFunnel() {
+export function AnfrageFunnel({ texte }: { texte?: Partial<AnfrageFunnelTexte> }) {
+  const tx = { ...ANFRAGE_FUNNEL_TEXTE_STANDARD, ...texte };
   const [index, setIndex] = useState(0);
   const [richtung, setRichtung] = useState<1 | -1>(1);
 
@@ -82,7 +161,9 @@ export function AnfrageFunnel() {
   const [ergebnis, setErgebnis] = useState<null | { demo: boolean }>(null);
 
   const headingId = useId();
-  const sondiert = zeit === SONDIEREN;
+  // "Ich sondiere noch" ist immer die dritte Zeit-Option (Index 2) —
+  // Studio darf den Text ändern, nicht die Reihenfolge (siehe lesen.ts).
+  const sondiert = zeit === tx.zeiten[2];
 
   function gehZu(ziel: number, dir: 1 | -1) {
     setRichtung(dir);
@@ -103,11 +184,10 @@ export function AnfrageFunnel() {
 
   async function absenden() {
     if (busy) return;
-    if (!name.trim()) return setError("Bitte Ihren Namen angeben.");
-    if (!EMAIL_RE.test(email)) return setError("Bitte eine gültige E-Mail-Adresse angeben.");
-    if (!phone.trim())
-      return setError("Für eine schnelle Rückmeldung brauchen wir Ihre Telefonnummer.");
-    if (!consent) return setError("Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu.");
+    if (!name.trim()) return setError(tx.fehlerName);
+    if (!EMAIL_RE.test(email)) return setError(tx.fehlerEmail);
+    if (!phone.trim()) return setError(tx.fehlerTelefon);
+    if (!consent) return setError(tx.fehlerConsent);
 
     setError(null);
     setBusy(true);
@@ -115,10 +195,10 @@ export function AnfrageFunnel() {
     const antwortenText = [
       `Rolle: ${rolle ?? "–"}`,
       `Abschlüsse/Jahr: ${groesse ?? "–"}`,
-      `Fokus: ${fokus.length ? fokus.join(", ") : "–"}`,
+      `Fokus: ${fokus.length ? fokus.join(", ") : "–"}`, // studio:ok
       `Zeithorizont: ${zeit ?? "–"}`,
     ].join("\n");
-    const message = notiz.trim() ? `${antwortenText}\n\nNachricht:\n${notiz.trim()}` : antwortenText;
+    const message = notiz.trim() ? `${antwortenText}\n\nNachricht:\n${notiz.trim()}` : antwortenText; // studio:ok
 
     // Dieselben vier Antworten zusätzlich strukturiert (Codefund 1) — die
     // Fließtext-`message` oben bleibt unverändert für die interne Mail.
@@ -134,8 +214,8 @@ export function AnfrageFunnel() {
       type: "Zusammenarbeit anfragen",
       mode: "Anfrage-Funnel",
       duration: "",
-      date: `${jetzt.getFullYear()}-${pad(jetzt.getMonth() + 1)}-${pad(jetzt.getDate())}`,
-      time: `${pad(jetzt.getHours())}:${pad(jetzt.getMinutes())}`,
+      date: `${jetzt.getFullYear()}-${pad(jetzt.getMonth() + 1)}-${pad(jetzt.getDate())}`, // studio:ok
+      time: `${pad(jetzt.getHours())}:${pad(jetzt.getMinutes())}`, // studio:ok
       name,
       email,
       phone,
@@ -152,13 +232,11 @@ export function AnfrageFunnel() {
       });
       if (res.status === 429) {
         setBusy(false);
-        return setError(
-          "Zu viele Anfragen kurz hintereinander. Bitte in ein paar Minuten erneut versuchen."
-        );
+        return setError(tx.fehlerRateLimit);
       }
       if (res.status === 422) {
         setBusy(false);
-        return setError("Bitte prüfen Sie Namen und E-Mail-Adresse — eine Angabe fehlt oder ist ungültig.");
+        return setError(tx.fehlerValidierung);
       }
       if (!res.ok) throw new Error("request failed");
       const j = (await res.json()) as { demo?: boolean };
@@ -166,9 +244,7 @@ export function AnfrageFunnel() {
       setErgebnis({ demo: Boolean(j.demo) });
     } catch {
       setBusy(false);
-      setError(
-        "Die Anfrage konnte technisch nicht zugestellt werden. Bitte erneut versuchen oder direkt an ap@beuwy.com schreiben."
-      );
+      setError(tx.fehlerTechnisch);
     }
   }
 
@@ -176,7 +252,7 @@ export function AnfrageFunnel() {
   /* Endowed Progress (Nunes & Drèze): Die ersten Klicks füllen den Balken
      überproportional, danach werden die Schritte kleiner. Wer nach dem
      ersten Tippen schon bei 38 % steht, bricht seltener ab als bei 20 %.
-     Die Werte sind bewusst nicht linear und enden erst mit dem Absenden
+     Die Werte sind bewusst nicht linear und enden erst mit dem Absenden // studio:ok
      bei 100 — der letzte Schritt bleibt spürbar offen. */
   const FORTSCHRITT_KURVE = [38, 62, 78, 88, 94];
   const fortschritt = ergebnis ? 100 : (FORTSCHRITT_KURVE[index] ?? 94);
@@ -214,22 +290,19 @@ export function AnfrageFunnel() {
             />
           </svg>
         </span>
-        <h2 className="t-h2 mt-6">Anfrage angekommen.</h2>
+        <h2 className="t-h2 mt-6">{tx.erfolgTitel}</h2>
         <p className="t-body-lg mt-4 max-w-[420px]">
-          Wir melden uns innerhalb von 24 Stunden — persönlich, an{" "}
-          <span className="is-cream font-medium">{email}</span>. Kein Pitch, keine Massenmail.
+          {tx.erfolgVor}{" "}
+          <span className="is-cream font-medium">{email}</span>{tx.erfolgNach}
         </p>
         {ergebnis.demo && (
-          <p className="t-data is-fail mt-4">
-            Hinweis: Der Mail-Versand ist in dieser Vorschau noch nicht aktiviert — bitte
-            zusätzlich direkt an ap@beuwy.com schreiben.
-          </p>
+          <p className="t-data is-fail mt-4">{tx.erfolgDemoHinweis}</p>
         )}
         <Link
           href="/cases"
           className="mt-8 inline-flex items-center gap-2 text-[14px] font-medium text-ink-muted underline decoration-line-medium underline-offset-4 transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:text-ink-cream"
         >
-          Ergebnisse ansehen
+          {tx.erfolgLink}
         </Link>
       </div>
     );
@@ -248,7 +321,7 @@ export function AnfrageFunnel() {
       >
         <div
           className={cn(
-            "h-full rounded-full bg-akzent transition-[width] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]",
+            "h-full rounded-full bg-akzent transition-[width] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]", // studio:ok
             sweepAktiv && stil.balkenSweep,
           )}
           style={{ width: `${balkenBreite}%` }}
@@ -263,12 +336,12 @@ export function AnfrageFunnel() {
             className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-dim outline-offset-2 transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:text-ink-cream focus-visible:outline-2 focus-visible:outline-(--ring)"
           >
             <RiArrowLeftLine aria-hidden className="size-3.5" />
-            Zurück
+            {tx.zurueck}
           </button>
         )}
 
         <p className={cn("t-label", index > 0 ? "mt-5" : "mt-8")}>
-          Schritt {index + 1} von {gesamt} ·{" "}
+          {tx.fortschrittVor} {index + 1} {tx.fortschrittMitte} {gesamt} ·{" "}
           {/* Prozent poppt bei jedem Fortschritt kurz auf (Number-Pop) —
               quantifizierter Endowed Progress. */}
           <span key={fortschritt} className={cn("tnum font-mono", stil.zahlPop)}>
@@ -278,9 +351,9 @@ export function AnfrageFunnel() {
 
         {/* 1 · Rolle */}
         {index === 0 && (
-          <Schritt headingId={headingId} titel="Was beschreibt Sie am besten?">
+          <Schritt headingId={headingId} titel={tx.schritt1Titel}>
             <div className="mt-6 grid gap-3" role="group" aria-labelledby={headingId}>
-              {ROLLEN.map((r) => (
+              {tx.rollen.map((r) => (
                 <GrossePille
                   key={r}
                   aktiv={rolle === r}
@@ -295,9 +368,9 @@ export function AnfrageFunnel() {
 
         {/* 2 · Größe */}
         {index === 1 && (
-          <Schritt headingId={headingId} titel="Wie viele Abschlüsse macht Ihr Haus im Jahr?">
+          <Schritt headingId={headingId} titel={tx.schritt2Titel}>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4" role="group" aria-labelledby={headingId}>
-              {GROESSEN.map((g) => (
+              {tx.groessen.map((g) => (
                 <Pille key={g} aktiv={groesse === g} onClick={() => waehleEinzeln(setGroesse, g)}>
                   {g}
                 </Pille>
@@ -308,10 +381,10 @@ export function AnfrageFunnel() {
 
         {/* 3 · Fokus (Mehrfachauswahl) */}
         {index === 2 && (
-          <Schritt headingId={headingId} titel="Wo soll es zuerst spürbar werden?">
-            <p className="t-small mt-2">Mehrfachauswahl möglich.</p>
+          <Schritt headingId={headingId} titel={tx.schritt3Titel}>
+            <p className="t-small mt-2">{tx.schritt3Hinweis}</p>
             <div className="mt-6 flex flex-wrap gap-3" role="group" aria-labelledby={headingId}>
-              {FOKUSSE.map((f) => (
+              {tx.fokusse.map((f) => (
                 <Pille key={f} aktiv={fokus.includes(f)} onClick={() => toggleFokus(f)}>
                   {f}
                 </Pille>
@@ -323,7 +396,7 @@ export function AnfrageFunnel() {
               disabled={fokus.length === 0}
               className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-[background-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-akzent"
             >
-              Weiter
+              {tx.weiter}
               <Pfeil />
             </button>
           </Schritt>
@@ -331,9 +404,9 @@ export function AnfrageFunnel() {
 
         {/* 4 · Zeithorizont */}
         {index === 3 && (
-          <Schritt headingId={headingId} titel="Wann wollen Sie starten?">
+          <Schritt headingId={headingId} titel={tx.schritt4Titel}>
             <div className="mt-6 grid gap-3 sm:grid-cols-3" role="group" aria-labelledby={headingId}>
-              {ZEITEN.map((z) => (
+              {tx.zeiten.map((z) => (
                 <Pille key={z} aktiv={zeit === z} onClick={() => waehleEinzeln(setZeit, z)} zentriert>
                   {z}
                 </Pille>
@@ -346,20 +419,14 @@ export function AnfrageFunnel() {
         {index === 4 && (
           <Schritt
             headingId={headingId}
-            titel={
-              sondiert
-                ? "Fast geschafft — wohin schicken wir die Unterlagen?"
-                : "Fast geschafft — wie erreichen wir Sie?"
-            }
+            titel={sondiert ? tx.schritt5TitelSondiert : tx.schritt5TitelStandard}
           >
             <p className="t-body mt-3">
-              {sondiert
-                ? "Wir schicken Ihnen erst einmal die richtigen Unterlagen. Für Rückfragen brauchen wir eine Nummer, unter der wir Sie erreichen."
-                : "Sie wollen zügig starten. Damit wir Sie schnell erreichen, brauchen wir Ihre Telefonnummer."}
+              {sondiert ? tx.schritt5TextSondiert : tx.schritt5TextStandard}
             </p>
 
             <div className="mt-6 space-y-4">
-              <Feld label="Name" htmlFor="anfrage-name" pflicht beam index={0}>
+              <Feld label={tx.feldNameLabel} htmlFor="anfrage-name" pflicht beam index={0} pflichtfeldText={tx.pflichtfeld}>
                 <input
                   id="anfrage-name"
                   value={name}
@@ -367,12 +434,12 @@ export function AnfrageFunnel() {
                     setName(e.target.value);
                     setError(null);
                   }}
-                  placeholder="Vor- und Nachname"
+                  placeholder={tx.feldNamePlatzhalter}
                   autoComplete="name"
                   className="booking-input ist-pflicht w-full"
                 />
               </Feld>
-              <Feld label="E-Mail" htmlFor="anfrage-email" pflicht beam index={1}>
+              <Feld label={tx.feldEmailLabel} htmlFor="anfrage-email" pflicht beam index={1} pflichtfeldText={tx.pflichtfeld}>
                 <input
                   id="anfrage-email"
                   value={email}
@@ -381,12 +448,12 @@ export function AnfrageFunnel() {
                     setError(null);
                   }}
                   type="email"
-                  placeholder="name@firma.de"
+                  placeholder={tx.feldEmailPlatzhalter}
                   autoComplete="email"
                   className="booking-input ist-pflicht w-full"
                 />
               </Feld>
-              <Feld label="Telefon" htmlFor="anfrage-telefon" pflicht beam index={2}>
+              <Feld label={tx.feldTelefonLabel} htmlFor="anfrage-telefon" pflicht beam index={2} pflichtfeldText={tx.pflichtfeld}>
                 <input
                   id="anfrage-telefon"
                   value={phone}
@@ -395,18 +462,18 @@ export function AnfrageFunnel() {
                     setError(null);
                   }}
                   type="tel"
-                  placeholder="Für den Rückruf"
+                  placeholder={tx.feldTelefonPlatzhalter}
                   autoComplete="tel"
                   className="booking-input ist-pflicht w-full"
                 />
               </Feld>
-              <Feld label="Nachricht (optional)" htmlFor="anfrage-notiz">
+              <Feld label={tx.feldNachrichtLabel} htmlFor="anfrage-notiz">
                 <textarea
                   id="anfrage-notiz"
                   value={notiz}
                   onChange={(e) => setNotiz(e.target.value)}
                   rows={3}
-                  placeholder="Noch etwas, das wir wissen sollten?"
+                  placeholder={tx.feldNachrichtPlatzhalter}
                   className="booking-input w-full resize-none"
                 />
               </Feld>
@@ -436,12 +503,11 @@ export function AnfrageFunnel() {
                 className="mt-0.5 h-4 w-4"
               />
               <span className="t-small">
-                Ich willige ein, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet
-                werden. Jederzeit widerrufbar (siehe{" "}
+                {tx.consentVor}{" "}
                 <Link href="/datenschutz" className="btn-link">
-                  Datenschutz
+                  {tx.consentLink}
                 </Link>
-                ).
+                {tx.consentNach}
               </span>
             </label>
 
@@ -459,7 +525,7 @@ export function AnfrageFunnel() {
               disabled={busy}
               className="group mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-akzent px-7 py-4 text-[15px] font-semibold text-ink-cream transition-[background-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {busy ? "Wird gesendet…" : "Zusammenarbeit anfragen"}
+              {busy ? tx.absendenAktiv : tx.absenden}
               {!busy && <Pfeil />}
             </button>
           </Schritt>
@@ -503,6 +569,7 @@ function Feld({
   pflicht = false,
   beam = false,
   index = 0,
+  pflichtfeldText = D["s.anfrage.funnel.pflichtfeld"],
 }: {
   label: string;
   htmlFor: string;
@@ -510,6 +577,7 @@ function Feld({
   pflicht?: boolean;
   beam?: boolean;
   index?: number;
+  pflichtfeldText?: string;
 }) {
   return (
     <div>
@@ -518,7 +586,7 @@ function Feld({
         {pflicht && (
           <>
             <span className="h-1.5 w-1.5 rounded-full bg-akzent" aria-hidden />
-            <span className="sr-only">Pflichtfeld</span>
+            <span className="sr-only">{pflichtfeldText}</span>
           </>
         )}
       </label>
@@ -586,13 +654,13 @@ function GrossePille({
       onClick={onClick}
       aria-pressed={aktiv}
       className={cn(
-        "flex items-center justify-between gap-3 rounded-full border px-6 py-4 text-left text-[15.5px] font-medium leading-snug",
-        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
-        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)",
+        "flex items-center justify-between gap-3 rounded-full border px-6 py-4 text-left text-[15.5px] font-medium leading-snug", // studio:ok
+        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]", // studio:ok
+        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)", // studio:ok
         "active:scale-[0.98]",
         aktiv
           ? cn("border-transparent bg-akzent text-ink-cream", stil.pilleAktiv)
-          : "border-line-medium bg-white text-ink-cream hover:border-transparent hover:bg-akzent-wash"
+          : "border-line-medium bg-white text-ink-cream hover:border-transparent hover:bg-akzent-wash" // studio:ok
       )}
     >
       <span>{children}</span>
@@ -618,14 +686,14 @@ function Pille({
       onClick={onClick}
       aria-pressed={aktiv}
       className={cn(
-        "rounded-full border px-5 py-3 text-[14px] font-medium",
+        "rounded-full border px-5 py-3 text-[14px] font-medium", // studio:ok
         zentriert ? "text-center" : "text-left",
-        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]",
-        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)",
+        "transition-[color,background-color,border-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)]", // studio:ok
+        "outline-offset-2 focus-visible:outline-2 focus-visible:outline-(--ring)", // studio:ok
         "active:scale-[0.98]",
         aktiv
           ? cn("border-transparent bg-akzent text-ink-cream", stil.pilleAktiv)
-          : "border-line-medium bg-white text-ink-muted hover:border-transparent hover:bg-akzent-wash hover:text-ink-cream"
+          : "border-line-medium bg-white text-ink-muted hover:border-transparent hover:bg-akzent-wash hover:text-ink-cream" // studio:ok
       )}
     >
       {children}

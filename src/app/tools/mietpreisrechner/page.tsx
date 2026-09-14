@@ -5,6 +5,8 @@ import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { MietWizard } from "@/components/bewertung/miet-wizard";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * B3 — /tools/mietpreisrechner (R3-SEITENPLAN.json, T-Cluster). Kompakter
@@ -15,37 +17,21 @@ import { MietWizard } from "@/components/bewertung/miet-wizard";
  * src/lib/rechner/mietwert.ts — diese Seite fasst die Zahlen nie selbst an.
  */
 
-export const metadata: Metadata = {
-  title: "Mietpreis berechnen: Welche Miete ist realistisch? | beuwy",
-  description:
-    "Mietpreis kostenlos berechnen: Kaltmiete-Spanne und Preis je Quadratmeter live aus Objekttyp, Lage, Zustand, Ausstattung und Baujahr, mit offenem Rechenweg und Mietpreisbremse-Hinweis.",
-  openGraph: {
-    title: "Mietpreis berechnen: Welche Miete ist realistisch? | beuwy",
-    description:
-      "Kaltmiete-Spanne und Preis je Quadratmeter live berechnet, kostenlos und ohne Anmeldung. Rechenweg offen, Mietpreisbremse-Hinweis, wenn relevant.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export const revalidate = 60;
 
-const FAQS = [
-  {
-    q: "Wie genau ist der Mietpreisrechner?",
-    a: "Der Rechner liefert eine Orientierung auf Basis von Objekttyp, Stadtgröße, Zustand, Ausstattung und Baujahr, keinen Mietspiegelwert. Für Neuvermietungen oder Mieterhöhungen zählt rechtlich der örtliche Mietspiegel, nicht dieser Rechner.",
-  },
-  {
-    q: "Was zählt zur Kaltmiete, die hier berechnet wird?",
-    a: "Die reine Nettokaltmiete, ohne Betriebs- und Heizkosten. Nebenkosten kommen je nach Objekt und Abrechnung noch dazu und sind hier bewusst nicht eingerechnet.",
-  },
-  {
-    q: "Wann greift die Mietpreisbremse?",
-    a: "Die Mietpreisbremse gilt nur in von den Bundesländern ausgewiesenen Gebieten mit angespanntem Wohnungsmarkt, meist in größeren Städten. Der Rechner zeigt einen Hinweis nach Stadtgröße, ersetzt aber keinen Blick in die tatsächliche Gebietskulisse Ihrer Stadt.",
-  },
-  {
-    q: "Ich bin Makler oder Vermieter mehrerer Objekte — kann ich so einen Rechner auch für meine eigene Website bekommen?",
-    a: "Ja. beuwy baut Vermietern und Maklern genau solche Rechner in die eigene Website, mit dem Ergebnis direkt im eigenen Postfach statt bei uns. Schreiben Sie uns über die Zusammenarbeitsanfrage, wir zeigen Ihnen, wie das für Ihr Haus aussieht.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "tools-mietpreisrechner");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -61,26 +47,31 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function MietpreisrechnerPage() {
+export default async function MietpreisrechnerPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "tools-mietpreisrechner");
+  const vergleich = t.liste("vergleich", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -95,15 +86,12 @@ export default function MietpreisrechnerPage() {
       {/* ── Kompakter Kopf ───────────────────────────────────────────── */}
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[860px] px-6 pb-10 pt-32 md:pt-40 lg:px-10">
-          <p className="t-label !text-ink-yellow">Mietpreisrechner</p>
-          <h1 className="t-display mt-5 max-w-[24ch]">
-            {rich("Welche Miete ist für Ihr Objekt *realistisch*?")}
-          </h1>
+          <p className="t-label !text-ink-yellow">{t("kopf.label")}</p>
+          <h1 className="t-display mt-5 max-w-[24ch]">{rich(t("kopf.titel"))}</h1>
           <p className="t-body-lg mt-6 max-w-[62ch]">
-            Kaltmiete-Spanne und Preis je Quadratmeter, in drei kurzen Schritten aus
-            Objektart, Lage, Zustand, Ausstattung und Baujahr — kostenlos und ohne Anmeldung.{" "}
-            <Highlight>Der Rechenweg liegt offen, damit Sie nachvollziehen, wie die Zahl
-            entsteht</Highlight>.
+            {t("kopf.sub_vor")}{" "}
+            <Highlight>{t("kopf.sub_highlight")}</Highlight>
+            {t("kopf.sub_nach")}
           </p>
         </div>
       </section>
@@ -120,46 +108,27 @@ export default function MietpreisrechnerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Vergleichsmiete verstehen"
-              titel="Drei Dinge entscheiden über *jede* Vergleichsmiete."
-              sub="Dieser Rechner liefert eine Orientierung. Die rechtssichere ortsübliche Vergleichsmiete im Sinne des BGB liefert nur der örtliche Mietspiegel."
+              eyebrow={t("vergleich.eyebrow")}
+              titel={t("vergleich.titel")}
+              sub={t("vergleich.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 border-t border-line-subtle pt-10 md:grid-cols-3">
-            <Reveal>
-              <p className="t-h3">Der Mietspiegel</p>
-              <p className="t-body mt-3">
-                Städte über 50.000 Einwohner veröffentlichen meist einen eigenen Mietspiegel
-                mit Preisspannen je Lage, Baujahr und Ausstattung. Er ist die rechtlich
-                relevante Grundlage — unser Rechner ersetzt ihn nicht, er bereitet auf ihn vor.
-              </p>
-            </Reveal>
-            <Reveal delay={60}>
-              <p className="t-h3">Zu- und Abschläge</p>
-              <p className="t-body mt-3">
-                Balkon, Einbauküche, energetischer Zustand oder ein fehlendes Bad wirken sich
-                auf die erzielbare Miete aus. Zustand und Ausstattung im Rechner bilden diese
-                Effekte modellhaft ab.
-              </p>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="t-h3">Die Mietpreisbremse</p>
-              <p className="t-body mt-3">
-                In vielen angespannten Wohnungsmärkten begrenzt die Mietpreisbremse
-                (§ 556d BGB) die zulässige Neuvermietungsmiete. Der Rechner zeigt einen
-                Hinweis, wenn das für Ihre Stadtgröße typischerweise relevant ist.
-              </p>
-            </Reveal>
+            {vergleich.map((punkt, i) => (
+              <Reveal key={punkt.titel} delay={i * 60}>
+                <p className="t-h3">{punkt.titel}</p>
+                <p className="t-body mt-3">{punkt.text}</p>
+              </Reveal>
+            ))}
           </div>
           <Reveal delay={160}>
             <p className="t-body mt-10 max-w-[70ch]">
-              Wie Sie Schritt für Schritt zur belastbaren Vergleichsmiete kommen, zeigt der
-              Leitfaden{" "}
+              {t("vergleich.quelle_vor")}{" "}
               <Link href="/wissen/mietpreis-ermitteln" className="ref-link">
-                Mietpreis ermitteln
+                {t("vergleich.quelle_link")}
               </Link>
-              .
+              {t("vergleich.quelle_nach")}
             </p>
           </Reveal>
         </div>
@@ -170,13 +139,13 @@ export default function MietpreisrechnerPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *ersten* Zahl wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -186,19 +155,17 @@ export default function MietpreisrechnerPage() {
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <GelbeKarte
-              label="Für Vermieter und Makler"
-              titel="Dieser Rechner kann auch Ihrer sein."
+              label={t("pitch.label")}
+              titel={t("pitch.titel")}
               glyph
             >
-              Als Unternehmensberatung baut beuwy Vermietern mit mehreren Einheiten und
-              Maklern, die Eigentümer vor dem ersten Anruf abholen wollen, genau solche
-              Rechner in die eigene Website — mit dem Ergebnis direkt im eigenen Postfach.
+              {t("pitch.text")}
             </GelbeKarte>
           </Reveal>
           <Reveal delay={80}>
             <div className="mt-10 text-center">
-              <ZusammenarbeitCta />
-              <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+              <ZusammenarbeitCta label={t("pitch.cta")} />
+              <p className="t-small mt-4">{t("pitch.cta_hinweis")}</p>
             </div>
           </Reveal>
         </div>

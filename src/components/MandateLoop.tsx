@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
  * (Mandate × Ø Provision). Lenis-Gefühl: lange Übergänge, easeInOut,
  * kurze Ruhephasen auf jedem Wert. SSR und reduced-motion zeigen den
  * Studio-Startwert statisch — die Schleife ist Kür, nie Pflicht.
+ * Texte (Unterzeile, Faktor-Text, Fußzeile) kommen als Props vom
+ * Aufrufer (PerformanceStory, Studio-Keys mk.pm.loop_*).
  */
 const STUETZWERTE = [5, 12, 27, 9, 18];
 const UEBERGANG_MS = 2600;
@@ -21,19 +23,27 @@ function easeInOut(p: number) {
 export function MandateLoop({
   startMandate,
   provisionText,
+  loopLabel,
+  faktorVor,
+  faktorNach,
+  summeText,
 }: {
   startMandate: string;
   provisionText: string;
+  loopLabel: string;
+  faktorVor: string;
+  faktorNach: string;
+  summeText: string;
 }) {
   const start = Number.parseInt(startMandate, 10) || 5;
   const provision =
-    Number((provisionText.match(/[\d.]+/)?.[0] ?? "31.285").replace(/\./g, "")) || 31285;
+    Number((provisionText.match(/[\d.]+/)?.[0] ?? "31.285").replace(/\./g, "")) || 31285; // studio:ok (Zahlen-Parsing, kein Text)
 
   const [mandate, setMandate] = useState(start);
   const wrap = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // studio:ok (Media-Query, kein Text)
     const node = wrap.current;
     if (!node) return;
 
@@ -82,18 +92,15 @@ export function MandateLoop({
       <p className="font-display text-[clamp(52px,6vw,76px)] font-bold leading-none tracking-[-0.03em] text-ink-cream tnum">
         +{mandate}
       </p>
-      <p className="mt-2 text-[17px] font-semibold text-ink-cream">
-        zusätzliche Mandate im Jahr
-      </p>
+      <p className="mt-2 text-[17px] font-semibold text-ink-cream">{loopLabel}</p>
       <div className="mt-6 border-t border-ink-cream/15 pt-5">
-        <p className="text-[14px] text-ink-cream/70 tnum">× Ø {provisionText} Maklerprovision</p>
+        <p className="text-[14px] text-ink-cream/70 tnum">
+          {faktorVor} {provisionText} {faktorNach}
+        </p>
         <p className="mt-2 font-display text-[clamp(28px,3vw,36px)] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
           = {summe} €
         </p>
-        <p className="mt-2 text-[13px] text-ink-cream/60">
-          zusätzlicher Umsatz — Zahlen aus Ihrem Markt, im Gespräch gerechnet,
-          nicht versprochen.
-        </p>
+        <p className="mt-2 text-[13px] text-ink-cream/60">{summeText}</p>
       </div>
     </div>
   );

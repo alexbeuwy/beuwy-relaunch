@@ -3,7 +3,9 @@
  * Prüft: (1) Produktions-Build kompiliert, (2) JEDE Route aus dem
  * Build-Manifest antwortet 200 auf :3100, (3) Marken-Greps
  * (Gold/kursiv/Agentur-als-Selbstbezeichnung/kostenlos außerhalb
- * /tools+T-Cluster/Ludwigshafen im Footer), (4) Seitenplan komplett.
+ * /tools+T-Cluster/Ludwigshafen im Footer), (4) Seitenplan komplett,
+ * (5) Studio-Pflicht: kein hartkodierter Satz (tools/texte-scan.mjs),
+ * (6) Seiten-Text-Index aktuell.
  * Ausgabe endet mit "VERIFY: OK" oder "VERIFY: FAIL (<gründe>)".
  * Erwartet einen laufenden Server auf :3100 (next start).
  */
@@ -56,6 +58,25 @@ if (kostenlosTreffer.length) fehler.push(`kostenlos außerhalb Tools/T: ${kosten
 // 4) Seitenplan vollständig
 const fehlend = plan.seiten.filter((s) => !fs.existsSync(`src/app/${s.route}/page.tsx`));
 if (fehlend.length) fehler.push(`Seitenplan fehlt: ${fehlend.length} (${fehlend.slice(0, 3).map((s) => s.route).join(",")}…)`);
+
+// 5) Studio-Pflicht (R11): kein nutzerlesbarer Satz hart im Code der
+//    öffentlichen Seiten/Komponenten — jede Textfläche ist ein Studio-Key.
+try {
+  sh("node tools/texte-scan.mjs");
+} catch (e) {
+  const ausgabe = String(e.stdout || "");
+  const zeile = ausgabe.split("\n").find((z) => z.startsWith("TEXTE-SCAN")) || "TEXTE-SCAN: Treffer";
+  fehler.push(`Studio-Pflicht verletzt — ${zeile}`);
+}
+// 6) Seiten-Text-Index aktuell (tools/texte-index.mjs generiert seiten/index.ts)
+try {
+  const vorher = fs.readFileSync("src/lib/texte/seiten/index.ts", "utf8");
+  sh("node tools/texte-index.mjs");
+  const nachher = fs.readFileSync("src/lib/texte/seiten/index.ts", "utf8");
+  if (vorher !== nachher) fehler.push("seiten/index.ts war veraltet (jetzt neu generiert — bitte committen)");
+} catch {
+  fehler.push("texte-index.mjs fehlgeschlagen");
+}
 
 if (fehler.length) {
   console.log("VERIFY: FAIL");

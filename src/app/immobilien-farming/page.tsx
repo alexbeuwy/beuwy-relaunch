@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -14,66 +16,24 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * (klassischer Postwurf vs. digitale Omnipräsenz) und eine Checkliste mit
  * Häkchen für die digitale Grundausstattung. GelbeKarte, textlicher
  * Beweis-Anriss (acta, Instagram-Anzeigen), FAQ + FAQPage-JSON-LD. Foto 5
- * laut R3-SEITENPLAN.json.
+ * laut R3-SEITENPLAN.json. Texte über Studio-Keys (R11).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Immobilien-Farming: Der Stadtteil, der an Sie denkt | beuwy",
-  description:
-    "Immobilien-Farming digital heißt: regionale Omnipräsenz vom Google-Profil bis zur Story statt nur Postwurf. beuwy baut die Dominanz in Ihrem Stadtteil auf.",
-  openGraph: {
-    title: "Immobilien-Farming: Der Stadtteil, der an Sie denkt | beuwy",
-    description:
-      "Farming klassisch lief über den Postwurf, digital heißt es Omnipräsenz vom Google-Profil bis zur Story. beuwy baut die Dominanz, die Eigentümer im Stadtteil an Sie denken lässt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const KLASSISCH = [
-  "Flyer und Postwurf alle sechs bis acht Wochen im festgelegten Gebiet",
-  "Streuverlust: der Flyer landet bei jedem Briefkasten, nicht nur bei Verkaufswilligen",
-  "Ein Kontaktpunkt pro Wurf, dann Stille bis zur nächsten Runde",
-  "Kaum messbar, welcher Flyer welchen Anruf ausgelöst hat",
-] as const;
-
-const DIGITAL = [
-  "Google-Unternehmensprofil mit stadtteilgenauer Kategorie und laufenden Beiträgen",
-  "Eine Landingpage pro Stadtteil statt einer Seite für die ganze Stadt",
-  "Wöchentliche Story mit echten Objekten aus der Gegend, keine Stock-Bilder",
-  "Datenmail an registrierte Interessenten, sobald ein Objekt im Gebiet online geht",
-  "Jeder Touchpoint messbar: Klicks, Rechner-Starts, Registrierungen pro Stadtteil",
-] as const;
-
-const CHECKLISTE = [
-  "Google-Unternehmensprofil mit Postleitzahl-genauer Kategorie",
-  "Eine eigene Landingpage je Stadtteil, nicht eine für die ganze Stadt",
-  "Wöchentliche Story mit Objekten aus genau diesem Gebiet",
-  "Datenmail bei jedem neuen Objekt im Farming-Gebiet",
-  "Bewertungen, die den Stadtteil im Klartext nennen",
-  "Bewertungsrechner, der die Adresse aus dem Gebiet als Erstanker aufnimmt",
-] as const;
-
-const FAQS = [
-  {
-    q: "Reicht Social Media allein für digitales Farming?",
-    a: "Nein. Eine Story ohne Google-Profil, ohne Landingpage und ohne Rechner ist nur ein einzelner Kontaktpunkt, wie ein Flyer. Farming funktioniert, wenn mehrere Kanäle im selben Gebiet gleichzeitig laufen und sich gegenseitig bestätigen.",
-  },
-  {
-    q: "Wie groß sollte ein Farming-Gebiet sein?",
-    a: "So groß, wie Sie es glaubwürdig mit lokalem Wissen füllen können, meist ein Stadtteil oder eine Kleinstadt, nicht eine ganze Großstadt auf einmal. Kleinere Gebiete mit hoher Wiederholung schlagen große Gebiete mit dünner Präsenz.",
-  },
-  {
-    q: "Ist der klassische Postwurf jetzt überflüssig?",
-    a: "Nicht zwingend. Viele Häuser fahren beides parallel: der Flyer bleibt ein physischer Anker, die digitale Ebene liefert die Wiederholung und die Messbarkeit, die Papier allein nicht schafft.",
-  },
-  {
-    q: "Wie schnell zeigt digitales Farming Wirkung?",
-    a: "Profil, Landingpage und die ersten Story-Formate stehen in vier bis sechs Wochen. Bis ein Stadtteil Sie als die naheliegende Adresse kennt, vergehen meist mehrere Monate konsequenter Wiederholung, keine einzelne Aktion.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "immobilien-farming");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -104,23 +64,33 @@ function HakenIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function ImmobilienFarmingPage() {
+export default async function ImmobilienFarmingPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "immobilien-farming");
+
+  const klassisch = t.liste("klassisch", ["text"] as const);
+  const digital = t.liste("digital", ["text"] as const);
+  const checkliste = t.liste("checkliste", ["text"] as const);
+  const faqs = t
+    .liste("faq", ["frage", "antwort"] as const)
+    .map((f) => ({ q: f.frage, a: f.antwort }));
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -139,18 +109,16 @@ export default function ImmobilienFarmingPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Akquise</p>
-            <h1 className="t-display mt-4">{rich("Der Stadtteil, der an *Sie* denkt.")}</h1>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("hero.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Farming heißt, in einem festgelegten Gebiet so konsequent präsent zu sein, dass
-              Eigentümer dort <Highlight>automatisch an Sie denken</Highlight>, sobald sie
-              verkaufen. Klassisch lief das über den Postwurf im Briefkasten. Digital heißt Farming:
-              dieselbe Konsequenz, verteilt über Google-Profil, lokale Landingpage, Story-Präsenz
-              und Datenmail, jedes davon ein weiterer, messbarer Kontaktpunkt im selben Stadtteil.
+              {t("hero.text_vor")}{" "}
+              <Highlight>{t("hero.text_mitte")}</Highlight>
+              {t("hero.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -160,7 +128,7 @@ export default function ImmobilienFarmingPage() {
             <div className="relative aspect-[21/9] overflow-hidden rounded-[28px]">
               <Image
                 src={maklerAsset(5)}
-                alt="Makler geht durch einen Stadtteil, den er systematisch betreut"
+                alt={t("hero.bild_alt")}
                 fill
                 sizes="(min-width: 1200px) 1200px, 100vw"
                 className="object-cover"
@@ -176,28 +144,28 @@ export default function ImmobilienFarmingPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Zwei Wege, ein Ziel"
-              titel="Derselbe Stadtteil, *zwei* Systeme."
+              eyebrow={t("zweispalter.eyebrow")}
+              titel={t("zweispalter.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
             <Reveal>
-              <p className="t-label">Klassisch: der Postwurf</p>
+              <p className="t-label">{t("klassisch.label")}</p>
               <ul className="mt-5 space-y-4 border-t border-line-subtle pt-5">
-                {KLASSISCH.map((zeile) => (
-                  <li key={zeile} className="t-body border-b border-line-subtle pb-4">
-                    {zeile}
+                {klassisch.map((zeile) => (
+                  <li key={zeile.text} className="t-body border-b border-line-subtle pb-4">
+                    {zeile.text}
                   </li>
                 ))}
               </ul>
             </Reveal>
             <Reveal delay={80}>
-              <p className="t-label !text-ink-cream">Digital: die Omnipräsenz</p>
+              <p className="t-label !text-ink-cream">{t("digital.label")}</p>
               <ul className="mt-5 space-y-4 border-t border-line-subtle pt-5">
-                {DIGITAL.map((zeile) => (
-                  <li key={zeile} className="t-body border-b border-line-subtle pb-4">
-                    {zeile}
+                {digital.map((zeile) => (
+                  <li key={zeile.text} className="t-body border-b border-line-subtle pb-4">
+                    {zeile.text}
                   </li>
                 ))}
               </ul>
@@ -211,20 +179,20 @@ export default function ImmobilienFarmingPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Grundausstattung"
-              titel="Sechs Bausteine für ein *digitales* Farming-Gebiet."
-              sub="Kein Baustein wirkt allein. Zusammen ergeben sie die Wiederholung, die ein Postwurf nie erreicht."
+              eyebrow={t("checkliste.eyebrow")}
+              titel={t("checkliste.titel")}
+              sub={t("checkliste.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-x-10 gap-y-5 sm:grid-cols-2">
-            {CHECKLISTE.map((item, i) => (
-              <Reveal key={item} delay={i * 50}>
+            {checkliste.map((item, i) => (
+              <Reveal key={item.text} delay={i * 50}>
                 <div className="flex items-start gap-3">
                   <span className="mt-0.5 shrink-0 text-akzent-hover">
                     <HakenIcon />
                   </span>
-                  <p className="t-body">{item}</p>
+                  <p className="t-body">{item.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -236,10 +204,8 @@ export default function ImmobilienFarmingPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Dominanz ist Wiederholung, keine Anzeige." glyph>
-              Eine einzelne Kampagne fällt auf. Sechs Wochen später ist sie vergessen. Ein
-              Farming-System bleibt sichtbar, Woche für Woche, bis der Stadtteil Sie nicht mehr
-              wiedererkennt, sondern erwartet.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -249,12 +215,8 @@ export default function ImmobilienFarmingPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              beuwy hat acta selbst mit aufgebaut: rund 380 vermarktete Wohneinheiten über
-              Instagram-Anzeigen, ein Volumen von rund 40 Mio. €. Nicht eine Kampagne, sondern die
-              Wiederholung, die digitales Farming ausmacht.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.titel")}</p>
           </Reveal>
         </div>
       </section>
@@ -264,13 +226,13 @@ export default function ImmobilienFarmingPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -279,27 +241,27 @@ export default function ImmobilienFarmingPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Omnipräsenz*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_a")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              , die Story- und Kanal-Seite unter{" "}
+              {t("finale.text_b")}{" "}
               <Link href="/social-media-immobilienmakler" className="ref-link">
-                Social Media für Immobilienmakler
+                {t("finale.link_social")}
               </Link>{" "}
-              und die Datenmail-Strecke im{" "}
+              {t("finale.text_c")}{" "}
               <Link href="/email-marketing-immobilienmakler" className="ref-link">
-                E-Mail-Marketing für Immobilienmakler
+                {t("finale.link_email")}
               </Link>
-              .
+              {t("finale.text_d")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

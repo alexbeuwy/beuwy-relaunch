@@ -110,11 +110,14 @@ export async function POST(req: NextRequest) {
   }
 
   if (saved.length > 0) {
-    revalidatePath("/");
-    revalidatePath("/studio");
-    revalidatePath("/intern");
-    revalidatePath("/tools/verkaufspreisrechner");
+    /* R11 (14.09, „Studio ist immer 1:1 live"): nicht mehr nur die
+       bekannten Routen, sondern der ganze Seitenbaum — jede Seite liest
+       inzwischen Studio-Texte. revalidatePath("/", "layout") räumt den
+       Full-Route-Cache aller Routen, revalidateTag den Daten-Cache des
+       Supabase-Fetches in getContent(). Der nächste Aufruf jeder Seite
+       rendert damit garantiert mit dem gerade gespeicherten Stand. */
     revalidateTag("content");
+    revalidatePath("/", "layout");
   }
 
   return NextResponse.json({ ok: failed.length === 0, saved, failed });

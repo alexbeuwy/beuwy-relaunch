@@ -5,6 +5,7 @@ import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
 import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -23,83 +24,26 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * nötig. Querverweis auf die Schwesterseite /seo-fuer-immobilienmakler
  * sitzt im Beweis-Block (die Route existiert noch nicht, Link wird laut
  * Auftrag einfach gesetzt).
+ *
+ * R11 (14.09): mk.*-Keys bleiben (Floating-Card-Zahlen), alle übrigen
+ * Texte laufen jetzt über s.geo-fuer-immobilienmakler.* (seitenTexte).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "GEO für Immobilienmakler: Sichtbar in ChatGPT & KI-Suche | beuwy",
-  description:
-    "GEO für Immobilienmakler heißt: Ihr Büro taucht in den Antworten von ChatGPT, Claude und Perplexity auf, wenn Eigentümer nach einem Makler fragen. beuwy baut die Struktur dafür, in Wochen statt Quartalen.",
-  openGraph: {
-    title: "GEO für Immobilienmakler: Sichtbar in ChatGPT & KI-Suche | beuwy",
-    description:
-      "beuwy baut die Struktur, die KI-Antworten zitierfähig macht: literale Antworten, strukturierte Daten, llms.txt und ein Portal, das jede Anfrage auffängt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote:
-      "„Welcher Makler in Köln ist gut?“ fragt der Eigentümer heute nicht Google. Er fragt ChatGPT.",
-    answer:
-      "Nennt die Antwort drei Namen, sitzt Ihrer entweder mit am Tisch oder gar nicht. Der Eigentümer öffnet danach keine zehn blauen Links mehr, er ruft den ersten Namen an, den er gerade gehört hat.",
-  },
-  {
-    quote: "Google beantwortet die Frage inzwischen selbst, ganz oben, bevor der erste blaue Link überhaupt sichtbar wird.",
-    answer:
-      "Die AI Overview steht über den gewohnten Ergebnissen. Wer darin nicht zitiert wird, verliert den Klick, unabhängig davon, wie gut die eigene Seite eine Zeile darunter rankt.",
-  },
-  {
-    quote: "Ein Blogartikel im Monat und ein paar Backlinks galten lange als Suchmaschinenoptimierung.",
-    answer:
-      "Für eine KI-Antwort reicht das allein nicht. Eine KI zitiert Seiten, die eine Frage im ersten Satz eindeutig beantworten, und Firmendaten, die überall gleich lauten. Ein Blogartikel ohne diese Struktur wird beim Zusammenstellen der Antwort übersprungen.",
-  },
-];
-
-const SCHRITTE = [
-  {
-    titel: "Seiten, die die Frage sofort beantworten",
-    text: "Jede Seite beantwortet ihre Suchfrage im ersten Absatz wörtlich, ohne Anlauf und ohne Einleitung. Genau diesen Absatz liest eine KI, wenn sie eine Antwort zusammenstellt.",
-  },
-  {
-    titel: "Strukturierte Daten, die eine KI lesen kann",
-    text: "Organisation, Leistungen und FAQ stehen als strukturierte Daten hinter jeder Seite. Eine KI liest diese Struktur zuverlässiger als einen Absatz voller Nebensätze.",
-  },
-  {
-    titel: "llms.txt und eine Firmenkarte, die überall gleich lautet",
-    text: "Eine llms.txt-Datei listet Leistungen, Zielgruppen und Zahlen maschinenlesbar auf. Name, Adresse und Telefonnummer stehen dabei überall identisch, auf der Website, in Verzeichnissen und auf dem Portal.",
-  },
-  {
-    titel: "Verzahnung mit dem Portal",
-    text: "Zitiert eine KI Ihr Büro, landet der Klick auf einer Seite, die sofort registriert: Name, Anliegen, nächster Schritt. Die KI zitiert, das Portal registriert. Kein Zitat verpufft im Nichts.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Was ist GEO für Immobilienmakler?",
-    a: "GEO steht für Generative Engine Optimization: die Arbeit daran, dass ChatGPT, Claude oder Perplexity Ihr Büro nennen, wenn jemand nach einem Makler fragt. Statt für einen Platz in der Trefferliste zu optimieren, optimieren Sie für einen Platz in der Antwort selbst.",
-  },
-  {
-    q: "Was unterscheidet GEO von klassischem SEO?",
-    a: "Klassisches SEO zielt auf Rankings und Klicks aus einer Ergebnisliste. GEO zielt auf Zitierfähigkeit: Eine KI liest Ihre Seite, versteht sie in einem Satz und nennt Ihren Namen in ihrer Antwort. Die Grundlagen überschneiden sich, aber Struktur und strukturierte Daten wiegen bei GEO schwerer als Backlinks.",
-  },
-  {
-    q: "Wie lange dauert es, bis eine KI mein Büro nennt?",
-    a: "Die Struktur, literale Antworten, strukturierte Daten und llms.txt, steht in vier bis sechs Wochen. Wann eine KI zum ersten Mal zitiert, hängt zusätzlich vom Modell und der Konkurrenz in Ihrer Stadt ab. Das besprechen wir ehrlich im Gespräch, statt einen pauschalen Termin zu versprechen.",
-  },
-  {
-    q: "Was kostet GEO für Immobilienmakler?",
-    a: "Das hängt vom Umfang Ihres bestehenden Auftritts ab. Ein Gespräch klärt das in dreißig Minuten, mit einer konkreten Einschätzung statt einer Preisliste von der Stange.",
-  },
-  {
-    q: "Funktioniert das auch für kleinere Städte?",
-    a: "Gerade dort. Eine KI-Antwort auf „Makler in einer Kleinstadt mit 20.000 Einwohnern“ nennt oft nur ein oder zwei Namen, weil kaum jemand die Struktur dafür baut. Wer dort zuerst steht, bleibt lange stehen.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "geo-fuer-immobilienmakler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -115,13 +59,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ text, className = "" }: { text: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-(--duration-quick) ease-(--ease-smooth-out) hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {text}
       <PfeilRechts className="transition-transform duration-(--duration-quick) ease-(--ease-smooth-out) group-hover:translate-x-0.5" />
     </Link>
   );
@@ -129,14 +73,18 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function GeoFuerImmobilienmaklerPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "geo-fuer-immobilienmakler");
+  const pains = t.liste("pains", ["zitat", "antwort"] as const);
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -165,7 +113,7 @@ export default async function GeoFuerImmobilienmaklerPage() {
             <AiPille className="!bottom-auto !top-4 right-4" />
 
             <div className="absolute bottom-8 left-6 max-w-[13.5rem] rounded-2xl bg-white/95 p-5 backdrop-blur-sm lg:bottom-12 lg:left-10">
-              <p className="t-label !text-[10px]">Messbar, nicht behauptet</p>
+              <p className="t-label !text-[10px]">{t("hero.messbar_label")}</p>
               <p className="mt-1 font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                 {c["mk.stats.s4_wert"]}
               </p>
@@ -176,18 +124,18 @@ export default async function GeoFuerImmobilienmaklerPage() {
           </div>
 
           <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-14 pt-28 lg:min-h-[70dvh] lg:max-w-none lg:pl-[max(24px,calc((100vw-1280px)/2))] lg:pr-[55vw] lg:pt-24">
-            <p className="t-label !text-ink-yellow">GEO für Immobilienmakler</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="mt-5 font-display text-[clamp(34px,4.4vw,58px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-              {rich("GEO für Immobilienmakler: Ihr Name in der *Antwort*, bevor der erste blaue Link erscheint.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[36rem]">
-              Eigentümer fragen heute nicht mehr nur Google. Sie fragen ChatGPT, Claude oder
-              Perplexity nach einem Makler in ihrer Stadt, und die Antwort{" "}
-              <Highlight>nennt nur eine Handvoll Namen</Highlight>.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta text={t("hero.cta")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </div>
         </div>
@@ -198,23 +146,16 @@ export default async function GeoFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Was GEO bedeutet"
-              titel="Wer in der *Antwort* fehlt, existiert für diesen Eigentümer nicht."
+              eyebrow={t("problem.eyebrow")}
+              titel={t("problem.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <Reveal delay={40}>
-            <p className="t-body-lg mt-6 max-w-[680px]">
-              GEO, Generative Engine Optimization, ist die Arbeit daran, dass ChatGPT, Claude oder
-              Perplexity Ihr Büro nennen, wenn ein Eigentümer nach einem Makler fragt. Das Ziel
-              heißt Zitierfähigkeit: Eine KI-Antwort spricht Ihren Namen aus, mit Ort und
-              Leistung, statt nur einen blauen Link in einer Ergebnisliste zu zeigen. Für
-              Immobilienmakler zählt das, weil genau diese Frage heute zuerst in einem
-              Chat-Fenster landet, nicht mehr in einer Suchleiste.
-            </p>
+            <p className="t-body-lg mt-6 max-w-[680px]">{t("problem.text")}</p>
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={pains.map((p) => ({ quote: p.zitat, answer: p.antwort }))} />
           </div>
         </div>
       </section>
@@ -224,14 +165,14 @@ export default async function GeoFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Mechanismus"
-              titel="Vier Bausteine, damit eine KI Ihren Namen *kennt*."
-              sub="Kein Trick, keine Abkürzung. Struktur, die eine KI lesen kann, und ein Portal, das den Klick auffängt, sobald sie zitiert."
+              eyebrow={t("system.eyebrow")}
+              titel={t("system.titel")}
+              sub={t("system.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {SCHRITTE.map((schritt, i) => (
+            {schritte.map((schritt, i) => (
               <Reveal key={schritt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -250,17 +191,9 @@ export default async function GeoFuerImmobilienmaklerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Die Abgrenzung" titel="Zehn weitere Backlinks sind kein GEO." glyph>
-              <p>
-                Agenturen verkaufen GEO gern als denselben alten Trick mit neuem Namen: ein
-                Blogartikel im Monat, ein paar Backlinks, fertig.
-              </p>
-              <p className="mt-3">
-                Wir bauen Struktur, die eine KI tatsächlich liest: literale Antworten,
-                strukturierte Daten, ein konsistentes Firmenprofil und ein Portal, das jede
-                Anfrage auffängt. Als Unternehmensberatung mit einem festen Ansprechpartner, nicht
-                als Agentur, die ein Werbemittel abliefert und wieder verschwindet.
-              </p>
+            <GelbeKarte label={t("abgrenzung.label")} titel={t("abgrenzung.titel")} glyph>
+              <p>{t("abgrenzung.text1")}</p>
+              <p className="mt-3">{t("abgrenzung.text2")}</p>
             </GelbeKarte>
           </Reveal>
         </div>
@@ -270,10 +203,8 @@ export default async function GeoFuerImmobilienmaklerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Buzzword</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              {rich("*Siebzehn* Jahre Systematik, jetzt auf Antworten übersetzt.")}
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{rich(t("beweis.titel"))}</p>
           </Reveal>
           <Reveal delay={60}>
             <div className="mt-10 max-w-[420px]">
@@ -283,14 +214,11 @@ export default async function GeoFuerImmobilienmaklerPage() {
               <p className="t-body mt-2">{c["mk.stats.s3_label"]}</p>
             </div>
             <p className="t-body mt-8 max-w-[52ch]">
-              Was seit siebzehn Jahren für Marken funktioniert, gilt jetzt für Antworten: Eine
-              klare, belegte Position wird zitiert, eine reine Behauptung wird übersprungen.
-              Klassische Suchmaschinenoptimierung bleibt das Fundament darunter, mehr dazu auf der
-              Schwesterseite{" "}
+              {t("beweis.text_vor")}{" "}
               <Link href="/seo-fuer-immobilienmakler" className="ref-link">
-                SEO für Immobilienmakler
+                {t("beweis.text_link")}
               </Link>
-              .
+              {t("beweis.text_nach")}
             </p>
           </Reveal>
         </div>
@@ -301,13 +229,13 @@ export default async function GeoFuerImmobilienmaklerPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem ersten *Gespräch* wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -316,24 +244,23 @@ export default async function GeoFuerImmobilienmaklerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir die Struktur, die eine KI *zitiert*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[52ch]">
-              GEO ist ein Baustein unter mehreren. Einen Überblick über alle Bausteine finden Sie
-              im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link1")}
               </Link>
-              , Referenzen in den{" "}
+              {t("finale.text_mid")}{" "}
               <Link href="/cases" className="ref-link">
-                Fallstudien
+                {t("finale.text_link2")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta text={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

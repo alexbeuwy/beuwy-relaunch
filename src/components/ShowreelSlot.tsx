@@ -9,9 +9,16 @@ import { HERO_SCHNITT, maklerAsset } from "@/lib/cdn";
  * Breite Klick-Plate für den großen Kampagnen-Zusammenschnitt
  * (Hero-Alle-Videos.webm, 7,5 MB). Wegen der Größe lädt das Video
  * AUSSCHLIESSLICH klick-initiiert (BRIEF §9) — bis dahin steht ein
- * Poster mit Play-Affordance, die Sektion bricht nie leer.
+ * Poster mit Play-Affordance, die Sektion bricht nie leer. Studio-Key
+ * für den Pill-Text: mk.showreel.pill_text.
  */
-export function ShowreelSlot({ className = "" }: { className?: string }) {
+export function ShowreelSlot({
+  className = "",
+  pillText,
+}: {
+  className?: string;
+  pillText: string;
+}) {
   const [spielt, setSpielt] = useState(false);
 
   return (
@@ -46,7 +53,7 @@ export function ShowreelSlot({ className = "" }: { className?: string }) {
             </svg>
           </span>
           <span className="absolute bottom-4 left-4 whitespace-nowrap rounded-full bg-white/85 px-3 py-1 text-[11px] font-medium tracking-[0.04em] text-ink-muted backdrop-blur-sm">
-            Showreel — die Kampagnenwelt in Bewegung
+            {pillText}
           </span>
         </button>
       )}

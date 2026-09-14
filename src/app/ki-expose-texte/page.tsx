@@ -5,6 +5,8 @@ import { RiCheckLine } from "@remixicon/react";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -17,49 +19,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * Behauptung im Rohtext (Risiko irreführender Werbung, sachlich benannt,
  * keine Rechtsberatung), GelbeKarte, Beweis-Anriss, FAQ inkl.
  * Haftungsfrage + FAQPage-JSON-LD. Foto 10 laut R3-SEITENPLAN.json.
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * ki-expose-texte.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "KI-Exposé-Texte: Gut genug für den Alleinauftrag? | beuwy",
-  description:
-    "KI-Exposé-Texte: gut für die Rohfassung, nicht für die Objektwahrheit. Stil-Leitplanken, ein Vorher/Nachher-Beispiel und die Haftungsfrage klar beantwortet.",
-  openGraph: {
-    title: "KI-Exposé-Texte: Gut genug für den Alleinauftrag? | beuwy",
-    description:
-      "Wo KI-Exposé-Texte eine gute Rohfassung liefern und wo die Objektwahrheit anfängt: Leitplanken, ein Beispiel und die Haftungsfrage.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const LEITPLANKEN = [
-  "Jede Zahl im Text stammt aus geprüften Objektunterlagen, nie aus einer Annahme der KI.",
-  "Zustand ehrlich beschreiben, auch Mängel wie fehlender Aufzug oder Sanierungsstau.",
-  "Keine Übertreibungen wie „Traumhaus“ oder „einmalig“ ohne einen Beleg dahinter.",
-  "Aktive, konkrete Sprache statt Floskeln, die jedes zweite Exposé auch verwendet.",
-  "Ein Mensch liest die Fassung laut, bevor sie online geht.",
-] as const;
-
-const FAQS = [
-  {
-    q: "Erkennt Google KI-generierte Exposé-Texte und bestraft sie?",
-    a: "Google bewertet nach Nutzen und Genauigkeit des Inhalts, nicht danach, wie er entstanden ist. Ein sauber geprüfter, korrekter Text hat keinen Nachteil. Ein erkennbar automatisch wirkender, ungeprüfter Text schadet eher dem Vertrauen des Lesers als dem Ranking.",
-  },
-  {
-    q: "Haftet der Makler für Fehler in einem KI-generierten Text?",
-    a: "Der Makler veröffentlicht das Exposé, also trägt er die Verantwortung für dessen Inhalt, unabhängig davon, welches Werkzeug den Text vorformuliert hat. Das ist eine allgemeine Einordnung, keine Rechtsberatung im Einzelfall.",
-  },
-  {
-    q: "Wie viel Zeit spart das wirklich?",
-    a: "Die Rohfassung steht in ein bis zwei Minuten statt in zwanzig. Die Prüfung und Veredelung braucht weiterhin Zeit, weil sie nicht entfallen darf. Unterm Strich bleibt trotzdem eine spürbare Zeitersparnis pro Exposé.",
-  },
-  {
-    q: "Kann ich auch Fotos von KI beschreiben lassen?",
-    a: "Technisch ja, inhaltlich mit Vorsicht. Eine KI erkennt sichtbare Merkmale wie einen Balkon oder eine offene Küche, aber nicht, ob eine Wand tatsächlich tragend ist oder ein Boden frisch verlegt wurde. Auch hier gilt: Rohfassung ja, letzte Prüfung durch eine Person.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "ki-expose-texte");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -75,23 +53,27 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function KiExposeTextePage() {
+export default async function KiExposeTextePage() {
+  const t = seitenTexte(await getContent(), "ki-expose-texte");
+  const leitplanken = t.liste("leitplanken", ["text"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -110,21 +92,15 @@ export default function KiExposeTextePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">KI im Maklerbüro</p>
-            <h1 className="t-display mt-4">
-              {rich("KI-Exposé-Texte: gut für den *Rohtext*, nicht für die Wahrheit.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Ja, für die Rohfassung: KI verwandelt Eckdaten in Sekunden in einen ersten,
-              lesbaren Fließtext. Nein, für die Objektwahrheit:{" "}
-              <Highlight>sie kennt weder den echten Zustand des Bades noch, ob die
-              „ruhige Lage“ stimmt</Highlight>, und erfindet plausible Details, wenn Angaben
-              fehlen. Zwischen beidem liegt die Arbeit, die bei Ihnen bleibt: prüfen, korrigieren,
-              veredeln, bevor der Text den Alleinauftrag rechtfertigt.
+              {t("kopf.text_vor")} <Highlight>{t("kopf.text_mark")}</Highlight>
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -150,19 +126,19 @@ export default function KiExposeTextePage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Leitplanken"
-              titel="Fünf Regeln, bevor ein KI-Text online *geht*."
+              eyebrow={t("leitplanken.eyebrow")}
+              titel={t("leitplanken.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <Reveal delay={80}>
             <ul className="mt-10 max-w-[640px] space-y-4">
-              {LEITPLANKEN.map((punkt) => (
-                <li key={punkt} className="flex items-start gap-3">
+              {leitplanken.map((punkt) => (
+                <li key={punkt.text} className="flex items-start gap-3">
                   <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-akzent-wash">
                     <RiCheckLine className="h-4 w-4 text-ink-cream" />
                   </span>
-                  <span className="t-body">{punkt}</span>
+                  <span className="t-body">{punkt.text}</span>
                 </li>
               ))}
             </ul>
@@ -175,41 +151,25 @@ export default function KiExposeTextePage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Ein Beispiel"
-              titel="Dieselben Eckdaten, zwei sehr *unterschiedliche* Texte."
-              sub="Objekt: 3-Zimmer-Altbauwohnung, 78 m², Balkon, Baujahr 1905, saniert 2018, dritter Stock ohne Aufzug."
+              eyebrow={t("beispiel.eyebrow")}
+              titel={t("beispiel.titel")}
+              sub={t("beispiel.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="h-full rounded-[24px] border border-line-subtle bg-bg-elevated p-7">
-                <p className="t-label">KI-Rohtext, ungeprüft veröffentlicht</p>
-                <p className="t-body mt-4">
-                  &bdquo;Diese Wohnung ist ein wahres Schmuckstück mit traumhaftem Ausblick und
-                  bietet auf 78 m² alles, was das Herz begehrt. Eine Rarität für Liebhaber
-                  gepflegter Altbauten.&ldquo;
-                </p>
-                <p className="t-small mt-4">
-                  Problem: „traumhafter Ausblick“ ist unbelegt, der fehlende Aufzug fehlt ganz.
-                  Beides riskiert eine Diskussion beim Besichtigungstermin, im schlimmsten Fall
-                  eine irreführende Aussage im Exposé.
-                </p>
+                <p className="t-label">{t("beispiel.roh_label")}</p>
+                <p className="t-body mt-4">{t("beispiel.roh_text")}</p>
+                <p className="t-small mt-4">{t("beispiel.roh_problem")}</p>
               </div>
             </Reveal>
             <Reveal delay={60}>
               <div className="h-full rounded-[24px] border-l-2 border-akzent bg-bg-elevated p-7">
-                <p className="t-label">Geprüfte, veredelte Fassung</p>
-                <p className="t-body mt-4">
-                  &bdquo;Die 78 m² große Altbauwohnung im dritten Stock liegt in einem 1905
-                  errichteten und 2018 sanierten Haus, mit Balkon zum ruhigen Innenhof. Ein
-                  Aufzug ist nicht vorhanden, die Deckenhöhe und die sanierte Bausubstanz prägen
-                  den Charakter der Wohnung.&ldquo;
-                </p>
-                <p className="t-small mt-4">
-                  Jede Angabe stammt aus den Objektunterlagen, der fehlende Aufzug steht bewusst
-                  im Text statt im Kleingedruckten.
-                </p>
+                <p className="t-label">{t("beispiel.fassung_label")}</p>
+                <p className="t-body mt-4">{t("beispiel.fassung_text")}</p>
+                <p className="t-small mt-4">{t("beispiel.fassung_hinweis")}</p>
               </div>
             </Reveal>
           </div>
@@ -220,11 +180,8 @@ export default function KiExposeTextePage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Die Grenze" titel="Ihre Unterschrift steht am Ende, nicht die der KI." glyph>
-              Ein Exposé mit einer erfundenen Eigenschaft ist keine kleine Ungenauigkeit, sondern
-              ein Risiko für Vertrauen und im Zweifel für die Zulässigkeit der Werbung. KI liefert
-              den Rohtext. Die Prüfung gegen die echten Objektunterlagen bleibt bei Ihnen, jedes
-              einzelne Mal.
+            <GelbeKarte label={t("grenze.label")} titel={t("grenze.titel")} glyph>
+              {t("grenze.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -234,16 +191,11 @@ export default function KiExposeTextePage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Prompt-Versuch</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              {rich("*Siebzehn* Jahre Markenarbeit — Texte, die einer Prüfung standhalten.")}
-            </p>
-            <p className="t-body mt-4 max-w-[52ch]">
-              Dieselbe Sorgfalt, mit der wir Investorenunterlagen für die Vision Group aufgesetzt
-              haben, wenden wir auf jedes Exposé an, das über unser System läuft.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{rich(t("beweis.titel"))}</p>
+            <p className="t-body mt-4 max-w-[52ch]">{t("beweis.text")}</p>
             <Link href="/exposes-die-verkaufen" className="ref-link mt-6 inline-block">
-              Wie ein verkaufendes Exposé aufgebaut ist →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -254,13 +206,13 @@ export default function KiExposeTextePage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* KI-Exposé wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -269,27 +221,27 @@ export default function KiExposeTextePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Exposés, die dem *Alleinauftrag* standhalten.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[56ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              , die volle Dramaturgie eines verkaufenden Exposés auf{" "}
+              {t("finale.text_mid1")}{" "}
               <Link href="/exposes-die-verkaufen" className="ref-link">
-                Exposés, die verkaufen
+                {t("finale.link_expose")}
               </Link>
-              , weitere Anwendungen rund um ChatGPT im Maklerbüro auf{" "}
+              {t("finale.text_mid2")}{" "}
               <Link href="/chatgpt-fuer-makler" className="ref-link">
-                ChatGPT für Makler
+                {t("finale.link_chatgpt")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

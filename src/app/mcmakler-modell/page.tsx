@@ -5,6 +5,8 @@ import { RiBuilding2Line, RiFlashlightLine, RiFlowChart, RiMegaphoneLine } from 
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -23,101 +25,22 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Das McMakler-Modell: Was Hybridmakler richtig machen — und wo Sie gewinnen | beuwy",
-  description:
-    "Das McMakler-Modell erklärt: Hybridmakler gewinnen über Prozess und Werbedruck, nicht über Ortskenntnis. Wie regionale Makler mit Beweisführung dagegenhalten.",
-  openGraph: {
-    title: "Das McMakler-Modell: Was Hybridmakler richtig machen — und wo Sie gewinnen | beuwy",
-    description:
-      "Prozess und Werbedruck sind die Stärke von Hybridmaklern, nicht Ortskenntnis. Vier Hebel, mit denen regionale Makler dagegenhalten.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "mcmakler-modell");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
-const STAERKEN = [
-  {
-    icon: RiFlowChart,
-    label: "Standardisierter Ablauf",
-    satz:
-      "Jede Anfrage folgt demselben Trichter, unabhängig davon, wer im Callcenter gerade abhebt. Nichts hängt an einer einzelnen Person.",
-  },
-  {
-    icon: RiMegaphoneLine,
-    label: "Werbedruck",
-    satz:
-      "TV, Radio, Bannerwerbung: Der Name ist bekannt, bevor ein Eigentümer überhaupt an Verkauf denkt. Das kann kein einzelnes Büro finanziell mitgehen.",
-  },
-  {
-    icon: RiFlashlightLine,
-    label: "Tempo",
-    satz:
-      "Erste Rückmeldung und Online-Bewertung laufen oft binnen Stunden. Wer schnell antwortet, gewinnt den ersten Eindruck.",
-  },
-  {
-    icon: RiBuilding2Line,
-    label: "Skalierung",
-    satz:
-      "Das Modell funktioniert in jeder Stadt gleich, weil es auf Prozess statt auf lokale Beziehungen gebaut ist.",
-  },
-] as const;
-
-const PAINS = [
-  {
-    quote: "Der Anruf kommt schnell. Der Mensch am Telefon wechselt trotzdem.",
-    answer:
-      "Ein standardisierter Prozess bedeutet selten denselben Ansprechpartner vom ersten Anruf bis zum Notartermin. Für den Eigentümer fühlt sich das nach Warteschleife an, nicht nach Beziehung.",
-  },
-  {
-    quote: "Die Online-Bewertung ist in Minuten da. Die Besichtigung macht trotzdem jemand vor Ort.",
-    answer:
-      "Ein automatisierter Richtwert kennt weder die sanierte Küche noch die laute Straße. Die eigentliche Einschätzung entsteht erst, wenn jemand mit Ortskenntnis durchs Haus geht.",
-  },
-  {
-    quote: "Das Werbebudget schlägt fast jeden Makler. Die Ortskenntnis nicht.",
-    answer:
-      "Reichweite lässt sich kaufen, ein über Jahre gewachsenes Netz aus Nachbarn, Notaren und früheren Kunden nicht. Das ist der eine Vorteil, den kein Marketingbudget der Welt ersetzt.",
-  },
-];
-
-const HEBEL = [
-  {
-    titel: "Ortskenntnis als Beweis",
-    text: "Nicht behaupten, zeigen: konkrete Straßen, reale Bodenrichtwerte, abgeschlossene Fälle aus genau dem Stadtteil, in dem der Eigentümer wohnt.",
-  },
-  {
-    titel: "Kontinuität",
-    text: "Ein Name, eine Nummer, vom ersten Anruf bis zum Notartermin. Kein Callcenter, das jedes Mal neu erklärt bekommt, worum es geht.",
-  },
-  {
-    titel: "Beweisführung statt Rabatt",
-    text: "Wer die eigene Erfolgsquote, Vermarktungsdauer und Reichweite offenlegt, muss die Provision nicht über den Preis verteidigen.",
-  },
-  {
-    titel: "Auftritt auf Augenhöhe",
-    text: "Ein eigenes Portal, das genauso professionell wirkt wie der bundesweite Herausforderer, nimmt der Größe des Gegners die Wirkung.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Ist das McMakler-Modell seriös?",
-    a: "Ja, es ist ein etabliertes Geschäftsmodell mit klarer Logik: standardisierter Prozess, zentraler Vertrieb, hoher Werbedruck. Ob es für einen einzelnen Eigentümer die richtige Wahl ist, hängt vom Objekt und vom gewünschten Maß an persönlicher Betreuung ab, nicht von der Seriosität des Modells.",
-  },
-  {
-    q: "Verliert ein Regionalmakler grundsätzlich gegen Hybridmakler?",
-    a: "Nein. Beim Werbebudget verliert fast jedes einzelne Büro, bei Ortskenntnis, Kontinuität und einem professionellen eigenen Auftritt nicht. Genau diese drei Hebel entscheiden häufig, wem der Eigentümer am Ende zusagt.",
-  },
-  {
-    q: "Was, wenn ein Eigentümer bereits ein Angebot von McMakler hat?",
-    a: "Dann zählt der direkte Vergleich: derselbe Ansprechpartner über die gesamte Vermarktung, echte Ortskenntnis und ein Auftritt, der Vertrauen zeigt statt nur Reichweite. Ein Rabatt auf die eigene Provision ist selten das überzeugendste Argument.",
-  },
-  {
-    q: "Brauche ich das gleiche Marketingbudget wie ein Hybridmakler?",
-    a: "Nein. Regionale Dominanz in einer Stadt oder einem Stadtteil kostet einen Bruchteil eines bundesweiten TV-Budgets, weil Sie nur dort sichtbar sein müssen, wo Ihre Zielgruppe tatsächlich sucht.",
-  },
-] as const;
+/* Icons der vier Stärken — Reihenfolge folgt der Studio-Liste "staerken". */
+const STAERKEN_ICONS = [RiFlowChart, RiMegaphoneLine, RiFlashlightLine, RiBuilding2Line] as const;
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -133,23 +56,30 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function McmaklerModellPage() {
+export default async function McmaklerModellPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "mcmakler-modell");
+  const staerken = t.liste("staerken", ["label", "satz"] as const);
+  const grenzen = t.liste("grenzen", ["quote", "answer"] as const);
+  const hebel = t.liste("hebel", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -168,21 +98,18 @@ export default function McmaklerModellPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wettbewerb</p>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Das McMakler-Modell: stark im Prozess, *schwach* vor Ort.")}
+              {rich(t("kopf.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie konkurrieren mit Hybridmaklern wie McMakler nicht über Werbebudget, das gewinnen
-              Sie strukturell nicht. Sie gewinnen über das, was ein bundesweiter Prozess nicht
-              leisten kann:{" "}
-              <Highlight>echte Ortskenntnis, denselben Ansprechpartner bis zum Notar
-              und einen Auftritt, der genauso professionell wirkt</Highlight>. Deren Stärke ist
-              Tempo und Reichweite, Ihre ist die Region, in der Sie schon jeden Straßenzug kennen.
+              {t("kopf.text_vor")}{" "}
+              <Highlight>{t("kopf.text_hervor")}</Highlight>
+              {t("kopf.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_note")}</span>
             </div>
           </Reveal>
         </div>
@@ -208,15 +135,15 @@ export default function McmaklerModellPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Ehrlich betrachtet"
-              titel="Was Hybridmakler *richtig* machen."
-              sub="Bevor eine Gegenstrategie funktioniert, muss die Stärke des Gegners stimmen. Vier Dinge, die das Modell strukturell besser kann als ein einzelnes Büro."
+              eyebrow={t("staerken.eyebrow")}
+              titel={t("staerken.titel")}
+              sub={t("staerken.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 border-t border-line-subtle">
-            {STAERKEN.map((s, i) => {
-              const Icon = s.icon;
+            {staerken.map((s, i) => {
+              const Icon = STAERKEN_ICONS[i];
               return (
                 <Reveal key={s.label} delay={i * 50}>
                   <div className="grid gap-4 border-b border-line-subtle py-9 sm:grid-cols-[240px_1fr] sm:items-start sm:gap-10 lg:grid-cols-[280px_1fr]">
@@ -242,13 +169,13 @@ export default function McmaklerModellPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Grenze des Modells"
-              titel="Wo der *Prozess* endet und die Region anfängt."
+              eyebrow={t("grenzen.eyebrow")}
+              titel={t("grenzen.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={grenzen} />
           </div>
         </div>
       </section>
@@ -258,14 +185,14 @@ export default function McmaklerModellPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Konter"
-              titel="Vier Hebel, mit denen Sie regional *gewinnen*."
-              sub="Kein Wettrüsten beim Werbebudget. Vier Hebel, die ein bundesweiter Prozess strukturell nicht in derselben Tiefe bedienen kann."
+              eyebrow={t("hebel.eyebrow")}
+              titel={t("hebel.titel")}
+              sub={t("hebel.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {HEBEL.map((h, i) => (
+            {hebel.map((h, i) => (
               <Reveal key={h.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -284,10 +211,8 @@ export default function McmaklerModellPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Reichweite ist mietbar. Vertrauen nicht." glyph>
-              Ein bundesweiter Prozess kauft Aufmerksamkeit ein, Woche für Woche, Kampagne für
-              Kampagne. Ortskenntnis und ein über Jahre aufgebauter Ruf lassen sich nicht kaufen,
-              nur verdienen. Genau das ist der Vorsprung, den kein Werbebudget ausgleicht.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -297,13 +222,10 @@ export default function McmaklerModellPage() {
       <section id="beweis" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Sechs Wochen nach dem Relaunch: Platz 21 von über 25.000 Maklern beim
-              ImmoScout24-Award, ein regionales Haus gegen bundesweite Konkurrenz.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
             <Link href="/cases/riegel-immobilien" className="ref-link mt-6 inline-block">
-              Fallstudie RIEGEL Immobilien lesen →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -314,19 +236,15 @@ export default function McmaklerModellPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
-          <p className="t-small mx-auto mt-10 max-w-[62ch] text-center">
-            McMakler ist eine Marke der McMakler GmbH. beuwy ist unabhängiger Dienstleister ohne
-            Gesellschafterbindung an dieses Unternehmen; die Angaben zum Geschäftsmodell beruhen
-            auf öffentlich bekannten Informationen.
-          </p>
+          <p className="t-small mx-auto mt-10 max-w-[62ch] text-center">{t("faq.disclaimer")}</p>
         </div>
       </section>
 
@@ -334,27 +252,27 @@ export default function McmaklerModellPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre regionale *Dominanz*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[56ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              . Wie sich der Hebel in kleineren Städten besonders schnell auszahlt, zeigt die Seite{" "}
+              {t("finale.text_mitte")}{" "}
               <Link href="/makler-in-kleinstadt" className="ref-link">
-                Makler in der Kleinstadt
+                {t("finale.link_kleinstadt")}
               </Link>
-              , wie Sie den Wiedererkennungswert dafür aufbauen, die Seite{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/markenaufbau-makler" className="ref-link">
-                Markenaufbau für Makler
+                {t("finale.link_marke")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_note")}</p>
           </Reveal>
         </div>
       </section>

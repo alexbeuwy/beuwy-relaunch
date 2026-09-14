@@ -2,24 +2,31 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CaseGrid } from "@/components/CaseGrid";
 import { GelbeKarte, Highlight } from "@/components/MaklerElemente";
-import { orderedCases } from "@/lib/cases";
+import { casesMitTexten } from "@/lib/cases";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Fallstudien-Übersicht — schlicht, Light Makler Style. Foto-Plates kommen
  * ausschließlich aus den Case-Daten selbst (CaseGrid → c.bild), keine
  * Kampagnen-Fotos neben echten Kundennamen. Immobilien-Cases zuerst
- * (orderedCases()), am Ende der eine CTA-Wortlaut zum Vorquali-Funnel.
+ * (casesMitTexten() folgt orderedCases()), am Ende der eine CTA-Wortlaut
+ * zum Vorquali-Funnel.
  */
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Fallstudien — Referenzen für Immobilienmakler | beuwy",
-  description:
-    "Reale Projekte, echte Zahlen: wie beuwy Marke, Portal und Vertriebssystem für führende Immobilienmakler und Unternehmen gebaut hat.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "cases");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+  };
+}
 
-export default function CasesUebersichtPage() {
-  const cases = orderedCases();
+export default async function CasesUebersichtPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "cases");
+  const cases = casesMitTexten(c);
 
   return (
     <>
@@ -27,16 +34,12 @@ export default function CasesUebersichtPage() {
         <div className="mx-auto max-w-[1120px] px-6 lg:px-10 pt-32 pb-16 md:pb-20">
           <p className="t-label flex items-center gap-2">
             <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-akzent" />
-            Fallstudien
+            {t("hero.eyebrow")}
           </p>
-          <h1 className="t-display mt-4 max-w-[760px]">
-            Was passiert, wenn Marke und System zusammenpassen.
-          </h1>
+          <h1 className="t-display mt-4 max-w-[760px]">{t("hero.titel")}</h1>
           <p className="t-body-lg mt-5 max-w-[560px]">
-            Reale Projekte, reale Zahlen: <Highlight>kein Fall ohne Beleg</Highlight>.
-            17 Jahre Markenarbeit, messbar an echten Ergebnissen statt an
-            Behauptungen. Beispielprojekte sind sichtbar markiert und tragen
-            keine echten Referenzen.
+            {t("hero.sub_vor")} <Highlight>{t("hero.sub_highlight")}</Highlight>
+            {t("hero.sub_nach")}
           </p>
         </div>
       </section>
@@ -55,17 +58,14 @@ export default function CasesUebersichtPage() {
             className="group mx-auto block max-w-[640px] rounded-[28px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--line-strong)]"
           >
             <GelbeKarte
-              label="Nächster Schritt"
-              titel="Wenn Ihr Projekt die nächste Fallstudie werden soll, sprechen wir."
+              label={t("abschluss.label")}
+              titel={t("abschluss.titel")}
               glyph
               className="text-center"
             >
-              <p className="mx-auto max-w-[46ch]">
-                30 Minuten, kein Pitch. Wir sagen ehrlich, ob Ihr Auftritt so
-                ein Ergebnis tragen kann.
-              </p>
+              <p className="mx-auto max-w-[46ch]">{t("abschluss.text")}</p>
               <span className="mt-5 inline-flex items-center gap-2 text-[15px] font-semibold text-ink-cream">
-                Zusammenarbeit anfragen
+                {t("abschluss.cta")}
                 <svg
                   width="14"
                   height="14"

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { Reveal } from "@/components/Reveal";
 import { SektionsKopf, GelbeKarte, Highlight, StempelBadge, KreisDeko } from "@/components/MaklerElemente";
 
@@ -13,20 +15,27 @@ import { SektionsKopf, GelbeKarte, Highlight, StempelBadge, KreisDeko } from "@/
  * spricht durchgehend von Andocken/Kompatibilität, nie von Partnerschaft
  * (Alex' Partner-Bewerbung läuft noch, s. Leaf-Auftrag). Foto 13 ist die
  * für diese Seite reservierte, einzige Bilddatei (GOAL Asset-Zuteilung).
+ *
+ * R11 (14.09): Texte laufen über s.onoffice-website.* (seitenTexte). Die
+ * FAQ-JSON-LD wird jetzt aus denselben Keys gebaut wie das sichtbare
+ * Accordion (FAQ 3 spiegelt Frage + zusammengesetzte Antwort).
  */
 
-export const metadata: Metadata = {
-  title: "onOffice Website: Premium-Auftritt direkt am CRM | beuwy",
-  description:
-    "Websites, die an onOffice andocken: Exposés im Markenlook, Anfragen mit Score direkt im CRM, automatisches Nachfassen. Kein Wechsel, kein Umweg — in vier Wochen live.",
-  openGraph: {
-    title: "onOffice Website: Premium-Auftritt direkt am CRM | beuwy",
-    description:
-      "Websites, die an onOffice andocken: Objekt-Sync im Markenlook, Anfragen mit Score direkt im CRM, automatisches Nachfassen.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "onoffice-website");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function Pfeil() {
   return (
@@ -58,77 +67,39 @@ function FaqIcon() {
   );
 }
 
-const RAILS = [
-  {
-    nr: "01",
-    label: "Objekt-Sync",
-    kurz: "Exposés im Marken-Look statt Portal-Look.",
-    text: "Ihre Objekte laufen aus onOffice direkt auf die Website — im Layout Ihrer Marke, nicht im Raster eines Portals. Ändern Sie den Preis im CRM, ändert sich die Website mit.",
-  },
-  {
-    nr: "02",
-    label: "Anfragen mit Quelle & Score",
-    kurz: "Direkt im CRM, nicht im Postfach.",
-    text: "Jede Anfrage landet mit Quelle und Score sofort in Ihrem onOffice — kein Copy-Paste, kein Zettel, kein vergessener Rückruf.",
-  },
-  {
-    nr: "03",
-    label: "Bewertungsrechner",
-    kurz: "Eigentümer-Leads als Kontakt mit Aktivität.",
-    text: "Der Rechner qualifiziert, während Sie besichtigen: Adresse rein, Ersteinschätzung raus — der Eigentümer-Lead liegt als Kontakt mit Aktivität im CRM, bevor Sie zurück im Büro sind.",
-  },
-  {
-    nr: "04",
-    label: "Automatisches Nachfassen",
-    kurz: "Aus dem CRM heraus, nicht aus dem Kopf.",
-    text: "Wer heute nicht kauft, bekommt in sechs Monaten die passende Nachricht — automatisch ausgelöst aus onOffice, ohne dass jemand daran denken muss.",
-  },
-];
+export default async function OnOfficeWebsitePage() {
+  const t = seitenTexte(await getContent(), "onoffice-website");
+  const rails = t.liste("rails", ["nr", "label", "kurz", "text"] as const);
+  const wochen = t.liste("wochen", ["nr", "titel", "text"] as const);
 
-const WOCHEN = [
-  { nr: "Woche 1", titel: "Zugang & Analyse", text: "CRM-Zugang, bestehende Objektstruktur und Marke sichten." },
-  { nr: "Woche 2", titel: "Design", text: "Website, Exposé- und Rechner-Vorlagen im Markenlook." },
-  { nr: "Woche 3", titel: "Anbindung", text: "Objekt-Sync, Anfrage-Routing und Score-Logik ans CRM." },
-  { nr: "Woche 4", titel: "Livegang", text: "Test mit echten Objekten, Freigabe, live." },
-];
+  const faq3Antwort = `${t("faq.3.antwort_vor")} ${t("faq.3.antwort_link")}${t("faq.3.antwort_nach")}`; // studio:ok — reine Verkettung von Studio-Keys, kein hartkodierter Text
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: t("faq.1.frage"),
+        acceptedAnswer: { "@type": "Answer", text: t("faq.1.antwort") },
+      },
+      {
+        "@type": "Question",
+        name: t("faq.2.frage"),
+        acceptedAnswer: { "@type": "Answer", text: t("faq.2.antwort") },
+      },
+      {
+        "@type": "Question",
+        name: t("faq.3.frage"),
+        acceptedAnswer: { "@type": "Answer", text: faq3Antwort },
+      },
+    ],
+  };
 
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Muss ich onOffice wechseln?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Nein. Ihr CRM bleibt exakt so, wie es ist — wir docken an, wir ersetzen nichts.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Was ist mit meinen Objektdaten?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sie bleiben in onOffice, wo sie heute schon liegen. Die Website liest sie über die bestehende Schnittstelle — nichts wird doppelt gepflegt, nichts verlässt Ihr System.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Geht das auch mit FLOWFACT oder Propstack?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Ja. Das Prinzip ist bei jedem CRM dasselbe — welche Anbindung sich für Sie lohnt, sehen Sie im Maklersoftware-Vergleich.",
-      },
-    },
-  ],
-};
-
-export default function OnOfficeWebsitePage() {
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       {/* ── 1. Hero (~70vh): Text links, Foto 13 als Hochformat-Plate rechts ── */}
       <section className="relative bg-bg-base">
@@ -149,17 +120,17 @@ export default function OnOfficeWebsitePage() {
 
               {/* Floating Card auf dem Foto (Referenz 1) */}
               <div className="absolute bottom-6 left-6 rounded-2xl bg-white/95 p-4 pr-5 backdrop-blur-sm lg:bottom-10 lg:left-8">
-                <p className="t-label !text-[10px]">Direkt am CRM</p>
+                <p className="t-label !text-[10px]">{t("hero.badge_label")}</p>
                 <p className="mt-1 font-display text-[36px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
-                  4–6
+                  {t("hero.badge_wert")}
                 </p>
-                <p className="mt-1 text-[12.5px] leading-snug text-ink-muted">Wochen bis Livegang</p>
+                <p className="mt-1 text-[12.5px] leading-snug text-ink-muted">{t("hero.badge_text")}</p>
               </div>
             </div>
 
             {/* Stempel-Badge überlappt die obere Bildecke (Referenz 3) */}
             <StempelBadge
-              text="ANGEBUNDEN · MARKENSTARK"
+              text={t("hero.stempel_text")}
               groesse={100}
               className="absolute -top-5 right-6 z-10 lg:-top-6 lg:right-10"
             />
@@ -181,34 +152,30 @@ export default function OnOfficeWebsitePage() {
               href="/immobilienmarketing"
               className="t-label !text-ink-dim inline-flex w-fit items-center gap-1.5 transition-colors duration-[var(--duration-quick)] hover:!text-ink-cream"
             >
-              ← Immobilienmarketing-Hub
+              {t("hero.breadcrumb")}
             </Link>
             <Reveal>
-              <p className="t-label !text-ink-yellow mt-6">Website · Objekt-Sync · CRM-Anbindung</p>
+              <p className="t-label !text-ink-yellow mt-6">{t("hero.eyebrow")}</p>
               <h1 className="mt-5 font-display text-[clamp(36px,4.4vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-                {rich("Ihre onOffice-Website — endlich so stark wie Ihr *Vertrieb*.")}
+                {rich(t("hero.titel"))}
               </h1>
-              <p className="t-body-lg mt-6 max-w-[34rem]">
-                onOffice hält Objekte, Kontakte und Abläufe zuverlässig zusammen. Nur der erste Eindruck, Ihre
-                Website, zeigt davon fast nichts. Wir bauen das Portal davor: Es registriert Eigentümer,
-                qualifiziert sie und spielt sie in genau das System, das bei Ihnen schon läuft.
-              </p>
+              <p className="t-body-lg mt-6 max-w-[34rem]">{t("hero.sub")}</p>
               <div className="mt-9 flex flex-wrap items-center gap-5">
                 <Link
                   href="/anfrage"
                   className="group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover"
                 >
-                  Zusammenarbeit anfragen
+                  {t("hero.cta")}
                   <Pfeil />
                 </Link>
                 <a
                   href="#andocken"
                   className="text-[14px] font-medium text-ink-muted underline decoration-line-medium underline-offset-4 transition-colors duration-[var(--duration-quick)] hover:text-ink-cream"
                 >
-                  So docken wir an
+                  {t("hero.cta_sekundaer")}
                 </a>
               </div>
-              <p className="t-small mt-5">Antwort innerhalb von 24 Stunden</p>
+              <p className="t-small mt-5">{t("hero.cta_hinweis")}</p>
             </Reveal>
           </div>
         </div>
@@ -218,35 +185,23 @@ export default function OnOfficeWebsitePage() {
       <section className="mx-auto max-w-[1200px] px-6 py-24 md:py-28">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,42rem)] lg:gap-16">
           <Reveal>
-            <SektionsKopf eyebrow="Der Unterschied" titel="onOffice ist stark. Ihre Website sieht das *nicht*." />
+            <SektionsKopf eyebrow={t("problem.eyebrow")} titel={t("problem.titel")} />
           </Reveal>
           <div className="space-y-5">
             <Reveal>
-              <p className="t-body-lg">
-                onOffice hält im Hintergrund zusammen, was bei den meisten Maklerbüros auseinanderfällt: Objekte,
-                Kontakte, Anfragen, Abläufe. Das ist die eigentliche Stärke — ein System, das seit Jahren
-                zuverlässig läuft und das Ihr Team kennt.
-              </p>
+              <p className="t-body-lg">{t("problem.text1")}</p>
             </Reveal>
             <Reveal delay={60}>
-              <p className="t-body">
-                Nur sieht man das der Website meistens nicht an. Das mitgelieferte Template macht aus einem
-                Marktführer eine Verwaltungsseite: gleiche Struktur, gleiche Bausteine, gleiche Distanz zum Kunden
-                wie bei jedem anderen Büro mit derselben Software.
-              </p>
+              <p className="t-body">{t("problem.text2")}</p>
             </Reveal>
             <Reveal delay={120}>
               <p className="t-body">
-                Ein Eigentümer vergleicht drei Makler in wenigen Minuten — und entscheidet nach dem, was er sieht,
-                nicht nach dem, was in Ihrem CRM passiert.{" "}
-                <Highlight>Verliert die Website, verliert am Ende auch das beste System dahinter.</Highlight>
+                {t("problem.text3_vor")}{" "}
+                <Highlight>{t("problem.text3_highlight")}</Highlight>
               </p>
             </Reveal>
             <Reveal delay={160}>
-              <p className="t-body">
-                beuwy verbindet Marke und System seit 17 Jahren, zuletzt für Häuser wie Ihres, davor für Bosch
-                und Continental. Dieselbe Arbeit, jetzt auf Ihr onOffice angewandt.
-              </p>
+              <p className="t-body">{t("problem.text4")}</p>
             </Reveal>
           </div>
         </div>
@@ -257,13 +212,13 @@ export default function OnOfficeWebsitePage() {
         <div className="mx-auto max-w-[1200px] px-6 py-24 md:py-28">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Anbindung"
-              titel="Vier Rails direkt an Ihr *CRM*."
-              sub="Kein neues System, keine Schulung fürs Team — vier Verbindungen zwischen Ihrer Website und dem onOffice, das Sie schon nutzen."
+              eyebrow={t("andocken.eyebrow")}
+              titel={t("andocken.titel")}
+              sub={t("andocken.sub")}
             />
           </Reveal>
           <div className="mt-12 border-t border-line-subtle">
-            {RAILS.map((r, i) => (
+            {rails.map((r, i) => (
               <Reveal key={r.nr} delay={i * 40}>
                 <div className="grid gap-3 border-b border-line-subtle py-8 sm:grid-cols-[56px_1fr] sm:gap-8 md:grid-cols-[56px_15rem_1fr] md:gap-10">
                   <span className="font-mono text-[13px] text-ink-dim tnum">{r.nr}</span>
@@ -284,8 +239,8 @@ export default function OnOfficeWebsitePage() {
         <KreisDeko className="left-[6%] top-[18%] hidden md:block" />
         <div className="relative mx-auto max-w-[640px] px-6 py-24 md:py-28">
           <Reveal>
-            <GelbeKarte label="Kein Wechsel nötig" titel="Sie wechseln nichts. Ihr onOffice bleibt." glyph>
-              Es sieht nur zum ersten Mal so aus, wie Sie verkaufen.
+            <GelbeKarte label={t("karte.label")} titel={t("karte.titel")} glyph>
+              {t("karte.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -296,13 +251,13 @@ export default function OnOfficeWebsitePage() {
         <div className="mx-auto max-w-[1200px] px-6 py-24 md:py-28">
           <Reveal>
             <SektionsKopf
-              eyebrow="Ablauf"
-              titel="Vier Wochen bis zur *Anbindung*."
-              sub="Von der Analyse bis zum Livegang — ohne dass im Tagesgeschäft etwas stillsteht."
+              eyebrow={t("ablauf.eyebrow")}
+              titel={t("ablauf.titel")}
+              sub={t("ablauf.sub")}
             />
           </Reveal>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            {WOCHEN.map((w, i) => (
+            {wochen.map((w, i) => (
               <Reveal key={w.nr} delay={i * 40}>
                 <div className="border-t border-line-subtle pt-5">
                   <p className="t-label">{w.nr}</p>
@@ -313,8 +268,7 @@ export default function OnOfficeWebsitePage() {
             ))}
           </div>
           <p className="t-small mt-12 max-w-[54ch] border-t border-line-subtle pt-8">
-            Ein Ansprechpartner, jeder Schritt nachweisbar im Ticketsystem. Sie fragen nicht nach
-            zwei Wochen, wie weit die Anbindung ist, Sie sehen es.
+            {t("ablauf.hinweis")}
           </p>
         </div>
       </section>
@@ -323,56 +277,49 @@ export default function OnOfficeWebsitePage() {
       <section className="border-t border-line-subtle bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-24 md:py-28">
           <Reveal>
-            <SektionsKopf eyebrow="Häufige Fragen" titel="Was Sie vorher *wissen* wollen." />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} />
           </Reveal>
 
           <div className="mt-10 border-t border-line-subtle">
             <Reveal>
               <details className="group border-b border-line-subtle py-6">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-[16px] font-semibold text-ink-cream [&::-webkit-details-marker]:hidden">
-                  Muss ich onOffice wechseln?
+                  {t("faq.1.frage")}
                   <FaqIcon />
                 </summary>
-                <p className="t-body mt-3 max-w-[54ch]">
-                  Nein. Ihr CRM bleibt exakt so, wie es ist — wir docken an, wir ersetzen nichts.
-                </p>
+                <p className="t-body mt-3 max-w-[54ch]">{t("faq.1.antwort")}</p>
               </details>
             </Reveal>
             <Reveal delay={40}>
               <details className="group border-b border-line-subtle py-6">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-[16px] font-semibold text-ink-cream [&::-webkit-details-marker]:hidden">
-                  Was ist mit meinen Objektdaten?
+                  {t("faq.2.frage")}
                   <FaqIcon />
                 </summary>
-                <p className="t-body mt-3 max-w-[54ch]">
-                  Sie bleiben in onOffice, wo sie heute schon liegen. Die Website liest sie über die bestehende
-                  Schnittstelle — nichts wird doppelt gepflegt, nichts verlässt Ihr System.
-                </p>
+                <p className="t-body mt-3 max-w-[54ch]">{t("faq.2.antwort")}</p>
               </details>
             </Reveal>
             <Reveal delay={80}>
               <details className="group border-b border-line-subtle py-6">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-[16px] font-semibold text-ink-cream [&::-webkit-details-marker]:hidden">
-                  Geht das auch mit FLOWFACT oder Propstack?
+                  {t("faq.3.frage")}
                   <FaqIcon />
                 </summary>
                 <p className="t-body mt-3 max-w-[54ch]">
-                  Ja. Das Prinzip ist bei jedem CRM dasselbe — welche Anbindung sich für Sie lohnt, sehen Sie im{" "}
+                  {t("faq.3.antwort_vor")}{" "}
                   <Link
                     href="/maklersoftware-vergleich"
                     className="text-ink-cream underline decoration-line-medium underline-offset-4"
                   >
-                    Maklersoftware-Vergleich
+                    {t("faq.3.antwort_link")}
                   </Link>
-                  .
+                  {t("faq.3.antwort_nach")}
                 </p>
               </details>
             </Reveal>
           </div>
 
-          <p className="t-small mt-10 max-w-[54ch]">
-            onOffice ist eine Marke der onOffice GmbH. beuwy ist ein unabhängiger Dienstleister.
-          </p>
+          <p className="t-small mt-10 max-w-[54ch]">{t("faq.rechtshinweis")}</p>
         </div>
       </section>
 
@@ -380,35 +327,32 @@ export default function OnOfficeWebsitePage() {
       <section className="bg-akzent-wash">
         <div className="mx-auto max-w-[860px] px-6 py-24 text-center md:py-28">
           <Reveal>
-            <p className="t-label">Nächster Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Ihr CRM funktioniert. Jetzt sieht man es *auch*.")}</h2>
-            <p className="t-body-lg mx-auto mt-5 max-w-[38rem]">
-              Ein Systemgespräch von 30 Minuten reicht, um zu sehen, wie Ihr onOffice und Ihre Website zusammen
-              aussehen könnten.
-            </p>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
+            <p className="t-body-lg mx-auto mt-5 max-w-[38rem]">{t("finale.text")}</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
               <Link
                 href="/anfrage"
                 className="group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover"
               >
-                Zusammenarbeit anfragen
+                {t("finale.cta")}
                 <Pfeil />
               </Link>
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 border-t border-line-subtle pt-8">
               <Link
                 href="/immobilienmarketing"
                 className="t-small underline decoration-line-medium underline-offset-4 transition-colors duration-[var(--duration-quick)] hover:text-ink-cream"
               >
-                Zum Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
               <Link
                 href="/website-fuer-immobilienmakler"
                 className="t-small underline decoration-line-medium underline-offset-4 transition-colors duration-[var(--duration-quick)] hover:text-ink-cream"
               >
-                Mehr zur Website für Makler
+                {t("finale.link_website")}
               </Link>
             </div>
           </Reveal>

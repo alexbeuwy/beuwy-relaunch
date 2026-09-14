@@ -15,11 +15,10 @@ import stil from "./StartUnten.module.css";
 
 /**
  * Startseite, Blöcke 6–10 (BRIEF §6): Beweis → Prozess → Qualifizierung →
- * FAQ → Finale. Reine Server-Komponente, ein Export. Baut ausschließlich
- * auf der Element-Bibliothek (MaklerElemente) und den Studio-Keys aus
- * MaklerHero (mk.stats.*, mk.hero.cta*) auf — neue Copy (Prozess-Schritte,
- * Quali-Listen, FAQ) ist bewusst hart im Code, siehe Report: das sind
- * Studio-Key-Wünsche, keine Content-Edits (Auftrag verbietet content.ts).
+ * FAQ → Finale. Reine Server-Komponente, ein Export. Baut auf der
+ * Element-Bibliothek (MaklerElemente) auf; jeder Text (Prozess-Schritte,
+ * Quali-Listen, FAQ inkl. FAQPage-JSON-LD, Beweis, Danach) läuft über
+ * mk.*-Keys aus src/lib/texte/start-bloecke.ts (R11, 14.09).
  */
 
 /* ── kleine, selbst gezeichnete Glyphen — kein Icon-Import ── */
@@ -60,140 +59,100 @@ function PlusIcon() {
   );
 }
 
-/* ── Block 6 — Beweis: Case-Anriss (Feature → Hebel, BRIEF §8) ──
-   Nur die immobiliennächsten, echten Fälle — RIEGEL zuerst, keine
-   Beispielprojekte in dieser Rail. */
-const CASE_ANRISS = [
-  {
-    slug: "riegel-immobilien",
-    ergebnis:
-      "Bewertungsrechner mit amtlichen Bodenrichtwerten, direkt an das Maklersystem angebunden — jede Anfrage sofort im Ablauf. Ergebnis: neun Abschlüsse, 342.000 € Volumen in sechs Wochen.",
-  },
-  {
-    slug: "vision-group",
-    ergebnis:
-      "Auftritt und Pitch-Unterlagen, die eine Prüfung durch internationale Investoren bestehen. Aus dem Dreierteam wurden rund 70 Mitarbeiter. Die erste gemeinsame Transaktion mit KKR: 163 Wohneinheiten in Dingolfing.",
-  },
-] as const;
+/**
+ * Block 6 — Beweis: Case-Anriss (Feature → Hebel, BRIEF §8). Nur die
+ * immobiliennächsten, echten Fälle — RIEGEL zuerst, keine
+ * Beispielprojekte in dieser Rail. Ergebnis-Texte: mk.beweis.case1_text
+ * / mk.beweis.case2_text.
+ */
+function caseAnriss(c: Record<string, string>) {
+  return [
+    { slug: "riegel-immobilien", ergebnis: c["mk.beweis.case1_text"] },
+    { slug: "vision-group", ergebnis: c["mk.beweis.case2_text"] },
+  ] as const;
+}
 
-/* ── Block 7 — Prozess: vier Schritte, Marker in GeistMono ── */
-const PROZESS_SCHRITTE = [
-  {
-    nr: "W1",
-    titel: "Marke & Konzept",
-    text: "In der ersten Woche stehen Positionierung, Bildsprache und die Wörter, die Ihren Preis rechtfertigen.",
-  },
-  {
-    nr: "W2–3",
-    titel: "Website & Funnel",
-    text: "Ihr neuer Auftritt entsteht, samt Vorquali-Funnel und Terminbuchung. Sie sprechen nur noch mit Eigentümern, die es ernst meinen.",
-  },
-  {
-    nr: "W4",
-    titel: "Automationen & Anbindung",
-    text: "CRM-Anbindung, Rückrufregel, Wochenbericht: Was bisher an Ihnen hing, läuft jetzt im System.",
-  },
-  {
-    nr: "∞",
-    titel: "Betrieb",
-    text: "Anzeigen laufen, Anfragen landen im CRM, der Wochenbericht kommt von selbst. Ihre Aufgabe: die Termine wahrnehmen.",
-  },
-] as const;
+/** Block 7 — Prozess: vier Schritte, Marker in GeistMono. Texte: mk.prozess.1..4.*. */
+function prozessSchritte(c: Record<string, string>) {
+  return [1, 2, 3, 4].map((n) => ({
+    nr: c[`mk.prozess.${n}.nr`], // studio:ok (Key-Template, kein Text)
+    titel: c[`mk.prozess.${n}.titel`], // studio:ok (Key-Template, kein Text)
+    text: c[`mk.prozess.${n}.text`], // studio:ok (Key-Template, kein Text)
+  }));
+}
 
-/* ── Block 8 — Qualifizierung/Disqualifizierung, ehrlich ── */
-const JA_LISTE = [
-  "die absolute regionale Marktdominanz wollen.",
-  "die in ihrer Stadt die Nummer 1 sein wollen, wenn jemand an Immobilien denkt.",
-  "die schnell entscheiden, sobald alle Informationen und Nachweise auf dem Tisch liegen.",
-  "die Profis und Prozessen vertrauen — bewährte Abläufe, zugeschnitten auf das eigene Haus.",
-];
-const NEIN_LISTE = [
-  "Sie die billigste Lösung suchen.",
-  "Systeme und Automatisierung Sie nicht interessieren.",
-  "Ihnen egal ist, wie Ihr Auftritt wirkt.",
-];
+/** Block 8 — Qualifizierung/Disqualifizierung, ehrlich. Texte: mk.qualifizierung.ja.* / nein.* */
+function jaListe(c: Record<string, string>): string[] {
+  return [1, 2, 3, 4].map((n) => c[`mk.qualifizierung.ja.${n}.text`]); // studio:ok (Key-Template, kein Text)
+}
+function neinListe(c: Record<string, string>): string[] {
+  return [1, 2, 3].map((n) => c[`mk.qualifizierung.nein.${n}.text`]); // studio:ok (Key-Template, kein Text)
+}
 
-/* ── Block 9 — Einwände/FAQ ── */
-const FAQ = [
-  {
-    q: "Was kostet das?",
-    a: "Das hängt vom Umfang ab: Marke allein, oder Marke, Website und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
-  },
-  {
-    // R8 (Alex, 31.08): Qualifizierung ueber die 10k/100k-Rechnung —
-    // disqualifiziert bewusst, Ton bleibt "Absicht, nicht Marketing".
-    q: "Für wen sind beuwy-Systeme geeignet?",
-    a: "Machen Ihnen 10.000 € Marketingkosten im Monat keine Angst? Weil Sie wissen: Daraus werden 100.000 € mehr Einnahmen. Dann ja. Wenn Sie bei diesen Zahlen schlucken, ist ein Baukasten ab 39 € im Monat die ehrlichere Wahl. Beides ist in Ordnung. Es ist nur nicht dasselbe Ziel.",
-  },
-  {
-    // R8: Client-Avatar als Spiegel — der richtige Leser erkennt sich.
-    q: "Wer sind die häufigsten beuwy-Kunden?",
-    a: "Inhaber, deren Geschäft längst läuft. Nur ihr Ehrgeiz ist größer als ihr Auftritt. Ihr Maßstab sind die Besten ihrer Stadt: Sie sparen woanders — nur nicht an dem, was man von ihnen sieht. Kommt Ihnen das bekannt vor? Aus genau solchen Gesprächen sind in 17 Jahren über 100 Markenprojekte entstanden.",
-  },
-  {
-    q: "Wie schnell live?",
-    a: "Vier bis sechs Wochen, je nach Umfang.",
-  },
-  {
-    q: "Muss ich Inhalte liefern?",
-    a: "Texte, Struktur und die ersten Entwürfe kommen von uns. Sie liefern, was nur Sie haben: Ihre Zahlen und Ihre Objekte. Freigeben müssen Sie trotzdem, aber das dauert Minuten, keine Meetings.",
-  },
-  {
-    q: "Funktioniert das mit onOffice/FLOWFACT?",
-    a: "Ja. Website, Rechner und Funnel docken an onOffice, FLOWFACT, Propstack, JUSTIMMO oder CasaOne an. Anfragen stehen dort, wo Ihr Team ohnehin arbeitet.",
-  },
-  {
-    q: "Was passiert nach dem Livegang?",
-    a: "Das System läuft weiter, nicht Sie hinterher. Wir justieren Anzeigen, halten das CRM sauber und schicken Ihnen jede Woche den Bericht.",
-  },
-];
+/**
+ * Block 9 — Einwände/FAQ. Texte: mk.faq.1..7.frage/antwort. FAQ 2
+ * (R8, Alex 31.08) qualifiziert bewusst über die 10k/100k-Rechnung,
+ * Ton bleibt „Absicht, nicht Marketing". FAQ 3 (R8): Client-Avatar als
+ * Spiegel — der richtige Leser erkennt sich.
+ */
+function faq(c: Record<string, string>) {
+  return [1, 2, 3, 4, 5, 6, 7].map((n) => ({
+    q: c[`mk.faq.${n}.frage`], // studio:ok (Key-Template, kein Text)
+    a: c[`mk.faq.${n}.antwort`], // studio:ok (Key-Template, kein Text)
+  }));
+}
 
-/* ── Block 7b — „Und danach?": regionale Dominanz als Mockup-Streifen
-   (Alex, 26.08). Vier cleane Silhouetten-Szenen mit einer „IHR LOGO"-
-   Pill — Fahrzeug, Messestand, Stadionbande, Social-Story. Bewusst
-   abstrakte Formen im Stil des ExposeVergleich-Schemas: kein Kitsch,
-   keine Stockfotos; echte KI-Mockup-Fotos rüstet Alex als Assets nach. */
-function LogoPill({ klein = false }: { klein?: boolean }) {
+/**
+ * Block 7b — „Und danach?": regionale Dominanz als Mockup-Streifen
+ * (Alex, 26.08). Vier cleane Silhouetten-Szenen mit einer „IHR LOGO"-
+ * Pill — Fahrzeug, Messestand, Stadionbande, Social-Story. Bewusst
+ * abstrakte Formen im Stil des ExposeVergleich-Schemas: kein Kitsch,
+ * keine Stockfotos; echte KI-Mockup-Fotos rüstet Alex als Assets nach.
+ * Pill-Text: mk.danach.logo_pill · Szenen-Titel: mk.danach.1..4.titel.
+ */
+function LogoPill({ klein = false, text }: { klein?: boolean; text: string }) {
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-full bg-akzent font-semibold uppercase tracking-[0.08em] text-ink-cream ${
-        klein ? "px-2 py-0.5 text-[8px]" : "px-2.5 py-1 text-[9.5px]"
-      }`}
+      className={`inline-flex items-center justify-center rounded-full bg-akzent font-semibold uppercase tracking-[0.08em] text-ink-cream ${klein ? "px-2 py-0.5 text-[8px]" : "px-2.5 py-1 text-[9.5px]"}`}
     >
-      Ihr Logo
+      {text}
     </span>
   );
 }
 
-const TOOL_KARTEN = [
-  {
-    label: "Für Eigentümer",
-    titel: "Verkaufspreis-Rechner",
-    text: "Zeigt die Wertspanne mit offenem Rechenweg — sofort sichtbar, kein Formular davor.",
-    href: "/tools/verkaufspreisrechner",
-  },
-  {
-    label: "Für Vermieter",
-    titel: "Mietpreis-Rechner",
-    text: "Kaltmiete realistisch einschätzen, mit Vergleichslogik statt Bauchgefühl — inklusive Hinweis zur Mietpreisbremse.",
-    href: "/tools/mietpreisrechner",
-  },
-  {
-    label: "Für Kapitalanleger",
-    titel: "AfA- & Restnutzungsdauer-Rechner",
-    text: "Zeigt in zwei Minuten, was ein Restnutzungsdauer-Gutachten steuerlich bewegt.",
-    href: "/tools/afa-rechner",
-  },
-] as const;
+function toolKarten(c: Record<string, string>) {
+  return [
+    {
+      label: c["mk.anfassen.1.label"],
+      titel: c["mk.anfassen.1.titel"],
+      text: c["mk.anfassen.1.text"],
+      href: "/tools/verkaufspreisrechner",
+    },
+    {
+      label: c["mk.anfassen.2.label"],
+      titel: c["mk.anfassen.2.titel"],
+      text: c["mk.anfassen.2.text"],
+      href: "/tools/mietpreisrechner",
+    },
+    {
+      label: c["mk.anfassen.3.label"],
+      titel: c["mk.anfassen.3.titel"],
+      text: c["mk.anfassen.3.text"],
+      href: "/tools/afa-rechner",
+    },
+  ] as const;
+}
 
-const DOMINANZ_SZENEN = [
-  { titel: "Auf Ihren Fahrzeugen", Szene: SzeneFahrzeug },
-  { titel: "Auf der Messe", Szene: SzeneMesse },
-  { titel: "Im Stadion", Szene: SzeneStadion },
-  { titel: "In jeder Story", Szene: SzeneStory },
-] as const;
+function dominanzSzenen(c: Record<string, string>) {
+  return [
+    { titel: c["mk.danach.1.titel"], Szene: SzeneFahrzeug },
+    { titel: c["mk.danach.2.titel"], Szene: SzeneMesse },
+    { titel: c["mk.danach.3.titel"], Szene: SzeneStadion },
+    { titel: c["mk.danach.4.titel"], Szene: SzeneStory },
+  ] as const;
+}
 
-function SzeneFahrzeug() {
+function SzeneFahrzeug({ logoText }: { logoText: string }) {
   return (
     <div aria-hidden className="relative flex h-28 items-end justify-center pb-3">
       <div className="relative h-16 w-40">
@@ -203,20 +162,20 @@ function SzeneFahrzeug() {
         <span className="absolute bottom-0 left-5 h-5 w-5 rounded-full border-[3px] border-bg-hover bg-white" />
         <span className="absolute bottom-0 right-7 h-5 w-5 rounded-full border-[3px] border-bg-hover bg-white" />
         <span className="absolute left-3 top-4">
-          <LogoPill />
+          <LogoPill text={logoText} />
         </span>
       </div>
     </div>
   );
 }
 
-function SzeneMesse() {
+function SzeneMesse({ logoText }: { logoText: string }) {
   return (
     <div aria-hidden className="relative flex h-28 items-end justify-center gap-3 pb-3">
       {/* Rueckwand */}
       <div className="relative h-20 w-32 rounded-t-[10px] bg-bg-hover">
         <span className="absolute left-1/2 top-3 -translate-x-1/2">
-          <LogoPill />
+          <LogoPill text={logoText} />
         </span>
         <span className="absolute bottom-3 left-4 right-4 h-[3px] rounded-full bg-white/70" />
         <span className="absolute bottom-6 left-4 right-10 h-[3px] rounded-full bg-white/70" />
@@ -224,28 +183,28 @@ function SzeneMesse() {
       {/* Theke */}
       <div className="relative h-12 w-14 rounded-t-[8px] bg-bg-elevated">
         <span className="absolute left-1/2 top-3 -translate-x-1/2">
-          <LogoPill klein />
+          <LogoPill klein text={logoText} />
         </span>
       </div>
     </div>
   );
 }
 
-function SzeneStadion() {
+function SzeneStadion({ logoText }: { logoText: string }) {
   return (
     <div aria-hidden className="relative flex h-28 flex-col justify-end gap-1.5 pb-3">
       {/* Rasen-Andeutung + Bande in leichter Perspektive */}
       <div className="relative mx-2 flex h-9 items-center justify-around rounded-[6px] bg-bg-hover [transform:perspective(300px)_rotateX(18deg)]">
-        <LogoPill klein />
+        <LogoPill klein text={logoText} />
         <span className="hidden h-[3px] w-10 rounded-full bg-white/70 sm:block" />
-        <LogoPill klein />
+        <LogoPill klein text={logoText} />
       </div>
       <div className="mx-6 h-2 rounded-full bg-akzent-wash" />
     </div>
   );
 }
 
-function SzeneStory() {
+function SzeneStory({ logoText }: { logoText: string }) {
   return (
     <div aria-hidden className="relative flex h-28 items-center justify-center">
       {/* Phone-Rahmen mit Story-Balken */}
@@ -259,7 +218,7 @@ function SzeneStory() {
           <Image src={makler9x16("01")} alt="" fill sizes="56px" className="object-cover" />
         </span>
         <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <LogoPill klein />
+          <LogoPill klein text={logoText} />
         </span>
       </div>
     </div>
@@ -268,7 +227,7 @@ function SzeneStory() {
 
 export function StartUnten({ c }: { c: Record<string, string> }) {
   const cases: { slug: string; ergebnis: string; fall: CaseStudy }[] = [];
-  for (const eintrag of CASE_ANRISS) {
+  for (const eintrag of caseAnriss(c)) {
     const fall = caseBySlug(eintrag.slug);
     if (fall) cases.push({ ...eintrag, fall });
   }
@@ -281,14 +240,14 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <SektionsKopf
-              eyebrow="Selbst testen"
-              titel="Fassen Sie das System *an*."
-              sub="Drei Rechner, wie wir sie für Ihre Eigentümer bauen. Live, im beuwy-Kleid, ohne Anmeldung."
+              eyebrow={c["mk.anfassen.eyebrow"]}
+              titel={c["mk.anfassen.titel"]}
+              sub={c["mk.anfassen.sub"]}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {TOOL_KARTEN.map((t, i) => (
+            {toolKarten(c).map((t, i) => (
               <Reveal key={t.href} delay={i * 60}>
                 <Link
                   href={t.href}
@@ -300,7 +259,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                   </p>
                   <p className="mt-3 t-body flex-1">{t.text}</p>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-medium text-ink-cream">
-                    Ausprobieren
+                    {c["mk.anfassen.cta_text"]}
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" aria-hidden>
                       <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -317,9 +276,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <SektionsKopf
-              eyebrow="Beweis"
-              titel="Sie müssen uns nicht glauben. *Rechnen* Sie nach."
-              sub="Drei Häuser, drei Größenordnungen. Zum Nachlesen."
+              eyebrow={c["mk.beweis.kopf_eyebrow"]}
+              titel={c["mk.beweis.kopf_titel"]}
+              sub={c["mk.beweis.kopf_sub"]}
             />
           </Reveal>
 
@@ -328,17 +287,15 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
             <div className="mt-16 grid items-center gap-12 border-t border-line-subtle pt-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
               <div>
                 <p className="font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.15] tracking-[-0.02em] text-ink-cream [text-wrap:balance]">
-                  {rich("*17 Jahre* Markenarbeit. Und bei KI vorne dabei.")}
+                  {rich(c["mk.beweis.ki_titel"])}
                 </p>
-                <p className="t-body-lg mt-5 max-w-[44ch]">
-                  Was diese Woche an Modellen erscheint, steckt nächste Woche in unseren
-                  Abläufen — als Arbeit, die Ihr Team nicht mehr selbst machen muss.
-                </p>
+                <p className="t-body-lg mt-5 max-w-[44ch]">{c["mk.beweis.ki_text"]}</p>
               </div>
               <PodcastSlot
                 videoUrl={c["mk.podcast.url"]}
-                titel={c["mk.podcast.titel"] ?? ""}
-                sub={c["mk.podcast.sub"] ?? ""}
+                titel={c["mk.podcast.titel"]}
+                sub={c["mk.podcast.sub"]}
+                folgtText={c["mk.podcast.folgt_pill"]}
               />
             </div>
           </Reveal>
@@ -356,7 +313,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
               Fallstudien stehen bewusst NICHT hier). */}
           <Reveal delay={90}>
             <div className="mt-14 border-t border-line-subtle pt-14">
-              <p className="t-label !text-[10.5px]">Was danach messbar passiert ist</p>
+              <p className="t-label !text-[10.5px]">{c["mk.beweis.wirkung_label"]}</p>
               <div className="mt-8">
                 <WirkungsSpuren />
               </div>
@@ -391,7 +348,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                       </h3>
                       <p className="mt-3 t-body max-w-[52ch]">{ergebnis}</p>
                       <span className="mt-4 inline-flex items-center gap-2 text-[13px] font-medium text-ink-cream underline decoration-line-medium underline-offset-4 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover:decoration-ink-cream">
-                        Fallstudie ansehen
+                        {c["mk.beweis.case_cta"]}
                         <span className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5">
                           <Pfeil groesse={12} />
                         </span>
@@ -411,21 +368,16 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
             <div>
-              <p className="t-label">Und danach?</p>
-              <h3 className="mt-4 t-h2 max-w-[720px]">
-                {rich("Dann sieht Ihre Stadt Sie *überall*.")}
-              </h3>
-              <p className="t-body-lg mt-5 max-w-[54ch]">
-                Ihre Marke im Postfach, in der Story, auf der Straße und am Spielfeldrand —
-                bis der erste Gedanke bei „Immobilien" Ihr Name ist.
-              </p>
+              <p className="t-label">{c["mk.danach.label"]}</p>
+              <h3 className="mt-4 t-h2 max-w-[720px]">{rich(c["mk.danach.titel"])}</h3>
+              <p className="t-body-lg mt-5 max-w-[54ch]">{c["mk.danach.text"]}</p>
               <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
-                {DOMINANZ_SZENEN.map(({ titel, Szene }) => (
+                {dominanzSzenen(c).map(({ titel, Szene }) => (
                   <div
                     key={titel}
                     className="rounded-[20px] border border-line-subtle bg-white px-4 pb-4 pt-2"
                   >
-                    <Szene />
+                    <Szene logoText={c["mk.danach.logo_pill"]} />
                     <p className="mt-2 border-t border-line-subtle pt-3 text-center text-[12.5px] font-medium text-ink-cream">
                       {titel}
                     </p>
@@ -436,7 +388,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                   ausschließlich klick-initiiert (BRIEF §9). Anker-Wrapper:
                   die Calla-Vase schneidet die Rahmen-Ecke an. */}
               <div className="relative mt-6">
-                <ShowreelSlot />
+                <ShowreelSlot pillText={c["mk.showreel.pill_text"]} />
                 <VasenTiefe variante="showreel" />
               </div>
             </div>
@@ -448,10 +400,8 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       <section id="ablauf" className="relative bg-bg-base border-t border-line-subtle">
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
-            <p className="t-label">Vier Schritte, ein Zeitplan</p>
-            <h2 className="mt-4 t-h2 max-w-[720px]">
-              {rich("In *Wochen* liefern, was andere in Quartalen versprechen.")}
-            </h2>
+            <p className="t-label">{c["mk.prozess.label"]}</p>
+            <h2 className="mt-4 t-h2 max-w-[720px]">{rich(c["mk.prozess.titel"])}</h2>
           </Reveal>
 
           <Reveal delay={60}>
@@ -474,7 +424,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                 aria-hidden
                 className="pointer-events-none absolute left-0 right-0 top-[13px] hidden h-px bg-line-subtle lg:block"
               />
-              {PROZESS_SCHRITTE.map((schritt) => (
+              {prozessSchritte(c).map((schritt) => (
                 <div key={schritt.titel} className="relative">
                   <span className="relative z-10 grid h-[26px] w-[26px] place-items-center rounded-full bg-akzent">
                     <span className="font-mono text-[10.5px] font-semibold text-ink-cream tnum">{schritt.nr}</span>
@@ -487,18 +437,15 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
           </Reveal>
 
           <Reveal delay={150}>
-            <p className="mt-16 max-w-[54ch] t-body-lg">
-              Jedes Ihrer Anliegen läuft in einem Ticketsystem: nachweisbar, mit Status,
-              bis es erledigt ist.
-            </p>
+            <p className="mt-16 max-w-[54ch] t-body-lg">{c["mk.prozess.ticket_text"]}</p>
           </Reveal>
 
           <Reveal delay={210}>
             {/* Anker-Wrapper: die Palmwedel-Vase schneidet die Karten-Ecke
                 an (Alex, 31.08: Vasen ueberlappen, nicht am Rand fliegen) */}
             <div className="relative mt-16 max-w-[520px] ml-auto">
-              <GelbeKarte label="Ihr Aufwand" titel="Vier Termine reichen." glyph>
-                Den Rest liefern wir: Marke, Website, Funnel, Automationen.
+              <GelbeKarte label={c["mk.prozess.karte_label"]} titel={c["mk.prozess.karte_titel"]} glyph>
+                {c["mk.prozess.karte_text"]}
               </GelbeKarte>
               <VasenTiefe variante="karte-prozess" />
             </div>
@@ -511,18 +458,23 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       <section id="passt-das" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
-            <SektionsKopf eyebrow="Passt das zu Ihnen?" titel="beuwy passt nicht zu *jedem*." ausrichtung="mitte" />
+            <SektionsKopf
+              eyebrow={c["mk.qualifizierung.eyebrow"]}
+              titel={c["mk.qualifizierung.titel"]}
+              ausrichtung="mitte"
+            />
             <p className="t-body-lg mx-auto mt-4 max-w-[38rem] text-center">
-              Das ist <Highlight>Absicht</Highlight>, nicht Marketing.
+              {c["mk.qualifizierung.subvor"]} <Highlight>{c["mk.qualifizierung.substark"]}</Highlight>
+              {c["mk.qualifizierung.subnach"]}
             </p>
           </Reveal>
 
           <Reveal delay={80}>
             <div className="mt-16 grid gap-14 lg:grid-cols-[1fr_1fr_260px] lg:gap-12">
               <div>
-                <p className="t-label">Wir arbeiten mit Maklern, die …</p>
+                <p className="t-label">{c["mk.qualifizierung.ja_label"]}</p>
                 <ul className="mt-6 flex flex-col divide-y divide-line-subtle">
-                  {JA_LISTE.map((zeile) => (
+                  {jaListe(c).map((zeile) => (
                     <li key={zeile} className="flex items-start gap-3 py-4 first:pt-0 last:pb-0">
                       <Haken />
                       <span className="t-body !text-ink-cream">{zeile}</span>
@@ -532,9 +484,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
               </div>
 
               <div>
-                <p className="t-label">Nicht die richtige Wahl, wenn …</p>
+                <p className="t-label">{c["mk.qualifizierung.nein_label"]}</p>
                 <ul className="mt-6 flex flex-col divide-y divide-line-subtle">
-                  {NEIN_LISTE.map((zeile) => (
+                  {neinListe(c).map((zeile) => (
                     <li key={zeile} className="flex items-start gap-3 py-4 first:pt-0 last:pb-0">
                       <Minus />
                       <span className="t-body">{zeile}</span>
@@ -553,7 +505,11 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
                   style={{ objectPosition: "38% 30%" }}
                 />
                 <AiPille />
-                <StempelBadge text="AUSGEWÄHLT · NICHT FÜR ALLE" groesse={92} className="absolute -right-6 -top-6" />
+                <StempelBadge
+                  text={c["mk.qualifizierung.badge"]}
+                  groesse={92}
+                  className="absolute -right-6 -top-6"
+                />
               </div>
             </div>
           </Reveal>
@@ -562,10 +518,11 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
 
       {/* ══ Block 9 — Einwände/FAQ ════════════════════════════════ */}
       {/* FAQPage-JSON-LD (Masterplan A2, 01.09): dieselben sieben
-          Fragen, die sichtbar im Accordion stehen — inklusive der
-          Qualifizierungs-Antworten (10.000 €/100.000 €, Client-Avatar),
-          die KI-Assistenten wörtlich übernehmen können. Muster wie auf
-          den Cluster-Seiten (z. B. flowfact-website/page.tsx). */}
+       * Fragen, die sichtbar im Accordion stehen — inklusive der
+       * Qualifizierungs-Antworten (10.000 €/100.000 €, Client-Avatar),
+       * die KI-Assistenten wörtlich übernehmen können. Muster wie auf
+       * den Cluster-Seiten (z. B. flowfact-website/page.tsx). Texte aus
+       * denselben mk.faq.*-Keys wie das sichtbare Accordion. */}
       {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
@@ -573,7 +530,7 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            mainEntity: FAQ.map((f) => ({
+            mainEntity: faq(c).map((f) => ({
               "@type": "Question",
               name: f.q,
               acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -584,13 +541,13 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
       <section id="faq" className="bg-bg-base border-t border-line-subtle">
         <div className="mx-auto max-w-[760px] px-6 py-24 lg:px-10 lg:py-32">
           <Reveal>
-            <p className="t-label">Bevor Sie fragen</p>
-            <h2 className="mt-4 t-h2">{rich("Die *Antworten*, die vorher kommen.")}</h2>
+            <p className="t-label">{c["mk.faq.label"]}</p>
+            <h2 className="mt-4 t-h2">{rich(c["mk.faq.titel"])}</h2>
           </Reveal>
 
           <Reveal delay={60}>
             <div className="mt-12">
-              {FAQ.map((item, i) => (
+              {faq(c).map((item, i) => (
                 <details key={item.q} className={stil.item} open={i === 0}>
                   <summary className={stil.summary}>
                     <span className="t-h3 pr-4">{item.q}</span>
@@ -613,9 +570,9 @@ export function StartUnten({ c }: { c: Record<string, string> }) {
         <KreisDeko className="left-[6%] top-4 lg:left-[10%] lg:top-0" />
         <div className="relative z-10 mx-auto max-w-[820px] px-6 py-32 text-center lg:py-44">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
+            <p className="t-label">{c["mk.finale.label"]}</p>
             <h2 className="mt-6 font-display text-[clamp(34px,4.6vw,60px)] font-bold leading-[1.05] tracking-[-0.025em] text-ink-cream [text-wrap:balance]">
-              {rich("Ihr Ruf ist erstklassig. *Zeit* für ein System, das mithält.")}
+              {rich(c["mk.finale.titel"])}
             </h2>
             <div className="mt-12 flex flex-col items-center gap-4">
               <Link

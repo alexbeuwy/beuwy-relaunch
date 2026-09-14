@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissensseite (R3 Welle 2, Cluster C) — /immobilienfotografie-briefing.
@@ -17,70 +19,26 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * zu Video statt Foto. GelbeKarte, Beweis-Anriss über 17 Jahre
  * Markenarbeit (Bosch, Continental, Michelin) als Beleg für Bilddisziplin,
  * FAQ + FAQPage-JSON-LD. Foto 3 laut R3-SEITENPLAN.json.
+ *
+ * R11: alle Texte laufen über Studio-Keys
+ * (src/lib/texte/seiten/immobilienfotografie-briefing.ts).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Immobilienfotografie: Das Briefing, das Objekte größer macht | beuwy",
-  description:
-    "Immobilienfotografie briefen Sie mit einem Dokument: Golden Hour, feste Achsen, Pflichtaufnahmen je Raum, Bildrechte und Lieferformat in fünf Punkten.",
-  openGraph: {
-    title: "Immobilienfotografie: Das Briefing, das Objekte größer macht | beuwy",
-    description:
-      "Das übernehmbare Briefing für Immobilienfotografen: Tageszeit, Kamera-Achsen, Pflichtaufnahmen je Raum, Bildrechte und wann ein Video das Foto ergänzt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PUNKTE = [
-  {
-    titel: "Zeitfenster",
-    text: "Fassade und Garten entstehen in der Golden Hour, kurz nach Sonnenaufgang oder vor Sonnenuntergang — flaches Licht ohne harte Schatten. Innenräume dagegen brauchen einen bedeckten oder milden Tag, damit kein Fenster ausbrennt und kein Raum halb im Gegenlicht liegt.",
-  },
-  {
-    titel: "Achsen",
-    text: "Kamerahöhe fest zwischen 1,20 und 1,40 Meter, immer auf Stativ. Senkrechte Linien bleiben senkrecht, keine Weitwinkel-Verzerrung, die Wände nach innen kippen lässt. Von der Tür schräg in die Raumdiagonale fotografieren zeigt die Tiefe, die ein Raum tatsächlich hat.",
-  },
-  {
-    titel: "Pflichtaufnahmen je Raum",
-    text: "Wohnzimmer und Küche mit je zwei bis drei Perspektiven, jedes weitere Zimmer mit einer, dazu Fassade, Garten oder Balkon, Straßenansicht und Eingangsbereich. Eine feste Liste verhindert, dass der Fotograf vor Ort improvisiert, was er zeigt und was nicht.",
-  },
-  {
-    titel: "Detail-Liste",
-    text: "Einbauküche mit Marke, Bodenbelag, Aussicht, Stellplatz, besondere Ausstattung wie Fußbodenheizung oder Kamin — genau die Details, nach denen Interessenten im Exposé später suchen, nicht die, die zufällig gut aussehen.",
-  },
-  {
-    titel: "Lieferformat",
-    text: "Mindestauflösung für Druck und Portal, Lieferung innerhalb von drei bis fünf Werktagen, sortiert in der Reihenfolge des Exposés: Eingang, Wohnbereich, Nebenräume, Außenbereich. Ein wahllos benannter Ordner kostet am Ende Zeit, die niemand einplant.",
-  },
-] as const;
-
-const RECHTE = [
-  "Nutzungsrecht für Portale und die eigene Website steht schriftlich im Auftrag, nicht als mündliche Annahme.",
-  "Laufzeit ist geklärt: zeitlich begrenzt auf die Vermarktung oder dauerhaft für spätere Referenzen.",
-  "Sind Personen im Bild, liegt zusätzlich eine Einwilligung vor — ohne sie darf das Foto nicht veröffentlicht werden.",
-] as const;
-
-const FAQS = [
-  {
-    q: "Brauche ich einen Profifotografen oder reicht das Smartphone?",
-    a: "Für ein Standardobjekt in mittlerer Preislage reicht ein Smartphone mit Stativ und Weitwinkel-Vorsicht, wenn das Briefing trotzdem steht. Ab dem gehobenen Segment macht ein Profi mit Vollformatkamera und Belichtungsreihen einen Unterschied, den man im Exposé direkt sieht — Lichtführung und Perspektive lassen sich mit dem Handy nur begrenzt kontrollieren.",
-  },
-  {
-    q: "Wie lange dauert ein Fototermin?",
-    a: "Für eine durchschnittliche Wohnung rechnen Sie 60 bis 90 Minuten vor Ort, bei einem Haus mit Garten eher zwei Stunden. Golden-Hour-Aufnahmen von Fassade oder Garten verlängern den Termin um ein festes Zeitfenster am frühen Morgen oder späten Nachmittag, das wetterabhängig verschoben werden kann.",
-  },
-  {
-    q: "Wem gehören die Bilder nach dem Shooting?",
-    a: "Ohne ausdrückliche Regelung bleibt das Nutzungsrecht meist beim Fotografen, der es Ihnen nur für den vereinbarten Zweck einräumt. Klären Sie vor dem Termin schriftlich, ob die Bilder auf Portalen, der eigenen Website und in Social-Media-Anzeigen verwendet werden dürfen, sonst drohen spätere Nutzungsstreitigkeiten.",
-  },
-  {
-    q: "Wann lohnt sich ein Video zusätzlich zum Foto?",
-    a: "Bei Objekten im gehobenen Segment oder mit besonderem Grundriss schafft ein kurzer Rundgang ein Raumgefühl, das Einzelfotos nicht liefern. Welche Video-Typen dafür infrage kommen und mit welchem Aufwand, zeigt die Seite Video für Makler.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "immobilienfotografie-briefing");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -96,13 +54,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -124,14 +82,20 @@ function Haken() {
   );
 }
 
-export default function ImmobilienfotografieBriefingPage() {
+export default async function ImmobilienfotografieBriefingPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "immobilienfotografie-briefing");
+  const punkte = t.liste("punkte", ["titel", "text"] as const);
+  const rechte = t.liste("rechte", ["text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -147,25 +111,16 @@ export default function ImmobilienfotografieBriefingPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Bildwelt fürs Exposé</p>
-            <h1 className="t-display mt-4">
-              {rich(
-                "Immobilienfotografie-Briefing: das Dokument, das Objekte *größer* macht."
-              )}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie briefen einen Immobilienfotografen mit einem festen Dokument, nicht mit einem
-              Anruf am Morgen des Termins: Zeitfenster für Fassade und Garten, feste Kamera-Achsen
-              statt Weitwinkel-Verzerrung, eine Pflichtliste je Raum und eine klare Regel für
-              Bildrechte, bevor die erste Datei verschickt wird.{" "}
-              <Highlight>Ohne dieses Dokument entscheidet der Fotograf vor Ort
-              improvisierend, was er zeigt und was nicht</Highlight> — und genau das sieht man dem
-              Exposé an. Reicht die Zeit für einen Termin nicht für jeden Raum einzeln, ersetzt ein
-              kurzer Rundgang einen Teil der Einzelfotos, ohne dass die Bildsprache bricht.
+              {t("kopf.intro_vor")}{" "}
+              <Highlight>{t("kopf.intro_highlight")}</Highlight>
+              {t("kopf.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -191,14 +146,14 @@ export default function ImmobilienfotografieBriefingPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Zum Übernehmen"
-              titel="Fünf Punkte, die aus einem Zuruf ein *Briefing* machen."
-              sub="Jeder Punkt geht unverändert an den Fotografen — als Dokument, nicht als Gedächtnisstütze für das Telefonat davor."
+              eyebrow={t("briefing.eyebrow")}
+              titel={t("briefing.titel")}
+              sub={t("briefing.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {PUNKTE.map((punkt, i) => (
+            {punkte.map((punkt, i) => (
               <Reveal key={punkt.titel} delay={i * 60}>
                 <div className="lg:px-6 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -217,31 +172,25 @@ export default function ImmobilienfotografieBriefingPage() {
       <section id="bildrechte" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Bildrechte in drei Sätzen"
-              titel="Wer die Bilder *nutzen* darf, gehört ins Auftragsdokument."
-              className="max-w-[720px]"
-            />
+            <SektionsKopf eyebrow={t("bildrechte.eyebrow")} titel={t("bildrechte.titel")} className="max-w-[720px]" />
           </Reveal>
           <div className="mt-10 max-w-[640px] space-y-4">
-            {RECHTE.map((punkt, i) => (
-              <Reveal key={punkt} delay={i * 60}>
+            {rechte.map((punkt, i) => (
+              <Reveal key={punkt.text} delay={i * 60}>
                 <div className="flex items-start gap-3">
                   <Haken />
-                  <p className="t-body pt-0.5">{punkt}</p>
+                  <p className="t-body pt-0.5">{punkt.text}</p>
                 </div>
               </Reveal>
             ))}
           </div>
           <Reveal delay={200}>
             <p className="t-body mt-10 max-w-[640px]">
-              Reicht die Zeit oder das Budget für ein klassisches Fotoshooting je Raum nicht,
-              lohnt sich oft ein kurzer Rundgang statt zusätzlicher Einzelfotos. Welche
-              Video-Typen dafür infrage kommen und mit welchem Aufwand, zeigt{" "}
+              {t("bildrechte.hinweis_vor")}{" "}
               <Link href="/video-fuer-makler" className="ref-link">
-                Video für Makler
+                {t("bildrechte.hinweis_link")}
               </Link>
-              .
+              {t("bildrechte.hinweis_nach")}
             </p>
           </Reveal>
         </div>
@@ -251,11 +200,8 @@ export default function ImmobilienfotografieBriefingPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Ein Foto zeigt einen Raum. Ein Briefing zeigt zwölf gleich." glyph>
-              Ohne festes Dokument hängt jedes Objekt von der Tagesform des Fotografen ab. Mit
-              Briefing sehen zwölf Objekte aus zwölf unterschiedlichen Terminen aus, als kämen sie
-              aus derselben Bildwelt — genau das erwartet ein Eigentümer, der vorher drei Makler
-              verglichen hat.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -265,16 +211,12 @@ export default function ImmobilienfotografieBriefingPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Stilblatt</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              17 Jahre Markenarbeit, unter anderem für Bosch, Continental und Michelin: dieselbe
-              Disziplin, mit der Weltmarken ihre Bildsprache kontrollieren, steckt in jedem
-              Briefing-Dokument, das wir für ein Maklerbüro aufsetzen.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
           <Reveal delay={60}>
             <Link href="/exposes-die-verkaufen" className="ref-link mt-8 inline-block">
-              Wie das Exposé aus diesen Bildern ein Entscheidungsdokument macht →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -284,14 +226,10 @@ export default function ImmobilienfotografieBriefingPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Termin wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -300,27 +238,27 @@ export default function ImmobilienfotografieBriefingPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Bildwelt*.")}</h2>
+            <p className="t-label">{t("fazit.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("fazit.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[56ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("fazit.text_1")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("fazit.link1")}
               </Link>
-              , wie aus den Bildern ein{" "}
+              {t("fazit.text_2")}{" "}
               <Link href="/exposes-die-verkaufen" className="ref-link">
-                Exposé, das verkauft
+                {t("fazit.link2")}
               </Link>{" "}
-              wird, und wann ein Rundgang das Foto ergänzt, zeigt{" "}
+              {t("fazit.text_3")}{" "}
               <Link href="/video-fuer-makler" className="ref-link">
-                Video für Makler
+                {t("fazit.link3")}
               </Link>
-              .
+              {t("fazit.text_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("fazit.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

@@ -28,10 +28,14 @@ done for you, in Wochen statt Quartalen.
 - Kennzahlen/Kundennamen sind Studio-editierbar (`src/lib/content.ts`),
   nicht hart im Code.
 
-**Studio-Pflicht (Alex, 27.08):** Jede neue nutzerlesbare Textfläche
-registriert ihre Texte als Keys unter `src/lib/texte/<bereich>.ts`
-(defaults + labels, von `content.ts` gespreadet) und liest sie über
-`getContent()` — Alex korrigiert Texte im Studio ohne LLM.
+**Studio-Pflicht (Alex, 27.08; Gate seit R11, 14.09):** Jede nutzerlesbare
+Textfläche ist ein Studio-Key. Unterseiten: `src/lib/texte/seiten/<slug>.ts`
+(SEITE + DEFAULTS + LABELS, Keys `s.<slug>.<gruppe>.<feld>`, Listen über
+`listeRegistrieren`), gelesen mit `seitenTexte(c, slug)` aus
+`src/lib/texte/lesen.ts`; Startseite/Rahmen `mk.*`. Nach neuer Seite
+`node tools/texte-index.mjs`. `node tools/texte-scan.mjs` muss 0 Treffer
+liefern (Teil von `scripts/verify.mjs`). Studio-Speichern revalidiert den
+ganzen Seitenbaum — Studio und Live sind damit immer deckungsgleich.
 
 Masterbrief und Arbeitsstand: `docs/redesign/BRIEF.md` + `PLAN.md`.
 SEO-Seitenarchitektur (Hub, Leadgen, Maklerwebsite, onOffice, Ranking,

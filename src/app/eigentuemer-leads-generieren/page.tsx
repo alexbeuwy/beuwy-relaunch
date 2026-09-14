@@ -5,6 +5,7 @@ import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
 import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -17,76 +18,28 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * PerformanceStory/StartOben) statt neu erfundener Zahlen. GelbeKarte,
  * textlicher Beweis-Anriss (Riegel), FAQ + FAQPage-JSON-LD. Foto 4 laut
  * R3-SEITENPLAN.json.
+ *
+ * R11: alle Seitentexte laufen über Studio-Keys, siehe
+ * src/lib/texte/seiten/eigentuemer-leads-generieren.ts. Die mk.pm.*-Werte
+ * (Quote, Mandate, Provision) bleiben eigenständige Studio-Keys aus
+ * content.ts, unverändert.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Eigentümer-Leads generieren: Die eigene Quelle statt Portal-Miete | beuwy",
-  description:
-    "Eigentümer-Leads generieren: eigene Quelle statt gemieteter Portal-Kontakte, die jeder Wettbewerber bekommt. beuwy baut Rechner, Anzeigen und Portal als System.",
-  openGraph: {
-    title: "Eigentümer-Leads generieren: Die eigene Quelle statt Portal-Miete | beuwy",
-    description:
-      "Eigene Lead-Quelle statt gemieteter Portal-Kontakte, die jeder Wettbewerber ebenfalls bekommt. beuwy baut Rechner, Anzeigen und Portal als ein System nach der 5%-Systematik.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const VERGLEICH = [
-  {
-    merkmal: "Exklusivität",
-    eigen: "Landet nur in Ihrem System",
-    portal: "oft an 3–5 Makler gleichzeitig verkauft",
-  },
-  {
-    merkmal: "Vorwissen des Eigentümers",
-    eigen: "kennt Ihren Namen, bevor er anruft",
-    portal: "kennt nur ein ausgefülltes Formular",
-  },
-  {
-    merkmal: "Lebensdauer",
-    eigen: "bleibt bestehen, arbeitet weiter",
-    portal: "endet mit dem gebuchten Abo",
-  },
-  {
-    merkmal: "Qualifizierung",
-    eigen: "Score liegt bei Registrierung im CRM",
-    portal: "Roh-Kontakt ohne Vorqualifizierung",
-  },
-  {
-    merkmal: "Kostenlogik",
-    eigen: "Investition in eigene Sichtbarkeit",
-    portal: "laufende Miete pro Kontakt",
-  },
-] as const;
-
-const KETTE = [
-  { anteil: "100 %", label: "Anzeige gesehen", text: "Ihre Marke erscheint bei Eigentümern, die noch niemanden beauftragt haben." },
-  { anteil: "38 %", label: "Bleiben dran", text: "Wer klickt, landet auf einem Portal, nicht auf einer Visitenkarte." },
-  { anteil: "14 %", label: "Rechner gestartet", text: "Adresse rein, Ersteinschätzung raus, der erste konkrete Schritt." },
-  { anteil: "5 %", label: "Registriert & qualifiziert", text: "Die kommunizierte Quote: Der Eigentümer liegt mit Score im CRM." },
-] as const;
-
-const FAQS = [
-  {
-    q: "Wie viele Eigentümer-Leads kann ich realistisch pro Monat erwarten?",
-    a: "Das hängt von Ihrer Region, dem Werbebudget und der Zahl der Eigentümer ab, die dort gerade verkaufen. Die Kette selbst ist planbar (Anzeige, Klick, Rechner, Registrierung), die Menge am Ende nicht ohne Ihren Markt zu kennen. Eine feste Zahl nennen wir erst nach dem ersten Blick auf Ihre Region.",
-  },
-  {
-    q: "Was kostet ein selbst generierter Lead im Vergleich zum gekauften?",
-    a: "Anders als beim gekauften Kontakt sinken die Kosten je registriertem Eigentümer meist, je länger die eigene Quelle läuft, weil Rechner und Portal weiterarbeiten, ohne dass jede Anzeige neu bezahlt wird. Eine pauschale Zahl wäre unseriös, das hängt zu stark von Region und Wettbewerb ab.",
-  },
-  {
-    q: "Ersetzt die eigene Quelle Portale wie ImmoScout komplett?",
-    a: "Nein. Bleiben Sie dort gelistet, Portale ersetzen wir nicht. Wir bauen daneben die Quelle auf, die Ihnen gehört und nicht endet, sobald ein Wettbewerber mehr für dieselbe Anzeige zahlt.",
-  },
-  {
-    q: "Brauche ich dafür ein neues CRM?",
-    a: "Nicht zwingend. Die Anfrage muss nur strukturiert in Ihr bestehendes System einlaufen, mit Quelle und nächstem Schritt, statt im Postfach liegen zu bleiben.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "eigentuemer-leads-generieren");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -102,13 +55,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -116,17 +69,21 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function EigentuemerLeadsGenerierenPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "eigentuemer-leads-generieren");
   const quote = c["mk.pm.quote"] ?? "5 %";
   const mandate = c["mk.pm.mandate"] ?? "5";
   const provision = c["mk.pm.provision"] ?? "31.285 €";
+  const vergleich = t.liste("vergleich", ["merkmal", "eigen", "portal"] as const);
+  const kette = t.liste("kette", ["anteil", "label", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -142,22 +99,18 @@ export default async function EigentuemerLeadsGenerierenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Akquise</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Eigentümer-Leads, die *Ihnen* gehören.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie generieren Eigentümer-Leads, indem Sie eine{" "}
-              <Highlight>eigene Quelle</Highlight> bauen statt gemietete Kontakte einzukaufen:
-              eine Anzeige, die auf einen Bewertungsrechner führt, der eine Adresse in eine
-              Ersteinschätzung verwandelt und den Eigentümer mit Score direkt in Ihr System
-              registriert. Ein gekaufter Lead kennt Ihren Namen nicht, bevor das Telefon klingelt,
-              und wird oft an mehrere Makler gleichzeitig verkauft. Eine eigene Quelle gehört
-              ausschließlich Ihnen und arbeitet weiter, auch während Sie eine Besichtigung führen.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>{" "}
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -183,8 +136,8 @@ export default async function EigentuemerLeadsGenerierenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Unterschied auf einen Blick"
-              titel="Eigene Quelle gegen *gemieteten* Kontakt."
+              eyebrow={t("vergleich.eyebrow")}
+              titel={t("vergleich.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -193,15 +146,15 @@ export default async function EigentuemerLeadsGenerierenPage() {
               <table className="w-full min-w-[640px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line-subtle">
-                    <th className="t-label py-3 pr-6 font-semibold">Merkmal</th>
+                    <th className="t-label py-3 pr-6 font-semibold">{t("vergleich.spalte_merkmal")}</th>
                     <th className="t-label py-3 pr-6 font-semibold !text-ink-cream">
-                      Eigene Quelle (Rechner + Ads + Portal)
+                      {t("vergleich.spalte_eigen")}
                     </th>
-                    <th className="t-label py-3 font-semibold">Gemieteter Portal-Kontakt</th>
+                    <th className="t-label py-3 font-semibold">{t("vergleich.spalte_portal")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {VERGLEICH.map((row) => (
+                  {vergleich.map((row) => (
                     <tr key={row.merkmal} className="border-b border-line-subtle">
                       <td className="t-data py-4 pr-6 !text-ink-cream">{row.merkmal}</td>
                       <td className="t-body py-4 pr-6 tnum">{row.eigen}</td>
@@ -220,15 +173,15 @@ export default async function EigentuemerLeadsGenerierenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die 5 %-Systematik"
-              titel="Vier Stufen, bis aus einer Anzeige ein *Mandat* wird."
-              sub="Jede Stufe hat eine realistische Quote statt Bauchgefühl. Das Ende der Kette ist die Zahl, die zählt: Wie viele Eigentümer registrieren sich qualifiziert."
+              eyebrow={t("kette.eyebrow")}
+              titel={t("kette.titel")}
+              sub={t("kette.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div className="divide-y divide-line-subtle border-t border-line-subtle">
-              {KETTE.map((stufe, i) => (
+              {kette.map((stufe, i) => (
                 <Reveal key={stufe.label} delay={i * 60}>
                   <div className="flex items-baseline justify-between gap-6 py-6">
                     <div>
@@ -244,17 +197,20 @@ export default async function EigentuemerLeadsGenerierenPage() {
             </div>
             <Reveal delay={120}>
               <div className="rounded-[28px] border border-line-subtle bg-bg-elevated p-8">
-                <p className="t-label">Was das im Jahr bedeutet</p>
+                <p className="t-label">{t("kette.karte_label")}</p>
                 <p className="mt-4 font-display text-[44px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                   {quote}
                 </p>
                 <p className="t-body mt-2">
-                  registrierte und qualifizierte Eigentümer, gemessen an allen, die die Anzeige
-                  sehen.
+                  {t("kette.karte_text")}
                 </p>
                 <div className="mt-8 border-t border-line-subtle pt-6">
-                  <p className="t-data !text-ink-cream tnum">{mandate} zusätzliche Mandate</p>
-                  <p className="t-small mt-1">im Jahr, bei Ø {provision} Provision je Mandat.</p>
+                  <p className="t-data !text-ink-cream tnum">
+                    {mandate} {t("kette.mandate_suffix")}
+                  </p>
+                  <p className="t-small mt-1">
+                    {t("kette.karte_footnote_vor")} {provision} {t("kette.karte_footnote_nach")} {/* studio:ok — Key-Name, kein Fließtext */}
+                  </p>
                 </div>
               </div>
             </Reveal>
@@ -266,10 +222,8 @@ export default async function EigentuemerLeadsGenerierenPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Gemietet ist nicht Ihres." glyph>
-              Ein gekaufter Kontakt gehört dem Portal, das ihn verkauft, nicht Ihnen. Eine eigene
-              Quelle gehört Ihnen, arbeitet weiter, wenn Sie im Termin sind, und wird mit jeder
-              Anzeige, jedem Rechner-Durchlauf wertvoller statt teurer.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -279,14 +233,12 @@ export default async function EigentuemerLeadsGenerierenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
+            <p className="t-label">{t("beweis.label")}</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
-              Bei RIEGEL Immobilien liegt genau dieser Bewertungsrechner mit amtlichen
-              Bodenrichtwerten hinter der eigenen Quelle: neun Abschlüsse, 342.000 € Volumen in den
-              ersten sechs Wochen nach dem Relaunch, ohne einen einzigen gekauften Lead.
+              {t("beweis.text")}
             </p>
             <Link href="/cases/riegel-immobilien" className="ref-link mt-6 inline-block">
-              Fallstudie RIEGEL Immobilien lesen →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -297,13 +249,13 @@ export default async function EigentuemerLeadsGenerierenPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -312,31 +264,31 @@ export default async function EigentuemerLeadsGenerierenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre eigene *Quelle*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.satz_1")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_1")}
               </Link>
-              , die volle Systematik auf der Seite{" "}
+              {t("finale.satz_2")}{" "}
               <Link href="/leadgenerierung-immobilienmakler" className="ref-link">
-                Leadgenerierung für Immobilienmakler
+                {t("finale.link_2")}
               </Link>
-              , den Rechner selbst im{" "}
+              {t("finale.satz_3")}{" "}
               <Link href="/tools/verkaufspreisrechner" className="ref-link">
-                Verkaufspreisrechner
+                {t("finale.link_3")}
               </Link>{" "}
-              und wie die Anzeigen dazu laufen im{" "}
+              {t("finale.satz_4")}{" "}
               <Link href="/performance-marketing-makler" className="ref-link">
-                Performance-Marketing für Makler
+                {t("finale.link_4")}
               </Link>
-              .
+              {t("finale.satz_5")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

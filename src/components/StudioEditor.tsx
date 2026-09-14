@@ -6,6 +6,8 @@ import {
   Archive,
   Calculator,
   ChevronDown,
+  Clapperboard,
+  Files,
   Home,
   LayoutDashboard,
   Monitor,
@@ -52,7 +54,7 @@ function rowsFor(text: string): number {
   return Math.min(12, Math.max(2, lines, wrapped));
 }
 
-const ICONS: Record<string, LucideIcon> = { Home, Calculator, LayoutDashboard, Archive };
+const ICONS: Record<string, LucideIcon> = { Home, Calculator, LayoutDashboard, Archive, Clapperboard, Files };
 function bereichIcon(name: string): LucideIcon {
   return ICONS[name] ?? Archive;
 }
@@ -101,10 +103,20 @@ export function StudioEditor({
 
   const bereiche = useMemo(() => baueBereiche(defaults), [defaults]);
   const [aktiverPraefix, setAktiverPraefix] = useState(bereiche[0]?.praefix ?? "");
+  // R11: im Bereich „Unterseiten" wird eine Seite gewählt — nur deren
+  // Felder und deren Live-Vorschau sind sichtbar (statt 3.000 Felder).
+  const [aktiveSeite, setAktiveSeite] = useState<string>("");
   const aktiverBereich: BereichMitFeldern = useMemo(
     () => bereiche.find((b) => b.praefix === aktiverPraefix) ?? bereiche[0],
     [bereiche, aktiverPraefix],
   );
+  // Unterseiten-Bereich: gewählte Seite (Fallback erste), sonst der Bereich selbst.
+  const seiteAktiv = useMemo(
+    () => aktiverBereich.seiten?.find((s) => s.slug === aktiveSeite) ?? aktiverBereich.seiten?.[0],
+    [aktiverBereich, aktiveSeite],
+  );
+  const gruppenSichtbar = seiteAktiv ? seiteAktiv.gruppen : aktiverBereich.gruppen;
+  const vorschauRoute = seiteAktiv ? seiteAktiv.route : aktiverBereich.route;
 
   const [showPreview, setShowPreview] = useState(false);
 
@@ -116,7 +128,7 @@ export function StudioEditor({
   const treffer = useMemo(() => {
     const q = suche.trim().toLowerCase();
     if (q.length < 2) return [];
-    const alle: Array<{ key: string; label: string; bereich: string; praefix: string }> = [];
+    const alle: Array<{ key: string; label: string; bereich: string; praefix: string; seite?: string }> = [];
     for (const b of bereiche) {
       for (const g of b.gruppen) {
         for (const key of g.keys) {
@@ -127,7 +139,14 @@ export function StudioEditor({
             key.toLowerCase().includes(q) ||
             wert.toLowerCase().includes(q)
           ) {
-            alle.push({ key, label, bereich: b.titel, praefix: b.praefix });
+            const seite = b.seiten?.find((s) => key.startsWith(`s.${s.slug}.`));
+            alle.push({
+              key,
+              label,
+              bereich: seite ? `${b.titel} · ${seite.titel}` : b.titel,
+              praefix: b.praefix,
+              seite: seite?.slug,
+            });
           }
         }
       }
@@ -135,8 +154,9 @@ export function StudioEditor({
     return alle.slice(0, 12);
   }, [suche, bereiche, labels, values]);
 
-  function springeZuFeld(t: { key: string; praefix: string }) {
+  function springeZuFeld(t: { key: string; praefix: string; seite?: string }) {
     setAktiverPraefix(t.praefix);
+    if (t.seite) setAktiveSeite(t.seite);
     setSuche("");
     setGefundenerKey(t.key);
     // Nach dem Bereichswechsel rendern, dann scrollen + Highlight auslaufen lassen
@@ -235,14 +255,14 @@ export function StudioEditor({
   // damit der Block bei großen Bereichen (CRM-Konsole) lightweight bleibt.
   const vorschauZeilen = useMemo<VorschauZeile[]>(() => {
     const zeilen: VorschauZeile[] = [];
-    for (const gruppe of aktiverBereich.gruppen) {
+    for (const gruppe of gruppenSichtbar) {
       const headlineKey = gruppe.keys.find(istHeadlineKey);
       const bodyKey = gruppe.keys.find((k) => istBodyKey(k) && k !== headlineKey);
       if (headlineKey || bodyKey) zeilen.push({ titel: gruppe.titel, headlineKey, bodyKey });
       if (zeilen.length >= 4) break;
     }
     return zeilen;
-  }, [aktiverBereich]);
+  }, [gruppenSichtbar]);
 
   return (
     <div>
@@ -366,6 +386,47 @@ export function StudioEditor({
 
         {/* Rechts: gewählter Bereich */}
         <div className="min-w-0 flex-1">
+          {aktiverBereich.seiten && (
+            <div className="mb-8 rounded-xl border border-line-subtle bg-white p-5">
+              <label htmlFor="studio-seite" className="t-label">Seite wählen</label>
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <select
+                  id="studio-seite"
+                  className="booking-input max-w-[520px] cursor-pointer"
+                  value={seiteAktiv?.slug ?? ""}
+                  onChange={(e) => {
+                    setAktiveSeite(e.target.value);
+                    setShowPreview(false);
+                  }}
+                >
+                  {aktiverBereich.seiten.map((seite) => {
+                    const geaendert = seite.keys.reduce((n, k) => n + (values[k] !== defaults[k] ? 1 : 0), 0);
+                    return (
+                      <option key={seite.slug} value={seite.slug}>
+                        {seite.titel} — {seite.route} · {seite.keys.length} Felder{geaendert > 0 ? ` · ${geaendert} geändert` : ""}
+                      </option>
+                    );
+                  })}
+                </select>
+                {seiteAktiv && (
+                  <a
+                    href={seiteAktiv.route}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="t-data inline-flex items-center gap-1.5 transition-colors hover:text-ink-cream"
+                  >
+                    <Monitor size={12} aria-hidden />
+                    Live öffnen
+                  </a>
+                )}
+              </div>
+              <p className="t-small mt-3">
+                {aktiverBereich.seiten.length} Seiten, {aktiverBereich.keys.length} Felder. Gespeicherte Texte
+                stehen sofort live — jede Seite wird beim Speichern neu gerendert.
+              </p>
+            </div>
+          )}
+
           {vorschauZeilen.length > 0 && (
             <div className="mb-8 rounded-xl border border-line-subtle bg-bg-elevated p-6 sm:p-7">
               <p className="t-label">Text-Vorschau</p>
@@ -387,7 +448,7 @@ export function StudioEditor({
             </div>
           )}
 
-          {aktiverBereich.route && (
+          {vorschauRoute && (
             <div className="mb-8">
               <div className="flex flex-wrap items-center gap-4">
                 <button
@@ -418,9 +479,9 @@ export function StudioEditor({
                 <div className="mt-3 overflow-hidden rounded-xl border border-line-subtle">
                   <iframe
                     ref={iframeRef}
-                    key={aktiverBereich.praefix}
-                    src={aktiverBereich.route}
-                    title={`Live-Vorschau — ${aktiverBereich.titel}`}
+                    key={`${aktiverBereich.praefix}${seiteAktiv?.slug ?? ""}`}
+                    src={vorschauRoute}
+                    title={`Live-Vorschau — ${seiteAktiv?.titel ?? aktiverBereich.titel}`}
                     className="h-[70vh] w-full bg-white"
                   />
                 </div>
@@ -429,9 +490,9 @@ export function StudioEditor({
           )}
 
           <div className="space-y-9">
-            {aktiverBereich.gruppen.map((gruppe) => (
+            {gruppenSichtbar.map((gruppe) => (
               <section key={gruppe.titel}>
-                {aktiverBereich.gruppen.length > 1 && <h2 className="t-label mb-3">{gruppe.titel}</h2>}
+                {gruppenSichtbar.length > 1 && <h2 className="t-label mb-3">{gruppe.titel}</h2>}
                 <div className="space-y-3">
                   {gruppe.keys.map((key) => {
                     const value = values[key];
@@ -481,6 +542,16 @@ export function StudioEditor({
                           value={value}
                           onChange={(e) => setValue(key, e.target.value)}
                         />
+                        {changedFromDefault && (
+                          <details className="mt-2">
+                            <summary className="t-data cursor-pointer select-none">
+                              Standardtext im Code anzeigen
+                            </summary>
+                            <p className="t-small mt-1.5 whitespace-pre-wrap rounded-lg bg-bg-elevated px-3 py-2">
+                              {defaults[key] || "—"}
+                            </p>
+                          </details>
+                        )}
                       </div>
                     );
                   })}

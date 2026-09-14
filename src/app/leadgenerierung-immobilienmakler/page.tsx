@@ -10,6 +10,7 @@ import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
 import { CaseGrid } from "@/components/CaseGrid";
 import { caseBySlug } from "@/lib/cases";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * D2 — Leadgenerierung für Immobilienmakler. VSL-Dramaturgie
@@ -20,55 +21,19 @@ import { caseBySlug } from "@/lib/cases";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Leadgenerierung für Immobilienmakler: Eigentümer statt Kontakte | beuwy",
-  description:
-    "Kein gemieteter Portal-Kontakt: beuwy baut Immobilienmaklern die eigene Quelle für Eigentümer-Anfragen, Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System.",
-  openGraph: {
-    title: "Leadgenerierung für Immobilienmakler: Eigentümer statt Kontakte | beuwy",
-    description:
-      "beuwy baut die eigene Quelle für Eigentümer-Anfragen, Sichtbarkeit, Bewertungsrechner und CRM-Anbindung als ein System, nicht als gemieteter Portal-Kontakt.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote: "Derselbe Eigentümer bekommt an einem Abend vier Anrufe.",
-    answer:
-      "Lead-Portale verkaufen eine Adresse an mehrere Makler gleichzeitig. Wer zuerst anruft, führt das Gespräch, nicht wer den besseren Marktpreis nennt. Sie bezahlen für einen Wettlauf, nicht für einen Kunden.",
-  },
-  {
-    quote: "Wer über ein Portal kommt, vergleicht drei Provisionen, bevor er Ihren Namen kennt.",
-    answer:
-      "Der Kontakt hat noch keine Meinung von Ihnen, nur ein Formular ausgefüllt. Er prüft Angebote, nicht Menschen. Die Beziehung, die einen Alleinauftrag rechtfertigt, fängt bei null an.",
-  },
-  {
-    quote: "Ein gekaufter Kontakt kennt Ihren Namen nicht, bevor das Telefon klingelt.",
-    answer:
-      "Er weiß nicht, wer Sie sind, was Sie verkauft haben oder warum er Ihnen vertrauen sollte. Jedes Gespräch beginnt bei der Einwandbehandlung, nie beim Verkaufen.",
-  },
-];
-
-const SCHRITTE = [
-  {
-    titel: "Sichtbarkeit dort, wo Eigentümer suchen",
-    text: "Wenn „Makler + Stadtteil“ gegoogelt wird, steht Ihr Name über dem Portal.",
-  },
-  {
-    titel: "Der Rechner qualifiziert, während Sie besichtigen",
-    text: "Adresse rein, Ersteinschätzung raus: Der Verkäufer-Lead bekommt sofort einen Score.",
-  },
-  {
-    titel: "Die Anfrage landet im CRM, nicht im Postfach",
-    text: "Jede Anfrage kommt mit Quelle und nächstem Schritt an. Keine Zettel, kein Copy-Paste, kein vergessener Rückruf.",
-  },
-  {
-    titel: "Automatisches Nachfassen über Monate",
-    text: "Wer heute nicht verkauft, bekommt in 6 Monaten die richtige Mail. Automatisch.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "leadgenerierung-immobilienmakler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -84,13 +49,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -98,37 +63,20 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function LeadgenerierungPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "leadgenerierung-immobilienmakler");
+  const pains = t.liste("pains", ["quote", "answer"] as const);
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const faq = t.liste("faq", ["frage", "antwort"] as const);
   const riegel = caseBySlug("riegel-immobilien");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Wie lange dauert es bis zu den ersten Eigentümer-Anfragen?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten qualifizierten Anfragen kommen meist in den Wochen danach, abhängig von Ihrem Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl nennen wir erst, wenn wir Ihren Markt kennen.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Funktioniert das auch in kleinen Märkten?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Ja, mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen, aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil kaum ein Mitbewerber sie überhaupt aufbaut.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Was ist mit Portalen wie ImmoScout?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Bleiben Sie dort gelistet. Portale ersetzen wir nicht, wir ergänzen sie um das, was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.",
-        },
-      },
-    ],
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
+    })),
   };
 
   return (
@@ -155,7 +103,7 @@ export default async function LeadgenerierungPage() {
 
             {/* Floating Card — Ergebnis-Kennzahl, Studio-editierbar über mk.stats.s2 */}
             <div className="absolute bottom-8 left-6 max-w-[13.5rem] rounded-2xl bg-white/95 p-5 backdrop-blur-sm lg:bottom-12 lg:left-10">
-              <p className="t-label !text-[10px]">Ergebnis bei Bestandskunden</p>
+              <p className="t-label !text-[10px]">{t("hero.karte_label")}</p>
               <p className="mt-1 font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                 {c["mk.stats.s2_wert"]}
               </p>
@@ -166,19 +114,18 @@ export default async function LeadgenerierungPage() {
           </div>
 
           <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-14 pt-28 lg:min-h-[70dvh] lg:max-w-none lg:pl-[max(24px,calc((100vw-1280px)/2))] lg:pr-[55vw] lg:pt-24">
-            <p className="t-label !text-ink-yellow">Eigene Quelle statt Portal-Kontakt</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="mt-5 font-display text-[clamp(34px,4.4vw,58px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-              {rich("Leadgenerierung für Immobilienmakler — *Eigentümer*, keine Adressen.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[34rem]">
-              Lead-Portale verkaufen denselben Kontakt an mehrere Makler zeitgleich. Unser System
-              sorgt dafür, dass{" "}
-              <Highlight>Eigentümer Sie finden, bevor sie beim Portal ankommen</Highlight>, und
-              die Anfrage bei Ihnen landet, nicht bei drei Konkurrenten gleichzeitig.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_mark")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.antwort")}</span>
             </div>
           </div>
         </div>
@@ -189,13 +136,13 @@ export default async function LeadgenerierungPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Das Problem mit gekauften Leads"
-              titel="Der teuerste Lead ist der, den *drei andere* Makler auch gerade anrufen."
+              eyebrow={t("problem.eyebrow")}
+              titel={t("problem.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={pains} />
           </div>
         </div>
       </section>
@@ -205,14 +152,14 @@ export default async function LeadgenerierungPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Mechanismus"
-              titel="Vier Stufen. Eine Quelle, die *Ihnen* gehört."
-              sub="Ein Lead-Portal endet, sobald Sie aufhören zu zahlen. Ein eigenes System bleibt und arbeitet weiter, auch am Wochenende, auch im Termin."
+              eyebrow={t("mechanismus.eyebrow")}
+              titel={t("mechanismus.titel")}
+              sub={t("mechanismus.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {SCHRITTE.map((schritt, i) => (
+            {schritte.map((schritt, i) => (
               <Reveal key={schritt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -231,9 +178,8 @@ export default async function LeadgenerierungPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Portale vermieten Ihnen Kontakte." glyph>
-              Wir bauen Ihnen die Quelle: eine eigene Sichtbarkeit, die Ihnen gehört, nicht
-              gemietet, nicht geteilt, nicht kündbar durch einen Algorithmus.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -243,14 +189,9 @@ export default async function LeadgenerierungPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen
-              einzigen gekauften Lead.
-            </p>
-            <p className="t-body mt-4 max-w-[54ch]">
-              17 Jahre Markenarbeit stecken in diesem System, nicht ein Quartal Testphase.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.titel")}</p>
+            <p className="t-body mt-4 max-w-[54ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -265,59 +206,25 @@ export default async function LeadgenerierungPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <details className="faq-item">
-              <summary className="faq-trigger">
-                <span className="t-h3">Wie lange dauert es bis zu den ersten Eigentümer-Anfragen?</span>
-                <span aria-hidden className="shrink-0 text-2xl font-light leading-none text-ink-dim">
-                  +
-                </span>
-              </summary>
-              <div className="faq-panel-inner">
-                <p className="t-body">
-                  Sichtbarkeit und Rechner stehen innerhalb von vier bis sechs Wochen. Die ersten
-                  qualifizierten Anfragen kommen meist in den Wochen danach, abhängig von Ihrem
-                  Markt und davon, wie viele Eigentümer dort gerade verkaufen. Eine feste Zahl
-                  nennen wir erst, wenn wir Ihren Markt kennen.
-                </p>
-              </div>
-            </details>
-            <details className="faq-item">
-              <summary className="faq-trigger">
-                <span className="t-h3">Funktioniert das auch in kleinen Märkten?</span>
-                <span aria-hidden className="shrink-0 text-2xl font-light leading-none text-ink-dim">
-                  +
-                </span>
-              </summary>
-              <div className="faq-panel-inner">
-                <p className="t-body">
-                  Ja, mit angepasster Erwartung. In einer Kleinstadt suchen weniger Menschen
-                  gleichzeitig einen Makler als in einer Großstadt, also kommen weniger Anfragen,
-                  aber genauso qualifizierte. Sichtbarkeit vor Ort wirkt dort sogar leichter, weil
-                  kaum ein Mitbewerber sie überhaupt aufbaut.
-                </p>
-              </div>
-            </details>
-            <details className="faq-item">
-              <summary className="faq-trigger">
-                <span className="t-h3">Was ist mit Portalen wie ImmoScout?</span>
-                <span aria-hidden className="shrink-0 text-2xl font-light leading-none text-ink-dim">
-                  +
-                </span>
-              </summary>
-              <div className="faq-panel-inner">
-                <p className="t-body">
-                  Bleiben Sie dort gelistet. Portale ersetzen wir nicht, wir ergänzen sie um das,
-                  was ihnen fehlt: eine Quelle, die nur Ihnen gehört und nach dem ersten Klick
-                  weiterarbeitet, statt den Kontakt an den Nächstbietenden weiterzureichen.
-                </p>
-              </div>
-            </details>
+            {faq.map((f) => (
+              <details className="faq-item" key={f.frage}>
+                <summary className="faq-trigger">
+                  <span className="t-h3">{f.frage}</span>
+                  <span aria-hidden className="shrink-0 text-2xl font-light leading-none text-ink-dim">
+                    +
+                  </span>
+                </summary>
+                <div className="faq-panel-inner">
+                  <p className="t-body">{f.antwort}</p>
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
@@ -326,24 +233,23 @@ export default async function LeadgenerierungPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre eigene *Quelle*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[52ch]">
-              Leadgenerierung ist der erste Baustein. Die meisten Makler kombinieren sie mit einer
-              eigenen{" "}
+              {t("finale.satz_vor")}{" "}
               <Link href="/website-fuer-immobilienmakler" className="ref-link">
-                Maklerwebsite
+                {t("finale.satz_link1")}
               </Link>
-              , die den Rechner trägt. Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.satz_mitte")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.satz_link2")}
               </Link>
-              .
+              {t("finale.satz_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.antwort")}</p>
           </Reveal>
         </div>
       </section>

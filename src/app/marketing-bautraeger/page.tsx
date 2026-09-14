@@ -5,6 +5,7 @@ import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
 import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -20,74 +21,25 @@ import { caseBySlug } from "@/lib/cases";
  * Aufnahme (Gruppe im Wohnraum, liest sich als Musterwohnungs-Besichtigung,
  * BRIEF §9-Zuteilung). Kein Loft-Video, siehe Begründung in der
  * Schwesterseite marketing-projektentwickler — "im Zweifel Foto".
+ * R11: alle Fließtexte laufen über Studio-Keys src/lib/texte/seiten/
+ * marketing-bautraeger.ts, die mk.*-Keys (Floating-Card-Zahl) bleiben.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Marketing für Bauträger: Reservierungen statt Anfrage-Chaos | beuwy",
-  description:
-    "beuwy baut Bauträgern ein Vertriebsportal für den Vermarktungsstart: Preislisten, die sich pflegen lassen, Musterwohnungs-Termine, die sich selbst füllen, und automatische Käuferkommunikation.",
-  openGraph: {
-    title: "Marketing für Bauträger: Reservierungen statt Anfrage-Chaos | beuwy",
-    description:
-      "Ein Vertriebsportal für den Vermarktungsstart: Preislisten, die sich pflegen lassen, Musterwohnungs-Termine, die sich selbst füllen, Käuferkommunikation über jede Bauphase.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote: "Am ersten Tag der Vermarktung klingelt das Telefon durchgehend, und niemand weiß, wer schon angerufen hat.",
-    answer:
-      "Ohne ein System, das jede Anfrage sofort erfasst, verlieren Sie am wichtigsten Tag der Vermarktung genau die Übersicht, die über die ersten Reservierungen entscheidet.",
-  },
-  {
-    quote: "Die Preisliste von letzter Woche kursiert noch, obwohl sich seitdem drei Einheiten geändert haben.",
-    answer:
-      "Ein PDF, das per Mail verschickt wird, veraltet, sobald es verschickt ist. Interessenten vergleichen dann Preise, die längst nicht mehr stimmen, und Ihr Vertrieb erklärt Unstimmigkeiten statt zu verkaufen.",
-  },
-  {
-    quote: "Die Musterwohnung steht bereit, aber die Terminliste kommt per Nachricht am Vorabend.",
-    answer:
-      "Ohne eine Terminbuchung, die selbst mitdenkt, verwaltet Ihr Team Kalender statt Käufer zu begleiten, und Doppelbuchungen kosten Vertrauen, bevor der Interessent die Wohnung überhaupt betritt.",
-  },
-];
-
-const SCHRITTE = [
-  {
-    titel: "Reservierung statt Rückruf-Zettel",
-    text: "Interessenten reservieren eine Einheit direkt im Portal, mit Zeitstempel und Priorität. Kein Zettel, der zwischen zwei Schreibtischen verschwindet.",
-  },
-  {
-    titel: "Preislisten, die sich selbst pflegen",
-    text: "Ändert sich ein Preis oder ist eine Einheit reserviert, aktualisiert sich das Exposé automatisch. Niemand verschickt mehr eine veraltete PDF von letzter Woche.",
-  },
-  {
-    titel: "Musterwohnungs-Termine, die sich selbst füllen",
-    text: "Interessenten buchen ihren Termin im freien Slot, die Bestätigung geht automatisch raus. Ihr Team führt Besichtigungen, statt Kalender zu jonglieren.",
-  },
-  {
-    titel: "Käufer-Kommunikation über jede Bauphase",
-    text: "Vom Reservierungsschreiben bis zur Übergabe löst jede Bauphase die passende Nachricht automatisch aus. Ein Ansprechpartner arbeitet nach Ticketsystem, damit niemand nach zwei Wochen fragen muss, wie weit eine Anpassung ist.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Funktioniert das Portal, wenn wir mehrere Bauträger-Projekte gleichzeitig vermarkten?",
-    a: "Ja. Jedes Projekt bekommt eine eigene Preisliste, eigene Musterwohnungs-Termine und ein eigenes Reporting, alles über dasselbe Portal gesteuert.",
-  },
-  {
-    q: "Wie schnell steht das Portal vor dem Vermarktungsstart?",
-    a: "Vier bis sechs Wochen von der Aufnahme bis zum Livegang. Den Termin für den Vermarktungsstart bekommen Sie schriftlich, bevor das Projekt beginnt.",
-  },
-  {
-    q: "Was passiert mit Interessenten, die schon vor dem Livegang auf einer Warteliste stehen?",
-    a: "Die übernehmen wir ins Portal und qualifizieren sie mit, noch bevor die erste Musterwohnung öffnet.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "marketing-bautraeger");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -103,13 +55,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -117,12 +69,16 @@ function ZusammenarbeitCta({ className = "" }: { className?: string }) {
 
 export default async function MarketingBautraegerPage() {
   const c = await getContent();
+  const t = seitenTexte(c, "marketing-bautraeger");
   const riegel = caseBySlug("riegel-immobilien");
+  const pains = t.liste("pains", ["quote", "answer"] as const);
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["q", "a"] as const);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -154,7 +110,7 @@ export default async function MarketingBautraegerPage() {
             <AiPille className="!bottom-auto !top-4 right-4" />
 
             <div className="absolute bottom-8 left-6 max-w-[13.5rem] rounded-2xl bg-white/95 p-5 backdrop-blur-sm lg:bottom-12 lg:left-10">
-              <p className="t-label !text-[10px]">Beweis, keine Behauptung</p>
+              <p className="t-label !text-[10px]">{t("hero.badge_label")}</p>
               <p className="mt-1 font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">
                 {c["mk.stats.s3_wert"]}
               </p>
@@ -165,19 +121,18 @@ export default async function MarketingBautraegerPage() {
           </div>
 
           <div className="relative z-10 mx-auto flex min-h-full max-w-[1200px] flex-col justify-center px-6 pb-14 pt-28 lg:min-h-[70dvh] lg:max-w-none lg:pl-[max(24px,calc((100vw-1280px)/2))] lg:pr-[55vw] lg:pt-24">
-            <p className="t-label !text-ink-yellow">Marketing für Bauträger</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="mt-5 font-display text-[clamp(34px,4.4vw,58px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink-cream [text-wrap:balance]">
-              {rich("Marketing für Bauträger, das *Reservierungen* bringt, kein Anfrage-Chaos.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[36rem]">
-              Marketing für Bauträger heißt: Der Vermarktungsstart läuft über ein Portal, das
-              Interessenten registriert, Preislisten aktuell hält und{" "}
-              <Highlight>Musterwohnungs-Termine selbst vergibt, statt dass jede Anfrage
-              einzeln im Postfach landet</Highlight>.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_mark")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.hinweis")}</span>
             </div>
           </div>
         </div>
@@ -188,13 +143,13 @@ export default async function MarketingBautraegerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Vermarktungsstart entscheidet"
-              titel="Der *wichtigste* Tag der Vermarktung ist oft auch der chaotischste."
+              eyebrow={t("problem.eyebrow")}
+              titel={t("problem.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={pains} />
           </div>
         </div>
       </section>
@@ -204,14 +159,14 @@ export default async function MarketingBautraegerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Mechanismus"
-              titel="Vier Stufen. Ein Portal von der *Reservierung* bis zur Übergabe."
-              sub="beuwy arbeitet als Unternehmensberatung für Ihren Vertrieb, nicht als Agentur, die einzelne Werbemittel abliefert. Jedes Portal ist Teil Ihres Vermarktungsstarts, mit einem festen Ansprechpartner."
+              eyebrow={t("system.eyebrow")}
+              titel={t("system.titel")}
+              sub={t("system.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {SCHRITTE.map((schritt, i) => (
+            {schritte.map((schritt, i) => (
               <Reveal key={schritt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -230,10 +185,8 @@ export default async function MarketingBautraegerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Anfrage-Chaos ist kein Vermarktungsstart." glyph>
-              Standardanbieter schicken Interessenten ins offene Postfach und hoffen, dass jemand
-              zurückruft. Wir bauen Ihnen ein Portal, das reserviert, terminiert und kommuniziert,
-              vom ersten Klick bis zur Schlüsselübergabe.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -243,11 +196,8 @@ export default async function MarketingBautraegerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen
-              einzigen gekauften Lead.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.text")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -256,7 +206,7 @@ export default async function MarketingBautraegerPage() {
           ) : null}
           <Reveal delay={60}>
             <Link href="/cases" className="ref-link mt-8 inline-block">
-              Weitere Fallstudien ansehen →
+              {t("beweis.link")}
             </Link>
           </Reveal>
         </div>
@@ -267,13 +217,13 @@ export default async function MarketingBautraegerPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *Vermarktungsstart* wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
         </div>
       </section>
@@ -282,24 +232,23 @@ export default async function MarketingBautraegerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihren *Vermarktungsstart*.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[52ch]">
-              Ein Portal für Bauträger ist ein Baustein unter mehreren. Einen Überblick über alle
-              Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              , Referenzen in den{" "}
+              {t("finale.text_mid")}{" "}
               <Link href="/cases" className="ref-link">
-                Fallstudien
+                {t("finale.link_cases")}
               </Link>
-              .
+              {t("finale.text_nach")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.hinweis")}</p>
           </Reveal>
         </div>
       </section>

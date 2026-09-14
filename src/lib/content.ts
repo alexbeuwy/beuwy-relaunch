@@ -17,6 +17,10 @@ import { TOOLS_DEFAULTS, TOOLS_LABELS } from "./texte/tools";
 import { VERGLEICH_DEFAULTS, VERGLEICH_LABELS } from "./texte/start-vergleich";
 import { MOTION_DEFAULTS, MOTION_LABELS } from "./texte/motion";
 import { VSL_FRONT_DEFAULTS, VSL_FRONT_LABELS } from "./texte/vsl";
+import { SEITEN_DEFAULTS, SEITEN_LABELS } from "./texte/seiten";
+import { START_BLOECKE_DEFAULTS, START_BLOECKE_LABELS } from "./texte/start-bloecke";
+import { RAHMEN_DEFAULTS, RAHMEN_LABELS } from "./texte/rahmen";
+import { INTERN_EINSTELLUNGEN_DEFAULTS, INTERN_EINSTELLUNGEN_LABELS } from "./texte/intern-einstellungen";
 import { INTERN_AUFGABEN_DEFAULTS, INTERN_AUFGABEN_LABELS } from "./texte/intern-aufgaben";
 import { INTERN_EINBLICK_DEFAULTS, INTERN_EINBLICK_LABELS } from "./texte/intern-einblick";
 import { INTERN_FLOWS_DEFAULTS, INTERN_FLOWS_LABELS } from "./texte/intern-flows";
@@ -30,6 +34,10 @@ export const DEFAULTS: Record<string, string> = {
   ...VERGLEICH_DEFAULTS,
   ...MOTION_DEFAULTS,
   ...VSL_FRONT_DEFAULTS,
+  ...SEITEN_DEFAULTS,
+  ...START_BLOECKE_DEFAULTS,
+  ...RAHMEN_DEFAULTS,
+  ...INTERN_EINSTELLUNGEN_DEFAULTS,
   ...INTERN_AUFGABEN_DEFAULTS,
   ...INTERN_EINBLICK_DEFAULTS,
   ...INTERN_FLOWS_DEFAULTS,
@@ -264,6 +272,10 @@ export const FIELD_LABELS: Record<string, string> = {
   ...VERGLEICH_LABELS,
   ...MOTION_LABELS,
   ...VSL_FRONT_LABELS,
+  ...SEITEN_LABELS,
+  ...START_BLOECKE_LABELS,
+  ...RAHMEN_LABELS,
+  ...INTERN_EINSTELLUNGEN_LABELS,
   ...INTERN_AUFGABEN_LABELS,
   ...INTERN_EINBLICK_LABELS,
   ...INTERN_FLOWS_LABELS,
@@ -325,23 +337,32 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.beweis.kunden": "Makler · Beweis · Kundenlogos, mit | getrennt",
 };
 
+const SEITE = 1000;
+
 /** Lädt Overrides aus Supabase und merged über die Defaults. Fail-open. */
 export async function getContent(): Promise<Record<string, string>> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
   if (!url || !key) return { ...DEFAULTS };
   try {
-    const r = await fetch(`${url}/rest/v1/website_content?select=key,value`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: 60, tags: ["content"] },
-    });
-    if (!r.ok) return { ...DEFAULTS };
-    const rows = (await r.json()) as Array<{ key: string; value: string }>;
     const out: Record<string, string> = { ...DEFAULTS };
-    for (const row of rows) {
-      if (typeof row.key === "string" && typeof row.value === "string") {
-        out[row.key] = row.value;
+    /* PostgREST liefert höchstens 1.000 Zeilen je Antwort (Supabase-
+       Default). Seit R11 sind ~4.000 Texte Studio-editierbar — deshalb
+       seitenweise über Range-Header lesen, bis eine Seite nicht voll ist.
+       Sonst würden Overrides ab Zeile 1.001 stillschweigend fehlen. */
+    for (let von = 0; von < 50_000; von += SEITE) {
+      const r = await fetch(`${url}/rest/v1/website_content?select=key,value&order=key.asc`, {
+        headers: { apikey: key, Authorization: `Bearer ${key}`, Range: `${von}-${von + SEITE - 1}` },
+        next: { revalidate: 60, tags: ["content"] },
+      });
+      if (!r.ok && r.status !== 206) return out;
+      const rows = (await r.json()) as Array<{ key: string; value: string }>;
+      for (const row of rows) {
+        if (typeof row.key === "string" && typeof row.value === "string") {
+          out[row.key] = row.value;
+        }
       }
+      if (rows.length < SEITE) break;
     }
     return out;
   } catch {

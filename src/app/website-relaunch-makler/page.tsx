@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { PainRows } from "@/components/PainRows";
@@ -18,94 +20,28 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * dann passieren, wenn die Checkliste übersprungen wird. Beweis läuft als
  * Text-Anriss (RIEGEL), Cluster-Schwester-Link auf /seo-fuer-immobilienmakler.
  * Foto 9 laut Spec.
+ *
+ * R11: alle Texte laufen über Studio-Keys, siehe
+ * src/lib/texte/seiten/website-relaunch-makler.ts. Die drei Checklisten-
+ * Gruppen bleiben als feste Struktur im Code, nur Titel + Punkte kommen
+ * aus dem Studio (je eine Liste pro Gruppe).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Website-Relaunch ohne Sichtbarkeitsverlust: Die Makler-Checkliste | beuwy",
-  description:
-    "Website-Relaunch ohne Sichtbarkeitsverlust: Redirect-Plan, Inhalts-Inventur und Messpunkte vorher/nachher als Checkliste gegen typische Relaunch-Unfälle.",
-  openGraph: {
-    title: "Website-Relaunch ohne Sichtbarkeitsverlust: Die Makler-Checkliste | beuwy",
-    description:
-      "Eine abarbeitbare Checkliste für den Website-Relaunch: Redirect-Plan, Inhalts-Inventur, Messpunkte vorher/nachher — und die Fehler, die Rankings tatsächlich kosten.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote: "Zwei Wochen nach dem Relaunch war die Hälfte der Rankings weg.",
-    answer:
-      "Fast immer liegt die Ursache nicht am neuen Design, sondern an fehlenden Weiterleitungen. Jede alte URL, die auf eine 404-Seite läuft, verliert ihren Rankingwert, und Google trägt die Seite still aus dem Index aus.",
-  },
-  {
-    quote: "Die neue Seite trug noch das noindex-Tag aus der Staging-Umgebung.",
-    answer:
-      "Ein einziges vergessenes Meta-Tag reicht, damit Google die neue Seite gar nicht erst aufnimmt. Sechs Wochen Unsichtbarkeit, obwohl der Relaunch technisch längst online war, sind die Folge.",
-  },
-  {
-    quote: "Aus vierzig Unterseiten wurden zwölf — den Rest hat angeblich niemand vermisst.",
-    answer:
-      "Vermisst hat ihn niemand im Team. Vermisst haben ihn die Suchanfragen, für die genau diese Unterseiten bislang rankten. Ohne Inhalts-Inventur verschwinden Seiten, die tatsächlich Anfragen brachten, einfach in der Zusammenlegung.",
-  },
-  {
-    quote: "Die neue Analytics-Property zählte bei null.",
-    answer:
-      "Wer für den Relaunch eine neue Property statt der bestehenden anlegt, verliert den kompletten Vorher-Vergleich. Ob der Relaunch tatsächlich funktioniert hat, lässt sich dann nur noch schätzen, nicht mehr belegen.",
-  },
-];
-
-type ChecklistenGruppe = { titel: string; punkte: string[] };
-
-const GRUPPEN: ChecklistenGruppe[] = [
-  {
-    titel: "Redirect-Plan",
-    punkte: [
-      "Jede bestehende URL exportiert und einer neuen Ziel-URL zugeordnet, bevor die alte Seite abgeschaltet wird",
-      "301-Redirects gesetzt, dauerhaft, nicht 302 als vermeintlich schnelle Zwischenlösung",
-      "Interne Verlinkung auf die neue Struktur nachgezogen, keine internen Links, die über eine Weiterleitung laufen müssen",
-    ],
-  },
-  {
-    titel: "Inhalts-Inventur",
-    punkte: [
-      "Jede bestehende Unterseite bewertet: behalten, zusammenlegen oder bewusst weglassen — nichts fällt einfach durch",
-      "robots.txt und Meta-Tags geprüft: Staging-Reste und alte noindex-Anweisungen sind aus der neuen Seite entfernt",
-      "Meta-Titel und Descriptions der wichtigsten Seiten übernommen oder gezielt verbessert, nicht ersatzlos gestrichen",
-      "Strukturierte Daten aus dem alten Auftritt erneut eingebunden, nicht vergessen",
-    ],
-  },
-  {
-    titel: "Messpunkte vorher/nachher",
-    punkte: [
-      "Rankings, Klicks und Impressionen in der Google Search Console vor dem Umzug dokumentiert",
-      "Neue XML-Sitemap erstellt und in der Search Console eingereicht, bestehende Property weiterverwendet",
-      "Vier bis sechs Wochen nach dem Livegang: dieselben Werte erneut geprüft, gegen die Vorher-Dokumentation",
-    ],
-  },
-];
-
-const FAQS = [
-  {
-    q: "Wie lange dauert ein Relaunch, ohne dass Rankings einbrechen?",
-    a: "Der technische Umzug selbst läuft an einem Tag. Sicher wird er durch die Vorbereitung davor: Redirect-Tabelle, Inhalts-Inventur und dokumentierte Ausgangswerte, das braucht je nach Seitenumfang ein bis zwei Wochen zusätzlich zum eigentlichen Website-Bau.",
-  },
-  {
-    q: "Was tun, wenn Rankings trotzdem einbrechen?",
-    a: "Zuerst die Redirect-Tabelle gegen die tatsächlichen 404-Fehler in der Search Console prüfen, dann die Meta-Robots-Tags kontrollieren. In den meisten Fällen liegt die Ursache in einer dieser beiden Stellen, nicht in einer generellen Google-Abwertung.",
-  },
-  {
-    q: "Muss ich beim Relaunch die Domain wechseln?",
-    a: "In den meisten Fällen nein, und das ist auch besser so. Ein Domainwechsel ist eine eigene, riskantere Migration als ein reiner Design- und Technik-Relaunch auf derselben Domain. Ist ein Wechsel unvermeidbar, braucht er einen eigenen, noch sorgfältigeren Plan.",
-  },
-  {
-    q: "Reicht es, nur das Design zu ändern, wenn die URLs gleich bleiben?",
-    a: "Dann ist das Risiko deutlich kleiner, ein Redirect-Plan wird meist gar nicht gebraucht. Die Messpunkte vorher und nachher lohnen sich trotzdem, damit eine mögliche Ladezeit- oder Struktur-Änderung nicht unbemerkt bleibt.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "website-relaunch-makler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -121,13 +57,13 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
@@ -155,14 +91,25 @@ function HaekchenIcon() {
   );
 }
 
-export default function WebsiteRelaunchMaklerPage() {
+export default async function WebsiteRelaunchMaklerPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "website-relaunch-makler");
+  const pains = t.liste("pains", ["zitat", "antwort"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
+  const GRUPPEN = [
+    { titel: t("checkliste.gruppe1_titel"), punkte: t.liste("checkliste_punkte1", ["punkt"] as const) },
+    { titel: t("checkliste.gruppe2_titel"), punkte: t.liste("checkliste_punkte2", ["punkt"] as const) },
+    { titel: t("checkliste.gruppe3_titel"), punkte: t.liste("checkliste_punkte3", ["punkt"] as const) },
+  ];
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -178,25 +125,18 @@ export default function WebsiteRelaunchMaklerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Website-Relaunch</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Website-Relaunch ohne *Sichtbarkeitsverlust*: Die Makler-Checkliste.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Nein, nicht zwangsläufig — Rankings gehen beim Relaunch fast immer durch fehlende
-              Weiterleitungen verloren, nicht durch den Relaunch selbst. Mit einem Redirect-Plan
-              von jeder alten URL auf ihr neues Ziel, einer vollständigen Inhalts-Inventur und
-              dokumentierten Messpunkten vor und nach dem Umzug bleibt der Großteil der Sichtbarkeit
-              erhalten.{" "}
-              <Highlight>
-                Wer die Rankings vor dem Livegang dokumentiert, sieht sofort, ob nach dem Umzug
-                etwas fehlt
-              </Highlight>
-              , statt es erst Wochen später zu bemerken.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -222,13 +162,13 @@ export default function WebsiteRelaunchMaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Was ohne Plan passiert"
-              titel="Vier *Relaunch-Unfälle*, die sich alle vermeiden lassen."
+              eyebrow={t("unfaelle.eyebrow")}
+              titel={t("unfaelle.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={PAINS} />
+            <PainRows items={pains.map((p) => ({ quote: p.zitat, answer: p.antwort }))} />
           </div>
         </div>
       </section>
@@ -238,8 +178,8 @@ export default function WebsiteRelaunchMaklerPage() {
         <div className="mx-auto max-w-[860px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Checkliste"
-              titel="Drei Gruppen, zehn Punkte, vor dem *Livegang* abgehakt."
+              eyebrow={t("checkliste.eyebrow")}
+              titel={t("checkliste.titel")}
               className="max-w-[640px]"
             />
           </Reveal>
@@ -249,12 +189,12 @@ export default function WebsiteRelaunchMaklerPage() {
                 <div>
                   <p className="t-label !text-ink-dim">{gruppe.titel}</p>
                   <div className="mt-4 space-y-4">
-                    {gruppe.punkte.map((punkt) => (
-                      <div key={punkt} className="flex items-start gap-3 border-b border-line-subtle pb-4">
+                    {gruppe.punkte.map((p) => (
+                      <div key={p.punkt} className="flex items-start gap-3 border-b border-line-subtle pb-4">
                         <span className="mt-0.5">
                           <HaekchenIcon />
                         </span>
-                        <p className="t-body">{punkt}</p>
+                        <p className="t-body">{p.punkt}</p>
                       </div>
                     ))}
                   </div>
@@ -268,10 +208,8 @@ export default function WebsiteRelaunchMaklerPage() {
       {/* ── Der Unterschied — GelbeKarte als Pointe ─────────────────────── */}
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
-          <GelbeKarte label="Der Unterschied" titel="Ein Relaunch ist kein Neuanfang bei Google." glyph>
-            Google kennt Ihre Domain schon, mit jeder Signalgeschichte, die sie in den letzten
-            Jahren aufgebaut hat. Ein Redirect-Plan trägt diese Geschichte in die neue Seite hinüber.
-            Ohne ihn fängt Google faktisch bei null an — und Sie mit ihm.
+          <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+            {t("unterschied.text")}
           </GelbeKarte>
         </div>
       </section>
@@ -280,11 +218,9 @@ export default function WebsiteRelaunchMaklerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
+            <p className="t-label">{t("beweis.label")}</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
-              Für RIEGEL Immobilien bedeutete der technische Neuaufbau keinen Rankingverlust,
-              sondern in denselben sechs Wochen neun Abschlüsse, 342.000 € Volumen und Platz 21 von
-              über 25.000 Maklern beim ImmoScout24-Award.
+              {t("beweis.text")}
             </p>
           </Reveal>
         </div>
@@ -295,13 +231,13 @@ export default function WebsiteRelaunchMaklerPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *eigenen* Relaunch wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -310,27 +246,27 @@ export default function WebsiteRelaunchMaklerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihren *Relaunch*, ohne Rankingverlust.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Wie die Seitenarchitektur danach für neue Rankings sorgt, zeigt{" "}
+              {t("finale.satz_1")}{" "}
               <Link href="/seo-fuer-immobilienmakler" className="ref-link">
-                SEO für Immobilienmakler
+                {t("finale.link_1")}
               </Link>
-              , welche Fehler einen Relaunch besonders teuer machen{" "}
+              {t("finale.satz_2")}{" "}
               <Link href="/makler-website-fehler" className="ref-link">
-                Die 11 häufigsten Makler-Website-Fehler
+                {t("finale.link_2")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.satz_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_3")}
               </Link>
-              .
+              {t("finale.satz_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

@@ -32,7 +32,13 @@ Wer einen Backlog-Punkt aus dem Masterplan übernimmt, markiert ihn
 dort mit `[~] Codex` (bzw. `[~] Claude`). Der Loop lässt markierte
 Punkte in Ruhe. Nach dem Merge: `[x]` + Log-Zeile.
 
-## Gates (gelten für alle, kein Push ohne)
+## Gates
+
+**Studio-Pflicht ist ein Gate (R11):** jeder nutzerlesbare Text einer
+öffentlichen Seite/Komponente ist ein Studio-Key (`src/lib/texte/seiten/<slug>.ts`,
+Lesen über `seitenTexte()` aus `src/lib/texte/lesen.ts`). `node tools/texte-scan.mjs`
+muss 0 Treffer liefern — `scripts/verify.mjs` prüft das. Neue Seite = neue
+Textdatei + `node tools/texte-index.mjs`. (gelten für alle, kein Push ohne)
 
 1. `npx tsc --noEmit` = 0 Fehler
 2. `npx next build` grün

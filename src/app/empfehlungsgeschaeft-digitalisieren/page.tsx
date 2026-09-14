@@ -10,6 +10,8 @@ import { PainRows } from "@/components/PainRows";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CaseGrid } from "@/components/CaseGrid";
 import { caseBySlug } from "@/lib/cases";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissensseite (R3 Welle 2, Cluster W) — /empfehlungsgeschaeft-digitalisieren.
@@ -18,78 +20,26 @@ import { caseBySlug } from "@/lib/cases";
  * Nummern-Liste mit den vier Schritten. GelbeKarte, Königswege-Beweis
  * (Empfehlungswachstum 60→2.300+ Partner), FAQ + FAQPage-JSON-LD. Foto 6
  * laut R3-SEITENPLAN.json.
+ *
+ * R11: alle Texte laufen über Studio-Keys
+ * (src/lib/texte/seiten/empfehlungsgeschaeft-digitalisieren.ts).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Empfehlungsgeschäft digitalisieren: Wenn der Ruf online ankommt | beuwy",
-  description:
-    "Empfehlungsgeschäft digitalisieren heißt: Die Anfrage kommt durch Empfehlung, Google entscheidet sie. beuwy baut Bewertungen, Cases und Marke als Verstärker.",
-  openGraph: {
-    title: "Empfehlungsgeschäft digitalisieren: Wenn der Ruf online ankommt | beuwy",
-    description:
-      "Die Empfehlung bringt die Anfrage, Google entscheidet sie. beuwy baut Bewertungen, Cases und eine konsistente Marke als Verstärker für Ihr Empfehlungsgeschäft.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const PAINS = [
-  {
-    quote: "„Ich lebe von Empfehlungen, Werbung passt nicht zu mir.“",
-    answer:
-      "Empfehlungen bringen die Anfrage, nicht die Entscheidung. Der Empfohlene googelt trotzdem, bevor er anruft, und findet dort entweder die Bestätigung des Vertrauens oder den ersten Zweifel daran.",
-  },
-  {
-    quote: "„Meine Kunden empfehlen mich sowieso weiter, dafür muss ich nichts tun.“",
-    answer:
-      "Eine Empfehlung ohne online sichtbare Bestätigung bleibt ein einzelnes Gespräch zwischen zwei Menschen. Erst eine Bewertung, ein Case und ein konsistenter Auftritt machen aus der einen Empfehlung ein Muster, das sich wiederholt.",
-  },
-  {
-    quote: "„Bewertungen aktiv einzufordern wirkt mir zu aufdringlich.“",
-    answer:
-      "Der richtige Moment, kurz nach dem Notartermin, wenn die Erleichterung noch frisch ist, macht daraus keine Bitte, sondern einen natürlichen letzten Schritt des Verkaufsprozesses.",
-  },
-] as const;
-
-const SCHRITTE = [
-  {
-    titel: "Google-Profil vollständig",
-    text: "Kategorien, Öffnungszeiten, echte Bewertungen statt eines leeren Eintrags mit fünf Sternen aus dem Freundeskreis.",
-  },
-  {
-    titel: "Fallstudien statt Behauptungen",
-    text: "Eine Reise mit echten Zahlen zeigt, was Sie leisten, greifbarer als jedes „langjährige Erfahrung“ im Fließtext.",
-  },
-  {
-    titel: "Eine Marke, überall gleich",
-    text: "Website, Profil und Social-Kanal erzählen dieselbe Geschichte, damit der Empfohlene Sie überall wiedererkennt.",
-  },
-  {
-    titel: "Bewertung als fester Schritt",
-    text: "Ein Prozess, der nach jedem Abschluss aktiv um eine Bewertung bittet, statt darauf zu hoffen, dass sie von allein kommt.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Reicht ein Google-Profil, oder brauche ich eine eigene Website?",
-    a: "Ein gepflegtes Google-Profil ist der erste, wichtigste Anker, weil es genau dort steht, wo der Empfohlene sucht. Eine eigene Website ergänzt es um das, was ein Profil nicht kann: Fallstudien, Preis-Argumentation, einen Auftritt, der Ihre gesamte Marke trägt.",
-  },
-  {
-    q: "Wie bekomme ich Kunden dazu, überhaupt zu bewerten?",
-    a: "Der Zeitpunkt entscheidet mehr als die Formulierung: kurz nach dem Notartermin, wenn Erleichterung und Dankbarkeit am größten sind. Eine direkte, persönliche Bitte in diesem Moment wirkt deutlich besser als eine automatisierte Massen-Mail Wochen später.",
-  },
-  {
-    q: "Was ist der Unterschied zwischen einer Empfehlung und einem Case?",
-    a: "Eine Empfehlung ist mündlich und bleibt beim einzelnen Gespräch. Ein Case macht dieselbe Geschichte online nachlesbar, mit Zahlen, für jeden, der Ihren Namen googelt, nicht nur für den einen Freundeskreis.",
-  },
-  {
-    q: "Wie schnell wirkt eine digitalisierte Empfehlungskette?",
-    a: "Google-Profil und die ersten Bewertungen wirken oft schon innerhalb weniger Wochen. Bis eine konsistente Marke aus mehreren Empfehlungen ein verlässliches Muster macht, vergehen meist Monate, das ist ein Aufbau, kein Schalter.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "empfehlungsgeschaeft-digitalisieren");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -105,28 +55,33 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function EmpfehlungsgeschaeftDigitalisierenPage() {
+export default async function EmpfehlungsgeschaeftDigitalisierenPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "empfehlungsgeschaeft-digitalisieren");
+  const pains = t.liste("pains", ["quote", "antwort"] as const);
+  const schritte = t.liste("schritte", ["titel", "text"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
   const koenigswege = caseBySlug("koenigswege");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -142,20 +97,16 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Akquise</p>
-            <h1 className="t-display mt-4">{rich("Wenn der *Ruf* online ankommt.")}</h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie machen Ihr Empfehlungsgeschäft digital sichtbar, indem Sie online genau das
-              bestätigen, was Freund oder Nachbar mündlich versprochen haben: ein Google-Profil
-              mit echten Bewertungen, sichtbare Fallstudien und eine Marke, die auf jeder Seite
-              gleich auftritt. Die Empfehlung bringt die Anfrage, aber{" "}
-              <Highlight>die Google-Suche direkt danach entscheidet</Highlight>, ob daraus ein
-              Termin wird. Ein leeres Profil oder eine veraltete Website weckt Zweifel an der
-              Empfehlung selbst.
+              {t("kopf.intro_vor")}{" "}
+              <Highlight>{t("kopf.intro_highlight")}</Highlight>
+              {t("kopf.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -180,14 +131,10 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section id="einwaende" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Der übliche Reflex"
-              titel="„Ich brauche kein Marketing“ ist selbst schon eine *Wette*."
-              className="max-w-[720px]"
-            />
+            <SektionsKopf eyebrow={t("einwaende.eyebrow")} titel={t("einwaende.titel")} className="max-w-[720px]" />
           </Reveal>
           <div className="mt-12 max-w-[760px]">
-            <PainRows items={[...PAINS]} />
+            <PainRows items={pains.map((p) => ({ quote: p.quote, answer: p.antwort }))} />
           </div>
         </div>
       </section>
@@ -197,14 +144,14 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der Mechanismus"
-              titel="Vier Schritte, die aus einer Empfehlung eine *Anfrage* machen."
-              sub="Keiner der vier Schritte ersetzt die Empfehlung selbst. Zusammen sorgen sie dafür, dass sie online ankommt, statt im Gespräch stecken zu bleiben."
+              eyebrow={t("schritte.eyebrow")}
+              titel={t("schritte.titel")}
+              sub={t("schritte.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {SCHRITTE.map((schritt, i) => (
+            {schritte.map((schritt, i) => (
               <Reveal key={schritt.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -223,10 +170,8 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Die Empfehlung öffnet die Tür. Google hält sie offen." glyph>
-              Ohne digitale Bestätigung bleibt jede Empfehlung ein Zufall, der beim nächsten
-              Gespräch neu entstehen muss. Mit Profil, Cases und konsistenter Marke wird aus dem
-              Zufall ein System, das jede einzelne Empfehlung verstärkt statt verpuffen lässt.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -236,11 +181,8 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Ein Finanzvertrieb, der fast ausschließlich über Menschen wächst, die sich der Marke
-              anschließen wollen: Aus 60 Personen wurden über 2.300 Partner unter derselben Marke.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
           {koenigswege ? (
             <div className="mt-10">
@@ -254,14 +196,10 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Gespräch wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -270,27 +208,27 @@ export default function EmpfehlungsgeschaeftDigitalisierenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihr digitales *Echo*.")}</h2>
+            <p className="t-label">{t("fazit.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("fazit.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("fazit.text_1")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("fazit.link1")}
               </Link>
-              , wer hinter dem System steht, zeigt die Seite{" "}
+              {t("fazit.text_2")}{" "}
               <Link href="/ueber-uns" className="ref-link">
-                Über uns
+                {t("fazit.link2")}
               </Link>
-              , und der passende Auftritt dazu ist die{" "}
+              {t("fazit.text_3")}{" "}
               <Link href="/website-fuer-immobilienmakler" className="ref-link">
-                Maklerwebsite
+                {t("fazit.link3")}
               </Link>
-              .
+              {t("fazit.text_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("fazit.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

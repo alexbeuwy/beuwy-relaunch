@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissensseite (R3 Welle 2, Cluster T) — /wissen/afa-immobilien.
@@ -18,47 +20,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * (kein Steuerberatungs-Anspruch), FAQ + FAQPage-JSON-LD. Klare
  * Steuerberatungs-Grenze mehrfach markiert. Foto 13 (hochkant) laut
  * R3-SEITENPLAN.json, per object-cover im 21:9-Band.
+ *
+ * R11: alle Texte laufen über Studio-Keys (src/lib/texte/seiten/wissen-afa-immobilien.ts).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "AfA bei Immobilien: Abschreibung verständlich — mit Rechenwegen | beuwy",
-  description:
-    "AfA bei Immobilien: 2, 2,5 oder 3 Prozent je nach Baujahr, Gebäude- vs. Bodenanteil, mit Rechenbeispielen und Steuereffekt. Klare Grenze zur Steuerberatung.",
-  openGraph: {
-    title: "AfA bei Immobilien: Abschreibung verständlich — mit Rechenwegen | beuwy",
-    description:
-      "Die drei gesetzlichen AfA-Sätze, der Unterschied zwischen Gebäude- und Bodenanteil, ein vollständiges Rechenbeispiel mit Steuereffekt — ohne Steuerberatungsanspruch.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const SAETZE = [
-  { baujahr: "vor 1925", satz: "2,5 %", grundlage: "§ 7 Abs. 4 S. 1 Nr. 1 EStG", beispiel: "7.500 €" },
-  { baujahr: "1925–2022", satz: "2 %", grundlage: "§ 7 Abs. 4 S. 1 Nr. 2 Buchst. b EStG", beispiel: "6.000 €" },
-  { baujahr: "ab 2023", satz: "3 %", grundlage: "§ 7 Abs. 4 S. 1 Nr. 2 Buchst. a EStG (JStG 2022)", beispiel: "9.000 €" },
-] as const;
-
-const FAQS = [
-  {
-    q: "Muss ich die AfA jedes Jahr neu beantragen?",
-    a: "Sie tragen die AfA jedes Jahr erneut in der Anlage V Ihrer Steuererklärung ein — automatisch läuft nichts. Wer eine Steuersoftware oder einen Steuerberater nutzt, muss die Grunddaten (Kaufpreis, Gebäudeanteil, Baujahr) einmal hinterlegen, danach übernimmt das Programm die Fortschreibung.",
-  },
-  {
-    q: "Kann ich AfA auch für meine selbstgenutzte Wohnung absetzen?",
-    a: "Nein. Die AfA gilt nur für vermietete oder betrieblich genutzte Immobilien, weil sie Einkünfte aus Vermietung und Verpachtung mindert. Für selbstgenutztes Wohneigentum gibt es keine laufende Abschreibung.",
-  },
-  {
-    q: "Was passiert mit der AfA, wenn ich die Immobilie verkaufe?",
-    a: "Die AfA des Verkäufers endet mit dem Verkauf. Der neue Eigentümer beginnt eine eigene Berechnung auf Basis seines eigenen Kaufpreises — der Satz richtet sich dabei weiterhin nach dem Baujahr des Gebäudes, nicht nach dem Jahr des Erwerbs.",
-  },
-  {
-    q: "Lohnt sich für mein Gebäude ein Restnutzungsdauer-Gutachten?",
-    a: "Das hängt vom Alter, Modernisierungsgrad und Gebäudewert ab. Die Mechanik, wer typischerweise profitiert und woran Sie ein seriöses Gutachten erkennen, zeigt die Seite Restnutzungsdauer-Gutachten.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "wissen-afa-immobilien");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -74,26 +54,31 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function AfaImmobilienPage() {
+export default async function AfaImmobilienPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "wissen-afa-immobilien");
+  const saetze = t.liste("saetze", ["baujahr", "satz", "grundlage", "beispiel"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -109,26 +94,16 @@ export default function AfaImmobilienPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Wissen</p>
-            <h1 className="t-display mt-4">
-              {rich("AfA bei Immobilien: 2, 2,5 oder 3 Prozent — und warum das *zählt*.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("kopf.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("kopf.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Die Abschreibung für Abnutzung (AfA) verteilt die Anschaffungskosten eines
-              vermieteten Gebäudes über die gesetzlich unterstellte Nutzungsdauer und mindert
-              damit jedes Jahr die Steuerlast.{" "}
-              <Highlight>
-                Der reguläre Satz richtet sich nach dem Baujahr: 2,5 Prozent vor 1925, 2 Prozent
-                für 1925 bis 2022, 3 Prozent für Neubauten ab 2023
-              </Highlight>
-              . Abgeschrieben wird ausschließlich der Gebäudeanteil des Kaufpreises, nicht der
-              Bodenanteil, weil Grund und Boden sich nicht abnutzen. Mit einem
-              Restnutzungsdauer-Gutachten lässt sich der Satz in bestimmten Fällen erhöhen — dazu
-              mehr auf der Nachbarseite.
+              {t("kopf.intro_vor")}{" "}
+              <Highlight>{t("kopf.intro_highlight")}</Highlight>
+              {t("kopf.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("kopf.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -155,9 +130,9 @@ export default function AfaImmobilienPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die drei Fälle"
-              titel="Ein halbes Prozent entscheidet über *tausende* Euro."
-              sub="Beispielrechnung in der letzten Spalte: derselbe Gebäudewert von 300.000 € mit dem jeweils passenden Satz."
+              eyebrow={t("saetze.eyebrow")}
+              titel={t("saetze.titel")}
+              sub={t("saetze.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
@@ -165,14 +140,14 @@ export default function AfaImmobilienPage() {
             <table className="w-full min-w-[680px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line-medium">
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Baujahr</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">AfA-Satz</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Rechtsgrundlage</th>
-                  <th className="py-3 t-label !text-[10.5px]">Beispiel: 300.000 € Gebäudewert</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("saetze.head_baujahr")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("saetze.head_satz")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("saetze.head_grundlage")}</th>
+                  <th className="py-3 t-label !text-[10.5px]">{t("saetze.head_beispiel")}</th>
                 </tr>
               </thead>
               <tbody>
-                {SAETZE.map((z) => (
+                {saetze.map((z) => (
                   <tr key={z.baujahr} className="border-b border-line-subtle align-top">
                     <td className="py-4 pr-4 t-body max-w-[9rem] !text-ink-cream font-medium">
                       {z.baujahr}
@@ -194,41 +169,20 @@ export default function AfaImmobilienPage() {
       <section id="gebaeudeanteil" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Gebäudeanteil vs. Bodenanteil"
-              titel="Nur das *Gebäude* nutzt sich ab — der Boden nicht."
-              className="max-w-[760px]"
-            />
+            <SektionsKopf eyebrow={t("gebaeude.eyebrow")} titel={t("gebaeude.titel")} className="max-w-[760px]" />
           </Reveal>
           <div className="mt-12 grid gap-10 border-t border-line-subtle pt-10 md:grid-cols-2 md:gap-16">
             <Reveal>
-              <p className="t-h3">Warum die Aufteilung zählt</p>
-              <p className="t-body mt-3">
-                Das Finanzamt erkennt die AfA nur für den Gebäudeanteil eines Kaufpreises an, weil
-                sich Grund und Boden nicht abnutzen. Die Aufteilung steht im Idealfall bereits im
-                Kaufvertrag. Fehlt sie, hilft ersatzweise die Arbeitshilfe des
-                Bundesfinanzministeriums oder ein Gutachten. In der Praxis liegt der
-                Gebäudeanteil bei Bestandsimmobilien meist zwischen 65 und 85 Prozent des
-                Kaufpreises, abhängig vom örtlichen Bodenrichtwert.
-              </p>
+              <p className="t-h3">{t("gebaeude.spalte1_titel")}</p>
+              <p className="t-body mt-3">{t("gebaeude.spalte1_text")}</p>
             </Reveal>
             <Reveal delay={80}>
-              <p className="t-h3">Vollständiges Rechenbeispiel</p>
-              <p className="t-body mt-3">
-                Kaufpreis 420.000 €, der Bodenrichtwert weist einen Grundstücksanteil von 22
-                Prozent aus. Gebäudeanteil: 420.000 € × 78 % = 327.600 €. Baujahr 1998, also 2 %
-                AfA-Satz. Jährliche AfA: 6.552 €. Bei einem Grenzsteuersatz von 42 % ergibt das
-                eine Steuerersparnis von rund 2.752 € pro Jahr, über zehn Jahre 27.520 €.
-              </p>
+              <p className="t-h3">{t("gebaeude.spalte2_titel")}</p>
+              <p className="t-body mt-3">{t("gebaeude.spalte2_text")}</p>
             </Reveal>
           </div>
           <Reveal delay={140}>
-            <p className="t-small mt-10 max-w-[720px] !text-ink-dim">
-              Orientierungswert, kein Gutachten und keine Steuerberatung. Der tatsächliche
-              Gebäudeanteil, Sonderabschreibungen und Ihr persönlicher Grenzsteuersatz hängen vom
-              Einzelfall ab — klären Sie das mit einem Steuerberater, bevor Sie eine Zahl für die
-              Steuererklärung übernehmen.
-            </p>
+            <p className="t-small mt-10 max-w-[720px] !text-ink-dim">{t("gebaeude.hinweis")}</p>
           </Reveal>
         </div>
       </section>
@@ -237,11 +191,8 @@ export default function AfaImmobilienPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="0,5 Prozentpunkte sind kein Rundungsfehler." glyph>
-              Auf einen Gebäudewert von 300.000 € macht der Unterschied zwischen 2 und 2,5 Prozent
-              1.500 € pro Jahr, über zwanzig Jahre 30.000 €. Baujahr und Gebäudeanteil sauber
-              einzuordnen ist deshalb keine Formalie, sondern die Grundlage für jede weitere
-              Rechnung.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -251,13 +202,8 @@ export default function AfaImmobilienPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[52ch]">
-              Für Vision Group haben wir Investorenunterlagen aufgesetzt, die einer Prüfung durch
-              einen Konzern wie KKR standhielten — 1.450 Wohneinheiten, ein Joint Venture über 160
-              Mio. €. Dieselbe Disziplin gilt für jede Zahl, die am Ende ein Finanzamt liest: nur
-              eine sauber hergeleitete Rechnung hält stand.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[52ch]">{t("beweis.text")}</p>
           </Reveal>
         </div>
       </section>
@@ -266,14 +212,10 @@ export default function AfaImmobilienPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *nächsten* Steuererklärung wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -282,27 +224,27 @@ export default function AfaImmobilienPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Zahlenbasis*.")}</h2>
+            <p className="t-label">{t("fazit.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("fazit.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Ihren eigenen Rechenweg mit Modernisierungsgrad und Steuereffekt liefert unser{" "}
+              {t("fazit.text_1")}{" "}
               <Link href="/tools/afa-rechner" className="ref-link">
-                AfA-Rechner
+                {t("fazit.link1")}
               </Link>{" "}
-              kostenlos in wenigen Minuten. Ob sich für Ihr Gebäude ein Gutachten lohnt, zeigt{" "}
+              {t("fazit.text_2")}{" "}
               <Link href="/wissen/restnutzungsdauer-gutachten" className="ref-link">
-                Restnutzungsdauer-Gutachten
+                {t("fazit.link2")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("fazit.text_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("fazit.link3")}
               </Link>
-              .
+              {t("fazit.text_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("kopf.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("fazit.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

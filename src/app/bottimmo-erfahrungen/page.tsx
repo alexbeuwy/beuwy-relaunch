@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -19,95 +21,24 @@ import { caseBySlug } from "@/lib/cases";
  * reicht der Baukasten", GelbeKarte, Beweis-Anriss RIEGEL, FAQ +
  * FAQPage-JSON-LD. Foto 18 laut R3-SEITENPLAN.json. Keine Behauptung über
  * BOTTIMMO, die nicht bereits auf /bottimmo-alternative belegt ist.
+ * Texte über Studio-Keys (R11).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann und was nicht | beuwy",
-  description:
-    "BOTTIMMO Erfahrungen 2026: der faire Blick auf Tempo und Themenwelt gegen die Grenze aus Vorlage und gemieteten Inhalten. Wann der Baukasten reicht, wann nicht.",
-  openGraph: {
-    title: "BOTTIMMO Erfahrungen 2026: Was der Baukasten kann und was nicht | beuwy",
-    description:
-      "Der faire Vergleich: BOTTIMMO liefert Tempo und eine fertige Themenwelt, die Grenze ist die geteilte Vorlage. Wann ein eigenes Portal mehr bringt als der Baukasten.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const STAERKEN = [
-  {
-    titel: "Schnell startklar",
-    text: "Website, Anzeigenvorlagen und Funnel stehen in kurzer Zeit, ohne dass ein Büro bei null anfängt. Für den ersten eigenen Online-Auftritt ein echter Vorteil.",
-  },
-  {
-    titel: "Fertige Themenwelt",
-    text: "Ratgeberartikel und Inhalte zu Standardfragen liegen bereits vor, statt dass jemand im Büro sie selbst schreiben muss. Das füllt eine Website, die sonst leer bliebe.",
-  },
-  {
-    titel: "Wartung inklusive",
-    text: "Updates, technische Pflege und die laufende Funktionsfähigkeit übernimmt der Anbieter. Niemand im Büro muss sich um ein CMS oder ein Sicherheitsupdate kümmern.",
-  },
-  {
-    titel: "Überschaubares Budget",
-    text: "Die monatlichen Kosten bewegen sich im dreistelligen Bereich, planbar und ohne größere Vorabinvestition. Ein kalkulierbarer Einstieg für ein kleines Marketingbudget.",
-  },
-] as const;
-
-type Zeile = { kriterium: string; reicht: string; grenze: string };
-
-const VERGLEICH: Zeile[] = [
-  {
-    kriterium: "Erster Online-Auftritt",
-    reicht: "Ja, schnell und ohne Vorlaufzeit online",
-    grenze: "—",
-  },
-  {
-    kriterium: "Design und Bildsprache",
-    reicht: "Ausreichend für ein Büro ohne Markenanspruch",
-    grenze: "Vorlage, dieselbe wie bei anderen Kunden desselben Systems",
-  },
-  {
-    kriterium: "Inhalte und Ratgeber",
-    reicht: "Solide Standardtexte für den Einstieg",
-    grenze: "Gemietet, laufen mit der Lizenz aus, keine eigene Stimme",
-  },
-  {
-    kriterium: "Wettbewerb in derselben Stadt",
-    reicht: "Unauffällig, solange kein Mitbewerber dasselbe System nutzt",
-    grenze: "Zwei Häuser mit demselben Baukasten wirken austauschbar",
-  },
-  {
-    kriterium: "Alleinauftrag gegen den Marktführer",
-    reicht: "—",
-    grenze: "Ein Vorlagen-Auftritt verliert gegen eine eigene Marke",
-  },
-  {
-    kriterium: "Eigentum am Ergebnis",
-    reicht: "—",
-    grenze: "Website und Inhalte laufen nur, solange die Lizenz läuft",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Ist BOTTIMMO für Makler grundsätzlich zu empfehlen?",
-    a: "Für den ersten eigenen Online-Auftritt und ein überschaubares Marketingbudget ja. Das Paket bringt ein Büro schnell und ohne Vorlaufzeit online, ohne dass jemand bei null anfängt.",
-  },
-  {
-    q: "Woran erkenne ich, dass ich aus dem Baukasten herausgewachsen bin?",
-    a: "Wenn Eigentümer Sie mit einem Mitbewerber vergleichen, der eine eigene Marke zeigt, und Sie den Alleinauftrag genau dort verlieren. Oder wenn ein Konkurrent in derselben Stadt dasselbe System nutzt und beide Auftritte sich kaum unterscheiden.",
-  },
-  {
-    q: "Muss ich BOTTIMMO kündigen, um zu wechseln?",
-    a: "Das entscheiden Sie unabhängig von uns, meist läuft der Wechsel parallel: das neue Portal steht, bevor die alte Lizenz endet, damit kein Tag ohne Website vergeht.",
-  },
-  {
-    q: "Was kostet ein eigenes Portal im Vergleich zum Baukasten?",
-    a: "Ein eigenes Portal ist eine höhere Investition im Voraus, dafür gehört Ihnen das Ergebnis dauerhaft, statt an eine laufende Lizenz gebunden zu sein. Einen konkreten Betrag nennen wir erst nach dem ersten Gespräch über Ihren Markt.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "bottimmo-erfahrungen");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -123,25 +54,33 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function BottimmoErfahrungenPage() {
+export default async function BottimmoErfahrungenPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "bottimmo-erfahrungen");
   const riegel = caseBySlug("riegel-immobilien");
+
+  const staerken = t.liste("staerken", ["titel", "text"] as const);
+  const vergleich = t.liste("vergleich", ["kriterium", "reicht", "grenze"] as const);
+  const faqs = t
+    .liste("faq", ["frage", "antwort"] as const)
+    .map((f) => ({ q: f.frage, a: f.antwort }));
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -160,23 +99,16 @@ export default function BottimmoErfahrungenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Erfahrungsbericht · BOTTIMMO</p>
-            <h1 className="t-display mt-4">
-              {rich("BOTTIMMO Erfahrungen 2026: was der Baukasten *wirklich* kann.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("hero.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              BOTTIMMO liefert ein schnelles, fertiges Marketing-Paket: eigene Website,
-              vorgefertigte Anzeigen und eine breite Themenwelt an Ratgeberinhalten, in kurzer
-              Zeit startklar. Für den ersten eigenen Online-Auftritt ist das eine solide Lösung.
-              Die Grenze liegt im System selbst:{" "}
-              <Highlight>Design, Funnel und Inhalte laufen als Vorlage bei vielen
-              anderen Maklern im selben Markt parallel</Highlight>. Ob das reicht, hängt vom
-              Anspruch ab: als Einstieg gut, als Unterscheidung gegen den führenden Makler der
-              Stadt nicht.
+              {t("hero.text_vor")}{" "}
+              <Highlight>{t("hero.text_mitte")}</Highlight>
+              {t("hero.text_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -186,7 +118,7 @@ export default function BottimmoErfahrungenPage() {
             <div className="relative aspect-[21/9] overflow-hidden rounded-[28px]">
               <Image
                 src={maklerAsset(18)}
-                alt="Makler prüft am Bildschirm die eigene Website neben einem Baukasten-Vorlagenraster"
+                alt={t("hero.bild_alt")}
                 fill
                 sizes="(min-width: 1200px) 1200px, 100vw"
                 className="object-cover"
@@ -202,13 +134,13 @@ export default function BottimmoErfahrungenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Was der Baukasten gut kann"
-              titel="Vier *Stärken*, ohne die BOTTIMMO nicht so verbreitet wäre."
+              eyebrow={t("staerken.eyebrow")}
+              titel={t("staerken.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-10 border-t border-line-subtle pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line-subtle">
-            {STAERKEN.map((s, i) => (
+            {staerken.map((s, i) => (
               <Reveal key={s.titel} delay={i * 60}>
                 <div className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -228,9 +160,9 @@ export default function BottimmoErfahrungenPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Der ehrliche Vergleich"
-              titel="Sechs Kriterien: wann der Baukasten *reicht*, wann nicht."
-              sub="Keine Wertung über BOTTIMMO als System, sondern über die Frage, die zählt: passt eine geteilte Vorlage zu Ihrem Anspruch in Ihrer Stadt?"
+              eyebrow={t("vergleich.eyebrow")}
+              titel={t("vergleich.titel")}
+              sub={t("vergleich.sub")}
               className="max-w-[760px]"
             />
           </Reveal>
@@ -238,14 +170,14 @@ export default function BottimmoErfahrungenPage() {
             <table className="w-full min-w-[720px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line-medium">
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Nr.</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Kriterium</th>
-                  <th className="py-3 pr-4 t-label !text-[10.5px]">Baukasten reicht</th>
-                  <th className="py-3 t-label !text-[10.5px]">Baukasten stößt an Grenze</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("vergleich.kopf_nr")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("vergleich.kopf_kriterium")}</th>
+                  <th className="py-3 pr-4 t-label !text-[10.5px]">{t("vergleich.kopf_reicht")}</th>
+                  <th className="py-3 t-label !text-[10.5px]">{t("vergleich.kopf_grenze")}</th>
                 </tr>
               </thead>
               <tbody>
-                {VERGLEICH.map((z, i) => (
+                {vergleich.map((z, i) => (
                   <tr key={z.kriterium} className="border-b border-line-subtle align-top">
                     <td className="py-4 pr-4 font-mono text-[13px] text-ink-muted tnum">
                       {String(i + 1).padStart(2, "0")}
@@ -267,10 +199,8 @@ export default function BottimmoErfahrungenPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Der Unterschied" titel="Der Baukasten ist Handwerk. Eine Marke ist es nicht." glyph>
-              BOTTIMMO baut zuverlässig, was jedes Büro braucht. Nur baut es dasselbe auch für den
-              Mitbewerber zwei Straßen weiter. Eine Marke entscheidet den Alleinauftrag genau da,
-              wo die Vorlage aufhört.
+            <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+              {t("unterschied.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -280,11 +210,8 @@ export default function BottimmoErfahrungenPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Beispiel</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              Sechs Wochen nach dem Relaunch mit eigener Marke statt Vorlage: neun Abschlüsse,
-              342.000 € Volumen, Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{t("beweis.titel")}</p>
           </Reveal>
           {riegel ? (
             <div className="mt-10">
@@ -299,17 +226,15 @@ export default function BottimmoErfahrungenPage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor der *Entscheidung* wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs} />
           </div>
-          <p className="t-small mt-10 max-w-[54ch]">
-            BOTTIMMO ist eine Marke der BOTTIMMO AG. beuwy steht in keiner Verbindung zu BOTTIMMO.
-          </p>
+          <p className="t-small mt-10 max-w-[54ch]">{t("faq.hinweis")}</p>
         </div>
       </section>
 
@@ -317,27 +242,27 @@ export default function BottimmoErfahrungenPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Marke*, nicht die nächste Vorlage.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Den fairen Vergleich mit ausführlicher Gegenüberstellung lesen Sie unter{" "}
+              {t("finale.text_a")}{" "}
               <Link href="/bottimmo-alternative" className="ref-link">
-                BOTTIMMO-Alternative
+                {t("finale.link_alternative")}
               </Link>
-              , was ein eigenes Portal kostet zeigt{" "}
+              {t("finale.text_b")}{" "}
               <Link href="/maklerwebsite-kosten" className="ref-link">
-                Maklerwebsite-Kosten
+                {t("finale.link_kosten")}
               </Link>
-              . Den Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_c")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_hub")}
               </Link>
-              .
+              {t("finale.text_d")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

@@ -137,6 +137,11 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
       und Ausfallverhalten je Variable — R10, 14.09
 - [x] G4 Launch-Checkliste `docs/redesign/LAUNCH.md` (Blocker, Alex-
       Todos, Go-Live in 10 Schritten, 48-h-Prüfliste) — R10, 14.09
+- [x] G7 Studio 1:1 live: Vollrevalidierung beim Speichern, alle
+      öffentlichen Texte als Keys (80 Seiten-Textdateien), Gate
+      tools/texte-scan.mjs in verify — R11, 14.09
+- [x] G8 CRM-Dummy-Daten (/intern/einstellungen, supabase/crm-dummy.sql)
+      — R11b, 14.09. Migration muss Alex einmal ausführen
 - [ ] G5 Berlin-Koordinaten laufen durch die Brandenburg-Bbox
       (`boris.ts`) → 200 statt 422 — LAUNCH L9
 - [ ] G6 Build-Warnung `@react-email/render` (FlowEditor-Import) — L12
@@ -168,3 +173,10 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   über 83 Routen: 0 kaputte Links, 0 Platzhalter. Neu: /vsl-Frontseite
   (ein Claim, ein CTA, 22 echte Kundenlogos der alten beuwy.com).
   Produktions-Gate auf :3100 gelaufen (Log-Zeile darunter).
+- 14.09 · R11 (Alex: „Studio immer 1:1 auf dem Live-Stand"): Save
+  revalidiert den ganzen Seitenbaum; 12 Agents stellen 71 Seiten,
+  Startseiten-Blöcke, Nav/Footer, Funnel, Buchung und Cases auf Studio-
+  Keys um (Text-Snapshot-Gate: 84/86 identisch, 2 bewusst); Studio bekommt
+  Bereich „Unterseiten" mit Seitenwahl und Bereich „Frontseite /vsl";
+  Scanner-Gate in verify. R11b: CRM-Dummy-Daten mit zwei Knöpfen in
+  /intern/einstellungen + SQL-Migration (Alex-Todo).

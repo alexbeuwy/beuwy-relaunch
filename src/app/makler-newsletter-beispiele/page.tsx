@@ -4,6 +4,8 @@ import Link from "next/link";
 import { maklerAsset } from "@/lib/cdn";
 import { AiPille } from "@/components/AiPille";
 import { rich } from "@/components/RichText";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -16,88 +18,26 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * geforderte Abgrenzung Massen-Newsletter vs. Datenmail läuft als
  * Zweispalter direkt danach. Beweis läuft als Text-Anriss (17 Jahre),
  * DSGVO-Frage landet vorsichtig gerahmt in der FAQ. Foto 8 laut Spec.
+ *
+ * R11: alle Texte laufen über Studio-Keys, siehe
+ * src/lib/texte/seiten/makler-newsletter-beispiele.ts.
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
-  description:
-    "Makler-Newsletter, die geöffnet werden: sieben Mail-Anlässe mit Betreff und Aufbau zum Übernehmen, plus die Abgrenzung Massen-Newsletter gegen die Datenmail.",
-  openGraph: {
-    title: "Makler-Newsletter, die geöffnet werden: 7 Beispiele zum Übernehmen | beuwy",
-    description:
-      "Sieben wiederkehrende Mail-Anlässe mit Betreffzeile und Aufbau, direkt zum Übernehmen, und warum eine Datenmail meist mehr bringt als der Massen-Newsletter.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-type NewsletterAnlass = { titel: string; betreff: string; aufbau: string };
-
-const ANLAESSE: NewsletterAnlass[] = [
-  {
-    titel: "Marktbericht zum Quartal",
-    betreff: "Ihr Markt in Zahlen: drittes Quartal 2026",
-    aufbau:
-      "Drei Kennzahlen aus Ihrer Region (Anzahl Verkäufe, Preisentwicklung, durchschnittliche Vermarktungsdauer), je mit einem Satz Einordnung. Am Ende ein Link zur eigenen Ersteinschätzung, kein Verkaufsdruck.",
-  },
-  {
-    titel: "Neuer Bodenrichtwert",
-    betreff: "Der neue Bodenrichtwert für Ihren Stadtteil ist da",
-    aufbau:
-      "Kurz erklären, was sich geändert hat und was das für Eigentümer in der Praxis bedeutet. Direkt darunter der Rechner, damit der Empfänger die neue Zahl für die eigene Adresse sieht, statt nur eine allgemeine Aussage zu lesen.",
-  },
-  {
-    titel: "Zinsschritt der EZB",
-    betreff: "Was der jüngste Zinsschritt für Ihren Verkaufspreis bedeutet",
-    aufbau:
-      "Ein Absatz Kontext, ein Absatz Wirkung auf die Finanzierungskraft von Käufern, kein Prognose-Versprechen. Diese Mail funktioniert besonders gut, wenn sie innerhalb weniger Tage nach der Zinsentscheidung verschickt wird.",
-  },
-  {
-    titel: "Neues Exposé, exklusiv vorab",
-    betreff: "Vorab für Sie: Reihenhaus in Ihrer Wunschlage, bevor es online geht",
-    aufbau:
-      "Kurzer Teaser mit einem Foto, klare Ansage, dass Empfänger dieser Mail das Objekt vor der Portalveröffentlichung sehen. Ein Klick führt direkt zur Terminanfrage, keine lange Objektbeschreibung im E-Mail-Text selbst.",
-  },
-  {
-    titel: "Erfolgsgeschichte eines Verkäufers",
-    betreff: "Wie Familie K. in sechs Wochen verkauft hat",
-    aufbau:
-      "Ausgangslage in zwei Sätzen, Vorgehen in drei Punkten, Ergebnis als Zahl. Diese Mail verkauft nichts, sie baut Vertrauen auf, bevor der nächste Eigentümer überhaupt eine Anfrage stellt.",
-  },
-  {
-    titel: "Jahreswechsel-Dank",
-    betreff: "Danke für ein Jahr Vertrauen und ein kurzer Ausblick",
-    aufbau:
-      "Persönlicher Ton, ein kurzer Rückblick auf die Region, keine Verkaufsabsicht. Diese Mail hält den Kontakt warm bei allen, die aktuell nicht verkaufen wollen, aber es in zwei Jahren vielleicht tun.",
-  },
-  {
-    titel: "Dank nach dem Notartermin",
-    betreff: "Geschafft, dazu eine kurze Bitte",
-    aufbau:
-      "Drei Tage nach dem Notartermin verschickt, nicht am selben Tag. Dank für die Zusammenarbeit, dazu die Bitte um eine Google-Bewertung. Der richtige Zeitpunkt entscheidet hier mehr als der Text.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Wie oft sollte ich einen Newsletter verschicken?",
-    a: "Ein fester Marktbericht einmal im Monat reicht als Grundrhythmus, dazu kommen anlassbezogene Mails wie ein neuer Bodenrichtwert oder ein Zinsschritt. Wer wöchentlich verschickt, ohne dass sich wöchentlich etwas Relevantes ändert, kassiert vor allem Abmeldungen.",
-  },
-  {
-    q: "Brauche ich für jede dieser sieben Mails eine eigene Vorlage?",
-    a: "Ja, aber jede Vorlage bauen Sie einmal und nutzen sie dauerhaft wieder. Wie eine vollständige Sequenz aus mehreren Vorlagen technisch aufgesetzt wird, zeigt E-Mail-Marketing für Immobilienmakler.",
-  },
-  {
-    q: "Ist der Versand an Bestandskontakte DSGVO-konform?",
-    a: "Das hängt vom Einzelfall ab: Grundsätzlich brauchen Sie eine Einwilligung, für werbliche Mails an bestehende Kundenbeziehungen gelten enge gesetzliche Ausnahmen. Das ist keine Rechtsberatung. Lassen Sie Ihren konkreten Versandprozess von einer Fachperson prüfen, bevor Sie eine Liste anschreiben.",
-  },
-  {
-    q: "Was, wenn ich noch keine E-Mail-Liste habe?",
-    a: "Dann beginnt der Aufbau über ein Formular mit echtem Nutzen für den Absender, etwa eine Ersteinschätzung zum eigenen Objekt. Verkäufer ansprechen, bevor sie suchen zeigt, wie sich diese Liste schon vor dem Verkaufsentschluss füllt.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "makler-newsletter-beispiele");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.og_titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -113,26 +53,31 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function MaklerNewsletterBeispielePage() {
+export default async function MaklerNewsletterBeispielePage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "makler-newsletter-beispiele");
+  const anlaesse = t.liste("anlaesse", ["titel", "betreff", "aufbau"] as const);
+  const faqs = t.liste("faq", ["frage", "antwort"] as const);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
     })),
   };
 
@@ -148,25 +93,18 @@ export default function MaklerNewsletterBeispielePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">Newsletter-Beispiele</p>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
             <h1 className="t-display mt-4">
-              {rich("Makler-Newsletter, die *geöffnet* werden: 7 Beispiele zum Übernehmen.")}
+              {rich(t("hero.titel"))}
             </h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Im Makler-Newsletter schreiben Sie über sieben wiederkehrende Anlässe, die einen
-              echten Öffnungsgrund liefern: der Marktbericht zum Quartal, ein neuer Bodenrichtwert,
-              ein Zinsschritt, ein neues Exposé, eine Erfolgsgeschichte, der Jahreswechsel und der
-              Dank nach dem Notartermin.{" "}
-              <Highlight>
-                Jede Mail beantwortet eine Frage, die der Empfänger gerade hat, statt allgemein für
-                sich zu werben
-              </Highlight>
-              . Ein Massen-Newsletter mit gleichem Inhalt an alle Kontakte bringt dabei weniger als
-              eine Datenmail, die auf ein einzelnes Ereignis reagiert.
+              {t("hero.sub_vor")}{" "}
+              <Highlight>{t("hero.sub_highlight")}</Highlight>
+              {t("hero.sub_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("cta.label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -192,13 +130,13 @@ export default function MaklerNewsletterBeispielePage() {
         <div className="mx-auto max-w-[1000px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Sieben Anlässe"
-              titel="Jede Mail hat einen *Grund*, keine läuft einfach nur mit."
+              eyebrow={t("beispiele.eyebrow")}
+              titel={t("beispiele.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-14 space-y-10">
-            {ANLAESSE.map((anlass, i) => (
+            {anlaesse.map((anlass, i) => (
               <Reveal key={anlass.titel} delay={i * 40}>
                 <div className="grid gap-3 border-t border-line-subtle pt-6 sm:grid-cols-[3.5rem_1fr]">
                   <p className="font-display text-[13px] font-bold tracking-[0.08em] text-ink-yellow tnum">
@@ -206,7 +144,9 @@ export default function MaklerNewsletterBeispielePage() {
                   </p>
                   <div>
                     <p className="t-h3">{anlass.titel}</p>
-                    <p className="t-small mt-2 !text-ink-dim">Betreff: „{anlass.betreff}“</p>
+                    <p className="t-small mt-2 !text-ink-dim">
+                      {t("beispiele.betreff_praefix")}: „{anlass.betreff}“
+                    </p>
                     <p className="t-body mt-3">{anlass.aufbau}</p>
                   </div>
                 </div>
@@ -221,29 +161,25 @@ export default function MaklerNewsletterBeispielePage() {
         <div className="mx-auto max-w-[1000px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die Abgrenzung"
-              titel="Massen-Newsletter und *Datenmail* sind nicht dasselbe Werkzeug."
+              eyebrow={t("abgrenzung.eyebrow")}
+              titel={t("abgrenzung.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-8 sm:grid-cols-2">
             <Reveal delay={40}>
               <div className="rounded-[24px] border border-line-subtle p-7">
-                <p className="t-label !text-ink-dim">Massen-Newsletter</p>
+                <p className="t-label !text-ink-dim">{t("abgrenzung.massen_label")}</p>
                 <p className="t-body mt-4">
-                  Ein Inhalt geht an die gesamte Liste, meist im festen Rhythmus. Gut für
-                  Markenpräsenz und Kontinuität, aber jeder Empfänger bekommt dieselbe Zahl, egal
-                  ob sie ihn gerade betrifft oder nicht: Die Relevanz je Empfänger bleibt niedrig.
+                  {t("abgrenzung.massen_text")}
                 </p>
               </div>
             </Reveal>
             <Reveal delay={80}>
               <div className="rounded-[24px] bg-akzent-wash p-7">
-                <p className="t-label !text-ink-dim">Datenmail</p>
+                <p className="t-label !text-ink-dim">{t("abgrenzung.daten_label")}</p>
                 <p className="t-body mt-4">
-                  Ausgelöst durch ein Ereignis oder ein Datenmerkmal: ein Objekt in der Region, ein
-                  Fristablauf, eine Bewertungsanfrage. Automatisiert versendet, aber persönlich in
-                  der Sache: Öffnungs- und Klickrate liegen deutlich über dem Massenversand.
+                  {t("abgrenzung.daten_text")}
                 </p>
               </div>
             </Reveal>
@@ -254,11 +190,8 @@ export default function MaklerNewsletterBeispielePage() {
       {/* ── Der Unterschied — GelbeKarte als Pointe ─────────────────────── */}
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
-          <GelbeKarte label="Der Unterschied" titel="Ein Newsletter ohne Anlass ist Rauschen." glyph>
-            Sieben Vorlagen, einmal gebaut, ersetzen den wöchentlichen Griff zur leeren Seite. Jede
-            trägt einen konkreten Anlass, keine ist ein weiterer Rundruf ohne Grund. Genau das
-            unterscheidet einen Newsletter, der geöffnet wird, von einem, der zwischen Werbung und
-            Spam landet.
+          <GelbeKarte label={t("unterschied.label")} titel={t("unterschied.titel")} glyph>
+            {t("unterschied.text")}
           </GelbeKarte>
         </div>
       </section>
@@ -267,11 +200,9 @@ export default function MaklerNewsletterBeispielePage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Textbaustein</p>
+            <p className="t-label">{t("beweis.label")}</p>
             <p className="t-h3 mt-3 max-w-[52ch]">
-              17 Jahre Markenarbeit, davor für Bosch, Continental und Michelin. Vorlagen, die einmal
-              sauber gebaut sind, laufen Monate ohne neuen Aufwand. Das ist der Unterschied
-              zwischen einem System und einem einzelnen Newsletter.
+              {t("beweis.text")}
             </p>
           </Reveal>
         </div>
@@ -282,13 +213,13 @@ export default function MaklerNewsletterBeispielePage() {
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Sie vor dem *ersten* Versand wissen wollen."
+              eyebrow={t("faq.eyebrow")}
+              titel={t("faq.titel")}
               ausrichtung="mitte"
             />
           </Reveal>
           <div className="mt-12">
-            <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
+            <FaqAccordion items={faqs.map((f) => ({ q: f.frage, a: f.antwort }))} />
           </div>
         </div>
       </section>
@@ -297,27 +228,27 @@ export default function MaklerNewsletterBeispielePage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir Ihre *Sequenz*, keinen weiteren Rundruf.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[54ch]">
-              Wie eine vollständige Sequenz technisch aufgesetzt wird, zeigt{" "}
+              {t("finale.satz_1")}{" "}
               <Link href="/email-marketing-immobilienmakler" className="ref-link">
-                E-Mail-Marketing für Immobilienmakler
+                {t("finale.link_1")}
               </Link>
-              , wie Sie Eigentümer schon vor dem Verkaufsentschluss erreichen{" "}
+              {t("finale.satz_2")}{" "}
               <Link href="/verkaeufer-ansprechen" className="ref-link">
-                Verkäufer ansprechen, bevor sie suchen
+                {t("finale.link_2")}
               </Link>
-              . Den Überblick über alle Bausteine bietet der{" "}
+              {t("finale.satz_3")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.link_3")}
               </Link>
-              .
+              {t("finale.satz_4")}
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("cta.label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>

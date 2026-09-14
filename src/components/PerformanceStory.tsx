@@ -16,31 +16,17 @@ import stil from "./PerformanceStory.module.css";
  * Alle Bewegung über die Token-Skala; Ambient-Loops (Ad-Rotation,
  * Funnel-Punkte) sind wie die Stempeldrehung bewusste, benannte
  * Ausnahmen. reduced-motion friert die Loops ein, Inhalte stehen.
+ * Alle Texte kommen als Props vom Aufrufer (StartOben, Studio-Keys
+ * mk.pm.*) — nur die drei Stations-IDs (für IntersectionObserver/
+ * Visual-Zuordnung) bleiben strukturell im Code.
  */
-const STATIONEN = [
-  {
-    id: "gesehen",
-    schritt: "01",
-    titel: "Gesehen werden",
-    satz: "Anzeigen bringen Ihre Marke vor Eigentümer, die noch niemanden beauftragt haben.",
-  },
-  {
-    id: "haengen",
-    schritt: "02",
-    titel: "Hängen bleiben",
-    satz: "Wer klickt, kommt auf einen Auftritt, der das Versprechen der Anzeige einlöst.",
-  },
-  {
-    id: "vorstellen",
-    schritt: "03",
-    titel: "Sich vorstellen",
-    satz: "Interessenten registrieren sich und qualifizieren sich vor, während Sie besichtigen.",
-  },
-] as const;
+type Station = { schritt: string; titel: string; satz: string };
+
+const STATIONEN_IDS = ["gesehen", "haengen", "vorstellen"] as const;
 
 /* ── Visual 1: Anzeigen-Welt — rotierender Ad-Stapel vor einer
    Anzeigenmanager-Silhouette ─────────────────────────────────────── */
-function AnzeigenVisual() {
+function AnzeigenVisual({ adLabel }: { adLabel: string }) {
   return (
     <div className="relative flex h-full items-center justify-center">
       {/* Manager-Silhouette hinten */}
@@ -73,7 +59,7 @@ function AnzeigenVisual() {
             <Image src={makler9x16(foto)} alt="" fill sizes="190px" className="object-cover" />
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-3 pt-8">
               <span className="block text-[10px] font-medium uppercase tracking-[0.08em] text-white/75">
-                Gesponsert · Ihre Marke
+                {adLabel}
               </span>
               <span className="mt-1 block h-2 w-3/4 rounded-full bg-white/85" />
             </figcaption>
@@ -84,18 +70,23 @@ function AnzeigenVisual() {
   );
 }
 
-/* ── Visual 2: das Funnel-Band — organisch verjüngend wie ein
-   Analytics-Funnel (Inspo Alex 26.08), in drei Gelb-Schichten eines
-   Hues (sequential, außen hell → Kern kräftig). Die Chips tragen die
-   Prozente in Tinte-Pills, die Stufen stehen als weiße Pills an den
-   Trennlinien. Zwischenwerte sind bewusst als Schema gekennzeichnet —
-   nur die 5 % am Ende ist die kommunizierte Quote (mk.pm.quote). ── */
-const FUNNEL_STUFEN = [
-  { anteil: 100, label: null },
-  { anteil: 38, label: "Bleiben dran" },
-  { anteil: 14, label: "Rechner gestartet" },
-  { anteil: 5, label: "Registriert & qualifiziert" },
-] as const;
+/**
+ * Visual 2: das Funnel-Band — organisch verjüngend wie ein
+ * Analytics-Funnel (Inspo Alex 26.08), in drei Gelb-Schichten eines
+ * Hues (sequential, außen hell → Kern kräftig). Die Chips tragen die
+ * Prozente in Tinte-Pills, die Stufen stehen als weiße Pills an den
+ * Trennlinien. Zwischenwerte sind bewusst als Schema gekennzeichnet —
+ * nur die 5 % am Ende ist die kommunizierte Quote (mk.pm.quote). Die
+ * drei Stufen-Labels kommen über funnelLabels (mk.pm.funnel_label1-3).
+ */
+function funnelStufen(funnelLabels: readonly [string, string, string]) {
+  return [
+    { anteil: 100, label: null as string | null },
+    { anteil: 38, label: funnelLabels[0] },
+    { anteil: 14, label: funnelLabels[1] },
+    { anteil: 5, label: funnelLabels[2] },
+  ];
+}
 
 /** Weicher Funnel-Pfad: Plateaus je Stufe, S-Kurven an den Wechseln. */
 function funnelPfad(halbhoehen: number[], xs: number[], cy: number, uebergang = 34) {
@@ -105,7 +96,7 @@ function funnelPfad(halbhoehen: number[], xs: number[], cy: number, uebergang = 
     if (i < halbhoehen.length - 1) {
       const h1 = cy - halbhoehen[i];
       const h2 = cy - halbhoehen[i + 1];
-      oben += ` L ${bis - uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis + uebergang} ${h2}`;
+      oben += ` L ${bis - uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis + uebergang} ${h2}`; // studio:ok (SVG-Pfad, kein Text)
     } else {
       oben += ` L ${bis} ${cy - halbhoehen[i]}`;
     }
@@ -118,7 +109,7 @@ function funnelPfad(halbhoehen: number[], xs: number[], cy: number, uebergang = 
     if (i > 0) {
       const h1 = cy + halbhoehen[i];
       const h2 = cy + halbhoehen[i - 1];
-      unten += ` L ${bis + uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis - uebergang} ${h2}`;
+      unten += ` L ${bis + uebergang} ${h1} C ${bis} ${h1}, ${bis} ${h2}, ${bis - uebergang} ${h2}`; // studio:ok (SVG-Pfad, kein Text)
     } else {
       unten += ` L ${bis} ${cy + halbhoehen[i]}`;
     }
@@ -126,7 +117,13 @@ function funnelPfad(halbhoehen: number[], xs: number[], cy: number, uebergang = 
   return oben + unten + " Z";
 }
 
-function FunnelVisual() {
+function FunnelVisual({
+  funnelLabels,
+  funnelCaption,
+}: {
+  funnelLabels: readonly [string, string, string];
+  funnelCaption: string;
+}) {
   const B = 560;
   const H = 250;
   const cy = 118;
@@ -135,6 +132,7 @@ function FunnelVisual() {
   const kern = [86, 34, 15, 7];
   const mitte = kern.map((h) => Math.min(h * 1.45, 96));
   const aussen = kern.map((h) => Math.min(h * 1.95, 104));
+  const stufen = funnelStufen(funnelLabels);
 
   return (
     <div className="flex h-full flex-col items-center justify-center">
@@ -149,7 +147,7 @@ function FunnelVisual() {
           <path d={funnelPfad(mitte, xs, cy)} fill="rgba(243, 226, 127, 0.5)" />
           <path d={funnelPfad(kern, xs, cy)} fill="var(--akzent)" />
           {/* Prozent-Chips in Tinte auf Plateau-Mitte */}
-          {FUNNEL_STUFEN.map((stufe, i) => {
+          {stufen.map((stufe, i) => {
             const x = (xs[i] + xs[i + 1]) / 2;
             const breit = stufe.anteil === 100 ? 52 : stufe.anteil >= 10 ? 44 : 38;
             return (
@@ -163,7 +161,7 @@ function FunnelVisual() {
           })}
           {/* Stufen-Pills unten an den Trennlinien — lange Labels brechen
               am „&" in zwei Zeilen, sonst überdecken sich die Nachbarn */}
-          {FUNNEL_STUFEN.map((stufe, i) => {
+          {stufen.map((stufe, i) => {
             if (!stufe.label) return null;
             const zeilen =
               stufe.label.length > 16 && stufe.label.includes(" & ")
@@ -193,15 +191,21 @@ function FunnelVisual() {
           })}
         </svg>
       </div>
-      <p className="t-small mt-4 max-w-[46ch] text-center">
-        Schematischer Verlauf — Ihre echten Quoten stehen im Wochenbericht.
-      </p>
+      <p className="t-small mt-4 max-w-[46ch] text-center">{funnelCaption}</p>
     </div>
   );
 }
 
 /* ── Visual 3: der Kontakt-Moment — Foto + einschwebende Anfrage ──── */
-function KontaktVisual() {
+function KontaktVisual({
+  kontaktLabel,
+  kontaktTitel,
+  kontaktText,
+}: {
+  kontaktLabel: string;
+  kontaktTitel: string;
+  kontaktText: string;
+}) {
   return (
     <div className="relative flex h-full items-center justify-center">
       <div className="relative aspect-[4/3] w-full max-w-[440px] overflow-hidden rounded-[20px] border border-line-subtle">
@@ -212,35 +216,58 @@ function KontaktVisual() {
           sizes="440px"
           className="object-cover"
         />
+        {/* Mikro-Pill „AI Visual" — Systemlabel für KI-Bilder, wie AiPille.tsx (BRIEF §4), hier ohne den Component-Import verdrahtet */}
         <span className="absolute right-3 top-3 rounded-full bg-black/45 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.08em] text-white/80">
           AI Visual
         </span>
       </div>
       <div className={`absolute -bottom-5 left-1/2 w-[min(320px,85%)] -translate-x-1/2 rounded-2xl border border-line-subtle bg-white/95 p-4 shadow-[0_10px_30px_rgba(20,20,18,0.12)] backdrop-blur-sm sm:left-auto sm:right-0 sm:translate-x-0 ${stil.anfrageKarte}`}>
-        <p className="t-label !text-[9.5px]">Neue qualifizierte Anfrage</p>
-        <p className="mt-1.5 text-[14px] font-semibold text-ink-cream">Verkauf · ETW, 92 m²</p>
-        <p className="mt-0.5 text-[12.5px] text-ink-muted">Rückruf gewünscht ab 17 Uhr · Quelle: Rechner</p>
+        <p className="t-label !text-[9.5px]">{kontaktLabel}</p>
+        <p className="mt-1.5 text-[14px] font-semibold text-ink-cream">{kontaktTitel}</p>
+        <p className="mt-0.5 text-[12.5px] text-ink-muted">{kontaktText}</p>
       </div>
     </div>
   );
 }
 
-const VISUALS: Record<string, () => React.ReactElement> = {
-  gesehen: AnzeigenVisual,
-  haengen: FunnelVisual,
-  vorstellen: KontaktVisual,
-};
-
 export function PerformanceStory({
   quote,
   mandate,
   provision,
+  stationen,
+  adLabel,
+  funnelLabels,
+  funnelCaption,
+  kontaktLabel,
+  kontaktTitel,
+  kontaktText,
+  dreamVor,
+  dreamNach,
+  dreamLabel,
+  loopLabel,
+  faktorVor,
+  faktorNach,
+  summeText,
 }: {
   quote: string;
   mandate: string;
   provision: string;
+  stationen: readonly [Station, Station, Station];
+  adLabel: string;
+  funnelLabels: readonly [string, string, string];
+  funnelCaption: string;
+  kontaktLabel: string;
+  kontaktTitel: string;
+  kontaktText: string;
+  dreamVor: string;
+  dreamNach: string;
+  dreamLabel: string;
+  loopLabel: string;
+  faktorVor: string;
+  faktorNach: string;
+  summeText: string;
 }) {
-  const [aktiv, setAktiv] = useState<string>(STATIONEN[0].id);
+  const [aktiv, setAktiv] = useState<string>(STATIONEN_IDS[0]);
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -262,11 +289,12 @@ export function PerformanceStory({
         {/* Sticky Stationen links */}
         <div className="hidden lg:block">
           <ol className="sticky top-32 flex flex-col gap-8">
-            {STATIONEN.map((s) => {
-              const istAktiv = aktiv === s.id;
+            {STATIONEN_IDS.map((id, i) => {
+              const s = stationen[i];
+              const istAktiv = aktiv === id;
               return (
                 <li
-                  key={s.id}
+                  key={id}
                   className="border-l-2 pl-6 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]"
                   style={{ borderColor: istAktiv ? "var(--akzent)" : "var(--line-subtle)" }}
                 >
@@ -287,14 +315,14 @@ export function PerformanceStory({
 
         {/* Visuals rechts (mobil: Station + Visual paarweise) */}
         <div className="flex flex-col gap-16 lg:gap-0">
-          {STATIONEN.map((s) => {
-            const Visual = VISUALS[s.id];
+          {STATIONEN_IDS.map((id, i) => {
+            const s = stationen[i];
             return (
               <div
-                key={s.id}
-                data-station={s.id}
+                key={id}
+                data-station={id}
                 ref={(n) => {
-                  panelRefs.current[s.id] = n;
+                  panelRefs.current[id] = n;
                 }}
                 className="lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center"
               >
@@ -304,7 +332,11 @@ export function PerformanceStory({
                   <p className="t-body mt-1.5">{s.satz}</p>
                 </div>
                 <div className="h-[380px] sm:h-[420px]">
-                  <Visual />
+                  {id === "gesehen" && <AnzeigenVisual adLabel={adLabel} />}
+                  {id === "haengen" && <FunnelVisual funnelLabels={funnelLabels} funnelCaption={funnelCaption} />}
+                  {id === "vorstellen" && (
+                    <KontaktVisual kontaktLabel={kontaktLabel} kontaktTitel={kontaktTitel} kontaktText={kontaktText} />
+                  )}
                 </div>
               </div>
             );
@@ -315,13 +347,19 @@ export function PerformanceStory({
       {/* Big Box: Dream State mit Endlos-Zahl */}
       <div className="mt-20 grid gap-8 lg:mt-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-14">
         <p className="t-body-lg max-w-[46ch]">
-          Rund {quote} der erreichten Eigentümer registrieren sich. Der Rest
-          ist Mathematik:
+          {dreamVor} {quote} {dreamNach}
         </p>
         <div className="rounded-[28px] bg-akzent px-8 py-9 sm:px-10 lg:min-w-[400px]">
-          <p className="t-label !text-ink-cream/60">Was am Ende zählt</p>
+          <p className="t-label !text-ink-cream/60">{dreamLabel}</p>
           <div className="mt-4">
-            <MandateLoop startMandate={mandate} provisionText={provision} />
+            <MandateLoop
+              startMandate={mandate}
+              provisionText={provision}
+              loopLabel={loopLabel}
+              faktorVor={faktorVor}
+              faktorNach={faktorNach}
+              summeText={summeText}
+            />
           </div>
         </div>
       </div>

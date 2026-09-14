@@ -7,6 +7,8 @@ import { rich } from "@/components/RichText";
 import { GelbeKarte, Highlight, SektionsKopf } from "@/components/MaklerElemente";
 import { Reveal } from "@/components/Reveal";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getContent } from "@/lib/content";
+import { seitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Wissensseite (R3 Welle 2, Cluster K) — /chatgpt-fuer-makler. Kompakter
@@ -17,92 +19,25 @@ import { FaqAccordion } from "@/components/FaqAccordion";
  * /ki-expose-texte), GelbeKarte zur Abgrenzung "Systeme statt Chat",
  * Beweis-Anriss, FAQ inkl. DSGVO-Hinweis + FAQPage-JSON-LD. Foto 9 laut
  * R3-SEITENPLAN.json.
+ * Texte: src/lib/texte/seiten/chatgpt-fuer-makler.ts (Studio-Keys
+ * s.chatgpt-fuer-makler.*).
  */
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "ChatGPT für Makler: 12 Anwendungen, die wirklich Zeit sparen | beuwy",
-  description:
-    "ChatGPT für Makler: 12 konkrete Anwendungen, die wirklich Zeit sparen, von Exposé-Rohtexten bis Übergabeprotokollen. Und die Grenze: Systeme statt Chat-Fenster.",
-  openGraph: {
-    title: "ChatGPT für Makler: 12 Anwendungen, die wirklich Zeit sparen | beuwy",
-    description:
-      "Zwölf konkrete Anwendungen für ChatGPT im Maklerbüro, promptfrei erklärt, plus die Grenze: Ein Chat-Fenster ist kein System.",
-    type: "website",
-    locale: "de_DE",
-  },
-};
-
-const ANWENDUNGEN = [
-  {
-    titel: "Exposé-Rohtext aus Eckdaten",
-    text: "Adresse, Wohnfläche und Baujahr rein, ein erster Fließtext-Entwurf raus, den Sie mit echten Fakten prüfen und veredeln.",
-  },
-  {
-    titel: "Einwand-Vorbereitung vor der Besichtigung",
-    text: "Typische Einwände zu Preis oder Zustand durchspielen, bevor der Eigentümer oder Käufer sie tatsächlich stellt.",
-  },
-  {
-    titel: "Übergabeprotokoll strukturieren",
-    text: "Stichpunkte zu Zählerständen und Mängeln in eine vollständige, saubere Vorlage bringen.",
-  },
-  {
-    titel: "E-Mail-Rohentwürfe auf Standardfragen",
-    text: "Erste Fassungen für wiederkehrende Fragen zu Besichtigungsterminen oder fehlenden Unterlagen.",
-  },
-  {
-    titel: "Social-Media-Rohtext zum neuen Objekt",
-    text: "Ein erster Post-Entwurf, den Sie kürzen und mit echten Fotos statt Stockmaterial versehen.",
-  },
-  {
-    titel: "Energieausweis in Klartext übersetzen",
-    text: "Fachbegriffe wie Endenergiebedarf für den Laien verständlich zusammenfassen, ohne den Ausweis selbst zu ersetzen.",
-  },
-  {
-    titel: "Checkliste für den Notartermin",
-    text: "Unterlagen und offene Fragen strukturiert zusammenstellen, bevor der Termin ansteht.",
-  },
-  {
-    titel: "Marktbericht-Rohtext aus Rohdaten",
-    text: "Zahlen zu Kaufpreisen und Angebotsdauer in einen ersten lesbaren Text verwandeln, den Sie mit Quelle gegenprüfen.",
-  },
-  {
-    titel: "Fragenkatalog fürs Erstgespräch",
-    text: "Gezielte Fragen an den Eigentümer vorbereiten, damit im Termin selbst nichts vergessen wird.",
-  },
-  {
-    titel: "Übersetzungs-Rohfassung für internationale Käufer",
-    text: "Ein Exposé-Auszug als erste fremdsprachige Fassung, die vor Versand noch geprüft wird.",
-  },
-  {
-    titel: "Gesprächsnotizen in eine Aufgabenliste umwandeln",
-    text: "Aus einem Meeting-Protokoll eine klare To-do-Liste mit Verantwortlichkeiten machen.",
-  },
-  {
-    titel: "Rohtext für eine Stellenanzeige",
-    text: "Einen ersten Entwurf liefern, wenn das Büro wächst und eine neue Position besetzt werden soll.",
-  },
-] as const;
-
-const FAQS = [
-  {
-    q: "Ersetzt ChatGPT einen Werbetexter oder Redakteur?",
-    a: "Für Rohfassungen und erste Entwürfe ja, für die Feinarbeit nicht. Ein Text, der verkaufen soll, braucht am Ende eine Person, die Ton, Wahrheitsgehalt und Wirkung prüft. ChatGPT liefert den Rohling, nicht das fertige Ergebnis.",
-  },
-  {
-    q: "Darf ich Kundendaten in ChatGPT eingeben?",
-    a: "Seien Sie zurückhaltend mit personenbezogenen Daten in einem offenen Chat-Fenster ohne passende Datenverarbeitungsvereinbarung. Anonymisierte Eckdaten wie Wohnfläche oder Baujahr sind unkritisch, Namen, Adressen und Vertragsdetails gehören eher in ein geprüftes System als in einen Chat. Das ist eine allgemeine Einordnung, keine Rechtsberatung. Bei Zweifeln fragen Sie Ihren Datenschutzbeauftragten.",
-  },
-  {
-    q: "Wie genau sind KI-generierte Texte über die Immobilie?",
-    a: "Nur so genau wie die Eingabe. ChatGPT erfindet plausibel klingende Details, wenn Angaben fehlen. Jede Zahl und jede Eigenschaft im fertigen Text muss gegen die echten Objektunterlagen geprüft werden, bevor er veröffentlicht wird.",
-  },
-  {
-    q: "Was ist der Unterschied zwischen ChatGPT nutzen und einem System bauen?",
-    a: "ChatGPT beantwortet eine einzelne Aufgabe, wenn Sie danach fragen. Ein System merkt sich, was wann zu tun ist, und läuft ohne tägliches Prompten von selbst weiter, etwa beim Nachfassen oder bei der Exposé-Erstellung.",
-  },
-] as const;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = seitenTexte(await getContent(), "chatgpt-fuer-makler");
+  return {
+    title: t("meta.titel"),
+    description: t("meta.beschreibung"),
+    openGraph: {
+      title: t("meta.titel"),
+      description: t("meta.og_beschreibung"),
+      type: "website",
+      locale: "de_DE",
+    },
+  };
+}
 
 function PfeilRechts({ className = "" }: { className?: string }) {
   return (
@@ -118,19 +53,25 @@ function PfeilRechts({ className = "" }: { className?: string }) {
   );
 }
 
-function ZusammenarbeitCta({ className = "" }: { className?: string }) {
+function ZusammenarbeitCta({ label, className = "" }: { label: string; className?: string }) {
   return (
     <Link
       href="/anfrage"
       className={`group inline-flex items-center gap-2.5 rounded-full bg-akzent px-7 py-3.5 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover ${className}`}
     >
-      Zusammenarbeit anfragen
+      {label}
       <PfeilRechts className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" />
     </Link>
   );
 }
 
-export default function ChatgptFuerMaklerPage() {
+export default async function ChatgptFuerMaklerPage() {
+  const c = await getContent();
+  const t = seitenTexte(c, "chatgpt-fuer-makler");
+
+  const ANWENDUNGEN = t.liste("anwendungen", ["titel", "text"] as const);
+  const FAQS = t.liste("faq", ["frage", "antwort"] as const).map((f) => ({ q: f.frage, a: f.antwort }));
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -153,21 +94,15 @@ export default function ChatgptFuerMaklerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[880px] px-6 pb-4 pt-32 lg:px-10 lg:pt-36">
           <Reveal>
-            <p className="t-label !text-ink-yellow">KI im Maklerbüro</p>
-            <h1 className="t-display mt-4">
-              {rich("ChatGPT für Makler: zwölf *Anwendungen*, die wirklich helfen.")}
-            </h1>
+            <p className="t-label !text-ink-yellow">{t("hero.eyebrow")}</p>
+            <h1 className="t-display mt-4">{rich(t("hero.titel"))}</h1>
             <p className="t-body-lg mt-6 max-w-[62ch]">
-              Sie können ChatGPT als Makler für alles nutzen, was heute als Rohfassung oder erste
-              Vorbereitung auf Ihrem Schreibtisch liegt: Exposé-Rohtexte aus Eckdaten, eine{" "}
-              <Highlight>Einwand-Vorbereitung vor der Besichtigung, ein sauber
-              strukturiertes Übergabeprotokoll</Highlight> und neun weitere Anwendungen. Die
-              Grenze liegt dort, wo aus einem Prompt ein wiederkehrender Ablauf werden soll, das
-              schafft ein Chat-Fenster allein nicht, dafür braucht es ein System.
+              {t("hero.intro_vor")}{" "}
+              <Highlight>{t("hero.intro_highlight")}</Highlight> {t("hero.intro_nach")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <ZusammenarbeitCta />
-              <span className="t-small w-full sm:w-auto">Antwort innerhalb von 24 Stunden</span>
+              <ZusammenarbeitCta label={t("hero.cta_label")} />
+              <span className="t-small w-full sm:w-auto">{t("hero.cta_hinweis")}</span>
             </div>
           </Reveal>
         </div>
@@ -193,15 +128,15 @@ export default function ChatgptFuerMaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Die 12 Anwendungen"
-              titel="Wofür ChatGPT im Maklerbüro *wirklich* Zeit spart."
-              sub="Promptfrei erklärt: nicht die Formulierung des Prompts zählt, sondern die Aufgabe, die dahinter steckt."
+              eyebrow={t("anwendungen.eyebrow")}
+              titel={t("anwendungen.titel")}
+              sub={t("anwendungen.sub")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-x-14 border-t border-line-subtle sm:grid-cols-2">
             {ANWENDUNGEN.map((a, i) => (
-              <Reveal key={a.titel} delay={(i % 6) * 40}>
+              <Reveal key={`anwendung-${i}`} delay={(i % 6) * 40}>
                 <div className="border-b border-line-subtle py-7">
                   <div className="flex items-baseline gap-3">
                     <span className="t-data shrink-0 tnum">{String(i + 1).padStart(2, "0")}</span>
@@ -220,32 +155,22 @@ export default function ChatgptFuerMaklerPage() {
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
             <SektionsKopf
-              eyebrow="Ein Beispiel"
-              titel="So sieht die Einwand-Vorbereitung *konkret* aus."
+              eyebrow={t("beispiel.eyebrow")}
+              titel={t("beispiel.titel")}
               className="max-w-[720px]"
             />
           </Reveal>
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="h-full rounded-[24px] border border-line-subtle bg-bg-elevated p-7">
-                <p className="t-label">Die Situation</p>
-                <p className="t-body mt-4">
-                  Eine Altbauwohnung steht für 480.000 € im Exposé. Ein Interessent nennt beim
-                  Rundgang den sichtbaren Sanierungsstau am Bad als Grund für ein niedrigeres
-                  Gebot.
-                </p>
+                <p className="t-label">{t("beispiel.situation_label")}</p>
+                <p className="t-body mt-4">{t("beispiel.situation_text")}</p>
               </div>
             </Reveal>
             <Reveal delay={60}>
               <div className="h-full rounded-[24px] border-l-2 border-akzent bg-bg-elevated p-7">
-                <p className="t-label">Die Vorbereitung</p>
-                <p className="t-body mt-4">
-                  Vor dem Termin liefert ChatGPT drei Antwortbausteine: eine Einordnung der
-                  Sanierungskosten in Relation zum Kaufpreis, einen Vergleich zu ähnlichen Objekten
-                  ohne Sanierungsstau in der Umgebung, und eine Formulierung, die den Zustand nicht
-                  kleinredet. Sie wählen im Gespräch den passenden Baustein, statt spontan zu
-                  improvisieren.
-                </p>
+                <p className="t-label">{t("beispiel.vorbereitung_label")}</p>
+                <p className="t-body mt-4">{t("beispiel.vorbereitung_text")}</p>
               </div>
             </Reveal>
           </div>
@@ -256,11 +181,8 @@ export default function ChatgptFuerMaklerPage() {
       <section className="bg-bg-elevated">
         <div className="mx-auto max-w-[680px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <GelbeKarte label="Die Grenze" titel="Ein Chat-Fenster ist kein System." glyph>
-              Jede der zwölf Anwendungen spart Minuten an einer einzelnen Aufgabe. Was ein
-              Maklerbüro wirklich entlastet, ist ein Ablauf, der sich selbst merkt, wann ein
-              Exposé fällig ist oder wann nachgefasst werden muss. Genau das bauen wir, statt
-              Ihnen eine weitere Prompt-Liste zu geben.
+            <GelbeKarte label={t("grenze.label")} titel={t("grenze.titel")} glyph>
+              {t("grenze.text")}
             </GelbeKarte>
           </Reveal>
         </div>
@@ -270,16 +192,11 @@ export default function ChatgptFuerMaklerPage() {
       <section id="beweis" className="bg-bg-base">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <p className="t-label">Beweis, kein Prompt-Versuch</p>
-            <p className="t-h3 mt-3 max-w-[46ch]">
-              {rich("*Siebzehn* Jahre Systembau, nicht erst seit dem ersten Sprachmodell.")}
-            </p>
-            <p className="t-body mt-4 max-w-[52ch]">
-              Wir übersetzen KI-Werkzeuge seit Jahren in feste Abläufe für Marken, die vor
-              ChatGPT genauso auf funktionierende Prozesse angewiesen waren wie Ihr Büro heute.
-            </p>
+            <p className="t-label">{t("beweis.label")}</p>
+            <p className="t-h3 mt-3 max-w-[46ch]">{rich(t("beweis.titel"))}</p>
+            <p className="t-body mt-4 max-w-[52ch]">{t("beweis.text")}</p>
             <Link href="/ki-fuer-immobilienmakler" className="ref-link mt-6 inline-block">
-              Wie wir KI in Abläufe übersetzen →
+              {t("beweis.link")} →
             </Link>
           </Reveal>
         </div>
@@ -289,11 +206,7 @@ export default function ChatgptFuerMaklerPage() {
       <section id="faq" className="bg-bg-elevated">
         <div className="mx-auto max-w-[760px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>
-            <SektionsKopf
-              eyebrow="Häufige Fragen"
-              titel="Was Makler vor dem *ersten* Prompt wissen wollen."
-              ausrichtung="mitte"
-            />
+            <SektionsKopf eyebrow={t("faq.eyebrow")} titel={t("faq.titel")} ausrichtung="mitte" />
           </Reveal>
           <div className="mt-12">
             <FaqAccordion items={FAQS.map((f) => ({ q: f.q, a: f.a }))} />
@@ -305,27 +218,27 @@ export default function ChatgptFuerMaklerPage() {
       <section className="bg-bg-base">
         <div className="mx-auto max-w-[720px] px-6 py-24 text-center md:py-32 lg:px-10">
           <Reveal>
-            <p className="t-label">Der nächste Schritt</p>
-            <h2 className="t-h2 mt-4">{rich("Bauen wir das *System*, nicht den nächsten Prompt.")}</h2>
+            <p className="t-label">{t("finale.label")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("finale.titel"))}</h2>
             <p className="t-body-lg mx-auto mt-5 max-w-[56ch]">
-              Einen Überblick über alle Bausteine finden Sie im{" "}
+              {t("finale.text_vor")}{" "}
               <Link href="/immobilienmarketing" className="ref-link">
-                Immobilienmarketing-Hub
+                {t("finale.text_link1")}
               </Link>
-              , wie wir KI-Werkzeuge in bleibende Abläufe übersetzen, zeigt die Seite{" "}
+              {t("finale.text_mitte1")}{" "}
               <Link href="/ki-fuer-immobilienmakler" className="ref-link">
-                KI für Immobilienmakler
+                {t("finale.text_link2")}
               </Link>
-              . Speziell zu Exposé-Texten und ihrer Objektwahrheit geht es auf{" "}
+              {t("finale.text_mitte2")}{" "}
               <Link href="/ki-expose-texte" className="ref-link">
-                KI-Exposé-Texte
+                {t("finale.text_link3")}
               </Link>
               .
             </p>
             <div className="mt-9 flex justify-center">
-              <ZusammenarbeitCta />
+              <ZusammenarbeitCta label={t("finale.cta_label")} />
             </div>
-            <p className="t-small mt-4">Antwort innerhalb von 24 Stunden.</p>
+            <p className="t-small mt-4">{t("finale.cta_hinweis")}</p>
           </Reveal>
         </div>
       </section>
