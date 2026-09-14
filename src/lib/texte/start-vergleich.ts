@@ -28,9 +28,9 @@ export const VERGLEICH_DEFAULTS: Record<string, string> = {
   "mk.vgl.std.fussnote": "Layout ab Werk — so kommt es tausendfach im Postfach an.",
 
   "mk.vgl.bw.label": "Mit beuwy",
-  "mk.vgl.bw.titel": "Arbeitet wie fünf Mitarbeiter. Wirkt wie Handarbeit.",
+  "mk.vgl.bw.titel": "Wirkt wie Handarbeit. Kostet Sie keine Stunde.",
   "mk.vgl.bw.text":
-    "Jeder Eigentümer bekommt Unterlagen, die aussehen, als hätte Ihr Büro einen Tag daran gesessen. Tatsächlich entstehen sie auf Knopfdruck, mit seinen echten Daten — auch beim dreihundertsten Mandat des Jahres. Die Zeitersparnis entspricht einem Team von fünf Mitarbeitern. Ohne eine einzige neue Stelle.",
+    "Jeder Eigentümer bekommt Unterlagen, die aussehen, als hätte Ihr Büro einen Tag daran gesessen. Tatsächlich entstehen sie auf Knopfdruck, mit seinen echten Daten — beim ersten Mandat im Monat wie beim zwanzigsten. Sie verkaufen. Das System schreibt.",
   "mk.vgl.bw.visual_headline": "Verkauft in 12 Tagen. 104 % vom Angebotspreis.",
   "mk.vgl.bw.visual_sub": "Ihr Eigentümer-Report — Seite 1 von 6",
   "mk.vgl.bw.expose_titel": "Exposé auf Knopfdruck",

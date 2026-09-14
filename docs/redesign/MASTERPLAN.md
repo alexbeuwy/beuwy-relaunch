@@ -180,3 +180,7 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   Bereich „Unterseiten" mit Seitenwahl und Bereich „Frontseite /vsl";
   Scanner-Gate in verify. R11b: CRM-Dummy-Daten mit zwei Knöpfen in
   /intern/einstellungen + SQL-Migration (Alex-Todo).
+- 14.09 · R12: Copy-Brief aus „1000 Buyers a Day" (docs/redesign/COPY-
+  BRIEF.md) auf /vsl und die Startseiten-Kernstrecke angewendet — eine
+  gegen den Strich gebürstete Headline, ein Schmerzpunkt, glaubwürdige
+  Zahlen, drei neue /vsl-Blöcke mit RIEGEL-Beleg. Alles Studio-Keys.

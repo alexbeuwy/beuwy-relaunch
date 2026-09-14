@@ -16,12 +16,12 @@ export const START_BLOECKE_DEFAULTS: Record<string, string> = {
   "mk.spiegel.titel": "Sie sind unter den Besten. *Sieht* man Ihnen das an?",
   "mk.spiegel.badge": "Erster Eindruck · Entscheidet",
   "mk.spiegel.p1":
-    "Empfehlungen bringen Ihnen die Anfrage. Doch wer Sie vorher googelt, sieht eine Website, die Ihrem Ruf hinterherhinkt.",
+    "Sie kennen das: Das Gespräch lief gut, der Eigentümer war überzeugt — und den Auftrag bekam ein anderer.",
   "mk.spiegel.p2":
-    "Eigentümer vergleichen drei Makler, bevor sie anrufen. Heimlich, am Handy, abends auf dem Sofa.",
+    "Nicht, weil der besser verkauft. Abends am Handy hat er nur teurer ausgesehen: Website, Exposé, Bewertungen — in dieser Reihenfolge.",
   "mk.spiegel.p3_vor":
-    "Der Zweitplatzierte hat schlechter verkauft als Sie. Seine Website sah nur",
-  "mk.spiegel.p3_stark": "teurer aus",
+    "Eigentlich ist es nur dieser eine Grund. Und er ist in sechs Wochen",
+  "mk.spiegel.p3_stark": "erledigt",
 
   /* ── Abgrenzung Baukasten (StartOben, Block 3) ─────────────────── */
   "mk.abgrenzung.baukasten_label": "Baukasten",
@@ -213,7 +213,7 @@ export const START_BLOECKE_DEFAULTS: Record<string, string> = {
   "mk.faq.titel": "Die *Antworten*, die vorher kommen.",
   "mk.faq.1.frage": "Was kostet das?",
   "mk.faq.1.antwort":
-    "Das hängt vom Umfang ab: Marke allein, oder Marke, Website und Automationen zusammen. Wir klären das im ersten Gespräch, nicht vorher am Telefon mit einer Preisliste. Für die meisten Makler trägt sich die Investition über die Alleinaufträge, die dadurch entstehen.",
+    "Das hängt vom Umfang ab: Marke allein, oder Marke, Website und Nachfass zusammen. Die ehrliche Rechnung: Ein Alleinauftrag mehr im Monat, und das System hat sich getragen. Den Rest klären wir im ersten Gespräch mit Ihren Zahlen, nicht mit einer Preisliste.",
   "mk.faq.2.frage": "Für wen sind beuwy-Systeme geeignet?",
   "mk.faq.2.antwort":
     "Machen Ihnen 10.000 € Marketingkosten im Monat keine Angst? Weil Sie wissen: Daraus werden 100.000 € mehr Einnahmen. Dann ja. Wenn Sie bei diesen Zahlen schlucken, ist ein Baukasten ab 39 € im Monat die ehrlichere Wahl. Beides ist in Ordnung. Es ist nur nicht dasselbe Ziel.",

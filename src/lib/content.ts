@@ -221,15 +221,15 @@ export const DEFAULTS: Record<string, string> = {
      Namen im Studio an, bevor Freigaben stehen. */
 
   "mk.hero.eyebrow": "Marke · Website · Automatisierung",
-  "mk.hero.title": "Das System hinter Deutschlands *besten*",
-  "mk.hero.rotation": "Maklern",
+  "mk.hero.title": "Den Alleinauftrag bekommt *nicht* der bessere",
+  "mk.hero.rotation": "Makler",
   "mk.hero.subtitle":
-    "beuwy bringt 17 Jahre Markenarbeit mit. Ihr Auftritt ist in 4–6 Wochen live.",
+    "Sondern der, der teurer aussieht. Wir bauen Ihnen in 4–6 Wochen genau diesen Auftritt: Marke, Website, Exposés, Nachfass. Sie liefern zwei Termine.",
   "mk.hero.cta": "Zusammenarbeit anfragen",
   "mk.hero.cta_hinweis": "Antwort in 24 Stunden",
   "mk.hero.cta2": "Ergebnisse ansehen",
   "mk.hero.checks":
-    "Marke & Design~beantwortet Ihren Preis|Website & Funnel~sortiert Anfragen vor, bevor Sie abheben|Automatisierung~arbeitet, während Sie verkaufen",
+    "Marke & Exposé~wirkt teurer als der Wettbewerb|Website & Funnel~holt den Termin, bevor Sie zurückrufen|Nachfass-Automatik~bleibt dran, während Sie beim Notar sind",
   "mk.hero.badge_label": "Für führende Immobilienmakler",
   "mk.hero.badge_wert": "100+",
   "mk.hero.badge_text": "Markenprojekte seit 2009",
