@@ -177,8 +177,8 @@ Wortliste kurz und unlesbar blitzen lassen, das ist der Witz. Bei Station
 40.0  voll   schnitt   Anfangsbild
 ```
 
-**Tells:** Score 0. Zahlen: 53, 50, 20, 21. Ich: 5×. Namen: ChatGPT,
-Claude, Codex, Sprachprofil.
+**Tells:** Score 1 (weich: „Ziel“, einmal). Zahlen: 53, 50, 20, 21. Ich: 5×.
+Namen: ChatGPT, Claude, Codex, Sprachprofil.
 
 ---
 
@@ -255,8 +255,9 @@ Screenrecording OBS + Teleprompter, bei Station 2 ein echtes Angebot
 40.0  voll   schnitt   Anfangsbild
 ```
 
-**Tells:** Score 0. Zahlen: 11 Uhr, 3, 1 Tag, 3.400. Ich: 9×. Namen:
-Baumarkt, beuwy, Claude, OBS.
+**Tells:** Score 2 (Anapher: drei Sätze in Folge mit „Ich“; bewusst, das ist
+Sprechen). Zahlen: 11 Uhr, 3, 1 Tag, 3.400. Ich: 9×. Namen: Baumarkt, beuwy,
+Claude, OBS.
 
 ---
 
