@@ -9,7 +9,8 @@ Quellen der Skelette 1–5: Ava (Interview ab 1:38:52), Hormozi (Journal,
 S. 200, „Content Unit"), Jenny Hoyos (YouTube-Interview), Kallaway
 (Hook-Video ab 1:17), @byjacksonsword (Alex' verlinktes Reel, transkribiert).
 Skelette 6–7 sind aus Reels abgeleitet, die Alex als Referenz gespeichert
-hat (Format „Gesicht unten, Karten oben").
+hat (Format „Gesicht unten, Karten oben"). Skelett 8 kommt aus der
+Referenz-Bibliothek (`referenzen/`), transkribiert und analysiert.
 
 ---
 
@@ -168,6 +169,25 @@ Kamera, zeigt den Agenten bei der Arbeit.
 
 Merksatz: Das Terminal ist der Beweis. Ohne Screen ist es eine Behauptung.
 
+### Skelett 8 — STUFENLEITER (Open Loop mit Zahl)
+
+Aus der Referenz @jacklaydenn („5 levels", 9.183 Likes,
+`referenzen/jacklaydenn-DarwoM2M-kS.md`). Der Hook öffnet eine Zählung,
+die Stufen steigen auf, unten schnell, oben langsam. Die oberste Stufe ist
+die, auf der Alex steht, und das Reel zeigt sie im Bild.
+
+| Sek. | Beat | Funktion | Oben |
+|---|---|---|---|
+| 0–6 | Hook | Allgemeingültige Behauptung + „es gibt 5 Stufen" + Achse, an der sich der Zuschauer selbst misst | Leiter mit leeren Stufen |
+| 6–10 | Stufe 1 + 2 | Schnellfeuer, beide in 3,5 Sek. | Karten blitzen 0,8 Sek. |
+| 10–19 | Stufe 3 | Selbstbeleg („so wie die hier oben"), echte Namen | Screenrecording |
+| 19–30 | Stufe 4 | Zweiter Open Loop („dafür müssen ein paar Dinge stimmen") + Schnellliste, zu kurz zum Lesen | Flash-Insert |
+| 30–38 | Stufe 5 | Reward mit Zahl, längster Beat | Karte bleibt stehen |
+| 38–40 | Loop | Zurück zum Hook | Leiter, leer |
+
+Merksatz: Die Zählung im Hook ist das Versprechen. Wer bei Stufe 2 noch
+schaut, will wissen, wo er selbst steht.
+
 ---
 
 ## Teil 3 — Referenz-Modus: von fremdem Reel zu eigenem Skript
@@ -178,7 +198,7 @@ Eingabe: Transkript eines Reels, das nachweislich funktioniert hat
 1. **Beats extrahieren.** Jeden Satz des Transkripts einer Funktion
    zuordnen: Hook, Kontext, Bruch, Beleg, Zwischenstation, Reward, Loop.
    Zeitanteil je Beat schätzen. Was der Satz **tut**, nicht was er sagt.
-2. **Skelett benennen.** Welches der sieben Skelette passt, oder welche
+2. **Skelett benennen.** Welches der acht Skelette passt, oder welche
    Kombination (Skelett 4 als Hook auf Skelett 1 ist häufig).
 3. **Retention-Geräte notieren.** Offene Lücken, Zahlen, Widersprüche,
    Flash-Inserts, Kamerawechsel: wo im Original sitzt was.
