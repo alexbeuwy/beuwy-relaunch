@@ -249,6 +249,7 @@ export function BrandingOS({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [idee, setIdee] = useState("");
+  const [referenz, setReferenz] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [meldung, setMeldung] = useState<string | null>(null);
   const [offen, setOffen] = useState<string | null>(null);
@@ -282,10 +283,17 @@ export function BrandingOS({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idee: idee.trim(), anzahl: 6 }),
+        body: JSON.stringify(
+          referenz.trim()
+            ? { idee: idee.trim(), anzahl: 3, referenz: referenz.trim() }
+            : { idee: idee.trim(), anzahl: 6 },
+        ),
       },
       "engine",
-    ).then(() => setIdee(""));
+    ).then(() => {
+      setIdee("");
+      setReferenz("");
+    });
   };
 
   const statusSetzen = (id: string, status: string) =>
@@ -442,7 +450,9 @@ export function BrandingOS({
           >
             <p className="mt-3 text-[13px] leading-relaxed text-[#8a8880]">
               Einzeiler rein, sechs drehfertige Skripte raus — mit Sprachprofil,
-              drei Hooks pro Skript und der aktuellen Hook-Bilanz aus echten Zahlen.
+              Stimmkorpus, drei Hooks, Schnittplan im 2-Sekunden-Takt und der
+              aktuellen Hook-Bilanz. Jeder Entwurf läuft durch den KI-Tells-Scanner
+              und den Kritiker; gespeichert wird nur, was besteht.
             </p>
             <div className="mt-4 flex gap-2">
               <input
@@ -457,9 +467,17 @@ export function BrandingOS({
                 disabled={busy !== null || !anbindungen.engine || idee.trim().length < 3}
                 className="shrink-0 rounded-lg bg-[#7bd88f] px-4 py-2 text-[13px] font-medium text-[#131311] hover:bg-[#8fe2a1] disabled:opacity-40"
               >
-                {busy === "engine" ? "Schreibt…" : "Batch"}
+                {busy === "engine" ? "Schreibt…" : referenz.trim() ? "Referenz" : "Batch"}
               </button>
             </div>
+            <textarea
+              value={referenz}
+              onChange={(e) => setReferenz(e.target.value)}
+              rows={referenz ? 6 : 2}
+              maxLength={6000}
+              placeholder="Optional: Transkript eines Reels, das nachweislich lief. Dann übernimmt die Engine dessen Skelett 1:1 und schreibt drei Skripte zu deinem Thema hinein."
+              className="mt-2 w-full resize-y rounded-lg border border-white/[0.08] bg-[#232321] px-3 py-2 font-mono text-[12px] leading-relaxed text-[#e8e6e1] placeholder:font-sans placeholder:text-[#5c5a54] focus:border-[#7bd88f]/50 focus:outline-none"
+            />
             <div className="mt-4 grid grid-cols-4 gap-2 border-t border-white/[0.05] pt-4">
               {(["idee", "skript", "gedreht", "gepostet"] as const).map((s) => (
                 <div key={s}>

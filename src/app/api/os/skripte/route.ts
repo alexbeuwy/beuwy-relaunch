@@ -6,8 +6,10 @@ import { batchGenerieren, engineKonfiguriert } from "@/lib/os/skript-engine";
 import { lageBerechnen } from "@/lib/os/kpi";
 
 /**
- * POST  — Einzeiler rein, Batch raus (Claude, mit Sprachprofil und der
- *         aktuellen Hook-Bilanz aus echten Zahlen).
+ * POST  — Einzeiler rein, Batch raus (Claude, mit Sprachprofil, Stimmkorpus
+ *         und der aktuellen Hook-Bilanz aus echten Zahlen). Mit `referenz`
+ *         (Transkript eines erfolgreichen Reels) läuft der Referenz-Modus:
+ *         Skelett übernehmen, Inhalt von Alex (docs/branding/SKELETTE.md).
  * PATCH — Status eines Skripts weiterschieben: idee → skript → gedreht
  *         → geplant → gepostet, oder Hook-Wahl festhalten.
  */
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: { idee?: unknown; anzahl?: unknown };
+  let body: { idee?: unknown; anzahl?: unknown; referenz?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -43,7 +45,17 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
-  const anzahl = Math.min(10, Math.max(5, Number(body.anzahl) || 6));
+  const referenz = typeof body.referenz === "string" ? body.referenz.trim() : "";
+  if (referenz.length > 6000) {
+    return NextResponse.json(
+      { ok: false, error: "Referenz-Transkript darf höchstens 6000 Zeichen haben." },
+      { status: 400 },
+    );
+  }
+  /* Im Referenz-Modus reichen drei Skripte: ein Skelett, drei Blickwinkel. */
+  const anzahl = referenz
+    ? Math.min(6, Math.max(3, Number(body.anzahl) || 3))
+    : Math.min(10, Math.max(5, Number(body.anzahl) || 6));
 
   /* Batch-Nummer fortlaufend, Hook-Bilanz als Korrektiv für den Prompt. */
   const snap = await ladeSnapshot();
@@ -57,6 +69,7 @@ export async function POST(req: NextRequest) {
     batch: `batch-${nummer}`,
     hooks: lage.hooks,
     saeulen: lage.saeulen,
+    referenz: referenz || undefined,
   });
 
   revalidatePath("/os");

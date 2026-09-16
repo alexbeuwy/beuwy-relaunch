@@ -20,24 +20,51 @@ Caption-Generator. Das vollständige Protokoll ist Gesetz:
    Alex' Sprache, sonst ist er wertlos.
 3. Lies `docs/branding/HOOK-PATTERNS.md` — 3 Hook-Varianten pro Skript:
    Pattern-Interrupt, Kontra-These, Konkrete Zahl.
-4. Für KPI-/Tracking-Fragen: `docs/branding/KPI-LOGIK.md`.
+4. Lies `docs/branding/SKELETTE.md` — sieben bewiesene Strukturen mit
+   Sekundenmarken, Bildaufbau (Gesicht unten, B-Roll oben, 2-Sekunden-Takt,
+   Flash-Inserts), Referenz-Modus, Schnittplan-Format.
+5. Lies `docs/branding/STIMMKORPUS.md` — echte Sätze von Alex. Rhythmus
+   übernehmen, keinen Satz kopieren, keine Zahl erfinden.
+6. Lies `docs/branding/KI-TELLS.md` — das Gate. Kein Skript verlässt die
+   Session mit Score ≥ 3.
+7. Für KPI-/Tracking-Fragen: `docs/branding/KPI-LOGIK.md`. Für die
+   Werkzeugkette und Modell-Rollen: `docs/branding/PIPELINE.md`.
 
 ## Workflow Content-Engine
 
 Bei einer Einzeiler-Idee von Alex:
 
 1. Nächste Batch-Nummer aus `docs/branding/skripte/` ermitteln.
-2. 5–10 Skripte nach `docs/branding/skripte/_TEMPLATE.md` schreiben:
-   Hook (≤ 8 Wörter, 3 Varianten) · Body (gesprochen, 20–45 Sek.) ·
-   Loop-Ende ohne CTA · 1–3 Zeilen Regie.
-3. Als `docs/branding/skripte/batch-NNN-thema.md` committen.
-4. Im Chat: nur die Skripte, kein Vorgeplänkel, keine Meta-Erklärung.
+2. Je Skript ein Skelett aus `SKELETTE.md` wählen und Beat für Beat
+   hineinschreiben. 5–10 Skripte nach `docs/branding/skripte/_TEMPLATE.md`:
+   Hook (≤ 8 Wörter, 3 Varianten) · Body (gesprochen, 20–45 Sek., Absätze
+   = Beats) · Loop-Ende ohne CTA · Regie · **Schnittplan** (Sekunde · Zone
+   · Art · Inhalt, nie mehr als 2,5 Sek. Abstand, 2–4 Flash-Inserts).
+3. Jedes Skript gegen `KI-TELLS.md` messen (A–D). Treffer werden nicht
+   umgestellt, der Satz wird neu gesagt. Score in der Batch-Datei notieren.
+4. Als `docs/branding/skripte/batch-NNN-thema.md` committen.
+5. Im Chat: nur die Skripte, kein Vorgeplänkel, keine Meta-Erklärung.
 
-Qualitätsmaßstab: `docs/branding/skripte/batch-001-claude-webseiten.md`.
+**Referenz-Modus** (wenn Alex ein Transkript oder einen Reel-Link mit
+Transkript gibt): `SKELETTE.md` Teil 3 abarbeiten — Beats extrahieren,
+Skelett benennen, Retention-Geräte notieren, dann 3–5 Skripte zu Alex'
+Thema in genau dieses Skelett. Struktur 1:1, Wörter 0 %. Die
+Skelett-Analyse steht oben in der Batch-Datei.
+
+Qualitätsmaßstab: `docs/branding/skripte/batch-002-referenz-modus.md`
+(mit Schnittplan) und `batch-001-claude-webseiten.md` (Ton).
+
+**Arbeitsteilung** (`PIPELINE.md` §2): Hooks, Bodies, Skelett-Wahl macht
+das orchestrierende Modell selbst. Research, Transkription, Apify-Läufe,
+Scanner-Code und Karten-HTML gehen an Sonnet-Grunts mit engem Auftrag;
+jedes Ergebnis wird geprüft, bevor es in einen Batch fließt.
 
 ## Harte Regeln
 
 - Phase 1: keine Immobilien-Inhalte, keine Verletzlichkeits-Posts, kein CTA.
+  Phase 2 nur, wenn Alex es ausdrücklich sagt (Engine: `OS_PHASE=2`).
+- Keine Zahl, kein Name, kein Projekt erfinden. Was nicht im Stimmkorpus,
+  im Protokoll oder in Alex' Idee steht, wird als Rückfrage gestellt.
 - Kurz. Keine Motivationssprache. Keine generischen Tipps. Deutsch.
 - Bei Unsicherheit: eine präzise Rückfrage, dann liefern.
 - Creative Unlock: Bedeutung schützen, Umsetzung frei verbessern —
