@@ -31,3 +31,37 @@ Varianten (Sub + Eyebrow + CTA-Mikrozeile).
 
 Prüfen (Alex): Nr. 10 nutzt die RIEGEL-Zahl aus dem Case; Zeitbezug
 „nach dem Relaunch" bestätigen.
+
+## Runde 2 (16.09) — Positionierung „Vertriebssystem auf Portal-Niveau"
+
+Alex: „gut aussehen" ist zu schwach. Das Angebot ist das System wie bei
+riegel-immobilien.de: eigene Rechner-Tools, eigene Software, eigenes CRM,
+PDF-Reportings, die automatisch per Mail rausgehen, eigenes Immoportal,
+Mailings passend zum Suchauftrag. Verkaufen, als wäre man selbst das
+Portal. Was Portale in 20 Jahren mit Millionen gebaut haben, heute mit
+Prozessen und KI in Wochen. Statt lernen und ausprobieren: bewährte
+Systeme übernehmen, die bei dutzenden Maklern hunderte Leads im Monat
+bringen. Der Porsche Turbo S unter den Vertriebssystemen.
+
+| Nr | Headline | Hebel | Kategorie |
+|---|---|---|---|
+| 1 | Verkaufen Sie, als wären Sie selbst das Portal. Oder besser. | Identitätssprung + Neid auf Portale | Command |
+| 2 | Was die großen Portale in 20 Jahren gebaut haben, steht in sechs Wochen unter Ihrem Namen. | Wertanker (Millionen, 20 Jahre) + Zeitkompression | News |
+| 3 | Während Ihre Wettbewerber noch KI lernen, verkauft Ihr System schon. | Vorsprung, Angst zurückzubleiben | Indirekt |
+| 4 | Die Leads gehören ab jetzt Ihnen. Hunderte im Monat, aus Ihrem eigenen System. | Besitz + Zahl | Outcome-first |
+| 5 | Eigenes Portal, eigene Rechner, eigenes CRM, eigene Mailings. Eingebaut, bevor andere den ersten Kurs gebucht haben. | Vollständigkeit + Vorsprung | Direkt |
+| 6 | Übernehmen Sie, was bei dutzenden Maklern schon läuft. Anpassen dauert Wochen. Erfinden dauert Jahre. | Bewährtheit + Abkürzung | Command |
+| 7 | Der Porsche Turbo S unter den Vertriebssystemen für Makler. | Statussymbol | Kompression |
+| 8 | Ein Makler mit eigenem Portal spielt in einer anderen Liga. In sechs Wochen sind Sie drin. | Liga, Status | Direkt |
+| 9 | Ausprobieren, lernen, scheitern. Das übernehmen ab jetzt Ihre Wettbewerber. | Schadenfreude + Vorsprung | Indirekt |
+| 10 | Ihr Büro hat ein Limit. Ihr System nicht. | Grenzenlosigkeit | Kompression |
+
+Sub-Vorschlag zu 1, 2 und 6: „Eigene Rechner, eigenes Portal, eigenes
+CRM, Reports und Mailings, die von selbst rausgehen. Bewährt bei
+dutzenden Maklern, in sechs Wochen an Ihr Büro angepasst."
+
+Rechtlich/Beweis (Alex): „dutzende Makler" und „hunderte Leads im Monat"
+brauchen auf der Seite eine belegbare Basis (welche Kunden, welche
+Zahlen), sonst UWG-Risiko. Nr. 7 nennt eine fremde Marke: als
+Metapher intern stark, auf der Website prüfen. „Eigenes Portal" wird
+Produktbaustein; Markenwort fürs Ganze bleibt „System".
