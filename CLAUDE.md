@@ -18,6 +18,8 @@ und das `/os`-Dashboard gilt das Antigravity-Protokoll — Skill
 - `docs/branding/KI-TELLS.md` — deutsche KI-Muster, Scoring, Gate (Score < 3)
 - `docs/branding/PIPELINE.md` — Werkzeugkette Recherche → Schnitt, Modell-Rollen
 - `docs/branding/KPI-LOGIK.md` — Kennzahlen + Entscheidungsschwellen
+- `docs/branding/referenzen/` — fremde Reels: Transkript, Beats, Skelett-Analyse
+  (`scripts/referenz/referenz.py` holt und transkribiert)
 - `docs/branding/skripte/` — Skript-Batches (Batch-Nummern fortlaufend)
 
 Kurzfassung: Einzeiler-Idee oder Referenz-Transkript rein → sofort

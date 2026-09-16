@@ -45,14 +45,28 @@ Bei einer Einzeiler-Idee von Alex:
 4. Als `docs/branding/skripte/batch-NNN-thema.md` committen.
 5. Im Chat: nur die Skripte, kein Vorgeplänkel, keine Meta-Erklärung.
 
-**Referenz-Modus** (wenn Alex ein Transkript oder einen Reel-Link mit
-Transkript gibt): `SKELETTE.md` Teil 3 abarbeiten — Beats extrahieren,
-Skelett benennen, Retention-Geräte notieren, dann 3–5 Skripte zu Alex'
-Thema in genau dieses Skelett. Struktur 1:1, Wörter 0 %. Die
-Skelett-Analyse steht oben in der Batch-Datei.
+**Referenz-Modus** (wenn Alex einen Reel-Link, ein Transkript oder einen
+Export der Chrome-Extension gibt):
 
-Qualitätsmaßstab: `docs/branding/skripte/batch-002-referenz-modus.md`
-(mit Schnittplan) und `batch-001-claude-webseiten.md` (Ton).
+1. Reel holen und transkribieren: `python3 scripts/referenz/referenz.py
+   <URL>` (Cloud: klappt bei Instagram sporadisch, TikTok nie; auf dem Mac
+   mit `--browser chrome`). Ergebnis: `docs/branding/referenzen/<konto>-<id>.md`
+   mit Transkript in Beats und leerem Beat-Rohling.
+2. Beat-Rohling ausfüllen (Funktion + Retention-Gerät je Beat), Skelett
+   nach `SKELETTE.md` Teil 3 benennen, Zeitanteile in Prozent, Status auf
+   `analysiert` setzen.
+3. 3–5 Skripte zu Alex' Thema in genau dieses Skelett, gleiche
+   Zeitanteile, gleiche Fortschrittsmarker-Logik. Struktur 1:1, Wörter 0 %.
+   Skelett-Tabelle oben in der Batch-Datei, Status der Referenz auf
+   `verwendet (Batch NNN)`.
+4. Scanner über die Batch-Datei (`node --experimental-strip-types` mit
+   `pruefeTells` aus `src/lib/os/ki-tells.ts`), Score je Skript eintragen.
+
+Maßstab: `docs/branding/skripte/batch-003-referenz-roninxsocials.md` mit
+`docs/branding/referenzen/roninxsocials-Dc6KR6BRN33.md`.
+
+Qualitätsmaßstab: `docs/branding/skripte/batch-003-referenz-roninxsocials.md`
+(echte Referenz, Schnittplan) und `batch-001-claude-webseiten.md` (Ton).
 
 **Arbeitsteilung** (`PIPELINE.md` §2): Hooks, Bodies, Skelett-Wahl macht
 das orchestrierende Modell selbst. Research, Transkription, Apify-Läufe,

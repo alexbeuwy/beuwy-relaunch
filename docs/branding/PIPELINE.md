@@ -46,7 +46,7 @@ KPI ◀── Post ◀── Schnitt ◀── Aufnahme ◀── Teleprompter �
 |---|---|---|---|
 | Recherche | Chrome-Extension (Top-Posts eines Accounts) oder Apify `myagizm/instagram-reel-scraper-v2` (ab 0,70 $/1000, Felder `plays`, `likes`, `videoUrl`, `caption`, `videoDuration`) | JSON-Liste | Alex / Sonnet-Grunt |
 | Auswahl | Filter: Views > 3× Median des Accounts, Länge 20–45 Sek., Format Talking Head | 3–5 URLs + `videoUrl` | Fable/Opus prüft |
-| Transkript | `mlx_whisper --language de --word-timestamps True` auf dem Mac (Apify-Transkripte sind fast immer leer) | `.txt` + `.json` je Reel | Sonnet-Grunt |
+| Transkript | `scripts/referenz/referenz.py` (yt-dlp + Whisper, Sprache automatisch, Beats an Pausen/Satzenden), auf dem Mac mit `--browser chrome` | `docs/branding/referenzen/<konto>-<id>.md` + `.json` | Sonnet-Grunt |
 | Skelett | Referenz-Modus: Beats, Zeitanteile, Retention-Geräte | Feld `skelett` im Skript | Opus 5 (Engine) |
 | Skript | Skelett + Alex' Thema + Stimmkorpus → 3 Hooks, Body, Loop, Schnittplan | `/os` oder `skripte/batch-NNN.md` | Opus 5 (Engine) |
 | Prüfung | `ki-tells.ts` (deterministisch) → Kritiker (Sonnet 5) → eine Überarbeitung (Opus) | Score im Detail-Text | automatisch |
@@ -107,9 +107,12 @@ Feld, Batch. Die Engine extrahiert das Skelett, schreibt 3–6 Skripte in
 das Skelett, misst, lässt prüfen, überarbeitet einmal, speichert nur, was
 unter Score 3 liegt. Der Detail-Text nennt Skelett und Scores.
 
-**In Claude Code:** Transkript einfügen, „Referenz-Modus, Thema X" sagen.
-Die Session arbeitet `SKELETTE.md` Teil 3 ab und legt den Batch als
-Datei ab. Skripte über Score 2 werden nicht abgelegt.
+**In Claude Code:** Reel-Link oder Extension-Export geben, „Referenz-Modus,
+Thema X" sagen. Die Session holt und transkribiert mit
+`scripts/referenz/referenz.py`, füllt die Skelett-Analyse in
+`docs/branding/referenzen/`, schreibt den Batch. Skripte über Score 2
+werden nicht abgelegt. Erster echter Durchlauf: Batch 003 aus
+@roninxsocials (Dc6KR6BRN33).
 
 **Ohne Referenz** läuft die Engine wie bisher, aber jetzt mit Korpus,
 Skelett-Wahl aus der Bibliothek, Scanner und Kritiker.
