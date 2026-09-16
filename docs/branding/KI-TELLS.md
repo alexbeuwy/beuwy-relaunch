@@ -121,7 +121,9 @@ Zahlen. Ein Skript ohne beides ist Theorie.
 
 - **Keine Zahl** im Gesprochenen (Betrag, Zeitraum, Anzahl, Datum)
 - **Kein Ich** („ich", „mein", „mir", „mich", „wir") im Gesprochenen
-- **Kein Eigenname** (Tool, Kunde, Ort, Person, Produkt) im Gesprochenen
+- **Kein Eigenname** (Tool, Kunde, Ort, Person, Produkt) im Gesprochenen.
+  Orte: deutsche Städte und Bundesländer zählen, der Scanner kennt die
+  gängigen.
 
 ## E. Was ausdrücklich erlaubt ist
 
