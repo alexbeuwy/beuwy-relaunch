@@ -1,0 +1,14 @@
+{
+  "name": "beuwy-schnitt",
+  "private": true,
+  "description": "HyperFrames-Render fuer das Schnitt-System (siehe README.md)",
+  "scripts": {
+    "doctor": "hyperframes doctor",
+    "browser": "hyperframes browser ensure"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
+    "hyperframes": "^0.8.46"
+  }
+}

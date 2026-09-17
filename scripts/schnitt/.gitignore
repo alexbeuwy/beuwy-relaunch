@@ -1,3 +1,5 @@
 aus/
 fonts/
+bin/
+node_modules/
 __pycache__/

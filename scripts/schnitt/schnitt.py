@@ -271,6 +271,8 @@ def main() -> None:
     ap.add_argument("--rendern", action="store_true", help="nach dem Bau auch rendern")
     ap.add_argument("--fontdir", type=Path, default=None, help="Ordner mit TTF/OTF (Inter, Helvena)")
     ap.add_argument("--ohne-overlay", action="store_true", help="Overlay-Video nicht rendern (nur Karten-PNGs)")
+    ap.add_argument("--ziel", default="hyperframes", choices=["hyperframes", "resolve"], help="womit gerendert wird")
+    ap.add_argument("--maxdauer", type=float, default=None, help="nur die ersten N Sekunden rendern (Test)")
     a = ap.parse_args()
 
     if not a.video.exists():
@@ -356,8 +358,8 @@ def main() -> None:
         "layout": stil.get("layout", "vollbild"),
         "zone_hoehe": stil["karten"].get("zone_hoehe", 0.45),
     }
-    # 6b. Overlay-Ebene als Alpha-Video (Captions + Karten + Copy-Hook)
-    if not a.ohne_overlay:
+    # 6b. Overlay-Ebene als Alpha-Video (nur für Resolve; HyperFrames rendert Captions selbst)
+    if a.ziel == "resolve" and not a.ohne_overlay:
         from overlay import rendere_overlay
 
         print("rendere Overlay (ProRes 4444 mit Alpha) …")
@@ -366,16 +368,31 @@ def main() -> None:
         edit["overlay_mov"] = str(mov.resolve())
 
     (aus / "edit.json").write_text(json.dumps(edit, ensure_ascii=False, indent=1), "utf8")
+    (aus / "woerter.json").write_text(
+        json.dumps({"woerter": [{"w": w.wort, "s": round(w.start, 3), "e": round(w.ende, 3)} for w in woerter]}, ensure_ascii=False),
+        "utf8",
+    )
     print(f"Edit-Liste: {aus / 'edit.json'}")
     print(f"  {len(caption_daten)} Captions · {len(overlays)} Overlays · {len(zooms)} Zooms · {len(segmente)} Clips")
     # Für den Start aus dem Resolve-Skriptmenü (Free-Version)
     (Path.home() / ".beuwy-schnitt").write_text(str((aus / "edit.json").resolve()), "utf8")
 
     if a.trocken:
-        print("Trockenlauf, Resolve nicht angefasst. In Resolve: Workspace → Scripts → beuwy-schnitt.")
+        print("Trockenlauf: Edit-Liste, Captions und Karten liegen bereit, nichts gerendert.")
         return
 
-    # 7. Resolve
+    # 7. Rendern
+    if a.ziel == "hyperframes":
+        from hyperframes_bau import komposition, rendern
+
+        projekt = aus / "hyperframes"
+        wort_daten = [{"w": w.wort, "s": w.start, "e": w.ende} for w in woerter]
+        komposition(edit, stil, wort_daten, projekt, a.maxdauer)
+        ausgabe = aus / f"{a.video.stem}-{stil['name']}.mp4"
+        rc = rendern(projekt, ausgabe, int(fps))
+        if rc == 0:
+            print(f"Fertig: {ausgabe}")
+        sys.exit(rc)
     from resolve_bau import baue
 
     baue(edit, rendern=a.rendern, fps=fps)
