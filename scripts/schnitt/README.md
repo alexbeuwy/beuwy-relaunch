@@ -1,26 +1,35 @@
-# Schnitt-System — Video rein, Reel im eigenen Stil raus (DaVinci Resolve)
+# Schnitt-System — Video rein, Reel im eigenen Stil raus
 
 Nachbau des Systems aus `docs/branding/referenzen/jenya_kork-DdBmO3BAWYH.md`:
-ein Stilkatalog, ein Video reinschicken, Stil wählen, fertiges Reel. Hier
-mit Resolve statt Fremd-Tool, mit dem Schnittplan aus dem Skript als
-Edit-Liste, und mit den beuwy-Tokens für Karten und Captions.
+ein Stilkatalog, ein Video reinschicken, Stil wählen, fertiges Reel.
+Gerendert wird mit **HyperFrames** (HTML-Komposition → MP4, ohne Resolve).
+Resolve bleibt als zweiter Weg (`--ziel resolve`) für Handarbeit.
 
 ## Was rauskommt
 
-| Spur | Inhalt | Woher |
-|---|---|---|
-| V1 | Rohvideo ohne Stille, in Clips geteilt, je Clip Zoom 100 % oder 115 % | Whisper-Wortpausen + Stil |
-| V2 | `overlay.mov` (ProRes 4444 mit Alpha): Captions mit Wort-Hervorhebung, Karten, Flash-Inserts, Copy-Hook | Schnittplan + Stil |
-| daneben | `captions.srt` für den Upload, `karten/*.png`, `edit.json` | |
+`scripts/schnitt/aus/<video>/`:
 
-Der Schnittplan aus der Batch-Datei (`Sek. · Zone · Art · Inhalt`) ist die
-Edit-Liste. Nichts wird geraten.
+| Datei | Inhalt |
+|---|---|
+| `<video>-<stil>.mp4` | das fertige Reel, 1080×1920, H.264 + AAC |
+| `captions.srt` | Untertitel für den Upload |
+| `edit.json`, `woerter.json` | Edit-Liste und Wort-Zeitstempel (Übergabe an Agenten) |
+| `karten/*.png` | Karten, Flash-Inserts, Copy-Hook mit Alpha |
+| `hyperframes/index.html` | die Komposition, in HyperFrames Studio editierbar (`npx hyperframes preview`) |
+
+Im Bild: Rohvideo ohne Stille, je Clip Zoom 100 % oder 115 %, Captions mit
+hervorgehobenem Wort, Karten oben. Der Schnittplan (`Sek. · Zone · Art ·
+Inhalt`) ist die Edit-Liste. Nichts wird geraten.
 
 ## Einrichten (einmal, auf dem Mac)
 
 ```bash
 pip install -r scripts/schnitt/requirements.txt
+cd scripts/schnitt && npm install && npx hyperframes browser ensure && cd -
 ```
+
+`npm install` bringt HyperFrames, ffmpeg und ffprobe mit (statische
+Binaries, kein brew nötig). Ohne Chrome-Download: `--docker`.
 
 Schriften: Inter (Bold, Black) nach `~/Library/Fonts` legen oder einen
 Ordner mit `--fontdir` angeben. Helvena wird beim ersten Lauf aus
@@ -53,9 +62,29 @@ python3 scripts/schnitt/schnitt.py \
   --schnittplan docs/branding/skripte/batch-004-stufenleiter-jacklaydenn.md --skript 1 \
   --trocken
 
-# 2. In Resolve: Workspace → Scripts → Utility → beuwy-schnitt
-#    (Studio: Schritt 1 ohne --trocken, optional --rendern)
+# 2. Rendern (HyperFrames, Standard): Schritt 1 ohne --trocken
+python3 scripts/schnitt/schnitt.py --video ~/Movies/Filme/Reels/IMG_5215.MOV --stil beuwy \
+  --schnittplan docs/branding/skripte/batch-004-stufenleiter-jacklaydenn.md --skript 1
+
+# Alternativ Resolve: --ziel resolve --trocken, dann Workspace → Scripts → beuwy-schnitt
 ```
+
+Frei gesprochen, ohne Skript: erst `--trocken`, dann schreibt der
+`schnittplan-agent` (siehe `.claude/skills/reel/SKILL.md`) aus
+`woerter.json` die Datei `schnittplan.txt`, dann `--schnittplan
+scripts/schnitt/aus/<name>/schnittplan.txt --transkript …/woerter.json`.
+
+**Ordner-Wächter** (nur filmen, Rest passiert):
+
+```bash
+python3 scripts/schnitt/wache.py --ordner ~/Movies/Filme/Reels --stil beuwy
+```
+
+Jede neue Datei in `Reels` wird geschnitten, das MP4 landet in
+`Reels/fertig/`. Liegt `<name>.schnittplan.txt` daneben, wird er benutzt.
+Als Dienst: `~/Library/LaunchAgents/com.beuwy.reel-wache.plist` mit
+`ProgramArguments` = `python3 scripts/schnitt/wache.py --ordner …`,
+`RunAtLoad` = true, dann `launchctl load` der Datei.
 
 Ohne `--schnittplan` gibt es nur Stille-Schnitt, Zooms im Takt des Stils
 und Captions. Mit `--transkript <referenz.json>` entfällt die

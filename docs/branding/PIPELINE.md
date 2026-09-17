@@ -64,10 +64,17 @@ Ressourcenregel: teuer denkt, billig arbeitet, und jemand prüft.
 
 | Rolle | Modell | Was |
 |---|---|---|
-| Orchestrierung, Strategie, Kontrolle | Fable 5.1 (Claude-Code-Session) | Plan, Aufgabenschnitt, Abnahme jedes Grunt-Ergebnisses, Batch-Freigabe |
-| Skript-Writer | Opus 5, `effort: high`, adaptives Thinking | Skelett-Extraktion und Skripte in der Engine (`skript-engine.ts`) |
-| Kritiker | Sonnet 5 | Liest Skript + Sprachprofil + Scanner-Befund, gibt je Skript ein Urteil mit den Sätzen, die neu gesagt werden müssen |
-| Grunts | Sonnet 5 | Research, Transkription anstoßen, Apify-Läufe, Scanner-Code, Karten-HTML für HyperFrames, Rückfragen an Alex formulieren |
+| Orchestrierung, Strategie, Kontrolle | Fable 5.1 (Claude-Code-Session, Skill `/reel`) | Plan, Aufgabenschnitt, Abnahme jedes Agenten-Ergebnisses, Batch-Freigabe |
+| `skript-agent` | Opus 5 | Skripte im Referenz-Modus oder aus einer Idee, mit Schnittplan (`.claude/agents/`) |
+| `hook-agent` | Opus 5 | 10 Hooks je Skript nach Pattern, Copy-Hook + gesprochener Satz |
+| `schnittplan-agent` | Opus 5 | Schnittplan aus dem Transkript, wenn frei gefilmt wurde |
+| `kritiker` | Sonnet 5 | Sprachprofil + Scanner, Urteil je Skript, ändert nichts |
+| `referenz-agent` | Sonnet 5 | Reels holen, transkribieren, Beat-Rohling füllen |
+| `schnitt-agent` | Sonnet 5 | schneiden, rendern, Einzelbilder prüfen |
+| Engine im `/os` | Opus 5 + Sonnet 5 | derselbe Ablauf ohne Claude Code, auf Knopfdruck (`skript-engine.ts`) |
+
+Alex' Anteil: filmen. Mit Skript (Teleprompter) oder frei. Der Rest
+läuft über `/reel` oder den Ordner-Wächter (`scripts/schnitt/wache.py`).
 
 Was **nicht** an Grunts geht: Hooks schreiben, Bodies schreiben,
 Sprachprofil ändern, Strategie anfassen.
