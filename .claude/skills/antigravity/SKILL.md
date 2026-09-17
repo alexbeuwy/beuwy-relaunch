@@ -68,6 +68,13 @@ Maßstab: `docs/branding/skripte/batch-003-referenz-roninxsocials.md` mit
 Qualitätsmaßstab: `docs/branding/skripte/batch-003-referenz-roninxsocials.md`
 (echte Referenz, Schnittplan) und `batch-001-claude-webseiten.md` (Ton).
 
+**Schnitt** (wenn Alex ein Rohvideo schneiden lassen will): `scripts/schnitt/`
+lesen. `schnitt.py --video … --stil beuwy --schnittplan <batch> --skript N
+--trocken` erzeugt Edit-Liste, Captions, Karten und das Overlay-Video; den
+Rest baut `resolve_bau.py` in DaVinci Resolve (Workspace → Scripts →
+beuwy-schnitt). Neuer Stil = neue JSON in `scripts/schnitt/stile/`,
+abgeleitet aus einer Referenz (Einzelbilder anschauen, Werte ablesen).
+
 **Arbeitsteilung** (`PIPELINE.md` §2): Hooks, Bodies, Skelett-Wahl macht
 das orchestrierende Modell selbst. Research, Transkription, Apify-Läufe,
 Scanner-Code und Karten-HTML gehen an Sonnet-Grunts mit engem Auftrag;

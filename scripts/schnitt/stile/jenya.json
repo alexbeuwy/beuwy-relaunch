@@ -1,0 +1,39 @@
+{
+  "name": "jenya",
+  "beschreibung": "Aus Referenz @jenya_kork DdBmO3BAWYH: Vollbild, Captions als ganze Sätze mittig-unten, 3 bis 4 Zeilen, weiß fett mit weichem Schatten, je Satz ~4 Sekunden, keine Karten. Schnitt Talking Head → Screen. Musik statt Stimme möglich.",
+  "format": { "breite": 1080, "hoehe": 1920, "fps": 30 },
+  "layout": "vollbild",
+  "stille": { "min_pause_sek": 0.5, "polster_sek": 0.1 },
+  "takt_sek": 4.0,
+  "zoom": { "muster": "keiner", "stufen": [1.0], "max_abstand_sek": 99 },
+  "captions": {
+    "art": "saetze",
+    "max_woerter": 9,
+    "position_y": 0.62,
+    "font": "Inter-Bold",
+    "groesse": 58,
+    "farbe": "#ffffff",
+    "kontur": "#000000",
+    "kontur_breite": 3,
+    "schatten": true,
+    "hervorhebung": null,
+    "grossschreibung": false
+  },
+  "karten": {
+    "zone": "keine",
+    "zone_hoehe": 0,
+    "hintergrund": "#ffffff",
+    "tinte": "#111111",
+    "akzent": "#111111",
+    "zweitfarbe": "#111111",
+    "font_titel": "Inter-Bold",
+    "font_text": "Inter",
+    "groesse_titel": 56,
+    "groesse_text": 40,
+    "radius": 24,
+    "rand": 48,
+    "dauer_sek": 4.0,
+    "flash_sek": 1.0
+  },
+  "copy_hook": { "position_y": 0.62, "dauer_sek": 4.5, "groesse": 58, "farbe": "#ffffff", "kontur": "#000000" }
+}

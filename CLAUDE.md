@@ -21,6 +21,8 @@ und das `/os`-Dashboard gilt das Antigravity-Protokoll — Skill
 - `docs/branding/referenzen/` — fremde Reels: Transkript, Beats, Skelett-Analyse
   (`scripts/referenz/referenz.py` holt und transkribiert)
 - `docs/branding/skripte/` — Skript-Batches (Batch-Nummern fortlaufend)
+- `scripts/schnitt/` — Schnitt-System für DaVinci Resolve: Stilkatalog,
+  Stille raus, Zooms, Captions, Karten als Overlay (README dort)
 
 Kurzfassung: Einzeiler-Idee oder Referenz-Transkript rein → sofort
 drehbare Skripte raus, in ein bewiesenes Skelett geschrieben, mit

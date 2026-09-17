@@ -1,0 +1,38 @@
+{
+  "name": "beuwy",
+  "beschreibung": "Hausstil. Gesicht unten, Karten oben, Tokens aus globals.css. Captions in Sätzen, aktives Wort ultramarin.",
+  "format": { "breite": 1080, "hoehe": 1920, "fps": 30 },
+  "layout": "gesicht-unten",
+  "stille": { "min_pause_sek": 0.35, "polster_sek": 0.08 },
+  "takt_sek": 2.0,
+  "zoom": { "muster": "wechsel", "stufen": [1.0, 1.15], "max_abstand_sek": 2.5 },
+  "captions": {
+    "art": "saetze",
+    "max_woerter": 4,
+    "position_y": 0.74,
+    "font": "Inter-Bold",
+    "groesse": 62,
+    "farbe": "#fffdf6",
+    "kontur": "#10190f",
+    "kontur_breite": 6,
+    "hervorhebung": "#0c4bc3",
+    "grossschreibung": false
+  },
+  "karten": {
+    "zone": "oben",
+    "zone_hoehe": 0.45,
+    "hintergrund": "#fffdf6",
+    "tinte": "#10190f",
+    "akzent": "#0c4bc3",
+    "zweitfarbe": "#c94a12",
+    "font_titel": "Helvena",
+    "font_text": "Inter",
+    "groesse_titel": 60,
+    "groesse_text": 40,
+    "radius": 32,
+    "rand": 56,
+    "dauer_sek": 2.0,
+    "flash_sek": 1.0
+  },
+  "copy_hook": { "position_y": 0.16, "dauer_sek": 3.0, "groesse": 72, "farbe": "#fffdf6", "kontur": "#10190f" }
+}

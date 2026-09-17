@@ -39,7 +39,7 @@ Chrome-Ext / Apify                                   Scanner + Kritiker
                                                              │
                                                              ▼
 KPI ◀── Post ◀── Schnitt ◀── Aufnahme ◀── Teleprompter ◀── Schnittplan
- /os           HyperFrames    OBS-Overlays   beuwy.com        (im Skript)
+ /os           Resolve        OBS-Overlays   beuwy.com        (im Skript)
 ```
 
 | Schritt | Werkzeug | Übergabe (Datei/Feld) | Wer |
@@ -52,7 +52,7 @@ KPI ◀── Post ◀── Schnitt ◀── Aufnahme ◀── Teleprompter �
 | Prüfung | `ki-tells.ts` (deterministisch) → Kritiker (Sonnet 5) → eine Überarbeitung (Opus) | Score im Detail-Text | automatisch |
 | Teleprompter | Body absatzweise nach `beuwy.com/teleprompter.html` (Voice-Advance) | Body-Text | Alex |
 | Aufnahme | OBS mit Overlay-Szenen: Zone oben leer für B-Roll, Copy-Hook als Textquelle | Rohdatei in `Filme/Reels` | Alex |
-| Schnitt | Stille raus (auto-editor oder Whisper-Pausen), dann HyperFrames-Komposition aus dem Schnittplan: Zoom-Sprünge, Karten, Flash-Inserts, Wort-Captions | MP4 | Codex/Claude-Agent |
+| Schnitt | `scripts/schnitt/schnitt.py --video … --stil beuwy --schnittplan … --skript N`: Stille raus, Clips mit Zoom, Captions + Karten + Copy-Hook als Alpha-Overlay; dann in DaVinci Resolve Workspace → Scripts → beuwy-schnitt | Resolve-Timeline, MP4 | automatisch |
 | Post | Copy-Hook, Caption (4. Hook-Ebene), Uhrzeit | Instagram + TikTok | Alex |
 | KPI | Sync 05:00/17:00, Schwellen aus `KPI-LOGIK.md` | `/os` | automatisch |
 
@@ -74,31 +74,33 @@ Sprachprofil ändern, Strategie anfassen.
 
 ---
 
-## 3. Agentischer Schnitt (HyperFrames)
+## 3. Agentischer Schnitt (DaVinci Resolve)
 
-`heygen-com/hyperframes`, Apache 2.0, ~50k Sterne. HTML/CSS mit
-`data-start`/`data-duration` wird deterministisch zu MP4 gerendert.
-CLI: `npx hyperframes init | preview | lint | render`. Skills:
-`npx skills add heygen-com/hyperframes` liefert u. a. `/talking-head-recut`
-und `/embedded-captions` (Wort-Captions mit Hervorhebung).
+Nachbau des Systems aus `referenzen/jenya_kork-DdBmO3BAWYH.md`: Stilkatalog,
+Video rein, Stil wählen, Reel raus. Alles in `scripts/schnitt/`
+(README dort), DaVinci Resolve ist installiert.
 
-Was es kann und was davor passieren muss:
+| Schritt | Werkzeug | Ergebnis |
+|---|---|---|
+| Transkript | Whisper (Wort-Zeitstempel) | Basis für Stille-Schnitt und Captions |
+| Stille raus | Wortpausen > Stil-Schwelle | Segmente in Rohzeit → Timeline-Zeit |
+| Zoom-Sprünge | Stil-Takt oder `zoom`-Zeilen im Schnittplan | je Clip 100 % oder 115 % |
+| Karten, Flash, Copy-Hook | `karten.py` aus dem Schnittplan, beuwy-Tokens | PNG mit Alpha |
+| Captions | `overlay.py`, Sätze oder Wörter, aktives Wort hervorgehoben | im Overlay-Video |
+| Overlay | ProRes 4444 mit Alpha, ein Clip auf V2 | `overlay.mov` |
+| Timeline | `resolve_bau.py` über die Resolve-Scripting-API | Projekt „beuwy Reels“ |
+| Render | Resolve, H.264 1080×1920 | MP4 |
 
-| Aufgabe | Wo |
-|---|---|
-| Stille rausschneiden | **vor** HyperFrames: `auto-editor` oder Whisper-Pausen > 0,4 Sek. |
-| Zoom-Sprünge 100 → 115 % | HyperFrames, GSAP-Tween je Ereignis aus dem Schnittplan |
-| Karten oben (Repo-Liste, Tool, Zahl) | HyperFrames-Komposition, eine HTML-Karte je `karte`/`flash`-Zeile |
-| Wort-Captions | `/embedded-captions` mit Whisper-Wort-Timestamps |
-| Kamera umdrehen (Skelett 7) | Rohschnitt, kein Overlay |
+**Der Schnittplan aus dem Skript ist die Edit-Liste.** Jede Zeile
+(`Sek. · Zone · Art · Inhalt`) wird zu einer Karte, einem Flash, einem
+Zoom oder einem Schnitt. Damit entfällt das Raten.
 
-**Der Schnittplan aus dem Skript ist die Edit-Liste.** Der Agent liest
-die Zeilen (`Sek. · Zone · Art · Inhalt`) und baut daraus die
-Komposition. Damit entfällt das Raten, was wann eingeblendet wird.
-Karten-Design: `src/app/globals.css`-Tokens, damit die Karten zur Marke
-passen und nicht nach Template aussehen.
+**Stile** (`scripts/schnitt/stile/`): `beuwy` (Hausstil aus globals.css),
+`jenya`, `kauffmann`. Ein neuer Stil ist eine JSON-Datei, abgeleitet aus
+einer Referenz.
 
----
+HyperFrames (HeyGen, ~50k Sterne) bleibt als Option für animierte Karten,
+ist aber nicht mehr der Cutter.
 
 ## 4. Referenz-Modus bedienen
 

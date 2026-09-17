@@ -1,0 +1,39 @@
+{
+  "name": "kauffmann",
+  "beschreibung": "Aus Referenz @sebastiankauffmann (Scrapling-Reel): Gesicht unten, Karte oben mit Tool-Name und Tags, Caption oben-mittig in Versalien, ein Wort rot hinterlegt. Alle 2 Sekunden neue Karte oder Tag.",
+  "format": { "breite": 1080, "hoehe": 1920, "fps": 30 },
+  "layout": "gesicht-unten",
+  "stille": { "min_pause_sek": 0.3, "polster_sek": 0.06 },
+  "takt_sek": 2.0,
+  "zoom": { "muster": "wechsel", "stufen": [1.0, 1.12], "max_abstand_sek": 2.0 },
+  "captions": {
+    "art": "woerter",
+    "max_woerter": 3,
+    "position_y": 0.53,
+    "font": "Inter-Black",
+    "groesse": 60,
+    "farbe": "#ffffff",
+    "kontur": "#000000",
+    "kontur_breite": 5,
+    "hervorhebung": "#e8412c",
+    "hervorhebung_art": "kasten",
+    "grossschreibung": true
+  },
+  "karten": {
+    "zone": "oben",
+    "zone_hoehe": 0.5,
+    "hintergrund": "#f4f2ec",
+    "tinte": "#1a1a1a",
+    "akzent": "#1a1a1a",
+    "zweitfarbe": "#6b6b6b",
+    "font_titel": "Inter-Bold",
+    "font_text": "Inter",
+    "groesse_titel": 64,
+    "groesse_text": 36,
+    "radius": 28,
+    "rand": 48,
+    "dauer_sek": 2.0,
+    "flash_sek": 0.9
+  },
+  "copy_hook": { "position_y": 0.53, "dauer_sek": 2.5, "groesse": 60, "farbe": "#ffffff", "kontur": "#000000" }
+}
