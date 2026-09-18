@@ -53,7 +53,14 @@ export default async function VslPage() {
   const vertrauen = paare(t("vertrauen"));
   const belege = paare(t("beleg"));
   const schritte = [1, 2, 3].map((i) => paare(t(`schritte_${i}`))[0]).filter(Boolean);
-  const bausteine = [1, 2, 3, 4, 5, 6].map((i) => ({ nr: String(i).padStart(2, "0"), titel: t(`system_${i}_titel`), text: t(`system_${i}_text`) })).filter((b) => b.titel);
+  const gruppen = [1, 2, 3, 4, 5, 6]
+    .map((g) => ({
+      nr: String(g).padStart(2, "0"),
+      titel: t(`system_${g}_titel`),
+      text: t(`system_${g}_text`),
+      punkte: [1, 2, 3, 4, 5].map((i) => t(`system_${g}_p${i}`)).filter(Boolean),
+    }))
+    .filter((g) => g.titel);
   const einwaende = [1, 2, 3].map((i) => ({ q: t(`einwand_${i}_frage`), a: t(`einwand_${i}_antwort`) })).filter((e) => e.q);
   const ja = [1, 2, 3].map((i) => t(`wen_ja_${i}`)).filter(Boolean);
   const nein = [1, 2, 3].map((i) => t(`wen_nein_${i}`)).filter(Boolean);
@@ -98,23 +105,43 @@ export default async function VslPage() {
         </section>
       </Reveal>
 
-      {/* 3 · Das System: sechs Bausteine */}
+      {/* 3 · Das System: dreißig Bausteine in sechs Gruppen (Übersichtsgrafik) */}
       <Reveal>
-        <section className="mx-auto mt-24 max-w-[1080px] px-6 lg:mt-32">
+        <section id="bausteine" className="mx-auto mt-24 max-w-[1120px] px-6 lg:mt-32">
           <div className="mx-auto max-w-[720px] text-center">
             <p className="t-label">{t("system_eyebrow")}</p>
             <h2 className="t-h2 mt-4">{rich(t("system_titel"))}</h2>
             <p className="t-body-lg mt-5">{t("system_sub")}</p>
           </div>
-          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {bausteine.map((b) => (
-              <li key={b.nr} className="rounded-[24px] border border-line-subtle bg-bg-base p-6 text-left transition-[border-color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:border-line-medium">
-                <p className="t-data !text-ink-dim tnum">{b.nr}</p>
-                <h3 className="t-h3 mt-3">{b.titel}</h3>
-                <p className="t-body mt-2">{b.text}</p>
+          <ol className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {gruppen.map((g) => (
+              <li key={g.nr} className="rounded-[24px] border border-line-subtle bg-bg-base p-6 text-left">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="t-h3">{g.titel}</h3>
+                  <span className="t-data !text-ink-dim tnum">{g.nr}</span>
+                </div>
+                <p className="t-small mt-1 !text-ink-cream/70">{g.text}</p>
+                <ul className="mt-4 space-y-2 border-t border-line-subtle pt-4">
+                  {g.punkte.map((punkt) => (
+                    <li key={punkt} className="flex gap-2.5 text-[14px] leading-snug text-ink-cream">
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-akzent-hover" aria-hidden />
+                      {punkt}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ol>
+        </section>
+      </Reveal>
+
+      {/* 3b · Die Frage, die der Kunde sich selbst beantwortet */}
+      <Reveal>
+        <section className="mx-auto mt-20 max-w-[760px] px-6 text-center lg:mt-28">
+          <p className="t-label">{t("frage_eyebrow")}</p>
+          <h2 className="t-h2 mt-4">{rich(t("frage_titel"))}</h2>
+          <p className="t-body-lg mt-6">{t("frage_text")}</p>
+          <p className="t-body-lg mt-4">{t("frage_text2")}</p>
         </section>
       </Reveal>
 
