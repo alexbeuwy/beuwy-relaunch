@@ -90,6 +90,24 @@ Ohne `--schnittplan` gibt es nur Stille-Schnitt, Zooms im Takt des Stils
 und Captions. Mit `--transkript <referenz.json>` entfällt die
 Transkription (z. B. wenn `referenz.py --datei` schon lief).
 
+## Highlight-Reel aus einem Ordner
+
+Ordner voller Clips rein, schnell geschnittenes Reel raus. Jeder Clip 1 bis
+2 Sekunden im Wechsel, Zoom-Punch je Schnitt, optional Musik mit Schnitt
+auf den Beat, optional Titelkarte im beuwy-Stil.
+
+```bash
+python3 scripts/schnitt/highlight.py --ordner ~/Downloads/Highlight\ Reel
+python3 scripts/schnitt/highlight.py --ordner ~/Downloads/Highlight\ Reel \
+  --gesamt 30 --musik ~/Music/track.mp3 --titel "Sommer 2026"
+```
+
+`--auswahl aktiv` (Standard) nimmt je Clip die Momente mit der meisten
+Bewegung, `--gleichmaessig` verteilt sie über den Clip. `--clipdauer 1.5`
+setzt eine feste Dauer. `--format landscape|square` für andere Kanäle.
+Ergebnis: `scripts/schnitt/aus/highlight-<ordner>/highlight.mp4`, die
+Komposition daneben ist in HyperFrames Studio nachjustierbar.
+
 ## Stile
 
 `scripts/schnitt/stile/<name>.json`. Ein Stil legt fest: Layout (Gesicht
