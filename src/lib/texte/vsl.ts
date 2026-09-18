@@ -76,11 +76,22 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_wen_nein_2": "Automatisierung für eine Spielerei halten.",
   "mk.vsl.front_wen_nein_3": "Ihre Leads lieber weiter mieten.",
 
+  /* Investition */
+  "mk.vsl.front_preis_eyebrow": "Die Investition",
+  "mk.vsl.front_preis_titel": "Ein Abschluss. Und das System ist *bezahlt*.",
+  "mk.vsl.front_preis_einmal": "27.900 €",
+  "mk.vsl.front_preis_einmal_label": "netto, einmalig",
+  "mk.vsl.front_preis_raten": "3 × 9.900 €",
+  "mk.vsl.front_preis_raten_label": "netto, zu Kickoff, Design-Freigabe und Livegang",
+  "mk.vsl.front_preis_anker":
+    "Zum Vergleich: Ein Objekt für 400.000 € bringt bei 7,14 % Gesamtprovision 28.560 € Courtage. Ein einziger zusätzlicher Abschluss, und Ihr System hat sich bezahlt. Jeder weitere gehört Ihnen.",
+  "mk.vsl.front_preis_enthalten": "Enthalten: Marke, Website, Rechner, eigenes Portal, Reports, Mailings, CRM-Anbindung, sechs Wochen Umsetzung.",
+
   /* Einwände */
   "mk.vsl.front_einwand_titel": "Drei Fragen, die jeder stellt.",
-  "mk.vsl.front_einwand_1_frage": "Was kostet das?",
+  "mk.vsl.front_einwand_1_frage": "Warum nicht einfach eine Website für 3.000 €?",
   "mk.vsl.front_einwand_1_antwort":
-    "Weniger als eine Courtage. Bei einer Wohnung für 400.000 € sind 3,57 % auf Maklerseite rund 14.280 €. Ein Alleinauftrag mehr, und das System hat sich getragen. Den genauen Umfang klären wir im ersten Gespräch mit Ihren Zahlen, nicht mit einer Preisliste.",
+    "Weil eine Website nur die Visitenkarte ist. Hier bekommen Sie, womit Portale Geld verdienen: Rechner, Suchaufträge, Reports, Mailings, CRM. Eine Website bringt Ihnen keinen Alleinauftrag. Ein System bringt jeden Monat welche.",
   "mk.vsl.front_einwand_2_frage": "Wie viel Zeit kostet mich das?",
   "mk.vsl.front_einwand_2_antwort":
     "Zwei Termine und Ihre Fotos. Texte, Struktur, Technik und Anbindung kommen von uns. Freigaben dauern Minuten, keine Meetings.",
@@ -154,6 +165,14 @@ export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_wen_nein_1": `${L}Für wen · Nein 1`,
   "mk.vsl.front_wen_nein_2": `${L}Für wen · Nein 2`,
   "mk.vsl.front_wen_nein_3": `${L}Für wen · Nein 3`,
+  "mk.vsl.front_preis_eyebrow": `${L}Investition · Eyebrow`,
+  "mk.vsl.front_preis_titel": `${L}Investition · Titel`,
+  "mk.vsl.front_preis_einmal": `${L}Investition · Einmalpreis (Zahl)`,
+  "mk.vsl.front_preis_einmal_label": `${L}Investition · Zeile unter dem Einmalpreis`,
+  "mk.vsl.front_preis_raten": `${L}Investition · Ratenpreis (Zahl)`,
+  "mk.vsl.front_preis_raten_label": `${L}Investition · Zeile unter dem Ratenpreis`,
+  "mk.vsl.front_preis_anker": `${L}Investition · Vergleichsrechnung (Courtage)`,
+  "mk.vsl.front_preis_enthalten": `${L}Investition · Was enthalten ist`,
   "mk.vsl.front_einwand_titel": `${L}Einwände · Titel`,
   "mk.vsl.front_einwand_1_frage": `${L}Einwand 1 · Frage`,
   "mk.vsl.front_einwand_1_antwort": `${L}Einwand 1 · Antwort`,

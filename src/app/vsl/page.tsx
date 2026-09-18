@@ -190,6 +190,26 @@ export default async function VslPage() {
         </section>
       </Reveal>
 
+      {/* 6b · Investition: Preis, drei Raten, Courtage-Anker */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[880px] px-6 text-center lg:mt-32">
+          <p className="t-label">{t("preis_eyebrow")}</p>
+          <h2 className="t-h2 mt-4">{rich(t("preis_titel"))}</h2>
+          <div className="mx-auto mt-10 grid max-w-[720px] grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="rounded-[24px] border border-line-subtle p-7">
+              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_einmal")}</p>
+              <p className="t-small mt-2">{t("preis_einmal_label")}</p>
+            </div>
+            <div className="rounded-[24px] border border-akzent bg-akzent-wash/60 p-7">
+              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_raten")}</p>
+              <p className="t-small mt-2 !text-ink-cream/80">{t("preis_raten_label")}</p>
+            </div>
+          </div>
+          <p className="t-body-lg mx-auto mt-8 max-w-[56ch]">{t("preis_anker")}</p>
+          <p className="t-small mx-auto mt-4 max-w-[60ch]">{t("preis_enthalten")}</p>
+        </section>
+      </Reveal>
+
       {/* 7 · Drei Einwände */}
       <Reveal>
         <section className="mx-auto mt-24 max-w-[720px] px-6 lg:mt-32">

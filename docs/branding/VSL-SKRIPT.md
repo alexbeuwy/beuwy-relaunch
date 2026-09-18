@@ -112,9 +112,11 @@ eine Minute. Innerhalb von 24 Stunden sprechen wir, mit Ihren Zahlen,
 nicht mit einer Preisliste. Danach liefern Sie Fotos und zwei Termine.
 Sechs Wochen später ist Ihr System live.
 
-Was es kostet? Weniger als eine Courtage. Bei einer Wohnung für 400.000
-Euro sind 3,57 Prozent auf Maklerseite rund 14.000 Euro. Ein
-Alleinauftrag mehr, und das System hat sich getragen.
+Was es kostet? 27.900 Euro netto, oder drei Raten zu 9.900 Euro: bei
+Kickoff, bei der Design-Freigabe und beim Livegang. Zum Vergleich: Ein
+einziges Objekt für 400.000 Euro bringt Ihnen bei 7,14 Prozent
+Gesamtprovision 28.560 Euro Courtage. Ein Abschluss, und das System ist
+bezahlt. Jeder weitere gehört Ihnen.
 
 **04:45 Aufforderung**
 
@@ -127,5 +129,5 @@ ON: Knopf „Zusammenarbeit anfragen", darunter „Antwort in 24 Stunden".
 ---
 
 Wortzahl: rund 680. Prüfen vor dem Dreh: „dutzende Makler" (welche),
-Riegel-Zahlen und Zeitbezug, Courtage-Rechenbeispiel (3,57 % ist ein
-üblicher Satz, regional verschieden).
+Riegel-Zahlen und Zeitbezug, Courtage-Rechenbeispiel (7,14 % gesamt ist
+üblich, regional verschieden), Preis 27.900 € netto bzw. 3 × 9.900 €.
