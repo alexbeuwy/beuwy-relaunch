@@ -25,8 +25,24 @@ for (const [breite, hoehe, name] of [[1440, 900, "desktop"], [390, 844, "mobil"]
   await route(pg);
   await pg.goto(`${basis}/vsl`, { waitUntil: "networkidle", timeout: 90000 });
   await pg.waitForTimeout(1500);
+  // Reveal-Sektionen aufwecken: einmal durchscrollen, dann zurück nach oben
+  await pg.evaluate(async () => {
+    const schritt = window.innerHeight * 0.8;
+    for (let y = 0; y < document.body.scrollHeight; y += schritt) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 260));
+    }
+    window.scrollTo(0, document.body.scrollHeight);
+    await new Promise((r) => setTimeout(r, 700));
+    window.scrollTo(0, 0);
+  });
+  await pg.waitForTimeout(900);
+  // Sicherheitsnetz für die Abnahme: was der Observer noch nicht gezeigt hat, gilt als gesehen
+  await pg.evaluate(() => document.querySelectorAll("[data-reveal][data-state='hidden']").forEach((e) => e.setAttribute("data-state", "shown")));
+  await pg.waitForTimeout(600);
+  console.log(name, "reveal:", await pg.evaluate(() => [...document.querySelectorAll("[data-reveal]")].map((e) => e.getAttribute("data-state")).join(",")));
   await pg.screenshot({ path: `${ausgabe}/r10-vsl-${name}-fold.png` });
-  await pg.screenshot({ path: `${ausgabe}/r10-vsl-${name}-full.png`, fullPage: true });
+  await pg.screenshot({ path: `${ausgabe}/r10-vsl-${name}-full.png`, fullPage: true, animations: "disabled" });
   console.log("ok", name, await pg.evaluate(() => document.body.scrollHeight));
   await pg.close();
 }

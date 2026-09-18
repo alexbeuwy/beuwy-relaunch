@@ -184,3 +184,6 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   BRIEF.md) auf /vsl und die Startseiten-Kernstrecke angewendet — eine
   gegen den Strich gebürstete Headline, ein Schmerzpunkt, glaubwürdige
   Zahlen, drei neue /vsl-Blöcke mit RIEGEL-Beleg. Alles Studio-Keys.
+- 18.09 · R13: /vsl als ultimative VSL-Landingpage (Sales-Kette in acht
+  Blöcken, sechs System-Bausteine, RIEGEL-Beweis, Für-wen, Einwände,
+  Nächste Schritte, Exit-Intent) + VSL-Skript (docs/branding/VSL-SKRIPT.md).
