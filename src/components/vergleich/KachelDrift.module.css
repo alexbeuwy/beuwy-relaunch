@@ -1,0 +1,60 @@
+/* KachelDrift — leichte Scroll-Drift der Collage-Kacheln in der
+   beuwy-Karte (R8, Alex 31.08: "die Elemente sollen sich beim
+   Scrollen lenis-style leicht bewegen").
+
+   Mechanik wie VasenTiefe.module.css: CSS scroll-driven animations
+   (animation-timeline: view()), kein JS. Scrubbing hat keine
+   Zeitachse — die Dauer-Tokens greifen nicht (dokumentierte
+   Ausnahme). WICHTIG: animiert wird die unabhaengige `translate`-
+   Eigenschaft, NICHT `transform` — die Kacheln tragen statische
+   Tailwind-Rotationen (`rotate:`), die dabei erhalten bleiben.
+   Nur ab lg und ohne reduced-motion; sonst stehen die Kacheln still. */
+
+.kachel {
+  will-change: translate;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+    .a {
+      animation: driftA linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .b {
+      animation: driftB linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .c {
+      animation: driftC linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .d {
+      animation: driftD linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* Vier verschiedene Geschwindigkeiten/Richtungen — die Collage atmet,
+   statt als Block zu scrollen. Amplituden klein halten: die Kacheln
+   ueberlappen sich, zu viel Weg wuerde Text verdecken. */
+@keyframes driftA {
+  from { translate: 0 22px; }
+  to   { translate: 0 -22px; }
+}
+@keyframes driftB {
+  from { translate: 0 34px; }
+  to   { translate: 0 -30px; }
+}
+@keyframes driftC {
+  from { translate: 0 12px; }
+  to   { translate: 0 -14px; }
+}
+@keyframes driftD {
+  from { translate: 8px 28px; }
+  to   { translate: -6px -24px; }
+}

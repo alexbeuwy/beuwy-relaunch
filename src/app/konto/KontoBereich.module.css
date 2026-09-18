@@ -1,0 +1,34 @@
+/* KontoBereich — Onboarding-Wizard Schrittwechsel, ausschließlich über
+   die Motion-Tokens aus globals.css (:root vererbt in jede CSS-Datei,
+   auch Module). Kein Ad-hoc-Duration. Identisches Muster wie
+   AnfrageFunnel.module.css (dieselbe Wizard-Idee, eigene Datei da
+   getrennte Komponente). */
+
+.schritt {
+  animation: kontoSchrittEin var(--duration-fast) var(--ease-smooth-out) both;
+}
+.vor {
+  --dir: 1;
+}
+.zurueck {
+  --dir: -1;
+}
+
+@keyframes kontoSchrittEin {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir, 1) * var(--distance-large)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schritt {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

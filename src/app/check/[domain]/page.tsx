@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAuditResult, sanitizeCheckDomain } from "@/lib/audit-cache";
+import { getContent } from "@/lib/content";
+import { seitenTexte, type SeitenTexte } from "@/lib/texte/lesen";
 
 /**
  * Teilbares Sichtbarkeits-Gutachten aus dem Website-Check-Cache.
@@ -15,12 +17,12 @@ export const revalidate = 300;
 
 type Params = Promise<{ domain: string }>;
 
-function scoreBand(score: number): string {
-  if (score < 30) return "kommt bei KI-Anfragen praktisch nicht vor.";
-  if (score < 50) return "ist vereinzelt auffindbar, wird aber nicht empfohlen.";
-  if (score < 70) return "ist teilweise sichtbar — mit klaren Lücken.";
-  if (score < 85) return "hat eine solide Basis — mit Luft nach oben.";
-  return "ist stark positioniert.";
+function scoreBand(score: number, t: SeitenTexte): string {
+  if (score < 30) return t("score.band1");
+  if (score < 50) return t("score.band2");
+  if (score < 70) return t("score.band3");
+  if (score < 85) return t("score.band4");
+  return t("score.band5");
 }
 
 function tier(score: number): string {
@@ -31,12 +33,12 @@ function tier(score: number): string {
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const domain = sanitizeCheckDomain((await params).domain);
+  const t = seitenTexte(await getContent(), "check");
   return {
     title: domain
-      ? `Sichtbarkeits-Gutachten: ${domain} — beuwy`
-      : "Sichtbarkeits-Gutachten — beuwy",
-    description:
-      "Automatisierte Ersteinschätzung der KI-Sichtbarkeit: Screenshot, Technik-Prüfpunkte und priorisierte Befunde.",
+      ? `${t("meta.titel_praefix")} ${domain}${t("meta.titel_suffix")}` // studio:ok (Titel-Zusammenbau, kein Fließtext)
+      : t("meta.titel_ohne_domain"),
+    description: t("meta.beschreibung"),
     robots: { index: false, follow: false },
   };
 }
@@ -45,21 +47,20 @@ export default async function CheckPage({ params }: { params: Params }) {
   const domain = sanitizeCheckDomain((await params).domain);
   if (!domain) notFound();
 
+  const c = await getContent();
+  const t = seitenTexte(c, "check");
   const row = await getAuditResult(domain);
 
   if (!row) {
     return (
       <div className="mx-auto max-w-[960px] px-6 lg:px-10 pt-32 pb-24">
         <h1 className="t-h2 max-w-[720px]">
-          Für <em>{domain}</em> liegt noch kein Gutachten vor.
+          {t("leer.titel_vor")} <em>{domain}</em> {t("leer.titel_nach")}
         </h1>
-        <p className="t-body-lg mt-5 max-w-[560px]">
-          Der Check dauert etwa 25 Sekunden: Screenshot, neun Technik-Prüfpunkte
-          und eine Sichtbarkeitsprüfung durch beuwy Agenten.
-        </p>
+        <p className="t-body-lg mt-5 max-w-[560px]">{t("leer.text")}</p>
         <div className="mt-8">
           <Link href={`/?check=${encodeURIComponent(domain)}#tool`} className="btn-primary">
-            Check jetzt starten
+            {t("leer.cta")}
             <span aria-hidden>→</span>
           </Link>
         </div>
@@ -74,9 +75,11 @@ export default async function CheckPage({ params }: { params: Params }) {
     ...a.categories,
     {
       id: "technik",
-      label: "Technische Basis",
+      label: t("technik.label"),
       score: payload.techScore,
-      reason: `${okCount} von ${payload.checks.length} Technik-Prüfpunkten bestanden.`,
+      reason: t("technik.begruendung")
+        .replace("{ok}", String(okCount))
+        .replace("{gesamt}", String(payload.checks.length)),
     },
   ];
   const stand = new Date(row.updated_at).toLocaleDateString("de-DE", {
@@ -91,12 +94,15 @@ export default async function CheckPage({ params }: { params: Params }) {
         {/* Kopfzeile des Dokuments */}
         <header className="flex flex-wrap items-start justify-between gap-4 pb-6 border-b hairline">
           <div>
-            <p className="t-label">Sichtbarkeits-Gutachten</p>
+            <p className="t-label">{t("dossier.label")}</p>
             <h1 className="t-h2 mt-2">{domain}</h1>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <span className="dossier-chip t-data">beuwy Agenten</span>
-            <p className="t-data">Stand {stand}</p>
+            <span className="dossier-chip t-data">{t("dossier.chip")}</span>
+            <p className="t-data">
+              {t("dossier.stand_praefix")}
+              {stand}
+            </p>
           </div>
         </header>
 
@@ -119,25 +125,25 @@ export default async function CheckPage({ params }: { params: Params }) {
             </figure>
           )}
           <div className={row.screenshot_url ? "md:col-span-5" : "md:col-span-12"}>
-            <p className="t-label">Sichtbarkeits-Score</p>
+            <p className="t-label">{t("dossier.score_label")}</p>
             <p className="t-score mt-2">
               {a.score}
-              <span className="t-data"> /100</span>
+              <span className="t-data">{t("dossier.score_suffix")}</span>
             </p>
             <p className="t-small is-ink mt-3">
-              {domain} {scoreBand(a.score)}
+              {domain} {scoreBand(a.score, t)}
             </p>
             <div className="mt-5 space-y-3">
-              {categories.map((c) => (
-                <div key={c.id} data-tier={tier(c.score)}>
+              {categories.map((cat) => (
+                <div key={cat.id} data-tier={tier(cat.score)}>
                   <div className="flex items-baseline justify-between gap-3">
-                    <span className="t-small is-ink">{c.label}</span>
-                    <span className="t-data">{c.score}</span>
+                    <span className="t-small is-ink">{cat.label}</span>
+                    <span className="t-data">{cat.score}</span>
                   </div>
                   <div className="cat-track mt-1">
                     <span
                       className="cat-fill"
-                      style={{ "--pct": `${c.score}%` } as React.CSSProperties}
+                      style={{ "--pct": `${cat.score}%` } as React.CSSProperties}
                     />
                   </div>
                 </div>
@@ -151,7 +157,7 @@ export default async function CheckPage({ params }: { params: Params }) {
         {/* Befunde — im Dokument alle offen */}
         {a.findings.length > 0 && (
           <section className="border-t hairline pt-8 mt-8">
-            <p className="t-label">Befunde · nach Wirkung priorisiert</p>
+            <p className="t-label">{t("befunde.label")}</p>
             <ol className="mt-4 space-y-6">
               {a.findings.map((f, i) => (
                 <li key={i} className="flex gap-4">
@@ -160,7 +166,9 @@ export default async function CheckPage({ params }: { params: Params }) {
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <span className="t-small is-ink font-medium">{f.title}</span>
                       <span className="t-data">
-                        Aufwand {f.effort} · Wirkung {f.impact}/3
+                        {t("befunde.aufwand_wirkung")
+                          .replace("{effort}", f.effort)
+                          .replace("{impact}", String(f.impact))}
                       </span>
                     </div>
                     <p className="t-small mt-1">{f.cost}</p>
@@ -173,34 +181,24 @@ export default async function CheckPage({ params }: { params: Params }) {
         )}
 
         <footer className="border-t hairline pt-6 mt-8">
-          <p className="t-data max-w-[720px]">
-            Automatisierte Ersteinschätzung durch beuwy Agenten auf Basis
-            öffentlich abrufbarer Inhalte, Stand {stand}. Kein manuelles
-            Gutachten — einzelne Bewertungen können danebenliegen. Diese Seite
-            ist nur über den direkten Link erreichbar und wird nicht öffentlich
-            gelistet.
-          </p>
+          <p className="t-data max-w-[720px]">{t("footer.text").replace("{stand}", stand)}</p>
         </footer>
       </article>
 
       {/* CTA auf dem Papier-Grund unter dem Dokument */}
       <div className="mt-16 max-w-[720px]">
-        <h2 className="t-h2">Die Lücken schließen?</h2>
-        <p className="t-body-lg mt-4 max-w-[560px]">
-          In 30 Minuten sehen wir uns an, welche der Befunde {domain} wirklich
-          Anfragen kosten — und ob ein System sich für Sie rechnet. Ehrliche
-          Antwort, auch wenn sie Nein lautet.
-        </p>
+        <h2 className="t-h2">{t("abschluss.titel")}</h2>
+        <p className="t-body-lg mt-4 max-w-[560px]">{t("abschluss.text").replace("{domain}", domain)}</p>
         <div className="mt-7 flex flex-wrap items-center gap-4">
           <Link href={`/termin?domain=${encodeURIComponent(domain)}`} className="btn-primary">
-            30-Minuten-Systemgespräch buchen
+            {t("abschluss.cta1")}
             <span aria-hidden>→</span>
           </Link>
           <Link href="/video-analyse" className="btn-secondary">
-            Video-Analyse anfordern
+            {t("abschluss.cta2")}
           </Link>
         </div>
-        <p className="t-data mt-4">Kostenlos · kein Pitch · Antwort binnen 24 h</p>
+        <p className="t-data mt-4">{t("abschluss.hinweis")}</p>
       </div>
     </div>
   );

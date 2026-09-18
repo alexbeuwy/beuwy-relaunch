@@ -1,6 +1,19 @@
+import { DEFAULTS as CASES_TEXTE } from "./texte/seiten/cases-detail";
+
 /**
  * Fallstudien — Datenquelle für die Startseiten-Sektion und die
  * Unterseiten unter /cases/<slug>.
+ *
+ * R11 (14.09, Studio-Pflicht): die Texte selbst stehen nicht mehr hier,
+ * sondern als Studio-Keys in src/lib/texte/seiten/cases-detail.ts. Diese
+ * Datei behält nur die STRUKTUR (Slugs, Bild-/Video-Pfade, Link,
+ * Beispielprojekt-Kennzeichnung, Reihenfolge) — CASES ist damit weiterhin
+ * ein vollständiges, sofort nutzbares Array (Fallback mit den
+ * Studio-Defaults als Text) für alle bestehenden Konsumenten
+ * (CaseGrid, StartUnten, sitemap.ts, die einzelnen Marketing-Landingpages
+ * über caseBySlug). Für live editierbare Texte rufen /cases und
+ * /cases/[slug] stattdessen casesMitTexten()/caseMitTexten() mit dem
+ * Ergebnis von getContent() auf.
  *
  * Die Headline erzählt die REISE, nicht die Leistung: wo der Kunde
  * stand und wo er heute steht. Das ist der Grund, warum jemand klickt.
@@ -36,133 +49,109 @@ export type CaseStudy = {
   beispiel?: boolean;
 };
 
-export const CASES: CaseStudy[] = [
+/** Nicht-textliche Struktur je Fall, in der Reihenfolge, die auch die Studio-Keys nutzen. */
+type FallStruktur = {
+  slug: string;
+  bild?: string;
+  /** alt-Text ist ein Bild-Attribut, kein Fließtext — bewusst nicht im Studio (Konvention R11). */
+  bildAlt?: string; // studio:ok
+  video?: string;
+  link?: { label: string; href: string };
+  beispiel?: boolean;
+  faktenAnzahl: number;
+  gebautAnzahl: number;
+};
+
+const STRUKTUR: FallStruktur[] = [
   {
     slug: "riegel-immobilien",
-    kunde: "RIEGEL Immobilien",
-    branche: "Immobilienmakler · Rhein-Neckar",
-    jahr: "2025",
-    reise: "Vom regionalen Makler auf Platz 21 von über 25.000",
-    teaser:
-      "Neue Marke, eigener Bewertungsrechner mit amtlichen Bodenrichtwerten — und ein Auftritt, der die Preisfrage vorwegnimmt.",
-    fakten: [
-      { wert: "342.000 €", label: "Abschlussvolumen in sechs Wochen" },
-      { wert: "9", label: "Abschlüsse in diesem Zeitraum" },
-      { wert: "Platz 21", label: "von über 25.000 Maklern, ImmoScout24-Award" },
-    ],
-    ausgangslage:
-      "Ein Familienunternehmen mit über zwanzig Jahren Erfahrung, dessen Auftritt davon nichts erzählte. Eigentümer verglichen drei Makler und entschieden nach dem, was sie vorher im Netz fanden.",
-    gebaut: [
-      "Marke und Website komplett neu, auf die Preisklasse zugeschnitten",
-      "Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen",
-      "Anbindung an das Maklersystem, damit jede Anfrage sofort im Ablauf landet",
-      "Terminstrecke und Rückrufregel, damit nichts liegen bleibt",
-    ],
-    danach:
-      "In den ersten sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen. Das Projekt hatte sich nach drei Wochen bezahlt gemacht. Heute steht das Haus auf Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
     bild: "/refs/riegel.webp",
-    bildAlt: "Startseite von RIEGEL Immobilien nach dem Relaunch",
+    bildAlt: "Startseite von RIEGEL Immobilien nach dem Relaunch", // studio:ok
     link: { label: "riegel-immobilien.de", href: "https://www.riegel-immobilien.de" },
+    faktenAnzahl: 3,
+    gebautAnzahl: 4,
   },
   {
     slug: "vision-group",
-    kunde: "Vision Group",
-    branche: "Immobilien · Mannheim",
-    jahr: "2023",
-    reise: "Von drei Leuten im Gründungsbüro zur Partnerschaft mit KKR",
-    teaser:
-      "Zwei Gründer, eine Buchhalterin — und Unterlagen, mit denen man vor internationalen Investoren besteht.",
-    fakten: [
-      { wert: "3", label: "Personen bei Projektstart" },
-      { wert: "70", label: "Mitarbeiter zum Höchststand 2022" },
-      { wert: "März 2022", label: "Partnerschaft mit KKR" },
-    ],
-    ausgangslage:
-      "Als wir einstiegen, bestand die Firma aus zwei Gründern und einer Buchhalterin. Der Anspruch war eine Liga, in der man ohne Auftritt kein Gespräch bekommt.",
-    gebaut: [
-      "Marke, Auftritt und Bildsprache für den Investorenmarkt",
-      "Pitch- und Investorenunterlagen, die einer Prüfung standhalten",
-      "Imagefilm als Träger der Positionierung",
-      "Website als Beleg der Größenordnung, nicht als Visitenkarte",
-    ],
-    danach:
-      "Aus dem Dreierteam wurden rund 70 Mitarbeiter, und im März 2022 ging Vision eine strategische Partnerschaft mit KKR ein — erste gemeinsame Transaktion: 163 Wohneinheiten in Dingolfing. Das Haus hat den Zyklus danach nicht überstanden; die Zahlen hier sind der Höchststand von 2022, nicht der Stand heute. Was bleibt, ist das Prinzip: wer vor einer großen Entscheidung steht, kauft zuerst Vertrauen — und ein Dreierteam bekommt ohne Auftritt kein Gespräch mit einem Investor dieser Größe.",
     video: "https://beuwy.com/wp-content/uploads/2025/11/Vision-Imagefilm.webm",
-    videoLabel: "Vision Group · Imagefilm",
+    faktenAnzahl: 3,
+    gebautAnzahl: 4,
   },
-  {
-    slug: "koenigswege",
-    kunde: "Königswege",
-    branche: "Finanzvertrieb",
-    jahr: "2024",
-    reise: "Von 170 auf über 2.200 Partner unter einer Marke",
-    teaser:
-      "Marke, Auftritt und Veranstaltungen neu aufgesetzt — bis das Recruiting nebenbei lief.",
-    fakten: [
-      { wert: "2.200+", label: "Partner arbeiten heute unter der Marke" },
-      { wert: "Top 10", label: "der deutschen Finanzvertriebe" },
-      { wert: "170", label: "Partner beim Start der Zusammenarbeit" },
-    ],
-    ausgangslage:
-      "Ein Finanzvertrieb wächst über Menschen, die sich der Marke anschließen wollen. Genau daran hakte es: Der Auftritt trug die Ambition nicht.",
-    gebaut: [
-      "Marke und Auftritt komplett neu aufgesetzt",
-      "Veranstaltungsformate, auf die Partner stolz sind",
-      "Recruiting-Strecke, die aus Interesse einen Termin macht",
-    ],
-    danach:
-      "Heute arbeiten über 2.200 Partner unter dieser Marke, das Haus steht in den Top 10 der deutschen Finanzvertriebe. Eine Marke, auf die Partner stolz sind, erledigt das Recruiting nebenbei.",
-  },
-  {
-    slug: "sanierungshaus-beispiel",
-    kunde: "Bergmann Sanierung",
-    branche: "Bauträger · Sanierung",
-    jahr: "2026",
-    reise: "Von zwölf Anfragen im Quartal auf zwölf im Monat",
-    teaser:
-      "Beispielprojekt: wie ein Bauträger mit hohen Auftragswerten aus dem Empfehlungsgeschäft in planbare Anfragen kommt.",
-    fakten: [
-      { wert: "12", label: "qualifizierte Anfragen im Monat" },
-      { wert: "38 %", label: "weniger Kosten je Termin" },
-      { wert: "4", label: "Wochen bis zum ersten Abschluss" },
-    ],
-    ausgangslage:
-      "Ein Betrieb, der ausschließlich über Empfehlungen wuchs — und dessen Auftragsbuch deshalb im Quartalstakt schwankte.",
-    gebaut: [
-      "Marke, die die Preisklasse sichtbar macht",
-      "Anzeigen auf die Regionen mit dem passenden Bestand",
-      "Vertriebssystem mit Rückrufregel und Wochenbericht",
-    ],
-    danach:
-      "Platzhalter-Fall mit erfundenen Zahlen. Er zeigt den Aufbau einer Fallstudie, bis der echte Fall dokumentiert ist.",
-    beispiel: true,
-  },
-  {
-    slug: "kapitalanlage-beispiel",
-    kunde: "Nordlicht Kapital",
-    branche: "Kapitalanlage",
-    jahr: "2026",
-    reise: "Vom Excel-Vertrieb zum System, das nichts mehr liegen lässt",
-    teaser:
-      "Beispielprojekt: was passiert, wenn jede Anfrage im System landet statt in der Erinnerung.",
-    fakten: [
-      { wert: "0", label: "Anfragen ohne Rückruf" },
-      { wert: "5 Min", label: "Rückrufregel im Vertriebssystem" },
-      { wert: "1", label: "Wochenbericht statt Bauchgefühl" },
-    ],
-    ausgangslage:
-      "Anfragen kamen an, wurden aber in Listen gepflegt. Was in keinem System steht, wird nicht nachgefasst.",
-    gebaut: [
-      "Eigenes, reduziertes CRM statt Standardsoftware mit 400 Feldern",
-      "Personalisierte Datenmail zum konkreten Angebot",
-      "Automatische Wochenberichte mit Kosten je Abschluss",
-    ],
-    danach:
-      "Platzhalter-Fall mit erfundenen Zahlen. Er zeigt den Aufbau einer Fallstudie, bis der echte Fall dokumentiert ist.",
-    beispiel: true,
-  },
+  { slug: "koenigswege", faktenAnzahl: 3, gebautAnzahl: 3 },
+  { slug: "sanierungshaus-beispiel", beispiel: true, faktenAnzahl: 3, gebautAnzahl: 3 },
+  { slug: "kapitalanlage-beispiel", beispiel: true, faktenAnzahl: 3, gebautAnzahl: 3 },
 ];
+
+const CD = "s.cases-detail.";
+
+/** Baut einen vollständigen Fall aus der Struktur (Index i) + einer Textquelle (Studio-Defaults oder getContent()). */
+function baueFall(quelle: Record<string, string>, i: number): CaseStudy {
+  const s = STRUKTUR[i];
+  const n = i + 1; // 1-basiert, wie in den Studio-Keys
+  const g = (key: string) => quelle[key] ?? "";
+
+  const faktenStart = STRUKTUR.slice(0, i).reduce((summe, x) => summe + x.faktenAnzahl, 0);
+  const gebautStart = STRUKTUR.slice(0, i).reduce((summe, x) => summe + x.gebautAnzahl, 0);
+
+  const fakten: CaseFakt[] = Array.from({ length: s.faktenAnzahl }, (_, k) => ({
+    wert: g(`${CD}fakten.${faktenStart + k + 1}.wert`), // studio:ok (Key-Konstruktion, kein Fließtext)
+    label: g(`${CD}fakten.${faktenStart + k + 1}.label`), // studio:ok (Key-Konstruktion, kein Fließtext)
+  }));
+  const gebaut: string[] = Array.from({ length: s.gebautAnzahl }, (_, k) =>
+    g(`${CD}gebaut.${gebautStart + k + 1}.text`), // studio:ok (Key-Konstruktion, kein Fließtext)
+  );
+  const videoLabel = g(`${CD}faelle.${n}.videoLabel`);
+
+  return {
+    slug: s.slug,
+    kunde: g(`${CD}faelle.${n}.kunde`),
+    branche: g(`${CD}faelle.${n}.branche`),
+    jahr: g(`${CD}faelle.${n}.jahr`),
+    reise: g(`${CD}faelle.${n}.titel`),
+    teaser: g(`${CD}faelle.${n}.teaser`),
+    fakten,
+    ausgangslage: g(`${CD}faelle.${n}.ausgangslage`),
+    gebaut,
+    danach: g(`${CD}faelle.${n}.danach`),
+    bild: s.bild,
+    bildAlt: s.bildAlt,
+    video: s.video,
+    videoLabel: videoLabel || undefined,
+    link: s.link,
+    beispiel: s.beispiel,
+  };
+}
+
+/** Fallback-Array mit den Studio-Defaults als Text — für alle Konsumenten ohne getContent(). */
+export const CASES: CaseStudy[] = STRUKTUR.map((_, i) => baueFall(CASES_TEXTE, i));
 
 export function caseBySlug(slug: string): CaseStudy | undefined {
   return CASES.find((c) => c.slug === slug);
+}
+
+/**
+ * Reihenfolge-Vorgabe (GOAL/BRIEF, Leaf G1): Immobilien-Cases zuerst in
+ * JEDER Listen-Reihenfolge — Übersicht, Startseite, "weitere Fallstudien".
+ * Alle anderen behalten ihre Reihenfolge aus CASES (stabiler Sort).
+ */
+const IMMOBILIEN_ZUERST = ["riegel-immobilien", "vision-group", "koenigswege"];
+
+export function orderedCases(): CaseStudy[] {
+  const rang = (slug: string) => {
+    const i = IMMOBILIEN_ZUERST.indexOf(slug);
+    return i === -1 ? IMMOBILIEN_ZUERST.length : i;
+  };
+  return [...CASES].sort((a, b) => rang(a.slug) - rang(b.slug));
+}
+
+/** Wie caseBySlug(), aber mit live aus dem Studio gelesenen Texten (getContent()-Ergebnis). */
+export function caseMitTexten(c: Record<string, string>, slug: string): CaseStudy | undefined {
+  const i = STRUKTUR.findIndex((s) => s.slug === slug);
+  if (i === -1) return undefined;
+  return baueFall(c, i);
+}
+
+/** Wie orderedCases(), aber mit live aus dem Studio gelesenen Texten (getContent()-Ergebnis). */
+export function casesMitTexten(c: Record<string, string>): CaseStudy[] {
+  return orderedCases().map((basis) => caseMitTexten(c, basis.slug)!);
 }
