@@ -48,9 +48,7 @@ wissen.") steht zwei Sekunden still.
 
 ## Still open
 
-- Capital-Ranking: Ausgabe/Jahr für die Fußnote in Frame 13 (Werte da: H, 400.000 €, 5.000 €/m², 88, 89 …).
-- Interner Beleg für die 9 Mandate (onOffice-Export, Quelle Website/Rechner), nur für die Akte.
-- ELEVENLABS_API_KEY + Voice-ID für die geklonte Stimme.
+- Stimme: Probe congstar / Alex ruhig / LDC liegt bei Alex (assets/stimmproben).
 - Chips in Frame 15: onOffice ist bei RIEGEL belegt; FLOWFACT/Propstack stehen als Aussage auf beuwy.com — bestätigen.
 
 ## Frame 1 — Status
@@ -184,7 +182,7 @@ Wahr: alle Screens echt (riegel-immobilien.de, 23.09).
 - voiceover: "Das Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten. Bei einem durchschnittlichen Hauspreis von 400.000 Euro sind das rund 257.000 Euro Courtage-Potenzial. Schon ein verkauftes Mandat bezahlt das System."
 - src: compositions/13-ergebnis.html
 
-Wahr: Mandate laut Alex (23.09). Ø-Hauspreis 400.000 € aus dem Capital-Makler-Ranking (RIEGEL, Speyer, Schwerpunkt Haus). 400.000 € × 7,14 % = 28.560 € je Mandat; 9 × 28.560 € = 257.040 €. Potenzial, als Rechnung gekennzeichnet. Ausgabe/Jahr des Rankings noch nachtragen.
+Wahr: Mandate laut Alex (23.09). Ø-Hauspreis 400.000 € aus dem Capital-Makler-Ranking (RIEGEL, Speyer, Schwerpunkt Haus). 400.000 € × 7,14 % = 28.560 € je Mandat; 9 × 28.560 € = 257.040 €. Potenzial, als Rechnung gekennzeichnet. Quelle: Capital-Makler-Ranking, Ausgabe 09/2026.
 
 ## Frame 14 — Aufwand
 

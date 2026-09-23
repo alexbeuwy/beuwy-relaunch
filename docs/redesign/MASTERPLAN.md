@@ -193,3 +193,8 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
   neuen Blöcken Kosten, Traumzustand, weitere Fälle, Wer das baut, Ein
   Büro pro Stadt, Video-Analyse als Lead Magnet und drei Knöpfen.
   Studio-Keys bleiben mk.vsl.front_*.
+- 23.09 · R17: /system wieder minimal, ein großer Knopf: Stadt-Check
+  (ein Büro pro Stadt) mit Funnel inline, Sticky mobil, Exit-Intent
+  auch mobil. RIEGEL-Belege auf 47 Dateien korrigiert (9 zusätzliche
+  Mandate in 3 Monaten statt 9 Abschlüsse/342.000 €). Explainer-Video
+  geplant: video/system-explainer (Storyboard v2).
