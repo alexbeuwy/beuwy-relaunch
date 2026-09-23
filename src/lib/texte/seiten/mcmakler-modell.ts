@@ -149,7 +149,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Sechs Wochen nach dem Relaunch: Platz 21 von über 25.000 Maklern beim ImmoScout24-Award, ein regionales Haus gegen bundesweite Konkurrenz.",
+    "In den ersten drei Monaten nach dem Relaunch: neun zusätzliche Mandate, ein regionales Haus gegen bundesweite Konkurrenz. RIEGEL Immobilien belegt zudem Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
   [`${S}beweis.link`]: "Fallstudie RIEGEL Immobilien lesen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

@@ -142,7 +142,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien landet jede Anfrage mit Quelle im System, samt Terminstrecke und Rückrufregel. Sechs Wochen nach dem Relaunch stand die Zahl fest: neun Abschlüsse, 342.000 € Volumen, nachvollziehbar über genau die Kennzahlen, die vorher fehlten.",
+    "Bei RIEGEL Immobilien landet jede Anfrage mit Quelle im System, samt Terminstrecke und Rückrufregel. In den ersten drei Monaten nach dem Relaunch stand die Zahl fest: neun zusätzliche Mandate, nachvollziehbar über genau die Kennzahlen, die vorher fehlten.",
   [`${S}beweis.link_case`]: "Fallstudie RIEGEL Immobilien lesen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

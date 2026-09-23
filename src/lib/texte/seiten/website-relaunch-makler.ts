@@ -136,7 +136,7 @@ export const DEFAULTS: Record<string, string> = {
     "Google kennt Ihre Domain schon, mit jeder Signalgeschichte, die sie in den letzten Jahren aufgebaut hat. Ein Redirect-Plan trägt diese Geschichte in die neue Seite hinüber. Ohne ihn fängt Google faktisch bei null an — und Sie mit ihm.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Für RIEGEL Immobilien bedeutete der technische Neuaufbau keinen Rankingverlust, sondern in denselben sechs Wochen neun Abschlüsse, 342.000 € Volumen und Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "Für RIEGEL Immobilien bedeutete der technische Neuaufbau keinen Rankingverlust, sondern in den ersten drei Monaten danach neun zusätzliche Mandate über das System.",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *eigenen* Relaunch wissen wollen.",
   ...faq.defaults,

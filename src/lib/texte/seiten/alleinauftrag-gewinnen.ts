@@ -91,7 +91,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Sechs Wochen nach dem Auftritt-Relaunch bei RIEGEL Immobilien: neun unterschriebene Aufträge, 342.000 € Abschlussvolumen, ohne einen einzigen Rabatt auf die Provision.",
+    "In den ersten drei Monaten nach dem Auftritt-Relaunch bei RIEGEL Immobilien: neun zusätzliche Mandate, ohne einen einzigen Rabatt auf die Provision.",
   [`${S}beweis.link`]: "Weitere Fallstudien ansehen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

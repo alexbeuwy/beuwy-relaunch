@@ -123,7 +123,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "Der Bewertungsrechner von RIEGEL Immobilien rechnet mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen. Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen.",
+    "Der Bewertungsrechner von RIEGEL Immobilien rechnet mit amtlichen Bodenrichtwerten und ist mit 489 echten Abschlüssen kalibriert. In den ersten drei Monaten nach dem Relaunch kamen neun zusätzliche Mandate.",
   [`${S}beweis.link`]: "Fallstudie RIEGEL Immobilien lesen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

@@ -76,7 +76,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Für RIEGEL Immobilien lief genau dieser Aufbau live: Rechner, Beweis, Formular. In den ersten sechs Wochen danach neun Abschlüsse, 342.000 € Volumen, Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "Für RIEGEL Immobilien lief genau dieser Aufbau live: Rechner, Beweis, Formular. In den ersten drei Monaten danach neun zusätzliche Mandate.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *eigenen* Aufbau wissen wollen.",

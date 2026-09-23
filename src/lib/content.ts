@@ -64,9 +64,9 @@ export const DEFAULTS: Record<string, string> = {
   /* ── 05 PROOF — Wochenbericht-Bild + drei belegte Zahlen ─────────── */
   "shot.caption":
     "So sieht Verantwortung aus: Anfragen, Termine, Abschlüsse und Kosten je Abschluss — jede Woche, mit der Änderung für die Woche darauf.",
-  "stats.s1_value": "342.000 €",
+  "stats.s1_value": "9",
   "stats.s1_label":
-    "Abschlussvolumen in den ersten sechs Wochen nach dem Riegel-Relaunch",
+    "Zusätzliche Mandate in den ersten drei Monaten nach dem RIEGEL-Relaunch",
   "stats.s2_value": "2.200+",
   "stats.s2_label":
     "Partner arbeiten heute unter der Marke, die wir für Königswege gebaut haben",

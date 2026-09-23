@@ -113,7 +113,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Ein regionaler Makler in der Rhein-Neckar-Region: sechs Wochen nach dem Relaunch neun Abschlüsse, 342.000 € Volumen, und Platz 21 von über 25.000 Maklern beim ImmoScout24-Award, nicht als bundesweite Kette, sondern als bekannter Name in der eigenen Region.",
+    "Ein regionaler Makler in der Rhein-Neckar-Region: in den ersten drei Monaten nach dem Relaunch neun zusätzliche Mandate, nicht als bundesweite Kette, sondern als bekannter Name in der eigenen Region.",
   [`${S}beweis.cases_link`]: "Weitere Fallstudien ansehen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

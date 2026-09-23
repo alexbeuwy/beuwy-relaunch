@@ -218,7 +218,7 @@ export default async function McmaklerModellPage() {
         </div>
       </section>
 
-      {/* ── Beweis-Anriss — Riegel, Platz 21 von über 25.000 Maklern ────────── */}
+      {/* ── Beweis-Anriss — Riegel, Platz 21 von über 25.000 Maklern (ImmoScout24-Award, unabhängig vom Relaunch) ────────── */}
       <section id="beweis" className="bg-bg-elevated">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:py-28 lg:px-10">
           <Reveal>

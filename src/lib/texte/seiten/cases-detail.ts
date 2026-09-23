@@ -22,13 +22,13 @@ const faelle = listeRegistrieren(
       kunde: "RIEGEL Immobilien",
       branche: "Immobilienmakler · Rhein-Neckar",
       jahr: "2025",
-      titel: "Vom regionalen Makler auf Platz 21 von über 25.000",
+      titel: "Vom regionalen Familienbetrieb zu neun zusätzlichen Mandaten",
       teaser:
         "Neue Marke, eigener Bewertungsrechner mit amtlichen Bodenrichtwerten — und ein Auftritt, der die Preisfrage vorwegnimmt.",
       ausgangslage:
         "Ein Familienunternehmen mit über zwanzig Jahren Erfahrung, dessen Auftritt davon nichts erzählte. Eigentümer verglichen drei Makler und entschieden nach dem, was sie vorher im Netz fanden.",
       danach:
-        "In den ersten sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen. Das Projekt hatte sich nach drei Wochen bezahlt gemacht. Heute steht das Haus auf Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+        "In den ersten drei Monaten nach dem Relaunch kamen neun zusätzliche Mandate über das beuwy-System. RIEGEL Immobilien belegt zudem Platz 21 von über 25.000 Maklern beim ImmoScout24-Award, unabhängig vom Relaunch gewonnen.",
       videoLabel: "",
     },
     {
@@ -91,8 +91,8 @@ const fakten = listeRegistrieren(
   "fakten",
   "Ergebnis-Zahl",
   [
-    { fall: "RIEGEL Immobilien", wert: "342.000 €", label: "Abschlussvolumen in sechs Wochen" },
-    { fall: "RIEGEL Immobilien", wert: "9", label: "Abschlüsse in diesem Zeitraum" },
+    { fall: "RIEGEL Immobilien", wert: "9", label: "zusätzliche Mandate in drei Monaten" },
+    { fall: "RIEGEL Immobilien", wert: "489", label: "echte Abschlüsse als Basis für den Rechner" },
     { fall: "RIEGEL Immobilien", wert: "Platz 21", label: "von über 25.000 Maklern, ImmoScout24-Award" },
     { fall: "Vision Group", wert: "1.450", label: "Wohneinheiten entwickelt" },
     { fall: "Vision Group", wert: "160 Mio. €", label: "Joint Venture mit KKR" },
@@ -122,7 +122,7 @@ const gebaut = listeRegistrieren(
     },
     {
       fall: "RIEGEL Immobilien",
-      text: "Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen: Adresse rein, Ersteinschätzung raus — der Verkäufer-Lead liegt mit Score im CRM, nicht im Postfach",
+      text: "Bewertungsrechner, kalibriert mit 489 echten RIEGEL-Abschlüssen und amtlichen Bodenrichtwerten: Adresse rein, Ersteinschätzung raus — der Verkäufer-Lead liegt mit Score im CRM, nicht im Postfach",
     },
     {
       fall: "RIEGEL Immobilien",

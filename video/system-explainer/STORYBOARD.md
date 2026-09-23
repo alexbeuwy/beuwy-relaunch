@@ -28,7 +28,7 @@ Sein Rechner sammelt Eigentümer. Auch nachts. → Jeder Eigentümer bekommt in
 Suchauftrag. → Er sieht, wo Eigentümer wirklich klicken. → Dieses System
 gibt es jetzt für Ihr Büro. → Sie müssen dafür nichts über KI wissen. → So
 sieht das aus. Live bei RIEGEL. → 9 zusätzliche Mandate in den ersten 3
-Monaten. → Sie liefern zwei Termine und Ihre Fotos. → In sechs Wochen läuft
+Monaten, rund [X] € Courtage-Potenzial. → Sie liefern zwei Termine und Ihre Fotos. → In sechs Wochen läuft
 es. An Ihrer Maklersoftware. → Einmal pro Stadt. → Ist Ihre noch frei?
 
 **Marke:** Weiß #FFFFFF, Tinte #161613, gedämpft #5D5D58, Linie
@@ -48,7 +48,8 @@ wissen.") steht zwei Sekunden still.
 
 ## Still open
 
-- Beleg-Screenshot für „9 zusätzliche Mandate in den ersten 3 Monaten" (Alex liefert).
+- Capital-Werte RIEGEL (Ø-Hauspreis, Ø-Wohnungspreis, Ausgabe) für das Courtage-Potenzial in Frame 13.
+- Interner Beleg für die 9 Mandate (onOffice-Export, Quelle Website/Rechner), nur für die Akte.
 - ELEVENLABS_API_KEY + Voice-ID für die geklonte Stimme.
 - Chips in Frame 15: onOffice ist bei RIEGEL belegt; FLOWFACT/Propstack stehen als Aussage auf beuwy.com — bestätigen.
 
@@ -176,14 +177,14 @@ Wahr: alle Screens echt (riegel-immobilien.de, 23.09).
 
 ## Frame 13 — Ergebnis
 
-- scene: Zähler 0 → 9. „zusätzliche Mandate in den ersten 3 Monaten". Quelle klein: RIEGEL Immobilien.
-- duration: 8s
+- scene: Zähler 0 → 9, darunter „zusätzliche Mandate in den ersten 3 Monaten". Zweite Zeile zählt hoch: „rund [X] € Courtage-Potenzial". Fußnote klein: Rechenweg (9 × Ø-Preis RIEGEL laut Capital × Provision) und „Mandate, noch keine Abschlüsse".
+- duration: 9s
 - transition_in: cut
 - status: built
-- voiceover: "Das Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten."
+- voiceover: "Das Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten. Das sind rund [X] Euro Courtage-Potenzial."
 - src: compositions/13-ergebnis.html
 
-Wahr: Aussage Alex 23.09, Beleg folgt. Ohne Beleg kein Render.
+Wahr: Mandate laut Alex (23.09). Potenzial = Rechnung, als solche gekennzeichnet. [X] folgt aus den Capital-Werten (Ø-Preis RIEGEL). Ohne diese Werte kein Render.
 
 ## Frame 14 — Aufwand
 

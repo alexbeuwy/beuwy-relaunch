@@ -93,7 +93,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen einzigen gekauften Lead.",
+    "In den ersten drei Monaten nach dem Relaunch kamen neun zusätzliche Mandate, ohne einen einzigen gekauften Lead.",
   [`${S}beweis.link`]: "Weitere Fallstudien ansehen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

@@ -17,7 +17,7 @@ import { seitenTexte } from "@/lib/texte/lesen";
  * Vergleichs-Tabelle, die das Wochenbericht-Prinzip an vier Beispielwochen
  * zeigt (tnum, overflow-x-auto). Das Gratis-Wort aus dem T-Cluster bleibt
  * hier außen vor (Cluster P). GelbeKarte zu Bauchgefühl als teuerster
- * Kennzahl, Beweis-Anriss (RIEGEL: 342.000 €, 9 Abschlüsse in 6 Wochen),
+ * Kennzahl, Beweis-Anriss (RIEGEL: 9 zusätzliche Mandate in drei Monaten),
  * FAQ + FAQPage-JSON-LD. Foto 3 laut R3-SEITENPLAN.json.
  *
  * R11 (14.09): jeder Text läuft über Studio-Keys s.makler-kennzahlen.*

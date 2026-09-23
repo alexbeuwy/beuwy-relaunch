@@ -105,7 +105,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien lief der Objekt-Export von Anfang an sauber, weil die Abnahme-Checkliste vor dem Livegang durchlaufen wurde. Ergebnis: 342.000 € Abschlussvolumen in sechs Wochen, ohne einen einzigen doppelt gepflegten Datensatz.",
+    "Bei RIEGEL Immobilien lief der Objekt-Export von Anfang an sauber, weil die Abnahme-Checkliste vor dem Livegang durchlaufen wurde. Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten, ohne einen einzigen doppelt gepflegten Datensatz.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *Anbindung* wissen wollen.",

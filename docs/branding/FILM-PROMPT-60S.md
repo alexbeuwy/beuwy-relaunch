@@ -85,10 +85,11 @@ CRM. Bewährt bei dutzenden Maklern. In sechs Wochen an Ihr Büro
 angepasst."
 
 00:44 bis 00:52, Beweis. Weiß. Drei Zahlen zählen hoch, tabellarische
-Ziffern: „9 Abschlüsse in sechs Wochen", „342.000 € Abschlussvolumen",
-„Platz 21 von über 25.000 Maklern". Kleine Zeile: RIEGEL Immobilien.
-VO: „Zu gut, um wahr zu sein? Riegel Immobilien, sechs Wochen nach dem
-Livegang: neun Abschlüsse."
+Ziffern: „9 zusätzliche Mandate in drei Monaten", „489 echte Abschlüsse
+als Basis für den Rechner", „Platz 21 von über 25.000 Maklern". Kleine
+Zeile: RIEGEL Immobilien.
+VO: „Zu gut, um wahr zu sein? Riegel Immobilien, drei Monate nach dem
+Livegang: neun zusätzliche Mandate."
 
 00:52 bis 01:00, Abschluss. Wortmarke beuwy, darunter ein Satz:
 „Während andere noch lernen, verkauft Ihr System schon." Knopf in

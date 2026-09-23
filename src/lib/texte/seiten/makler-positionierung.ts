@@ -131,7 +131,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "Ein Familienunternehmen, klar auf die Rhein-Neckar-Region positioniert: sechs Wochen nach dem Relaunch neun Abschlüsse, 342.000 € Volumen, ohne einen einzigen gekauften Lead.",
+    "Ein Familienunternehmen, klar auf die Rhein-Neckar-Region positioniert: in den ersten drei Monaten nach dem Relaunch neun zusätzliche Mandate, ohne einen einzigen gekauften Lead.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *ersten* Nische wissen wollen.",

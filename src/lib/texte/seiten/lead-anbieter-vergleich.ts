@@ -121,7 +121,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "342.000 € Volumen, neun Abschlüsse in sechs Wochen nach dem Relaunch, ohne einen einzigen gekauften Lead.",
+    "Neun zusätzliche Mandate in den ersten drei Monaten nach dem Relaunch, ohne einen einzigen gekauften Lead.",
   [`${S}beweis.link_case`]: "Fallstudie RIEGEL Immobilien lesen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

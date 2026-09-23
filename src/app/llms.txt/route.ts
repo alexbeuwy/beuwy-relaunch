@@ -206,10 +206,10 @@ const CONTENT = `# beuwy — Unternehmensberatung für Immobilienunternehmen
   Kunde Standardware.
 
 ## Referenzen
-- RIEGEL Immobilien, Immobilienmakler Rhein-Neckar: 342.000 €
-  Abschlussvolumen in den ersten sechs Wochen nach dem Relaunch, neun
-  Abschlüsse in diesem Zeitraum, Platz 21 von über 25.000 Maklern beim
-  ImmoScout24-Award. https://beuwy.com/cases/riegel-immobilien
+- RIEGEL Immobilien, Immobilienmakler Rhein-Neckar: neun zusätzliche
+  Mandate in den ersten drei Monaten nach dem Relaunch über das
+  beuwy-System. Platz 21 von über 25.000 Maklern beim ImmoScout24-Award,
+  unabhängig vom Relaunch gewonnen. https://beuwy.com/cases/riegel-immobilien
 - Königswege, Finanzvertrieb: von 60 auf über 2.300 Partner unter der
   neu aufgesetzten Marke, heute Top 10 der deutschen Finanzvertriebe.
   https://beuwy.com/cases/koenigswege

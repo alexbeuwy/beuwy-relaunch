@@ -245,11 +245,11 @@ export const KURVEN: KundenKurve[] = [
       },
       {
         id: "abschluesse",
-        label: "Abschlussvolumen",
-        einheit: "Abschlussvolumen in € nach dem Relaunch",
+        label: "Zusätzliche Mandate",
+        einheit: "zusätzliche Mandate über das System",
         punkte: [
           { zeit: "Relaunch", wert: 0, start: true },
-          { zeit: "Woche 6", wert: 342000, anzeige: "342.000 €" },
+          { zeit: "Monat 3", wert: 9, anzeige: "9" },
         ],
         herkunft: "kunde",
         quelle: "Angaben RIEGEL Immobilien",
@@ -259,16 +259,15 @@ export const KURVEN: KundenKurve[] = [
       {
         label: "ImmoScout24-Award",
         wert: "Platz 21",
-        hinweis: "von über 25.000 Maklern, 2025",
+        hinweis: "von über 25.000 Maklern, 2025 — unabhängig vom Relaunch",
         herkunft: "geprueft",
       },
       {
-        label: "Volumen",
-        wert: "342.000 €",
-        hinweis: "in den ersten sechs Wochen",
+        label: "Mandate",
+        wert: "9",
+        hinweis: "zusätzlich, in den ersten drei Monaten",
         herkunft: "kunde",
       },
-      { label: "Abschlüsse", wert: "9", hinweis: "im selben Zeitraum", herkunft: "kunde" },
     ],
   },
 ];

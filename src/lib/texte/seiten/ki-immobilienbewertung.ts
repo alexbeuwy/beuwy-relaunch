@@ -145,7 +145,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Prototyp",
   [`${S}beweis.text`]:
-    "Für RIEGEL Immobilien haben wir einen Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen gebaut. Adresse rein, Ersteinschätzung raus, der Lead liegt mit Score im CRM.",
+    "Für RIEGEL Immobilien haben wir einen Bewertungsrechner mit amtlichen Bodenrichtwerten gebaut, kalibriert mit 489 echten Abschlüssen. Adresse rein, Ersteinschätzung raus, der Lead liegt mit Score im CRM.",
   [`${S}beweis.text2_vor`]: "Unser eigener",
   [`${S}beweis.link_rechner`]: "Verkaufspreisrechner",
   [`${S}beweis.text2_nach`]:

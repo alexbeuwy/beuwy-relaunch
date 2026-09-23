@@ -147,7 +147,7 @@ export const START_BLOECKE_DEFAULTS: Record<string, string> = {
     "Was diese Woche an Modellen erscheint, steckt nächste Woche in unseren Abläufen — als Arbeit, die Ihr Team nicht mehr selbst machen muss.",
   "mk.beweis.wirkung_label": "Was danach messbar passiert ist",
   "mk.beweis.case1_text":
-    "Bewertungsrechner mit amtlichen Bodenrichtwerten, direkt an das Maklersystem angebunden — jede Anfrage sofort im Ablauf. Ergebnis: neun Abschlüsse, 342.000 € Volumen in sechs Wochen.",
+    "Bewertungsrechner mit amtlichen Bodenrichtwerten, direkt an das Maklersystem angebunden — jede Anfrage sofort im Ablauf. Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten.",
   "mk.beweis.case2_text":
     "Auftritt und Pitch-Unterlagen, die eine Prüfung durch internationale Investoren bestehen. Aus dem Dreierteam wurden rund 70 Mitarbeiter. Die erste gemeinsame Transaktion mit KKR: 163 Wohneinheiten in Dingolfing.",
   "mk.beweis.case_cta": "Fallstudie ansehen",
@@ -263,10 +263,10 @@ export const START_BLOECKE_DEFAULTS: Record<string, string> = {
   "mk.belege.vision_text":
     "KKR hält seit 1999 Beteiligungen an 29 Unternehmen im deutschsprachigen Raum — Axel Springer, Wella, Hensoldt. Über elf Milliarden Euro Eigenkapital. Seit März 2022 gehört ein Haus dazu, das 2018 aus zwei Gründern und einer Buchhalterin bestand.",
   "mk.belege.vision_quelle": "Handelsblatt · Pressemitteilungen der Beteiligten",
-  "mk.belege.riegel_label": "RIEGEL · sechs Wochen nach dem Relaunch",
-  "mk.belege.riegel_wert": "342.000 €",
+  "mk.belege.riegel_label": "RIEGEL · drei Monate nach dem Relaunch",
+  "mk.belege.riegel_wert": "9",
   "mk.belege.riegel_text":
-    "Abschlussvolumen aus neun Abschlüssen. Das Projekt hatte sich nach drei Wochen bezahlt gemacht. Ein Familienunternehmen mit über zwanzig Jahren Erfahrung, dessen Auftritt davon nichts erzählte — bis Eigentümer beim Vergleich dreier Makler zuerst das fanden, was wir gebaut haben.",
+    "Zusätzliche Mandate über das beuwy-System, in den ersten drei Monaten. Ein Familienunternehmen mit über zwanzig Jahren Erfahrung, dessen Auftritt davon nichts erzählte — bis Eigentümer beim Vergleich dreier Makler zuerst das fanden, was wir gebaut haben.",
   "mk.belege.riegel_mehr": "Fallstudie lesen",
 
   /* ── Podcast-Slot / Showreel-Slot (StartUnten, Block 6) ────────── */

@@ -103,7 +103,7 @@ export const DEFAULTS: Record<string, string> = {
     "Ein gekaufter Kontakt gehört dem Portal, das ihn verkauft, nicht Ihnen. Eine eigene Quelle gehört Ihnen, arbeitet weiter, wenn Sie im Termin sind, und wird mit jeder Anzeige, jedem Rechner-Durchlauf wertvoller statt teurer.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien liegt genau dieser Bewertungsrechner mit amtlichen Bodenrichtwerten hinter der eigenen Quelle: neun Abschlüsse, 342.000 € Volumen in den ersten sechs Wochen nach dem Relaunch, ohne einen einzigen gekauften Lead.",
+    "Bei RIEGEL Immobilien liegt genau dieser Bewertungsrechner mit amtlichen Bodenrichtwerten hinter der eigenen Quelle: neun zusätzliche Mandate in den ersten drei Monaten nach dem Relaunch, ohne einen einzigen gekauften Lead.",
   [`${S}beweis.link`]: "Fallstudie RIEGEL Immobilien lesen →",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *ersten* Gespräch wissen wollen.",

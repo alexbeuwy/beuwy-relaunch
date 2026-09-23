@@ -207,7 +207,7 @@ export const DEFAULTS: Record<string, string> = {
     "Diese 21 Punkte sind das Fundament, das jede KI-Suche voraussetzt. Ob ein Assistent Sie am Ende tatsächlich nennt, entscheidet zusätzlich der Wettbewerb in Ihrer Stadt — genau dort setzt laufende Arbeit an, nicht eine einmalige Abhakliste.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Für RIEGEL Immobilien stand das technische Fundament aus Struktur, Daten und FAQPage-Markup innerhalb von sechs Wochen. Ergebnis in diesem Zeitraum: neun Abschlüsse, 342.000 € Volumen, Platz 21 von über 25.000 Maklern.",
+    "Für RIEGEL Immobilien stand das technische Fundament aus Struktur, Daten und FAQPage-Markup innerhalb von sechs Wochen. Ergebnis in den ersten drei Monaten danach: neun zusätzliche Mandate.",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *ersten* Durchlauf wissen wollen.",
   ...faq.defaults,

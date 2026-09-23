@@ -149,7 +149,7 @@ export const DEFAULTS: Record<string, string> = {
     "Jeder Punkt oben lässt sich einzeln flicken. Ein Portal, das von Anfang an auf Tempo, Struktur und CRM-Anbindung gebaut ist, muss diese Liste kein zweites Mal abarbeiten, weil keiner der elf Fehler im Bauplan vorkommt.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "RIEGEL Immobilien startete mit genau diesen Fehlern im alten Auftritt. Nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen in sechs Wochen, Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "RIEGEL Immobilien startete mit genau diesen Fehlern im alten Auftritt. Nach dem Relaunch: neun zusätzliche Mandate in den ersten drei Monaten.",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem eigenen *Audit* wissen wollen.",
   ...faq.defaults,

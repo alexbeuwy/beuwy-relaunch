@@ -118,7 +118,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, keine Behauptung",
   [`${S}beweis.titel`]:
-    "Für RIEGEL Immobilien haben wir den gesamten digitalen Auftritt neu aufgesetzt, das Google-Unternehmensprofil eingeschlossen: sechs Wochen später standen neun Abschlüsse, 342.000 € Volumen und Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "Für RIEGEL Immobilien haben wir den gesamten digitalen Auftritt neu aufgesetzt, das Google-Unternehmensprofil eingeschlossen: In den ersten drei Monaten kamen neun zusätzliche Mandate über das System.",
   [`${S}beweis.link`]: "Fallstudie RIEGEL Immobilien lesen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

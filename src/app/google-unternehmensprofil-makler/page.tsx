@@ -17,8 +17,8 @@ import { seitenTexte } from "@/lib/texte/lesen";
  * Kontaktdaten, Fotos, Q&A). Hauptteil: PainRows zu den vier häufigsten
  * Versäumnissen, danach eine Wochenroutine-Tabelle (Wochentag → Aufgabe →
  * Zeitaufwand) als Umsetzungsplan. GelbeKarte, Beweis-Anriss über den
- * RIEGEL-Relaunch (342.000 €/9 Abschlüsse in 6 Wochen, Platz 21 von über
- * 25.000 Maklern beim ImmoScout24-Award). FAQ + FAQPage-JSON-LD. Foto 5
+ * RIEGEL-Relaunch (9 zusätzliche Mandate in drei Monaten, Platz 21 von über
+ * 25.000 Maklern beim ImmoScout24-Award als eigenständiger Fakt). FAQ + FAQPage-JSON-LD. Foto 5
  * laut R3-SEITENPLAN.json.
  */
 

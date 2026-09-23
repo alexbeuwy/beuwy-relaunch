@@ -138,7 +138,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "Sechs Wochen nach dem Relaunch mit eigener Marke statt Vorlage: neun Abschlüsse, 342.000 € Volumen, Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "In den ersten drei Monaten nach dem Relaunch mit eigener Marke statt Vorlage: neun zusätzliche Mandate. RIEGEL Immobilien belegt zudem Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *Entscheidung* wissen wollen.",

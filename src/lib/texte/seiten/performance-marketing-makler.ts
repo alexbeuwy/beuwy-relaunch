@@ -103,7 +103,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien läuft genau diese Kette mit einem Bewertungsrechner auf amtlichen Bodenrichtwerten: neun Abschlüsse, 342.000 € Volumen in den ersten sechs Wochen, ohne einen einzigen gekauften Lead.",
+    "Bei RIEGEL Immobilien läuft genau diese Kette mit einem Bewertungsrechner auf amtlichen Bodenrichtwerten: neun zusätzliche Mandate in den ersten drei Monaten, ohne einen einzigen gekauften Lead.",
   [`${S}beweis.link`]: "Weitere Fallstudien ansehen →",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",

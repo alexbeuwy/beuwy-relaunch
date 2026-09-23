@@ -127,7 +127,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "17 Jahre Markenarbeit, davor für Bosch und Continental. Für RIEGEL Immobilien bedeutete der Wechsel vom Vorlagen-Auftritt zum eigenen Portal: neun Abschlüsse, 342.000 € Volumen in sechs Wochen, Platz 21 von über 25.000 Maklern beim ImmoScout24-Award.",
+    "17 Jahre Markenarbeit, davor für Bosch und Continental. Für RIEGEL Immobilien bedeutete der Wechsel vom Vorlagen-Auftritt zum eigenen Portal: neun zusätzliche Mandate in den ersten drei Monaten.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *Systemwahl* wissen wollen.",

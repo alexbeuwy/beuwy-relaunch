@@ -147,7 +147,7 @@ export const DEFAULTS: Record<string, string> = {
     "Kaltakquise füllt die Lücke, bis das eigene Portal rankt. Ein Bewertungsrechner fängt die Anfrage ab, die eine Anzeige gerade geweckt hat. Keine dieser Strategien ersetzt die andere, sie übergeben sich gegenseitig den nächsten Interessenten.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen einzigen gekauften Lead, allein über den eigenen Bewertungsrechner.",
+    "In den ersten drei Monaten nach dem Relaunch: neun zusätzliche Mandate, ohne einen einzigen gekauften Lead.",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *ersten* Kampagne wissen wollen.",
   ...faq.defaults,

@@ -141,7 +141,7 @@ export const DEFAULTS: Record<string, string> = {
     "Ein Eigentümer erinnert sich am Ende nicht an jede einzelne Besichtigung. Er erinnert sich, ob die erste Woche geordnet wirkte oder chaotisch. Diese Erinnerung entscheidet später über einen Satz in der Bewertung – nicht die Zahl im Kaufvertrag allein.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien landet jede Anfrage von Tag 1 an mit Quelle und nächstem Schritt im System, samt Terminstrecke und Rückrufregel. Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen – ein Ergebnis, das im geordneten Ablauf der ersten Woche beginnt, nicht erst beim Notartermin.",
+    "Bei RIEGEL Immobilien landet jede Anfrage von Tag 1 an mit Quelle und nächstem Schritt im System, samt Terminstrecke und Rückrufregel. In den ersten drei Monaten nach dem Relaunch: neun zusätzliche Mandate – ein Ergebnis, das im geordneten Ablauf der ersten Woche beginnt, nicht erst beim Notartermin.",
   [`${S}beweis.link`]: "Fallstudie RIEGEL Immobilien lesen →",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *ersten* Gespräch wissen wollen.",

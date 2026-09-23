@@ -120,7 +120,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Ein Bewertungsrechner mit amtlichen Bodenrichtwerten und über 5.000 ausgewerteten Verkäufen: Adresse rein, Ersteinschätzung raus, der Lead liegt mit Score im CRM, nicht erst im Postfach.",
+    "Ein Bewertungsrechner, kalibriert mit 489 echten Abschlüssen und amtlichen Bodenrichtwerten: Adresse rein, Ersteinschätzung raus, der Lead liegt mit Score im CRM, nicht erst im Postfach.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *ersten* Inhalt wissen wollen.",

@@ -126,7 +126,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "Sechs Wochen nach dem Relaunch: neun Abschlüsse, 342.000 € Volumen, ohne einen einzigen gekauften Lead.",
+    "In den ersten drei Monaten nach dem Relaunch kamen neun zusätzliche Mandate, ohne einen einzigen gekauften Lead.",
   [`${S}beweis.text`]:
     "Ein Teil davon lief automatisch: Die Rückrufregel schickt jedem Eigentümer, der heute nicht verkauft, in sechs Monaten von selbst die passende E-Mail.",
   [`${S}beweis.link`]: "Weitere Fallstudien ansehen →",

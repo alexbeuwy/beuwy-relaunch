@@ -19,8 +19,8 @@ import { seitenTexte } from "@/lib/texte/lesen";
  * Hauptbaustein: eine ehrliche Vergleichstabelle von Kaltakquise bis zum
  * eigenen Portal (Aufwand/erste Wirkung/Eignung), gerahmt von PainRows
  * gegen generische Ranglisten-Artikel und einer GelbeKarte gegen die
- * Illusion der einen Wunderstrategie. Beweis: RIEGEL (Kap. 342.000 €/9
- * Abschlüsse in 6 Wochen). Kompakter Wissens-Kopf statt 70vh-Hero, Foto 7.
+ * Illusion der einen Wunderstrategie. Beweis: RIEGEL (Kap. 9 zusätzliche
+ * Mandate in drei Monaten). Kompakter Wissens-Kopf statt 70vh-Hero, Foto 7.
  * Texte: src/lib/texte/seiten/objektakquise-strategien.ts (Studio-Keys
  * s.objektakquise-strategien.*).
  */

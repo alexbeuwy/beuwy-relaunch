@@ -121,7 +121,7 @@ export const DEFAULTS: Record<string, string> = {
     "Ein starkes CRM organisiert, was im Hintergrund passiert. Ob ein Eigentümer anruft, entscheidet sich am Schaufenster davor. Wir bauen das Schaufenster und die Leitung dazwischen — Ihr Propstack bleibt exakt so, wie es ist.",
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.text`]:
-    "Bei RIEGEL Immobilien landet jede Anfrage mit Quelle und nächstem Schritt direkt im Maklersystem. Ergebnis der ersten sechs Wochen: neun Abschlüsse, 342.000 € Volumen.",
+    "Bei RIEGEL Immobilien landet jede Anfrage mit Quelle und nächstem Schritt direkt im Maklersystem. Ergebnis der ersten drei Monate: neun zusätzliche Mandate.",
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem *ersten* Gespräch wissen wollen.",
   ...faq.defaults,

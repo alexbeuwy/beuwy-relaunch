@@ -111,8 +111,9 @@ Video führt zu vier Fragen. Eine Minute.
 
 Klingt zu gut? Dann Zahlen.
 
-RIEGEL Immobilien, sechs Wochen nach dem Livegang: neun Abschlüsse.
-342.000 Euro Abschlussvolumen. Platz 21 von über 25.000 Maklern beim
+RIEGEL Immobilien, drei Monate nach dem Livegang: neun zusätzliche
+Mandate über das System. 489 echte Abschlüsse stecken als Kalibrierung
+im Bewertungsrechner. Platz 21 von über 25.000 Maklern beim
 ImmoScout24-Award.
 
 Und das System dahinter ist älter als dieses Projekt. Die Vision Group
@@ -122,7 +123,7 @@ Euro mit KKR. Königswege ist von sechzig Leuten unter die zehn größten
 Strukturvertriebe Deutschlands gewachsen, und Immobilien wurden dort der
 wichtigste Zweig. Dazu hzo immobilien im Kapitalanlagevertrieb.
 
-ON: 9 · 342.000 € · Platz 21. Danach Logos: RIEGEL, Vision Group,
+ON: 9 · 489 · Platz 21. Danach Logos: RIEGEL, Vision Group,
 Königswege, hzo immobilien.
 
 ## 7 · Authority (04:25)
@@ -210,8 +211,9 @@ Wortzahl: rund 1.000, also 7 bis 7,5 Minuten.
 
 ## Vor dem Dreh prüfen (Alex)
 
-- RIEGEL: Zeitbezug „sechs Wochen nach dem Livegang" für 9 Abschlüsse und
-  342.000 € bestätigen.
+- RIEGEL: Zeitbezug „drei Monate nach dem Livegang" für die 9
+  zusätzlichen Mandate und die 489 echten Abschlüsse hinter dem
+  Bewertungsrechner bestätigen.
 - Vision Group, Königswege, hzo immobilien: Rolle von beuwy korrekt
   benennen („begleitet") und Freigabe für Name und Zahlen holen
   (3 → 70 Mitarbeitende, 160 Mio. € Joint Venture mit KKR, 60 Personen →

@@ -125,7 +125,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "beuwy verbindet Marke und System seit 17 Jahren, zuletzt für Häuser wie Ihres. Bei RIEGEL Immobilien landet jede Anfrage mit Quelle und nächstem Schritt direkt im Maklersystem — Ergebnis: neun Abschlüsse, 342.000 € Volumen in sechs Wochen.",
+    "beuwy verbindet Marke und System seit 17 Jahren, zuletzt für Häuser wie Ihres. Bei RIEGEL Immobilien landet jede Anfrage mit Quelle und nächstem Schritt direkt im Maklersystem — Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor der *Anbindung* wissen wollen.",

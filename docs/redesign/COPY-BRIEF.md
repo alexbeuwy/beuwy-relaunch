@@ -13,9 +13,9 @@ Jede neue Headline und jeder Block wird gegen diese Liste geprüft.
 3. **Gegen den Strich.** Eine verbreitete Überzeugung kippen: „Nicht der
    bessere Makler bekommt den Auftrag. Der, der teurer aussieht."
 4. **Glaubwürdige Zahlen.** „Ein Alleinauftrag mehr im Monat" statt
-   „300 Mandate", echte Case-Zahlen (RIEGEL: 9 Abschlüsse in sechs
-   Wochen) statt Hochrechnungen. Menschen überschätzen ein Jahr und
-   unterschätzen ein Jahrzehnt.
+   „300 Mandate", echte Case-Zahlen (RIEGEL: 9 zusätzliche Mandate in
+   drei Monaten) statt Hochrechnungen. Menschen überschätzen ein Jahr
+   und unterschätzen ein Jahrzehnt.
 5. **Nicht schlauer, nur gestolpert.** „Wir haben das nicht erfunden. Wir
    sind darüber gestolpert." Kein Guru-Ton.
 6. **Die größte Frustration wegnehmen.** Den Auftrag an einen Schlechteren

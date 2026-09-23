@@ -120,16 +120,16 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_frage_eyebrow": "Die ehrliche Rechnung",
   "mk.vsl.front_frage_titel": "Und das alles soll nicht zu *einem* einzigen Mehrdeal führen?",
   "mk.vsl.front_frage_text":
-    "Dreißig Bausteine, die sonst drei Agenturen, zwei Freelancer und eine neue Stelle wären. Hier laufen sie in einem System. Nachts, ohne Urlaub, ohne Kündigungsfrist. Bei RIEGEL waren es neun Abschlüsse in sechs Wochen. Sie brauchen einen.",
+    "Dreißig Bausteine, die sonst drei Agenturen, zwei Freelancer und eine neue Stelle wären. Hier laufen sie in einem System. Nachts, ohne Urlaub, ohne Kündigungsfrist. Bei RIEGEL kamen in den ersten drei Monaten neun zusätzliche Mandate. Sie brauchen eines.",
   "mk.vsl.front_frage_text2":
     "Wer heute noch Mitarbeiter für Aufgaben einstellt, die ein System übernimmt, bezahlt zweimal: das Gehalt und den Vorsprung der anderen.",
 
   /* Beweis */
   "mk.vsl.front_beweis_eyebrow": "Zu gut, um wahr zu sein?",
-  "mk.vsl.front_beweis_titel": "RIEGEL Immobilien, sechs Wochen nach dem Livegang.",
+  "mk.vsl.front_beweis_titel": "RIEGEL Immobilien, drei Monate nach dem Livegang.",
   "mk.vsl.front_beleg":
-    "9~Abschlüsse in sechs Wochen|342.000 €~Abschlussvolumen in sechs Wochen|Platz 21~von über 25.000 Maklern, ImmoScout24-Award",
-  "mk.vsl.front_beweis_text": "Ein Büro, ein Relaunch, sechs Wochen.",
+    "9~zusätzliche Mandate in den ersten drei Monaten|489~echte Abschlüsse als Basis für den Rechner|Platz 21~ImmoScout24-Award 2025, von über 25.000 Maklern",
+  "mk.vsl.front_beweis_text": "Ein Büro, ein System, neun zusätzliche Mandate.",
   "mk.vsl.front_faelle_label": "Das System dahinter ist älter als dieses Projekt",
   "mk.vsl.front_faelle":
     "Vision Group~Von 3 auf 70 Mitarbeitende, bis zum Joint Venture über 160 Mio. € mit KKR.|Königswege~Von 60 Personen unter die zehn größten Strukturvertriebe Deutschlands. Immobilien wurden der wichtigste Zweig.|hzo immobilien~Kapitalanlagevertrieb, Marke und Vertrieb aus einem System.",

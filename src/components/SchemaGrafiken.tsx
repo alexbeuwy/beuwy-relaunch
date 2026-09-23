@@ -195,11 +195,11 @@ const WIRKUNGS_SPUREN: Spur[] = [
   },
   {
     kunde: "RIEGEL Immobilien",
-    einheit: "Abschlussvolumen",
-    nachher: { wert: 342000, label: "342.000 €" },
-    zeitraum: "in den ersten sechs Wochen",
+    einheit: "zusätzliche Mandate",
+    nachher: { wert: 9, label: "9" },
+    zeitraum: "in den ersten drei Monaten",
     dauerMs: "1500ms",
-    fussnote: "neun Abschlüsse in diesem Zeitraum",
+    fussnote: "über das System, Angaben RIEGEL Immobilien",
   },
 ];
 

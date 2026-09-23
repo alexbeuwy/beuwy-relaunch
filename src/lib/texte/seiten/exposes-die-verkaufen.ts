@@ -134,7 +134,7 @@ export const DEFAULTS: Record<string, string> = {
 
   [`${S}beweis.label`]: "Beweis, kein Beispiel",
   [`${S}beweis.titel`]:
-    "Bei RIEGEL Immobilien trug die Preis-Argumentation im Exposé den Verkaufsprozess mit: neun Abschlüsse, 342.000 € Volumen in sechs Wochen, ohne einen einzigen gekauften Lead.",
+    "Bei RIEGEL Immobilien trug die Preis-Argumentation im Exposé den Verkaufsprozess mit: neun zusätzliche Mandate in den ersten drei Monaten, ohne einen einzigen gekauften Lead.",
 
   [`${S}faq.eyebrow`]: "Häufige Fragen",
   [`${S}faq.titel`]: "Was Sie vor dem nächsten *Exposé* wissen wollen.",
