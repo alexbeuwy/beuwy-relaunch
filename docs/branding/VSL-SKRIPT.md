@@ -1,133 +1,224 @@
-# VSL-Skript beuwy (Alex vor der Kamera, ca. 5 Minuten, Sie-Form)
+# VSL-Skript beuwy (Alex vor der Kamera, ca. 7 Minuten, Sie-Form)
 
-Ziel: Der Zuschauer klickt nach dem Video auf „Zusammenarbeit anfragen"
-und füllt die vier Fragen aus. Sales-Kette: Hook → Szene (Schmerz) →
-die eine Ursache → die große Idee (Portal-Niveau) → die Bausteine →
-Beweis → Abkürzung statt Lernen → Qualifizierung → Ablauf → Aufforderung.
-Sprechtempo ruhig, 130 bis 140 Wörter pro Minute. Kein Lächeln auf
-Kommando, kein Hype. Sätze kurz. Nach jedem Absatz eine halbe Sekunde
-Pause. Einblendungen (ON) sind Vorschläge für den Schnitt.
+Stand 23.09. Seite: `/system` (vorher `/vsl`). Ziel: Der Zuschauer klickt
+auf „Zusammenarbeit anfragen" und beantwortet die vier Fragen. Wer noch
+nicht so weit ist, fordert die Video-Analyse an (Lead Magnet).
+
+Aufbau in zwölf Teilen, dieselbe Reihenfolge wie die Seite:
+Hook → Pain → Agitate → Dream State → Mechanism → Proof Stack →
+Authority → Offer → Scarcity → Disqualifier → Lead Magnet → Big CTA.
+Die CTAs kommen dreimal (nach dem Mechanism, nach der Authority, am
+Schluss).
+
+Regie: Sprechtempo ruhig, 130 bis 140 Wörter pro Minute. Kein Lächeln auf
+Kommando, kein Hype, kein Ausrufezeichen. Sätze kurz. Nach jedem Absatz
+eine halbe Sekunde Pause. Zahlen so sprechen, wie sie dastehen.
+ON = Einblendung im Schnitt (Vorschlag). B = B-Roll.
 
 ---
 
-**00:00 Hook**
+## 1 · Hook (00:00)
 
-Was trennt Sie vom Marktführer Ihrer Stadt? Nicht Ihr Talent. Nicht
-Ihre Objekte. Nicht Ihr Netzwerk. Es ist ein System, das er hat und Sie
-noch nicht. In den nächsten fünf Minuten zeige ich Ihnen genau dieses
-System. Und wie es in sechs Wochen unter Ihrem Namen läuft.
+Was trennt Sie vom Marktführer Ihrer Stadt?
+
+Er verkauft nicht besser als Sie. Er hat keine besseren Objekte. Er hat
+ein System, und Sie haben es noch nicht.
+
+In den nächsten sieben Minuten zeige ich Ihnen dieses System. Und wie es
+in sechs Wochen unter Ihrem Namen läuft.
 
 ON: „Was trennt Sie vom Marktführer Ihrer Stadt?"
 
-**00:25 Szene**
+## 2 · Pain (00:25)
 
-Sie kennen die Situation. Das Gespräch beim Eigentümer lief gut. Sie
-haben den Markt erklärt, den Preis begründet, er hat genickt. Und dann
-bekommt den Auftrag ein anderer. Einer, der schlechter verkauft als Sie.
+Sie kennen das. Das Gespräch beim Eigentümer lief gut. Sie haben den
+Markt erklärt, den Preis begründet, er hat genickt. Zwei Tage später
+ruft er an und sagt ab. Den Auftrag bekommt ein anderer. Einer, der
+schlechter verkauft als Sie.
 
-Warum? Weil der Eigentümer abends am Handy drei Makler vergleicht.
-Drei Websites, drei Exposés, dreimal dasselbe Layout aus derselben
-Software. Er kann nicht sehen, wer besser verkauft. Er sieht nur, wer
-teurer wirkt. Und den ruft er an.
+Warum? Weil der Eigentümer abends am Handy drei Makler vergleicht. Drei
+Websites, drei Exposés, dreimal dasselbe Layout aus derselben Software.
+Er kann nicht sehen, wer besser verkauft. Er sieht nur, wer mehr zu
+bieten scheint. Und den ruft er an.
 
-ON: Handy, 21:04 Uhr, drei graue Websites.
+B: Handy auf dem Sofa, 21:04 Uhr, drei graue Makler-Websites
+nebeneinander.
 
-**01:00 Die eine Ursache**
+## 3 · Agitate (01:05)
 
-Wenn man es auf den Kern bringt, ist es nur dieser eine Grund. Sie sind
-austauschbar geworden. Nicht in Ihrer Arbeit. In dem, was man von Ihnen
-sieht. Und alles, was Sie dagegen tun, mehr Anzeigen, mehr gekaufte
-Kontakte, mehr Nachfassen, verstärkt nur, was der Eigentümer dort sieht.
+Rechnen wir das einmal durch. Ein Objekt für 400.000 Euro, 7,14 Prozent
+Gesamtprovision. Das sind 28.560 Euro Courtage. Für einen einzigen
+Auftrag.
 
-**01:25 Die große Idee**
+Verlieren Sie so einen Auftrag nur einmal im Quartal, sind das vier im
+Jahr. 114.240 Euro. An jemanden, der schlechter verkauft als Sie.
 
-Jetzt die Frage, die niemand stellt: Warum verdienen die Portale an
-jedem Ihrer Abschlüsse mit? Weil sie in zwanzig Jahren etwas gebaut
-haben, das Sie nicht haben. Rechner, die Eigentümer anziehen.
-Suchaufträge, die Käufer binden. Mailings, die jeden Empfänger kennen.
-Reports, die von selbst rausgehen. Ein CRM, in dem nichts verloren geht.
-Dafür haben sie Millionen ausgegeben.
+Und es geht weiter. Sie zahlen dem Portal für Kontakte, die Ihr
+Wettbewerber am selben Tag auch bekommt. Sie bezahlen also dafür, dass
+er neben Ihnen steht.
 
-Heute geht das anders. Mit sauberen Prozessen und KI baue ich Ihnen
-genau dieses System. Nicht in zwanzig Jahren. In sechs Wochen. Unter
-Ihrem Namen, auf Ihrer Domain, mit Ihren Objekten. Sie verkaufen ab
-jetzt, als wären Sie selbst das Portal. Oder besser, denn die Leads
-gehören Ihnen.
+Mehr Anzeigen ändern daran nichts. Mehr gekaufte Kontakte auch nicht.
+Alles davon verstärkt nur, was der Eigentümer abends am Handy sieht.
 
-ON: „Verkaufen Sie, als wären Sie selbst das Portal."
+ON: 4 × 28.560 € = 114.240 €
 
-**02:15 Die Bausteine**
+## 4 · Dream State (01:50)
 
-Was das konkret heißt, in sechs Sätzen.
+Jetzt ein anderes Bild. Sechs Wochen später. Montag, 8:10 Uhr.
 
-Erstens: Marke und Website. Eigentümer sehen in acht Sekunden, dass Sie
-anders sind.
+Am Wochenende haben Eigentümer auf Ihrer Website ihren Preis berechnet.
+Jeder hat seinen Report mit Ihrem Logo im Postfach, ohne dass jemand
+getippt hat. Zwei Käufer haben per Suchauftrag ein Objekt bekommen,
+bevor es online war. Im CRM steht jeder Kontakt mit Wiedervorlage.
 
-Zweitens: eigene Rechner. Verkaufspreis, Mietpreis, Abschreibung. Der
-Eigentümer rechnet, Sie bekommen den Kontakt.
+Sie trinken Ihren Kaffee. Das Telefon klingelt. Ein Eigentümer sagt:
+„Ich habe Ihren Report gelesen. Wann können Sie vorbeikommen?"
 
-Drittens: Ihr eigenes Portal. Ihre Objekte, durchsuchbar wie bei den
-Großen, mit Suchaufträgen und Kunden-Login.
+Die anderen Makler googelt er nicht mehr.
 
-Viertens: Reports, die automatisch per Mail rausgehen. Mit seinen
-Zahlen, Ihrem Logo, ohne dass jemand tippt.
+B: Büro am Morgen, Kaffeetasse, Telefon klingelt, auf dem Bildschirm das
+CRM mit neuen Anfragen.
 
-Fünftens: Mailings zum Suchauftrag. Neue Angebote gehen an die, die
-genau danach suchen. Vor der Veröffentlichung.
+## 5 · Mechanism (02:30)
 
-Sechstens: CRM und Nachfass. Jede Anfrage, jeder Termin, jedes Mandat an
-einem Ort. Der Nachfass läuft, während Sie beim Notar sitzen.
+Wie das geht? Schauen Sie, wie die großen Portale arbeiten. Sie haben
+Rechner, die Eigentümer anziehen. Suchaufträge, die Käufer binden.
+Mailings, die jeden Empfänger kennen. Reports, die von selbst rausgehen.
+Ein CRM, in dem nichts verloren geht. Dafür haben sie zwanzig Jahre und
+Millionen gebraucht.
 
-ON: sechs Kacheln, eine pro Satz.
+Heute baue ich Ihnen genau das mit sauberen Prozessen und KI. In sechs
+Wochen, unter Ihrem Namen, auf Ihrer Domain, mit Ihren Objekten. Sie
+verkaufen ab dann, als wären Sie selbst das Portal. Mit einem
+Unterschied: Die Leads gehören Ihnen.
 
-**03:05 Beweis**
+Das System hat dreißig Bausteine in sechs Gruppen. Marke und Auftritt.
+Rechner und Leads. Ihr eigenes Portal mit Suchaufträgen und Kunden-Login.
+Sichtbarkeit bei Google und bei ChatGPT. CRM und Automatisierung. Und
+Daten, mit denen Sie sehen, was Eigentümer auf Ihrer Seite tun.
 
-Klingt zu gut, um wahr zu sein. Deshalb eine Zahl. RIEGEL Immobilien,
-sechs Wochen nach dem Livegang: neun Abschlüsse. 342.000 Euro
-Abschlussvolumen. Platz 21 von über 25.000 Maklern beim
-ImmoScout24-Award. Ein Büro, ein Relaunch, sechs Wochen.
+Dreißig Bausteine, für die Sie sonst drei Agenturen, zwei Freelancer und
+eine neue Stelle bräuchten. Und die sollen nicht zu einem einzigen
+zusätzlichen Abschluss führen?
 
-ON: 9 · 342.000 € · Platz 21.
+ON: „Verkaufen Sie, als wären Sie selbst das Portal." Danach die
+Übersichtsgrafik mit den sechs Gruppen (Seite, Abschnitt `#bausteine`).
 
-**03:35 Abkürzung statt Lernen**
+**CTA 1:** Wenn Sie schon genug gesehen haben: Der Knopf unter diesem
+Video führt zu vier Fragen. Eine Minute.
 
-Und jetzt der Punkt, der den Unterschied macht. Sie müssen davon nichts
-lernen. Nichts ausprobieren. Nichts erfinden. Während Ihre Wettbewerber
-Kurse buchen und Tools testen, übernehmen Sie ein System, das bei
-dutzenden Maklern schon läuft. Wir passen es an Ihr Büro an. Anpassen
-dauert Wochen. Erfinden dauert Jahre.
+## 6 · Proof Stack (03:40)
 
-**04:00 Qualifizierung**
+Klingt zu gut? Dann Zahlen.
 
-Ich sage Ihnen auch, für wen das nichts ist. Wenn Sie die günstigste
+RIEGEL Immobilien, sechs Wochen nach dem Livegang: neun Abschlüsse.
+342.000 Euro Abschlussvolumen. Platz 21 von über 25.000 Maklern beim
+ImmoScout24-Award.
+
+Und das System dahinter ist älter als dieses Projekt. Die Vision Group
+ist in der Zeit, in der wir sie begleitet haben, von drei auf siebzig
+Mitarbeitende gewachsen, bis zu einem Joint Venture über 160 Millionen
+Euro mit KKR. Königswege ist von sechzig Leuten unter die zehn größten
+Strukturvertriebe Deutschlands gewachsen, und Immobilien wurden dort der
+wichtigste Zweig. Dazu hzo immobilien im Kapitalanlagevertrieb.
+
+ON: 9 · 342.000 € · Platz 21. Danach Logos: RIEGEL, Vision Group,
+Königswege, hzo immobilien.
+
+## 7 · Authority (04:25)
+
+Warum ich das bauen kann? Ich bin Alexander Pütter. Ich mache seit
+siebzehn Jahren Markenarbeit, unter anderem für Bosch, Continental und
+Michelin.
+
+Und ich habe so ein System schon mit meinem eigenen Geld gebaut. Mit zwei
+Partnern habe ich acta gegründet. Wir haben über 380 Wohnungen als
+Kapitalanlage entwickelt und verkauft, fast alles über Instagram. Das
+System dahinter habe ich selbst entworfen.
+
+Schlauer als andere war ich dabei nicht. Ich musste verkaufen, und so ist
+das System entstanden. Genau das baue ich heute für Makler. Sie müssen
+nichts lernen und nichts ausprobieren. Anpassen dauert Wochen. Erfinden
+dauert Jahre.
+
+B: Alex im Büro, Laptop mit dem Cockpit, kurz acta-Material, falls
+freigegeben.
+
+**CTA 2:** Wenn Sie jetzt schon wissen, dass Sie das wollen: Klicken Sie
+auf „Zusammenarbeit anfragen".
+
+## 8 · Offer (05:15)
+
+Was Sie bekommen: das ganze System. Marke, Website, Rechner, eigenes
+Portal, Reports, Mailings, CRM-Anbindung. Umsetzung in sechs Wochen. Sie
+liefern Fotos und zwei Termine. Texte, Struktur, Technik und Anbindung
+kommen von uns.
+
+Was es kostet: 27.900 Euro netto einmalig. Oder drei Raten zu 9.900
+Euro, beim Kickoff, bei der Design-Freigabe und beim Livegang.
+
+Sie erinnern sich an die Rechnung von vorhin. Ein Auftrag bringt 28.560
+Euro Courtage. Ein zusätzlicher Abschluss, und das System ist bezahlt.
+Jeder weitere gehört Ihnen.
+
+ON: 27.900 € netto · oder 3 × 9.900 €
+
+## 9 · Scarcity (05:50)
+
+Eine Sache noch. Ich baue das System in jeder Stadt nur einmal. Es soll
+Sie zum sichtbarsten Makler vor Ort machen. Mit zwei Büros in derselben
+Stadt würde ich gegen mich selbst arbeiten.
+
+Wer zuerst startet, hat die Stadt. Ob Ihre noch frei ist, sage ich Ihnen
+im ersten Gespräch.
+
+ON: „Ein Büro pro Stadt."
+
+## 10 · Disqualifier (06:10)
+
+Und ich sage Ihnen auch, für wen das nichts ist. Wenn Sie die günstigste
 Website suchen, nehmen Sie einen Baukasten für 39 Euro im Monat. Das ist
-ehrlich und in Ordnung. Wenn Sie aber in Ihrer Stadt die Nummer 1 sein
-wollen, wenn jemand an Immobilien denkt, dann ist das hier für Sie
-gebaut.
+ehrlich und in Ordnung. Wenn Sie Automatisierung für eine Spielerei
+halten, auch.
 
-**04:20 Ablauf und Investition**
+Wenn Sie aber in Ihrer Stadt die Nummer eins sein wollen, wenn jemand an
+Immobilien denkt, dann ist das hier für Sie gebaut.
 
-So läuft es. Sie beantworten unter diesem Video vier Fragen, das dauert
-eine Minute. Innerhalb von 24 Stunden sprechen wir, mit Ihren Zahlen,
-nicht mit einer Preisliste. Danach liefern Sie Fotos und zwei Termine.
-Sechs Wochen später ist Ihr System live.
+## 11 · Lead Magnet (06:35)
 
-Was es kostet? 27.900 Euro netto, oder drei Raten zu 9.900 Euro: bei
-Kickoff, bei der Design-Freigabe und beim Livegang. Zum Vergleich: Ein
-einziges Objekt für 400.000 Euro bringt Ihnen bei 7,14 Prozent
-Gesamtprovision 28.560 Euro Courtage. Ein Abschluss, und das System ist
-bezahlt. Jeder weitere gehört Ihnen.
+Vielleicht sind Sie noch nicht so weit. Dann machen Sie den kleineren
+Schritt. Unter diesem Video gibt es die Video-Analyse. Sie tragen Ihre
+Domain ein, und ich nehme mir Ihre Website persönlich vor. Sie bekommen
+ein Video: was ein Eigentümer dort heute sieht, wo Anfragen verloren
+gehen und was das System bei Ihnen ändern würde. Antwort in 24 Stunden.
 
-**04:45 Aufforderung**
+ON: „Video-Analyse anfordern"
 
-Klicken Sie jetzt auf „Zusammenarbeit anfragen". Vier Fragen, eine
-Minute. Und in sechs Wochen ruft der Eigentümer Sie an. Bevor er die
-anderen googelt.
+## 12 · Big CTA (06:55)
 
-ON: Knopf „Zusammenarbeit anfragen", darunter „Antwort in 24 Stunden".
+Wenn Sie so weit sind: Klicken Sie jetzt auf „Zusammenarbeit anfragen".
+Vier Fragen, eine Minute. Innerhalb von 24 Stunden sprechen wir, mit
+Ihren Zahlen. Und in sechs Wochen ruft der Eigentümer Sie an, bevor er
+die anderen googelt.
+
+ON: Knopf „Zusammenarbeit anfragen", darunter „Antwort in 24 Stunden ·
+vier Fragen, eine Minute".
 
 ---
 
-Wortzahl: rund 680. Prüfen vor dem Dreh: „dutzende Makler" (welche),
-Riegel-Zahlen und Zeitbezug, Courtage-Rechenbeispiel (7,14 % gesamt ist
-üblich, regional verschieden), Preis 27.900 € netto bzw. 3 × 9.900 €.
+Wortzahl: rund 1.000, also 7 bis 7,5 Minuten.
+
+## Vor dem Dreh prüfen (Alex)
+
+- RIEGEL: Zeitbezug „sechs Wochen nach dem Livegang" für 9 Abschlüsse und
+  342.000 € bestätigen.
+- Vision Group, Königswege, hzo immobilien: Rolle von beuwy korrekt
+  benennen („begleitet") und Freigabe für Name und Zahlen holen
+  (3 → 70 Mitarbeitende, 160 Mio. € Joint Venture mit KKR, 60 Personen →
+  Top 10 der Strukturvertriebe).
+- acta: „über 380 Wohnungen, fast alles über Instagram" wörtlich so
+  freigeben.
+- Courtage-Beispiel: 7,14 % Gesamtprovision ist regional verschieden.
+- Gebietsschutz „ein Büro pro Stadt" muss auch im Vertrag stehen.
+- Das Skript nennt keine „dutzenden Makler" mehr. Diese Zahl braucht erst
+  einen Beleg (UWG).

@@ -74,6 +74,7 @@ Variables.
 - `public/logos/README.md`: `acta.svg`, `flowfact.svg`, `casaone.svg` sind Nachbauten (kein offizielles Asset) — Originale beschaffen oder freigeben lassen. Masterplan-Blocker „Echte Kundenlogo-SVGs" bleibt offen.
 - Testimonials/Google-Bewertungen: Masterplan-Blocker „echte Testimonials freigeben" — bis dahin keine Kundenstimmen ohne Nachnamen (Regel in `content.ts:179`).
 - VSL-Video-URL (`mk.vsl.url`) und Podcast-URL (`mk.podcast.url`) liefern (Masterplan-Blocker).
+- `/system` (R16, 23.09): Freigaben für die Fälle Vision Group (3 → 70 Mitarbeitende, 160 Mio. € Joint Venture mit KKR), Königswege (60 Personen → Top 10 der Strukturvertriebe), hzo immobilien und für die acta-Zahl (über 380 Wohnungen, fast alles über Instagram). Die Rolle von beuwy heißt auf der Seite „begleitet". Gebietsschutz „ein Büro pro Stadt" in den Vertrag aufnehmen.
 
 ---
 
@@ -165,7 +166,7 @@ Backlog-Zeilen zum Übernehmen in `docs/redesign/MASTERPLAN.md` (Markierung `[~]
 2. **L1 ist drin** (E-Mail-Footer, Blocker B4, Commit 14.09) — nichts mehr zu mergen.
 3. **Lokale Gates:** `npx tsc --noEmit` = 0 · `npx next build` grün · `npx next start -p 3100` · `node scripts/verify.mjs` → `VERIFY: OK`. Dann curl-Serie: `/leads`, `/portfolio/filmmaking-layout`, `/icon-box`, `/page-sitemap.xml`, `/impressum/`, `/datenschutz/` → je 308 + korrektes `Location`; `curl -I /` → fünf Security-Header; `/llms.txt`, `/sitemap.xml` → 200.
 4. **Vercel-Preview von PR #8** öffnen: `/impressum`, `/datenschutz` lesen (B5); Testanfrage über `/anfrage` mit Preview-Env → Mail + `/intern`-Eintrag.
-5. **Screenshot-Abnahme** Desktop 1440 / Mobil 390 für `/`, `/vsl`, `/immobilienmarketing`, `/tools`, `/anfrage` (Gate 4, `tools/shot.mjs`).
+5. **Screenshot-Abnahme** Desktop 1440 / Mobil 390 für `/`, `/system` (vorher `/vsl`, 308), `/immobilienmarketing`, `/tools`, `/anfrage` (Gate 4, `tools/shot.mjs`).
 6. **Freigaben-Check** (2.5): Logos ohne Freigabe im Studio aus `mk.trust.namen` nehmen; keine Testimonials ohne Nachnamen.
 7. **PR #8 mergen** → `main`. Vercel baut Production; Deployment-Log auf Build-Fehler prüfen (Warnung `@react-email/render` ist bekannt und harmlos).
 8. **Domain umziehen:** `beuwy.com` + `www` in Vercel hinzufügen, DNS beim Registrar auf Vercel-Werte, `www` → Apex. WordPress-Hosting bleibt parallel erreichbar.

@@ -44,7 +44,7 @@ export type BereichMitFeldern = Bereich & {
 /** Die drei bekannten Bereiche — Reihenfolge = Reihenfolge in der Navi. */
 export const BEREICHE: Bereich[] = [
   /* Spezifischer Präfix VOR "mk." — baueBereiche ordnet in Reihenfolge zu. */
-  { praefix: "mk.vsl.front_", titel: "Frontseite /vsl", icon: "Clapperboard", route: "/vsl" },
+  { praefix: "mk.vsl.front_", titel: "Frontseite /system", icon: "Clapperboard", route: "/system" },
   { praefix: "mk.", titel: "Startseite", icon: "Home", route: "/", thumb: "/studio-thumbs/start.webp" },
   /* R11 (14.09): alle Unterseiten — Keys s.<slug>.<gruppe>.<feld>, Datei je
      Seite unter src/lib/texte/seiten/, Manifest generiert (tools/texte-index.mjs). */
@@ -75,7 +75,7 @@ export const WEITERE_TEXTE: Bereich = {
 
 /** Label-Vorspann, den FIELD_LABELS je Bereich voranstellt (siehe content.ts). */
 const VORSPANN: Record<string, string> = {
-  "mk.vsl.front_": "Frontseite /vsl",
+  "mk.vsl.front_": "Frontseite /system",
   "mk.": "Makler",
   "tools.": "Tools",
   "intern.": "Intern",

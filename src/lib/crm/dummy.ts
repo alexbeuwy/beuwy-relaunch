@@ -197,7 +197,7 @@ function zufall(seed: number): () => number {
 }
 
 const PFADE: Array<[string, number]> = [
-  ["/", 30], ["/vsl", 6], ["/immobilienmarketing", 8], ["/website-fuer-immobilienmakler", 9],
+  ["/", 30], ["/system", 6], ["/immobilienmarketing", 8], ["/website-fuer-immobilienmakler", 9],
   ["/leadgenerierung-immobilienmakler", 7], ["/tools/verkaufspreisrechner", 8], ["/tools", 4],
   ["/tools/mietpreisrechner", 3], ["/anfrage", 5], ["/cases", 4], ["/cases/riegel-immobilien", 3],
   ["/ueber-uns", 3], ["/onoffice-website", 3], ["/beste-maklerwebsites", 3], ["/wissen", 2],

@@ -12,12 +12,17 @@ import { getContent } from "@/lib/content";
 export const revalidate = 60;
 
 /**
- * /vsl — die VSL-Landingpage (18.09): clean, reduziert, Sales-Kette.
- * Hook → Video → ein Knopf → Vertrauensleiste → Der eine Grund →
- * Das System (sechs Bausteine) → Beweis → Vorsprung → Für wen →
- * drei Einwände → Nächste Schritte → Knopf. Exit-Intent einmal pro
- * Sitzung (Desktop). Kein Menü, Mini-Fuß. Alle Texte: Studio-Keys
- * mk.vsl.front_* (src/lib/texte/vsl.ts), Studio-Overrides gewinnen.
+ * /system — die VSL-Landingpage (18.09, umbenannt von /vsl am 23.09).
+ * Reihenfolge = VSL-Skript (docs/branding/VSL-SKRIPT.md): Hook + Video →
+ * Pain (Der eine Grund) → Agitate (Kosten) → Dream State → Mechanism
+ * (dreißig Bausteine, Mehrdeal-Frage, Knopf) → Proof Stack (RIEGEL,
+ * Fälle, Logos) → Authority → Vorsprung + Knopf → Offer (Investition) →
+ * Scarcity (ein Büro pro Stadt) → Disqualifier (Für wen) → Einwände →
+ * Lead Magnet (Video-Analyse) → Big CTA. Exit-Intent einmal pro Sitzung
+ * (Desktop) führt zur Video-Analyse. Kein Menü, Mini-Fuß.
+ * Alle Texte: Studio-Keys mk.vsl.front_* (src/lib/texte/vsl.ts) — die
+ * Keys heißen bewusst weiter "vsl", damit bestehende Supabase-Overrides
+ * erhalten bleiben. Studio-Overrides gewinnen.
  */
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: titel,
     description: beschreibung,
-    alternates: { canonical: "/vsl" },
+    alternates: { canonical: "/system" },
     openGraph: { title: titel, description: beschreibung, type: "website", locale: "de_DE" },
   };
 }
@@ -52,6 +57,7 @@ export default async function VslPage() {
   const logos = t("logos").split("|").map((n) => n.trim()).filter(Boolean);
   const vertrauen = paare(t("vertrauen"));
   const belege = paare(t("beleg"));
+  const faelle = paare(t("faelle"));
   const schritte = [1, 2, 3].map((i) => paare(t(`schritte_${i}`))[0]).filter(Boolean);
   const gruppen = [1, 2, 3, 4, 5, 6]
     .map((g) => ({
@@ -105,6 +111,28 @@ export default async function VslPage() {
         </section>
       </Reveal>
 
+      {/* 2b · Agitate: was es kostet */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[720px] px-6 text-center lg:mt-32">
+          <p className="t-label">{t("kosten_eyebrow")}</p>
+          <h2 className="t-h2 mt-4">{rich(t("kosten_titel"))}</h2>
+          <p className="t-body-lg mt-5">{t("kosten_text")}</p>
+          <p className="t-body-lg mt-4">{t("kosten_text2")}</p>
+        </section>
+      </Reveal>
+
+      {/* 2c · Dream State: eine Szene, sechs Wochen später */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[1080px] px-6 lg:mt-32">
+          <div className="mx-auto max-w-[760px] rounded-[32px] border border-line-subtle px-7 py-10 text-center sm:px-12 sm:py-14">
+            <p className="t-label">{t("traum_eyebrow")}</p>
+            <h2 className="t-h2 mt-4">{rich(t("traum_titel"))}</h2>
+            <p className="t-body-lg mt-5">{t("traum_text")}</p>
+            <p className="t-body-lg mt-4 !text-ink-cream">{t("traum_text2")}</p>
+          </div>
+        </section>
+      </Reveal>
+
       {/* 3 · Das System: dreißig Bausteine in sechs Gruppen (Übersichtsgrafik) */}
       <Reveal>
         <section id="bausteine" className="mx-auto mt-24 max-w-[1120px] px-6 lg:mt-32">
@@ -142,6 +170,7 @@ export default async function VslPage() {
           <h2 className="t-h2 mt-4">{rich(t("frage_titel"))}</h2>
           <p className="t-body-lg mt-6">{t("frage_text")}</p>
           <p className="t-body-lg mt-4">{t("frage_text2")}</p>
+          <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-10" />
         </section>
       </Reveal>
 
@@ -163,6 +192,19 @@ export default async function VslPage() {
             )}
             <p className="t-body-lg mt-8 !text-ink-cream">{t("beweis_text")}</p>
           </div>
+          {faelle.length > 0 && (
+            <div className="mt-10">
+              <p className="t-label text-center">{t("faelle_label")}</p>
+              <dl className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+                {faelle.map((f) => (
+                  <div key={f.a} className="rounded-[24px] border border-line-subtle p-6 text-left">
+                    <dt className="t-h3">{f.a}</dt>
+                    <dd className="t-body mt-2">{f.b}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )}
           {logos.length > 0 && (
             <div className="mt-10 text-center">
               <p className="t-label !text-[10.5px]">{t("logos_label")}</p>
@@ -177,16 +219,58 @@ export default async function VslPage() {
         </section>
       </Reveal>
 
-      {/* 5 · Vorsprung */}
+      {/* 4b · Authority: wer das baut */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[720px] px-6 text-center lg:mt-32">
+          <p className="t-label">{t("autor_eyebrow")}</p>
+          <h2 className="t-h2 mt-4">{rich(t("autor_titel"))}</h2>
+          <p className="t-body-lg mt-5">{t("autor_text")}</p>
+          <p className="t-body-lg mt-4">{t("autor_text2")}</p>
+        </section>
+      </Reveal>
+
+      {/* 5 · Vorsprung + zweiter Knopf */}
       <Reveal>
         <section className="mx-auto mt-24 max-w-[680px] px-6 text-center lg:mt-32">
           <p className="t-label">{t("vorsprung_eyebrow")}</p>
           <h2 className="t-h2 mt-4">{rich(t("vorsprung_titel"))}</h2>
           <p className="t-body-lg mt-5">{t("vorsprung_text")}</p>
+          <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-10" />
         </section>
       </Reveal>
 
-      {/* 6 · Für wen / nicht für wen */}
+      {/* 6b · Investition: Preis, drei Raten, Courtage-Anker */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[880px] px-6 text-center lg:mt-32">
+          <p className="t-label">{t("preis_eyebrow")}</p>
+          <h2 className="t-h2 mt-4">{rich(t("preis_titel"))}</h2>
+          <div className="mx-auto mt-10 grid max-w-[720px] grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="rounded-[24px] border border-line-subtle p-7">
+              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_einmal")}</p>
+              <p className="t-small mt-2">{t("preis_einmal_label")}</p>
+            </div>
+            <div className="rounded-[24px] border border-akzent bg-akzent-wash/60 p-7">
+              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_raten")}</p>
+              <p className="t-small mt-2 !text-ink-cream/80">{t("preis_raten_label")}</p>
+            </div>
+          </div>
+          <p className="t-body-lg mx-auto mt-8 max-w-[56ch]">{t("preis_anker")}</p>
+          <p className="t-small mx-auto mt-4 max-w-[60ch]">{t("preis_enthalten")}</p>
+        </section>
+      </Reveal>
+
+      {/* 6c · Scarcity: ein Büro pro Stadt */}
+      <Reveal>
+        <section className="mx-auto mt-16 max-w-[880px] px-6 lg:mt-20">
+          <div className="rounded-[32px] bg-akzent-wash px-7 py-10 text-center sm:px-12 sm:py-12">
+            <p className="t-label !text-ink-cream/70">{t("knapp_eyebrow")}</p>
+            <h2 className="t-h2 mx-auto mt-4 max-w-[24ch]">{rich(t("knapp_titel"))}</h2>
+            <p className="t-body-lg mx-auto mt-5 max-w-[56ch] !text-ink-cream">{t("knapp_text")}</p>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* 6d · Disqualifier: für wen / nicht für wen */}
       <Reveal>
         <section className="mx-auto mt-24 max-w-[880px] px-6 lg:mt-32">
           <h2 className="t-h2 text-center">{rich(t("wen_titel"))}</h2>
@@ -217,32 +301,34 @@ export default async function VslPage() {
         </section>
       </Reveal>
 
-      {/* 6b · Investition: Preis, drei Raten, Courtage-Anker */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[880px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("preis_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("preis_titel"))}</h2>
-          <div className="mx-auto mt-10 grid max-w-[720px] grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-line-subtle p-7">
-              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_einmal")}</p>
-              <p className="t-small mt-2">{t("preis_einmal_label")}</p>
-            </div>
-            <div className="rounded-[24px] border border-akzent bg-akzent-wash/60 p-7">
-              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_raten")}</p>
-              <p className="t-small mt-2 !text-ink-cream/80">{t("preis_raten_label")}</p>
-            </div>
-          </div>
-          <p className="t-body-lg mx-auto mt-8 max-w-[56ch]">{t("preis_anker")}</p>
-          <p className="t-small mx-auto mt-4 max-w-[60ch]">{t("preis_enthalten")}</p>
-        </section>
-      </Reveal>
-
       {/* 7 · Drei Einwände */}
       <Reveal>
         <section className="mx-auto mt-24 max-w-[720px] px-6 lg:mt-32">
           <h2 className="t-h2 text-center">{rich(t("einwand_titel"))}</h2>
           <div className="mt-8">
             <FaqAccordion items={einwaende} />
+          </div>
+        </section>
+      </Reveal>
+
+      {/* 7b · Lead Magnet: Video-Analyse für alle, die noch nicht so weit sind */}
+      <Reveal>
+        <section className="mx-auto mt-24 max-w-[880px] px-6 lg:mt-32">
+          <div className="flex flex-col items-center gap-6 rounded-[24px] border border-line-subtle p-7 text-center sm:p-9 md:flex-row md:items-center md:justify-between md:text-left">
+            <div className="max-w-[46ch]">
+              <p className="t-label">{t("magnet_eyebrow")}</p>
+              <h2 className="t-h3 mt-3">{rich(t("magnet_titel"))}</h2>
+              <p className="t-body mt-3">{t("magnet_text")}</p>
+            </div>
+            <div className="flex shrink-0 flex-col items-center gap-2">
+              <Link
+                href="/video-analyse"
+                className="inline-flex items-center rounded-full border border-ink-cream px-6 py-3 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-wash"
+              >
+                {t("magnet_cta")}
+              </Link>
+              <p className="t-small">{t("magnet_hinweis")}</p>
+            </div>
           </div>
         </section>
       </Reveal>
@@ -280,7 +366,7 @@ export default async function VslPage() {
         </div>
       </footer>
 
-      <ExitIntent titel={t("exit_titel")} text={t("exit_text")} cta={t("exit_cta")} weiter={t("exit_weiter")} />
+      <ExitIntent href="/video-analyse" titel={t("exit_titel")} text={t("exit_text")} cta={t("exit_cta")} weiter={t("exit_weiter")} />
     </div>
   );
 }

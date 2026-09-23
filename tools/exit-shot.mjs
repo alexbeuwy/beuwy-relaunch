@@ -1,4 +1,4 @@
-/** Exit-Intent-Abnahme auf /vsl: nach 8,5 s Mauszeiger „verlässt" die Seite nach oben. */
+/** Exit-Intent-Abnahme auf /system: nach 8,5 s Mauszeiger „verlässt" die Seite nach oben. */
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -13,7 +13,7 @@ await pg.route("**beuwy-2.b-cdn.net/**", (r) => {
   }
   return r.abort();
 });
-await pg.goto(`${basis}/vsl`, { waitUntil: "networkidle", timeout: 90000 });
+await pg.goto(`${basis}/system`, { waitUntil: "networkidle", timeout: 90000 });
 await pg.waitForTimeout(8600);
 await pg.evaluate(() => document.dispatchEvent(new MouseEvent("mouseout", { clientY: 0, bubbles: true })));
 await pg.waitForTimeout(700);

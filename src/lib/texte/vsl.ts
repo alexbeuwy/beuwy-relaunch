@@ -1,14 +1,17 @@
 /**
- * Studio-Texte: /vsl — die VSL-Landingpage (18.09, „ultimative VSL":
- * clean, reduziert, Sales-Kette). Reihenfolge = Seite:
- * Hero (Hook, Video, Knopf, Vertrauensleiste) → Der eine Grund →
- * Das System (sechs Bausteine) → Beweis (RIEGEL + Logos) →
- * Vorsprung → Für wen / nicht für wen → Einwände → Nächste Schritte →
- * Exit-Intent. Copy-Brief: docs/redesign/COPY-BRIEF.md.
+ * Studio-Texte: /system — die VSL-Landingpage (bis 23.09 unter /vsl; die
+ * Keys heißen weiter mk.vsl.front_*, damit Studio-Overrides bleiben).
+ * Reihenfolge = Seite = VSL-Skript (docs/branding/VSL-SKRIPT.md):
+ * Hook → Pain (Der eine Grund) → Agitate (Kosten) → Dream State →
+ * Mechanism (dreißig Bausteine + Mehrdeal-Frage) → Proof Stack (RIEGEL,
+ * Fälle, Logos) → Authority → Vorsprung → Offer (Investition) →
+ * Scarcity (ein Büro pro Stadt) → Disqualifier (Für wen) → Einwände →
+ * Lead Magnet (Video-Analyse) → Big CTA (Nächste Schritte) → Exit-Intent.
+ * Copy-Brief: docs/redesign/COPY-BRIEF.md.
  *
  * REGEL (Alex, 27.08): Jede nutzerlesbare Textfläche registriert ihre
  * Texte hier — defaults + labels — und liest sie über getContent().
- * Präfix mk.vsl.front_* → Studio-Bereich „Frontseite /vsl". Studio-
+ * Präfix mk.vsl.front_* → Studio-Bereich „Frontseite /system". Studio-
  * Overrides (z. B. Alex' Headline) gewinnen immer über diese Defaults.
  */
 
@@ -17,7 +20,7 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_eyebrow": "Für Makler, die mehr Alleinaufträge wollen. Ohne mehr Werbung.",
   "mk.vsl.front_titel": "Was trennt Sie vom Marktführer Ihrer Stadt? Kein Talent. Sein *System*.",
   "mk.vsl.front_sub":
-    "Eigenes Portal, eigene Rechner, eigenes CRM, Reports und Mailings, die von selbst rausgehen. Bewährt bei dutzenden Maklern, in sechs Wochen an Ihr Büro angepasst. Sie liefern Fotos und zwei Termine.",
+    "Eigenes Portal, eigene Rechner, eigenes CRM, Reports und Mailings, die von selbst rausgehen. Bewährt bei RIEGEL Immobilien, in sechs Wochen an Ihr Büro angepasst. Sie liefern Fotos und zwei Termine.",
   "mk.vsl.front_cta": "Zusammenarbeit anfragen",
   "mk.vsl.front_cta_hinweis": "Antwort in 24 Stunden · vier Fragen, eine Minute",
   "mk.vsl.front_vertrauen":
@@ -30,6 +33,22 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
     "Der Eigentümer vergleicht abends drei Makler am Handy. Drei Websites, drei Exposés, dreimal dasselbe Layout aus derselben Software. Er kann nicht erkennen, wer besser verkauft. Also nimmt er den, der teurer wirkt.",
   "mk.vsl.front_grund_text2":
     "Mehr Anzeigen, mehr gekaufte Kontakte, mehr Nachfassen: Alles davon verstärkt nur, was er dort sieht. Der Unterschied muss vorher da sein.",
+
+  /* Agitate: was es kostet */
+  "mk.vsl.front_kosten_eyebrow": "Rechnen wir das einmal durch",
+  "mk.vsl.front_kosten_titel": "Ein verlorener Auftrag im Quartal kostet Sie über *114.000 €* im Jahr.",
+  "mk.vsl.front_kosten_text":
+    "Ein Objekt für 400.000 € bei 7,14 % Gesamtprovision bringt 28.560 € Courtage. Vier solche Aufträge im Jahr gehen an jemanden, der schlechter verkauft als Sie. Das sind 114.240 €.",
+  "mk.vsl.front_kosten_text2":
+    "Dazu zahlen Sie dem Portal für Kontakte, die Ihr Wettbewerber am selben Tag auch bekommt. Sie bezahlen also dafür, dass er neben Ihnen steht.",
+
+  /* Dream State */
+  "mk.vsl.front_traum_eyebrow": "Sechs Wochen später",
+  "mk.vsl.front_traum_titel": "Montag, 8:10 Uhr. Der Eigentümer ruft *Sie* an.",
+  "mk.vsl.front_traum_text":
+    "Am Wochenende haben Eigentümer auf Ihrer Website ihren Preis berechnet. Jeder hat seinen Report mit Ihrem Logo im Postfach, ohne dass jemand getippt hat. Zwei Käufer haben per Suchauftrag ein Objekt bekommen, bevor es online war.",
+  "mk.vsl.front_traum_text2":
+    "Sie trinken Ihren Kaffee. Das Telefon klingelt: „Ich habe Ihren Report gelesen. Wann können Sie vorbeikommen?“ Die anderen Makler googelt er nicht mehr.",
 
   /* Das System — alle Bausteine aus dem RIEGEL-Projekt */
   "mk.vsl.front_system_eyebrow": "Alles, was bei RIEGEL Immobilien läuft",
@@ -93,15 +112,32 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_beleg":
     "9~Abschlüsse in sechs Wochen|342.000 €~Abschlussvolumen in sechs Wochen|Platz 21~von über 25.000 Maklern, ImmoScout24-Award",
   "mk.vsl.front_beweis_text": "Ein Büro, ein Relaunch, sechs Wochen.",
+  "mk.vsl.front_faelle_label": "Das System dahinter ist älter als dieses Projekt",
+  "mk.vsl.front_faelle":
+    "Vision Group~Von 3 auf 70 Mitarbeitende, bis zum Joint Venture über 160 Mio. € mit KKR.|Königswege~Von 60 Personen unter die zehn größten Strukturvertriebe Deutschlands. Immobilien wurden der wichtigste Zweig.|hzo immobilien~Kapitalanlagevertrieb, Marke und Vertrieb aus einem System.",
   "mk.vsl.front_logos_label": "Marken, die beuwy vertrauen",
   "mk.vsl.front_logos":
     "Vision Group|Königswege|RIEGEL Immobilien|hzo immobilien|invyse|getsafe|PURELEI|Netlution|Instaffo|PreFin|accredia|Finsolute|ImmoAbschreibung|innovakonzept|Rosental|Kopp Consulting|JPF Ingenieurbüro|TREC Careers|BeautyFarm|Snow Aligner|Gooodkid Records|Infocient",
+
+  /* Authority */
+  "mk.vsl.front_autor_eyebrow": "Wer das baut",
+  "mk.vsl.front_autor_titel": "Ich habe so ein System schon mit meinem *eigenen* Geld gebaut.",
+  "mk.vsl.front_autor_text":
+    "Ich bin Alexander Pütter und mache seit siebzehn Jahren Markenarbeit, unter anderem für Bosch, Continental und Michelin. Mit zwei Partnern habe ich acta gegründet. Wir haben über 380 Wohnungen als Kapitalanlage entwickelt und verkauft, fast alles über Instagram. Das System dahinter habe ich selbst entworfen.",
+  "mk.vsl.front_autor_text2":
+    "Schlauer als andere war ich dabei nicht. Ich musste verkaufen, und so ist das System entstanden. Genau das baue ich heute für Makler.",
 
   /* Vorsprung */
   "mk.vsl.front_vorsprung_eyebrow": "Nicht schlauer. Nur früher dran.",
   "mk.vsl.front_vorsprung_titel": "Während Ihre Wettbewerber noch KI lernen, verkauft Ihr System *schon*.",
   "mk.vsl.front_vorsprung_text":
-    "Sie müssen nichts ausprobieren und nichts erfinden. Sie übernehmen, was bei dutzenden Maklern schon läuft, und wir passen es an Ihr Büro an. Anpassen dauert Wochen. Erfinden dauert Jahre.",
+    "Sie müssen nichts ausprobieren und nichts erfinden. Sie übernehmen, was bei RIEGEL schon läuft, und wir passen es an Ihr Büro an. Anpassen dauert Wochen. Erfinden dauert Jahre.",
+
+  /* Scarcity: Gebietsschutz */
+  "mk.vsl.front_knapp_eyebrow": "Ein Büro pro Stadt",
+  "mk.vsl.front_knapp_titel": "In Ihrer Stadt baue ich das System nur *einmal*.",
+  "mk.vsl.front_knapp_text":
+    "Es soll Sie zum sichtbarsten Makler vor Ort machen. Mit zwei Büros in derselben Stadt würde ich gegen mich selbst arbeiten. Wer zuerst startet, hat die Stadt. Ob Ihre noch frei ist, erfahren Sie im ersten Gespräch.",
 
   /* Für wen */
   "mk.vsl.front_wen_titel": "Für wen das gebaut ist. Und für wen *nicht*.",
@@ -137,6 +173,14 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_einwand_3_antwort":
     "Ja. Website, Rechner, Portal und Funnel docken an Ihre Software an. Ihre Objekte laufen live, ohne doppelte Pflege.",
 
+  /* Lead Magnet */
+  "mk.vsl.front_magnet_eyebrow": "Noch nicht so weit?",
+  "mk.vsl.front_magnet_titel": "Wie sieht Ihre Website für einen Eigentümer aus? Ich zeige es Ihnen im *Video*.",
+  "mk.vsl.front_magnet_text":
+    "Sie tragen Ihre Domain ein, ich nehme mir Ihre Website persönlich vor. Im Video sehen Sie, was ein Eigentümer dort heute sieht, wo Anfragen verloren gehen und was das System bei Ihnen ändern würde.",
+  "mk.vsl.front_magnet_cta": "Video-Analyse anfordern",
+  "mk.vsl.front_magnet_hinweis": "Persönlich aufgenommen · Antwort in 24 Stunden",
+
   /* Nächste Schritte */
   "mk.vsl.front_schritte_titel": "So geht es *weiter*.",
   "mk.vsl.front_schritte_1": "Anfrage~Vier Fragen, eine Minute.",
@@ -144,9 +188,9 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.front_schritte_3": "Start~Kickoff in der Woche darauf, live in sechs Wochen.",
 
   /* Exit-Intent */
-  "mk.vsl.front_exit_titel": "Bevor Sie gehen: Wie viele Alleinaufträge hat Ihre Website dieses Jahr gekostet?",
-  "mk.vsl.front_exit_text": "Vier Fragen, eine Minute. Danach wissen Sie, ob ein System für Ihr Büro Sinn ergibt.",
-  "mk.vsl.front_exit_cta": "Kurzcheck starten",
+  "mk.vsl.front_exit_titel": "Bevor Sie gehen: Wie sieht Ihre Website für einen Eigentümer aus?",
+  "mk.vsl.front_exit_text": "Ich nehme mir Ihre Website persönlich vor und schicke Ihnen ein Video. Antwort in 24 Stunden.",
+  "mk.vsl.front_exit_cta": "Video-Analyse anfordern",
   "mk.vsl.front_exit_weiter": "Weiterlesen",
 
   /* Rahmen + SEO */
@@ -158,7 +202,7 @@ export const VSL_FRONT_DEFAULTS: Record<string, string> = {
   "mk.vsl.platzhalter": "5 Minuten — folgt in Kürze",
 };
 
-const L = "Frontseite /vsl · ";
+const L = "Frontseite /system · ";
 export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_eyebrow": `${L}Zeile über der Headline`,
   "mk.vsl.front_titel": `${L}Headline (ein *Wort* = Highlighter)`,
@@ -170,6 +214,14 @@ export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_grund_titel": `${L}Der eine Grund · Titel`,
   "mk.vsl.front_grund_text": `${L}Der eine Grund · Absatz 1`,
   "mk.vsl.front_grund_text2": `${L}Der eine Grund · Absatz 2`,
+  "mk.vsl.front_kosten_eyebrow": `${L}Kosten (Agitate) · Eyebrow`,
+  "mk.vsl.front_kosten_titel": `${L}Kosten (Agitate) · Titel`,
+  "mk.vsl.front_kosten_text": `${L}Kosten (Agitate) · Absatz 1 (Courtage-Rechnung)`,
+  "mk.vsl.front_kosten_text2": `${L}Kosten (Agitate) · Absatz 2`,
+  "mk.vsl.front_traum_eyebrow": `${L}Traumzustand · Eyebrow`,
+  "mk.vsl.front_traum_titel": `${L}Traumzustand · Titel`,
+  "mk.vsl.front_traum_text": `${L}Traumzustand · Absatz 1`,
+  "mk.vsl.front_traum_text2": `${L}Traumzustand · Absatz 2`,
   "mk.vsl.front_system_eyebrow": `${L}Das System · Eyebrow`,
   "mk.vsl.front_system_titel": `${L}Das System · Titel`,
   "mk.vsl.front_system_sub": `${L}Das System · Einleitung`,
@@ -223,11 +275,20 @@ export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_beweis_titel": `${L}Beweis · Titel`,
   "mk.vsl.front_beleg": `${L}Beweis · Zahl~Text, mit | getrennt (nur belegte Case-Zahlen!)`,
   "mk.vsl.front_beweis_text": `${L}Beweis · Satz unter den Zahlen`,
+  "mk.vsl.front_faelle_label": `${L}Beweis · Zeile über den weiteren Fällen`,
+  "mk.vsl.front_faelle": `${L}Beweis · weitere Fälle: Name~Ergebnis, mit | getrennt (Freigaben!)`,
   "mk.vsl.front_logos_label": `${L}Zeile über den Kundenlogos`,
   "mk.vsl.front_logos": `${L}Kundenlogos, mit | getrennt (Freigaben!)`,
+  "mk.vsl.front_autor_eyebrow": `${L}Wer das baut (Authority) · Eyebrow`,
+  "mk.vsl.front_autor_titel": `${L}Wer das baut (Authority) · Titel`,
+  "mk.vsl.front_autor_text": `${L}Wer das baut (Authority) · Absatz 1`,
+  "mk.vsl.front_autor_text2": `${L}Wer das baut (Authority) · Absatz 2`,
   "mk.vsl.front_vorsprung_eyebrow": `${L}Vorsprung · Eyebrow`,
   "mk.vsl.front_vorsprung_titel": `${L}Vorsprung · Titel`,
   "mk.vsl.front_vorsprung_text": `${L}Vorsprung · Text`,
+  "mk.vsl.front_knapp_eyebrow": `${L}Ein Büro pro Stadt (Scarcity) · Eyebrow`,
+  "mk.vsl.front_knapp_titel": `${L}Ein Büro pro Stadt (Scarcity) · Titel`,
+  "mk.vsl.front_knapp_text": `${L}Ein Büro pro Stadt (Scarcity) · Text`,
   "mk.vsl.front_wen_titel": `${L}Für wen · Titel`,
   "mk.vsl.front_wen_ja_label": `${L}Für wen · Spalte Ja · Überschrift`,
   "mk.vsl.front_wen_ja_1": `${L}Für wen · Ja 1`,
@@ -252,13 +313,18 @@ export const VSL_FRONT_LABELS: Record<string, string> = {
   "mk.vsl.front_einwand_2_antwort": `${L}Einwand 2 · Antwort`,
   "mk.vsl.front_einwand_3_frage": `${L}Einwand 3 · Frage`,
   "mk.vsl.front_einwand_3_antwort": `${L}Einwand 3 · Antwort`,
+  "mk.vsl.front_magnet_eyebrow": `${L}Video-Analyse (Lead Magnet) · Eyebrow`,
+  "mk.vsl.front_magnet_titel": `${L}Video-Analyse (Lead Magnet) · Titel`,
+  "mk.vsl.front_magnet_text": `${L}Video-Analyse (Lead Magnet) · Text`,
+  "mk.vsl.front_magnet_cta": `${L}Video-Analyse (Lead Magnet) · Knopf (führt zu /video-analyse)`,
+  "mk.vsl.front_magnet_hinweis": `${L}Video-Analyse (Lead Magnet) · Hinweis unter dem Knopf`,
   "mk.vsl.front_schritte_titel": `${L}Nächste Schritte · Titel`,
   "mk.vsl.front_schritte_1": `${L}Schritt 1: Titel~Text`,
   "mk.vsl.front_schritte_2": `${L}Schritt 2: Titel~Text`,
   "mk.vsl.front_schritte_3": `${L}Schritt 3: Titel~Text`,
   "mk.vsl.front_exit_titel": `${L}Exit-Intent · Überschrift (erscheint beim Verlassen, nur Desktop)`,
   "mk.vsl.front_exit_text": `${L}Exit-Intent · Text`,
-  "mk.vsl.front_exit_cta": `${L}Exit-Intent · Knopf`,
+  "mk.vsl.front_exit_cta": `${L}Exit-Intent · Knopf (führt zu /video-analyse)`,
   "mk.vsl.front_exit_weiter": `${L}Exit-Intent · Schließen-Link`,
   "mk.vsl.front_fuss": `${L}Fußzeile neben dem Logo`,
   "mk.vsl.front_mehr": `${L}Link zur Startseite (Fußzeile)`,

@@ -15,7 +15,7 @@ import { VSL_FRONT_DEFAULTS } from "@/lib/texte/vsl";
  *
  * Studio-Key: `vsl.url` (leer = Platzhalter). Formate: mp4/webm-URL.
  *
- * `format="breit"` (Frontseite /vsl): 16:9-Bühne statt Hochkant, mit
+ * `format="breit"` (Frontseite /system): 16:9-Bühne statt Hochkant, mit
  * dem Landscape-Hero-Poster und dem Hero-Loop als Platzhalter — gleiche
  * Logik, gleiche Studio-URL, nur der Rahmen ist ein anderer.
  */

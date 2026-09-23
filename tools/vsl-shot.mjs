@@ -1,4 +1,4 @@
-/** /vsl-Abnahme: Frontseite Desktop (oben + Logos) und mobil, Full-Page. */
+/** /system-Abnahme: Frontseite Desktop (oben + Logos) und mobil, Full-Page. */
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -23,7 +23,7 @@ async function route(pg) {
 for (const [breite, hoehe, name] of [[1440, 900, "desktop"], [390, 844, "mobil"]]) {
   const pg = await (await browser.newContext({ viewport: { width: breite, height: hoehe }, deviceScaleFactor: 1 })).newPage();
   await route(pg);
-  await pg.goto(`${basis}/vsl`, { waitUntil: "networkidle", timeout: 90000 });
+  await pg.goto(`${basis}/system`, { waitUntil: "networkidle", timeout: 90000 });
   await pg.waitForTimeout(1500);
   // Reveal-Sektionen aufwecken: einmal durchscrollen, dann zurück nach oben
   await pg.evaluate(async () => {

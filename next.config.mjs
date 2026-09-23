@@ -33,10 +33,14 @@ const nextConfig = {
     // Eintrag. permanent:true = 308 fuer alle echten SEO-Umzuege.
     return [
       { source: "/method", destination: "/immobilienmarketing", permanent: false },
-      { source: "/system", destination: "/website-fuer-immobilienmakler", permanent: false },
+      // /system ist seit 23.09 die Hauptseite (vorher /vsl) — der alte
+      // Theme-Demo-Redirect auf /website-fuer-immobilienmakler entfaellt.
       { source: "/manifesto", destination: "/", permanent: false },
       { source: "/work", destination: "/cases", permanent: false },
       { source: "/audit", destination: "/anfrage", permanent: false },
+
+      // VSL-Umbenennung (23.09): /vsl heisst jetzt /system.
+      { source: "/vsl", destination: "/system", permanent: true },
 
       // Leadgen-Landingpage umbenannt
       { source: "/leads", destination: "/leadgenerierung-immobilienmakler", permanent: true },

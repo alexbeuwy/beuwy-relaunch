@@ -5,7 +5,7 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
 for (const [w, name] of [[1440, "desktop"], [390, "mobil"]]) {
   const pg = await (await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 2 })).newPage();
   await pg.route("**beuwy-2.b-cdn.net/**", (r) => r.abort());
-  await pg.goto(`${basis}/vsl`, { waitUntil: "networkidle", timeout: 90000 });
+  await pg.goto(`${basis}/system`, { waitUntil: "networkidle", timeout: 90000 });
   await pg.evaluate(() => document.querySelectorAll("[data-reveal]").forEach((e) => e.setAttribute("data-state", "shown")));
   await pg.waitForTimeout(800);
   const start = pg.locator("#bausteine");

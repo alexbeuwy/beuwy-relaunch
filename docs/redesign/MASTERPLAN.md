@@ -187,3 +187,9 @@ Sichtbarkeit (Google + KI-Antworten) · Tool-Leads · Funnel-Abschlussquote.
 - 18.09 · R13: /vsl als ultimative VSL-Landingpage (Sales-Kette in acht
   Blöcken, sechs System-Bausteine, RIEGEL-Beweis, Für-wen, Einwände,
   Nächste Schritte, Exit-Intent) + VSL-Skript (docs/branding/VSL-SKRIPT.md).
+- 23.09 · R16: /vsl heißt jetzt /system (308 von /vsl, alter
+  Theme-Demo-Redirect /system entfernt). VSL-Skript neu in zwölf Teilen
+  (Hook bis Big CTA, ca. 7 Minuten); die Seite folgt derselben Kette mit
+  neuen Blöcken Kosten, Traumzustand, weitere Fälle, Wer das baut, Ein
+  Büro pro Stadt, Video-Analyse als Lead Magnet und drei Knöpfen.
+  Studio-Keys bleiben mk.vsl.front_*.
