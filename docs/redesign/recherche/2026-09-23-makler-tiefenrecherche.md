@@ -721,3 +721,187 @@ Abwehr aus). Mit dem Schmerz in Maklerworten öffnen, Technik erst im Beweisteil
 
 **Hilfsdateien:** Zillow-Report `scratchpad/zillow.pdf`, Text `scratchpad/zillow.txt`
 (Session-Scratchpad `/tmp/claude-0/-home-user-beuwy-relaunch/1bdc0956-df5e-5ed5-b04e-ad607ee60a6e/scratchpad/`).
+
+---
+
+## 9. Hooks: Jury und Top 5
+
+Stand 23.09.2026. Geprüft wurden 24 Hook-Kandidaten aus drei Winkeln: Traumzustand (T1–T8), Verlust (V1–V8) und Kontra (K1–K8). Die Wortlaute stehen in den Winkel-Dateien des Workflows, die Kennungen G, Ge, R und Z beziehen sich auf die Abschnitte 4 und 6.
+
+**Die Jury:**
+- **(a) Makler:** Inhaber, 52, Büro mit vier Leuten, sieht täglich Agenturwerbung.
+- **(b) Texter:** Direct-Response-Texter.
+- **(c) Recht:** Wettbewerbsrechtler mit Blick auf § 5 UWG (Irreführung) und § 6 UWG (vergleichende Werbung).
+
+Skala 1–10. Die Urteile sind eine Einschätzung der Jury und keine Messung. Vor dem Dreh wird im A/B-Test gemessen, nicht nach Bauchgefühl.
+
+### 9.1 Jury-Ergebnis
+
+| Hook | (a) Makler | (b) Texter | (c) Recht | Σ | Status |
+|---|---|---|---|---|---|
+| T1 Montag, acht Uhr | 5: Zwei Bewertungen am Wochenende klingen nach jeder Agentur, die volle Postfächer malt. | 6: Sauberes Traumbild, das auflöst, bevor es eine Frage öffnet. | 6: Die Szene legt ein typisches Ergebnis nahe, haltbar nur mit Pill „Szene“ und ohne Zahl im Sprechertext. | 17 | Reserve |
+| T2 Die Nacht | 7: Die Uhrzeit kenne ich, das Postfach in CC ist konkret und nachprüfbar. | 8: Starkes Bild, die Pointe liegt beim Besitz, trägt eine Buchstütze. | 8: Mechanik belegt (G1, G4), „eine Minute später“ vor dem Dreh messen. | 23 | geht in Top 1 ein |
+| T3 Der Anruf | 4: Ein erfundener Eigentümer, der mich anruft, ist genau die Werbung, die ich wegklicke. | 5: Eine fiktive Kundenstimme wirkt gestellt. | 4: Ein erfundenes Eigentümer-Zitat wird trotz Pill leicht als echte Kundenstimme verstanden. | 13 | **gestrichen (Recht)** |
+| T4 Er kennt Sie schon | 6: Dass mich jemand googelt und auf meiner Seite landet, setzt Sichtbarkeit voraus, die ich heute nicht habe. | 7: Guter Perspektivwechsel, „Das Erstgespräch hat gestern Abend angefangen“ ist eine starke Zeile. | 5: Legt ein Google-Ranking nahe, G11 erlaubt nur das Bauziel. | 18 | Reserve (Zeile für den Problem-Block) |
+| T5 Der Küchentisch | 6: Den Report auf dem Tisch mag ich, „Wann fangen wir an?“ ist Wunschdenken. | 6: Schöne Szene, aber das Ergebnis im Hook nimmt die Spannung. | 5: Legt den Alleinauftrag als Wirkung nahe, ein Ergebnisversprechen durch die Hintertür (Nähe zu R5). | 17 | Reserve (Bild für die Auflösung von Top 3) |
+| T6 Eine Nummer, ein Makler | 7: „Kein Kollege hat dafür bezahlt“ trifft meinen Ärger über geteilte Anfragen. | 6: Richtiger Schmerz, aber die Lösung kommt vor dem Problem. | 7: Stimmt für den eigenen Rechner, Portal nicht nennen. | 20 | geht in Top 2 ein (Lösungsbild) |
+| T7 Freitag, kurz vor sechs | 5: Feierabend um sechs ist nett, bringt mir aber keinen Auftrag. | 5: „Ihr Portal“ kollidiert mit dem Wort, das der Makler für ImmoScout benutzt. | 7: G6 ist belegt, keine Matching-Mails als laufend zeigen. | 17 | Reserve |
+| T8 Gehört Ihnen | 6: Der Besitzgedanke gefällt mir, aber ich frage sofort, was nach der Kündigung passiert. | 6: Gute Schlusszeile, der Mittelteil ist zu abstrakt. | 3: „Auch nach Vertragsende“ ist unbelegt (VERMUTUNG), „keiner kann sie weitergeben“ zielt herabsetzend auf die Portale. | 15 | **gestrichen (Recht)** |
+| V1 Die geteilte Anfrage | 8: Genau das erlebe ich, und dass es auf der Portalseite steht, macht es unangreifbar. | 7: Stark, aber rein negativ und ohne Gegenbild. | 8: Belegt durch Z1–Z3, „bis zu“ und „vielleicht“ tragen. | 23 | geht in Top 2 ein |
+| V2 Die Bewertung passiert woanders | 6: Eine ImmoScout-Studie von 2019, ausgerechnet. | 6: Zahl plus rhetorische Frage, etwas papieren. | 6: Das Jahr muss gesprochen werden, „hinterlässt seine Nummer“ ist VERMUTUNG. | 18 | Reserve (Problem-Block) |
+| V3 Der Erste führt das Gespräch | 4: „In den USA“, da schalte ich ab. | 5: Öffnet mit einer Einschränkung und verschenkt die ersten drei Sekunden. | 8: Ehrlich gekennzeichnet. | 17 | Reserve (Ersatz für R17 im Problem-Block) |
+| V4 Der verlorene Arbeitstag | 9: Das ist mein Dienstag, und die 40.000 habe ich selbst erlebt. | 8: Konkrete Zahl, konkrete Kränkung, drei Schläge. | 7: Einzelstimmen, als solche markiert. | 24 | geht in Top 3 ein |
+| V5 Jede zweite E-Mail bleibt liegen | 6: Bei den Großen ja, bei mir nicht, denke ich zuerst. | 7: Gute Zahl, die Schlussfrage wird persönlich. | 8: Korrekt auf große Maklerhäuser eingegrenzt. | 21 | geht in Top 4 ein |
+| V6 Gemietet, nicht besessen | 7: Die Portalrechnung ärgert mich jedes Jahr. | 6: Umsatzzahl eines Konzerns ist im Hook zu weit weg. | 2: Nennt Scout24 beim Namen (§ 6 UWG), „bleiben sie dort“ ist eine ungeprüfte Vermutung zu den AGB. | 15 | **gestrichen (Recht)** |
+| V7 Funkstille nach dem Termin | 8: Tut weh, weil es stimmt. | 7: Die Stille funktioniert, das Schluss-„Sie?“ klingt nach Vorwurf. | 6: Weckt die Erwartung an eine Nachfass-Automatik, die bei RIEGEL noch nicht läuft (Ge12). | 21 | geht in Top 5 ein |
+| V8 Sonntagabend, Ihre Straße | 8: Das ist der Moment, den ich nie zu sehen bekomme, und die Logofrage trifft. | 9: Szene, Frage, Besitz: eine offene Schleife in 30 Wörtern. | 8: Reine Szene, Mechanik belegt (G1, G4). | 25 | geht in Top 1 ein |
+| K1 „Keine einzige Anfrage“ | 7: Endlich einer, der mir keine Anfragen verspricht, da höre ich zu. | 8: Echter Pattern-Interrupt nach dem Avis-Muster. | 6: 47 % sind „fast jede zweite“, außerdem widerspricht der Satz der live stehenden Zeile R2 („3× mehr Anfragen“). | 21 | geht in Top 4 ein |
+| K2 „Einer, nicht drei“ | 5: „Sie denken“ unterstellt mir etwas, und dann kommen die USA. | 6: Der Zahlensturz 3 → 1 ist stark, aber die Zahl ist fremd. | 7: US-Kennzeichnung Pflicht. | 18 | Reserve (Ersatz für R17 im Problem-Block) |
+| K3 „Steht beim Portal selbst“ | 8: Das lese ich nach, und es stimmt. | 7: Glaubwürdig durch die fremde Quelle. | 5: Das wörtliche Zitat macht ImmoScout24 erkennbar (§ 6 UWG), „die Sie heute bezahlt haben“ passt nicht zu jedem Portalmodell. | 20 | geht in Top 2 ein, ohne Wortzitat |
+| K4 „Die kostenlose Wertermittlung“ | 9: Der Satz „kostet Sie einen Arbeitstag“ hätte von mir sein können. | 8: Paradox im ersten Satz, danach Beleg und Kränkung. | 7: Einzelstimme, „rechnet ein Makler vor“ grenzt sauber ein. | 24 | geht in Top 3 ein |
+| K5 „Der IVD hat recht“ | 6: Der IVD in einer Agenturwerbung macht mich misstrauisch. | 7: Den Einwand aufzugreifen ist klug. | 3: Inszeniert Verband und Präsidenten ohne Einwilligung als Zustimmende, das Zitat stammt von Wohltorf und nicht „vom IVD“. | 16 | **gestrichen (Recht)** |
+| K6 „Behalten Sie Ihr Portal“ | 8: Keiner sagt mir, ich soll kündigen, das entspannt. | 8: Stärkster Kontra-Einstieg, die Pointe heißt „Bei Ihnen“. | 7: Technische Aussage, kein Auftragsversprechen. | 23 | geht in Top 2 ein |
+| K7 „Wir bauen Websites. Trotzdem.“ | 6: Ehrlich, aber eine Website habe ich schon. | 6: Zwei Ideen in einem Hook. | 8: Meinung, klar als solche erkennbar. | 20 | Reserve |
+| K8 „Ich bin kein Makler“ | 6: Neubau über Instagram ist nicht mein Bestandsgeschäft, aber die andere Tischseite interessiert mich. | 7: Einziger Absender-Hook ohne Doppelgänger im Markt (Lücke 3). | 4: Ge2 ist unbestätigt, ohne schriftliche Bestätigung droht Irreführung über die Qualifikation. | 17 | **gesperrt bis Ge2**, danach Absender-Satz direkt nach dem Hook |
+
+**Gestrichen wegen Rechtsrisiko:** T3, T8, V6, K5. K8 ist zurückgestellt, bis Alex Ge2 schriftlich bestätigt.
+
+**Befund der Jury:**
+- Der Makler reagiert am stärksten auf eigene Kränkungen: die Wertermittlung, die geteilte Anfrage, die Funkstille.
+- Schwach wirken Traumbilder und Zahlen aus den USA. Beim Traumzustand lautet der Reflex „Das sagt jede Agentur“.
+- Deshalb öffnen alle fünf Endfassungen mit Verlust oder Kontra. Der Traumzustand (T2, T6) kommt als Umschlag ab 0:12.
+
+### 9.2 Top 5 (Endfassungen)
+
+Für alle fünf gilt:
+- Sprechertext höchstens 30 Wörter, ruhig und trocken, Sie-Form.
+- Kein „Lead“, kein Einstieg mit „KI“, kein „exklusiv“, kein „Nicht X. Sondern Y.“, keine Gedankenstriche, keine Superlative.
+- Uhrzeiten sind Kulisse (R15, Ge20). Jede nachgestellte oder KI-Einstellung trägt die Pill „AI Visual“ oder „Szene“, Demo-Daten tragen „Beispieldaten“.
+- Einblendtexte kommen als Studio-Keys in `src/lib/texte/vsl.ts`.
+
+#### Rang 1: „Sonntagabend, 23:48“ (aus V8 + T2)
+
+> Sonntagabend, 23:48. Ein Eigentümer aus Ihrer Straße bewertet sein Haus online. Eine Minute später hat er den Report. Welches Logo steht darauf? Und wer hat morgen früh seine Nummer?
+
+*29 Wörter, gesprochen etwa 13 s.*
+
+- **Einblendung:** „23:48“, dann „Wessen Logo?“. Bei 0:12 füllt sich das Logofeld mit dem Maklerlogo, darunter „Ihres.“ (Umschlag in die Lösung).
+- **Bild:**
+  1. Dunkles Wohnzimmer, das einzige Licht kommt vom Laptop, kein Gesicht (AI Visual).
+  2. Harter Schnitt auf Weiß. Im echten Rechner wird eine Adresse getippt (Beispieldaten).
+  3. „23:49“ rollt ein, das Report-PDF fächert auf, das Logofeld ist leer und gelb umrandet.
+  4. Weckerdisplay „Mo 07:30“.
+- **Beleg:**
+  - Rechner live (G1): https://riegel-immobilien.de/rechner
+  - Report mit Logo, automatisch an Eigentümer und Makler (G4), Luftbild (G5, Esri/Maxar klein angeben).
+  - Online bewerten ist der häufigste Weg: Z6 (ImmoScout24/Innofact 2019), https://www.immobilienscout24.de/unternehmen/news-medien/news/default-title/der-immobilienmakler-ist-fuer-die-mehrheit-der-eigentuemer-trotz-bestellerprinzip-oder-split-regelung-unverzichtbar/ (gehört in den Problem-Block, nicht in den Hook).
+- **Warum Rang 1:**
+  - Höchste Jury-Summe (V8: 25).
+  - Zeigt den Moment, den der Makler nie sieht (Lücke 2, Blick des Eigentümers), und behauptet dabei nichts, was nicht im Bild prüfbar ist.
+  - Die offene Frage „Wessen Logo?“ führt direkt ins Produkt.
+  - Rechtlich die sauberste Fassung.
+- **Offene Frage an Alex:**
+  - Kommt der Report tatsächlich binnen einer Minute an? Bitte einmal live messen, sonst „Minuten später“.
+  - Darf der beuwy-Film die RIEGEL-Oberfläche mit RIEGEL-Logo zeigen, oder bauen wir ein neutrales Demo-Logo?
+
+#### Rang 2: „Behalten Sie Ihr Portal“ (aus K6 + V1 + K3, Lösungsbild aus T6)
+
+> Behalten Sie Ihr Portal. Wirklich. Sucht ein Eigentümer dort einen Makler, kann seine Anfrage an bis zu drei Büros gehen. Wer auf Ihrer Seite rechnet, landet bei einem. Bei Ihnen.
+
+*30 Wörter.*
+
+- **Einblendung:**
+  - „Eine Anfrage. Bis zu drei Büros.“
+  - Dann: „Ihr Rechner. Ihre Anfrage.“
+  - Fußzeile: „Laut Anbieterangaben großer Portale, Stand 09/2026“.
+- **Bild:** Split in einem einzigen Frame. Links verzweigt sich ein Punkt in drei Linien zu drei Bürosymbolen, zwei davon verblassen grau. Rechts führt eine gelbe Linie vom Rechner ins Cockpit, dort steht der Maklername groß (G10, Beispieldaten). Kein Portal-Logo, kein Portalname im Bild.
+- **Beleg:**
+  - ImmoScout24 „an maximal 3 Makler:innen“: https://www.immobilienscout24.de/anbieten/gewerbliche-anbieter/inserieren/weitere-produkte/maklersuchmaschine.html
+  - immowelt „bis zu 3 Makler pro PLZ-Gebiet“: https://www.immowelt.de/immobilienprofis/leads
+  - Aroundhome „maximal zwei Mitbewerbende“: https://www.aroundhome.de/partner-werden/immobilienverkauf/
+  - Makler-Stimme „rannten wir zum Telefon“ [W]: https://neue.immo/leads-kaufen/
+  - Die vollständigen Quellen stehen als Fußnote auf /system und nicht im Film (§ 6 UWG).
+- **Warum Rang 2:**
+  - Trifft Schmerz Rang 1 mit dem härtesten Beleg, den der Makler selbst beim Anbieter nachlesen kann.
+  - Der Einstieg widerspricht dem erwarteten Agenturrat „kündigen Sie“, die Pointe liefert den Besitz (E7) ohne Abwertung der Portale.
+  - Stärkster Kandidat für Persona 2 und für den A/B-Test gegen Rang 1.
+- **Offene Frage an Alex:** Steht im Vertrag, dass Anfragen aus dem Rechner nur beim Makler landen, dass beuwy sie nicht weiterverwertet und dass sie nach Vertragsende beim Makler bleiben? Ohne diese Klausel ist „landet bei einem“ nur technisch gedeckt, der Besitzgedanke dahinter nicht.
+
+#### Rang 3: „Die kostenlose Wertermittlung“ (aus K4 + V4, Auflösung mit Bild aus T5)
+
+> Ihre kostenlose Wertermittlung kostet Sie einen Arbeitstag. Sechs bis acht Stunden, rechnet ein Makler vor. Dann verspricht ein Kollege 40.000 Euro mehr. Danach: Funkstille.
+
+*24 Wörter.*
+
+- **Einblendung:** „kostenlos“ groß, das „los“ wird gelb markiert und fällt weg. Dann „6 bis 8 Stunden.“ und am Ende „Funkstille.“
+- **Bild:**
+  1. Kalender-Tagesansicht, ein gelber Block „Wertermittlung“ wächst von 9 bis 17 Uhr.
+  2. Bei „40.000 Euro mehr“ fällt eine einzige Zahl ins Bild (Szene).
+  3. Leerer Chatverlauf mit „Gelesen“.
+  4. Umschlag ab 0:12: Der Report liegt schon auf dem Küchentisch, bevor der Makler klingelt (T5, AI Visual), ohne „Wann fangen wir an?“.
+- **Beleg:**
+  - Sechs bis acht Stunden [W], Marcus Prause: https://www.immoprause.de/alltag-als-makler
+  - „Der Wettbewerber hat einfach 40.000 EUR mehr versprochen.“ und „Funkstille!“ [W]: https://www.immobilien-profi.de/40-000-eur-zu-viel-versprochen-und-dann-funkstille/
+  - Beides sind Einzelstimmen, keine Branchenzahlen. Vor dem Dreh am Original gegenlesen.
+- **Warum Rang 3:**
+  - Höchste Makler-Wertung (9): Der erste Satz ist ein Paradox in der Sprache des Maklers.
+  - Trifft Persona 1 (Kernzielgruppe) emotional am tiefsten.
+  - Mit 24 Wörtern der kürzeste Kandidat, also Raum für Pausen.
+  - Ein Platz hinter Rang 2, weil der Beleg eine Einzelstimme ist.
+- **Offene Frage an Alex:**
+  - Gibt es von RIEGEL eine eigene Zahl, wie lange eine Wertermittlung dauert, vorher und seit es den Report gibt? Dann ersetzt sie die Fremdstimme und wird zum stärksten Beweis im Film.
+  - Soll Prause als Quelle namentlich genannt werden, oder nur in der Fußnote auf /system?
+
+#### Rang 4: „Ich verspreche keine“ (aus K1 + V5)
+
+> Man hat Ihnen oft mehr Anfragen versprochen. Ich verspreche keine. Im Test für ntv blieb fast jede zweite E-Mail an große Maklerhäuser unbeantwortet. Das Problem beginnt nach der Anfrage.
+
+*29 Wörter.*
+
+- **Einblendung:**
+  - „Mehr Anfragen.“, von einem gelben Highlighter durchgestrichen.
+  - Dann „47 % unbeantwortet.“
+  - Quellzeile: „DISQ-Test für ntv, 2024, 10 bundesweite Maklerunternehmen“.
+- **Bild:** Weißer Grund, „Mehr Anfragen.“ in Helvena sehr groß. Nach dem Strich folgt ein Schnitt auf einen echten Posteingang (Beispieldaten), dessen Zähler „ungelesen“ hochläuft. Die Kamera zoomt auf eine einzige ungeöffnete Mail.
+- **Beleg:**
+  - DISQ/ntv 2024 (Z4, G20), 47 % der E-Mail-Anfragen unbeantwortet: https://disq.de/2024/20240221-immobilienmakler.html
+  - Ergänzend DISQ 2026: https://disq.de/2026/20260224-immobilienmakler.html
+- **Warum Rang 4:**
+  - Der stärkste Pattern-Interrupt im Feld, weil Makler abgestumpft sind gegen „mehr Anfragen“ (5.2).
+  - Besetzt die größte Marktlücke „was nach der Anfrage passiert“ (E8).
+  - Nur Rang 4, weil sich der kleine Makler von „große Maklerhäuser“ distanzieren kann und weil der Hook heute der eigenen Website widerspricht.
+- **Offene Frage an Alex:**
+  - Wird R2 („3× mehr Anfragen“, live in `src/lib/content.ts:242-243`) vor dem Launch entfernt? Sonst entlarvt der erste Klick den Hook.
+  - Spricht Alex das „Ich“ selbst vor der Kamera?
+
+#### Rang 5: „Funkstille“ (aus V7)
+
+> Der Bewertungstermin lief gut. Seitdem kein Rückruf, keine Antwort auf Ihre Mail. Der Eigentümer denkt in dieser Zeit weiter nach. Nur: mit wessen Unterlagen auf dem Tisch?
+
+*27 Wörter.*
+
+- **Einblendung:** „Funkstille.“
+- **Bild:**
+  1. Mailverlauf in echter UI, letzte Nachricht vom Makler „Vielen Dank für den Termin“.
+  2. Die Datumszeile zählt Montag, Dienstag, Mittwoch hoch, ohne neue Nachricht.
+  3. Am Ende blinkt nur der gelbe Cursor im leeren Antwortfeld.
+- **Beleg:**
+  - „Kein Rückruf. Keine Antwort auf die E-Mail.“ [W]: https://www.immoprause.de/alltag-als-makler
+  - „Das Problem ist, was danach passiert: Funkstille!“ [W]: https://www.immobilien-profi.de/40-000-eur-zu-viel-versprochen-und-dann-funkstille/
+  - „Denkt weiter nach“ ist eine These ohne Zahl.
+- **Warum Rang 5:**
+  - Schmerz Rang 4 in der Sprache des Maklers, Lücke 1 im Werbemarkt.
+  - Der neue Schluss ersetzt das vorwurfsvolle „Sie?“ durch eine Frage, die den Makler nicht angreift.
+  - Nur Rang 5, weil die Auflösung (Nachfass-Automatik) heute nicht live belegt ist (Ge12).
+- **Offene Frage an Alex:**
+  - Läuft die Nachfass-Automatik bis zum Dreh einmal echt, bei RIEGEL oder einem zweiten Kunden?
+  - Was schickt sie konkret, zum Beispiel Marktbericht, Vergleichsobjekte oder den aktualisierten Report?
+  - Ohne das bleibt der Hook in der Schublade.
+
+### 9.3 Einsatz und Reserve
+
+- **Testplan:** Rang 1 gegen Rang 2 als Film-Einstieg auf /system und als 15-s-Anzeigen. Ränge 3 bis 5 laufen als Schnittvarianten für Social.
+- **Problem-Block 0:17:** R17 („vergleicht abends drei Makler“) wird ersetzt durch K2/V3, mit US-Kennzeichnung und dem Satz „Für Deutschland zählt das niemand.“ Dazu Forsa 94 % als DE-Indiz (https://www.immobilienmanager.de/die-erwartungen-von-immobilieneigentuemern-an-makler-04092020).
+- **Absender direkt nach dem Hook:** K8 („Ich saß auf der Verkäuferseite …“), sobald Ge2 schriftlich vorliegt.
+- **Beweis in der Filmmitte:** RIEGEL „+9 Mandate“ nur mit Ge1 und Ge16, in keinem Hook.
+- **Gestrichen:** T3, T8, V6 und K5 werden auch in abgewandelter Form nicht wiederverwendet.
