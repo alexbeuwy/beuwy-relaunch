@@ -70,16 +70,20 @@
     position: relative;
     z-index: 1;
   }
+  .f02-tailgroup {
+    display: inline-block;
+    white-space: nowrap;
+  }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="02-frage">
-  <div class="f02-bg clip" data-start="0" data-duration="4.24" data-track-index="0"></div>
+<div id="root" data-composition-id="02-frage" data-width="1920" data-height="1080">
+  <div id="s02-frage-f02-bg-1" class="f02-bg clip" data-start="0" data-duration="4.24" data-track-index="0"></div>
 
-  <div class="f02-stage clip" data-start="0" data-duration="4.24" data-track-index="1">
+  <div id="s02-frage-f02-stage-2" class="f02-stage clip" data-start="0" data-duration="4.24" data-track-index="1">
     <div class="f02-headline" id="f02-headline">
-      <span class="f02-word" id="f02-w1">Aber</span><span class="f02-word" id="f02-w2">was</span><span class="f02-word" id="f02-w3">bleibt</span><span class="f02-word f02-mark-wrap" id="f02-w4"><span class="f02-mark-bar" id="f02-bar"></span><span class="f02-mark-text">liegen</span></span><span class="f02-word" id="f02-w5">?</span>
+      <span class="f02-word" id="f02-w1">Aber</span><span class="f02-word" id="f02-w2">was</span><span class="f02-word" id="f02-w3">bleibt</span><span class="f02-tailgroup"><span class="f02-word f02-mark-wrap" id="f02-w4"><span class="f02-mark-bar" id="f02-bar"></span><span class="f02-mark-text">liegen</span></span><span class="f02-word" id="f02-w5">?</span></span>
     </div>
   </div>
 

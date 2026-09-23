@@ -15,7 +15,7 @@ Stil: editorial-premium. Hell, viel Weißraum, ein Fokus pro Bild.
 | canvas | #FFFFFF | Hintergrund immer |
 | ink | #161613 | Headlines, Zahlen, Knopftext |
 | muted | #5D5D58 | Fließtext, Unterzeilen |
-| dim | #8A8A84 | Labels, Zeitstempel, Fußnoten |
+| dim | #777772 | Labels, Zeitstempel, Fußnoten |
 | line | rgba(20,20,18,0.08) | Kartenrand, Trennlinien |
 | surface | #F7F7F5 | Karten-Innenflächen, Kartengrund |
 | akzent | #F3E27F | **einziger Akzent**: Highlighter, Knopf, Fokus-Pin |

@@ -34,7 +34,7 @@
     font-size: 22px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8a8a84;
+    color: #777772;
     opacity: 0;
   }
   .f03-stack {
@@ -70,7 +70,7 @@
     font-family: "Helvena", sans-serif;
     font-weight: 400;
     font-size: 20px;
-    color: #8a8a84;
+    color: #777772;
   }
   .f03-card-title {
     font-family: "HelvenaBold", sans-serif;
@@ -94,42 +94,42 @@
     font-weight: 800;
     font-size: 76px;
     letter-spacing: -0.02em;
-    color: #8a8a84;
+    color: #777772;
     opacity: 0;
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="03-stapel">
-  <div class="f03-bg clip" data-start="0" data-duration="10.02" data-track-index="0"></div>
+<div id="root" data-composition-id="03-stapel" data-width="1920" data-height="1080">
+  <div id="s03-stapel-f03-bg-1" class="f03-bg clip" data-start="0" data-duration="10.02" data-track-index="0"></div>
 
   <div class="f03-label clip" id="f03-label" data-start="0" data-duration="10.02" data-track-index="1">Liegt seit …</div>
 
-  <div class="f03-stack clip" id="f03-stack" data-start="0" data-duration="10.02" data-track-index="2">
+  <div class="f03-stack clip" data-layout-allow-overlap data-layout-allow-occlusion id="f03-stack" data-start="0" data-duration="10.02" data-track-index="2">
     <div class="f03-slot" id="f03-slot1" style="left: 1080px; top: 330px; transform: rotate(-4deg);">
-      <div class="f03-card" id="f03-card1">
+      <div class="f03-card" id="f03-card1" data-layout-allow-overlap data-layout-allow-occlusion>
         <div class="f03-card-time">Fr · 21:14</div>
         <div class="f03-card-title">Bewertungsanfrage</div>
         <div class="f03-card-line">Einfamilienhaus, Schifferstadt</div>
       </div>
     </div>
     <div class="f03-slot" id="f03-slot2" style="left: 1130px; top: 400px; transform: rotate(3deg); z-index: 2;">
-      <div class="f03-card" id="f03-card2">
+      <div class="f03-card" id="f03-card2" data-layout-allow-overlap data-layout-allow-occlusion>
         <div class="f03-card-time">seit März</div>
         <div class="f03-card-title">Suchkunde</div>
         <div class="f03-card-line">3 Zimmer, Speyer, bis 420.000 €</div>
       </div>
     </div>
     <div class="f03-slot" id="f03-slot3" style="left: 1050px; top: 470px; transform: rotate(-2deg); z-index: 3;">
-      <div class="f03-card" id="f03-card3">
+      <div class="f03-card" id="f03-card3" data-layout-allow-overlap data-layout-allow-occlusion>
         <div class="f03-card-time">Di · Besichtigung</div>
         <div class="f03-card-title">Nachfassen offen</div>
         <div class="f03-card-line">Familie Kern</div>
       </div>
     </div>
     <div class="f03-slot" id="f03-slot4" style="left: 1140px; top: 540px; transform: rotate(5deg); z-index: 4;">
-      <div class="f03-card" id="f03-card4">
+      <div class="f03-card" id="f03-card4" data-layout-allow-overlap data-layout-allow-occlusion>
         <div class="f03-card-time">„melden Sie sich im Herbst“</div>
         <div class="f03-card-title">Eigentümer</div>
         <div class="f03-card-line">noch nicht so weit</div>

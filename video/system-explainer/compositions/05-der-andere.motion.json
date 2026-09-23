@@ -1,0 +1,7 @@
+{
+  "scene": "05-der-andere",
+  "duration_s": 8.03,
+  "rules": ["viewport-change", "spring-pop-entrance", "discrete-text-sequence"],
+  "exit": { "vector": "camera pan settles at -28,-20px; last card fades into yellow pin, pin pulse ends and holds", "still_moving": false },
+  "entry": { "vector": "grey pin scales up from 0, ~72px/s", "from_rest": true }
+}

@@ -70,6 +70,10 @@
     position: relative;
     z-index: 1;
   }
+  .f17-tailgroup {
+    display: inline-block;
+    white-space: nowrap;
+  }
 
   /* Scene 2 — city field */
   .f17-field {
@@ -131,20 +135,20 @@
     font-size: 22px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8a8a84;
+    color: #777772;
     opacity: 0;
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="17-cta">
-  <div class="f17-bg clip" data-start="0" data-duration="7.37" data-track-index="0"></div>
+<div id="root" data-composition-id="17-cta" data-width="1920" data-height="1080">
+  <div id="s17-cta-f17-bg-1" class="f17-bg clip" data-start="0" data-duration="7.37" data-track-index="0"></div>
 
-  <div class="f17-stage clip" data-start="0" data-duration="7.37" data-track-index="1">
+  <div id="s17-cta-f17-stage-2" class="f17-stage clip" data-start="0" data-duration="7.37" data-track-index="1">
     <!-- Scene 1 (0.0-1.2s): centered headline, highlighter under "frei" -->
     <div class="f17-headline" id="f17-headline">
-      <span class="f17-word" id="f17-w1">Ist</span><span class="f17-word" id="f17-w2">Ihre</span><span class="f17-word" id="f17-w3">noch</span><span class="f17-word f17-hl-wrap" id="f17-w4"><span class="f17-hl-bar" id="f17-hl"></span><span class="f17-hl-text">frei</span></span><span class="f17-word" id="f17-w5">?</span>
+      <span class="f17-word" id="f17-w1">Ist</span><span class="f17-word" id="f17-w2">Ihre</span><span class="f17-word" id="f17-w3">noch</span><span class="f17-tailgroup"><span class="f17-word f17-hl-wrap" id="f17-w4"><span class="f17-hl-bar" id="f17-hl"></span><span class="f17-hl-text">frei</span></span><span class="f17-word" id="f17-w5">?</span></span>
     </div>
 
     <!-- Scene 2 (from ~1.15s "direkt"): city field, typed text + button -->

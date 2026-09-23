@@ -180,12 +180,12 @@
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="14-aufwand">
-  <div class="f14-bg clip" data-start="0" data-duration="5.75" data-track-index="0"></div>
+<div id="root" data-composition-id="14-aufwand" data-width="1920" data-height="1080">
+  <div id="s14-aufwand-f14-bg-1" class="f14-bg clip" data-start="0" data-duration="5.75" data-track-index="0"></div>
 
-  <div class="f14-stage clip" data-start="0" data-duration="5.75" data-track-index="1">
+  <div id="s14-aufwand-f14-stage-2" class="f14-stage clip" data-start="0" data-duration="5.75" data-track-index="1">
     <div class="f14-left">
       <h2 class="f14-h2">Sie liefern
         <span class="f14-hl-word"><span class="f14-hl-fill" id="f14-hl"></span><span>zwei Termine</span></span>
@@ -202,15 +202,15 @@
         <div class="f14-cal-num">45 Min.</div>
       </div>
       <div class="f14-photos">
-        <div class="f14-photo" id="f14-photo1">
+        <div class="f14-photo" id="f14-photo1" data-layout-allow-overlap data-layout-allow-occlusion>
           <img src="assets/fotos/makler-5.webp" alt="" />
           <div class="f14-ai-pill">AI Visual</div>
         </div>
-        <div class="f14-photo" id="f14-photo2">
+        <div class="f14-photo" id="f14-photo2" data-layout-allow-overlap data-layout-allow-occlusion>
           <img src="assets/fotos/makler-7.webp" alt="" />
           <div class="f14-ai-pill">AI Visual</div>
         </div>
-        <div class="f14-photo" id="f14-photo3">
+        <div class="f14-photo" id="f14-photo3" data-layout-allow-overlap data-layout-allow-occlusion>
           <img src="assets/fotos/makler-13.webp" alt="" />
           <div class="f14-ai-pill">AI Visual</div>
         </div>

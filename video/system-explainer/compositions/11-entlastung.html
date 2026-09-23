@@ -92,7 +92,7 @@
   .f11-card span {
     font-family: "Helvena", sans-serif;
     font-size: 20px;
-    color: #8a8a84;
+    color: #777772;
     font-weight: 400;
   }
   .f11-card b {
@@ -126,18 +126,18 @@
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="11-entlastung">
-  <div class="f11-bg clip" data-start="0" data-duration="7.55" data-track-index="0"></div>
+<div id="root" data-composition-id="11-entlastung" data-width="1920" data-height="1080">
+  <div id="s11-entlastung-f11-bg-1" class="f11-bg clip" data-start="0" data-duration="7.55" data-track-index="0"></div>
 
-  <div class="f11-stage clip" data-start="0" data-duration="7.55" data-track-index="1">
+  <div id="s11-entlastung-f11-stage-2" class="f11-stage clip" data-start="0" data-duration="7.55" data-track-index="1">
     <!-- Scene 1 (0.0-0.4s): the stack from Frame 3 stands large center-right, already assembled -->
-    <div class="f11-stack" id="f11-stack">
-      <div class="f11-card" id="f11-c1"><span>Fr · 21:14</span><b>Bewertungsanfrage</b><i>Einfamilienhaus, Schifferstadt</i></div>
-      <div class="f11-card" id="f11-c2"><span>seit März</span><b>Suchkunde</b><i>3 Zimmer, Speyer, bis 420.000 €</i></div>
-      <div class="f11-card" id="f11-c3"><span>Di · Besichtigung</span><b>Nachfassen offen</b><i>Familie Kern</i></div>
-      <div class="f11-card" id="f11-c4"><span>„melden Sie sich im Herbst“</span><b>Eigentümer</b><i>noch nicht so weit</i></div>
+    <div class="f11-stack" data-layout-allow-overlap data-layout-allow-occlusion id="f11-stack">
+      <div class="f11-card" id="f11-c1" data-layout-allow-overlap data-layout-allow-occlusion><span>Fr · 21:14</span><b>Bewertungsanfrage</b><i>Einfamilienhaus, Schifferstadt</i></div>
+      <div class="f11-card" id="f11-c2" data-layout-allow-overlap data-layout-allow-occlusion><span>seit März</span><b>Suchkunde</b><i>3 Zimmer, Speyer, bis 420.000 €</i></div>
+      <div class="f11-card" id="f11-c3" data-layout-allow-overlap data-layout-allow-occlusion><span>Di · Besichtigung</span><b>Nachfassen offen</b><i>Familie Kern</i></div>
+      <div class="f11-card" id="f11-c4" data-layout-allow-overlap data-layout-allow-occlusion><span>„melden Sie sich im Herbst“</span><b>Eigentümer</b><i>noch nicht so weit</i></div>
     </div>
 
     <div class="f11-headline" id="f11-headline">

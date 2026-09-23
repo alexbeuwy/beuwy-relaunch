@@ -141,7 +141,7 @@
     margin-left: 14px;
     font-family: "Helvena", sans-serif;
     font-size: 18px;
-    color: #8a8a84;
+    color: #777772;
   }
   .f12-viewport {
     position: relative;
@@ -178,12 +178,12 @@
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 
-<div id="root" data-composition-id="12-riegel">
-  <div class="f12-bg clip" data-start="0" data-duration="15.14" data-track-index="0"></div>
+<div id="root" data-composition-id="12-riegel" data-width="1920" data-height="1080">
+  <div id="s12-riegel-f12-bg-1" class="f12-bg clip" data-start="0" data-duration="15.14" data-track-index="0"></div>
 
-  <div class="f12-stage clip" data-start="0" data-duration="15.14" data-track-index="1">
+  <div id="s12-riegel-f12-stage-2" class="f12-stage clip" data-start="0" data-duration="15.14" data-track-index="1">
     <div class="f12-left">
       <div class="f12-headline" id="f12-headline">
         <span class="f12-word" id="f12-w1">So</span><span class="f12-word" id="f12-w2">sieht</span><span class="f12-word" id="f12-w3">das</span><span class="f12-word" id="f12-w4">aus.</span><span class="f12-hl-wrap" id="f12-w5"><span class="f12-hl-bar" id="f12-hl-bar"></span><span class="f12-hl-text">Live</span></span><span class="f12-word" id="f12-w6">bei</span><span class="f12-word" id="f12-w7">RIEGEL</span><span class="f12-word" id="f12-w8">Immobilien.</span>
@@ -238,7 +238,7 @@
       });
 
       // Highlighter sweep under "Live", right on its cue
-      tl.to("#f12-hl-bar", { scaleX: 1, duration: 0.45, ease: "power3.out" }, 1.51);
+      tl.fromTo("#f12-hl-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 1.51);
 
       /* ---- Scene 2 (on "Rechner", cue 4.06s): counter 0 -> 489 ---- */
 
@@ -262,7 +262,7 @@
         COUNT_AT
       );
       tl.fromTo("#f12-counter", { scale: START_SCALE }, { scale: 1, duration: COUNT_DUR, ease: "power3.out" }, COUNT_AT);
-      tl.to("#f12-counter-label", { opacity: 1, duration: 0.5, ease: "power2.out" }, COUNT_AT - 0.2);
+      tl.fromTo("#f12-counter-label", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, COUNT_AT - 0.2);
 
       /* ---- Scene 3 (on "Portal,", cue 8.61s): hard cut to objekte-scroll.png, slow scroll ---- */
 
