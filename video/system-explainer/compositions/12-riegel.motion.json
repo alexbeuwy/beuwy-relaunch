@@ -1,0 +1,7 @@
+{
+  "scene": "12-riegel",
+  "duration_s": 15.14,
+  "rules": ["3d-page-scroll", "spring-pop-entrance", "counting-dynamic-scale", "css-marker-patterns"],
+  "exit": { "vector": "none, still at rest (home-scroll.png mid-scroll y=-1200px, chip settled, slow stage push still running)", "still_moving": true },
+  "entry": { "vector": "browser card scale 0.92 to 1 at t=0.1s; headline words y +40px to 0, per-word cascade starting t=0.35s", "from_rest": false }
+}

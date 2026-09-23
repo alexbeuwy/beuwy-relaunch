@@ -1,0 +1,348 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Helvena";
+      src: url("assets/fonts/helvena.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "HelvenaBold";
+      src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+      font-weight: 800;
+    }
+
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: "Helvena", sans-serif;
+    }
+
+    #root .f05-map {
+      position: absolute;
+      inset: 0;
+      background: #f7f7f5;
+      background-image: linear-gradient(rgba(20, 20, 18, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 20, 18, 0.08) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    #root .f05-street {
+      position: absolute;
+      background: #dcdcd6;
+    }
+    #root .f05-street-h1 {
+      left: 0;
+      right: 0;
+      top: 300px;
+      height: 6px;
+    }
+    #root .f05-street-h2 {
+      left: 0;
+      right: 0;
+      top: 760px;
+      height: 6px;
+    }
+    #root .f05-street-v1 {
+      top: 0;
+      bottom: 0;
+      left: 480px;
+      width: 6px;
+    }
+    #root .f05-street-v2 {
+      top: 0;
+      bottom: 0;
+      left: 1360px;
+      width: 6px;
+    }
+
+    #root .f05-world {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    /* pins — no CSS transform, so GSAP owns scale freely */
+    #root .f05-pin {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transform-origin: 50% 50%;
+    }
+    #root .f05-pin-grey {
+      left: 542px;
+      top: 542px;
+      background: #c9c9c3;
+      opacity: 0;
+    }
+    #root .f05-pin-ring {
+      position: absolute;
+      left: 1306px;
+      top: 346px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(243, 226, 127, 0.35);
+      opacity: 0;
+      transform-origin: 50% 50%;
+    }
+    #root .f05-pin-yellow {
+      left: 1322px;
+      top: 362px;
+      background: #f3e27f;
+      opacity: 0;
+    }
+
+    #root .f05-pin-label {
+      position: absolute;
+      top: 46px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: "Helvena", sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: #5d5d58;
+    }
+
+    /* mini flying task cards — miniatures of frame 03 cards */
+    #root .f05-card {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 200px;
+      height: 60px;
+      background: #ffffff;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 12px 26px -14px rgba(22, 22, 19, 0.28);
+      opacity: 0;
+      padding: 8px 12px;
+      overflow: hidden;
+    }
+    #root .f05-card b {
+      display: block;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: #161613;
+      white-space: nowrap;
+    }
+    #root .f05-card span {
+      display: block;
+      font-family: "Helvena", sans-serif;
+      font-size: 13px;
+      color: #8a8a84;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    /* headline */
+    #root .f05-headline {
+      position: absolute;
+      left: 120px;
+      top: 96px;
+      width: 1000px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 76px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #161613;
+    }
+    #root .f05-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px);
+      white-space: pre;
+    }
+    #root .f05-hl-wrap {
+      position: relative;
+      display: inline;
+    }
+    #root .f05-hl-bar {
+      position: absolute;
+      inset: 4% -8px 14%;
+      background: #f3e27f;
+      transform: scaleX(0);
+      transform-origin: left center;
+      border-radius: 4px;
+      z-index: 0;
+    }
+    #root .f05-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="05-der-andere"
+    data-start="0"
+    data-duration="8.03"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div class="f05-map clip" data-start="0" data-duration="8.03" data-track-index="0"></div>
+
+    <div class="f05-world" id="f05-world">
+      <div class="f05-street f05-street-h1"></div>
+      <div class="f05-street f05-street-h2"></div>
+      <div class="f05-street f05-street-v1"></div>
+      <div class="f05-street f05-street-v2"></div>
+
+      <div class="f05-pin f05-pin-grey" id="f05-pin-grey">
+        <span class="f05-pin-label">Ihr B&uuml;ro</span>
+      </div>
+
+      <div class="f05-pin-ring" id="f05-pin-ring"></div>
+      <div class="f05-pin f05-pin-yellow" id="f05-pin-yellow">
+        <span class="f05-pin-label">Der andere</span>
+      </div>
+
+      <div class="f05-card" id="f05-card1">
+        <span>Fr &middot; 21:14</span>
+        <b>Bewertungsanfrage</b>
+      </div>
+      <div class="f05-card" id="f05-card2">
+        <span>seit M&auml;rz</span>
+        <b>Suchkunde</b>
+      </div>
+      <div class="f05-card" id="f05-card3">
+        <span>Di &middot; Besichtigung</span>
+        <b>Nachfassen offen</b>
+      </div>
+      <div class="f05-card" id="f05-card4">
+        <span>Eigent&uuml;mer</span>
+        <b>noch nicht so weit</b>
+      </div>
+    </div>
+
+    <div class="f05-headline clip" data-start="0" data-duration="8.03" data-track-index="1">
+      <span class="f05-word" id="f05-w1">Der&nbsp;</span><span class="f05-word" id="f05-w2">Makler&nbsp;</span><span class="f05-word" id="f05-w3">in&nbsp;</span><span class="f05-word" id="f05-w4">Ihrer&nbsp;</span><span class="f05-word" id="f05-w5">Stadt,&nbsp;</span><span class="f05-word" id="f05-w6">der&nbsp;</span><span class="f05-word" id="f05-w7">schon&nbsp;</span><span class="f05-word" id="f05-w8">ein&nbsp;</span><span
+        class="f05-hl-wrap"
+        ><span class="f05-hl-bar" id="f05-hl-bar"></span><span class="f05-hl-text"
+          ><span class="f05-word" id="f05-w9">System</span></span
+        ></span
+      ><span class="f05-word" id="f05-w10">&nbsp;hat.</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // --- Scene 1 (0.0–1.0s): grey "Ihr Büro" pin pops in ---
+      tl.fromTo(
+        "#f05-pin-grey",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        0.15
+      );
+
+      // --- Scene 2 (on "Makler" @0.62s): yellow pin + ring pop, headline word-by-word ---
+      tl.fromTo(
+        "#f05-pin-ring",
+        { opacity: 0, scale: 0.6 },
+        { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" },
+        0.62
+      );
+      tl.fromTo(
+        "#f05-pin-yellow",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        0.62
+      );
+
+      var words = [
+        "#f05-w1",
+        "#f05-w2",
+        "#f05-w3",
+        "#f05-w4",
+        "#f05-w5",
+        "#f05-w6",
+        "#f05-w7",
+        "#f05-w8",
+        "#f05-w9",
+        "#f05-w10",
+      ];
+      var wordCues = [0.35, 0.62, 1.01, 1.17, 1.44, 1.8, 1.98, 2.22, 2.36, 2.83];
+      words.forEach(function (sel, i) {
+        tl.set(sel, { opacity: 1, y: 40 }, wordCues[i]);
+        tl.to(sel, { y: 0, duration: 0.15, ease: "power4.out" }, wordCues[i]);
+      });
+
+      // highlighter wipes under "System" exactly on its spoken word
+      tl.to("#f05-hl-bar", { scaleX: 1, duration: 0.45, ease: "power3.out" }, 2.36);
+
+      // --- Scene 3 (from "Er" @3.24s to "durch." @6.57s): task cards fly grey→yellow pin ---
+      // start (grey pin center 560,560) → top-left of a 200x60 card = (460, 530)
+      // arc peak (control point, well above the straight line) → top-left ≈ (760, 150)
+      // end (yellow pin center 1340,380) → top-left ≈ (1240, 350)
+      var startX = 460,
+        startY = 530;
+      var peakX = 760,
+        peakY = 150;
+      var endX = 1240,
+        endY = 350;
+
+      var cards = ["#f05-card1", "#f05-card2", "#f05-card3", "#f05-card4"];
+      var landCues = [3.91, 4.97, 5.93, 6.57]; // "kein" · "Sie." · "nur" · "durch."
+      var flightDur = 0.62;
+
+      cards.forEach(function (sel, i) {
+        var land = landCues[i];
+        var launch = land - flightDur;
+        var mid = launch + flightDur * 0.5;
+
+        tl.fromTo(
+          sel,
+          { x: startX, y: startY, scale: 1, opacity: 0 },
+          { opacity: 1, duration: 0.08, ease: "none" },
+          launch
+        );
+        tl.fromTo(
+          sel,
+          { x: startX, y: startY },
+          { x: peakX, y: peakY, duration: flightDur * 0.5, ease: "power1.out" },
+          launch
+        );
+        tl.to(
+          sel,
+          { x: endX, y: endY, scale: 0.35, opacity: 0, duration: flightDur * 0.5, ease: "power1.in" },
+          mid
+        );
+
+        // yellow pin pulses once on each arrival: scale 1 → 1.15 → 1
+        tl.to("#f05-pin-yellow", { scale: 1.15, duration: 0.12, ease: "power2.out" }, land);
+        tl.to("#f05-pin-yellow", { scale: 1, duration: 0.2, ease: "power2.out" }, land + 0.12);
+      });
+
+      // Light camera pan (viewport-change) toward the yellow pin over Scene 3.
+      var cam = { x: 0, y: 0 };
+      function applyCam() {
+        document.getElementById("f05-world").style.transform =
+          "translate(" + cam.x + "px, " + cam.y + "px)";
+      }
+      applyCam();
+      tl.to(
+        cam,
+        {
+          x: -28,
+          y: -20,
+          duration: 6.57 - 3.24,
+          ease: "power2.inOut",
+          onUpdate: applyCam,
+        },
+        3.24
+      );
+
+      window.__timelines["05-der-andere"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>
