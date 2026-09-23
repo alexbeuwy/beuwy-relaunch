@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExitIntent } from "@/components/ExitIntent";
-import { FaqAccordion } from "@/components/FaqAccordion";
 import { Logo } from "@/components/Logo";
 import { LogoSlot, MARKEN_SLUGS, slugifyMarke } from "@/components/MaklerElemente";
-import { Reveal } from "@/components/Reveal";
 import { rich } from "@/components/RichText";
+import { StadtCheck, StadtKnopf, StickyStadt } from "@/components/StadtCheck";
 import { VslSlot } from "@/components/VslSlot";
 import { getContent } from "@/lib/content";
+import { funnelTexteAus } from "@/lib/texte/anfrage-funnel";
 
 export const revalidate = 60;
 
 /**
  * /system — die VSL-Landingpage (18.09, umbenannt von /vsl am 23.09).
- * Reihenfolge = VSL-Skript (docs/branding/VSL-SKRIPT.md): Hook + Video →
- * Pain (Der eine Grund) → Agitate (Kosten) → Dream State → Mechanism
- * (dreißig Bausteine, Mehrdeal-Frage, Knopf) → Proof Stack (RIEGEL,
- * Fälle, Logos) → Authority → Vorsprung + Knopf → Offer (Investition) →
- * Scarcity (ein Büro pro Stadt) → Disqualifier (Für wen) → Einwände →
- * Lead Magnet (Video-Analyse) → Big CTA. Exit-Intent einmal pro Sitzung
- * (Desktop) führt zur Video-Analyse. Kein Menü, Mini-Fuß.
+ * Minimal, ein Ziel: Das Video überzeugt, der Stadt-Check ist der eine
+ * große Knopf. Aufbau: Logo → Zielgruppe → Headline → Video → Stadt-Check
+ * (erste Frage auf der Seite, danach der Funnel inline) → Vertrauensleiste
+ * + Logos → Schluss-Knopf → Mini-Fuß. Dazu Sticky-Leiste (mobil) und
+ * Exit-Intent (Desktop + mobil) mit der Video-Analyse. Recherche und
+ * Begründung: docs/redesign/SYSTEM-SEITE.md.
  * Alle Texte: Studio-Keys mk.vsl.front_* (src/lib/texte/vsl.ts) — die
- * Keys heißen bewusst weiter "vsl", damit bestehende Supabase-Overrides
- * erhalten bleiben. Studio-Overrides gewinnen.
+ * Keys heißen bewusst weiter „vsl", damit bestehende Supabase-Overrides
+ * erhalten bleiben. Die Blöcke der Sales-Kette (Bausteine, Preis,
+ * Einwände …) sind nur noch im Video; ihre Keys bleiben für später.
  */
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -56,20 +56,19 @@ export default async function VslPage() {
   const t = (k: string) => c[`mk.vsl.front_${k}`] ?? "";
   const logos = t("logos").split("|").map((n) => n.trim()).filter(Boolean);
   const vertrauen = paare(t("vertrauen"));
-  const belege = paare(t("beleg"));
-  const faelle = paare(t("faelle"));
-  const schritte = [1, 2, 3].map((i) => paare(t(`schritte_${i}`))[0]).filter(Boolean);
-  const gruppen = [1, 2, 3, 4, 5, 6]
-    .map((g) => ({
-      nr: String(g).padStart(2, "0"),
-      titel: t(`system_${g}_titel`),
-      text: t(`system_${g}_text`),
-      punkte: [1, 2, 3, 4, 5].map((i) => t(`system_${g}_p${i}`)).filter(Boolean),
-    }))
-    .filter((g) => g.titel);
-  const einwaende = [1, 2, 3].map((i) => ({ q: t(`einwand_${i}_frage`), a: t(`einwand_${i}_antwort`) })).filter((e) => e.q);
-  const ja = [1, 2, 3].map((i) => t(`wen_ja_${i}`)).filter(Boolean);
-  const nein = [1, 2, 3].map((i) => t(`wen_nein_${i}`)).filter(Boolean);
+  const vergeben = t("stadt_vergeben").split("|").map((n) => n.trim()).filter(Boolean);
+  const stadtTexte = {
+    label: t("stadt_label"),
+    platzhalter: t("stadt_platzhalter"),
+    cta: t("stadt_cta"),
+    hinweis: t("stadt_hinweis"),
+    leer: t("stadt_leer"),
+    frei: t("stadt_frei"),
+    vergebenTitel: t("stadt_vergeben_titel"),
+    vergebenText: t("stadt_vergeben_text"),
+    vergebenCta: t("stadt_vergeben_cta"),
+    neu: t("stadt_neu"),
+  };
 
   return (
     <div className="relative min-h-dvh bg-bg-base">
@@ -77,7 +76,7 @@ export default async function VslPage() {
         <Logo height={30} statisch />
       </header>
 
-      {/* 1 · Hook, Video, ein Knopf */}
+      {/* 1 · Hook, Video, der eine Knopf (Stadt-Check) */}
       <section className="mx-auto max-w-[960px] px-6 pt-12 text-center lg:pt-16">
         <p className="inline-flex items-center gap-2 rounded-full bg-akzent-wash px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-ink-cream">
           <span className="h-1.5 w-1.5 rounded-full bg-akzent-hover" aria-hidden />
@@ -88,9 +87,15 @@ export default async function VslPage() {
         <div className="mt-10 lg:mt-12">
           <VslSlot format="breit" videoUrl={c["mk.vsl.url"]} platzhalterText={c["mk.vsl.platzhalter"]} />
         </div>
-        <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-9 lg:mt-11" />
+        <div className="mt-10 lg:mt-12">
+          <StadtCheck texte={stadtTexte} vergeben={vergeben} funnelTexte={funnelTexteAus(c)} />
+        </div>
+      </section>
+
+      {/* 2 · Beweis in einer Zeile + Logos */}
+      <section className="mx-auto max-w-[1080px] px-6 text-center">
         {vertrauen.length > 0 && (
-          <dl className="mx-auto mt-14 grid max-w-[880px] grid-cols-1 gap-6 border-t border-line-subtle pt-8 sm:grid-cols-3 lg:mt-16">
+          <dl className="mx-auto mt-16 grid max-w-[880px] grid-cols-1 gap-6 border-t border-line-subtle pt-8 sm:grid-cols-3 lg:mt-20">
             {vertrauen.map((v) => (
               <div key={v.a}>
                 <dt className="font-display text-[28px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{v.a}</dt>
@@ -99,260 +104,29 @@ export default async function VslPage() {
             ))}
           </dl>
         )}
+        {logos.length > 0 && (
+          <div className="mt-14">
+            <p className="t-label !text-[10.5px]">{t("logos_label")}</p>
+            <div className="mx-auto mt-6 flex max-w-[960px] flex-wrap items-center justify-center gap-x-9 gap-y-5 lg:gap-x-12">
+              {logos.map((name) => {
+                const slug = MARKEN_SLUGS[name] ?? slugifyMarke(name);
+                return <LogoSlot key={name} name={name} slug={slug} hoehe={LOGO_HOEHEN[slug] ?? 20} />;
+              })}
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* 2 · Der eine Grund */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[680px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("grund_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("grund_titel"))}</h2>
-          <p className="t-body-lg mt-5">{t("grund_text")}</p>
-          <p className="t-body-lg mt-4">{t("grund_text2")}</p>
-        </section>
-      </Reveal>
+      {/* 3 · Schluss: derselbe Knopf noch einmal */}
+      <section id="schluss-cta" className="mx-auto mt-24 max-w-[720px] px-6 text-center lg:mt-32">
+        <h2 className="t-h2">{rich(t("schluss_titel"))}</h2>
+        <div className="mt-8">
+          <StadtKnopf text={t("schluss_cta")} />
+        </div>
+        <p className="t-small mt-4">{t("stadt_hinweis")}</p>
+      </section>
 
-      {/* 2b · Agitate: was es kostet */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[720px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("kosten_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("kosten_titel"))}</h2>
-          <p className="t-body-lg mt-5">{t("kosten_text")}</p>
-          <p className="t-body-lg mt-4">{t("kosten_text2")}</p>
-        </section>
-      </Reveal>
-
-      {/* 2c · Dream State: eine Szene, sechs Wochen später */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[1080px] px-6 lg:mt-32">
-          <div className="mx-auto max-w-[760px] rounded-[32px] border border-line-subtle px-7 py-10 text-center sm:px-12 sm:py-14">
-            <p className="t-label">{t("traum_eyebrow")}</p>
-            <h2 className="t-h2 mt-4">{rich(t("traum_titel"))}</h2>
-            <p className="t-body-lg mt-5">{t("traum_text")}</p>
-            <p className="t-body-lg mt-4 !text-ink-cream">{t("traum_text2")}</p>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* 3 · Das System: dreißig Bausteine in sechs Gruppen (Übersichtsgrafik) */}
-      <Reveal>
-        <section id="bausteine" className="mx-auto mt-24 max-w-[1120px] px-6 lg:mt-32">
-          <div className="mx-auto max-w-[720px] text-center">
-            <p className="t-label">{t("system_eyebrow")}</p>
-            <h2 className="t-h2 mt-4">{rich(t("system_titel"))}</h2>
-            <p className="t-body-lg mt-5">{t("system_sub")}</p>
-          </div>
-          <ol className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {gruppen.map((g) => (
-              <li key={g.nr} className="rounded-[24px] border border-line-subtle bg-bg-base p-6 text-left">
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="t-h3">{g.titel}</h3>
-                  <span className="t-data !text-ink-dim tnum">{g.nr}</span>
-                </div>
-                <p className="t-small mt-1 !text-ink-cream/70">{g.text}</p>
-                <ul className="mt-4 space-y-2 border-t border-line-subtle pt-4">
-                  {g.punkte.map((punkt) => (
-                    <li key={punkt} className="flex gap-2.5 text-[14px] leading-snug text-ink-cream">
-                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-akzent-hover" aria-hidden />
-                      {punkt}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ol>
-        </section>
-      </Reveal>
-
-      {/* 3b · Die Frage, die der Kunde sich selbst beantwortet */}
-      <Reveal>
-        <section className="mx-auto mt-20 max-w-[760px] px-6 text-center lg:mt-28">
-          <p className="t-label">{t("frage_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("frage_titel"))}</h2>
-          <p className="t-body-lg mt-6">{t("frage_text")}</p>
-          <p className="t-body-lg mt-4">{t("frage_text2")}</p>
-          <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-10" />
-        </section>
-      </Reveal>
-
-      {/* 4 · Beweis auf Pastellgelb + Logos */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[1080px] px-6 lg:mt-32">
-          <div className="rounded-[32px] bg-akzent-wash px-7 py-10 text-center sm:px-12 sm:py-14">
-            <p className="t-label !text-ink-cream/70">{t("beweis_eyebrow")}</p>
-            <h2 className="t-h2 mx-auto mt-4 max-w-[22ch]">{rich(t("beweis_titel"))}</h2>
-            {belege.length > 0 && (
-              <dl className="mx-auto mt-9 grid max-w-[820px] grid-cols-1 gap-7 sm:grid-cols-3">
-                {belege.map((b) => (
-                  <div key={b.a}>
-                    <dt className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum sm:text-[44px]">{b.a}</dt>
-                    <dd className="t-small mx-auto mt-2 max-w-[20ch] !text-ink-cream/80">{b.b}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            <p className="t-body-lg mt-8 !text-ink-cream">{t("beweis_text")}</p>
-          </div>
-          {faelle.length > 0 && (
-            <div className="mt-10">
-              <p className="t-label text-center">{t("faelle_label")}</p>
-              <dl className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                {faelle.map((f) => (
-                  <div key={f.a} className="rounded-[24px] border border-line-subtle p-6 text-left">
-                    <dt className="t-h3">{f.a}</dt>
-                    <dd className="t-body mt-2">{f.b}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          )}
-          {logos.length > 0 && (
-            <div className="mt-10 text-center">
-              <p className="t-label !text-[10.5px]">{t("logos_label")}</p>
-              <div className="mx-auto mt-6 flex max-w-[960px] flex-wrap items-center justify-center gap-x-9 gap-y-5 lg:gap-x-12">
-                {logos.map((name) => {
-                  const slug = MARKEN_SLUGS[name] ?? slugifyMarke(name);
-                  return <LogoSlot key={name} name={name} slug={slug} hoehe={LOGO_HOEHEN[slug] ?? 20} />;
-                })}
-              </div>
-            </div>
-          )}
-        </section>
-      </Reveal>
-
-      {/* 4b · Authority: wer das baut */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[720px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("autor_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("autor_titel"))}</h2>
-          <p className="t-body-lg mt-5">{t("autor_text")}</p>
-          <p className="t-body-lg mt-4">{t("autor_text2")}</p>
-        </section>
-      </Reveal>
-
-      {/* 5 · Vorsprung + zweiter Knopf */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[680px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("vorsprung_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("vorsprung_titel"))}</h2>
-          <p className="t-body-lg mt-5">{t("vorsprung_text")}</p>
-          <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-10" />
-        </section>
-      </Reveal>
-
-      {/* 6b · Investition: Preis, drei Raten, Courtage-Anker */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[880px] px-6 text-center lg:mt-32">
-          <p className="t-label">{t("preis_eyebrow")}</p>
-          <h2 className="t-h2 mt-4">{rich(t("preis_titel"))}</h2>
-          <div className="mx-auto mt-10 grid max-w-[720px] grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-line-subtle p-7">
-              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_einmal")}</p>
-              <p className="t-small mt-2">{t("preis_einmal_label")}</p>
-            </div>
-            <div className="rounded-[24px] border border-akzent bg-akzent-wash/60 p-7">
-              <p className="font-display text-[40px] font-bold leading-none tracking-[-0.02em] text-ink-cream tnum">{t("preis_raten")}</p>
-              <p className="t-small mt-2 !text-ink-cream/80">{t("preis_raten_label")}</p>
-            </div>
-          </div>
-          <p className="t-body-lg mx-auto mt-8 max-w-[56ch]">{t("preis_anker")}</p>
-          <p className="t-small mx-auto mt-4 max-w-[60ch]">{t("preis_enthalten")}</p>
-        </section>
-      </Reveal>
-
-      {/* 6c · Scarcity: ein Büro pro Stadt */}
-      <Reveal>
-        <section className="mx-auto mt-16 max-w-[880px] px-6 lg:mt-20">
-          <div className="rounded-[32px] bg-akzent-wash px-7 py-10 text-center sm:px-12 sm:py-12">
-            <p className="t-label !text-ink-cream/70">{t("knapp_eyebrow")}</p>
-            <h2 className="t-h2 mx-auto mt-4 max-w-[24ch]">{rich(t("knapp_titel"))}</h2>
-            <p className="t-body-lg mx-auto mt-5 max-w-[56ch] !text-ink-cream">{t("knapp_text")}</p>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* 6d · Disqualifier: für wen / nicht für wen */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[880px] px-6 lg:mt-32">
-          <h2 className="t-h2 text-center">{rich(t("wen_titel"))}</h2>
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-akzent bg-akzent-wash/60 p-6 sm:p-7">
-              <p className="t-label">{t("wen_ja_label")}</p>
-              <ul className="mt-4 space-y-3">
-                {ja.map((z) => (
-                  <li key={z} className="t-body flex gap-3 !text-ink-cream">
-                    <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-akzent-hover" aria-hidden />
-                    {z}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-[24px] border border-line-subtle p-6 sm:p-7">
-              <p className="t-label">{t("wen_nein_label")}</p>
-              <ul className="mt-4 space-y-3">
-                {nein.map((z) => (
-                  <li key={z} className="t-body flex gap-3">
-                    <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-line-medium" aria-hidden />
-                    {z}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* 7 · Drei Einwände */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[720px] px-6 lg:mt-32">
-          <h2 className="t-h2 text-center">{rich(t("einwand_titel"))}</h2>
-          <div className="mt-8">
-            <FaqAccordion items={einwaende} />
-          </div>
-        </section>
-      </Reveal>
-
-      {/* 7b · Lead Magnet: Video-Analyse für alle, die noch nicht so weit sind */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[880px] px-6 lg:mt-32">
-          <div className="flex flex-col items-center gap-6 rounded-[24px] border border-line-subtle p-7 text-center sm:p-9 md:flex-row md:items-center md:justify-between md:text-left">
-            <div className="max-w-[46ch]">
-              <p className="t-label">{t("magnet_eyebrow")}</p>
-              <h2 className="t-h3 mt-3">{rich(t("magnet_titel"))}</h2>
-              <p className="t-body mt-3">{t("magnet_text")}</p>
-            </div>
-            <div className="flex shrink-0 flex-col items-center gap-2">
-              <Link
-                href="/video-analyse"
-                className="inline-flex items-center rounded-full border border-ink-cream px-6 py-3 text-[15px] font-semibold text-ink-cream transition-colors duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-wash"
-              >
-                {t("magnet_cta")}
-              </Link>
-              <p className="t-small">{t("magnet_hinweis")}</p>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* 8 · Nächste Schritte + Knopf */}
-      <Reveal>
-        <section className="mx-auto mt-24 max-w-[880px] px-6 text-center lg:mt-32">
-          <h2 className="t-h2">{rich(t("schritte_titel"))}</h2>
-          {schritte.length > 0 && (
-            <ol className="mx-auto mt-10 grid max-w-[820px] grid-cols-1 gap-6 sm:grid-cols-3">
-              {schritte.map((s, i) => (
-                <li key={s.a} className="text-center">
-                  <span className="mx-auto grid h-9 w-9 place-items-center rounded-full bg-akzent font-display text-[15px] font-bold text-ink-cream tnum">{i + 1}</span>
-                  <p className="t-h3 mt-3">{s.a}</p>
-                  <p className="t-body mt-1">{s.b}</p>
-                </li>
-              ))}
-            </ol>
-          )}
-          <CtaKnopf text={t("cta")} hinweis={t("cta_hinweis")} className="mt-12" />
-        </section>
-      </Reveal>
-
-      <footer className="mx-auto mt-20 max-w-[1080px] px-6 pb-10 lg:mt-28">
+      <footer className="mx-auto mt-20 max-w-[1080px] px-6 pb-28 lg:mt-28 lg:pb-10">
         <div className="flex flex-col items-center gap-4 border-t border-line-subtle pt-7 text-center sm:flex-row sm:justify-between sm:text-left">
           <div className="flex items-center gap-3">
             <Logo height={16} />
@@ -366,24 +140,8 @@ export default async function VslPage() {
         </div>
       </footer>
 
+      <StickyStadt text={t("sticky_text")} cta={t("sticky_cta")} />
       <ExitIntent href="/video-analyse" titel={t("exit_titel")} text={t("exit_text")} cta={t("exit_cta")} weiter={t("exit_weiter")} />
-    </div>
-  );
-}
-
-function CtaKnopf({ text, hinweis, className = "" }: { text: string; hinweis: string; className?: string }) {
-  return (
-    <div className={`flex flex-col items-center gap-3 ${className}`}>
-      <Link
-        href="/anfrage"
-        className="group inline-flex items-center gap-3 rounded-full bg-akzent px-9 py-4 text-[16px] font-semibold text-ink-cream transition-[background-color,transform] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] hover:bg-akzent-hover active:scale-[0.98]"
-      >
-        {text}
-        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" className="transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] group-hover:translate-x-0.5" aria-hidden>
-          <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </Link>
-      <p className="t-small">{hinweis}</p>
     </div>
   );
 }

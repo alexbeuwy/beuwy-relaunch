@@ -5,10 +5,13 @@ import Link from "next/link";
 import stil from "./ExitIntent.module.css";
 
 /**
- * Exit-Intent für die VSL-Seite (18.09). Erscheint einmal pro Sitzung,
- * nur mit Maus (pointer: fine), wenn der Zeiger die Seite nach oben
- * verlässt, frühestens acht Sekunden nach dem Laden. Kein Tracking,
- * kein Cookie: sessionStorage merkt sich nur „schon gezeigt".
+ * Exit-Intent für /system (18.09, mobil seit 23.09). Erscheint höchstens
+ * einmal pro Seitenaufruf, frühestens acht Sekunden nach dem Laden.
+ * Desktop (pointer: fine): der Zeiger verlässt die Seite nach oben.
+ * Mobil: der Besucher hat mindestens ein Drittel gelesen und scrollt dann
+ * schnell zurück nach oben (über 600 px in unter 500 ms) — das typische
+ * Signal für „ich suche die Adresszeile". Kein Cookie, kein Storage, kein
+ * Tracking (TDDDG § 25): der Zustand lebt nur im Speicher der Seite.
  * Esc, Klick auf den Hintergrund oder „Weiterlesen" schließen.
  * Texte kommen als Props aus den Studio-Keys mk.vsl.front_exit_*.
  */
@@ -27,34 +30,47 @@ export function ExitIntent({
 }) {
   const [offen, setOffen] = useState(false);
   const bereit = useRef(false);
+  const gezeigt = useRef(false);
   const schliessenRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return; // studio:ok
-    let gezeigt = false;
-    try {
-      gezeigt = sessionStorage.getItem("vsl-exit") === "1";
-    } catch {
-      /* privater Modus o. ä. — dann einfach nicht zeigen */
-      return;
-    }
-    if (gezeigt) return;
+    const zeigen = () => {
+      if (!bereit.current || gezeigt.current) return;
+      gezeigt.current = true;
+      setOffen(true);
+    };
     const timer = window.setTimeout(() => {
       bereit.current = true;
     }, 8000);
-    const raus = (e: MouseEvent) => {
-      if (!bereit.current || e.clientY > 0) return;
-      try {
-        sessionStorage.setItem("vsl-exit", "1");
-      } catch {
-        /* egal */
+
+    if (window.matchMedia("(pointer: fine)").matches) { // studio:ok
+      const raus = (e: MouseEvent) => {
+        if (e.clientY <= 0 && !e.relatedTarget) zeigen();
+      };
+      document.addEventListener("mouseout", raus);
+      return () => {
+        window.clearTimeout(timer);
+        document.removeEventListener("mouseout", raus);
+      };
+    }
+
+    let tiefe = 0;
+    let marke = { y: window.scrollY, t: performance.now() };
+    const scroll = () => {
+      const y = window.scrollY;
+      const t = performance.now();
+      const hoehe = document.documentElement.scrollHeight - window.innerHeight;
+      if (hoehe > 0) tiefe = Math.max(tiefe, y / hoehe);
+      if (y > marke.y || t - marke.t > 500) {
+        marke = { y, t };
+        return;
       }
-      setOffen(true);
+      if (tiefe >= 0.33 && marke.y - y > 600) zeigen();
     };
-    document.addEventListener("mouseout", raus);
+    window.addEventListener("scroll", scroll, { passive: true });
     return () => {
       window.clearTimeout(timer);
-      document.removeEventListener("mouseout", raus);
+      window.removeEventListener("scroll", scroll);
     };
   }, []);
 

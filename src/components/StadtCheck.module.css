@@ -1,0 +1,32 @@
+/* Stadt-Check (/system): Ergebnis und Funnel steigen ein, Fehler schüttelt — nur Motion-Tokens. */
+.ein {
+  animation: stadtEin var(--duration-medium) var(--ease-smooth-out) both;
+}
+.shake {
+  animation: stadtShake var(--duration-slow) var(--ease-smooth-out);
+}
+.leiste {
+  transition:
+    transform var(--duration-medium) var(--ease-smooth-out),
+    opacity var(--duration-fast) var(--ease-smooth-out);
+}
+.leisteAus {
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes stadtEin {
+  from { opacity: 0; transform: translateY(var(--distance-medium)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes stadtShake {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(calc(var(--distance-small) * -1)); }
+  40% { transform: translateX(var(--distance-small)); }
+  60% { transform: translateX(calc(var(--distance-micro) * -1)); }
+  80% { transform: translateX(var(--distance-micro)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ein, .shake { animation: none; }
+  .leiste { transition: none; }
+}

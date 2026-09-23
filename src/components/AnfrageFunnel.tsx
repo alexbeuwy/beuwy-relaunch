@@ -139,7 +139,8 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export function AnfrageFunnel({ texte }: { texte?: Partial<AnfrageFunnelTexte> }) {
+/* `stadt`: kommt vom Stadt-Check auf /system und reist in Mail und CRM mit. */
+export function AnfrageFunnel({ texte, stadt }: { texte?: Partial<AnfrageFunnelTexte>; stadt?: string }) {
   const tx = { ...ANFRAGE_FUNNEL_TEXTE_STANDARD, ...texte };
   const [index, setIndex] = useState(0);
   const [richtung, setRichtung] = useState<1 | -1>(1);
@@ -193,6 +194,7 @@ export function AnfrageFunnel({ texte }: { texte?: Partial<AnfrageFunnelTexte> }
     setBusy(true);
 
     const antwortenText = [
+      ...(stadt ? [`Stadt: ${stadt}`] : []),
       `Rolle: ${rolle ?? "–"}`,
       `Abschlüsse/Jahr: ${groesse ?? "–"}`,
       `Fokus: ${fokus.length ? fokus.join(", ") : "–"}`, // studio:ok
@@ -207,6 +209,7 @@ export function AnfrageFunnel({ texte }: { texte?: Partial<AnfrageFunnelTexte> }
       groesse: groesse ?? "",
       fokus: fokus.join(", "),
       zeit: zeit ?? "",
+      ...(stadt ? { stadt } : {}),
     };
 
     const jetzt = new Date();

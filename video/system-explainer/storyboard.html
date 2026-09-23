@@ -1,0 +1,107 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>System-Explainer · Storyboard v1</title><style>
+@font-face{font-family:Helvena;src:url(assets/fonts/helvena.woff2) format("woff2");font-weight:100 900}
+@font-face{font-family:HelvenaX;src:url(assets/fonts/helvena-og-800.ttf) format("truetype");font-weight:800}
+:root{--ink:#161613;--mut:#5d5d58;--dim:#8a8a84;--line:rgba(20,20,18,.08);--ak:#f3e27f;--wash:#fbf5d6}
+*{box-sizing:border-box;margin:0}
+body{font-family:Helvena,system-ui,sans-serif;background:#f4f4f1;color:var(--ink);padding:40px 32px 80px}
+header{max-width:1500px;margin:0 auto 28px}header h1{font-family:HelvenaX,Helvena;font-weight:800;font-size:34px;letter-spacing:-.02em}
+header p{color:var(--mut);margin-top:6px;font-size:16px}.tag{display:inline-block;margin-top:10px;background:var(--wash);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.chain{max-width:1500px;margin:0 auto 30px;background:#fff;border-radius:18px;padding:18px 22px;font-size:15px;line-height:1.7;color:var(--mut)}.chain b{color:var(--ink)}
+.act{max-width:1500px;margin:26px auto 12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border-top:1px solid #dcdcd6;padding-top:10px}
+.grid{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.card{background:transparent}
+.frame{aspect-ratio:16/9;container-type:inline-size;background:#fff;border-radius:12px;position:relative;overflow:hidden;box-shadow:0 1px 0 var(--line),0 10px 30px -18px rgba(0,0,0,.25)}
+.lab{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:9px;letter-spacing:.04em}.lab span:last-child{color:var(--dim);font-weight:500}
+.note{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.45}.note b{color:var(--ink)}
+.chip{display:inline-block;margin-top:6px;font-size:11px;border:1px solid #d8d8d2;border-radius:99px;padding:2px 9px;color:var(--mut)}
+h1,h2,h3{font-family:HelvenaX,Helvena;font-weight:800;letter-spacing:-.025em;line-height:1.02}
+.frame h1{font-size:7.2cqw}.frame h2{font-size:5.4cqw}.frame h3{font-size:3.7cqw}
+mark{background:linear-gradient(transparent 55%,var(--ak) 55%,var(--ak) 92%,transparent 92%);color:inherit;padding:0 .08em}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8cqw}
+.left{position:absolute;left:7cqw;top:50%;transform:translateY(-50%);width:58cqw}
+.top{position:absolute;left:6cqw;top:5cqw;width:60cqw}
+.split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:4cqw;align-items:center;padding:0 6cqw}
+.sub{font-size:1.9cqw;color:var(--mut);margin-top:1.6cqw}.src{font-size:1.4cqw;color:var(--dim);margin-top:1.6cqw}
+.big{font-family:HelvenaX,Helvena;font-weight:800;font-size:16cqw;line-height:.9;background:linear-gradient(transparent 60%,var(--ak) 60%,var(--ak) 90%,transparent 90%)}
+.stack{position:absolute;left:26cqw;top:4cqw;width:36cqw}
+.task{position:absolute;left:var(--x);top:var(--y);width:34cqw;background:#fff;border:1px solid var(--line);border-radius:1.6cqw;padding:1.6cqw 2cqw;transform:rotate(var(--r));box-shadow:0 1.2cqw 3cqw -1.6cqw rgba(0,0,0,.25)}
+.task span{display:block;font-size:1.3cqw;color:var(--dim);font-weight:600}.task b{display:block;font-family:HelvenaX;font-size:2.4cqw;margin-top:.4cqw}.task i{font-style:normal;font-size:1.5cqw;color:var(--mut)}
+.side{position:absolute;right:6cqw;bottom:5cqw;font-family:HelvenaX;font-size:3cqw;color:var(--dim)}
+.mini-stack{position:absolute;right:6cqw;bottom:6cqw;width:18cqw;height:12cqw;border-radius:1.2cqw;background:#fff;border:1px solid var(--line);box-shadow:.8cqw .8cqw 0 -.2cqw #fff,.8cqw .8cqw 0 0 var(--line),1.6cqw 1.6cqw 0 -.2cqw #fff,1.6cqw 1.6cqw 0 0 var(--line);transform:rotate(4deg)}
+.map{position:absolute;inset:0;background:#f7f7f5;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:6cqw 6cqw}
+.map.de{background-size:4cqw 4cqw}
+.pin{position:absolute;width:2.4cqw;height:2.4cqw;border-radius:50%;transform:translate(-50%,-50%)}.pin.grey{background:#c9c9c3}.pin.yellow{background:var(--ak);box-shadow:0 0 0 1cqw rgba(243,226,127,.35)}
+.pin em{position:absolute;top:3cqw;left:50%;transform:translateX(-50%);white-space:nowrap;font-style:normal;font-size:1.5cqw;font-weight:700}
+.arc{position:absolute;left:27%;top:24%;width:44%;height:30%;border-top:.3cqw dashed #b9b9b2;border-radius:50% 50% 0 0}
+.panel{background:#fff;border:1px solid var(--line);border-radius:2cqw;padding:2.4cqw;position:relative;min-height:26cqw;box-shadow:0 1.4cqw 4cqw -2cqw rgba(0,0,0,.2)}
+.steps{display:flex;gap:.8cqw;margin-bottom:2cqw}.steps span{height:.6cqw;flex:1;border-radius:1cqw;background:#ececE8}.steps span.on{background:var(--ak)}
+.bar{height:1.6cqw;border-radius:1cqw;background:#eeeeea;margin-top:1.2cqw}.w60{width:70%}.w40{width:45%}
+.btn{display:inline-block;margin-top:2cqw;background:var(--ak);border-radius:4cqw;padding:1.2cqw 2.4cqw;font-weight:700;font-size:1.6cqw}
+.toast{position:absolute;right:-2cqw;top:-2.4cqw;background:var(--ink);color:#fff;font-size:1.4cqw;border-radius:1.2cqw;padding:1cqw 1.6cqw}
+.clock{font-family:HelvenaX;font-size:6cqw;color:var(--dim);margin-top:2cqw;font-variant-numeric:tabular-nums}
+.pdf{justify-self:center;width:26cqw;aspect-ratio:1/1.3;background:#fff;border:1px solid var(--line);border-radius:1cqw;padding:2cqw;box-shadow:0 2cqw 5cqw -2cqw rgba(0,0,0,.3);transform:rotate(-3deg);position:relative}
+.sat{height:10cqw;border-radius:.8cqw;background:#dcdcd4;background-image:repeating-linear-gradient(45deg,#d2d2c9 0 .6cqw,#e3e3dc .6cqw 1.2cqw)}
+.chips{display:flex;flex-wrap:wrap;gap:.8cqw;margin-top:1.6cqw}.chips span{background:var(--wash);border-radius:3cqw;padding:.6cqw 1.2cqw;font-size:1.3cqw;font-weight:600}
+.pdf .chips{position:absolute;left:-4cqw;right:-4cqw;bottom:-2cqw}
+.chips.c{justify-content:center;margin-top:3cqw}.chips.c span{background:#fff;border:1px solid var(--line);font-size:1.6cqw}
+.k{font-size:1.3cqw;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.mail{margin-top:2.4cqw;border-left:.5cqw solid var(--ak);background:#f7f7f5;padding:1.4cqw 1.6cqw;font-size:1.5cqw;border-radius:.6cqw}
+.page .dot{position:absolute;width:3cqw;height:3cqw;border-radius:50%;background:radial-gradient(rgba(243,226,127,.95),rgba(243,226,127,0) 70%);transform:translate(-50%,-50%)}.page .dot.big{width:7cqw;height:7cqw}
+.browser{border-radius:1.2cqw;overflow:hidden;border:1px solid var(--line);box-shadow:0 2cqw 5cqw -2cqw rgba(0,0,0,.35);background:#fff}
+.chrome{height:2.6cqw;display:flex;align-items:center;gap:.5cqw;padding:0 1cqw;background:#f1f1ee}.chrome i{width:.8cqw;height:.8cqw;border-radius:50%;background:#d0d0ca}.chrome span{margin-left:1cqw;font-size:1.1cqw;color:var(--dim)}
+.browser img{display:block;width:100%;height:22cqw;object-fit:cover;object-position:top}
+.row{display:flex;gap:2cqw;align-items:flex-end}.cal{width:13cqw;background:#fff;border:1px solid var(--line);border-radius:1.4cqw;overflow:hidden;box-shadow:0 1cqw 3cqw -1.6cqw rgba(0,0,0,.3)}
+.cal b{display:block;background:var(--ak);padding:1cqw;font-size:1.6cqw;text-align:center}.cal i{display:block;font-style:normal;padding:2.4cqw 1cqw;text-align:center;font-family:HelvenaX;font-size:2.4cqw}
+.photos{width:12cqw;height:10cqw;border-radius:1cqw;background:#e2e2dc;box-shadow:.8cqw -.8cqw 0 #ecece7,1.6cqw -1.6cqw 0 #f2f2ee}
+.track{position:relative;width:60cqw;height:1.4cqw;border-radius:2cqw;background:#eeeeea;margin-top:4cqw}.fill{position:absolute;inset:0;width:100%;border-radius:2cqw;background:var(--ak)}
+.track span{position:absolute;top:2.2cqw;font-size:1.4cqw;color:var(--mut)}.track span:first-of-type{left:0}.track span:last-of-type{right:0}
+.field{margin-top:3.4cqw;display:flex;align-items:center;gap:1cqw;border:.3cqw solid var(--ak);border-radius:6cqw;padding:.8cqw;width:56cqw;background:#fff}
+.field span{flex:1;text-align:left;padding-left:2cqw;font-size:2cqw;color:var(--mut)}.field b{background:var(--ak);border-radius:6cqw;padding:1.6cqw 3cqw;font-size:2cqw}
+.tokens .frame{padding:3cqw;font-size:2.2cqw}.sw{display:inline-block;width:6cqw;height:6cqw;border-radius:1cqw;margin-right:1cqw;vertical-align:middle;border:1px solid var(--line)}
+.seams{display:flex;flex-wrap:wrap;gap:.8cqw;padding:3cqw}.seams span{font-size:1.5cqw;border:1px solid var(--line);border-radius:3cqw;padding:.5cqw 1.2cqw}.seams span.x{background:var(--wash)}
+
+</style></head><body>
+<header><h1>System-Explainer beuwy · Storyboard v1</h1><p>Instructional Sales VSL für beuwy.com/system. Skizzen: Layout, Hierarchie und Text sind final zu prüfen, Bewegung kommt im Bau.</p><span class="tag">1920 × 1080 · ca. 2:21 · 17 Frames · Stimme Alex</span></header>
+<div class="chain"><b>Headline-Kette ohne Ton:</b> Ihr Geschäft läuft. → Aber was bleibt liegen? → Was liegen bleibt, holt sich ein anderer. → Der Makler in Ihrer Stadt, der schon ein System hat. → Sein Rechner sammelt Eigentümer. Auch nachts. → Jeder Eigentümer bekommt in 60 Sekunden seinen Report. → Käufer legen bei ihm ein Konto an. Mit Suchauftrag. → Er sieht, wo Eigentümer wirklich klicken. → Dieses System gibt es jetzt für Ihr Büro. → Sie müssen dafür nichts über KI wissen. → So sieht das aus. Live bei RIEGEL. → 9 zusätzliche Mandate in den ersten 3 Monaten. → Sie liefern zwei Termine und Ihre Fotos. → In sechs Wochen läuft es. → Einmal pro Stadt. → <b>Ist Ihre noch frei?</b></div>
+<div class="act">Akt 1 · Status und Lücke</div><div class="grid">
+<div class="card"><div class="frame" id="frame-01"><div class="center"><h1>Ihr Geschäft läuft.</h1></div></div><div class="lab"><span>01 · STATUS</span><span>0:00–0:04</span></div><p class="note"><b>Wort für Wort</b> von links, 80 ms versetzt. Nichts sonst im Bild.</p><span class="chip">Übergang: cut</span></div>
+<div class="card"><div class="frame" id="frame-02"><div class="center"><h1>Aber was bleibt <mark>liegen</mark>?</h1></div></div><div class="lab"><span>02 · DIE FRAGE</span><span>0:04–0:08</span></div><p class="note"><b>Highlighter wischt</b> von links über „liegen“, genau auf dem gesprochenen Wort.</p><span class="chip">Übergang: cut</span></div>
+<div class="card"><div class="frame" id="frame-03"><div class="stack">
+ <div class="task" style="--r:-4deg;--x:0;--y:0"><span>Fr · 21:14</span><b>Bewertungsanfrage</b><i>Einfamilienhaus, Schifferstadt</i></div>
+ <div class="task" style="--r:3deg;--x:3cqw;--y:8cqw"><span>seit März</span><b>Suchkunde</b><i>3 Zimmer, Speyer, bis 420.000 €</i></div>
+ <div class="task" style="--r:-2deg;--x:-2cqw;--y:16cqw"><span>Di · Besichtigung</span><b>Nachfassen offen</b><i>Familie Kern, Musterhaus 12</i></div>
+ <div class="task" style="--r:5deg;--x:4cqw;--y:24cqw"><span>„melden Sie sich im Herbst“</span><b>Eigentümer</b><i>noch nicht so weit</i></div>
+ </div><p class="side">Liegt.</p></div><div class="lab"><span>03 · DER STAPEL</span><span>0:08–0:20</span></div><p class="note"><b>Karten fallen</b> einzeln auf den Stapel, je auf ihrem Satz. Leichte Drehung, kein Wackeln.</p><span class="chip">Übergang: cut</span></div>
+</div>
+<div class="act">Akt 2 · Was der andere hat</div><div class="grid">
+<div class="card"><div class="frame" id="frame-04"><div class="left"><h2>Was liegen bleibt, holt sich <mark>ein anderer</mark>.</h2></div><div class="mini-stack"></div></div><div class="lab"><span>04 · VERLUST</span><span>0:20–0:27</span></div><p class="note"><b>Headline setzt sich</b>, Stapel rutscht nach rechts unten und wird kleiner.</p><span class="chip">Übergang: cut</span></div>
+<div class="card"><div class="frame" id="frame-05"><div class="map"><div class="pin grey" style="left:26%;top:52%"><em>Ihr Büro</em></div><div class="pin yellow" style="left:70%;top:34%"><em>Der andere</em></div><div class="arc"></div></div>
+ <h3 class="top">Der Makler in Ihrer Stadt, der schon ein <mark>System</mark> hat.</h3></div><div class="lab"><span>05 · DER ANDERE</span><span>0:27–0:35</span></div><p class="note"><b>Karten fliegen</b> in einem Bogen vom grauen Pin zum gelben. Karte bleibt neutral, keine echte Stadt.</p><span class="chip">Übergang: crossfade</span></div>
+<div class="card"><div class="frame" id="frame-06"><div class="split"><div><h3>Sein Rechner sammelt Eigentümer. <mark>Auch nachts.</mark></h3><p class="clock">23:48</p></div>
+ <div class="panel"><div class="steps"><span class="on"></span><span class="on"></span><span></span><span></span></div><div class="bar w60"></div><div class="bar w40"></div><div class="btn">Wert berechnen</div><div class="toast">Neuer Eigentümer · Einfamilienhaus</div></div></div></div><div class="lab"><span>06 · RECHNER</span><span>0:35–0:42</span></div><p class="note"><b>Uhr springt</b> auf 23:48, ein Kontakt ploppt rechts oben auf. Rechner-Block ist neutraler Platzhalter.</p><span class="chip">Übergang: wipe-left</span></div>
+<div class="card"><div class="frame" id="frame-07"><div class="split"><div><h3>Jeder Eigentümer bekommt in <mark>60 Sekunden</mark> seinen Report.</h3></div>
+ <div class="pdf"><div class="sat"></div><div class="bar w60"></div><div class="bar w40"></div><div class="chips"><span>Name</span><span>Adresse</span><span>Bodenrichtwert</span><span>Luftbild</span><span>Logo</span></div></div></div></div><div class="lab"><span>07 · REPORT</span><span>0:42–0:50</span></div><p class="note"><b>PDF fliegt</b> aus dem Rechner ins Postfach, die Chips setzen sich nacheinander darauf.</p><span class="chip">Übergang: wipe-left</span></div>
+<div class="card"><div class="frame" id="frame-08"><div class="split"><div><h3>Käufer legen bei ihm ein Konto an. <mark>Mit Suchauftrag.</mark></h3></div>
+ <div class="panel"><p class="k">Suchauftrag</p><div class="chips"><span>3–4 Zimmer</span><span>Speyer</span><span>bis 450.000 €</span><span>Garten</span></div><div class="mail">Passt zu Ihrem Suchauftrag: Doppelhaushälfte, Speyer-West</div></div></div></div><div class="lab"><span>08 · KONTO</span><span>0:50–0:57</span></div><p class="note"><b>Neues Objekt</b> gleitet ein, eine Mail „Passt zu Ihrem Suchauftrag“ geht vom Konto aus raus.</p><span class="chip">Übergang: wipe-left</span></div>
+<div class="card"><div class="frame" id="frame-09"><div class="split"><div><h3>Er sieht, wo Eigentümer <mark>wirklich klicken</mark>.</h3></div>
+ <div class="panel page"><div class="bar w60"></div><div class="bar w40"></div><div class="btn">Immobilie bewerten</div><i class="dot" style="left:38%;top:58%"></i><i class="dot big" style="left:30%;top:60%"></i><i class="dot" style="left:70%;top:30%"></i><i class="dot" style="left:55%;top:78%"></i></div></div></div><div class="lab"><span>09 · HEATMAP</span><span>0:57–1:04</span></div><p class="note"><b>Punkte glühen</b> nacheinander auf der Seitenskizze auf, dichteste Stelle am Knopf.</p><span class="chip">Übergang: wipe-left</span></div>
+</div>
+<div class="act">Akt 3 · Wende</div><div class="grid">
+<div class="card"><div class="frame" id="frame-10"><div class="center"><h2>Dieses System gibt es jetzt für <mark>Ihr Büro</mark>.</h2></div></div><div class="lab"><span>10 · WENDE</span><span>1:04–1:09</span></div><p class="note"><b>Harter Schnitt</b> auf Weiß, Highlighter auf „Ihr Büro“. Musik öffnet sich.</p><span class="chip">Übergang: cut</span></div>
+<div class="card"><div class="frame" id="frame-11"><div class="center"><h2>Sie müssen dafür nichts über KI wissen.</h2><p class="sub">Und nichts selbst einrichten.</p></div></div><div class="lab"><span>11 · ENTLASTUNG</span><span>1:09–1:16</span></div><p class="note"><b>Gehaltener Frame:</b> der Stapel aus Frame 3 löst sich Karte für Karte auf, dann 2 s Stille im Bild.</p><span class="chip">Übergang: cut</span></div>
+</div>
+<div class="act">Akt 4 · Beweis</div><div class="grid">
+<div class="card"><div class="frame" id="frame-12"><div class="split"><div><h3>So sieht das aus. <mark>Live</mark> bei RIEGEL Immobilien.</h3><p class="sub">Rechner kalibriert mit 489 echten Abschlüssen</p></div>
+ <div class="browser"><div class="chrome"><i></i><i></i><i></i><span>riegel-immobilien.de</span></div><img src="assets/riegel/02b-rechner-step2-desktop.png" alt=""></div></div></div><div class="lab"><span>12 · RIEGEL LIVE</span><span>1:16–1:32</span></div><p class="note"><b>Echte Screens</b> wechseln im Browser-Rahmen, langsamer Schwenk nach unten. Nichts nachgebaut.</p><span class="chip">Übergang: crossfade</span></div>
+<div class="card"><div class="frame" id="frame-13"><div class="center"><p class="big">9</p><h3>zusätzliche Mandate in den ersten 3 Monaten</h3><p class="src">RIEGEL Immobilien · über das System</p></div></div><div class="lab"><span>13 · ERGEBNIS</span><span>1:32–1:40</span></div><p class="note"><b>Zähler zählt</b> von 0 auf 9, Highlighter unter der Zahl. Quelle klein unten.</p><span class="chip">Übergang: cut</span></div>
+</div>
+<div class="act">Akt 5 · Angebot und Abschluss</div><div class="grid">
+<div class="card"><div class="frame" id="frame-14"><div class="split"><div><h3>Sie liefern <mark>zwei Termine</mark> und Ihre Fotos.</h3><p class="sub">Den Rest bauen wir.</p></div>
+ <div class="row"><div class="cal"><b>Kickoff</b><i>60 Min.</i></div><div class="cal"><b>Freigabe</b><i>45 Min.</i></div><div class="photos"></div></div></div></div><div class="lab"><span>14 · AUFWAND</span><span>1:40–1:48</span></div><p class="note"><b>Zwei Kalenderblätter</b> fallen, daneben ein Fotostapel. Sonst nichts.</p><span class="chip">Übergang: wipe-left</span></div>
+<div class="card"><div class="frame" id="frame-15"><div class="center"><h2>In <mark>sechs Wochen</mark> läuft es.</h2><div class="track"><div class="fill"></div><span>Woche 1</span><span>Woche 6</span></div><div class="chips c"><span>onOffice</span><span>FLOWFACT</span><span>Propstack</span></div></div></div><div class="lab"><span>15 · ZEIT</span><span>1:48–1:56</span></div><p class="note"><b>Balken füllt sich</b> über sechs Wochen, die Chips docken am Ende an.</p><span class="chip">Übergang: wipe-left</span></div>
+<div class="card"><div class="frame" id="frame-16"><div class="map de"><div class="pin yellow" style="left:44%;top:66%"><em>vergeben</em></div><div class="pin grey" style="left:58%;top:30%"></div><div class="pin grey" style="left:30%;top:40%"></div><div class="pin grey" style="left:62%;top:58%"></div><div class="pin grey" style="left:48%;top:48%"></div></div><h2 class="top">Einmal pro <mark>Stadt</mark>.</h2></div><div class="lab"><span>16 · EINMAL PRO STADT</span><span>1:56–2:05</span></div><p class="note"><b>Karte aus Frame 5 zoomt raus</b>, einzelne Städte werden gelb. Nur echte Kunden-Städte.</p><span class="chip">Übergang: crossfade</span></div>
+<div class="card"><div class="frame" id="frame-17"><div class="center"><h2>Ist Ihre noch <mark>frei</mark>?</h2><div class="field"><span>Ihre Stadt|</span><b>Verfügbarkeit prüfen →</b></div><p class="src">direkt unter diesem Video</p></div></div><div class="lab"><span>17 · IST IHRE NOCH FREI?</span><span>2:05–2:21</span></div><p class="note"><b>Cursor tippt</b> „Ihre Stadt“, der gelbe Knopf drückt sich einmal. Endbild steht 2 s, Übergabe an den echten Knopf.</p><span class="chip">Übergang: cut</span></div>
+<div class="card"><div class="frame"><div class="seams"><span class="">01 cut</span><span class="">02 cut</span><span class="">03 cut</span><span class="">04 cut</span><span class="x">05 crossfade</span><span class="x">06 wipe-left</span><span class="x">07 wipe-left</span><span class="x">08 wipe-left</span><span class="x">09 wipe-left</span><span class="">10 cut</span><span class="">11 cut</span><span class="x">12 crossfade</span><span class="">13 cut</span><span class="x">14 wipe-left</span><span class="x">15 wipe-left</span><span class="x">16 crossfade</span><span class="">17 cut</span></div></div><div class="lab"><span>SEAM-KARTE</span><span>Richtung: nach links</span></div><p class="note">Harte Schnitte auf den Satzwechseln, Wipes in der „Was er hat“-Strecke, Crossfades nur an Ortswechseln.</p></div>
+<div class="card tokens"><div class="frame"><p><span class="sw" style="background:#fff"></span><span class="sw" style="background:#161613"></span><span class="sw" style="background:#f3e27f"></span><span class="sw" style="background:#fbf5d6"></span></p><p style="margin-top:2cqw"><b style="font-family:HelvenaX;font-size:3cqw">Helvena 800</b></p><p style="margin-top:1.4cqw;color:#5d5d58;font-size:2cqw">Verboten: Gold, kursiv, Verläufe, Glow, erfundene RIEGEL-UI, Zahlen ohne Beleg, Diashow, Bildschirmschoner.</p></div><div class="lab"><span>TOKENS</span><span>frame.md</span></div></div>
+</div></body></html>
