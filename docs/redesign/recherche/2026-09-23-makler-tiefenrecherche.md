@@ -905,3 +905,161 @@ Für alle fünf gilt:
 - **Absender direkt nach dem Hook:** K8 („Ich saß auf der Verkäuferseite …“), sobald Ge2 schriftlich vorliegt.
 - **Beweis in der Filmmitte:** RIEGEL „+9 Mandate“ nur mit Ge1 und Ge16, in keinem Hook.
 - **Gestrichen:** T3, T8, V6 und K5 werden auch in abgewandelter Form nicht wiederverwendet.
+
+### 9.4 Hook-Vorschlag Alex: Jury
+
+Stand 23.09.2026. Gleiche Jury und gleiche Skala wie in 9.1. Grundlage sind die neuen Fakten von Alex (VSL-EXPLAINER-v2 §6b):
+
+- 30 Minuten Abstimmung pro Woche nach dem Aufbau, Basis Live-Dashboard und CRM (ANGABE, freigegeben).
+- Leadgenerierung: 2.500 € netto Betreuung + 2.000 € Meta-Budget pro Monat, ca. 150 Anfragen pro Monat, nur für einen Makler (ANGABE).
+- Einziger Ergebnisbeleg: RIEGEL „9 zusätzliche Mandate in 3 Monaten“ (Ge1, gelb). 10 pro Monat ist nicht belegt.
+
+#### 9.4.1 Rechnung: Sind 10 Mandate aus 150 Anfragen plausibel?
+
+**Alles in diesem Absatz ist RECHNUNG.** Wo eine Annahme ohne Quelle eingeht, steht VERMUTUNG.
+
+Kosten pro Anfrage: (2.500 € + 2.000 €) / 150 = **30 € netto**, Betreuung eingerechnet. Nur Meta-Budget: 2.000 € / 150 ≈ 13 €. Offen: ob das System (27.900 €, Ge8) Voraussetzung ist. Dann steigen die Kosten pro Anfrage im ersten Jahr um ca. 15,50 € (27.900 € / 12 / 150).
+
+Für 10 Mandate braucht es eine Quote von 10 / 150 = **6,7 %**, also ein Mandat aus 15 Anfragen.
+
+| Quote aus der Recherche | Status | 150 Anfragen ergeben |
+|---|---|---|
+| immowelt: aus 10 Leads ca. 2 Termine (Z2), dazu 1/3 der Termine werden Mandat (4.5) | BELEGT + VERMUTUNG (1/3) | 30 Termine → **ca. 10 Mandate** |
+| IVD-Fallbeispiel Google: 50 Leads pro Auftrag (4.5) | BELEGT (Fallbeispiel) | **3 Mandate** |
+| Aroundhome-Bewertung: aus über 40 Leads ein Auftrag (Nr. 39) | [S] | **ca. 3–4 Mandate** |
+| IMMOKAISER: ca. 10 Leads pro Auftrag (Nr. 43) | unbelegt | 15 Mandate |
+| RIEGEL: 9 in 3 Monaten | ANGABE (Ge1) | **3 pro Monat** (Anfragenzahl im Zeitraum unbekannt) |
+
+Befund:
+- Die belegten Werte landen bei **3–4 Mandaten pro Monat**. Das passt zu RIEGEL.
+- 10 Mandate gehen nur im günstigsten Fall auf: Portal-Qualität der Anfragen plus jeder dritte Termin wird Mandat. Die 1/3 sind geschätzt. Meta-Anfragen sind eher kälter als eine aktive Maklersuche im Portal (VERMUTUNG). Dafür teilt der Makler sie mit niemandem.
+- **10 pro Monat ist damit keine Tatsache und kein typisches Ergebnis.** Als Versprechen bleibt es ROT (R5).
+
+Aufwand beim Makler (der Punkt, den Alex' Satz verschweigt):
+- 150 × 20 % = 30 Bewertungstermine pro Monat (Quote immowelt, Z2).
+- 30 Termine × 6–8 Stunden (Prause [W], Nr. 15) = **180–240 Stunden pro Monat**. Das sind ca. 1,1–1,5 Vollzeitstellen (160 h/Monat).
+- Dazu der Erstkontakt: immowelt empfiehlt 3–5 Kontaktversuche je Anfrage (Z2) → 450–750 Anrufversuche pro Monat.
+- Folge: Genau in dem Fall, in dem 10 Mandate entstehen, sind „ohne Zeitaufwand“ und „ohne zusätzliches Personal“ falsch. Die 30 Minuten gelten nur für die Abstimmung mit beuwy.
+
+Kosten pro Mandat: 4.500 € / 3 = 1.500 € (belegte Mitte), 4.500 € / 10 = 450 € (günstigster Fall). Zum Vergleich: immowelt ≈ 700 € nur Leadkosten pro Mandat (4.5, mit derselben 1/3-Annahme). Verkäuferseitige Courtage im Beispiel ca. 12.100 € (4.4). Ein Mandat im Monat trägt die laufenden Kosten, wenn es zum Verkauf kommt.
+
+#### 9.4.2 Originalfassung
+
+> Ist es möglich, 10 Mandate mehr pro Monat mit 30 Minuten Aufwand pro Woche und einem System zu generieren, ohne zusätzliches Personal, ohne hohe Werbekosten, ohne Zeitaufwand?
+
+*27 Wörter, fünf Behauptungen in einem Satz.*
+
+| (a) Makler | (b) Texter | (c) Recht | Σ | Status |
+|---|---|---|---|---|
+| 3: „10 im Monat? Ich mache 15 im Jahr. Das sagt jede Agentur.“ 30 Minuten und „ohne Zeitaufwand“ widersprechen sich im selben Satz. | 4: Kern ist stark, aber fünf Versprechen verwässern jedes einzelne. „Ist es möglich“ ist ein schwacher Einstieg, „generieren“ ist Agentursprache, „ohne hohe Werbekosten“ lädt zum Nachrechnen ein. | 1: Die rhetorische Frage wird als Behauptung gelesen, die Antwort „ja“ ist eingebaut. 10/Monat ist unbelegt (R5). „Ohne Zeitaufwand“ und „ohne Personal“ sind nach 9.4.1 falsch. „Ohne hohe Werbekosten“ bei 4.500 €/Monat ist irreführend (Nähe R9). | 8 | **gestrichen (Recht)** |
+
+Weitere Punkte:
+- Output-Zahl pro Monat ist das drittmeiste Muster im Markt (5.2 Nr. 3). MaklerMagnet wirbt mit „1–3 zusätzliche Verkaufsobjekte“. Neben diesem Wert wirken 10 wie Übertreibung.
+- Alex' Kern ist trotzdem richtig. Er muss nur auf die Teile, die stimmen: feste Kosten, 30 Minuten Abstimmung, keine Marketingstelle, Anfragen nur für einen Makler.
+
+#### 9.4.3 Eigene Fassungen
+
+Für alle gilt die Regel aus 9.2. Zusätzlich:
+- „exklusiv“ und „planbar“ stehen auf der Tabuliste. Ersatz: „nur bei Ihnen“ und die feste Zahl.
+- Jede Nennung von 150 oder 30 € trägt die Fußzeile: „Erfahrungswert bei 2.000 € Werbebudget und 2.500 € Betreuung netto pro Monat. Anzahl je Region verschieden. Kein Ergebnisversprechen.“
+- Die 30 Minuten heißen immer „Abstimmung mit uns“. Nie „Ihr Aufwand“ allein.
+
+**A1 „Die Rechnung“**
+
+> Hundertfünfzig Eigentümer-Anfragen im Monat. Rund dreißig Euro pro Anfrage, und jede geht nur an Sie. Ihr Aufwand mit uns: dreißig Minuten pro Woche. Wie viele Mandate machen Sie daraus?
+
+*29 Wörter.*
+- **Einblendung:** „150“ als Zählwerk, darunter klein „Anfragen / Monat“. Dann „≈ 30 €“. Dann „Nur Ihre.“ Zum Schluss „? Mandate“, das Fragezeichen gelb.
+- **Bild:** Weißer Grund, Helvena 800 sehr groß. Schnitt auf das echte Cockpit (G10, Beispieldaten), der Zähler „Anfragen diesen Monat“ rollt hoch. Die Kamera fährt auf eine einzelne Karte „Eigentümer · Einfamilienhaus“.
+
+**A2 „Die Zielfrage“** (Alex' Frage, ehrlich beantwortet)
+
+> Zehn Mandate mehr im Monat, mit dreißig Minuten Abstimmung pro Woche. Geht das? Wir rechnen es Ihnen vor, mit Ihrer Region und Ihrer Abschlussquote. Die Antwort kann Nein sein.
+
+*29 Wörter.*
+- **Einblendung:** „10 Mandate / Monat?“ Das Fragezeichen bleibt stehen, die 10 flackert zwischen 3 und 10 wie ein Rechenwerk. Schluss: „Die Antwort kann Nein sein.“
+- **Bild:** Ein echter Rechner (Quote, Anfragen, Termine) füllt sich live mit Beispielwerten. Kein Ergebnis wird eingeblendet.
+
+**A3 „RIEGEL“** (gesperrt bis Ge1)
+
+> Neun zusätzliche Mandate in drei Monaten, meldet RIEGEL Immobilien. Die Abstimmung mit uns: dreißig Minuten pro Woche. Eine neue Stelle gab es dafür nicht. Wie viele wären es bei Ihnen?
+
+*30 Wörter.*
+- **Einblendung:** „+9 Mandate“, darunter klein „in 3 Monaten · Angabe RIEGEL Immobilien“. Dann „30 Min. / Woche“. Dann „0 neue Stellen.“
+- **Bild:** Echter RIEGEL-Screen (Cockpit oder Portal) im Anschnitt, dann Kalender-Wochenansicht mit genau einem gelben Block „Abstimmung beuwy · 30 Min.“.
+
+**A4 „Der Preis pro Anfrage“** (vergleichend)
+
+> Für eine Eigentümer-Anfrage zahlen Makler am Portal 49 Euro, und bis zu zwei Kollegen bekommen dieselbe. Bei uns kostet eine Anfrage rund 30 Euro. Und sie bleibt bei Ihnen.
+
+*29 Wörter.*
+- **Einblendung:** „49 € · bis zu 3 Makler“ grau, daneben „≈ 30 € · 1 Makler“ mit gelber Zahl. Quellzeile: „immowelt, zzgl. MwSt., Stand 09/2026“.
+- **Bild:** Split in einem Frame wie Rang 2. Links drei graue Bürosymbole, rechts eine gelbe Linie ins Cockpit. Kein Portal-Logo.
+
+**A5 „Drei Schläge, ehrlich“** (Alex' Struktur, v2 Hook B)
+
+> Mehr Mandate. Dreißig Minuten Abstimmung pro Woche. Keine neue Stelle. Viertausendfünfhundert Euro im Monat, Werbebudget inklusive. Und jede Anfrage gehört Ihnen. So geht das.
+
+*24 Wörter.*
+- **Einblendung:** Die fünf Zeilen einzeln, je ein Wort gelb: „Mandate“, „30“, „Keine“, „4.500 €“, „Ihnen“.
+- **Bild:** Nur Typo auf Weiß, Scale-from-Huge-Slam im Takt, am Ende Schnitt ins Cockpit.
+
+**A6 „Die Woche“**
+
+> Montag, neun Uhr. Dreißig Minuten mit uns. Der Rest der Woche gehört Ihren Eigentümern. Hundertfünfzig Anfragen im Monat, jede nur bei Ihnen. Wie viele davon werden Mandate?
+
+*27 Wörter.*
+- **Einblendung:** „Mo 9:00“, dann „30 Min.“ sehr groß. Dann „Der Rest gehört Ihren Eigentümern.“ Dann „150 Anfragen / Monat“ mit Fußzeile. Schluss: „Wie viele werden Mandate?“
+- **Bild:**
+  1. Echte Kalender-Wochenansicht, weiß. Montag 9:00 erscheint ein einziger gelber Block „Abstimmung beuwy · 30 Min.“.
+  2. Der Rest der Woche bleibt leer. Die Kamera zieht zurück, bis der Block klein wird.
+  3. Schnitt auf das echte Cockpit (Beispieldaten), der Zähler „Anfragen diesen Monat“ rollt auf 150.
+  4. Zoom auf eine Karte „Eigentümer · Bewertung angefragt“, Status springt auf „Termin“.
+- Uhrzeit ist Kulisse (R15).
+
+**Jury**
+
+| Fassung | (a) Makler | (b) Texter | (c) Recht | Σ | Status |
+|---|---|---|---|---|---|
+| Original | 3: siehe 9.4.2 | 4 | 1 | 8 | **gestrichen** |
+| A1 Die Rechnung | 6: 30 € und „nur an Sie“ rechne ich sofort gegen meine 49 €. 150 klingt nach Agentur, und wer ruft die alle an? | 7: Klare Zahlen, gute Schlussfrage, die meinen Stolz anspricht. Die Zahlenkette ist etwas trocken. | 6: 150 ist ANGABE ohne Nachweis eines Durchschnitts. „Nur an Sie“ braucht die Vertragsklausel (Rang 2). Mit Fußzeile haltbar. | 19 | Reserve (Anzeige Leadgen) |
+| A2 Die Zielfrage | 5: Die 10 bleibt hängen, egal was danach kommt. „Kann Nein sein“ gefällt mir. | 7: Echte offene Schleife, ehrliche Qualifizierung (Lücke 8). | 5: Die Zahl im ersten Wort setzt den Anker. Nur haltbar, wenn der Film die Antwort mit 9.4.1 ehrlich gibt. | 17 | Reserve (nur mit Rechner-Seite) |
+| A3 RIEGEL | 8: Ein echtes Büro, drei pro Monat, das glaube ich. | 8: Beweis zuerst, konkret, gute Schlussfrage. | 4: Ge1 ungeklärt. „Keine neue Stelle“ und 30 Minuten bei RIEGEL unbestätigt. 9.3 sagt: RIEGEL nicht im Hook. Mit Ge1 und Ge16: 7 (Σ 23). | 20 | **gesperrt bis Ge1** |
+| A4 Preis pro Anfrage | 7: Der Vergleich trifft meinen Ärger. | 7: Klarer Preisanker, aber Werbesprech-Nähe. | 3: Vergleichende Werbung (§ 6 UWG), immowelt über den Preis erkennbar. 49 € ist reiner Leadpreis, 30 € enthält Betreuung, aber nicht das System. Ungleiche Basis ist Irreführung durch Weglassen (§ 5a). | 17 | nur Angebotsblock mit Fußnote, kein Hook |
+| A5 Drei Schläge | 6: Den Preis im ersten Satz finde ich ehrlich, er schreckt aber auch. | 6: Liste ohne Schleife, „So geht das“ ist schwach. | 6: „Mehr Mandate“ ohne Zahl ist gerade noch Wirkungsbeschreibung. Preisangabe muss vollständig sein (System extra?). | 18 | Reserve |
+| **A6 Die Woche** | 7: „Der Rest der Woche gehört Ihren Eigentümern“ ist ehrlich. Da verspricht mir keiner, dass ich nichts mehr tun muss. Die 150 glaube ich erst beim Nachweis. | 8: Szene, Zahl, offene Frage. Löst den Widerspruch aus Alex' Satz: Die Zeit wandert vom Marketing zum Kerngeschäft. | 6: Wie A1. Die Frage lässt das Ergebnis offen und ist sauber. 150 und „nur bei Ihnen“ brauchen Nachweis und Vertrag. | 21 | **beste Fassung** |
+
+#### 9.4.4 Vergleich mit Rang 1 und Rang 2
+
+| | Rang 1 „Sonntagabend, 23:48“ | Rang 2 „Behalten Sie Ihr Portal“ | A6 „Die Woche“ |
+|---|---|---|---|
+| Jury-Summe | 25 (V8) | 23 (K6, V1) | 21 (A3 mit Ge1: 23) |
+| Öffnet mit | Szene aus Sicht des Eigentümers (Lücke 2) | Kontra gegen den Agenturrat (Pattern-Interrupt) | Traumzustand Zeit + Output-Zahl |
+| Beleg | Mechanik live und prüfbar (G1, G4) | Anbieterseiten Z1–Z3 | ANGABE Alex (150, 30 Min.) |
+| Wofür der Makler zahlt | nicht genannt | nicht genannt | 30 € pro Anfrage, 30 Min. pro Woche |
+| Risiko | Report „eine Minute später“ messen | Vertragsklausel „bleibt bei Ihnen“ | 150 belegen, Vertragsklausel, Muster „Zahl pro Monat“ ist abgenutzt (5.2) |
+| Stärke | zeigt statt behauptet | härtester fremder Beleg | einziger Hook mit Aufwand und Kosten, qualifiziert Budget |
+
+Urteil:
+- A6 schlägt Rang 1 und Rang 2 **nicht** als Film-Einstieg. Die Jury fand in 9.1: Traumbilder und Output-Zahlen lösen beim Makler „Das sagt jede Agentur“ aus. A6 ist ehrlicher als der Markt, bleibt aber in diesem Muster. Der Beleg ist eine Eigenangabe, keine Anbieterseite und kein Live-Bild.
+- A6 ist der beste Träger für **Alex' Kern**. Der richtige Ort ist die Anzeige für das Leadgen-Angebot und der Angebotsblock im Film (ca. 1:32–1:44, statt „Ein Mandat bringt im Schnitt …“, R1).
+- Sobald Ge1 und Ge16 vorliegen, ist A3 der stärkste Kandidat mit Ergebniszahl (23, gleichauf mit Rang 2). Dann A3 als dritter Arm im A/B-Test gegen Rang 1 und Rang 2.
+
+#### 9.4.5 Empfehlung
+
+1. Originalfassung nicht verwenden, auch nicht als Frage. „10 pro Monat“, „ohne Zeitaufwand“ und „ohne hohe Werbekosten“ fallen raus.
+2. Film-Einstieg bleibt Rang 1 gegen Rang 2 (9.3).
+3. A6 als Hook der 15-s-Anzeige für die Leadgenerierung und als Angebotszeile im Film. A1 als Textvariante derselben Anzeige.
+4. A3 vorbereiten und nach Ge1 in den Test nehmen.
+5. A4 nur im Angebotsblock auf /system, mit Quelle, Stand und gleicher Kostenbasis. Nicht im Hook.
+6. Alle Zahlen (150, 30 €, 30 Min., 4.500 €) als Studio-Keys in `src/lib/texte/vsl.ts`, nicht hart im Code.
+
+#### 9.4.6 Offene Fragen an Alex
+
+1. **150 Anfragen:** Durchschnitt über wie viele Kunden, Monate und Regionen? Bitte Export aus dem Werbekonto. Was heißt „hohe Qualität“ (Telefonnummer geprüft, Rechner abgeschlossen, Verkaufsabsicht)? Sind es Eigentümer mit Verkaufsabsicht?
+2. **Wer ruft die Anfragen an?** Qualifiziert beuwy vor, oder macht der Makler den Erstkontakt? Davon hängt ab, ob „keine neue Stelle“ haltbar ist (9.4.1: bis zu 30 Bewertungstermine im Monat).
+3. **Setzt die Leadgenerierung das System (27.900 €) voraus?** Dann gehört es in die Kosten pro Anfrage und in jeden Preisvergleich.
+4. **Vertrag:** Anfragen nur beim Makler, keine Weiterverwertung durch beuwy, Anfragen bleiben nach Vertragsende beim Makler (wie Rang 2). Laufzeit und Kündigung der 4.500 €/Monat?
+5. **RIEGEL:** Wie viele Anfragen lagen hinter den 9 Mandaten? Das ergibt die erste eigene Quote und ersetzt die Schätzungen in 9.4.1. Gilt für RIEGEL wirklich 30 Minuten pro Woche und keine neue Stelle? Ge1 und Ge16 schriftlich.
+6. **Meta-Budget:** fest 2.000 € oder vom Kunden wählbar? Skaliert die Zahl der Anfragen mit dem Budget?
+7. **Preis im Hook:** A5 nennt 4.500 € im Monat. Soll ein Preis so früh fallen (Entscheidung 3 in v2)?
