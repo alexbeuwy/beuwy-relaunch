@@ -161,6 +161,17 @@ das System. → Einmal pro Stadt. → Ist Ihre noch frei?
   lautlos auf harte Schnitte zurück). CSS-3D und Unschärfe geprüft.
 - Aussprache in der Probe: „Boiwie“.
 
+## 6b. Fakten von Alex (23.09.)
+
+- Aufwand nach dem Start: eine wöchentliche Abstimmung von 30 Minuten
+  reicht allen Kunden. Dazu wenige Termine beim Aufbau. Basis: Live-Dashboard
+  und internes CRM des eigenen Portals. Status: freigegeben (Aussage Alex).
+- „Signifikante Ergebnisse, Wow-Effekte bei Mandanten“: qualitativ, keine Zahl.
+- Offen: laufende Werbekosten (ja/nein, Höhe).
+- Hook-Idee Alex: „10 Mandate mehr pro Monat mit 30 Minuten pro Woche, ohne
+  Personal, ohne hohe Werbekosten“. Die 10 sind nicht belegt (RIEGEL ca. 3 pro
+  Monat) und gehen als Zielfrage in die Jury.
+
 ## 7. Offene Entscheidungen (Alex)
 
 1. Hook A, B oder C.
