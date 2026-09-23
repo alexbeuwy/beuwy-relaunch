@@ -1,0 +1,280 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="16-stadt"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="16-stadt"] * {
+    box-sizing: border-box;
+  }
+  .f16-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f16-scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .f16-world {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .f16-map {
+    position: absolute;
+    inset: 0;
+    background: #f7f7f5;
+    background-image:
+      linear-gradient(rgba(20, 20, 18, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 20, 18, 0.08) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .f16-street {
+    position: absolute;
+    background: rgba(20, 20, 18, 0.05);
+  }
+  .f16-pin {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #c9c9c3;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .f16-pin-ring {
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    background: rgba(243, 226, 127, 0.35);
+    opacity: 0;
+  }
+  .f16-pin-yellow-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #f3e27f;
+    transform: scale(0);
+    transform-origin: 50% 50%;
+  }
+  .f16-pin-label {
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    color: #161613;
+    opacity: 0;
+  }
+  .f16-headline-layer {
+    position: absolute;
+    left: 120px;
+    top: 96px;
+    z-index: 5;
+  }
+  .f16-h1 {
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 104px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #161613;
+    margin: 0;
+    opacity: 0;
+  }
+  .f16-hl-word {
+    position: relative;
+    display: inline-block;
+  }
+  .f16-hl-fill {
+    position: absolute;
+    left: 0;
+    top: 55%;
+    width: 100%;
+    height: 37%;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    z-index: 0;
+  }
+  .f16-hl-word span {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<div id="root" data-composition-id="16-stadt">
+  <div class="f16-bg clip" data-start="0" data-duration="6.41" data-track-index="0"></div>
+
+  <div class="f16-scene clip" data-start="0" data-duration="6.41" data-track-index="1">
+    <div class="f16-world" id="f16-world">
+      <div class="f16-map"></div>
+      <div class="f16-street" style="left:0;top:38%;width:100%;height:5px;"></div>
+      <div class="f16-street" style="left:0;top:71%;width:100%;height:5px;"></div>
+      <div class="f16-street" style="left:22%;top:0;width:5px;height:100%;"></div>
+      <div class="f16-street" style="left:63%;top:0;width:5px;height:100%;"></div>
+
+      <!-- grey pins, no real names -->
+      <div class="f16-pin" id="f16-p1" style="left:14%;top:22%"></div>
+      <div class="f16-pin" id="f16-p2" style="left:33%;top:16%"></div>
+      <div class="f16-pin" id="f16-p3" style="left:58%;top:20%"></div>
+      <div class="f16-pin" id="f16-p4" style="left:78%;top:28%"></div>
+      <div class="f16-pin" id="f16-p5" style="left:88%;top:52%"></div>
+      <div class="f16-pin" id="f16-p6" style="left:20%;top:62%"></div>
+      <div class="f16-pin" id="f16-p7" style="left:12%;top:82%"></div>
+      <div class="f16-pin" id="f16-p8" style="left:40%;top:80%"></div>
+      <div class="f16-pin" id="f16-p9" style="left:82%;top:78%"></div>
+      <div class="f16-pin" id="f16-p10" style="left:64%;top:64%"></div>
+
+      <!-- two pins that turn yellow in Scene 4 -->
+      <div class="f16-pin" id="f16-p11" style="left:35%;top:44%">
+        <div class="f16-pin-ring" id="f16-p11-ring"></div>
+        <div class="f16-pin-yellow-fill" id="f16-p11-fill"></div>
+        <div class="f16-pin-label" id="f16-p11-label">vergeben</div>
+      </div>
+      <div class="f16-pin" id="f16-p12" style="left:70%;top:40%">
+        <div class="f16-pin-ring" id="f16-p12-ring"></div>
+        <div class="f16-pin-yellow-fill" id="f16-p12-fill"></div>
+        <div class="f16-pin-label" id="f16-p12-label">vergeben</div>
+      </div>
+
+      <!-- focal yellow pin, centered -->
+      <div class="f16-pin" id="f16-hero" style="left:50%;top:50%;background:#f3e27f;opacity:1;">
+        <div class="f16-pin-ring" id="f16-hero-ring" style="opacity:1;"></div>
+        <div class="f16-pin-label" id="f16-hero-label">vergeben</div>
+      </div>
+    </div>
+
+    <div class="f16-headline-layer">
+      <h2 class="f16-h1" id="f16-headline">Einmal pro
+        <span class="f16-hl-word"><span class="f16-hl-fill" id="f16-hl"></span><span>Stadt</span></span>.</h2>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+      var world = null;
+
+      var cam = { scale: 1.8 };
+      function applyCamera() {
+        if (!world) world = document.querySelector('[data-composition-id="16-stadt"] #f16-world');
+        world.style.transform = "scale(" + cam.scale + ")";
+      }
+
+      /* Scene 1 (0.0-1.2s): tight on the map, yellow pin centered, scale 1.8 */
+      applyCamera();
+
+      /* Scene 2 (ab "Wir", cue 0.35): one continuous decelerating pull-back to scale 1.0 */
+      tl.to(
+        cam,
+        { scale: 1.0, duration: 1.9, ease: "expo.out", onUpdate: applyCamera },
+        0.35
+      );
+
+      /* grey pins become visible as the wider map opens up, staggered across the pull-back */
+      var greyPins = ["#f16-p1", "#f16-p2", "#f16-p3", "#f16-p4", "#f16-p5", "#f16-p6", "#f16-p7", "#f16-p8", "#f16-p9", "#f16-p10"];
+      greyPins.forEach(function (sel, i) {
+        tl.fromTo(
+          sel,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.45, ease: "power2.out" },
+          0.5 + i * 0.09
+        );
+      });
+      /* two more grey pins that will turn yellow in Scene 4 also fade in with the group */
+      tl.fromTo("#f16-p11", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0.5 + 6 * 0.09);
+      tl.fromTo("#f16-p12", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0.5 + 8 * 0.09);
+
+      /* focal yellow pin gets its "vergeben" label as the pull-back settles */
+      tl.fromTo(
+        "#f16-hero-label",
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        1.9
+      );
+
+      /* Scene 3 (auf "einmal.", cue 2.42): headline top-left, then highlighter under "Stadt" */
+      tl.fromTo(
+        "#f16-headline",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        2.42
+      );
+      tl.fromTo(
+        "#f16-hl",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.45, ease: "power3.out" },
+        2.42 + 0.3
+      );
+
+      /* Scene 4 (auf "Wer zuerst", cues 3.07 / 3.36): two more pins turn yellow, spring-pop */
+      tl.fromTo(
+        "#f16-p11-fill",
+        { scale: 0 },
+        { scale: 1, duration: 0.5, ease: "power3.out" },
+        3.07
+      );
+      tl.fromTo(
+        "#f16-p11-ring",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        3.07
+      );
+      tl.fromTo(
+        "#f16-p11-label",
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        3.07 + 0.15
+      );
+
+      tl.fromTo(
+        "#f16-p12-fill",
+        { scale: 0 },
+        { scale: 1, duration: 0.5, ease: "power3.out" },
+        3.6
+      );
+      tl.fromTo(
+        "#f16-p12-ring",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        3.6
+      );
+      tl.fromTo(
+        "#f16-p12-label",
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        3.6 + 0.15
+      );
+
+      window.__timelines["16-stadt"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

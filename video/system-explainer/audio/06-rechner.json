@@ -1,0 +1,57 @@
+{
+ "id": "06-rechner",
+ "text": "Sein Rechner sammelt Eigentümer. Auch nachts um Viertel vor zwölf.",
+ "dauer": 3.808,
+ "woerter": [
+  {
+   "w": "Sein",
+   "s": 0.0,
+   "e": 0.244
+  },
+  {
+   "w": "Rechner",
+   "s": 0.313,
+   "e": 0.639
+  },
+  {
+   "w": "sammelt",
+   "s": 0.685,
+   "e": 0.952
+  },
+  {
+   "w": "Eigentümer.",
+   "s": 1.033,
+   "e": 1.73
+  },
+  {
+   "w": "Auch",
+   "s": 1.846,
+   "e": 2.113
+  },
+  {
+   "w": "nachts",
+   "s": 2.229,
+   "e": 2.519
+  },
+  {
+   "w": "um",
+   "s": 2.577,
+   "e": 2.659
+  },
+  {
+   "w": "Viertel",
+   "s": 2.728,
+   "e": 3.007
+  },
+  {
+   "w": "vor",
+   "s": 3.053,
+   "e": 3.158
+  },
+  {
+   "w": "zwölf.",
+   "s": 3.216,
+   "e": 3.808
+  }
+ ]
+}

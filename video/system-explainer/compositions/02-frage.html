@@ -1,0 +1,119 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="02-frage"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="02-frage"] * {
+    box-sizing: border-box;
+  }
+  .f02-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f02-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .f02-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 32px;
+    max-width: 1650px;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .f02-word {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 132px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #161613;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f02-mark-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .f02-mark-bar {
+    position: absolute;
+    inset: 55% -10px 8% -10px;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: 4px;
+    z-index: 0;
+  }
+  .f02-mark-text {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<div id="root" data-composition-id="02-frage">
+  <div class="f02-bg clip" data-start="0" data-duration="4.24" data-track-index="0"></div>
+
+  <div class="f02-stage clip" data-start="0" data-duration="4.24" data-track-index="1">
+    <div class="f02-headline" id="f02-headline">
+      <span class="f02-word" id="f02-w1">Aber</span><span class="f02-word" id="f02-w2">was</span><span class="f02-word" id="f02-w3">bleibt</span><span class="f02-word f02-mark-wrap" id="f02-w4"><span class="f02-mark-bar" id="f02-bar"></span><span class="f02-mark-text">liegen</span></span><span class="f02-word" id="f02-w5">?</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---- Scene 1 (0.0-1.6s+): word by word on the voice cues ---- */
+      /* displayed headline maps onto the actual spoken cue for each word */
+
+      tl.fromTo("#f02-w1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.35); // "Aber"
+      tl.fromTo("#f02-w2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.78); // "was"
+      tl.fromTo("#f02-w3", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.11); // "bleibt"
+      tl.fromTo("#f02-w4", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.43); // "liegen"
+      tl.fromTo("#f02-w5", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 2.55); // "?"
+
+      /* ---- Scene 2 (on "liegen?"): yellow highlighter wipes left->right under "liegen" ---- */
+
+      tl.to("#f02-bar", { scaleX: 1, duration: 0.45, ease: "power3.out" }, 2.63);
+
+      /* ---- Scene 3 (rest -> 4.24s): hold, minimal push scale 1 -> 1.02 ---- */
+
+      tl.fromTo(
+        "#f02-headline",
+        { scale: 1 },
+        { scale: 1.02, duration: 1.16, ease: "none" },
+        3.08
+      );
+
+      window.__timelines["02-frage"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

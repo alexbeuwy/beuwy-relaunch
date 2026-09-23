@@ -1,0 +1,77 @@
+{
+ "id": "07-report",
+ "text": "Jeder bekommt in sechzig Sekunden seinen Report. Mit Wert, Bodenrichtwert und Luftbild seines Hauses.",
+ "dauer": 6.084,
+ "woerter": [
+  {
+   "w": "Jeder",
+   "s": 0.0,
+   "e": 0.337
+  },
+  {
+   "w": "bekommt",
+   "s": 0.383,
+   "e": 0.743
+  },
+  {
+   "w": "in",
+   "s": 0.789,
+   "e": 0.871
+  },
+  {
+   "w": "sechzig",
+   "s": 0.929,
+   "e": 1.265
+  },
+  {
+   "w": "Sekunden",
+   "s": 1.289,
+   "e": 1.695
+  },
+  {
+   "w": "seinen",
+   "s": 1.741,
+   "e": 1.985
+  },
+  {
+   "w": "Report.",
+   "s": 2.032,
+   "e": 2.612
+  },
+  {
+   "w": "Mit",
+   "s": 2.728,
+   "e": 2.879
+  },
+  {
+   "w": "Wert,",
+   "s": 2.937,
+   "e": 3.332
+  },
+  {
+   "w": "Bodenrichtwert",
+   "s": 3.413,
+   "e": 4.191
+  },
+  {
+   "w": "und",
+   "s": 4.272,
+   "e": 4.4
+  },
+  {
+   "w": "Luftbild",
+   "s": 4.481,
+   "e": 4.946
+  },
+  {
+   "w": "seines",
+   "s": 5.004,
+   "e": 5.283
+  },
+  {
+   "w": "Hauses.",
+   "s": 5.341,
+   "e": 6.084
+  }
+ ]
+}

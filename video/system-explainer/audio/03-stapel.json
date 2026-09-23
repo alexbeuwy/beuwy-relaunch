@@ -1,0 +1,112 @@
+{
+ "id": "03-stapel",
+ "text": "Die Bewertungsanfrage von Freitagabend. Der Suchkunde vom März. Das Nachfassen nach der Besichtigung. Der Eigentümer, der noch nicht so weit war.",
+ "dauer": 8.266,
+ "woerter": [
+  {
+   "w": "Die",
+   "s": 0.0,
+   "e": 0.163
+  },
+  {
+   "w": "Bewertungsanfrage",
+   "s": 0.197,
+   "e": 1.091
+  },
+  {
+   "w": "von",
+   "s": 1.138,
+   "e": 1.254
+  },
+  {
+   "w": "Freitagabend.",
+   "s": 1.312,
+   "e": 2.148
+  },
+  {
+   "w": "Der",
+   "s": 2.229,
+   "e": 2.403
+  },
+  {
+   "w": "Suchkunde",
+   "s": 2.473,
+   "e": 3.053
+  },
+  {
+   "w": "vom",
+   "s": 3.111,
+   "e": 3.274
+  },
+  {
+   "w": "März.",
+   "s": 3.309,
+   "e": 3.808
+  },
+  {
+   "w": "Das",
+   "s": 3.924,
+   "e": 4.145
+  },
+  {
+   "w": "Nachfassen",
+   "s": 4.238,
+   "e": 4.807
+  },
+  {
+   "w": "nach",
+   "s": 4.83,
+   "e": 4.992
+  },
+  {
+   "w": "der",
+   "s": 5.027,
+   "e": 5.097
+  },
+  {
+   "w": "Besichtigung.",
+   "s": 5.132,
+   "e": 5.863
+  },
+  {
+   "w": "Der",
+   "s": 5.956,
+   "e": 6.153
+  },
+  {
+   "w": "Eigentümer,",
+   "s": 6.235,
+   "e": 6.896
+  },
+  {
+   "w": "der",
+   "s": 6.931,
+   "e": 7.047
+  },
+  {
+   "w": "noch",
+   "s": 7.094,
+   "e": 7.233
+  },
+  {
+   "w": "nicht",
+   "s": 7.279,
+   "e": 7.477
+  },
+  {
+   "w": "so",
+   "s": 7.512,
+   "e": 7.581
+  },
+  {
+   "w": "weit",
+   "s": 7.628,
+   "e": 7.79
+  },
+  {
+   "w": "war.",
+   "s": 7.848,
+   "e": 8.266
+  }
+ ]
+}

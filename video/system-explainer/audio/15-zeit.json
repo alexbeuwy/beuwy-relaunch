@@ -1,0 +1,52 @@
+{
+ "id": "15-zeit",
+ "text": "In sechs Wochen läuft es, angebunden an Ihre Maklersoftware.",
+ "dauer": 3.39,
+ "woerter": [
+  {
+   "w": "In",
+   "s": 0.0,
+   "e": 0.197
+  },
+  {
+   "w": "sechs",
+   "s": 0.255,
+   "e": 0.476
+  },
+  {
+   "w": "Wochen",
+   "s": 0.522,
+   "e": 0.766
+  },
+  {
+   "w": "läuft",
+   "s": 0.813,
+   "e": 1.022
+  },
+  {
+   "w": "es,",
+   "s": 1.068,
+   "e": 1.219
+  },
+  {
+   "w": "angebunden",
+   "s": 1.289,
+   "e": 1.892
+  },
+  {
+   "w": "an",
+   "s": 1.939,
+   "e": 2.009
+  },
+  {
+   "w": "Ihre",
+   "s": 2.067,
+   "e": 2.241
+  },
+  {
+   "w": "Maklersoftware.",
+   "s": 2.287,
+   "e": 3.39
+  }
+ ]
+}

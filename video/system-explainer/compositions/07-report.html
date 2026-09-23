@@ -1,0 +1,301 @@
+<template data-composition-id="07-report">
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      font-family: "Helvena", sans-serif;
+      overflow: hidden;
+    }
+
+    @font-face {
+      font-family: "Helvena";
+      src: url("assets/fonts/helvena.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "HelvenaBold";
+      src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+      font-weight: 800;
+    }
+
+    #r07-bg.clip {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    #r07-headline {
+      position: absolute;
+      left: 120px;
+      top: 420px;
+      width: 800px;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 76px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #161613;
+    }
+    #r07-headline .r07-word {
+      display: inline-block;
+      opacity: 0;
+      white-space: pre;
+    }
+    #r07-headline .r07-hl {
+      position: relative;
+      display: inline-block;
+    }
+    #r07-headline .r07-hl-bar {
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 55%;
+      bottom: -8%;
+      background: #f3e27f;
+      transform: scaleX(0);
+      transform-origin: left;
+      z-index: -1;
+    }
+    #r07-headline .r07-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* PDF card */
+    #r07-card {
+      position: absolute;
+      left: 1220px;
+      top: 240px;
+      width: 460px;
+      height: 600px;
+      background: #ffffff;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+      transform: rotate(-3deg);
+      opacity: 0;
+      transform-origin: 50% 50%;
+      overflow: hidden;
+    }
+    #r07-card-sat {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      top: 32px;
+      height: 220px;
+      border-radius: 16px;
+      background: #f7f7f5;
+      overflow: hidden;
+    }
+    #r07-card-sat::before {
+      content: "";
+      position: absolute;
+      inset: -20% -20%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(20, 20, 18, 0.06) 0px,
+        rgba(20, 20, 18, 0.06) 2px,
+        transparent 2px,
+        transparent 18px
+      );
+    }
+    #r07-card-title {
+      position: absolute;
+      left: 32px;
+      top: 276px;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 30px;
+      letter-spacing: -0.01em;
+      color: #161613;
+    }
+    #r07-card-bar1,
+    #r07-card-bar2 {
+      position: absolute;
+      left: 32px;
+      height: 14px;
+      border-radius: 7px;
+      background: rgba(20, 20, 18, 0.08);
+    }
+    #r07-card-bar1 {
+      top: 322px;
+      width: 260px;
+    }
+    #r07-card-bar2 {
+      top: 348px;
+      width: 170px;
+    }
+    #r07-card-number {
+      position: absolute;
+      left: 32px;
+      top: 392px;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      letter-spacing: -0.03em;
+      color: #161613;
+      font-variant-numeric: tabular-nums;
+    }
+    #r07-chips {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .r07-chip {
+      display: inline-flex;
+      align-items: center;
+      background: #fbf5d6;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: "Helvena", sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: #161613;
+      opacity: 0;
+      transform: scale(0);
+      transform-origin: 50% 100%;
+    }
+
+    #r07-blur-el {
+      position: absolute;
+      inset: 0;
+    }
+  </style>
+
+  <div id="root">
+    <div id="r07-bg" class="clip" data-start="0" data-duration="7.33" data-track-index="0"></div>
+
+    <div
+      id="r07-headline-wrap"
+      class="clip"
+      data-start="0"
+      data-duration="7.33"
+      data-track-index="1"
+    >
+      <h2 id="r07-headline">
+        <span class="r07-word">Jeder</span>
+        <span class="r07-word">Eigentümer</span>
+        <span class="r07-word">bekommt</span>
+        <span class="r07-word">in</span>
+        <span class="r07-word r07-hl"
+          ><span class="r07-hl-bar"></span><span class="r07-hl-text">60</span></span
+        >
+        <span class="r07-word r07-hl"
+          ><span class="r07-hl-bar"></span><span class="r07-hl-text">Sekunden</span></span
+        >
+        <span class="r07-word">seinen</span>
+        <span class="r07-word">Report.</span>
+      </h2>
+    </div>
+
+    <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+      <filter id="r07-streak" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur id="r07-streak-blur" in="SourceGraphic" stdDeviation="0 18" />
+      </filter>
+    </svg>
+
+    <div
+      id="r07-card-wrap"
+      class="clip"
+      data-start="0"
+      data-duration="7.33"
+      data-track-index="2"
+    >
+      <div id="r07-blur-el" style="filter: url(#r07-streak)">
+        <div id="r07-card">
+          <div id="r07-card-sat"></div>
+          <div id="r07-card-title">Marktwert-Report</div>
+          <div id="r07-card-bar1"></div>
+          <div id="r07-card-bar2"></div>
+          <div id="r07-card-number">412.000&nbsp;€</div>
+          <div id="r07-chips">
+            <span class="r07-chip">Name</span>
+            <span class="r07-chip">Adresse</span>
+            <span class="r07-chip">Bodenrichtwert</span>
+            <span class="r07-chip">Luftbild</span>
+            <span class="r07-chip">Ihr Logo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      const words = gsap.utils.toArray("#r07-headline .r07-word");
+      // words: Jeder(0) Eigentümer(1) bekommt(2) in(3) 60(4) Sekunden(5) seinen(6) Report.(7)
+      // cues:  Jeder@0.35 · bekommt@0.73 · in@1.14 · sechzig@1.28 · Sekunden@1.64 · seinen@2.09 · Report.@2.38
+      // headline has an extra word ("Eigentümer") not spoken in the VO — interpolated between Jeder and bekommt.
+      const wordStarts = [0.35, 0.54, 0.73, 1.14, 1.28, 1.64, 2.09, 2.38];
+
+      const streakBlur = document.getElementById("r07-streak-blur");
+      const blurProxy = { v: 18 };
+      const writeBlur = () => streakBlur.setAttribute("stdDeviation", `0 ${blurProxy.v}`);
+      writeBlur();
+
+      const tl = gsap.timeline({ paused: true });
+
+      words.forEach((w, i) => {
+        tl.fromTo(
+          w,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          wordStarts[i],
+        );
+      });
+
+      // Highlighter under "60 Sekunden" — sweeps on right after "Sekunden" lands
+      tl.fromTo(
+        "#r07-headline .r07-hl-bar",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.45, ease: "power3.out" },
+        1.64,
+      );
+
+      // Scene 2: PDF flies in on "Report." (2.38s), motion-blur-streak
+      const CARD_ENTER_AT = 2.38;
+      tl.fromTo(
+        "#r07-blur-el",
+        { y: 420, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        CARD_ENTER_AT,
+      );
+      tl.fromTo(
+        "#r07-card",
+        { opacity: 0, rotation: -3 },
+        { opacity: 1, rotation: -3, duration: 0.5, ease: "power3.out" },
+        CARD_ENTER_AT,
+      );
+      tl.to(
+        blurProxy,
+        { v: 0, duration: 0.5, ease: "power3.out", onUpdate: writeBlur },
+        CARD_ENTER_AT,
+      );
+
+      // Scene 3: chips dock in sequence, each on its word
+      // Mit@3.08 Wert,@3.29 Bodenrichtwert@3.76 und@4.62 Luftbild@4.83 seines@5.35 Hauses.@5.69
+      const chips = gsap.utils.toArray(".r07-chip");
+      const chipTimes = [3.08, 3.29, 3.76, 4.83, 5.35]; // Name, Adresse, Bodenrichtwert, Luftbild, Ihr Logo(last)
+      chips.forEach((c, i) => {
+        tl.fromTo(
+          c,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+          chipTimes[i],
+        );
+      });
+
+      // Scene 4: hold, slow rotate from -3deg to -1deg
+      tl.to("#r07-card", { rotation: -1, duration: 1.2, ease: "power2.inOut" }, 6.0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["07-report"] = tl;
+    })();
+  </script>
+</template>

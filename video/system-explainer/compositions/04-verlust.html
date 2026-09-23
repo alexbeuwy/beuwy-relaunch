@@ -1,0 +1,236 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Helvena";
+      src: url("assets/fonts/helvena.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "HelvenaBold";
+      src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+      font-weight: 800;
+    }
+
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: "Helvena", sans-serif;
+    }
+
+    #root .f04-bg {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    #root .f04-headline {
+      position: absolute;
+      left: 120px;
+      top: 330px;
+      width: 1100px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 104px;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: #161613;
+    }
+
+    #root .f04-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px);
+      white-space: pre;
+    }
+
+    #root .f04-hl-wrap {
+      position: relative;
+      display: inline;
+    }
+    #root .f04-hl-bar {
+      position: absolute;
+      inset: 4% -8px 14%;
+      background: #f3e27f;
+      transform: scaleX(0);
+      transform-origin: left center;
+      border-radius: 4px;
+      z-index: 0;
+    }
+    #root .f04-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* mini task-card stack — callback from frame 03, scale 0.45, bottom-right */
+    #root .f04-stack {
+      position: absolute;
+      right: 90px;
+      bottom: 120px;
+      width: 680px;
+      height: 520px;
+      transform: scale(0.45);
+      transform-origin: bottom right;
+    }
+    #root .f04-stack-inner {
+      position: absolute;
+      inset: 0;
+      transform-origin: bottom right;
+    }
+    #root .f04-task {
+      position: absolute;
+      width: 560px;
+      background: #ffffff;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      border-radius: 28px;
+      padding: 26px 32px;
+      box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+      opacity: 0;
+      transform: scale(0.92);
+      transform-origin: 50% 50%;
+    }
+    #root .f04-task span.f04-label {
+      display: block;
+      font-family: "Helvena", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8a8a84;
+    }
+    #root .f04-task b {
+      display: block;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 38px;
+      margin-top: 8px;
+      color: #161613;
+    }
+    #root .f04-task .f04-sub {
+      display: block;
+      font-family: "Helvena", sans-serif;
+      font-size: 24px;
+      font-style: normal;
+      color: #5d5d58;
+      margin-top: 4px;
+    }
+
+    #root .f04-t1 {
+      left: 40px;
+      top: 0px;
+    }
+    #root .f04-t2 {
+      left: 90px;
+      top: 130px;
+    }
+    #root .f04-t3 {
+      left: 10px;
+      top: 260px;
+    }
+    #root .f04-t4 {
+      left: 100px;
+      top: 385px;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="04-verlust"
+    data-start="0"
+    data-duration="4.15"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div class="f04-bg clip" data-start="0" data-duration="4.15" data-track-index="0"></div>
+
+    <div class="f04-stack clip" data-start="0" data-duration="4.15" data-track-index="1">
+      <div class="f04-stack-inner" id="f04-stack-inner">
+        <div class="f04-task f04-t1" id="f04-t1">
+          <span class="f04-label">Fr &middot; 21:14</span>
+          <b>Bewertungsanfrage</b>
+          <span class="f04-sub">Einfamilienhaus, Schifferstadt</span>
+        </div>
+        <div class="f04-task f04-t2" id="f04-t2">
+          <span class="f04-label">seit M&auml;rz</span>
+          <b>Suchkunde</b>
+          <span class="f04-sub">3 Zimmer, Speyer, bis 420.000&nbsp;&euro;</span>
+        </div>
+        <div class="f04-task f04-t3" id="f04-t3">
+          <span class="f04-label">Di &middot; Besichtigung</span>
+          <b>Nachfassen offen</b>
+          <span class="f04-sub">Familie Kern</span>
+        </div>
+        <div class="f04-task f04-t4" id="f04-t4">
+          <span class="f04-label">&bdquo;melden Sie sich im Herbst&ldquo;</span>
+          <b>Eigent&uuml;mer</b>
+          <span class="f04-sub">noch nicht so weit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="f04-headline clip" data-start="0" data-duration="4.15" data-track-index="2">
+      <span class="f04-word" id="f04-w1">Was&nbsp;</span><span class="f04-word" id="f04-w2">liegen&nbsp;</span><span class="f04-word" id="f04-w3">bleibt,&nbsp;</span><span class="f04-word" id="f04-w4">holt&nbsp;</span><span class="f04-word" id="f04-w5">sich&nbsp;</span><span
+        class="f04-hl-wrap"
+        ><span class="f04-hl-bar" id="f04-hl-bar"></span><span class="f04-hl-text"
+          ><span class="f04-word" id="f04-w6">ein&nbsp;</span><span class="f04-word" id="f04-w7">anderer.</span></span
+        ></span
+      >
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–0.4s): mini task-card stack already in place, quick settle-in.
+      tl.fromTo(
+        "#f04-stack-inner",
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" },
+        0
+      );
+      gsap.utils.toArray(["#f04-t1", "#f04-t2", "#f04-t3", "#f04-t4"]).forEach(function (el, i) {
+        var baseRot = [-4, 3, -2, 5][i];
+        tl.fromTo(
+          el,
+          { opacity: 0, scale: 0.85, rotation: baseRot },
+          {
+            opacity: 1,
+            scale: 0.92,
+            rotation: baseRot,
+            duration: 0.24,
+            ease: "power3.out",
+          },
+          0.02 * i
+        );
+      });
+
+      // Scene 2 (from "Und" @0.35s): headline word-by-word waterfall-entry, synced to cues.
+      var words = ["#f04-w1", "#f04-w2", "#f04-w3", "#f04-w4", "#f04-w5", "#f04-w6", "#f04-w7"];
+      var wordCues = [0.35, 0.64, 0.88, 1.16, 1.67, 1.93, 2.13];
+      words.forEach(function (sel, i) {
+        tl.set(sel, { opacity: 1, y: 40 }, wordCues[i]);
+        tl.to(sel, { y: 0, duration: 0.15, ease: "power4.out" }, wordCues[i]);
+      });
+
+      // Scene 3 (on "anderer." @2.31s): highlighter wipes under "ein anderer.",
+      // stack nudges 40px right/down.
+      tl.to(
+        "#f04-hl-bar",
+        { scaleX: 1, duration: 0.45, ease: "power3.out" },
+        2.31
+      );
+      tl.to(
+        "#f04-stack-inner",
+        { x: 40, y: 40, duration: 0.4, ease: "power3.out" },
+        2.31
+      );
+
+      window.__timelines["04-verlust"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

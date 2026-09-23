@@ -1,0 +1,358 @@
+<template data-composition-id="08-konto">
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      font-family: "Helvena", sans-serif;
+      overflow: hidden;
+    }
+
+    @font-face {
+      font-family: "Helvena";
+      src: url("assets/fonts/helvena.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "HelvenaBold";
+      src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+      font-weight: 800;
+    }
+
+    #r08-bg.clip {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    #r08-headline {
+      position: absolute;
+      left: 120px;
+      top: 420px;
+      width: 800px;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 76px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #161613;
+    }
+    #r08-headline .r08-word {
+      display: inline-block;
+      opacity: 0;
+      white-space: pre;
+    }
+    #r08-headline .r08-hl {
+      position: relative;
+      display: inline-block;
+    }
+    #r08-headline .r08-hl-bar {
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 55%;
+      bottom: -8%;
+      background: #f3e27f;
+      transform: scaleX(0);
+      transform-origin: left;
+      z-index: -1;
+    }
+    #r08-headline .r08-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Konto card */
+    #r08-card {
+      position: absolute;
+      left: 1000px;
+      top: 280px;
+      width: 760px;
+      height: 520px;
+      background: #ffffff;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+      transform: scale(0);
+      transform-origin: 50% 50%;
+      opacity: 0;
+      padding: 40px 44px;
+      box-sizing: border-box;
+    }
+    #r08-label {
+      font-family: "Helvena", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8a8a84;
+    }
+    #r08-avatar {
+      position: absolute;
+      right: 44px;
+      top: 40px;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #f7f7f5;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: #161613;
+    }
+    #r08-chips {
+      position: absolute;
+      left: 44px;
+      top: 112px;
+      width: 500px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .r08-chip {
+      display: inline-flex;
+      align-items: center;
+      background: #fbf5d6;
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-family: "Helvena", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: #161613;
+      opacity: 0;
+      transform: scale(0);
+      transform-origin: 50% 100%;
+    }
+
+    #r08-object {
+      position: absolute;
+      left: 44px;
+      top: 232px;
+      width: 672px;
+      height: 150px;
+      background: #f7f7f5;
+      border-radius: 20px;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 24px;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    #r08-object-img {
+      width: 110px;
+      height: 100px;
+      border-radius: 12px;
+      background: #d9d9d3;
+      flex: none;
+    }
+    #r08-object-title {
+      font-family: "HelvenaBold", sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+      color: #161613;
+      line-height: 1.15;
+    }
+
+    /* Mail row — anchored-layout-expand */
+    #r08-mail-mask {
+      position: absolute;
+      left: 44px;
+      top: 402px;
+      width: 672px;
+      height: 78px;
+      overflow: hidden;
+    }
+    #r08-mail-sheet {
+      width: 100%;
+      height: 78px;
+      display: flex;
+      align-items: stretch;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+    }
+    #r08-mail-bar {
+      width: 8px;
+      background: #f3e27f;
+      flex: none;
+    }
+    #r08-mail-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 20px;
+      background: #ffffff;
+    }
+    #r08-mail-text {
+      font-family: "Helvena", sans-serif;
+      font-weight: 400;
+      font-size: 22px;
+      color: #161613;
+      line-height: 1.25;
+    }
+    #r08-mail-status {
+      font-family: "Helvena", sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #8a8a84;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="root">
+    <div id="r08-bg" class="clip" data-start="0" data-duration="7.29" data-track-index="0"></div>
+
+    <div
+      id="r08-headline-wrap"
+      class="clip"
+      data-start="0"
+      data-duration="7.29"
+      data-track-index="1"
+    >
+      <h2 id="r08-headline">
+        <span class="r08-word">Käufer</span>
+        <span class="r08-word">legen</span>
+        <span class="r08-word">bei</span>
+        <span class="r08-word">ihm</span>
+        <span class="r08-word">ein</span>
+        <span class="r08-word">Konto</span>
+        <span class="r08-word">an.</span>
+        <span class="r08-word">Mit</span>
+        <span class="r08-word r08-hl"
+          ><span class="r08-hl-bar"></span><span class="r08-hl-text">Suchauftrag.</span></span
+        >
+      </h2>
+    </div>
+
+    <div
+      id="r08-card-wrap"
+      class="clip"
+      data-start="0"
+      data-duration="7.29"
+      data-track-index="2"
+    >
+      <div id="r08-card">
+        <div id="r08-label">Suchauftrag</div>
+        <div id="r08-avatar">JK</div>
+        <div id="r08-chips">
+          <span class="r08-chip">3–4 Zimmer</span>
+          <span class="r08-chip">Speyer</span>
+          <span class="r08-chip">bis 450.000 €</span>
+          <span class="r08-chip">Garten</span>
+        </div>
+
+        <div id="r08-object">
+          <div id="r08-object-img"></div>
+          <div id="r08-object-title">Doppelhaushälfte,<br />Speyer-West</div>
+        </div>
+
+        <div id="r08-mail-mask" data-layout-allow-overflow>
+          <div id="r08-mail-sheet">
+            <div id="r08-mail-bar"></div>
+            <div id="r08-mail-body">
+              <div id="r08-mail-text">Passt zu Ihrem Suchauftrag: Doppelhaushälfte, Speyer-West</div>
+              <div id="r08-mail-status">gesendet 06:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // cues: Käufer@0.35 · legen@0.78 · bei@0.99 · ihm@1.12 · ein@1.27 · Konto@1.4 · an@1.74 ·
+      // und@1.89 · hinterlegen,@2.0 · was@2.46 · sie@2.65 · suchen.@2.8 · Passt@3.43 · ein@3.76 ·
+      // neues@3.89 · Objekt,@4.19 · geht@4.7 · die@4.91 · Mail@5.05 · von@5.23 · selbst@5.4 · raus.@5.72
+      const words = gsap.utils.toArray("#r08-headline .r08-word");
+      // headline: Käufer legen bei ihm ein Konto an. Mit Suchauftrag.
+      const wordStarts = [0.35, 0.78, 0.99, 1.12, 1.27, 1.4, 1.74, 1.89, 2.0];
+
+      const tl = gsap.timeline({ paused: true });
+
+      words.forEach((w, i) => {
+        tl.fromTo(
+          w,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          wordStarts[i],
+        );
+      });
+
+      // Highlighter under "Mit Suchauftrag." sweeps as "hinterlegen" lands (per scene spec)
+      tl.fromTo(
+        "#r08-headline .r08-hl-bar",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.45, ease: "power3.out" },
+        2.0,
+      );
+
+      // Konto card pops in early (Scene 1 window 0–1.6s), landing by t<=0.5s per hero-visibility rule
+      tl.fromTo(
+        "#r08-card",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        0.1,
+      );
+      tl.fromTo(
+        "#r08-avatar",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+        0.3,
+      );
+
+      // Chips stagger in — 4 chips, one arriving beat within Scene 1
+      const chips = gsap.utils.toArray(".r08-chip");
+      chips.forEach((c, i) => {
+        tl.fromTo(
+          c,
+          { scale: 0, opacity: 0, y: 20 },
+          { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+          0.6 + i * 0.08,
+        );
+      });
+
+      // Scene 2: new object card slides in from the right on "Passt" (3.43s)
+      tl.fromTo(
+        "#r08-object",
+        { x: 300, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+        3.43,
+      );
+
+      // Scene 3: mail row expands open on "Mail" (5.05s) — anchored-layout-expand
+      const BODY_H = 78;
+      tl.fromTo(
+        ["#r08-mail-sheet"],
+        { y: -BODY_H },
+        { y: 0, duration: 0.5, ease: "power3.out" },
+        5.05,
+      );
+      tl.fromTo(
+        "#r08-mail-text",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" },
+        5.05 + 0.15,
+      );
+      tl.fromTo(
+        "#r08-mail-status",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" },
+        5.4,
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["08-konto"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,208 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="03-stapel"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="03-stapel"] * {
+    box-sizing: border-box;
+  }
+  .f03-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f03-label {
+    position: absolute;
+    left: 120px;
+    top: 96px;
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a8a84;
+    opacity: 0;
+  }
+  .f03-stack {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    will-change: transform;
+  }
+  .f03-slot {
+    position: absolute;
+    width: 620px;
+    height: 170px;
+  }
+  .f03-card {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(20, 20, 18, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+  }
+  .f03-card-time {
+    font-family: "Helvena", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #8a8a84;
+  }
+  .f03-card-title {
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: #161613;
+  }
+  .f03-card-line {
+    font-family: "Helvena", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #5d5d58;
+  }
+  .f03-side {
+    position: absolute;
+    right: 120px;
+    top: 796px;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 76px;
+    letter-spacing: -0.02em;
+    color: #8a8a84;
+    opacity: 0;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<div id="root" data-composition-id="03-stapel">
+  <div class="f03-bg clip" data-start="0" data-duration="10.02" data-track-index="0"></div>
+
+  <div class="f03-label clip" id="f03-label" data-start="0" data-duration="10.02" data-track-index="1">Liegt seit …</div>
+
+  <div class="f03-stack clip" id="f03-stack" data-start="0" data-duration="10.02" data-track-index="2">
+    <div class="f03-slot" id="f03-slot1" style="left: 1080px; top: 330px; transform: rotate(-4deg);">
+      <div class="f03-card" id="f03-card1">
+        <div class="f03-card-time">Fr · 21:14</div>
+        <div class="f03-card-title">Bewertungsanfrage</div>
+        <div class="f03-card-line">Einfamilienhaus, Schifferstadt</div>
+      </div>
+    </div>
+    <div class="f03-slot" id="f03-slot2" style="left: 1130px; top: 400px; transform: rotate(3deg); z-index: 2;">
+      <div class="f03-card" id="f03-card2">
+        <div class="f03-card-time">seit März</div>
+        <div class="f03-card-title">Suchkunde</div>
+        <div class="f03-card-line">3 Zimmer, Speyer, bis 420.000 €</div>
+      </div>
+    </div>
+    <div class="f03-slot" id="f03-slot3" style="left: 1050px; top: 470px; transform: rotate(-2deg); z-index: 3;">
+      <div class="f03-card" id="f03-card3">
+        <div class="f03-card-time">Di · Besichtigung</div>
+        <div class="f03-card-title">Nachfassen offen</div>
+        <div class="f03-card-line">Familie Kern</div>
+      </div>
+    </div>
+    <div class="f03-slot" id="f03-slot4" style="left: 1140px; top: 540px; transform: rotate(5deg); z-index: 4;">
+      <div class="f03-card" id="f03-card4">
+        <div class="f03-card-time">„melden Sie sich im Herbst“</div>
+        <div class="f03-card-title">Eigentümer</div>
+        <div class="f03-card-line">noch nicht so weit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="f03-side clip" id="f03-side" data-start="0" data-duration="10.02" data-track-index="3">Liegt.</div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---- Scene 1 (0.0-0.6s): dim top-left label ---- */
+
+      tl.fromTo("#f03-label", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.1);
+
+      /* ---- Scene 2: four task cards fall onto the growing stack, each on its cue (spring-pop-entrance) ---- */
+
+      // Card 1 — "Bewertungsanfrage" cue 0.55
+      tl.fromTo(
+        "#f03-card1",
+        { scale: 0, opacity: 0, y: 24 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        0.55
+      );
+
+      // Card 2 — "Suchkunde" cue 2.82
+      tl.fromTo(
+        "#f03-card2",
+        { scale: 0, opacity: 0, y: 24 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        2.82
+      );
+
+      // Card 3 — "Nachfassen" cue 4.59
+      tl.fromTo(
+        "#f03-card3",
+        { scale: 0, opacity: 0, y: 24 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        4.59
+      );
+
+      // Card 4 — "Eigentümer," cue 6.58
+      tl.fromTo(
+        "#f03-card4",
+        { scale: 0, opacity: 0, y: 24 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        6.58
+      );
+
+      /* ---- Scene 3 (rest -> 10.02s): stack stands, very light breathing (sine-wave-loop, finite) ---- */
+
+      var idleStart = 7.3;
+      tl.to(
+        "#f03-stack",
+        { y: -3, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 3 },
+        idleStart
+      );
+
+      // "Liegt." settles bottom-right near the end
+      tl.fromTo(
+        "#f03-side",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        8.9
+      );
+
+      window.__timelines["03-stapel"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

@@ -1,0 +1,139 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="10-wende"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="10-wende"] * {
+    box-sizing: border-box;
+  }
+  .f10-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f10-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 120px;
+  }
+  .f10-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 28px;
+    max-width: 1560px;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .f10-word {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 104px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #161613;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f10-hl-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .f10-hl-bar {
+    position: absolute;
+    inset: 0.55em -8px 0.08em -8px;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: 6px;
+    z-index: 0;
+  }
+  .f10-hl-text {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<div id="root" data-composition-id="10-wende">
+  <div class="f10-bg clip" data-start="0" data-duration="3.39" data-track-index="0"></div>
+
+  <div class="f10-stage clip" data-start="0" data-duration="3.39" data-track-index="1">
+    <div class="f10-headline" id="f10-headline">
+      <span class="f10-word" id="f10-w1">Dieses</span><span class="f10-word" id="f10-w2">System</span><span class="f10-word" id="f10-w3">gibt</span><span class="f10-word" id="f10-w4">es</span><span class="f10-word" id="f10-w5">jetzt</span><span class="f10-word" id="f10-w6">für</span><span class="f10-word f10-hl-wrap" id="f10-w7"><span class="f10-hl-bar" id="f10-hl"></span><span class="f10-hl-text">Ihr</span></span><span class="f10-word f10-hl-wrap" id="f10-w8"><span class="f10-hl-bar" id="f10-hl2"></span><span class="f10-hl-text">Büro.</span></span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var F = 1 / 60;
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-0.3s): hard cut to empty white — nothing renders, handled by the cut before words fire */
+
+      /* Scene 2 (from "Dieses" @0.35): waterfall-entry, word by word on cues */
+      // "Dieses" — anchor, cue 0.35
+      tl.set("#f10-w1", { opacity: 1, y: 72 }, 0.35);
+      tl.to("#f10-w1", { y: 0, duration: 0.18, ease: "power4.out" }, 0.35);
+
+      // "System" — normal, cue 0.74
+      tl.set("#f10-w2", { opacity: 1, y: 46 }, 0.74);
+      tl.to("#f10-w2", { y: 0, duration: 0.15, ease: "power4.out" }, 0.74);
+
+      // "gibt" — normal, cue 1.17
+      tl.set("#f10-w3", { opacity: 1, y: 44 }, 1.17);
+      tl.to("#f10-w3", { y: 0, duration: 0.14, ease: "power4.out" }, 1.17);
+
+      // "es" — light, cue 1.4
+      tl.set("#f10-w4", { opacity: 1, y: 34 }, 1.4);
+      tl.to("#f10-w4", { y: 0, duration: 0.12, ease: "power4.out" }, 1.4);
+
+      // "jetzt" — normal, cue 1.51 (tight overlap after "es")
+      tl.set("#f10-w5", { opacity: 1, y: 44 }, 1.51);
+      tl.to("#f10-w5", { y: 0, duration: 0.14, ease: "power4.out" }, 1.51);
+
+      // "für" — light, cue 1.74
+      tl.set("#f10-w6", { opacity: 1, y: 34 }, 1.74);
+      tl.to("#f10-w6", { y: 0, duration: 0.12, ease: "power4.out" }, 1.74);
+
+      // "Ihr" — normal, cue 1.88
+      tl.set("#f10-w7", { opacity: 1, y: 44 }, 1.88);
+      tl.to("#f10-w7", { y: 0, duration: 0.14, ease: "power4.out" }, 1.88);
+
+      // "Büro." — final word, extra travel for climax, cue 2.02
+      tl.set("#f10-w8", { opacity: 1, y: 68 }, 2.02);
+      tl.to("#f10-w8", { y: 0, duration: 0.16, ease: "power4.out" }, 2.02);
+
+      /* Scene 3 (on "Büro."): highlighter wipes under "Ihr Büro", then hold */
+      var hlStart = 2.02 + 0.16 - F;
+      tl.to("#f10-hl", { scaleX: 1, duration: 0.45, ease: "power3.out" }, hlStart);
+      tl.to("#f10-hl2", { scaleX: 1, duration: 0.45, ease: "power3.out" }, hlStart);
+
+      window.__timelines["10-wende"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

@@ -1,0 +1,7 @@
+{
+  "scene": "07-report",
+  "duration_s": 7.33,
+  "rules": ["spring-pop-entrance", "motion-blur-streak"],
+  "exit": { "vector": "none, card at rest rotating -3deg to -1deg, still_moving at cut", "still_moving": true },
+  "entry": { "vector": "headline words rise y:40->0 from t=0.35s; PDF card streaks up from y:420 at t=2.38s", "from_rest": false }
+}
