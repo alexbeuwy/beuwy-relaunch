@@ -1,0 +1,7 @@
+{
+  "scene": "13-ergebnis",
+  "duration_s": 16.42,
+  "rules": ["counting-dynamic-scale", "css-marker-patterns"],
+  "exit": { "vector": "none, still at rest (footnote settled, slow stage push still running)", "still_moving": true },
+  "entry": { "vector": "number scale 0.5 to 1 counting 0->9, from rest at t=1.61s", "from_rest": true }
+}

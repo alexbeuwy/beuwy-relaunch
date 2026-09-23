@@ -1,0 +1,7 @@
+{
+  "scene": "17-cta",
+  "duration_s": 7.37,
+  "rules": ["discrete-text-sequence", "press-release-spring"],
+  "exit": { "vector": "static, 0px/s — final frame of the film, held still from t=4.37s to end, no fade-out", "still_moving": false },
+  "entry": { "vector": "words whip up from below (y 40-78px) on hard-cut white, from rest", "from_rest": true }
+}
