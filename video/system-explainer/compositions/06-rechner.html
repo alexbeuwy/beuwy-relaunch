@@ -26,11 +26,17 @@
     }
 
     /* --- left column: headline, "Auch nachts." + highlighter, clock --- */
-    #root .f06-headline {
+    #root .f06-left {
       position: absolute;
       left: 120px;
-      top: 300px;
-      width: 760px;
+      top: 470px;
+      width: 780px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+    }
+    #root .f06-headline {
+      width: 780px;
       font-family: "HelvenaBold", "Helvena", sans-serif;
       font-weight: 800;
       font-size: 76px;
@@ -41,15 +47,12 @@
     #root .f06-word {
       display: inline-block;
       opacity: 0;
-      transform: translateY(40px);
       white-space: pre;
     }
 
     #root .f06-sub {
-      position: absolute;
-      left: 120px;
-      top: 500px;
-      width: 760px;
+      margin-top: 28px;
+      width: 780px;
       font-family: "HelvenaBold", "Helvena", sans-serif;
       font-weight: 800;
       font-size: 76px;
@@ -76,9 +79,7 @@
     }
 
     #root .f06-clock {
-      position: absolute;
-      left: 120px;
-      top: 630px;
+      margin-top: 28px;
       font-family: "HelvenaBold", "Helvena", sans-serif;
       font-weight: 800;
       font-size: 104px;
@@ -191,19 +192,21 @@
       <div class="f06-toast f06-toast-2" id="f06-toast2">Neuer Eigent&uuml;mer &middot; Wohnung, Ludwigshafen</div>
     </div>
 
-    <div id="s06-rechner-f06-headline-2" class="f06-headline clip" data-start="0" data-duration="5.06" data-track-index="2">
-      <span class="f06-word" id="f06-w1">Sein&nbsp;</span><span class="f06-word" id="f06-w2">Rechner&nbsp;</span><span class="f06-word" id="f06-w3">sammelt&nbsp;</span><span class="f06-word" id="f06-w4">Eigent&uuml;mer.</span>
-    </div>
+    <div class="f06-left">
+      <div id="s06-rechner-f06-headline-2" class="f06-headline clip" data-start="0" data-duration="5.06" data-track-index="2">
+        <span class="f06-word" id="f06-w1">Sein&nbsp;</span><span class="f06-word" id="f06-w2">Rechner&nbsp;</span><span class="f06-word" id="f06-w3">sammelt&nbsp;</span><span class="f06-word" id="f06-w4">Eigent&uuml;mer.</span>
+      </div>
 
-    <div id="s06-rechner-f06-sub-3" class="f06-sub clip" data-start="0" data-duration="5.06" data-track-index="3">
-      <span class="f06-hl-wrap"
-        ><span class="f06-hl-bar" id="f06-hl-bar"></span><span class="f06-hl-text"
-          ><span class="f06-word" id="f06-w5">Auch&nbsp;</span><span class="f06-word" id="f06-w6">nachts.</span></span
-        ></span
-      >
-    </div>
+      <div id="s06-rechner-f06-sub-3" class="f06-sub clip" data-start="0" data-duration="5.06" data-track-index="3">
+        <span class="f06-hl-wrap"
+          ><span class="f06-hl-bar" id="f06-hl-bar"></span><span class="f06-hl-text"
+            ><span class="f06-word" id="f06-w5">Auch&nbsp;</span><span class="f06-word" id="f06-w6">nachts.</span></span
+          ></span
+        >
+      </div>
 
-    <div class="f06-clock clip" data-start="0" data-duration="5.06" data-track-index="4" id="f06-clock">23:46</div>
+      <div class="f06-clock clip" data-start="0" data-duration="5.06" data-track-index="4" id="f06-clock">23:46</div>
+    </div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
