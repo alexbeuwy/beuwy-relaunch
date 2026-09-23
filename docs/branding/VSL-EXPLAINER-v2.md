@@ -167,7 +167,13 @@ das System. → Einmal pro Stadt. → Ist Ihre noch frei?
   reicht allen Kunden. Dazu wenige Termine beim Aufbau. Basis: Live-Dashboard
   und internes CRM des eigenen Portals. Status: freigegeben (Aussage Alex).
 - „Signifikante Ergebnisse, Wow-Effekte bei Mandanten“: qualitativ, keine Zahl.
-- Offen: laufende Werbekosten (ja/nein, Höhe).
+- Laufende Kosten Leadgenerierung (Alex, 23.09.): 2.500 € netto Betreuung +
+  2.000 € Meta-Budget pro Monat, ca. 150 Leads pro Monat. Das sind ca. 30 € pro
+  Lead, exklusiv. Vergleich Recherche: immowelt 49 € zzgl. MwSt. pro Lead, an bis
+  zu 3 Makler; eigene Google-Kampagne 54,17 € (IVD). Folge: „ohne laufende
+  Werbekosten“ ist falsch. Belegbar: „eigene Leads, die nur Ihnen gehören“ und
+  „günstiger pro Lead als ein Portal-Lead“ (vergleichende Werbung: nur mit Quelle
+  und Stand, Formulierung vor Veröffentlichung prüfen).
 - Hook-Idee Alex: „10 Mandate mehr pro Monat mit 30 Minuten pro Woche, ohne
   Personal, ohne hohe Werbekosten“. Die 10 sind nicht belegt (RIEGEL ca. 3 pro
   Monat) und gehen als Zielfrage in die Jury.
