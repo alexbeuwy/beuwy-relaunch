@@ -178,6 +178,13 @@ das System. → Einmal pro Stadt. → Ist Ihre noch frei?
   Personal, ohne hohe Werbekosten“. Die 10 sind nicht belegt (RIEGEL ca. 3 pro
   Monat) und gehen als Zielfrage in die Jury.
 
+- Nachtrag Alex (23.09., spät):
+  - Leadgenerierung gibt es nur mit dem System vorher (Branding und Marke inklusive).
+  - Die Anfragen ruft der Makler selbst an.
+  - 150 Anfragen pro Monat: Durchschnitt über das Jahr, zusätzlich zum bisherigen Grundrauschen.
+  - RIEGEL-Freigabe für „9 zusätzliche Mandate in den ersten 3 Monaten“ liegt vor. Status: grün.
+  - Film darf Kontraste bekommen: dunkle Szenen mit hellen Elementen, pastellgelbe Flächen mit dunkler Schrift (Ausnahme zur Website-Regel „nur Weiß“, Wunsch Alex).
+
 ## 7. Offene Entscheidungen (Alex)
 
 1. Hook A, B oder C.
