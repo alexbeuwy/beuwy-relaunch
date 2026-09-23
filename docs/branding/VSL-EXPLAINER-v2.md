@@ -68,12 +68,13 @@ Werkzeug-Test HyperFrames.
 **A · Die Nacht (Empfehlung).** Der Traumzustand als gelebte Szene, 11 s.
 Riesige Uhrzeiten rollen wie ein Zählwerk, dazwischen Systemmomente in Tiefe.
 
-- ON „23:48“ · Karte „Neue Bewertung · Einfamilienhaus, 148 m²“
-- ON „06:00“ · Report fächert auf „mit Ihrem Logo“
-- ON „08:10“ · „Eigentümer ruft an“ pulsiert gelb
-- ON „Bei Ihnen.“ → „Ihr nächstes Mandat beginnt, während Sie schlafen.“
+- ON „23:48“ (Zählwerk, füllt die Fläche) · Rechner auf dem Telefon des Eigentümers
+- ON „23:49“ · Report fächert auf, Zoom auf „Ihr Logo“
+- ON „08:10“ (Nacht rollt im Takt durch) · Anruf „Eigentümer“
+- ON „Bei Ihnen.“ (Musik-Drop) → „Ihr nächstes Mandat beginnt, während Sie schlafen.“
 - ON „Ohne mehr Arbeit. Ohne neue Stelle.“
-- VO: „Dreiundzwanzig Uhr achtundvierzig. Ein Eigentümer bewertet sein Haus. Um sechs hat er seinen Report, mit Ihrem Logo. Um zehn nach acht ruft er an. Bei Ihnen. Ihr nächstes Mandat beginnt, während Sie schlafen. Ohne mehr Arbeit. Ohne neue Stelle.“
+- VO: „Dreiundzwanzig Uhr achtundvierzig. Ein Eigentümer bewertet sein Haus. Eine Minute später hat er seinen Report. Mit Ihrem Logo. Am nächsten Morgen, zehn nach acht, ruft er an. Bei Ihnen. Ihr nächstes Mandat beginnt, während Sie schlafen. Ohne mehr Arbeit. Ohne neue Stelle.“
+- Geändert gegenüber dem ersten Entwurf: „Eine Minute später“ statt „Um sechs“, weil der Report sofort nach der Bewertung rausgeht (sonst falsche Aussage über das Produkt).
 
 Warum: zeigt das Ergebnis statt es zu behaupten, dockt Traumzustand 1 sofort an,
 trägt den ganzen Film (Buchstütze am Ende: „Ihr nächstes Mandat beginnt heute Nacht.“),
@@ -91,8 +92,8 @@ ON „28.560 €“ zählt hoch → „So viel Courtage bringt ein Mandat. Wie v
 | Zeit | Akt | Stimme | Bild (Motion) |
 |---|---|---|---|
 | 0:00 | Hook | wie Hook A | Uhrzeiten-Zählwerk 420 px, Karten aus der Tiefe, Match-Cut Anruf → „Bei Ihnen.“, RSVP-Titel, Bass-Hit auf Downbeat |
-| 0:11 | Problem | „Heute vergleicht der Eigentümer abends drei Makler am Handy. Dreimal dasselbe. Und was bei Ihnen liegen bleibt, holt sich der Makler mit System.“ | drei graue Telefone gleiten, eins wird gelb; Stapel „Fr 21:14 · unbeantwortet“ fliegt zum anderen Pin |
-| 0:21 | Enthüllung | „Das ist beuwy. Das Vertriebssystem, mit dem Sie verkaufen wie ein Portal. Nur dass die Kunden Ihnen gehören.“ | Weißblitz, Logo-Lockup riesig, Musik-Drop, Zoom-through in das „o“ von „Portal“ |
+| 0:17 | Problem | „Ohne System sieht es so aus: Der Eigentümer vergleicht abends drei Makler am Handy. Dreimal dasselbe. Und was bei Ihnen liegen bleibt, holt sich der Makler mit System.“ | Musik gedämpft; „Ohne System.“ grau; drei gleiche Telefone; Anfragen „Fr 21:14 · unbeantwortet“ stapeln sich und fliegen zum Makler mit System |
+| 0:27 | Enthüllung | „Das ist beuwy. Das Vertriebssystem für Makler. Sie verkaufen, als wären Sie selbst das Portal. Nur dass die Kunden Ihnen gehören.“ | Musik öffnet voll, Logo baut sich auf, Zoom durch das „o“ von „Portal“ in die Kundenkonten |
 | 0:30 | Wie · Rechner | „Eigentümer berechnen den Wert ihrer Immobilie. In sechzig Sekunden, mit amtlichen Bodenrichtwerten.“ | Wort „Rechner.“ 380 px, echter beuwy-Rechner in 3D-Kamerafahrt |
 | 0:36 | Wie · Report | „Der Report geht automatisch raus. Mit Ihrem Logo. Sie bekommen den Kontakt.“ | Report-Seiten fächern in Tiefe, Chips docken an |
 | 0:41 | Wie · Portal | „Käufer legen bei Ihnen ein Konto an und speichern ihre Suche.“ | echte Objektliste und Kundenkonto, randlos angeschnitten |
@@ -147,6 +148,18 @@ das System. → Einmal pro Stadt. → Ist Ihre noch frei?
   Original-Stil (Prompts in `docs/branding/higgsfield-prompts.md`), z. B.
   Eigentümerin nachts am Handy (Hook), Makler-Team am Morgen (Traumzustand).
   Jede Einstellung mit AI-Pille. Kosten vorab testen.
+
+## 6a. Stilprobe (0:00–0:36, gebaut)
+
+- Datei: `video/system-explainer/v2-stilprobe.html`, Ton: `audio/v2/stilprobe-mix.mp3`
+  (Mischung per `audio/v2/mix.py`, Stimme per `audio/v2/tts2.py`).
+- 15 Einstellungen in 36 s (Ø 2,4 s, im Hook 1,1–2,3 s), keine stehenden Bilder.
+- Musik-Drop genau auf „Bei Ihnen.“ (10,83 s). Die Nacht rollt auf den
+  Fill-Schlägen der Musik durch. Problem-Teil mit gedämpfter Musik
+  (Tiefpass), volle Öffnung auf „beuwy“ (27,97 s, Taktanfang).
+- Technik: nur CSS/GSAP (Shader-Übergänge fallen in dieser Umgebung
+  lautlos auf harte Schnitte zurück). CSS-3D und Unschärfe geprüft.
+- Aussprache in der Probe: „Boiwie“.
 
 ## 7. Offene Entscheidungen (Alex)
 
