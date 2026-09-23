@@ -205,7 +205,7 @@
       <div class="f12-viewport">
         <img class="f12-shot" id="f12-img-rechner" src="assets/riegel/rechner.png" alt="" data-layout-allow-overflow />
         <img class="f12-shot" id="f12-img-objekte" src="assets/riegel/objekte-scroll.png" alt="" data-layout-allow-overflow />
-        <img class="f12-shot" id="f12-img-home" src="assets/riegel/home-scroll.png" alt="" data-layout-allow-overflow />
+        <img class="f12-shot" id="f12-img-home" src="assets/riegel/konto.png" alt="" data-layout-allow-overflow />
       </div>
     </div>
 
@@ -270,11 +270,10 @@
       tl.set("#f12-img-objekte", { opacity: 1, y: 0 }, 8.61);
       tl.to("#f12-img-objekte", { y: -900, duration: 2.6, ease: "power3.out" }, 8.61);
 
-      /* ---- Scene 4 (on "Seiten", cue 11.51s): hard cut to home-scroll.png, slow scroll + chip ---- */
+      /* ---- Scene 4 (on "Seiten", cue 11.51s): hard cut to konto.png (static, no scroll — avoids the dark gap in home-scroll.png) + chip ---- */
 
       tl.set("#f12-img-objekte", { opacity: 0 }, 11.51);
-      tl.set("#f12-img-home", { opacity: 1, y: 0 }, 11.51);
-      tl.to("#f12-img-home", { y: -1200, duration: 3.4, ease: "power3.out" }, 11.51);
+      tl.fromTo("#f12-img-home", { opacity: 0, y: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 11.51);
 
       tl.fromTo("#f12-chip", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 12.9);
 
