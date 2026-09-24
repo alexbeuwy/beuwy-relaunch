@@ -1,0 +1,293 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Helvena";
+      src: url("assets/fonts/helvena.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "HelvenaBold";
+      src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+      font-weight: 800;
+    }
+
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: "Helvena", sans-serif;
+    }
+
+    #root .f06-bg {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    /* --- left column: headline, "Auch nachts." + highlighter, clock --- */
+    #root .f06-left {
+      position: absolute;
+      left: 120px;
+      top: 470px;
+      width: 780px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+    }
+    #root .f06-headline {
+      width: 780px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 76px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #161613;
+    }
+    #root .f06-word {
+      display: inline-block;
+      opacity: 0;
+      white-space: pre;
+    }
+
+    #root .f06-sub {
+      margin-top: 28px;
+      width: 780px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 76px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #161613;
+    }
+    #root .f06-hl-wrap {
+      position: relative;
+      display: inline;
+    }
+    #root .f06-hl-bar {
+      position: absolute;
+      inset: 4% -8px 14%;
+      background: #f3e27f;
+      transform: scaleX(0);
+      transform-origin: left center;
+      border-radius: 4px;
+      z-index: 0;
+    }
+    #root .f06-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    #root .f06-clock {
+      margin-top: 28px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 104px;
+      letter-spacing: -0.03em;
+      color: #777772;
+      font-variant-numeric: tabular-nums;
+      opacity: 0;
+    }
+
+    /* --- right column: neutral calculator card --- */
+    #root .f06-card {
+      position: absolute;
+      left: 980px;
+      top: 300px;
+      width: 820px;
+      height: 520px;
+      background: #f7f7f5;
+      border: 1px solid rgba(20, 20, 18, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+      padding: 64px;
+      opacity: 0;
+      transform-origin: 50% 50%;
+    }
+    #root .f06-steps {
+      display: flex;
+      gap: 16px;
+    }
+    #root .f06-step {
+      height: 12px;
+      flex: 1;
+      border-radius: 20px;
+      background: #ececE8;
+    }
+    #root .f06-step.f06-on {
+      background: #f3e27f;
+    }
+    #root .f06-bar {
+      height: 32px;
+      border-radius: 20px;
+      background: #eeeeea;
+      margin-top: 40px;
+    }
+    #root .f06-bar-w60 {
+      width: 72%;
+    }
+    #root .f06-bar-w40 {
+      width: 46%;
+    }
+    #root .f06-btn {
+      display: inline-block;
+      margin-top: 56px;
+      background: #f3e27f;
+      border-radius: 999px;
+      padding: 26px 52px;
+      font-family: "HelvenaBold", "Helvena", sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: #161613;
+    }
+
+    /* --- toasts --- */
+    #root .f06-toast {
+      position: absolute;
+      background: #161613;
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 18px 26px;
+      font-family: "Helvena", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      opacity: 0;
+      transform: scale(0.85);
+      transform-origin: 100% 0%;
+      box-shadow: 0 20px 46px -22px rgba(22, 22, 19, 0.5);
+      white-space: nowrap;
+    }
+    #root .f06-toast-1 {
+      left: 1160px;
+      top: 250px;
+    }
+    #root .f06-toast-2 {
+      left: 1110px;
+      top: 330px;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="06-rechner"
+    data-start="0"
+    data-duration="5.06"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div id="s06-rechner-f06-bg-1" class="f06-bg clip" data-start="0" data-duration="5.06" data-track-index="0"></div>
+
+    <div class="f06-card clip" data-start="0" data-duration="5.06" data-track-index="1" id="f06-card">
+      <div class="f06-steps">
+        <div class="f06-step f06-on"></div>
+        <div class="f06-step f06-on"></div>
+        <div class="f06-step"></div>
+        <div class="f06-step"></div>
+      </div>
+      <div class="f06-bar f06-bar-w60"></div>
+      <div class="f06-bar f06-bar-w40"></div>
+      <div class="f06-btn">Wert berechnen</div>
+
+      <div class="f06-toast f06-toast-1" id="f06-toast1">Neuer Eigent&uuml;mer &middot; Einfamilienhaus, Speyer</div>
+      <div class="f06-toast f06-toast-2" id="f06-toast2">Neuer Eigent&uuml;mer &middot; Wohnung, Ludwigshafen</div>
+    </div>
+
+    <div class="f06-left">
+      <div id="s06-rechner-f06-headline-2" class="f06-headline clip" data-start="0" data-duration="5.06" data-track-index="2">
+        <span class="f06-word" id="f06-w1">Sein&nbsp;</span><span class="f06-word" id="f06-w2">Rechner&nbsp;</span><span class="f06-word" id="f06-w3">sammelt&nbsp;</span><span class="f06-word" id="f06-w4">Eigent&uuml;mer.</span>
+      </div>
+
+      <div id="s06-rechner-f06-sub-3" class="f06-sub clip" data-start="0" data-duration="5.06" data-track-index="3">
+        <span class="f06-hl-wrap"
+          ><span class="f06-hl-bar" id="f06-hl-bar"></span><span class="f06-hl-text"
+            ><span class="f06-word" id="f06-w5">Auch&nbsp;</span><span class="f06-word" id="f06-w6">nachts.</span></span
+          ></span
+        >
+      </div>
+
+      <div class="f06-clock clip" data-start="0" data-duration="5.06" data-track-index="4" id="f06-clock">23:46</div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // --- Scene 1 (0.0–1.2s): calculator card settles in, headline word-by-word ---
+      tl.fromTo(
+        "#f06-card",
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" },
+        0.05
+      );
+
+      var headWords = ["#f06-w1", "#f06-w2", "#f06-w3", "#f06-w4"];
+      var headCues = [0.35, 0.66, 1.04, 1.38];
+      headWords.forEach(function (sel, i) {
+        tl.set(sel, { opacity: 1, y: 40 }, headCues[i]);
+        tl.to(sel, { y: 0, duration: 0.15, ease: "power4.out" }, headCues[i]);
+      });
+
+      // --- Scene 2 (on "Auch nachts" @2.2s): "Auch nachts." + highlighter, clock count-up ---
+      var subWords = ["#f06-w5", "#f06-w6"];
+      var subCues = [2.2, 2.58];
+      subWords.forEach(function (sel, i) {
+        tl.set(sel, { opacity: 1, y: 40 }, subCues[i]);
+        tl.to(sel, { y: 0, duration: 0.15, ease: "power4.out" }, subCues[i]);
+      });
+      tl.to("#f06-hl-bar", { scaleX: 1, duration: 0.45, ease: "power3.out" }, 2.58);
+
+      // Clock pops in with "Auch", then counts 23:46 → 23:47 → 23:48 (discrete-text-sequence)
+      tl.fromTo(
+        "#f06-clock",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" },
+        2.2
+      );
+      var clockSeq = [
+        { t: 2.2, text: "23:46" },
+        { t: 2.42, text: "23:47" },
+        { t: 2.64, text: "23:48" },
+      ];
+      var clockEl = document.getElementById("f06-clock");
+      function clockAt(time) {
+        for (var i = clockSeq.length - 1; i >= 0; i--) {
+          if (time >= clockSeq[i].t) return clockSeq[i].text;
+        }
+        return clockSeq[0].text;
+      }
+      var clockDriver = { t: 0 };
+      tl.to(
+        clockDriver,
+        {
+          t: 5.06,
+          duration: 5.06,
+          ease: "none",
+          onUpdate: function () {
+            clockEl.textContent = clockAt(clockDriver.t);
+          },
+        },
+        0
+      );
+
+      // --- Scene 3 (rest, from "zwölf." @3.57s): two toasts pop at the card's top-right ---
+      tl.fromTo(
+        "#f06-toast1",
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+        3.6
+      );
+      tl.fromTo(
+        "#f06-toast2",
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+        4.05
+      );
+
+      window.__timelines["06-rechner"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

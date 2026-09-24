@@ -1,0 +1,19 @@
+/* Exit-Intent: Hintergrund blendet ein, Karte hebt sich — nur Motion-Tokens. */
+.hintergrund {
+  background: rgba(22, 22, 19, 0.28);
+  animation: exitFade var(--duration-fast) var(--ease-smooth-out) both;
+}
+.karte {
+  animation: exitRise var(--duration-medium) var(--ease-smooth-out) both;
+}
+@keyframes exitFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes exitRise {
+  from { opacity: 0; transform: translateY(var(--distance-base, 12px)) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hintergrund, .karte { animation: none; }
+}

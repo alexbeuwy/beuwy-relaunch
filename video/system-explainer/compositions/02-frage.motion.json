@@ -1,0 +1,7 @@
+{
+  "scene": "02-frage",
+  "duration_s": 4.24,
+  "rules": ["css-marker-patterns"],
+  "exit": { "vector": "none, still at rest (slow scale push only, no positional exit)", "still_moving": true },
+  "entry": { "vector": "y +40px to 0, up, per-word fade/rise starting t=0.35s", "from_rest": false }
+}

@@ -1,0 +1,20 @@
+/* StempelBadge — sehr langsame Dauerrotation des Kreistext-Rings.
+   40s liegt bewusst außerhalb der Duration-Skala aus globals.css: die
+   Skala deckt Übergänge (State-Wechsel) ab, hier läuft eine endlose
+   Deko-Rotation ohne Anfang/Ende — genau die vom Leaf-Auftrag verlangte
+   Ausnahme. motion-reduce steht zusätzlich in der JSX-Klasse. */
+.dreh {
+  animation: stempelDreh 40s linear infinite;
+}
+
+@keyframes stempelDreh {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dreh {
+    animation: none;
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "scene": "14-aufwand",
+  "duration_s": 5.75,
+  "rules": ["spring-pop-entrance"],
+  "exit": { "vector": "none, static hold at rest", "still_moving": false },
+  "entry": { "vector": "headline static, highlighter wipes left-to-right at t=1.49s", "from_rest": true }
+}

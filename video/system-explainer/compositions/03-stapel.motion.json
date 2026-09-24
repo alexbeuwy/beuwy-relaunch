@@ -1,0 +1,7 @@
+{
+  "scene": "03-stapel",
+  "duration_s": 10.02,
+  "rules": ["spring-pop-entrance", "sine-wave-loop"],
+  "exit": { "vector": "none, still at rest (finite sine breathing settled by end)", "still_moving": false },
+  "entry": { "vector": "scale 0 to 1 with y +24px to 0, per-card pop landing on its voice cue starting t=0.55s", "from_rest": false }
+}

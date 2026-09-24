@@ -1,0 +1,7 @@
+{
+  "scene": "09-heatmap",
+  "duration_s": 4.5,
+  "rules": ["ambient-glow-bloom"],
+  "exit": { "vector": "none, last (biggest) heatmap dot on the button settling to rest near t=4.36s", "still_moving": true },
+  "entry": { "vector": "page card scale 0.92->1 at t=0.1s; headline words rise y:40->0 from t=0.65s", "from_rest": false }
+}

@@ -1,0 +1,7 @@
+{
+  "scene": "06-rechner",
+  "duration_s": 5.06,
+  "rules": ["spring-pop-entrance", "discrete-text-sequence"],
+  "exit": { "vector": "still — second toast settles at scale 1 and holds", "still_moving": false },
+  "entry": { "vector": "calculator card scales up from 0.92, headline words whip up from below", "from_rest": true }
+}

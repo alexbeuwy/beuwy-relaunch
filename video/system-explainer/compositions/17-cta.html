@@ -1,0 +1,250 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="17-cta"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="17-cta"] * {
+    box-sizing: border-box;
+  }
+  .f17-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f17-stage {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Scene 1 — headline */
+  .f17-headline {
+    position: absolute;
+    top: 230px;
+    left: 120px;
+    right: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 30px;
+  }
+  .f17-word {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 132px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #161613;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f17-hl-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .f17-hl-bar {
+    position: absolute;
+    inset: 0.55em -10px 0.08em -10px;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: 7px;
+    z-index: 0;
+  }
+  .f17-hl-text {
+    position: relative;
+    z-index: 1;
+  }
+  .f17-tailgroup {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  /* Scene 2 — city field */
+  .f17-field {
+    position: absolute;
+    top: 470px;
+    left: 410px;
+    width: 1100px;
+    height: 104px;
+    background: #ffffff;
+    border: 3px solid #f3e27f;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 48px;
+    opacity: 0;
+    transform-origin: 50% 50%;
+  }
+  .f17-field-text {
+    font-family: "Helvena", sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: #161613;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    min-width: 420px;
+  }
+  .f17-cursor {
+    display: inline-block;
+    width: 4px;
+    height: 36px;
+    background: #161613;
+    margin-left: 4px;
+    transform: translateY(4px);
+  }
+  .f17-btn {
+    position: relative;
+    background: #f3e27f;
+    border-radius: 999px;
+    padding: 26px 52px;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: #161613;
+    white-space: nowrap;
+    transform-origin: 50% 50%;
+  }
+
+  /* Scene 3 — label */
+  .f17-label {
+    position: absolute;
+    top: 604px;
+    left: 410px;
+    width: 1100px;
+    text-align: center;
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #777772;
+    opacity: 0;
+  }
+</style>
+
+<script src="assets/vendor/gsap.min.js"></script>
+
+<div id="root" data-composition-id="17-cta" data-width="1920" data-height="1080">
+  <div id="s17-cta-f17-bg-1" class="f17-bg clip" data-start="0" data-duration="7.37" data-track-index="0"></div>
+
+  <div id="s17-cta-f17-stage-2" class="f17-stage clip" data-start="0" data-duration="7.37" data-track-index="1">
+    <!-- Scene 1 (0.0-1.2s): centered headline, highlighter under "frei" -->
+    <div class="f17-headline" id="f17-headline">
+      <span class="f17-word" id="f17-w1">Ist</span><span class="f17-word" id="f17-w2">Ihre</span><span class="f17-word" id="f17-w3">noch</span><span class="f17-tailgroup"><span class="f17-word f17-hl-wrap" id="f17-w4"><span class="f17-hl-bar" id="f17-hl"></span><span class="f17-hl-text">frei</span></span><span class="f17-word" id="f17-w5">?</span></span>
+    </div>
+
+    <!-- Scene 2 (from ~1.15s "direkt"): city field, typed text + button -->
+    <div class="f17-field" id="f17-field">
+      <span class="f17-field-text" id="f17-field-text"><span id="f17-typed"></span><span class="f17-cursor" id="f17-cursor"></span></span>
+      <button class="f17-btn" id="f17-btn">Verfügbarkeit prüfen →</button>
+    </div>
+
+    <!-- Scene 3 (on "frei" at sentence end): label -->
+    <div class="f17-label" id="f17-label">direkt unter diesem Video</div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var F = 1 / 60;
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-1.2s): headline word by word, waterfall-entry */
+      tl.set("#f17-w1", { opacity: 1, y: 78 }, 0.1);
+      tl.to("#f17-w1", { y: 0, duration: 0.18, ease: "power4.out" }, 0.1);
+
+      tl.set("#f17-w2", { opacity: 1, y: 48 }, 0.3);
+      tl.to("#f17-w2", { y: 0, duration: 0.15, ease: "power4.out" }, 0.3);
+
+      tl.set("#f17-w3", { opacity: 1, y: 46 }, 0.52);
+      tl.to("#f17-w3", { y: 0, duration: 0.14, ease: "power4.out" }, 0.52);
+
+      tl.set("#f17-w4", { opacity: 1, y: 72 }, 0.74);
+      tl.to("#f17-w4", { y: 0, duration: 0.16, ease: "power4.out" }, 0.74);
+
+      var tDot = 0.74 + 0.16 - F;
+      tl.set("#f17-w5", { opacity: 1, y: 40 }, tDot);
+      tl.to("#f17-w5", { y: 0, duration: 0.12, ease: "power4.out" }, tDot);
+
+      // highlighter sweeps under "frei" right after it lands
+      tl.to("#f17-hl", { scaleX: 1, duration: 0.45, ease: "power3.out" }, 0.95);
+
+      /* Scene 2 (from "direkt" @1.15): the city field arrives, then typing + blink */
+      tl.fromTo(
+        "#f17-field",
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        1.15
+      );
+
+      // discrete-text-sequence, smooth character slice: "Ihre Stadt" types in
+      var fullText = "Ihre Stadt";
+      var typedEl = document.getElementById("f17-typed");
+      var lenDriver = { v: 0 };
+      tl.to(
+        lenDriver,
+        {
+          v: fullText.length,
+          duration: 0.85,
+          ease: "power1.inOut",
+          onUpdate: function () {
+            typedEl.textContent = fullText.substring(0, Math.floor(lenDriver.v));
+          },
+        },
+        1.35
+      );
+
+      // blinking cursor — deterministic sin square wave, finite repetition (2.2s window)
+      var blink = { p: 0 };
+      tl.to(
+        blink,
+        {
+          p: Math.PI * 2 * 3.5,
+          duration: 2.2,
+          ease: "none",
+          onUpdate: function () {
+            document.getElementById("f17-cursor").style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
+          },
+        },
+        1.35
+      );
+
+      /* Scene 3 (on "frei" at sentence end @3.15): button presses once, label appears */
+      tl.to("#f17-btn", { scale: 0.9, duration: 0.16, ease: "power1.in" }, 3.15);
+      tl.to("#f17-btn", { scale: 1, duration: 0.6, ease: "back.out(2.2)" }, 3.31);
+
+      tl.fromTo(
+        "#f17-label",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        3.15
+      );
+
+      /* Scene 4 (last ~3s, from t=4.37s): still end frame, no fade-out — this is the
+         final frame of the film. All motion above completes by ~3.91s. */
+
+      window.__timelines["17-cta"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

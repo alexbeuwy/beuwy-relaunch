@@ -1,0 +1,205 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="15-zeit"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="15-zeit"] * {
+    box-sizing: border-box;
+  }
+  .f15-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f15-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 56px;
+  }
+  .f15-h1 {
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 104px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #161613;
+    margin: 0;
+    text-align: center;
+  }
+  .f15-hl-word {
+    position: relative;
+    display: inline-block;
+  }
+  .f15-hl-fill {
+    position: absolute;
+    left: 0;
+    top: 55%;
+    width: 100%;
+    height: 37%;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    z-index: 0;
+  }
+  .f15-hl-word span {
+    position: relative;
+    z-index: 1;
+  }
+  .f15-track-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .f15-track {
+    position: relative;
+    width: 1200px;
+    height: 20px;
+    background: #f7f7f5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .f15-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .f15-labels {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .f15-label {
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #777772;
+    opacity: 0;
+  }
+  .f15-chips {
+    display: flex;
+    gap: 20px;
+  }
+  .f15-chip {
+    background: #ffffff;
+    border: 1px solid rgba(20, 20, 18, 0.08);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: #161613;
+    opacity: 0;
+    transform-origin: 50% 50%;
+  }
+</style>
+
+<script src="assets/vendor/gsap.min.js"></script>
+
+<div id="root" data-composition-id="15-zeit" data-width="1920" data-height="1080">
+  <div id="s15-zeit-f15-bg-1" class="f15-bg clip" data-start="0" data-duration="4.64" data-track-index="0"></div>
+
+  <div id="s15-zeit-f15-stage-2" class="f15-stage clip" data-start="0" data-duration="4.64" data-track-index="1">
+    <h1 class="f15-h1">In
+      <span class="f15-hl-word"><span class="f15-hl-fill" id="f15-hl"></span><span>sechs</span></span>
+      Wochen läuft es.</h1>
+    <div class="f15-track-wrap">
+      <div class="f15-track">
+        <div class="f15-fill" id="f15-fill"></div>
+      </div>
+      <div class="f15-labels">
+        <span class="f15-label" id="f15-lab1">Woche 1</span>
+        <span class="f15-label" id="f15-lab2">Woche 6</span>
+      </div>
+    </div>
+    <div class="f15-chips">
+      <div class="f15-chip" id="f15-chip1">onOffice</div>
+      <div class="f15-chip" id="f15-chip2">FLOWFACT</div>
+      <div class="f15-chip" id="f15-chip3">Propstack</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-1.2s): headline present, highlighter under "sechs" on cue 0.6 */
+      tl.fromTo(
+        "#f15-hl",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.45, ease: "power3.out" },
+        0.6
+      );
+
+      /* Scene 2 (ab "läuft", cue 1.16): progress bar fills left to right over 1.6s, labels fade in */
+      tl.to(
+        "#f15-fill",
+        { scaleX: 1, duration: 1.6, ease: "power2.out" },
+        1.16
+      );
+      tl.fromTo(
+        "#f15-lab1",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        1.16
+      );
+      tl.fromTo(
+        "#f15-lab2",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        1.16 + 1.6 - 0.3
+      );
+
+      /* Scene 3 (auf "Maklersoftware.", cue 2.64): three chips dock under the bar, staggered pop */
+      tl.fromTo(
+        "#f15-chip1",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        2.64
+      );
+      tl.fromTo(
+        "#f15-chip2",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        2.64 + 0.08
+      );
+      tl.fromTo(
+        "#f15-chip3",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        2.64 + 0.16
+      );
+
+      window.__timelines["15-zeit"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

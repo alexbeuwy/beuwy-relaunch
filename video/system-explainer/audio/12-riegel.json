@@ -1,0 +1,167 @@
+{
+ "id": "12-riegel",
+ "text": "So sieht das aus. Live bei RIEGEL Immobilien in Speyer. Der Rechner ist mit vierhundertneunundachtzig echten Abschlüssen kalibriert. Dazu das eigene Portal, der Preisatlas und rund fünfundneunzig Seiten für Google und KI-Suche.",
+ "dauer": 13.189,
+ "woerter": [
+  {
+   "w": "So",
+   "s": 0.0,
+   "e": 0.186
+  },
+  {
+   "w": "sieht",
+   "s": 0.244,
+   "e": 0.383
+  },
+  {
+   "w": "das",
+   "s": 0.418,
+   "e": 0.534
+  },
+  {
+   "w": "aus.",
+   "s": 0.604,
+   "e": 1.01
+  },
+  {
+   "w": "Live",
+   "s": 1.161,
+   "e": 1.463
+  },
+  {
+   "w": "bei",
+   "s": 1.509,
+   "e": 1.637
+  },
+  {
+   "w": "RIEGEL",
+   "s": 1.683,
+   "e": 1.997
+  },
+  {
+   "w": "Immobilien",
+   "s": 2.055,
+   "e": 2.635
+  },
+  {
+   "w": "in",
+   "s": 2.694,
+   "e": 2.775
+  },
+  {
+   "w": "Speyer.",
+   "s": 2.833,
+   "e": 3.367
+  },
+  {
+   "w": "Der",
+   "s": 3.483,
+   "e": 3.657
+  },
+  {
+   "w": "Rechner",
+   "s": 3.715,
+   "e": 4.063
+  },
+  {
+   "w": "ist",
+   "s": 4.098,
+   "e": 4.203
+  },
+  {
+   "w": "mit",
+   "s": 4.261,
+   "e": 4.377
+  },
+  {
+   "w": "vierhundertneunundachtzig",
+   "s": 4.447,
+   "e": 5.596
+  },
+  {
+   "w": "echten",
+   "s": 5.666,
+   "e": 5.991
+  },
+  {
+   "w": "Abschlüssen",
+   "s": 6.049,
+   "e": 6.513
+  },
+  {
+   "w": "kalibriert.",
+   "s": 6.56,
+   "e": 7.279
+  },
+  {
+   "w": "Dazu",
+   "s": 7.361,
+   "e": 7.686
+  },
+  {
+   "w": "das",
+   "s": 7.744,
+   "e": 7.86
+  },
+  {
+   "w": "eigene",
+   "s": 7.93,
+   "e": 8.208
+  },
+  {
+   "w": "Portal,",
+   "s": 8.255,
+   "e": 8.812
+  },
+  {
+   "w": "der",
+   "s": 8.928,
+   "e": 9.067
+  },
+  {
+   "w": "Preisatlas",
+   "s": 9.114,
+   "e": 9.787
+  },
+  {
+   "w": "und",
+   "s": 9.903,
+   "e": 10.054
+  },
+  {
+   "w": "rund",
+   "s": 10.124,
+   "e": 10.287
+  },
+  {
+   "w": "fünfundneunzig",
+   "s": 10.345,
+   "e": 11.123
+  },
+  {
+   "w": "Seiten",
+   "s": 11.158,
+   "e": 11.483
+  },
+  {
+   "w": "für",
+   "s": 11.541,
+   "e": 11.68
+  },
+  {
+   "w": "Google",
+   "s": 11.715,
+   "e": 12.017
+  },
+  {
+   "w": "und",
+   "s": 12.086,
+   "e": 12.214
+  },
+  {
+   "w": "KI-Suche.",
+   "s": 12.284,
+   "e": 13.189
+  }
+ ]
+}

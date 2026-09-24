@@ -1,0 +1,62 @@
+{
+ "id": "c-wende",
+ "text": "Damit ist Schluss. Sie schicken eine Sprachnachricht. Den Rest machen wir.",
+ "dauer": 3.297,
+ "woerter": [
+  {
+   "w": "Damit",
+   "s": 0.0,
+   "e": 0.279
+  },
+  {
+   "w": "ist",
+   "s": 0.337,
+   "e": 0.43
+  },
+  {
+   "w": "Schluss.",
+   "s": 0.476,
+   "e": 0.871
+  },
+  {
+   "w": "Sie",
+   "s": 0.906,
+   "e": 1.022
+  },
+  {
+   "w": "schicken",
+   "s": 1.057,
+   "e": 1.289
+  },
+  {
+   "w": "eine",
+   "s": 1.324,
+   "e": 1.463
+  },
+  {
+   "w": "Sprachnachricht.",
+   "s": 1.498,
+   "e": 2.194
+  },
+  {
+   "w": "Den",
+   "s": 2.229,
+   "e": 2.368
+  },
+  {
+   "w": "Rest",
+   "s": 2.426,
+   "e": 2.635
+  },
+  {
+   "w": "machen",
+   "s": 2.694,
+   "e": 2.937
+  },
+  {
+   "w": "wir.",
+   "s": 2.984,
+   "e": 3.297
+  }
+ ]
+}

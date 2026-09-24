@@ -1,0 +1,222 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="11-entlastung"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="11-entlastung"] * {
+    box-sizing: border-box;
+  }
+  .f11-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f11-stage {
+    position: absolute;
+    inset: 0;
+  }
+  .f11-headline {
+    position: absolute;
+    top: 180px;
+    left: 160px;
+    right: 160px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 26px;
+    margin: 0 auto;
+    max-width: 1620px;
+  }
+  .f11-word {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 104px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #161613;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f11-sub {
+    position: absolute;
+    top: 420px;
+    left: 160px;
+    right: 160px;
+    text-align: center;
+    font-family: "Helvena", sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.35;
+    color: #5d5d58;
+    opacity: 0;
+  }
+  .f11-stack {
+    position: absolute;
+    top: 500px;
+    left: 1080px;
+    width: 700px;
+    height: 380px;
+  }
+  .f11-card {
+    position: absolute;
+    width: 620px;
+    height: 170px;
+    background: #ffffff;
+    border: 1px solid rgba(20, 20, 18, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+    padding: 26px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  .f11-card span {
+    font-family: "Helvena", sans-serif;
+    font-size: 20px;
+    color: #777772;
+    font-weight: 400;
+  }
+  .f11-card b {
+    font-family: "HelvenaBold", sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: #161613;
+    letter-spacing: -0.02em;
+  }
+  .f11-card i {
+    font-family: "Helvena", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    color: #5d5d58;
+  }
+  #f11-c1 {
+    top: 0;
+    left: 0;
+  }
+  #f11-c2 {
+    top: 70px;
+    left: 25px;
+  }
+  #f11-c3 {
+    top: 130px;
+    left: -15px;
+  }
+  #f11-c4 {
+    top: 190px;
+    left: 35px;
+  }
+</style>
+
+<script src="assets/vendor/gsap.min.js"></script>
+
+<div id="root" data-composition-id="11-entlastung" data-width="1920" data-height="1080">
+  <div id="s11-entlastung-f11-bg-1" class="f11-bg clip" data-start="0" data-duration="7.55" data-track-index="0"></div>
+
+  <div id="s11-entlastung-f11-stage-2" class="f11-stage clip" data-start="0" data-duration="7.55" data-track-index="1">
+    <!-- Scene 1 (0.0-0.4s): the stack from Frame 3 stands large center-right, already assembled -->
+    <div class="f11-stack" data-layout-allow-overlap data-layout-allow-occlusion id="f11-stack">
+      <div class="f11-card" id="f11-c1" data-layout-allow-overlap data-layout-allow-occlusion><span>Fr · 21:14</span><b>Bewertungsanfrage</b><i>Einfamilienhaus, Schifferstadt</i></div>
+      <div class="f11-card" id="f11-c2" data-layout-allow-overlap data-layout-allow-occlusion><span>seit März</span><b>Suchkunde</b><i>3 Zimmer, Speyer, bis 420.000 €</i></div>
+      <div class="f11-card" id="f11-c3" data-layout-allow-overlap data-layout-allow-occlusion><span>Di · Besichtigung</span><b>Nachfassen offen</b><i>Familie Kern</i></div>
+      <div class="f11-card" id="f11-c4" data-layout-allow-overlap data-layout-allow-occlusion><span>„melden Sie sich im Herbst“</span><b>Eigentümer</b><i>noch nicht so weit</i></div>
+    </div>
+
+    <div class="f11-headline" id="f11-headline">
+      <span class="f11-word" id="f11-w1">Sie</span><span class="f11-word" id="f11-w2">müssen</span><span class="f11-word" id="f11-w3">dafür</span><span class="f11-word" id="f11-w4">nichts</span><span class="f11-word" id="f11-w5">über</span><span class="f11-word" id="f11-w6">KI</span><span class="f11-word" id="f11-w7">wissen.</span>
+    </div>
+
+    <div class="f11-sub" id="f11-sub">Und nichts selbst einrichten.</div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var F = 1 / 60;
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-0.4s): stack already assembled, base rotation set via GSAP (not CSS)
+         so the later rotation tween doesn't fight a CSS transform. */
+      var baseRot = [-4, 3, -2, 5];
+      var cardIds = ["#f11-c1", "#f11-c2", "#f11-c3", "#f11-c4"];
+      for (var b = 0; b < 4; b++) {
+        gsap.set(cardIds[b], { rotation: baseRot[b] });
+      }
+
+      /* Scene 2 (from "Sie" @0.35): headline word by word, waterfall-entry */
+      tl.set("#f11-w1", { opacity: 1, y: 70 }, 0.35);
+      tl.to("#f11-w1", { y: 0, duration: 0.18, ease: "power4.out" }, 0.35);
+
+      tl.set("#f11-w2", { opacity: 1, y: 46 }, 0.57);
+      tl.to("#f11-w2", { y: 0, duration: 0.15, ease: "power4.out" }, 0.57);
+
+      tl.set("#f11-w3", { opacity: 1, y: 44 }, 0.9);
+      tl.to("#f11-w3", { y: 0, duration: 0.14, ease: "power4.out" }, 0.9);
+
+      tl.set("#f11-w4", { opacity: 1, y: 44 }, 1.24);
+      tl.to("#f11-w4", { y: 0, duration: 0.14, ease: "power4.out" }, 1.24);
+
+      tl.set("#f11-w5", { opacity: 1, y: 34 }, 1.51);
+      tl.to("#f11-w5", { y: 0, duration: 0.12, ease: "power4.out" }, 1.51);
+
+      tl.set("#f11-w6", { opacity: 1, y: 34 }, 1.71);
+      tl.to("#f11-w6", { y: 0, duration: 0.12, ease: "power4.out" }, 1.71);
+
+      tl.set("#f11-w7", { opacity: 1, y: 68 }, 2.08);
+      tl.to("#f11-w7", { y: 0, duration: 0.16, ease: "power4.out" }, 2.08);
+
+      /* Scene 2, parallel: the four cards dissolve one after another — deterministic
+         index-derived tilt + 60px fall + fade, last one lands exactly on "wissen." (2.08) */
+      var dissolveCues = [0.57, 0.9, 1.24, 2.08]; // müssen, dafür, nichts, wissen.
+      var dissolveRot = [-14, 15, -10, 19]; // index-derived extra tilt (deterministic, not random)
+      var ids = ["#f11-c1", "#f11-c2", "#f11-c3", "#f11-c4"];
+      for (var i = 0; i < 4; i++) {
+        tl.to(
+          ids[i],
+          {
+            y: "+=60",
+            rotation: dissolveRot[i],
+            opacity: 0,
+            duration: 0.55,
+            ease: "power2.in",
+          },
+          dissolveCues[i]
+        );
+      }
+
+      /* Scene 3 (on "Und" @2.77): subline fades/slides in below headline */
+      tl.fromTo(
+        "#f11-sub",
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+        2.77
+      );
+
+      /* Scene 4 (last 2.2s, from 5.35s): held frame — nothing moves. All motion above
+         completes by ~3.37s, leaving a long deliberate hold to the end. */
+
+      window.__timelines["11-entlastung"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

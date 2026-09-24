@@ -1,0 +1,289 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="12-riegel"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="12-riegel"] * {
+    box-sizing: border-box;
+  }
+  .f12-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f12-stage {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  /* ---- left column: headline + counter ---- */
+  .f12-left {
+    position: absolute;
+    left: 120px;
+    top: 220px;
+    width: 560px;
+  }
+  .f12-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 18px;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 76px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #161613;
+  }
+  .f12-word {
+    display: inline-block;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f12-hl-wrap {
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+  }
+  .f12-hl-bar {
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: 55%;
+    height: 37%;
+    background: #f3e27f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    z-index: 0;
+    border-radius: 3px;
+  }
+  .f12-hl-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .f12-counter-block {
+    margin-top: 56px;
+  }
+  .f12-counter-wrap {
+    display: flex;
+    align-items: baseline;
+    width: 400px;
+  }
+  .f12-counter {
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 104px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #161613;
+    font-variant-numeric: tabular-nums;
+    transform-origin: left center;
+    display: inline-block;
+  }
+  .f12-counter-label {
+    margin-top: 12px;
+    font-family: "Helvena", sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.35;
+    color: #5d5d58;
+    opacity: 0;
+  }
+
+  /* ---- right column: browser frame ---- */
+  .f12-browser {
+    position: absolute;
+    left: 760px;
+    top: 150px;
+    width: 1040px;
+    height: 650px;
+    background: #ffffff;
+    border: 1px solid rgba(20, 20, 18, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px -30px rgba(22, 22, 19, 0.28);
+    overflow: hidden;
+    transform-origin: 50% 50%;
+    opacity: 0;
+  }
+  .f12-chrome {
+    height: 44px;
+    background: #f7f7f5;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 8px;
+  }
+  .f12-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d0d0ca;
+    flex: none;
+  }
+  .f12-url {
+    margin-left: 14px;
+    font-family: "Helvena", sans-serif;
+    font-size: 18px;
+    color: #777772;
+  }
+  .f12-viewport {
+    position: relative;
+    width: 1040px;
+    height: 606px;
+    overflow: hidden;
+  }
+  .f12-shot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1040px;
+    height: auto;
+    display: block;
+    opacity: 0;
+  }
+
+  /* ---- chip below browser frame ---- */
+  .f12-chip {
+    position: absolute;
+    left: 760px;
+    top: 830px;
+    background: #fbf5d6;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: "Helvena", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    color: #161613;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: left center;
+  }
+</style>
+
+<script src="assets/vendor/gsap.min.js"></script>
+
+<div id="root" data-composition-id="12-riegel" data-width="1920" data-height="1080">
+  <div id="s12-riegel-f12-bg-1" class="f12-bg clip" data-start="0" data-duration="15.14" data-track-index="0"></div>
+
+  <div id="s12-riegel-f12-stage-2" class="f12-stage clip" data-start="0" data-duration="15.14" data-track-index="1">
+    <div class="f12-left">
+      <div class="f12-headline" id="f12-headline">
+        <span class="f12-word" id="f12-w1">So</span><span class="f12-word" id="f12-w2">sieht</span><span class="f12-word" id="f12-w3">das</span><span class="f12-word" id="f12-w4">aus.</span><span class="f12-hl-wrap" id="f12-w5"><span class="f12-hl-bar" id="f12-hl-bar"></span><span class="f12-hl-text">Live</span></span><span class="f12-word" id="f12-w6">bei</span><span class="f12-word" id="f12-w7">RIEGEL</span><span class="f12-word" id="f12-w8">Immobilien.</span>
+      </div>
+
+      <div class="f12-counter-block">
+        <div class="f12-counter-wrap">
+          <span class="f12-counter" id="f12-counter">0</span>
+        </div>
+        <div class="f12-counter-label" id="f12-counter-label">echte Abschlüsse als Basis</div>
+      </div>
+    </div>
+
+    <div class="f12-browser" id="f12-browser">
+      <div class="f12-chrome">
+        <span class="f12-dot"></span><span class="f12-dot"></span><span class="f12-dot"></span>
+        <span class="f12-url">riegel-immobilien.de</span>
+      </div>
+      <div class="f12-viewport">
+        <img class="f12-shot" id="f12-img-rechner" src="assets/riegel/rechner.png" alt="" data-layout-allow-overflow />
+        <img class="f12-shot" id="f12-img-objekte" src="assets/riegel/objekte-scroll.png" alt="" data-layout-allow-overflow />
+        <img class="f12-shot" id="f12-img-home" src="assets/riegel/konto.png" alt="" data-layout-allow-overflow />
+      </div>
+    </div>
+
+    <div class="f12-chip" id="f12-chip">≈ 95 Seiten für Google und KI-Suche</div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---- Scene 1 (0.0-1.8s): headline word-by-word on voice cues, browser establishes ---- */
+
+      tl.fromTo("#f12-browser", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.1);
+      tl.set("#f12-img-rechner", { opacity: 1 }, 0.1);
+
+      var words = [
+        ["#f12-w1", 0.35],
+        ["#f12-w2", 0.59],
+        ["#f12-w3", 0.77],
+        ["#f12-w4", 0.95],
+        ["#f12-w5", 1.51],
+        ["#f12-w6", 1.86],
+        ["#f12-w7", 2.03],
+        ["#f12-w8", 2.41],
+      ];
+      words.forEach(function (w) {
+        tl.fromTo(w[0], { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, w[1]);
+      });
+
+      // Highlighter sweep under "Live", right on its cue
+      tl.fromTo("#f12-hl-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 1.51);
+
+      /* ---- Scene 2 (on "Rechner", cue 4.06s): counter 0 -> 489 ---- */
+
+      var COUNT_AT = 4.06;
+      var COUNT_DUR = 1.4;
+      var TARGET = 489;
+      var START_SCALE = 60 / 104;
+      var counterEl = document.getElementById("f12-counter");
+      var state = { value: 0 };
+
+      tl.to(
+        state,
+        {
+          value: TARGET,
+          duration: COUNT_DUR,
+          ease: "power3.out",
+          onUpdate: function () {
+            counterEl.textContent = Math.round(state.value).toLocaleString("de-DE");
+          },
+        },
+        COUNT_AT
+      );
+      tl.fromTo("#f12-counter", { scale: START_SCALE }, { scale: 1, duration: COUNT_DUR, ease: "power3.out" }, COUNT_AT);
+      tl.fromTo("#f12-counter-label", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, COUNT_AT - 0.2);
+
+      /* ---- Scene 3 (on "Portal,", cue 8.61s): hard cut to objekte-scroll.png, slow scroll ---- */
+
+      tl.set("#f12-img-rechner", { opacity: 0 }, 8.61);
+      tl.set("#f12-img-objekte", { opacity: 1, y: 0 }, 8.61);
+      tl.to("#f12-img-objekte", { y: -900, duration: 2.6, ease: "power3.out" }, 8.61);
+
+      /* ---- Scene 4 (on "Seiten", cue 11.51s): hard cut to konto.png (static, no scroll — avoids the dark gap in home-scroll.png) + chip ---- */
+
+      tl.set("#f12-img-objekte", { opacity: 0 }, 11.51);
+      tl.fromTo("#f12-img-home", { opacity: 0, y: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 11.51);
+
+      tl.fromTo("#f12-chip", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 12.9);
+
+      /* ---- Camera: one slow push across the whole shot ---- */
+
+      tl.fromTo("#f12-stage", { scale: 1 }, { scale: 1.015, duration: 14.14, ease: "none" }, 1.0);
+
+      window.__timelines["12-riegel"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>

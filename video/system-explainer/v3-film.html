@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Helvena"; src: url("assets/fonts/helvena.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "HelvenaBold"; src: url("assets/fonts/helvena-og-800.ttf") format("truetype"); font-weight: 800; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #ffffff; }
+  #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #ffffff;
+    font-family: "Helvena", sans-serif; color: #161613; }
+  #cam { position: absolute; inset: 0; }
+  .sc { position: absolute; inset: 0; overflow: hidden; }
+  .hid { visibility: hidden; opacity: 0; }
+  .bg-y { background: #f3e27f; } .bg-d { background: #121211; color: #f5f5f2; } .bg-w { background: #ffffff; }
+  .stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 50%; }
+  .p3d { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .b { font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .big { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.02em 0.12em; margin-bottom: -0.12em; }
+  .mi { display: inline-block; will-change: transform; }
+  .hl { position: relative; display: inline-block; }
+  .hlb { position: absolute; left: -0.04em; right: -0.04em; top: 55%; height: 37%; background: #f3e27f; transform-origin: 0 50%; z-index: 0; }
+  .hlt { position: relative; z-index: 1; }
+  .dim-d { color: #8a8a84; }
+  .lab { font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  /* Uhr */
+  #clockWrap { position: absolute; left: 141px; top: 280px; width: 1638px; height: 520px; z-index: 40; }
+  #clock { position: absolute; inset: 0; display: flex; }
+  .dcol { position: relative; width: 372px; height: 520px; overflow: hidden; }
+  .strip { position: absolute; left: 0; top: 0; width: 372px; will-change: transform; }
+  .strip b { display: block; width: 372px; height: 520px; line-height: 520px; text-align: center;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 600px; color: #f5f5f2; }
+  .colon { width: 150px; height: 520px; line-height: 520px; text-align: center;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 600px; color: #f3e27f; }
+
+  /* Hook */
+  .c-hk1 { top: 415px; font-size: 250px; }
+  #hkList { position: absolute; left: 150px; top: 330px; }
+  .hkl { font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 132px; line-height: 1.05; white-space: nowrap; }
+  .hkl .w { color: rgba(22,22,19,0.38); }
+  #dbl { position: absolute; left: 0; right: 0; top: 250px; display: flex; justify-content: center; align-items: center; gap: 60px; }
+  #dblX { font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 520px; letter-spacing: -0.05em; line-height: 0.8; }
+  #dblT { font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 170px; letter-spacing: -0.03em; line-height: 0.95; }
+  #dblT small { display: block; font-size: 60px; letter-spacing: -0.01em; font-family: "Helvena", sans-serif; font-weight: 600; margin-top: 18px; }
+  #pill30 { position: absolute; left: 50%; top: 800px; transform-origin: 50% 50%; }
+  #pill30i { position: relative; left: -50%; display: inline-flex; align-items: center; gap: 22px; padding: 26px 48px; border-radius: 999px;
+    background: #161613; color: #f3e27f; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 60px; letter-spacing: -0.02em; white-space: nowrap; }
+  #pill30i i { display: block; width: 26px; height: 26px; border-radius: 50%; background: #f3e27f; }
+
+  /* Telefon dunkel */
+  .phone { position: absolute; width: 500px; height: 1020px; border-radius: 78px; padding: 14px; }
+  .phone.dk { background: #2a2a27; box-shadow: 0 90px 140px -50px rgba(0,0,0,0.8), inset 0 0 0 2px rgba(255,255,255,0.06); }
+  .phone.lt { background: #efefeb; box-shadow: 0 90px 140px -50px rgba(22,22,19,0.42), inset 0 0 0 2px rgba(20,20,18,0.06); }
+  .scr { position: relative; width: 472px; height: 992px; border-radius: 64px; overflow: hidden; }
+  .dk .scr { background: #0b0b0a; } .lt .scr { background: #ffffff; }
+  .island { position: absolute; left: 50%; top: 30px; width: 126px; height: 36px; margin-left: -63px; border-radius: 999px; background: #000; z-index: 3; }
+  .chat-h { position: absolute; left: 0; right: 0; top: 0; height: 170px; padding: 96px 34px 0; display: flex; align-items: center; gap: 16px; }
+  .dk .chat-h { background: #161615; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .lt .chat-h { background: #f7f7f5; border-bottom: 1px solid rgba(20,20,18,0.08); }
+  .av { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "HelvenaBold"; font-weight: 800; font-size: 22px; flex: none; }
+  .dk .av { background: #2e2e2b; color: #cfcfc8; }
+  .chat-n { font-weight: 700; font-size: 25px; } .chat-s { font-weight: 500; font-size: 18px; opacity: 0.55; margin-top: 2px; }
+  .bub { position: absolute; max-width: 360px; padding: 20px 26px; border-radius: 30px; font-weight: 600; font-size: 29px; line-height: 1.25; }
+  .bub.in { left: 26px; background: #262624; color: #f5f5f2; border-bottom-left-radius: 8px; }
+  .bub.out { right: 26px; background: #f3e27f; color: #161613; border-bottom-right-radius: 8px; }
+  .bub .t { display: block; font-size: 16px; opacity: 0.55; margin-top: 8px; text-align: right; font-weight: 600; }
+  .dots { position: absolute; left: 26px; top: 300px; padding: 24px 28px; border-radius: 30px; background: #262624; display: flex; gap: 10px; }
+  .dots i { display: block; width: 14px; height: 14px; border-radius: 50%; background: #8a8a84; }
+
+  /* Zahlen-Duell */
+  .duel { position: absolute; top: 330px; width: 860px; text-align: center; }
+  .duel .lab { font-size: 30px; }
+  .duel .v { font-family: "HelvenaBold"; font-weight: 800; font-size: 210px; letter-spacing: -0.04em; line-height: 1; margin-top: 18px; }
+  #dW { left: 60px; } #dW .lab { color: #8a8a84; } #dW .v { color: #f5f5f2; }
+  #dM { right: 60px; } #dM .lab { color: #f3e27f; } #dM .v { color: #f3e27f; }
+  #sie { position: absolute; left: 50%; top: 440px; margin-left: -90px; width: 180px; height: 180px; border-radius: 50%; background: #f5f5f2; color: #121211;
+    display: flex; align-items: center; justify-content: center; font-family: "HelvenaBold"; font-weight: 800; font-size: 56px; letter-spacing: -0.02em; }
+  #notar { position: absolute; left: 50%; top: 860px; transform-origin: 50% 50%; }
+  #notarI { position: relative; left: -50%; display: inline-flex; gap: 16px; align-items: center; padding: 18px 34px; border-radius: 999px;
+    border: 2px dashed rgba(245,245,242,0.3); color: #8a8a84; font-weight: 700; font-size: 34px; white-space: nowrap; }
+
+  /* Aufgabe */
+  .task { position: absolute; left: 460px; top: 330px; width: 1000px; height: 420px; border-radius: 44px; padding: 54px 60px; }
+  .task.dk { background: #1c1c1a; box-shadow: 0 60px 120px -50px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.07); }
+  .task.lt { background: #ffffff; box-shadow: 0 60px 120px -50px rgba(22,22,19,0.35), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .task .lab { font-size: 24px; color: #8a8a84; }
+  .task h3 { font-family: "HelvenaBold"; font-weight: 800; font-size: 76px; letter-spacing: -0.03em; margin-top: 14px; }
+  .task p { font-weight: 600; font-size: 34px; margin-top: 12px; color: #8a8a84; }
+  .task .row { position: absolute; left: 60px; right: 60px; bottom: 50px; display: flex; align-items: center; gap: 22px; }
+  .task .av2 { width: 76px; height: 76px; border-radius: 50%; background: #2e2e2b; color: #cfcfc8; display: flex; align-items: center; justify-content: center; font-family: "HelvenaBold"; font-weight: 800; font-size: 28px; }
+  .task .nm { font-weight: 700; font-size: 30px; }
+  .badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border-radius: 999px; font-weight: 700; font-size: 24px; }
+  .badge.k { background: rgba(243,226,127,0.14); color: #f3e27f; }
+  .badge.o { background: rgba(245,245,242,0.08); color: #cfcfc8; margin-left: auto; }
+  .badge.ok { background: #f3e27f; color: #161613; margin-left: auto; }
+  #noti { position: absolute; left: 0; right: 0; top: 470px; text-align: center; }
+  #notiI { display: inline-flex; align-items: center; gap: 22px; font-weight: 600; font-size: 44px; color: #8a8a84; }
+  #notiI svg { width: 60px; height: 60px; }
+
+  /* Tools */
+  .tile { position: absolute; width: 230px; height: 230px; border-radius: 52px; background: #1f1f1d; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; color: #cfcfc8; font-weight: 700; font-size: 24px; }
+  .tile i { display: block; width: 74px; height: 74px; border-radius: 22px; background: #34342f; }
+  .tile i.k { border-radius: 50%; } .tile i.s { transform: rotate(45deg); border-radius: 16px; width: 60px; height: 60px; }
+  #bot { position: absolute; left: 50%; top: 360px; margin-left: -330px; width: 660px; transform-origin: 50% 100%; }
+  #botB { padding: 40px 48px; border-radius: 48px; background: #262624; color: #f5f5f2; font-weight: 600; font-size: 52px; line-height: 1.2; border-bottom-left-radius: 12px; }
+  #botN { margin-top: 20px; display: flex; align-items: center; gap: 16px; font-weight: 700; font-size: 26px; color: #8a8a84; }
+  #botN i { display: block; width: 44px; height: 44px; border-radius: 50%; background: #34342f; }
+  .c-absch { top: 440px; font-size: 158px; color: #f5f5f2; }
+  #ruhe { top: 720px; font-size: 90px; color: #8a8a84; }
+
+  /* Karte */
+  #map { position: absolute; inset: 0; }
+  #map .gl { position: absolute; background: rgba(245,245,242,0.06); }
+  .pin { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; }
+  .pin.me { background: #f3e27f; box-shadow: 0 0 0 16px rgba(243,226,127,0.16); }
+  .pin.ot { background: #5b5b56; }
+  .pinL { position: absolute; font-weight: 700; font-size: 40px; white-space: nowrap; }
+  .house { position: absolute; width: 110px; height: 110px; margin: -55px 0 0 -55px; }
+  .c-warum { top: 360px; font-size: 360px; color: #f5f5f2; }
+
+  /* Wende */
+  .c-schluss { top: 400px; font-size: 190px; }
+  #wPhone { left: 1320px; top: 120px; }
+  .vm { position: absolute; right: 26px; top: 250px; width: 380px; height: 110px; border-radius: 30px; border-bottom-right-radius: 8px; background: #f3e27f;
+    display: flex; align-items: center; gap: 18px; padding: 0 24px; }
+  .vm .pl { width: 54px; height: 54px; border-radius: 50%; background: #161613; flex: none; position: relative; }
+  .vm .pl::after { content: ""; position: absolute; left: 21px; top: 16px; border-left: 17px solid #f3e27f; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+  .wave { display: flex; align-items: center; gap: 5px; height: 60px; flex: 1; }
+  .wave i { display: block; width: 6px; border-radius: 3px; background: #161613; transform-origin: 50% 50%; }
+  .vm .d { font-weight: 700; font-size: 20px; }
+  #wTxt { position: absolute; left: 150px; top: 560px; }
+  #wTxt .ln { font-family: "HelvenaBold"; font-weight: 800; font-size: 104px; letter-spacing: -0.03em; line-height: 1.06; white-space: nowrap; }
+  .lt .chat-h .av { background: #161613; }
+
+  /* Portal */
+  #brow { position: absolute; left: 260px; top: 140px; width: 1400px; height: 860px; border-radius: 30px; background: #fff; overflow: hidden;
+    box-shadow: 0 100px 160px -60px rgba(22,22,19,0.45), 0 30px 70px -40px rgba(22,22,19,0.25), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .bbar { height: 64px; background: #f7f7f5; border-bottom: 1px solid rgba(20,20,18,0.07); display: flex; align-items: flex-end; padding: 0 22px; gap: 8px; }
+  .bdots { position: absolute; left: 26px; top: 24px; display: flex; gap: 10px; } .bdots i { display: block; width: 14px; height: 14px; border-radius: 50%; background: #d0d0ca; }
+  .tab { height: 46px; padding: 0 26px; border-radius: 14px 14px 0 0; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 19px; white-space: nowrap; }
+  .tab.a { background: #fff; color: #161613; margin-left: 110px; } .tab.a i { width: 12px; height: 12px; border-radius: 50%; background: #f3e27f; box-shadow: 0 0 0 2px #161613; display: block; }
+  .tab.g { background: #ececE8; color: #9a9a94; }
+  .pnav { height: 86px; display: flex; align-items: center; padding: 0 56px; gap: 42px; font-weight: 600; font-size: 21px; color: #5d5d58; border-bottom: 1px solid rgba(20,20,18,0.06); }
+  .pnav .lg { display: flex; align-items: center; gap: 12px; font-family: "HelvenaBold"; font-weight: 800; font-size: 22px; letter-spacing: 0.12em; color: #161613; margin-right: auto; }
+  .pnav .lg i { width: 34px; height: 34px; border-radius: 9px; background: #161613; display: block; }
+  .pnav .kb { padding: 12px 24px; border-radius: 999px; background: #f3e27f; color: #161613; font-weight: 700; }
+  .phero { padding: 46px 56px 0; }
+  .phero h4 { font-family: "HelvenaBold"; font-weight: 800; font-size: 64px; letter-spacing: -0.03em; }
+  .psearch { margin-top: 24px; height: 74px; border-radius: 999px; border: 2px solid rgba(20,20,18,0.1); display: flex; align-items: center; padding: 0 12px 0 32px; gap: 20px; font-weight: 600; font-size: 22px; color: #777772; }
+  .psearch b { margin-left: auto; padding: 14px 30px; border-radius: 999px; background: #161613; color: #fff; font-weight: 700; }
+  .pgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; padding: 30px 56px; }
+  .pobj { border-radius: 20px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .pobj .im { height: 150px; background: #efefeb; display: flex; align-items: center; justify-content: center; }
+  .pobj .im svg { width: 54px; height: 54px; opacity: 0.35; }
+  .pobj .tx { padding: 14px 16px; } .pobj .tx b { display: block; font-family: "HelvenaBold"; font-weight: 800; font-size: 22px; } .pobj .tx span { font-weight: 600; font-size: 15px; color: #777772; }
+  .rsvp { position: absolute; left: 0; right: 0; top: 400px; text-align: center; font-family: "HelvenaBold"; font-weight: 800; font-size: 260px; letter-spacing: -0.035em; line-height: 1; }
+
+  /* Rechner */
+  #rech { position: absolute; left: 360px; top: 190px; width: 1200px; height: 700px; border-radius: 48px; background: #fff; padding: 70px 80px;
+    box-shadow: 0 90px 150px -60px rgba(22,22,19,0.42), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  #rech .lab { font-size: 26px; color: #777772; }
+  #rNum { position: relative; height: 230px; margin-top: 20px; overflow: hidden; }
+  #rNum .v { position: absolute; left: 0; top: 0; font-family: "HelvenaBold"; font-weight: 800; font-size: 220px; letter-spacing: -0.045em; line-height: 230px; white-space: nowrap; }
+  #rBar { position: relative; margin-top: 60px; height: 20px; border-radius: 99px; background: #efefeb; }
+  #rFill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 99px; background: #f3e27f; transform-origin: 0 50%; }
+  #rKnob { position: absolute; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: #161613; box-shadow: 0 10px 20px rgba(0,0,0,0.25); }
+  .rscale { display: flex; justify-content: space-between; margin-top: 26px; font-weight: 700; font-size: 26px; color: #777772; }
+
+  /* Kalender */
+  #cal { position: absolute; left: 230px; top: 250px; width: 1460px; height: 600px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .cd { position: relative; border-radius: 30px; background: #f7f7f5; padding: 26px; }
+  .cd .lab { font-size: 24px; color: #777772; }
+  .nt { position: absolute; left: 20px; right: 20px; height: 120px; border-radius: 22px; background: #f3e27f; padding: 20px 22px; }
+  .nt b { display: block; font-family: "HelvenaBold"; font-weight: 800; font-size: 34px; } .nt span { font-weight: 700; font-size: 20px; }
+  #calT { top: 110px; font-size: 110px; }
+
+  /* Chips um Aufgabe */
+  .fchip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 18px 30px; border-radius: 999px; background: #fbf5d6; font-weight: 700; font-size: 30px; white-space: nowrap; }
+  .fchip i { display: block; width: 16px; height: 16px; border-radius: 50%; background: #161613; }
+
+  /* CRM-Hub */
+  #hub { position: absolute; left: 860px; top: 440px; width: 200px; height: 200px; border-radius: 50%; background: #161613; display: flex; align-items: center; justify-content: center; }
+  #hub svg { width: 120px; }
+  .crm { position: absolute; padding: 22px 38px; border-radius: 999px; background: #fff; box-shadow: 0 30px 60px -30px rgba(22,22,19,0.35), inset 0 0 0 1px rgba(20,20,18,0.08);
+    font-family: "HelvenaBold"; font-weight: 800; font-size: 40px; letter-spacing: -0.02em; white-space: nowrap; }
+  .crm.on { background: #f3e27f; }
+  .ln2 { position: absolute; left: 960px; top: 540px; height: 4px; background: #161613; transform-origin: 0 50%; border-radius: 2px; }
+  #hubT { top: 90px; font-size: 96px; }
+
+  /* Beweis */
+  #prf1 { position: absolute; left: 0; right: 0; top: 190px; text-align: center; }
+  #pNum { display: inline-flex; font-family: "HelvenaBold"; font-weight: 800; font-size: 440px; letter-spacing: -0.05em; line-height: 440px; height: 440px; overflow: hidden; }
+  #pNum .dc { position: relative; width: 0.62em; height: 440px; overflow: hidden; }
+  #pNum .dc .s { position: absolute; left: 0; top: 0; width: 100%; }
+  #pNum .dc .s b { display: block; height: 440px; text-align: center; }
+  #pNum .pt { width: 0.24em; }
+  #pLab { margin-top: 30px; font-weight: 700; font-size: 58px; letter-spacing: -0.01em; }
+  #kf { position: absolute; left: 0; right: 0; top: 150px; text-align: center; }
+  #kf .lab { font-size: 34px; }
+  #kfN { font-family: "HelvenaBold"; font-weight: 800; font-size: 120px; letter-spacing: -0.03em; margin-top: 14px; }
+  .c-p9 { top: 380px; font-size: 440px; letter-spacing: -0.05em; }
+  #p9L { top: 850px; font-size: 64px; font-family: "Helvena"; font-weight: 700; letter-spacing: -0.01em; }
+
+  /* Schluss */
+  #nur { position: absolute; left: 0; right: 0; top: 330px; text-align: center; }
+  #nur .ln { font-family: "HelvenaBold"; font-weight: 800; font-size: 122px; letter-spacing: -0.03em; line-height: 1.1; color: #f5f5f2; white-space: nowrap; }
+  #nur .hlb { background: #f3e27f; } #nur .hl .hlt { color: #f5f5f2; }
+  #board { position: absolute; left: 330px; top: 300px; width: 1260px; transform-origin: 50% 50%; }
+  #board .lab { font-size: 30px; color: #8a8a84; }
+  .brow { margin-top: 26px; height: 150px; border-radius: 30px; background: #1c1c1a; display: flex; align-items: center; padding: 0 50px; gap: 30px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07); }
+  .brow .c { font-family: "HelvenaBold"; font-weight: 800; font-size: 72px; letter-spacing: -0.02em; color: #f5f5f2; }
+  .brow .st { margin-left: auto; font-family: "HelvenaBold"; font-weight: 800; font-size: 48px; letter-spacing: 0.08em; padding: 14px 30px; border-radius: 16px; }
+  .brow .st.v { background: #2e2e2b; color: #8a8a84; } .brow .st.f { background: #f3e27f; color: #161613; }
+  #cta { position: absolute; left: 0; right: 0; top: 380px; text-align: center; }
+  #ctaQ { font-family: "HelvenaBold"; font-weight: 800; font-size: 104px; letter-spacing: -0.03em; color: #f5f5f2; }
+  #ctaF { margin: 60px auto 0; width: 1260px; height: 150px; border-radius: 999px; background: #1c1c1a; display: flex; align-items: center; padding: 0 16px 0 56px;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.1); }
+  #ctaIn { position: relative; font-weight: 600; font-size: 52px; color: #f5f5f2; text-align: left; flex: 1; white-space: nowrap; }
+  #ctaIn .ph { color: #6a6a64; position: absolute; left: 0; }
+  #ctaCar { display: inline-block; width: 4px; height: 58px; background: #f3e27f; vertical-align: middle; margin-left: 4px; }
+  #ctaB { height: 118px; padding: 0 56px; border-radius: 999px; background: #f3e27f; color: #161613; display: flex; align-items: center; gap: 18px;
+    font-family: "HelvenaBold"; font-weight: 800; font-size: 44px; letter-spacing: -0.01em; white-space: nowrap; }
+  #endLogo { position: absolute; left: 696px; top: 440px; width: 528px; height: 130px; }
+  #endLogo svg { display: block; width: 528px; height: 130px; fill: #161613; }
+  #endUrl { position: absolute; left: 0; right: 0; top: 620px; text-align: center; font-weight: 700; font-size: 44px; color: #161613; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="v3" data-start="0" data-duration="88.6" data-width="1920" data-height="1080">
+  <div id="cam">
+
+    <!-- HOOK · gelb -->
+    <div id="sHook" class="sc bg-y">
+      <div id="hk1" class="big c-hk1" data-hf-motion-blur='{"samplesPerFrame": 8}'>Mehr Mandate.</div>
+      <div id="hkList">
+        <div id="hk2" class="hkl"><span class="w">Weniger</span> Personal.</div>
+        <div id="hk3" class="hkl"><span class="w">Weniger</span> Kosten.</div>
+        <div id="hk4" class="hkl"><span class="w">Weniger</span> Kopfschmerzen.</div>
+      </div>
+      <div id="dbl"><div id="dblX">×2</div><div id="dblT">Mandate<small>pro Quartal. Wie geht das?</small></div></div>
+      <div id="pill30"><div id="pill30i"><i></i>30 Minuten pro Woche</div></div>
+    </div>
+
+    <!-- STORY · dunkel -->
+    <div id="sNacht" class="sc bg-d hid">
+      <div class="stage"><div class="p3d">
+        <div id="ph1" class="phone dk" style="left:710px;top:120px">
+          <div class="scr">
+            <div class="chat-h"><div class="av">HW</div><div><div class="chat-n">Hr. Weber</div><div class="chat-s">Eigentümer · Einfamilienhaus</div></div></div>
+            <div class="bub out" style="top:210px">Ihr Marktwert liegt bei 720.000 €.<span class="t">Mo 17:12</span></div>
+            <div id="dots" class="dots"><i></i><i></i><i></i></div>
+            <div id="bub1" class="bub in" style="top:330px">Ich bleibe bei 890.000.<span class="t">23:50</span></div>
+          </div>
+          <div class="island"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div id="sDuell" class="sc bg-d hid">
+      <div id="dW" class="duel"><div class="lab">Wunsch des Eigentümers</div><div class="v">890.000</div></div>
+      <div id="dM" class="duel"><div class="lab">Was der Markt zahlt</div><div class="v">720.000</div></div>
+      <div id="sie">Sie</div>
+      <div id="notar"><div id="notarI">Notartermin · offen</div></div>
+    </div>
+
+    <div id="sTask" class="sc bg-d hid">
+      <div id="task1" class="task dk">
+        <div class="lab">Aufgabe · heute</div>
+        <h3>Nachfassen: Hr. Kaiser</h3>
+        <p>Anruf gestern · will verkaufen · Rückruf zugesagt</p>
+        <div class="row"><div class="av2">MS</div><div class="nm">M. Schulz</div><span id="krank" class="badge k">krank gemeldet</span><span id="offen" class="badge o">offen</span></div>
+      </div>
+      <div id="noti"><div id="notiI"><svg viewBox="0 0 24 24" fill="none" stroke="#8a8a84" stroke-width="1.6"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Keine Benachrichtigung.</div></div>
+    </div>
+
+    <div id="sTools" class="sc bg-d hid">
+      <div id="tiles"></div>
+      <div id="bot"><div id="botB">Hallo! Wie kann ich Ihnen heute helfen?</div><div id="botN"><i></i>KI-Assistent · online</div></div>
+      <div id="absch" class="big c-absch">Sie wollen <span style="color:#f3e27f">Abschlüsse.</span></div>
+      <div id="ruhe" class="big">Und Ruhe.</div>
+    </div>
+
+    <div id="sMap" class="sc bg-d hid">
+      <div id="map">
+        <i class="gl" style="left:0;right:0;top:300px;height:3px"></i><i class="gl" style="left:0;right:0;top:620px;height:3px"></i><i class="gl" style="left:0;right:0;top:860px;height:3px"></i>
+        <i class="gl" style="top:0;bottom:0;left:420px;width:3px"></i><i class="gl" style="top:0;bottom:0;left:980px;width:3px"></i><i class="gl" style="top:0;bottom:0;left:1480px;width:3px"></i>
+        <div class="pin me" style="left:560px;top:540px"></div><div class="pinL" style="left:520px;top:600px;color:#f3e27f">Ihr Büro</div>
+        <div class="pin ot" style="left:1500px;top:420px"></div><div class="pinL" style="left:1440px;top:470px;color:#8a8a84">anderes Büro</div>
+        <svg id="h1" class="house" style="left:700px;top:430px" viewBox="0 0 24 24" fill="none" stroke="#f5f5f2" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg>
+        <svg id="h2" class="house" style="left:420px;top:700px" viewBox="0 0 24 24" fill="none" stroke="#f5f5f2" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg>
+        <svg id="h3" class="house" style="left:760px;top:760px" viewBox="0 0 24 24" fill="none" stroke="#f5f5f2" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg>
+      </div>
+      <div id="warum" class="big c-warum" data-hf-motion-blur='{"samplesPerFrame": 8}'>Warum?</div>
+    </div>
+
+    <!-- WENDE · gelb -->
+    <div id="sWende" class="sc bg-y hid">
+      <div id="schluss" class="big c-schluss" data-hf-motion-blur='{"samplesPerFrame": 8}'>Damit ist Schluss.</div>
+      <div id="wTxt">
+        <div class="ln"><span class="m"><span id="wt1" class="mi">Eine Sprachnachricht.</span></span></div>
+        <div class="ln"><span class="m"><span id="wt2" class="mi">Den Rest machen wir.</span></span></div>
+      </div>
+      <div class="stage"><div class="p3d">
+        <div id="wPhone" class="phone lt">
+          <div class="scr">
+            <div class="chat-h"><div class="av"><svg viewBox="0 0 68 70" width="30" fill="#f3e27f"><path d="M33.67,34.56c0,5.22-.28,10.88,0,16.04.54,9.88,8.77,17.99,18.61,18.52h15.15v-34.56c-11.25-.01-22.51.02-33.76,0Z"/><path d="M33.76,0H0v16.13c.6,9.72,8.66,17.89,18.43,18.43,4.89.27,10.29-.01,15.24,0C33.66,25.22,33.76,0,33.76,0Z"/></svg></div><div><div class="chat-n">beuwy</div><div class="chat-s">Ihr Team</div></div></div>
+            <div id="vm" class="vm"><div class="pl"></div><div class="wave" id="wave"></div><div class="d">0:08</div></div>
+            <div id="vmR" class="bub in" style="top:400px;background:#f1f1ee;color:#161613">Erledigt. Wir kümmern uns um alles.<span class="t">✓✓</span></div>
+          </div>
+          <div class="island"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- ANGEBOT · weiß -->
+    <div id="sPortal" class="sc bg-w hid">
+      <div class="stage"><div class="p3d">
+        <div id="brow">
+          <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
+            <div class="tab a"><i></i>Ihr Portal</div>
+            <div id="tg1" class="tab g">Immobilienportal</div><div id="tg2" class="tab g">Immobilienportal</div>
+          </div>
+          <div class="pnav"><div class="lg"><i></i>IHR LOGO</div><span>Kaufen</span><span>Verkaufen</span><span>Bewerten</span><span>Mein Konto</span><span class="kb">Wert berechnen</span></div>
+          <div class="phero"><h4>Ihr Zuhause in Ihrer Stadt.</h4><div class="psearch">Haus, 4 Zimmer, bis 650.000 € <b>Suchauftrag speichern</b></div></div>
+          <div class="pgrid" id="pgrid"></div>
+        </div>
+      </div></div>
+      <div id="rs1" class="rsvp hid">Marke.</div><div id="rs2" class="rsvp hid">Website.</div><div id="rs3" class="rsvp hid">Rechner.</div><div id="rs4" class="rsvp hid">Prozesse.</div>
+    </div>
+
+    <div id="sRech" class="sc bg-w hid">
+      <div id="rech">
+        <div id="rLab" class="lab">Wunschpreis des Eigentümers</div>
+        <div id="rNum"><div id="rv1" class="v">890.000 €</div><div id="rv2" class="v">720.000 €</div></div>
+        <div id="rBar"><div id="rFill"></div><div id="rKnob"></div></div>
+        <div class="rscale"><span>600.000</span><span>Marktwert laut Rechner</span><span>900.000</span></div>
+      </div>
+    </div>
+
+    <div id="sCal" class="sc bg-w hid">
+      <div id="calT" class="big">Mehr Notartermine.</div>
+      <div id="cal">
+        <div class="cd"><div class="lab">Mo</div><div id="n1" class="nt" style="top:90px"><b>Notar</b><span>10:00 · EFH Weber</span></div></div>
+        <div class="cd"><div class="lab">Di</div></div>
+        <div class="cd"><div class="lab">Mi</div><div id="n2" class="nt" style="top:240px"><b>Notar</b><span>14:30 · ETW Roth</span></div></div>
+        <div class="cd"><div class="lab">Do</div><div id="n3" class="nt" style="top:120px"><b>Notar</b><span>09:00 · DHH Kaiser</span></div></div>
+        <div class="cd"><div class="lab">Fr</div><div id="n4" class="nt" style="top:320px"><b>Notar</b><span>11:30 · MFH Vogt</span></div></div>
+      </div>
+    </div>
+
+    <div id="sAuto" class="sc bg-w hid">
+      <div id="task2" class="task lt">
+        <div class="lab">Aufgabe · heute</div>
+        <h3>Nachfassen: Hr. Kaiser</h3>
+        <p>Anruf gestern · will verkaufen · Rückruf zugesagt</p>
+        <div class="row"><div class="av2" style="background:#161613;color:#f3e27f">bw</div><div class="nm">beuwy-System</div><span class="badge ok">✓ automatisch erledigt · 08:46</span></div>
+      </div>
+      <div id="fc1" class="fchip" style="left:250px;top:190px"><i></i>Mail gesendet</div>
+      <div id="fc2" class="fchip" style="left:1360px;top:210px"><i></i>Erinnerung geplant</div>
+      <div id="fc3" class="fchip" style="left:300px;top:820px"><i></i>Unterschrift digital</div>
+      <div id="fc4" class="fchip" style="left:1300px;top:830px"><i></i>Termin im Kalender</div>
+    </div>
+
+    <div id="sHub" class="sc bg-w hid">
+      <div id="hubT" class="big">Angebunden an Ihr CRM.</div>
+      <div id="lines"></div>
+      <div id="hub"><svg viewBox="0 0 68 70" fill="#f3e27f"><path d="M33.67,34.56c0,5.22-.28,10.88,0,16.04.54,9.88,8.77,17.99,18.61,18.52h15.15v-34.56c-11.25-.01-22.51.02-33.76,0Z"/><path d="M33.76,0H0v16.13c.6,9.72,8.66,17.89,18.43,18.43,4.89.27,10.29-.01,15.24,0C33.66,25.22,33.76,0,33.76,0Z"/></svg></div>
+      <div id="crms"></div>
+    </div>
+
+    <!-- BEWEIS · gelb -->
+    <div id="sProof" class="sc bg-y hid">
+      <div id="prf1"><div id="pNum"></div><div id="pLab">Beurkundungen pro Jahr über unsere Systeme</div></div>
+    </div>
+    <div id="sRiegel" class="sc bg-y hid">
+      <div id="kf"><div class="lab">Kundenfall</div><div id="kfN">RIEGEL Immobilien</div></div>
+      <div id="p9" class="big c-p9" data-hf-motion-blur='{"samplesPerFrame": 8}'>+9</div>
+      <div id="p9L" class="big">zusätzliche Mandate in nur 3 Monaten</div>
+    </div>
+
+    <!-- SCHLUSS · dunkel -->
+    <div id="sNur" class="sc bg-d hid">
+      <div id="nur">
+        <div class="ln"><span class="m"><span id="nu1" class="mi">Nur für Entscheider</span></span></div>
+        <div class="ln"><span class="m"><span id="nu2" class="mi">mit echtem <span style="color:#f3e27f">Wachstumsziel.</span></span></span></div>
+      </div>
+    </div>
+    <div id="sBoard" class="sc bg-d hid">
+      <div id="board">
+        <div class="lab">Ein Büro pro Stadt</div>
+        <div id="br1" class="brow"><span class="c">Speyer</span><span class="st v">VERGEBEN</span></div>
+        <div id="br2" class="brow"><span class="c">Ihre Stadt</span><span id="brQ" class="st f">?</span></div>
+      </div>
+    </div>
+    <div id="sCta" class="sc bg-d hid">
+      <div id="cta">
+        <div id="ctaQ">Ist Ihre Stadt noch frei?</div>
+        <div id="ctaF"><div id="ctaIn"><span id="ctaPh" class="ph">Ihre Stadt</span><span id="ctaTx"></span><span id="ctaCar"></span></div><div id="ctaB">Verfügbarkeit prüfen <span>→</span></div></div>
+      </div>
+    </div>
+    <div id="sEnd" class="sc bg-y hid">
+      <div id="endLogo"><svg viewBox="0 0 357.83 88.11"><path d="M33.67,34.56c0,5.22-.28,10.88,0,16.04.54,9.88,8.77,17.99,18.61,18.52h15.15v-34.56c-11.25-.01-22.51.02-33.76,0Z"/><path d="M33.76,0H0v16.13c.6,9.72,8.66,17.89,18.43,18.43,4.89.27,10.29-.01,15.24,0C33.66,25.22,33.76,0,33.76,0Z"/><path d="M116.83,21.07c-5.88,0-10.06,1.89-12.75,5.68h-.1V3.44c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v65.74c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1v-3.59h.1c2.69,3.79,6.87,5.68,12.75,5.68,8.57,0,14.14-3.88,16.63-11.55,1.1-3.49,1.69-7.97,1.69-13.55s-.6-10.06-1.69-13.55c-2.49-7.67-8.07-11.55-16.63-11.55ZM122.81,55.14c-1.29,4.08-4.28,6.18-8.87,6.18s-7.67-2.09-8.96-6.18c-.7-2.09-1-5.08-1-8.96s.3-6.87,1-8.96c1.29-4.08,4.28-6.18,8.96-6.18s7.57,2.09,8.87,6.18c.7,2.09,1,5.08,1,8.96s-.3,6.87-1,8.96Z"/><path d="M163.25,21.07c-9.56,0-16.93,4.88-19.62,13.25-1.1,3.29-1.59,7.27-1.59,11.85,0,4.28.6,8.27,1.69,11.75,2.69,8.37,9.96,13.35,20.02,13.35,8.47,0,15.04-2.69,19.72-8.17.4-.5.4-1-.1-1.39l-5.88-5.18c-.5-.4-1-.3-1.49.2-2.79,3.09-6.57,4.58-11.26,4.58-5.48,0-9.06-2.39-10.76-7.27-.5-1.29-.7-2.49-.7-3.69,0-.4.2-.6.6-.6h29.58c.7,0,1.1-.3,1.1-1,0-6.38-.5-11.16-1.59-14.44-2.69-8.27-9.86-13.25-19.72-13.25ZM172.71,41.39h-18.83c-.4,0-.6-.2-.6-.6,0-1.49.2-2.89.6-4.08,1.39-4.08,4.58-6.18,9.46-6.18,4.48,0,8.07,2.29,9.36,6.18.4,1.2.6,2.59.6,4.08,0,.4-.2.6-.6.6Z"/><path d="M232.67,22.16h-9.16c-.7,0-1,.3-1,1v27.79c0,6.28-3.39,10.36-8.96,10.36-5.88,0-8.96-4.08-8.96-10.46v-27.69c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v30.28c0,10.46,6.47,17.83,16.54,17.83,5.38,0,9.56-1.89,12.45-5.58h.1v3.49c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1V23.16c0-.7-.3-1-1-1Z"/><path d="M310.66,22.16h-9.56c-.7,0-1.1.3-1.29,1l-8.77,31.68h-.2l-9.76-31.68c-.2-.7-.6-1-1.29-1h-7.17c-.7,0-1.1.3-1.29,1l-9.16,31.68h-.2l-9.26-31.68c-.2-.7-.6-1-1.29-1h-9.56c-.7,0-.9.3-.7,1l15.14,46.02c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l9.36-30.68h.2l9.26,30.68c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l15.14-46.02c.2-.7,0-1-.7-1Z"/><path d="M356.98,22.16h-9.46c-.6,0-1,.3-1.2,1l-10.36,31.38h-.2l-10.86-31.38c-.2-.7-.6-1-1.2-1h-9.86c-.7,0-1,.3-.8,1l17.53,45.22-1.39,4.08c-1.49,4.08-3.49,5.68-7.17,5.68h-1.79c-.7,0-1,.3-1,1v7.97c0,.7.3,1,1,1h3.09c3.98,0,7.17-1.1,9.46-3.29,2.39-2.09,4.58-5.98,6.67-11.65l18.33-50c.2-.7-.1-1-.8-1Z"/></svg></div>
+      <div id="endUrl">beuwy.com/system</div>
+    </div>
+
+    <!-- Uhr über allem -->
+    <div id="clockWrap" class="hid">
+      <div id="clock">
+        <div class="dcol"><div id="st0" class="strip"></div></div>
+        <div class="dcol"><div id="st1" class="strip"></div></div>
+        <div id="colon" class="colon">:</div>
+        <div class="dcol"><div id="st2" class="strip"></div></div>
+        <div class="dcol"><div id="st3" class="strip"></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="flash" style="position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:90"></div>
+  <audio id="mix" src="audio/v3/film-mix.mp3" data-start="0" data-duration="88.6" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+(function () {
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+  var A = 0.2, B = 9.7, C = 43.0, D = 46.8, END = 88.6;
+  var P = 60 / 126;
+
+  function ft(t, from, to, at) { to.immediateRender = false; tl.fromTo(t, from, to, at); }
+  function ft0(t, from, to, at) { tl.set(t, from, 0); ft(t, from, to, at); }
+  function show(t, at) { tl.set(t, { autoAlpha: 1 }, at); }
+  function hide(t, at) { tl.set(t, { autoAlpha: 0 }, at); }
+  function rise(t, at, d) { ft0(t, { yPercent: 118 }, { yPercent: 0, duration: d || 0.5, ease: "power4.out" }, at); }
+  function mark(t, at, d) { ft(t, { scaleX: 0 }, { scaleX: 1, duration: d || 0.35, ease: "power3.out" }, at); }
+  function slam(t, at, s, blur) { ft0(t, { scale: s || 1.7, opacity: 0, filter: "blur(" + (blur || 20) + "px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.42, ease: "power4.out" }, at); }
+  function pop(t, at, d) { ft0(t, { scale: 0.7, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: d || 0.45, ease: "back.out(1.8)" }, at); }
+  function shake(at, amp) { tl.to("#cam", { keyframes: { x: [0, amp, -amp * 0.7, amp * 0.4, 0], y: [0, -amp * 0.6, amp * 0.5, -amp * 0.2, 0] }, duration: 0.3, ease: "none" }, at); }
+  function cut(from, to, at) { hide(from, at); show(to, at); }
+  function whipUp(sel, at) { ft(sel, { y: 0, filter: "blur(0px)" }, { y: -1150, filter: "blur(16px)", duration: 0.3, ease: "power3.in" }, at); }
+
+  tl.set(".hlb", { scaleX: 0 }, 0);
+  tl.set("#board", { scale: 1.25 }, 0);
+
+  /* ---------- Uhr ---------- */
+  var H = 520;
+  var STR = [[7,8,9,0,1,2,0,1],[5,6,7,8,9,0,1,2,3,8,3],[9,0,1,2,3,4,5,4,0],[1,2,3,4,5,6,7,8,9,0,6,7]];
+  STR.forEach(function (l, i) { document.getElementById("st" + i).innerHTML = l.map(function (d) { return "<b>" + d + "</b>"; }).join(""); });
+  var END_I = [[5,6,7],[8,9,10],[6,7,8],[9,10,11]];
+  tl.set("#clockWrap", { transformOrigin: "0px 0px" }, 0);
+  var HUD = { scale: 0.13, x: -21, y: -184 }, BIG = { scale: 1, x: 0, y: 0 };
+  function clockTo(state, at, d) { ft("#clockWrap", {}, Object.assign({ duration: d || 0.55, ease: "expo.inOut" }, state), at); }
+  function rollTo(k, at, d) {
+    for (var c = 0; c < 4; c++) {
+      var a = k === 0 ? 0 : END_I[c][k - 1], b = END_I[c][k];
+      if (a === b && k > 0) continue;
+      ft("#st" + c, { y: -a * H, filter: "blur(12px)" }, { y: -b * H, filter: "blur(0px)", duration: (d || 0.9) + c * 0.06, ease: "power3.inOut" }, at + c * 0.05);
+    }
+  }
+  tl.set(["#st0","#st1","#st2","#st3"], { y: 0 }, 0);
+
+  /* ========== HOOK (gelb) ========== */
+  slam("#hk1", A, 1.8, 24);
+  shake(A, 8);
+  ft("#hk1", { y: 0, scale: 1 }, { y: -270, scale: 0.5, duration: 0.5, ease: "expo.inOut" }, A + 1.1);
+  [["#hk2", 1.24], ["#hk3", 2.30], ["#hk4", 3.31]].forEach(function (h) {
+    ft0(h[0], { x: -1900, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, A + h[1] - 0.05);
+  });
+  ft0("#dbl", { opacity: 0 }, { opacity: 1, duration: 0.01 }, A + 4.6);
+  ft("#hk1", { y: -270, filter: "blur(0px)" }, { y: -1420, filter: "blur(16px)", duration: 0.3, ease: "power3.in" }, A + 4.5);
+  ft("#hkList", { y: 0, filter: "blur(0px)" }, { y: -1150, filter: "blur(16px)", duration: 0.3, ease: "power3.in" }, A + 4.5);
+  ft0("#dblX", { scale: 2.4, opacity: 0, filter: "blur(24px)", rotation: -8 }, { scale: 1, opacity: 1, filter: "blur(0px)", rotation: 0, duration: 0.5, ease: "power4.out" }, A + 4.85);
+  ft0("#dblT", { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, A + 5.3);
+  shake(A + 4.85, 10);
+  ft0("#pill30", { scale: 0.6, opacity: 0, y: 40 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)" }, A + 7.05);
+  ft("#dbl", { scale: 1 }, { scale: 1.04, duration: 4, ease: "sine.inOut" }, A + 5);
+
+  /* ========== STORY (dunkel) ========== */
+  cut("#sHook", "#sNacht", B - 0.05);
+  show("#clockWrap", B - 0.05);
+  tl.set("#clockWrap", { scale: 1.1, x: -82, y: -26 }, 0);
+  rollTo(0, B, 1.0);
+  ft("#clockWrap", { scale: 1.1, x: -82, y: -26 }, { scale: 1, x: 0, y: 0, duration: 1.8, ease: "power2.out" }, B);
+  clockTo(HUD, B + 1.65, 0.55);
+  ft0("#ph1", { y: 1300, z: -700, rotationX: 40, rotationY: -30 }, { y: 0, z: 0, rotationX: 6, rotationY: -12, duration: 0.85, ease: "power4.out" }, B + 1.75);
+  ft("#ph1", { rotationY: -12, rotationX: 6 }, { rotationY: -5, rotationX: 2, duration: 3.2, ease: "sine.inOut" }, B + 2.6);
+  ft0("#dots", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, B + 2.5);
+  hide("#dots", B + 3.2);
+  pop("#bub1", B + 3.22, 0.4);
+
+  cut("#sNacht", "#sDuell", B + 5.55);
+  slam("#dW", B + 5.55, 1.4, 16);
+  ft0("#dM", { x: 900, opacity: 0, filter: "blur(18px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, B + 6.38);
+  shake(B + 6.4, 7);
+  pop("#sie", B + 8.2, 0.4);
+  ft("#dW", { x: 0 }, { x: 150, duration: 1.6, ease: "power2.inOut" }, B + 8.6);
+  ft("#dM", { x: 0 }, { x: -150, duration: 1.6, ease: "power2.inOut" }, B + 8.6);
+  ft("#sie", { scaleX: 1 }, { scaleX: 0.62, duration: 1.6, ease: "power2.inOut" }, B + 8.6);
+  ft0("#notar", { opacity: 0, y: 30, scale: 1 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, B + 10.1);
+  ft("#notar", { scale: 1, y: 0 }, { scale: 0.6, y: 80, opacity: 0.25, duration: 1.1, ease: "power2.in" }, B + 10.6);
+
+  cut("#sDuell", "#sTask", B + 11.65);
+  clockTo(BIG, B + 11.6, 0.45);
+  rollTo(1, B + 11.9, 0.8);
+  clockTo(HUD, B + 13.2, 0.5);
+  ft0("#task1", { y: 700, rotationX: 0, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power4.out" }, B + 13.3);
+  pop("#krank", B + 14.25, 0.4);
+  pop("#offen", B + 15.7, 0.4);
+  ft("#task1", { opacity: 1, filter: "blur(0px) saturate(1)", y: 0, scale: 1 }, { opacity: 0, filter: "blur(10px) saturate(0)", y: 120, scale: 0.92, duration: 1.4, ease: "power2.in" }, B + 16.3);
+  ft0("#noti", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, B + 17.9);
+
+  cut("#sTask", "#sTools", B + 19.15);
+  clockTo(BIG, B + 19.1, 0.45);
+  rollTo(2, B + 19.35, 0.75);
+  clockTo(HUD, B + 20.25, 0.45);
+  var TL = ["KI-Assistent","Chatbot","Auto-Post","Smart CRM","Lead-Scoring","GPT-Exposé","Funnel-Tool","Bot-Mail","Social-KI","Text-KI","Voice-Bot","Deal-AI","Auto-Reply","Planer-KI","Score-App","Prompt-Pro","Video-KI","Mail-KI","Analyse-KI","Upload-Bot"];
+  var tHtml = "";
+  TL.forEach(function (n, i) {
+    var col = i % 7, row = Math.floor(i / 7);
+    var x = 40 + col * 270 + (row % 2) * 135, y = 230 + row * 270;
+    var sh = ["", "k", "s"][i % 3];
+    tHtml += '<div class="tile" id="tl' + i + '" style="left:' + x + 'px;top:' + y + 'px"><i class="' + sh + '"></i>' + n + '</div>';
+  });
+  document.getElementById("tiles").innerHTML = tHtml;
+  TL.forEach(function (n, i) {
+    var at = B + (i < 10 ? 20.45 + i * 0.07 : 21.45 + (i - 10) * 0.06);
+    var rot = ((i * 37) % 21) - 10;
+    ft0("#tl" + i, { y: -900, rotation: rot * 2, opacity: 0 }, { y: 0, rotation: rot, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, at);
+    ft("#tl" + i, { y: 0, filter: "blur(0px)" }, { y: 1300 + (i % 5) * 60, rotation: rot * 4, filter: "blur(6px)", duration: 0.7, ease: "power3.in" }, B + 25.3 + (i % 7) * 0.025);
+  });
+  ft0("#bot", { scale: 0.5, opacity: 0, y: 60 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, B + 23.3);
+  ft("#bot", { scaleY: 1, scaleX: 1, y: 0, opacity: 1 }, { scaleY: 0.08, scaleX: 1.15, y: 40, opacity: 0, duration: 0.3, ease: "power4.in" }, B + 24.3);
+  shake(B + 24.55, 9);
+  slam("#absch", B + 25.38, 1.6, 20);
+  ft0("#ruhe", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, B + 26.95);
+
+  cut("#sTools", "#sMap", B + 27.45);
+  hide("#clockWrap", B + 27.45);
+  tl.set("#map", { transformOrigin: "900px 560px" }, 0);
+  ft("#map", { scale: 1.5 }, { scale: 1.1, duration: 4.4, ease: "power2.out" }, B + 27.45);
+  ft("#h2", { x: 0, y: 0 }, { x: 1080, y: -280, duration: 1.8, ease: "power2.inOut" }, B + 29.4);
+  ft0("#warum", { scale: 1.8, opacity: 0, filter: "blur(22px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" }, B + 31.85);
+  ft("#map", { opacity: 1 }, { opacity: 0.18, duration: 0.4, ease: "power2.out" }, B + 31.85);
+  ft("#warum", { scale: 1 }, { scale: 1.08, duration: 1.2, ease: "power1.in" }, B + 32.3);
+
+  /* ========== WENDE (gelb, Drop) ========== */
+  cut("#sMap", "#sWende", C - 0.02);
+  ft0("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, C - 0.06);
+  ft("#flash", { opacity: 0.85 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, C - 0.01);
+  slam("#schluss", C, 1.9, 26);
+  shake(C, 14);
+  ft("#schluss", { x: 0, y: 0, scale: 1 }, { x: -380, y: -260, scale: 0.52, duration: 0.5, ease: "expo.inOut" }, C + 0.82);
+  ft0("#wPhone", { y: 1100, rotationX: 30, rotationY: -26 }, { y: 0, rotationX: 4, rotationY: -12, duration: 0.8, ease: "power4.out" }, C + 0.85);
+  rise("#wt1", C + 1.3);
+  pop("#vm", C + 1.5, 0.4);
+  var wv = ""; for (var i = 0; i < 26; i++) wv += '<i id="wv' + i + '" style="height:' + (18 + ((i * 53) % 38)) + 'px"></i>';
+  document.getElementById("wave").innerHTML = wv;
+  for (var j = 0; j < 26; j++) ft("#wv" + j, { scaleY: 1 }, { scaleY: 0.3 + ((j * 29) % 10) / 10, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 5 }, C + 1.6 + (j % 5) * 0.03);
+  rise("#wt2", C + 2.2);
+  pop("#vmR", C + 2.75, 0.4);
+
+  /* ========== ANGEBOT (weiß) ========== */
+  cut("#sWende", "#sPortal", D - 0.05);
+  var obj = [["Einfamilienhaus","649.000 €"],["Stadtvilla","1.190.000 €"],["Penthouse","785.000 €"],["Reihenhaus","465.000 €"],["Altbau-ETW","398.000 €"],["Bungalow","529.000 €"],["Neubau-ETW","612.000 €"],["DHH","575.000 €"]];
+  document.getElementById("pgrid").innerHTML = obj.map(function (o) { return '<div class="pobj"><div class="im"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.4"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg></div><div class="tx"><b>' + o[1] + '</b><span>' + o[0] + '</span></div></div>'; }).join("");
+  ft0("#brow", { y: 900, z: -900, rotationX: 38, rotationY: 0 }, { y: 0, z: -120, rotationX: 14, duration: 1.0, ease: "power4.out" }, D - 0.05);
+  ft("#brow", { z: -120, rotationX: 14, rotationY: 0 }, { z: 60, rotationX: 4, rotationY: -6, duration: 2.9, ease: "sine.inOut" }, D + 0.95);
+  ["#rs1", "#rs2", "#rs3", "#rs4"].forEach(function (r, i) {
+    var t = D + [3.06, 3.66, 4.46, 5.02][i];
+    show(r, t - 0.02);
+    ft(r, { scale: 1.35, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.28, ease: "power4.out" }, t - 0.02);
+    if (i < 3) hide(r, D + [3.66, 4.46, 5.02][i] - 0.03);
+  });
+  hide("#rs4", D + 5.8);
+  ft("#brow", { filter: "blur(0px)", opacity: 1 }, { filter: "blur(10px)", opacity: 0.35, duration: 0.2, ease: "power2.out" }, D + 3.0);
+  ft("#brow", { filter: "blur(10px)", opacity: 0.35 }, { filter: "blur(0px)", opacity: 1, duration: 0.3, ease: "power2.out" }, D + 5.8);
+  ft("#brow", { z: 60, rotationX: 4, rotationY: -6 }, { z: 340, rotationX: 0, rotationY: 0, y: 180, duration: 1.6, ease: "power2.inOut" }, D + 5.85);
+  ft("#tg1", { x: 0, opacity: 1 }, { x: 700, opacity: 0, duration: 0.5, ease: "power3.in" }, D + 8.2);
+  ft("#tg2", { x: 0, opacity: 1 }, { x: 700, opacity: 0, duration: 0.5, ease: "power3.in" }, D + 8.3);
+
+  cut("#sPortal", "#sRech", D + 9.45);
+  ft0("#rech", { y: 700, rotationX: 20, opacity: 0 }, { y: 0, rotationX: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, D + 9.45);
+  tl.set("#rv2", { yPercent: 100 }, 0);
+  ft("#rv1", { yPercent: 0, filter: "blur(0px)" }, { yPercent: -100, filter: "blur(6px)", duration: 0.55, ease: "power3.inOut" }, D + 12.95);
+  ft("#rv2", { yPercent: 100, filter: "blur(6px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.inOut" }, D + 12.95);
+  tl.set("#rKnob", { left: "96%" }, 0);
+  tl.set("#rFill", { scaleX: 0.96 }, 0);
+  ft("#rKnob", { x: 0 }, { x: -0.6 * 1040, duration: 1.8, ease: "power3.inOut" }, D + 11.4);
+  ft("#rFill", { scaleX: 0.96 }, { scaleX: 0.36, duration: 1.8, ease: "power3.inOut" }, D + 11.4);
+  tl.set("#rLab", { textContent: "Marktwert laut Rechner" }, D + 13.2);
+  shake(D + 13.3, 6);
+
+  cut("#sRech", "#sCal", D + 14.4);
+  slam("#calT", D + 14.45, 1.4, 14);
+  ["#n1","#n2","#n3","#n4"].forEach(function (n, i) { ft0(n, { y: -500, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(1.5)" }, D + 14.85 + i * 0.12); });
+
+  cut("#sCal", "#sAuto", D + 15.8);
+  ft0("#task2", { y: 700, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, D + 15.8);
+  ["#fc1","#fc2","#fc3","#fc4"].forEach(function (f, i) { pop(f, D + 16.6 + i * 0.28, 0.4); });
+
+  cut("#sAuto", "#sHub", D + 18.45);
+  slam("#hubT", D + 18.5, 1.3, 12);
+  pop("#hub", D + 18.7, 0.5);
+  var CR = [["onOffice", -560, -170], ["Propstack", 480, -170], ["FLOWFACT", -640, 150], ["Bottimmo", 540, 150], ["Justimmo", -300, 330], ["CASAONE", 260, 330]];
+  var lh = "", ch = "";
+  CR.forEach(function (c, i) {
+    var len = Math.sqrt(c[1] * c[1] + c[2] * c[2]) - 60, ang = Math.atan2(c[2], c[1]) * 180 / Math.PI;
+    lh += '<div class="ln2" id="ln' + i + '" style="width:' + len.toFixed(0) + 'px;transform:rotate(' + ang.toFixed(1) + 'deg)"></div>';
+    ch += '<div class="crm' + (i < 2 ? ' on' : '') + '" id="cr' + i + '" style="left:' + (960 + c[1] - 130) + 'px;top:' + (540 + c[2] - 42) + 'px">' + c[0] + '</div>';
+  });
+  document.getElementById("lines").innerHTML = lh;
+  document.getElementById("crms").innerHTML = ch;
+  CR.forEach(function (c, i) {
+    pop("#cr" + i, D + 19.4 + i * 0.1, 0.4);
+    tl.set("#ln" + i, { scaleX: 0 }, 0);
+    tl.to("#ln" + i, { scaleX: 1, duration: 0.5, ease: "power3.out" }, D + 19.9 + i * 0.12);
+  });
+  ft("#hub", { scale: 1 }, { scale: 1.15, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, D + 22.1);
+
+  /* ========== BEWEIS (gelb) ========== */
+  cut("#sHub", "#sProof", D + 22.9);
+  var digits = [["0","1","2"], ["0","1","2","3","4","5","6","7","8","9","0","1"], ["0","1","2","3","4","5","6","7","8","9","0"], ["0","1","2","3","4","5","6","7","8","9","0"]];
+  var pn = "";
+  digits.forEach(function (l, i) {
+    pn += '<div class="dc"><div class="s" id="ps' + i + '">' + l.map(function (d) { return "<b>" + d + "</b>"; }).join("") + '</div></div>';
+    if (i === 0) pn += '<div class="dc pt"><div class="s"><b>.</b></div></div>';
+  });
+  document.getElementById("pNum").innerHTML = pn;
+  [2, 11, 10, 10].forEach(function (idx, i) { ft0("#ps" + i, { y: 0, filter: "blur(12px)" }, { y: -idx * 440, filter: "blur(0px)", duration: 1.3 + i * 0.12, ease: "power3.out" }, D + 23.0 + i * 0.06); });
+  ft0("#pLab", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, D + 24.4);
+  ft("#prf1", { scale: 1 }, { scale: 1.05, duration: 4.4, ease: "sine.inOut" }, D + 23);
+
+  cut("#sProof", "#sRiegel", D + 27.35);
+  rise("#kfN", D + 28.4, 0.5);
+  ft0("#kf .lab", { opacity: 0 }, { opacity: 1, duration: 0.3 }, D + 27.4);
+  slam("#p9", D + 29.95, 2.2, 26);
+  shake(D + 29.95, 12);
+  ft0("#p9L", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, D + 30.9);
+
+  /* ========== SCHLUSS (dunkel) ========== */
+  cut("#sRiegel", "#sNur", D + 33.2);
+  rise("#nu1", D + 33.22, 0.55);
+  rise("#nu2", D + 33.9, 0.55);
+  cut("#sNur", "#sBoard", D + 35.7);
+  ft0("#br1", { rotationX: -90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, D + 35.75);
+  ft0("#br2", { rotationX: -90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, D + 36.1);
+  ft("#brQ", { scale: 1 }, { scale: 1.18, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, D + 36.7);
+  cut("#sBoard", "#sCta", D + 37.85);
+  rise("#ctaQ", D + 37.9, 0.5);
+  ft0("#ctaF", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, D + 38.2);
+  var city = "Heidelberg";
+  for (var k = 1; k <= city.length; k++) tl.set("#ctaTx", { textContent: city.slice(0, k) }, D + 38.6 + k * 0.06);
+  tl.set("#ctaTx", { textContent: "" }, 0);
+  ft0("#ctaPh", { opacity: 1 }, { opacity: 0, duration: 0.01 }, D + 38.64);
+  ft("#ctaB", { scale: 1 }, { scale: 0.92, duration: 0.08, ease: "power2.in" }, D + 39.5);
+  ft("#ctaB", { scale: 0.92 }, { scale: 1, duration: 0.35, ease: "back.out(3)" }, D + 39.58);
+  cut("#sCta", "#sEnd", D + 40.35);
+  ft0("#endLogo", { scale: 1.3, opacity: 0, filter: "blur(16px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "power4.out" }, D + 40.35);
+  ft0("#endUrl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, D + 40.8);
+
+  window.__timelines["v3"] = tl;
+})();
+</script>
+<script src="assets/vendor/motion-blur.js"></script>
+</body>
+</html>

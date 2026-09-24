@@ -1,0 +1,7 @@
+{
+  "scene": "04-verlust",
+  "duration_s": 4.15,
+  "rules": ["waterfall-entry", "css-marker-patterns"],
+  "exit": { "vector": "still — highlighter settles, stack nudges +40px right/down and holds", "still_moving": false },
+  "entry": { "vector": "words whip up from below, ~267px/s at first word", "from_rest": false }
+}

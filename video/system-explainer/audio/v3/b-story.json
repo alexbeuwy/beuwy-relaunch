@@ -1,0 +1,417 @@
+{
+ "id": "b-story",
+ "text": "Dreiundzwanzig Uhr fünfzig. Ihr Eigentümer schreibt: Ich bleibe bei achthundertneunzigtausend. Der Markt gibt siebenhundertzwanzigtausend her. Und Sie stehen wieder zwischen zwei Fronten, statt zum Notar zu fahren. Acht Uhr sechsundvierzig. Ein Mitarbeiter ist krank. Das Nachfassen bleibt liegen. Der Deal von gestern geht verloren, und Sie erfahren es nie. Dreizehn Uhr sieben. Zehn neue Tools, fünfzig neue KI-Funktionen. Dabei wollen Sie keinen verdammten Chatbot. Sie wollen Abschlüsse. Und Ruhe. Und trotzdem besitzen manche Eigentümer die Frechheit, zu anderen Maklerbüros zu gehen. Warum?",
+ "dauer": 32.601,
+ "woerter": [
+  {
+   "w": "Dreiundzwanzig",
+   "s": 0.0,
+   "e": 0.813
+  },
+  {
+   "w": "Uhr",
+   "s": 0.871,
+   "e": 0.975
+  },
+  {
+   "w": "fünfzig.",
+   "s": 1.033,
+   "e": 1.73
+  },
+  {
+   "w": "Ihr",
+   "s": 1.834,
+   "e": 2.009
+  },
+  {
+   "w": "Eigentümer",
+   "s": 2.09,
+   "e": 2.635
+  },
+  {
+   "w": "schreibt:",
+   "s": 2.67,
+   "e": 3.135
+  },
+  {
+   "w": "Ich",
+   "s": 3.239,
+   "e": 3.413
+  },
+  {
+   "w": "bleibe",
+   "s": 3.483,
+   "e": 3.796
+  },
+  {
+   "w": "bei",
+   "s": 3.843,
+   "e": 3.959
+  },
+  {
+   "w": "achthundertneunzigtausend.",
+   "s": 4.029,
+   "e": 5.526
+  },
+  {
+   "w": "Der",
+   "s": 5.631,
+   "e": 5.817
+  },
+  {
+   "w": "Markt",
+   "s": 5.875,
+   "e": 6.13
+  },
+  {
+   "w": "gibt",
+   "s": 6.188,
+   "e": 6.374
+  },
+  {
+   "w": "siebenhundertzwanzigtausend",
+   "s": 6.409,
+   "e": 7.663
+  },
+  {
+   "w": "her.",
+   "s": 7.721,
+   "e": 8.092
+  },
+  {
+   "w": "Und",
+   "s": 8.231,
+   "e": 8.429
+  },
+  {
+   "w": "Sie",
+   "s": 8.464,
+   "e": 8.568
+  },
+  {
+   "w": "stehen",
+   "s": 8.603,
+   "e": 8.847
+  },
+  {
+   "w": "wieder",
+   "s": 8.882,
+   "e": 9.079
+  },
+  {
+   "w": "zwischen",
+   "s": 9.114,
+   "e": 9.404
+  },
+  {
+   "w": "zwei",
+   "s": 9.451,
+   "e": 9.659
+  },
+  {
+   "w": "Fronten,",
+   "s": 9.718,
+   "e": 10.101
+  },
+  {
+   "w": "statt",
+   "s": 10.124,
+   "e": 10.368
+  },
+  {
+   "w": "zum",
+   "s": 10.414,
+   "e": 10.542
+  },
+  {
+   "w": "Notar",
+   "s": 10.588,
+   "e": 10.879
+  },
+  {
+   "w": "zu",
+   "s": 10.937,
+   "e": 11.03
+  },
+  {
+   "w": "fahren.",
+   "s": 11.076,
+   "e": 11.54
+  },
+  {
+   "w": "Acht",
+   "s": 11.726,
+   "e": 12.005
+  },
+  {
+   "w": "Uhr",
+   "s": 12.063,
+   "e": 12.202
+  },
+  {
+   "w": "sechsundvierzig.",
+   "s": 12.26,
+   "e": 13.259
+  },
+  {
+   "w": "Ein",
+   "s": 13.363,
+   "e": 13.526
+  },
+  {
+   "w": "Mitarbeiter",
+   "s": 13.572,
+   "e": 14.071
+  },
+  {
+   "w": "ist",
+   "s": 14.106,
+   "e": 14.222
+  },
+  {
+   "w": "krank.",
+   "s": 14.28,
+   "e": 14.745
+  },
+  {
+   "w": "Das",
+   "s": 14.791,
+   "e": 14.954
+  },
+  {
+   "w": "Nachfassen",
+   "s": 15.012,
+   "e": 15.465
+  },
+  {
+   "w": "bleibt",
+   "s": 15.488,
+   "e": 15.708
+  },
+  {
+   "w": "liegen.",
+   "s": 15.755,
+   "e": 16.126
+  },
+  {
+   "w": "Der",
+   "s": 16.231,
+   "e": 16.37
+  },
+  {
+   "w": "Deal",
+   "s": 16.428,
+   "e": 16.579
+  },
+  {
+   "w": "von",
+   "s": 16.637,
+   "e": 16.753
+  },
+  {
+   "w": "gestern",
+   "s": 16.8,
+   "e": 17.055
+  },
+  {
+   "w": "geht",
+   "s": 17.102,
+   "e": 17.241
+  },
+  {
+   "w": "verloren,",
+   "s": 17.287,
+   "e": 17.775
+  },
+  {
+   "w": "und",
+   "s": 17.88,
+   "e": 18.007
+  },
+  {
+   "w": "Sie",
+   "s": 18.042,
+   "e": 18.135
+  },
+  {
+   "w": "erfahren",
+   "s": 18.17,
+   "e": 18.541
+  },
+  {
+   "w": "es",
+   "s": 18.599,
+   "e": 18.704
+  },
+  {
+   "w": "nie.",
+   "s": 18.808,
+   "e": 19.133
+  },
+  {
+   "w": "Dreizehn",
+   "s": 19.238,
+   "e": 19.679
+  },
+  {
+   "w": "Uhr",
+   "s": 19.749,
+   "e": 19.888
+  },
+  {
+   "w": "sieben.",
+   "s": 19.946,
+   "e": 20.364
+  },
+  {
+   "w": "Zehn",
+   "s": 20.469,
+   "e": 20.678
+  },
+  {
+   "w": "neue",
+   "s": 20.712,
+   "e": 20.91
+  },
+  {
+   "w": "Tools,",
+   "s": 20.968,
+   "e": 21.386
+  },
+  {
+   "w": "fünfzig",
+   "s": 21.49,
+   "e": 21.955
+  },
+  {
+   "w": "neue",
+   "s": 22.001,
+   "e": 22.187
+  },
+  {
+   "w": "KI-Funktionen.",
+   "s": 22.245,
+   "e": 23.243
+  },
+  {
+   "w": "Dabei",
+   "s": 23.348,
+   "e": 23.615
+  },
+  {
+   "w": "wollen",
+   "s": 23.661,
+   "e": 23.835
+  },
+  {
+   "w": "Sie",
+   "s": 23.87,
+   "e": 23.952
+  },
+  {
+   "w": "keinen",
+   "s": 23.986,
+   "e": 24.242
+  },
+  {
+   "w": "verdammten",
+   "s": 24.288,
+   "e": 24.718
+  },
+  {
+   "w": "Chatbot.",
+   "s": 24.776,
+   "e": 25.298
+  },
+  {
+   "w": "Sie",
+   "s": 25.403,
+   "e": 25.542
+  },
+  {
+   "w": "wollen",
+   "s": 25.589,
+   "e": 25.821
+  },
+  {
+   "w": "Abschlüsse.",
+   "s": 25.925,
+   "e": 26.645
+  },
+  {
+   "w": "Und",
+   "s": 26.75,
+   "e": 26.924
+  },
+  {
+   "w": "Ruhe.",
+   "s": 26.982,
+   "e": 27.377
+  },
+  {
+   "w": "Und",
+   "s": 27.481,
+   "e": 27.632
+  },
+  {
+   "w": "trotzdem",
+   "s": 27.736,
+   "e": 28.143
+  },
+  {
+   "w": "besitzen",
+   "s": 28.178,
+   "e": 28.514
+  },
+  {
+   "w": "manche",
+   "s": 28.549,
+   "e": 28.816
+  },
+  {
+   "w": "Eigentümer",
+   "s": 28.874,
+   "e": 29.315
+  },
+  {
+   "w": "die",
+   "s": 29.35,
+   "e": 29.432
+  },
+  {
+   "w": "Frechheit,",
+   "s": 29.478,
+   "e": 29.966
+  },
+  {
+   "w": "zu",
+   "s": 30.0,
+   "e": 30.105
+  },
+  {
+   "w": "anderen",
+   "s": 30.163,
+   "e": 30.465
+  },
+  {
+   "w": "Maklerbüros",
+   "s": 30.511,
+   "e": 31.115
+  },
+  {
+   "w": "zu",
+   "s": 31.173,
+   "e": 31.266
+  },
+  {
+   "w": "gehen.",
+   "s": 31.324,
+   "e": 31.719
+  },
+  {
+   "w": "Warum?",
+   "s": 31.881,
+   "e": 32.601
+  }
+ ]
+}

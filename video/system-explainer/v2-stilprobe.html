@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Helvena"; src: url("assets/fonts/helvena.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "HelvenaBold"; src: url("assets/fonts/helvena-og-800.ttf") format("truetype"); font-weight: 800; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #ffffff; }
+  #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #ffffff;
+    font-family: "Helvena", sans-serif; color: #161613; }
+  #cam { position: absolute; inset: 0; }
+  .sc { position: absolute; inset: 0; overflow: hidden; }
+  .hid { visibility: hidden; opacity: 0; }
+  .stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 50%; }
+  .p3d { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .bold { font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.03em; }
+
+  /* Wort-Masken und Highlighter */
+  .m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.02em 0.1em; margin-bottom: -0.1em; }
+  .mi { display: inline-block; will-change: transform; }
+  .hl { position: relative; display: inline-block; }
+  .hlb { position: absolute; left: -0.04em; right: -0.04em; top: 55%; height: 37%; background: #f3e27f;
+    transform-origin: 0 50%; z-index: 0; }
+  .hlt { position: relative; z-index: 1; }
+
+  /* ---------- Uhr (durchgehendes Element) ---------- */
+  #clockWrap { position: absolute; left: 141px; top: 280px; width: 1638px; height: 520px; z-index: 40; }
+  #clock { position: absolute; inset: 0; display: flex; }
+  #clockHl { position: absolute; left: 0; width: 1638px; top: 286px; height: 176px; background: #f3e27f;
+    transform-origin: 0 50%; }
+  .dcol { position: relative; width: 372px; height: 520px; overflow: hidden; z-index: 1; }
+  .strip { position: absolute; left: 0; top: 0; width: 372px; will-change: transform; }
+  .strip b { display: block; width: 372px; height: 520px; line-height: 520px; text-align: center;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 600px; letter-spacing: 0; color: #161613; }
+  .colon { position: relative; width: 150px; height: 520px; line-height: 520px; text-align: center; z-index: 1;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 600px; color: #161613; }
+
+  /* ---------- Telefon (Eigentümer) ---------- */
+  .phone { position: absolute; left: 710px; top: 90px; width: 500px; height: 1020px; border-radius: 78px;
+    background: #efefeb; padding: 14px; transform-style: preserve-3d;
+    box-shadow: 0 90px 140px -50px rgba(22,22,19,0.38), 0 30px 60px -30px rgba(22,22,19,0.22), inset 0 0 0 2px rgba(20,20,18,0.06); }
+  .scr { position: relative; width: 472px; height: 992px; border-radius: 64px; background: #ffffff; overflow: hidden;
+    padding: 64px 34px 0; }
+  .island { position: absolute; left: 50%; top: 30px; width: 126px; height: 36px; margin-left: -63px;
+    border-radius: 999px; background: #161613; }
+  .sb { position: absolute; left: 0; right: 0; top: 26px; padding: 0 44px; display: flex; justify-content: space-between;
+    font-weight: 600; font-size: 21px; color: #161613; }
+  .sb-r { display: flex; gap: 4px; align-items: flex-end; }
+  .sb-r i { display: block; width: 6px; background: #161613; border-radius: 2px; }
+  .sb-r i:nth-child(1) { height: 9px; } .sb-r i:nth-child(2) { height: 13px; } .sb-r i:nth-child(3) { height: 17px; }
+  .ph-head { display: flex; align-items: center; gap: 12px; margin-top: 26px; font-weight: 700; font-size: 17px;
+    letter-spacing: 0.14em; color: #161613; }
+  .ph-head .lg { display: block; width: 30px; height: 30px; border-radius: 8px; background: #161613; }
+  .ph-eyebrow { margin-top: 44px; font-weight: 700; font-size: 13px; letter-spacing: 0.12em; color: #777772; }
+  .ph-h1 { margin-top: 12px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 46px; line-height: 1.02;
+    letter-spacing: -0.03em; }
+  .ph-steps { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; font-weight: 600; font-size: 16px; color: #5d5d58; }
+  .ph-bar { position: relative; height: 8px; border-radius: 99px; background: #efefeb; overflow: hidden; }
+  .ph-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #f3e27f; transform-origin: 0 50%; }
+  .ph-tiles { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tile { position: relative; height: 132px; border-radius: 22px; border: 2px solid rgba(20,20,18,0.08); background: #ffffff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    font-weight: 600; font-size: 19px; color: #161613; }
+  .tile svg { width: 38px; height: 38px; position: relative; z-index: 1; }
+  .tile span { position: relative; z-index: 1; }
+  .tile-sel { position: absolute; inset: -2px; border-radius: 22px; background: #fbf5d6; border: 3px solid #f3e27f; opacity: 0; }
+  .ph-field { margin-top: 24px; }
+  .ph-field label { display: block; font-weight: 600; font-size: 15px; color: #777772; margin-bottom: 8px; }
+  .ph-input { height: 66px; border-radius: 18px; border: 2px solid rgba(20,20,18,0.1); display: flex; align-items: center;
+    padding: 0 20px; gap: 8px; font-weight: 600; font-size: 26px; }
+  .ph-input .unit { color: #777772; }
+  .ph-btn { margin-top: 20px; height: 76px; border-radius: 999px; background: #f3e27f; display: flex; align-items: center;
+    justify-content: center; gap: 12px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 26px;
+    letter-spacing: -0.01em; color: #161613; }
+  .tap { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: rgba(22,22,19,0.18);
+    left: 340px; top: 441px; margin: -45px 0 0 -45px; opacity: 0; }
+
+  /* ---------- Report ---------- */
+  .pg { position: absolute; left: 690px; top: 158px; width: 540px; height: 764px; border-radius: 22px; background: #ffffff;
+    padding: 44px 40px; overflow: hidden;
+    box-shadow: 0 60px 110px -50px rgba(22,22,19,0.34), 0 18px 40px -24px rgba(22,22,19,0.2), inset 0 0 0 1px rgba(20,20,18,0.07); }
+  .pg-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .pg-logo { position: relative; width: 220px; height: 64px; border-radius: 12px; border: 2px dashed #c9c9c3;
+    display: flex; align-items: center; justify-content: center; }
+  .pg-logo .hlb { left: 36px; right: 36px; top: 50%; height: 30%; }
+  .pg-logo-t { position: relative; z-index: 1; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 20px;
+    letter-spacing: 0.16em; color: #161613; }
+  #logoRing { position: absolute; inset: -12px; border-radius: 20px; border: 4px solid #f3e27f; opacity: 0; }
+  .pg-meta { text-align: right; font-weight: 600; font-size: 14px; line-height: 1.4; color: #777772; }
+  .pg-eyebrow { margin-top: 44px; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; color: #777772; }
+  .pg-h { margin-top: 10px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -0.02em; }
+  .pg-val { margin-top: 26px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 78px; line-height: 1;
+    letter-spacing: -0.035em; }
+  .pg-range { margin-top: 10px; font-weight: 600; font-size: 17px; color: #5d5d58; }
+  .pg-map { position: relative; margin-top: 28px; height: 170px; border-radius: 16px; background: #f7f7f5; overflow: hidden; }
+  .pg-map i.road { position: absolute; background: #ebebe6; }
+  .pg-map .pin { position: absolute; left: 50%; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%;
+    background: #f3e27f; box-shadow: 0 0 0 3px #161613; }
+  .pg-map .ring { position: absolute; left: 50%; top: 50%; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%;
+    background: rgba(243,226,127,0.35); }
+  .pg-lines { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+  .pg-lines i { display: block; height: 12px; border-radius: 99px; background: #efefeb; }
+  .pg-bars { display: flex; align-items: flex-end; gap: 14px; height: 260px; margin-top: 30px; }
+  .pg-bars i { flex: 1; border-radius: 10px 10px 4px 4px; background: #efefeb; }
+  .pg-bars i.y { background: #f3e27f; }
+  .pg-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(20,20,18,0.08); }
+  .pg-row i { display: block; height: 12px; border-radius: 99px; background: #efefeb; }
+  .pg-photo { height: 300px; border-radius: 16px; background: #f1f1ed; margin-top: 30px; display: flex; align-items: center;
+    justify-content: center; }
+  .pg-photo svg { width: 90px; height: 90px; opacity: 0.35; }
+
+  /* ---------- Anruf ---------- */
+  #banner { position: absolute; left: 180px; top: 380px; width: 1560px; height: 320px; border-radius: 72px; background: #ffffff;
+    box-shadow: 0 70px 130px -50px rgba(22,22,19,0.4), 0 20px 50px -24px rgba(22,22,19,0.22), inset 0 0 0 1px rgba(20,20,18,0.06);
+    display: flex; align-items: center; padding: 0 60px; gap: 48px; }
+  .av { position: relative; width: 200px; height: 200px; border-radius: 50%; background: #f7f7f5; display: flex;
+    align-items: center; justify-content: center; flex: none; }
+  .av svg { width: 92px; height: 92px; }
+  .call-txt { flex: 1; }
+  .call-k { font-weight: 700; font-size: 24px; letter-spacing: 0.14em; color: #777772; }
+  .call-n { margin-top: 8px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 92px; line-height: 1;
+    letter-spacing: -0.035em; }
+  .call-s { margin-top: 12px; font-weight: 600; font-size: 32px; color: #5d5d58; }
+  .cbtn { position: relative; width: 170px; height: 170px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; flex: none; }
+  .cbtn svg { width: 70px; height: 70px; position: relative; z-index: 2; }
+  .cbtn.no { background: #efefeb; }
+  .cbtn.yes { background: #f3e27f; }
+  .cbtn .rg { position: absolute; inset: 0; border-radius: 50%; border: 5px solid #f3e27f; opacity: 0; z-index: 1; }
+  #shock { position: absolute; left: 1510px; top: 455px; width: 170px; height: 170px; border-radius: 50%;
+    border: 10px solid #f3e27f; opacity: 0; z-index: 30; }
+
+  /* ---------- Große Typo ---------- */
+  .big { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: #161613; }
+  #bei { top: 360px; font-size: 360px; }
+  #traum { position: absolute; left: 0; right: 0; top: 262px; }
+  #traum .ln { text-align: center; white-space: nowrap; font-family: "HelvenaBold", sans-serif; font-weight: 800;
+    letter-spacing: -0.03em; font-size: 168px; line-height: 1.04; }
+  #ohne .ln { text-align: center; white-space: nowrap; font-family: "HelvenaBold", sans-serif; font-weight: 800;
+    letter-spacing: -0.03em; font-size: 190px; line-height: 1.08; will-change: transform; }
+  #ohne { position: absolute; left: 0; right: 0; top: 335px; }
+  #ohneSys { top: 415px; font-size: 250px; color: #a4a49e; }
+
+  /* ---------- Drei Telefone ---------- */
+  .gphone { position: absolute; top: 250px; width: 380px; height: 800px; border-radius: 62px; background: #efefeb; padding: 11px;
+    box-shadow: 0 70px 110px -50px rgba(22,22,19,0.34), 0 20px 40px -26px rgba(22,22,19,0.2), inset 0 0 0 2px rgba(20,20,18,0.06); }
+  #g1 { left: 230px; } #g2 { left: 770px; } #g3 { left: 1310px; } #g4 { left: 1190px; }
+  .gscr { position: relative; width: 358px; height: 778px; border-radius: 52px; background: #ffffff; overflow: hidden;
+    padding: 70px 26px 0; }
+  .gscr .sb { top: 22px; padding: 0 36px; font-size: 17px; }
+  .gscr .sb-r i { width: 5px; }
+  .g-island { position: absolute; left: 50%; top: 24px; width: 100px; height: 28px; margin-left: -50px; border-radius: 999px; background: #161613; }
+  .g-head { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .g-logo { display: block; width: 120px; height: 20px; border-radius: 6px; background: #d9d9d4; }
+  .g-menu { display: flex; flex-direction: column; gap: 5px; }
+  .g-menu i { display: block; width: 26px; height: 4px; border-radius: 2px; background: #b9b9b3; }
+  .g-hero { margin-top: 22px; height: 210px; border-radius: 22px; background: #ececE8; display: flex; align-items: center; justify-content: center; }
+  .g-hero svg { width: 80px; height: 80px; opacity: 0.4; }
+  .g-h { margin-top: 22px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 30px; line-height: 1.08;
+    letter-spacing: -0.02em; color: #8a8a84; }
+  .g-l { margin-top: 16px; height: 11px; border-radius: 99px; background: #ebebe7; }
+  .g-l.s { width: 70%; margin-top: 10px; }
+  .g-btn { margin-top: 26px; height: 60px; border-radius: 999px; background: #e3e3de; display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 19px; color: #8a8a84; }
+  .glabel { position: absolute; left: 0; right: 0; top: -84px; text-align: center; }
+  .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 24px; border-radius: 999px; background: #f7f7f5;
+    font-weight: 600; font-size: 26px; color: #5d5d58; white-space: nowrap; }
+  .chip .dt { display: block; width: 14px; height: 14px; border-radius: 50%; background: #b9b9b3; }
+  .chip.y { background: #fbf5d6; color: #161613; }
+  .chip.y .dt { background: #f3e27f; box-shadow: 0 0 0 2px #161613; }
+  #dasselbe { top: 440px; font-size: 195px; z-index: 5; }
+  .s-title { margin-top: 12px; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 44px; letter-spacing: -0.03em; }
+  .s-kpi { margin-top: 18px; border-radius: 22px; background: #fbf5d6; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
+  .s-k-l { font-weight: 700; font-size: 14px; letter-spacing: 0.12em; color: #5d5d58; }
+  .s-k-v { position: relative; width: 60px; height: 56px; }
+  .s-k-v b { position: absolute; right: 0; top: 0; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 52px; line-height: 56px; opacity: 0; }
+  .s-slot { margin-top: 14px; height: 92px; border-radius: 20px; border: 2px dashed rgba(20,20,18,0.08); }
+  .card { position: absolute; left: 0; top: 0; width: 380px; height: 104px; border-radius: 24px; background: #ffffff; padding: 18px 22px 0 58px;
+    box-shadow: 0 30px 60px -30px rgba(22,22,19,0.4), inset 0 0 0 1px rgba(20,20,18,0.08); z-index: 8; }
+  .card .cd { position: absolute; left: 24px; top: 28px; width: 18px; height: 18px; border-radius: 50%; background: #c9c9c3; }
+  .card b { display: block; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 25px; letter-spacing: -0.015em; }
+  .card span { display: block; margin-top: 6px; font-weight: 600; font-size: 18px; color: #777772; }
+  #sysChip { position: absolute; left: 1380px; top: 150px; transform-origin: 50% 50%; z-index: 9; }
+  #sysChipIn { position: relative; left: -50%; }
+
+  /* ---------- beuwy ---------- */
+  #dasIst { position: absolute; left: 0; right: 0; top: 505px; text-align: center; font-weight: 600; font-size: 72px; color: #5d5d58; }
+  #logoWrap { position: absolute; left: 554px; top: 440px; width: 812px; height: 200px; }
+  #logoWrap svg { display: block; width: 812px; height: 200px; fill: #161613; overflow: visible; }
+  #vtr { top: 430px; font-size: 205px; }
+  #vtr .m { padding-bottom: 0.14em; margin-bottom: -0.14em; }
+  #fuer { top: 660px; font-size: 150px; }
+  #pA { top: 240px; font-size: 118px; color: #5d5d58; }
+  #pB { top: 400px; font-size: 200px; }
+  #pC { top: 612px; font-size: 200px; }
+
+  /* ---------- Kunden ---------- */
+  #plane { left: 260px; top: 150px; width: 1400px; height: 780px; transform-origin: 50% 50%; }
+  .kc { position: absolute; width: 320px; height: 170px; border-radius: 26px; background: #ffffff; padding: 22px 24px;
+    box-shadow: 0 40px 70px -40px rgba(22,22,19,0.36), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .kc .kav { width: 52px; height: 52px; border-radius: 50%; background: #f7f7f5; display: flex; align-items: center; justify-content: center;
+    font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 20px; color: #5d5d58; float: left; margin-right: 14px; }
+  .kc .kav.y { background: #f3e27f; color: #161613; }
+  .kc b { display: block; font-family: "HelvenaBold", sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.015em; padding-top: 2px; }
+  .kc em { display: block; font-style: normal; font-weight: 600; font-size: 16px; color: #777772; margin-top: 4px; }
+  .kc .ks { clear: both; padding-top: 20px; font-weight: 600; font-size: 16px; color: #5d5d58; }
+  .kc .ks i { font-style: normal; display: inline-block; padding: 4px 12px; border-radius: 99px; background: #fbf5d6; color: #161613; margin-right: 8px; }
+  #kText { position: absolute; left: 0; right: 0; top: 330px; z-index: 5; }
+  #kText .ln { text-align: center; white-space: nowrap; font-family: "HelvenaBold", sans-serif; font-weight: 800;
+    letter-spacing: -0.03em; font-size: 210px; line-height: 1.04; }
+
+  /* ---------- Ende ---------- */
+  #endLogo { position: absolute; left: 696px; top: 400px; width: 528px; height: 130px; }
+  #endLogo svg { display: block; width: 528px; height: 130px; fill: #161613; }
+  #endClaim { position: absolute; left: 0; right: 0; top: 590px; text-align: center; font-weight: 600; font-size: 46px; color: #5d5d58; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="v2" data-start="0" data-duration="36.6" data-width="1920" data-height="1080">
+  <div id="cam">
+
+    <!-- 2 · Rechner auf dem Telefon des Eigentümers -->
+    <div id="sPhone" class="sc hid">
+      <div id="phCam" class="sc"><div class="stage">
+        <div id="phone" class="phone">
+          <div class="scr">
+            <div class="sb"><span>23:48</span><span class="sb-r"><i></i><i></i><i></i></span></div>
+            <div class="ph-head"><i class="lg"></i><span>IHR LOGO</span></div>
+            <div class="ph-eyebrow">KOSTENLOSER RECHNER FÜR EIGENTÜMER</div>
+            <div class="ph-h1">Was ist Ihre Immobilie wert?</div>
+            <div class="ph-steps"><span>Schritt 2 von 4 · Objektart</span><div class="ph-bar"><div id="phBarFill" class="ph-bar-fill"></div></div></div>
+            <div class="ph-tiles">
+              <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.6" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></svg><span>Wohnung</span></div>
+              <div class="tile"><div id="tHausSel" class="tile-sel"></div><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg><span>Haus</span></div>
+              <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.6" stroke-linejoin="round"><path d="M3 18 9 8l4 6 3-4 5 8z"/></svg><span>Grundstück</span></div>
+              <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M8 8V5h8v3"/></svg><span>Gewerbe</span></div>
+            </div>
+            <div class="ph-field"><label>Wohnfläche</label><div class="ph-input"><span>148</span><span class="unit">m²</span></div></div>
+            <div id="phBtn" class="ph-btn">Wert berechnen <span>→</span></div>
+            <div id="tap1" class="tap"></div>
+          </div>
+          <div class="island"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 3 · Report fächert auf -->
+    <div id="sReport" class="sc hid">
+      <div class="stage">
+        <div id="pages" class="p3d">
+          <div class="pg" id="pg5"><div class="pg-eyebrow" style="margin-top:0">LAGE</div><div class="pg-photo"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.4"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg></div><div class="pg-lines"><i></i><i></i><i style="width:70%"></i><i></i><i style="width:55%"></i></div></div>
+          <div class="pg" id="pg4"><div class="pg-eyebrow" style="margin-top:0">VERGLEICHSOBJEKTE</div><div class="pg-row"><i style="width:40%"></i><i style="width:22%"></i></div><div class="pg-row"><i style="width:48%"></i><i style="width:20%"></i></div><div class="pg-row"><i style="width:36%"></i><i style="width:24%"></i></div><div class="pg-row"><i style="width:44%"></i><i style="width:18%"></i></div><div class="pg-row"><i style="width:30%"></i><i style="width:22%"></i></div><div class="pg-lines"><i></i><i style="width:60%"></i></div></div>
+          <div class="pg" id="pg3"><div class="pg-eyebrow" style="margin-top:0">BODENRICHTWERT</div><div class="pg-h">Amtliche Daten</div><div class="pg-bars"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i class="y" style="height:82%"></i><i style="height:64%"></i></div><div class="pg-lines"><i></i><i style="width:75%"></i></div></div>
+          <div class="pg" id="pg2"><div class="pg-eyebrow" style="margin-top:0">MARKTENTWICKLUNG</div><div class="pg-h">Ihre Lage</div><div class="pg-bars"><i style="height:30%"></i><i style="height:38%"></i><i style="height:46%"></i><i style="height:58%"></i><i class="y" style="height:74%"></i></div><div class="pg-lines"><i></i><i style="width:65%"></i></div></div>
+          <div class="pg" id="pg1">
+            <div class="pg-top">
+              <div class="pg-logo"><span id="logoHl" class="hlb"></span><span class="pg-logo-t">IHR LOGO</span><i id="logoRing"></i></div>
+              <div class="pg-meta">Bewertungsreport<br />Seite 1 von 5</div>
+            </div>
+            <div class="pg-eyebrow">IHRE IMMOBILIE</div>
+            <div class="pg-h">Einfamilienhaus, 148 m²</div>
+            <div id="pgVal" class="pg-val">0 €</div>
+            <div class="pg-range">Marktwert-Spanne 585.000 bis 640.000 €</div>
+            <div class="pg-map"><i class="road" style="left:0;right:0;top:62px;height:14px"></i><i class="road" style="top:0;bottom:0;left:180px;width:14px"></i><i class="road" style="top:0;bottom:0;left:360px;width:10px"></i><i id="pinRing" class="ring"></i><i class="pin"></i></div>
+            <div class="pg-lines"><i></i><i></i><i style="width:60%"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 · Anruf am Morgen -->
+    <div id="sCall" class="sc hid">
+      <div id="banner">
+        <div class="av"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg></div>
+        <div class="call-txt">
+          <div class="call-k">EINGEHENDER ANRUF</div>
+          <div class="call-n">Eigentümer</div>
+          <div class="call-s">Einfamilienhaus · bewertet gestern, 23:48</div>
+        </div>
+        <div class="cbtn no"><svg viewBox="0 0 24 24" fill="none" stroke="#5d5d58" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+        <div id="yesBtn" class="cbtn yes"><i id="rg1" class="rg"></i><i id="rg2" class="rg"></i><i id="rg3" class="rg"></i><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div>
+      </div>
+    </div>
+
+    <!-- 5 · Bei Ihnen. -->
+    <div id="sBei" class="sc hid">
+      <div id="bei" class="big">Bei <span class="hl"><span id="hlIhnen" class="hlb"></span><span class="hlt">Ihnen.</span></span></div>
+    </div>
+    <div id="shock"></div>
+
+    <!-- 6 · Ihr nächstes Mandat beginnt, während Sie schlafen. -->
+    <div id="sTraum" class="sc hid">
+      <div id="traum">
+        <div class="ln"><span class="m"><span id="w1" class="mi">Ihr</span></span> <span class="m"><span id="w2" class="mi">nächstes</span></span> <span class="m"><span id="w3" class="mi">Mandat</span></span></div>
+        <div class="ln"><span class="m"><span id="w4" class="mi">beginnt,</span></span> <span class="m"><span id="w5" class="mi">während</span></span></div>
+        <div class="ln"><span class="m"><span id="w6" class="mi">Sie</span></span> <span class="m"><span id="w7" class="mi hl"><span id="hlSchlafen" class="hlb"></span><span class="hlt">schlafen.</span></span></span></div>
+      </div>
+    </div>
+
+    <!-- 7 · Ohne mehr Arbeit. Ohne neue Stelle. -->
+    <div id="sOhne" class="sc hid">
+      <div id="ohne">
+        <div id="oh1" class="ln"><span class="hl"><span id="hlOhne1" class="hlb"></span><span class="hlt">Ohne</span></span> mehr Arbeit.</div>
+        <div id="oh2" class="ln"><span class="hl"><span id="hlOhne2" class="hlb"></span><span class="hlt">Ohne</span></span> neue Stelle.</div>
+      </div>
+    </div>
+
+    <!-- 8 · Ohne System. -->
+    <div id="sSys" class="sc hid">
+      <div id="ohneSys" class="big">Ohne System.</div>
+    </div>
+
+    <!-- 9/10 · Drei Makler am Handy, liegen gebliebene Anfragen -->
+    <div id="sDrei" class="sc hid">
+      <div class="stage">
+        <div id="row" class="p3d">
+          <div id="g1" class="gphone"><div class="glabel"><span id="mk1" class="chip"><i class="dt"></i>Makler 1</span></div><div class="gscr"><div class="g-island"></div><div class="sb"><span>21:14</span><span class="sb-r"><i></i><i></i><i></i></span></div><div class="g-head"><span class="g-logo"></span><span class="g-menu"><i></i><i></i><i></i></span></div><div class="g-hero"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.4"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg></div><div class="g-h">Ihr Immobilien&shy;makler in der Region</div><div class="g-l"></div><div class="g-l s"></div><div class="g-btn">Kontakt aufnehmen</div></div></div>
+          <div id="g2" class="gphone"><div class="glabel"><span id="mk2" class="chip"><i class="dt"></i>Makler 2</span></div><div class="gscr"><div class="g-island"></div><div class="sb"><span>21:14</span><span class="sb-r"><i></i><i></i><i></i></span></div><div class="g-head"><span class="g-logo"></span><span class="g-menu"><i></i><i></i><i></i></span></div><div class="g-hero"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.4"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg></div><div class="g-h">Ihr Immobilien&shy;makler in der Region</div><div class="g-l"></div><div class="g-l s"></div><div class="g-btn">Kontakt aufnehmen</div></div></div>
+          <div id="g3" class="gphone"><div class="glabel"><span id="mk3" class="chip"><i class="dt"></i>Makler 3</span></div><div class="gscr"><div class="g-island"></div><div class="sb"><span>21:14</span><span class="sb-r"><i></i><i></i><i></i></span></div><div class="g-head"><span class="g-logo"></span><span class="g-menu"><i></i><i></i><i></i></span></div><div class="g-hero"><svg viewBox="0 0 24 24" fill="none" stroke="#161613" stroke-width="1.4"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/></svg></div><div class="g-h">Ihr Immobilien&shy;makler in der Region</div><div class="g-l"></div><div class="g-l s"></div><div class="g-btn">Kontakt aufnehmen</div></div></div>
+          <div id="g4" class="gphone"><div class="gscr"><div class="g-island"></div><div class="sb"><span>21:14</span><span class="sb-r"><i></i><i></i><i></i></span></div><div class="s-title">Heute</div><div class="s-kpi"><span class="s-k-l">NEUE ANFRAGEN</span><span class="s-k-v"><b id="kv0" style="opacity:1">0</b><b id="kv1">1</b><b id="kv2">2</b><b id="kv3">3</b></span></div><div class="s-slot"></div><div class="s-slot"></div><div class="s-slot"></div></div></div>
+        </div>
+      </div>
+      <div id="dasselbe" class="big">Dreimal dasselbe.</div>
+      <div id="cd1" class="card"><i class="cd"></i><b>Bewertungsanfrage</b><span>Fr 21:14 · unbeantwortet</span></div>
+      <div id="cd2" class="card"><i class="cd"></i><b>Exposé-Anfrage</b><span>Sa 07:02 · unbeantwortet</span></div>
+      <div id="cd3" class="card"><i class="cd"></i><b>Rückruf erbeten</b><span>So 18:40 · offen</span></div>
+      <div id="sysChip"><div id="sysChipIn" class="chip y"><i class="dt"></i><span>Makler mit <span class="hl"><span id="hlSystem" class="hlb"></span><span class="hlt">System</span></span></span></div></div>
+    </div>
+
+    <!-- 11/12 · Das ist beuwy. Das Vertriebssystem für Makler. -->
+    <div id="sBeuwy" class="sc hid">
+      <div id="dasIst">Das ist</div>
+      <div id="logoWrap">
+        <svg viewBox="0 0 357.83 88.11" aria-label="beuwy">
+          <path id="lm1" d="M33.67,34.56c0,5.22-.28,10.88,0,16.04.54,9.88,8.77,17.99,18.61,18.52h15.15v-34.56c-11.25-.01-22.51.02-33.76,0Z"/>
+          <path id="lm2" d="M33.76,0H0v16.13c.6,9.72,8.66,17.890,18.43,18.43,4.89.27,10.290-.01,15.24,0C33.66,25.22,33.76,0,33.76,0Z"/>
+          <path class="lw" d="M116.83,21.07c-5.88,0-10.06,1.89-12.75,5.68h-.1V3.44c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v65.74c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1v-3.59h.1c2.690,3.79,6.870,5.680,12.750,5.680,8.570,0,14.140-3.880,16.630-11.550,1.100-3.490,1.690-7.970,1.690-13.550s-.6-10.060-1.690-13.550c-2.490-7.670-8.070-11.550-16.630-11.550ZM122.81,55.14c-1.290,4.080-4.280,6.180-8.870,6.180s-7.670-2.090-8.960-6.180c-.7-2.090-1-5.080-1-8.960s.3-6.870,1-8.960c1.290-4.080,4.280-6.180,8.960-6.180s7.570,2.090,8.870,6.180c.7,2.090,1,5.080,1,8.960s-.3,6.870-1,8.960Z"/>
+          <path class="lw" d="M163.25,21.07c-9.56,0-16.93,4.88-19.62,13.25-1.1,3.29-1.59,7.27-1.59,11.85,0,4.28.6,8.27,1.69,11.75,2.69,8.37,9.96,13.35,20.02,13.35,8.47,0,15.04-2.69,19.72-8.17.4-.5.4-1-.1-1.39l-5.88-5.18c-.5-.4-1-.3-1.49.2-2.79,3.09-6.57,4.58-11.26,4.58-5.48,0-9.06-2.39-10.76-7.27-.5-1.29-.7-2.49-.7-3.69,0-.4.2-.6.6-.6h29.58c.7,0,1.1-.3,1.1-1,0-6.38-.5-11.16-1.59-14.44-2.69-8.27-9.86-13.25-19.72-13.25ZM172.71,41.39h-18.83c-.4,0-.6-.2-.6-.6,0-1.49.2-2.89.6-4.08,1.39-4.08,4.58-6.18,9.46-6.18,4.48,0,8.07,2.29,9.36,6.18.4,1.2.6,2.59.6,4.08,0,.4-.2.6-.6.6Z"/>
+          <path class="lw" d="M232.67,22.16h-9.16c-.7,0-1,.3-1,1v27.79c0,6.28-3.39,10.36-8.96,10.36-5.88,0-8.96-4.08-8.96-10.46v-27.69c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v30.28c0,10.46,6.47,17.83,16.54,17.83,5.38,0,9.56-1.89,12.45-5.58h.1v3.49c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1V23.16c0-.7-.3-1-1-1Z"/>
+          <path class="lw" d="M310.66,22.16h-9.56c-.7,0-1.1.3-1.29,1l-8.77,31.68h-.2l-9.76-31.68c-.2-.7-.6-1-1.29-1h-7.17c-.7,0-1.1.3-1.29,1l-9.16,31.68h-.2l-9.26-31.68c-.2-.7-.6-1-1.29-1h-9.56c-.7,0-.9.3-.7,1l15.14,46.02c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l9.36-30.68h.2l9.26,30.68c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l15.14-46.02c.2-.7,0-1-.7-1Z"/>
+          <path class="lw" d="M356.98,22.16h-9.46c-.6,0-1,.3-1.2,1l-10.36,31.38h-.2l-10.86-31.38c-.2-.7-.6-1-1.2-1h-9.86c-.7,0-1,.3-.8,1l17.53,45.22-1.39,4.08c-1.49,4.08-3.49,5.68-7.17,5.68h-1.79c-.7,0-1,.3-1,1v7.97c0,.7.3,1,1,1h3.09c3.98,0,7.17-1.1,9.46-3.29,2.39-2.09,4.58-5.98,6.67-11.65l18.330-50c.2-.7-.1-1-.8-1Z"/>
+        </svg>
+      </div>
+      <div id="vtr" class="big"></div>
+      <div id="fuer" class="big"><span class="m"><span id="fuerI" class="mi">für Makler.</span></span></div>
+    </div>
+
+    <!-- 13 · als wären Sie selbst das Portal. -->
+    <div id="sPortal" class="sc hid">
+      <div id="pA" class="big"><span class="m"><span id="pa1" class="mi">Sie verkaufen,</span></span></div>
+      <div id="pB" class="big"><span class="m"><span id="pb1" class="mi">als</span></span> <span class="m"><span id="pb2" class="mi">wären</span></span> <span class="m"><span id="pb3" class="mi">Sie</span></span></div>
+      <div id="pC" class="big"><span class="m"><span id="pc1" class="mi">selbst</span></span> <span class="m"><span id="pc2" class="mi">das</span></span> <span class="m"><span id="pc3" class="mi">P<span id="oPortal">o</span>rtal.</span></span></div>
+    </div>
+
+    <!-- 14 · Die Kunden gehören Ihnen. -->
+    <div id="sKunden" class="sc hid">
+      <div id="kStage" class="stage">
+        <div id="plane" class="p3d">
+          <div class="kc" style="left:0;top:0"><span class="kav">JB</span><b>Julia Berger</b><em>Konto seit März</em><div class="ks"><i>Suchauftrag</i>Haus, 4 Zi.</div></div>
+          <div class="kc" style="left:360px;top:0"><span class="kav y">MV</span><b>Markus Vogt</b><em>neu · heute</em><div class="ks"><i>Suchauftrag</i>ETW, Balkon</div></div>
+          <div class="kc" style="left:720px;top:0"><span class="kav">SR</span><b>Sabine Roth</b><em>Konto seit Mai</em><div class="ks"><i>Suchauftrag</i>Haus, Garten</div></div>
+          <div class="kc" style="left:1080px;top:0"><span class="kav">TW</span><b>Thomas Weiss</b><em>Konto seit Juni</em><div class="ks"><i>Bewertung</i>DHH, 132 m²</div></div>
+          <div class="kc" style="left:0;top:210px"><span class="kav">NK</span><b>Nadine Krüger</b><em>Konto seit April</em><div class="ks"><i>Suchauftrag</i>3 Zi., Zentrum</div></div>
+          <div class="kc" style="left:360px;top:210px"><span class="kav">OF</span><b>Oliver Fuchs</b><em>Konto seit Juli</em><div class="ks"><i>Bewertung</i>EFH, 148 m²</div></div>
+          <div class="kc" style="left:720px;top:210px"><span class="kav y">LB</span><b>Lena Brandt</b><em>neu · gestern</em><div class="ks"><i>Suchauftrag</i>Haus, 5 Zi.</div></div>
+          <div class="kc" style="left:1080px;top:210px"><span class="kav">KW</span><b>Karl Wagner</b><em>Konto seit Februar</em><div class="ks"><i>Suchauftrag</i>Grundstück</div></div>
+          <div class="kc" style="left:0;top:420px"><span class="kav">AS</span><b>Anna Schulz</b><em>Konto seit Januar</em><div class="ks"><i>Suchauftrag</i>ETW, Neubau</div></div>
+          <div class="kc" style="left:360px;top:420px"><span class="kav">PN</span><b>Paul Neumann</b><em>Konto seit August</em><div class="ks"><i>Bewertung</i>ETW, 86 m²</div></div>
+          <div class="kc" style="left:720px;top:420px"><span class="kav">EH</span><b>Eva Hartmann</b><em>Konto seit März</em><div class="ks"><i>Suchauftrag</i>Haus, Stadtrand</div></div>
+          <div class="kc" style="left:1080px;top:420px"><span class="kav">DM</span><b>David Meyer</b><em>Konto seit Mai</em><div class="ks"><i>Suchauftrag</i>4 Zi., Garten</div></div>
+        </div>
+      </div>
+      <div id="kText">
+        <div class="ln"><span class="m"><span id="k1" class="mi">Die Kunden</span></span></div>
+        <div class="ln"><span class="m"><span id="k2" class="mi">gehören <span class="hl"><span id="hlKunden" class="hlb"></span><span class="hlt">Ihnen.</span></span></span></span></div>
+      </div>
+    </div>
+
+    <!-- Ende -->
+    <div id="sEnd" class="sc hid">
+      <div id="endLogo">
+        <svg viewBox="0 0 357.83 88.11" aria-label="beuwy">
+          <path d="M33.67,34.56c0,5.22-.28,10.88,0,16.04.54,9.88,8.77,17.99,18.61,18.52h15.15v-34.56c-11.25-.01-22.51.02-33.76,0Z"/>
+          <path d="M33.76,0H0v16.13c.6,9.72,8.66,17.89,18.43,18.43,4.89.27,10.29-.01,15.24,0C33.66,25.22,33.76,0,33.76,0Z"/>
+          <path d="M116.83,21.07c-5.88,0-10.06,1.89-12.75,5.68h-.1V3.44c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v65.74c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1v-3.59h.1c2.69,3.79,6.87,5.68,12.75,5.68,8.57,0,14.14-3.88,16.63-11.55,1.1-3.49,1.69-7.97,1.69-13.55s-.6-10.06-1.69-13.55c-2.49-7.67-8.07-11.55-16.63-11.55ZM122.81,55.14c-1.29,4.08-4.28,6.18-8.87,6.18s-7.67-2.09-8.96-6.18c-.7-2.09-1-5.08-1-8.96s.3-6.87,1-8.96c1.29-4.08,4.28-6.18,8.96-6.18s7.57,2.09,8.87,6.18c.7,2.09,1,5.08,1,8.96s-.3,6.87-1,8.96Z"/>
+          <path d="M163.25,21.07c-9.56,0-16.93,4.88-19.62,13.25-1.1,3.29-1.59,7.27-1.59,11.85,0,4.28.6,8.27,1.69,11.75,2.69,8.37,9.96,13.35,20.02,13.35,8.47,0,15.04-2.69,19.72-8.17.4-.5.4-1-.1-1.39l-5.88-5.18c-.5-.4-1-.3-1.49.2-2.79,3.09-6.57,4.58-11.26,4.58-5.48,0-9.06-2.39-10.76-7.27-.5-1.29-.7-2.49-.7-3.69,0-.4.2-.6.6-.6h29.58c.7,0,1.1-.3,1.1-1,0-6.38-.5-11.16-1.59-14.44-2.69-8.270-9.86-13.25-19.72-13.25ZM172.71,41.39h-18.83c-.4,0-.6-.2-.6-.6,0-1.49.2-2.89.6-4.08,1.39-4.08,4.58-6.18,9.46-6.18,4.48,0,8.07,2.29,9.36,6.18.4,1.2.6,2.59.6,4.08,0,.4-.2.6-.6.6Z"/>
+          <path d="M232.67,22.16h-9.16c-.7,0-1,.3-1,1v27.79c0,6.28-3.39,10.36-8.96,10.36-5.88,0-8.96-4.08-8.96-10.46v-27.69c0-.7-.3-1-1-1h-9.16c-.7,0-1,.3-1,1v30.28c0,10.46,6.47,17.83,16.54,17.83,5.38,0,9.56-1.89,12.45-5.58h.1v3.49c0,.7.3,1,1,1h9.16c.7,0,1-.3,1-1V23.16c0-.7-.3-1-1-1Z"/>
+          <path d="M310.66,22.16h-9.56c-.7,0-1.1.3-1.29,1l-8.77,31.68h-.2l-9.76-31.68c-.2-.7-.6-1-1.29-1h-7.17c-.7,0-1.1.3-1.29,1l-9.16,31.68h-.2l-9.26-31.68c-.2-.7-.6-1-1.29-1h-9.56c-.7,0-.9.3-.7,1l15.14,46.02c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l9.36-30.68h.2l9.26,30.68c.2.7.6,1,1.2,1h8.17c.6,0,1-.3,1.2-1l15.14-46.02c.2-.7,0-1-.7-1Z"/>
+          <path d="M356.98,22.16h-9.46c-.6,0-1,.3-1.2,1l-10.36,31.38h-.2l-10.86-31.38c-.2-.7-.6-1-1.2-1h-9.86c-.7,0-1,.3-.8,1l17.53,45.22-1.39,4.08c-1.49,4.08-3.49,5.68-7.17,5.68h-1.79c-.7,0-1,.3-1,1v7.97c0,.7.3,1,1,1h3.09c3.98,0,7.17-1.1,9.46-3.29,2.39-2.09,4.58-5.98,6.67-11.65l18.33-50c.2-.7-.1-1-.8-1Z"/>
+        </svg>
+      </div>
+      <div id="endClaim">Verkaufen Sie, als wären Sie selbst das Portal.</div>
+    </div>
+
+    <!-- 1 · Uhr, bleibt als Zeitstempel über den Szenen -->
+    <div id="clockWrap">
+      <div id="clockHl"></div>
+      <div id="clock">
+        <div class="dcol"><div id="st0" class="strip"></div></div>
+        <div class="dcol"><div id="st1" class="strip"></div></div>
+        <div id="colon" class="colon">:</div>
+        <div class="dcol"><div id="st2" class="strip"></div></div>
+        <div class="dcol"><div id="st3" class="strip"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <audio id="mix" src="audio/v2/stilprobe-mix.mp3" data-start="0" data-duration="36.6" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+(function () {
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+
+  /* ---------- Hilfen ---------- */
+  function ft(t, from, to, at) { to.immediateRender = false; tl.fromTo(t, from, to, at); }
+  function show(t, at) { tl.set(t, { autoAlpha: 1 }, at); }
+  function hide(t, at) { tl.set(t, { autoAlpha: 0 }, at); }
+  function ft0(t, from, to, at) { tl.set(t, from, 0); ft(t, from, to, at); }
+  function rise(t, at, d) { ft0(t, { yPercent: 118 }, { yPercent: 0, duration: d || 0.5, ease: "power4.out" }, at); }
+  function mark(t, at, d) { ft(t, { scaleX: 0 }, { scaleX: 1, duration: d || 0.35, ease: "power3.out" }, at); }
+  function shake(at, amp) {
+    tl.to("#cam", { keyframes: { x: [0, amp, -amp * 0.7, amp * 0.4, 0], y: [0, -amp * 0.6, amp * 0.5, -amp * 0.2, 0] },
+      duration: 0.3, ease: "none" }, at);
+  }
+
+  /* ---------- Taktraster (Musik 126 BPM, Drop auf „Bei“) ---------- */
+  var P = 60 / 126;
+  var D = 10.83;
+
+  /* ---------- Uhr: Ziffernstreifen ---------- */
+  var H = 520;
+  var STR = [
+    [7, 8, 9, 0, 1, 2, 0],
+    [5, 6, 7, 8, 9, 0, 1, 2, 3, 1, 3, 4, 6, 7, 8],
+    [9, 0, 1, 2, 3, 4, 2, 0, 5, 3, 4, 1],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 2, 6, 1, 4, 0]
+  ];
+  STR.forEach(function (list, i) {
+    document.getElementById("st" + i).innerHTML = list.map(function (d) { return "<b>" + d + "</b>"; }).join("");
+  });
+  function roll(col, idx, at, d, ease) {
+    ft("#st" + col, { y: -(idx - 1) * H }, { y: -idx * H, duration: d, ease: ease || "power2.out" }, at);
+  }
+
+  /* ---------- Startzustände ---------- */
+  tl.set(["#st0", "#st1", "#st2", "#st3"], { y: 0 }, 0);
+  tl.set("#clockWrap", { transformOrigin: "0px 0px", scale: 1.12, x: -98, y: -31 }, 0);
+  tl.set("#clockHl", { scaleX: 0 }, 0);
+  tl.set(".hlb", { scaleX: 0 }, 0);
+  tl.set("#sReport", { transformOrigin: "822.86px 190.29px" }, 0);
+
+  /* ===== 1 · 23:48 (0.0–2.3) ===== */
+  ft("#st0", { y: 0, filter: "blur(10px)" }, { y: -5 * H, filter: "blur(0px)", duration: 0.95, ease: "power3.out" }, 0.0);
+  ft("#st1", { y: 0, filter: "blur(10px)" }, { y: -8 * H, filter: "blur(0px)", duration: 1.1, ease: "power3.out" }, 0.07);
+  ft("#st2", { y: 0, filter: "blur(10px)" }, { y: -5 * H, filter: "blur(0px)", duration: 0.95, ease: "power3.out" }, 0.14);
+  ft("#st3", { y: 0, filter: "blur(10px)" }, { y: -7 * H, filter: "blur(0px)", duration: 1.1, ease: "power3.out" }, 0.21);
+  ft("#clockWrap", { scale: 1.12, x: -98, y: -31 }, { scale: 1, x: 0, y: 0, duration: 2.2, ease: "power2.out" }, 0.0);
+  ft("#colon", { opacity: 1 }, { opacity: 0.12, duration: 0.12, yoyo: true, repeat: 1, ease: "none" }, 1.3);
+  ft("#colon", { opacity: 1 }, { opacity: 0.12, duration: 0.12, yoyo: true, repeat: 1, ease: "none" }, 2.0);
+
+  /* ===== 2 · Rechner auf dem Telefon (2.28–4.55) ===== */
+  ft("#clockWrap", { scale: 1, x: 0, y: 0 }, { scale: 0.13, x: -21, y: -184, duration: 0.6, ease: "expo.inOut" }, 2.22);
+  show("#sPhone", 2.3);
+  tl.set("#phCam", { transformOrigin: "960px 600px", scale: 1.45, y: 171 }, 0);
+  ft("#phCam", { y: 171 }, { y: 0, duration: 0.7, ease: "power2.inOut" }, 3.05);
+  ft("#phCam", { y: 0 }, { y: -380, duration: 0.45, ease: "power3.inOut" }, 3.95);
+  ft("#phone", { y: 900, z: -700, rotationX: 40, rotationY: -36, rotationZ: 8 },
+    { y: 0, z: 0, rotationX: 6, rotationY: -14, rotationZ: 0, duration: 0.85, ease: "power4.out" }, 2.3);
+  ft("#phone", { rotationY: -14, rotationX: 6 }, { rotationY: -7, rotationX: 3, duration: 1.4, ease: "sine.inOut" }, 3.15);
+  ft("#phBarFill", { scaleX: 0.25 }, { scaleX: 0.5, duration: 0.45, ease: "power3.out" }, 3.0);
+  ft("#tap1", { scale: 0.2, opacity: 0.5 }, { scale: 2.2, opacity: 0, duration: 0.45, ease: "power2.out" }, 3.9);
+  ft("#tHausSel", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 3.92);
+  ft("#phBtn", { scale: 1 }, { scale: 0.93, duration: 0.08, ease: "power2.in" }, 4.18);
+  ft("#phBtn", { scale: 0.93 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 4.26);
+
+  /* ===== 3 · Report (4.55–7.95) ===== */
+  roll(3, 8, 4.55, 0.22, "back.out(2)");
+  ft("#phone", { y: 0, z: 0, rotationX: 3 }, { y: 520, z: -800, rotationX: 42, duration: 0.42, ease: "power3.in" }, 4.55);
+  hide("#sPhone", 4.98);
+  show("#sReport", 4.55);
+  var FAN = {
+    pg1: { x: 0, y: 0, z: 0, rotation: 0, at: 4.62 },
+    pg2: { x: 330, y: 22, z: -150, rotation: 6, at: 4.68 },
+    pg3: { x: -330, y: 22, z: -150, rotation: -6, at: 4.72 },
+    pg4: { x: 610, y: 56, z: -330, rotation: 11, at: 4.76 },
+    pg5: { x: -610, y: 56, z: -330, rotation: -11, at: 4.8 }
+  };
+  Object.keys(FAN).forEach(function (k) {
+    var f = FAN[k];
+    ft0("#" + k, { x: 0, y: 90, z: -520, rotationY: -14, rotation: 0, scale: 0.5, opacity: 0 },
+      { x: f.x, y: f.y, z: f.z, rotationY: 0, rotation: f.rotation, scale: 1, opacity: 1, duration: 0.75, ease: "power4.out" }, f.at);
+  });
+  ft0("#pinRing", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 5.6);
+  var val = { v: 0 };
+  ft(val, { v: 0 }, { v: 612, duration: 1.0, ease: "power2.out", onUpdate: function () {
+    var k = Math.round(val.v);
+    document.getElementById("pgVal").textContent = k === 0 ? "0 €" : k + ".000 €";
+  } }, 4.8);
+  ft0("#pages", { z: 0 }, { z: 300, duration: 2.3, ease: "power2.out" }, 4.6);
+  ft("#sReport", { scale: 1, x: 0, y: 0 }, { scale: 3.0, x: 137.14, y: 349.71, duration: 0.5, ease: "power3.inOut" }, 6.9);
+  ft("#logoRing", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2)" }, 7.43);
+  mark("#logoHl", 7.47, 0.3);
+
+  /* ===== 4 · Die Nacht vergeht (7.95–9.8) ===== */
+  ft("#sReport", { scale: 3.0, x: 137.14, y: 349.71, filter: "blur(0px)", opacity: 1 },
+    { scale: 8, x: 137.14, y: 349.71, filter: "blur(16px)", opacity: 0, duration: 0.38, ease: "power3.in" }, 7.95);
+  hide("#sReport", 8.35);
+  ft("#clockWrap", { scale: 0.13, x: -21, y: -184 }, { scale: 1, x: 0, y: 0, duration: 0.55, ease: "expo.out" }, 7.98);
+  var STEPS = [8.5, 8.67, 8.82, 8.95, 9.07, 9.17];
+  STEPS.forEach(function (at, s) {
+    if (s === 0) roll(0, 6, at, 0.16);
+    roll(1, 9 + s, at, 0.16);
+    roll(2, 6 + s, at, 0.16);
+    roll(3, 9 + s, at, 0.16);
+    ft(s === 0 ? ["#st0", "#st1", "#st2", "#st3"] : ["#st1", "#st2", "#st3"], { filter: "blur(9px)" }, { filter: "blur(0px)", duration: 0.16, ease: "power2.out" }, at);
+  });
+  mark("#clockHl", 9.2, 0.42);
+  ft("#colon", { opacity: 1 }, { opacity: 0.12, duration: 0.12, yoyo: true, repeat: 1, ease: "none" }, 9.5);
+
+  /* ===== 5 · Anruf (9.8–10.83) ===== */
+  ft("#clockWrap", { scale: 1, x: 0, y: 0 }, { scale: 0.13, x: -21, y: -184, duration: 0.45, ease: "expo.inOut" }, 9.72);
+  show("#sCall", 9.8);
+  ft0("#banner", { y: -640, scale: 0.94 }, { y: 0, scale: 1, duration: 0.5, ease: "expo.out" }, 9.84);
+  ["#rg1", "#rg2", "#rg3"].forEach(function (r, i) {
+    ft(r, { scale: 1, opacity: 0.9 }, { scale: 2.3, opacity: 0, duration: 0.6, ease: "power2.out" }, 10.0 + i * 0.2);
+  });
+  tl.fromTo("#banner", { x: 0 }, { x: 7, duration: 0.035, yoyo: true, repeat: 13, ease: "none", immediateRender: false }, 10.1);
+  ft("#yesBtn", { scale: 1 }, { scale: 0.88, duration: 0.09, ease: "power2.in" }, 10.66);
+
+  /* ===== 6 · Bei Ihnen. (Drop 10.83) ===== */
+  ft("#banner", { scale: 1, opacity: 1, filter: "blur(0px)" }, { scale: 2.4, opacity: 0, filter: "blur(18px)", duration: 0.2, ease: "power3.in" }, D - 0.15);
+  hide("#sCall", D + 0.3);
+  ft("#clockWrap", { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.12, ease: "none" }, D - 0.04);
+  show("#sBei", D - 0.04);
+  ft0("#bei", { scale: 1.9, opacity: 0, filter: "blur(22px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.42, ease: "power4.out" }, D);
+  ft("#shock", { scale: 0.4, opacity: 1 }, { scale: 8, opacity: 0, duration: 0.6, ease: "power2.out" }, D);
+  shake(D, 12);
+  mark("#hlIhnen", 11.1, 0.32);
+
+  /* ===== 7 · Ihr nächstes Mandat beginnt, während Sie schlafen. (11.52–14.28) ===== */
+  ft("#bei", { y: 0, opacity: 1, filter: "blur(0px)" }, { y: -300, opacity: 0, filter: "blur(10px)", duration: 0.28, ease: "power3.in" }, 11.52);
+  hide("#sBei", 11.85);
+  show("#sTraum", 11.52);
+  rise("#w1", 11.6); rise("#w2", 11.8); rise("#w3", 12.23); rise("#w4", 12.6); rise("#w5", 13.05); rise("#w6", 13.42); rise("#w7", 13.55);
+  mark("#hlSchlafen", 13.8, 0.38);
+  ft("#traum", { scale: 1 }, { scale: 1.045, duration: 2.7, ease: "sine.inOut" }, 11.6);
+  ft0("#traum", { y: 175 }, { y: 88, duration: 0.4, ease: "power3.out" }, 12.6);
+  ft("#traum", { y: 88 }, { y: 0, duration: 0.4, ease: "power3.out" }, 13.42);
+
+  /* ===== 8 · Ohne mehr Arbeit. Ohne neue Stelle. (14.28–17.02) ===== */
+  ft("#traum", { y: 0, filter: "blur(0px)" }, { y: -1150, filter: "blur(14px)", duration: 0.3, ease: "power3.in" }, 14.28);
+  hide("#sTraum", 14.6);
+  show("#sOhne", 14.28);
+  ft0("#oh1", { x: -2200, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 14.4);
+  mark("#hlOhne1", 14.62, 0.3);
+  ft0("#oh2", { x: 2200, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 15.55);
+  mark("#hlOhne2", 15.77, 0.3);
+  ft("#ohne", { scale: 1 }, { scale: 1.035, duration: 2.6, ease: "sine.inOut" }, 14.4);
+  ft0("#ohne", { y: 102 }, { y: 0, duration: 0.45, ease: "power3.out" }, 15.55);
+
+  /* ===== 9 · Ohne System. (17.02–19.25) ===== */
+  ft("#ohne", { scale: 1.035, opacity: 1, filter: "blur(0px)" }, { scale: 0.9, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power2.in" }, 17.02);
+  hide("#sOhne", 17.5);
+  show("#sSys", 17.3);
+  ft0("#ohneSys", { scale: 1.1, opacity: 0, filter: "blur(26px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.75, ease: "power2.out" }, 17.52);
+  ft("#ohneSys", { scale: 1, y: 0 }, { scale: 0.28, y: -430, duration: 0.6, ease: "power3.inOut" }, 18.95);
+
+  /* ===== 10 · Drei Makler am Handy. Dreimal dasselbe. (19.25–23.5) ===== */
+  show("#sDrei", 19.2);
+  ["#g1", "#g2", "#g3"].forEach(function (g, i) {
+    ft0(g, { x: 1500, z: -300, rotationY: -44, opacity: 0 }, { x: 0, z: 0, rotationY: -22, opacity: 1, duration: 0.85, ease: "power4.out" }, 19.25 + i * 0.1);
+  });
+  tl.set(["#g4", "#cd1", "#cd2", "#cd3", "#sysChip", "#dasselbe"], { opacity: 0 }, 0);
+  ft("#row", { x: 90 }, { x: -90, duration: 2.95, ease: "sine.inOut" }, 19.3);
+  ["#mk1", "#mk2", "#mk3"].forEach(function (m, i) {
+    ft0(m, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 21.2 + i * 0.08);
+  });
+  ["#g1", "#g2", "#g3"].forEach(function (g, i) {
+    ft(g, { rotationY: -22 }, { rotationY: 0, duration: 0.35, ease: "power3.out" }, 22.25 + i * 0.04);
+    ft(g, { filter: "blur(0px)", opacity: 1 }, { filter: "blur(8px)", opacity: 0.3, duration: 0.3, ease: "power2.out" }, 22.4);
+  });
+  ft("#dasselbe", { scale: 1.5, opacity: 0, filter: "blur(16px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.42, ease: "power4.out" }, 22.27);
+
+  /* ===== 11 · Was liegen bleibt, holt sich der Makler mit System. (23.5–27.25) ===== */
+  ft("#dasselbe", { y: 0, opacity: 1 }, { y: -220, opacity: 0, duration: 0.3, ease: "power3.in" }, 23.5);
+  ft("#g1", { x: 0, opacity: 0.3 }, { x: -1100, opacity: 0, duration: 0.5, ease: "power3.in" }, 23.52);
+  ft("#g3", { x: 0, opacity: 0.3 }, { x: 1100, opacity: 0, duration: 0.5, ease: "power3.in" }, 23.52);
+  ft("#g2", { x: 0, z: 0, rotationY: 0, opacity: 0.3, filter: "blur(8px)" },
+    { x: -150, z: 60, rotationY: 12, opacity: 1, filter: "blur(0px)", duration: 0.65, ease: "power3.inOut" }, 23.55);
+  ft("#row", { x: -90 }, { x: 0, duration: 0.65, ease: "power3.inOut" }, 23.55);
+  ft("#ohneSys", { opacity: 1 }, { opacity: 0, duration: 0.4, ease: "power2.out" }, 24.9);
+  var CARDS = [
+    { id: "#cd1", at: 24.2, x: 590, y: 520, r: -5, tx: 1190, ty: 505 },
+    { id: "#cd2", at: 24.45, x: 610, y: 612, r: 4, tx: 1190, ty: 611 },
+    { id: "#cd3", at: 24.76, x: 585, y: 704, r: -3, tx: 1190, ty: 717 }
+  ];
+  CARDS.forEach(function (c, i) {
+    tl.set(c.id, { x: c.x, y: c.y }, 0);
+    ft(c.id, { y: c.y - 700, rotation: c.r * 5, opacity: 0 }, { y: c.y, rotation: c.r, opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, c.at);
+  });
+  ft("#g4", { x: 1000, rotationY: -46, opacity: 0 }, { x: 0, rotationY: -10, opacity: 1, duration: 0.65, ease: "power4.out" }, 24.98);
+  CARDS.forEach(function (c, i) {
+    var at = 25.25 + i * 0.12;
+    ft(c.id, { x: c.x, y: c.y, rotation: c.r, scale: 1 }, { x: c.tx, y: c.ty, rotation: 0, scale: 0.86, duration: 0.42, ease: "expo.inOut" }, at);
+    ft(c.id, { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, at);
+    ft(c.id, { filter: "blur(10px)" }, { filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, at + 0.2);
+    hide("#kv" + i, at + 0.4);
+    show("#kv" + (i + 1), at + 0.4);
+  });
+  ft("#g2", { opacity: 1, filter: "blur(0px)" }, { opacity: 0.4, filter: "blur(3px)", duration: 0.5, ease: "power2.out" }, 25.35);
+  ft("#sysChip", { scale: 0.7, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.38, ease: "back.out(2)" }, 25.7);
+  mark("#hlSystem", 26.33, 0.3);
+  tl.set("#sDrei", { transformOrigin: "1380px 560px" }, 0);
+  ft("#sDrei", { scale: 1 }, { scale: 1.3, duration: 2.1, ease: "power2.inOut" }, 25.15);
+
+  /* ===== 12 · Das ist beuwy. (27.25–28.5) ===== */
+  ft("#sDrei", { scale: 1.3, opacity: 1, filter: "blur(0px)" }, { scale: 6, opacity: 0, filter: "blur(18px)", duration: 0.42, ease: "power3.in" }, 27.22);
+  hide(["#sDrei", "#sSys"], 27.7);
+  show("#sBeuwy", 27.22);
+  tl.set("#logoWrap", { opacity: 0 }, 0);
+  ft0("#dasIst", { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 27.36);
+  var B = 27.973;
+  ft("#dasIst", { y: 0 }, { y: -175, duration: 0.4, ease: "expo.out" }, B - 0.02);
+  ft("#logoWrap", { scale: 1.8, opacity: 0, filter: "blur(20px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" }, B);
+  ft("#lm1", { x: -46, y: -22 }, { x: 0, y: 0, duration: 0.5, ease: "back.out(1.8)" }, B + 0.02);
+  ft("#lm2", { x: 46, y: 22 }, { x: 0, y: 0, duration: 0.5, ease: "back.out(1.8)" }, B + 0.02);
+  ft0(".lw", { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power4.out", stagger: 0.035 }, B + 0.04);
+  shake(B, 8);
+
+  /* ===== 13 · Das Vertriebssystem für Makler. (28.5–30.28) ===== */
+  var vtr = document.getElementById("vtr");
+  vtr.innerHTML = "Vertriebssystem".split("").map(function (ch) {
+    return '<span class="m"><span class="mi vc">' + ch + "</span></span>";
+  }).join("");
+  ft("#dasIst", { opacity: 1 }, { opacity: 0, duration: 0.22, ease: "power2.out" }, 28.5);
+  ft("#logoWrap", { y: 0, scale: 1 }, { y: -318, scale: 0.42, duration: 0.55, ease: "expo.inOut" }, 28.5);
+  ft0(".vc", { yPercent: 118 }, { yPercent: 0, duration: 0.55, ease: "power4.out", stagger: 0.022 }, 28.76);
+  rise("#fuerI", 29.74);
+  ft("#sBeuwy", { scale: 1 }, { scale: 1.03, duration: 1.8, ease: "sine.inOut" }, 28.5);
+
+  /* ===== 14 · Sie verkaufen, als wären Sie selbst das Portal. (30.28–32.8) ===== */
+  ft("#sBeuwy", { y: 0, filter: "blur(0px)" }, { y: -1150, filter: "blur(14px)", duration: 0.3, ease: "power3.in" }, 30.26);
+  hide("#sBeuwy", 30.6);
+  show("#sPortal", 30.26);
+  rise("#pa1", 30.3);
+  rise("#pb1", 31.12); rise("#pb2", 31.3); rise("#pb3", 31.59);
+  rise("#pc1", 31.73); rise("#pc2", 32.07); rise("#pc3", 32.29);
+  var O = { x: 1342, y: 736 };
+  tl.set("#sPortal", { transformOrigin: O.x + "px " + O.y + "px" }, 0);
+  ft("#sPortal", { scale: 1 }, { scale: 1.03, duration: 2.4, ease: "sine.inOut" }, 30.3);
+  ft("#sPortal", { scale: 1.03, x: 0, y: 0 }, { scale: 70, x: 960 - O.x, y: 540 - O.y, duration: 0.45, ease: "power3.in" }, 32.76);
+  hide("#sPortal", 33.22);
+
+  /* ===== 15 · Nur dass die Kunden Ihnen gehören. (33.0–35.0) ===== */
+  show("#sKunden", 33.0);
+  tl.set("#plane", { rotationX: 34, rotationZ: -6, z: 180 }, 0);
+  ft("#plane", { rotationX: 34, rotationZ: -6, z: 180 }, { rotationX: 20, rotationZ: -2, z: 470, duration: 2.1, ease: "sine.inOut" }, 32.95);
+  ft0(".kc", { z: -900, rotationX: -40, opacity: 0 }, { z: 0, rotationX: 0, opacity: 1, duration: 0.7, ease: "power4.out", stagger: 0.03 }, 33.0);
+  ft("#kStage", { opacity: 1, filter: "blur(0px)" }, { opacity: 0.32, filter: "blur(6px)", duration: 0.4, ease: "power2.out" }, 33.45);
+  rise("#k1", 33.5);
+  rise("#k2", 33.9);
+  mark("#hlKunden", 34.15, 0.35);
+
+  /* ===== Ende (35.0–36.6) ===== */
+  ft("#sKunden", { scale: 1, opacity: 1, filter: "blur(0px)" }, { scale: 0.92, opacity: 0, filter: "blur(12px)", duration: 0.45, ease: "power2.in" }, 35.0);
+  hide("#sKunden", 35.5);
+  show("#sEnd", 35.0);
+  ft0("#endLogo", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 35.15);
+  ft0("#endClaim", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 35.35);
+  ft("#sEnd", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.in" }, 36.22);
+
+  window.__timelines["v2"] = tl;
+})();
+</script>
+</body>
+</html>

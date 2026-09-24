@@ -1,0 +1,7 @@
+{
+  "scene": "01-status",
+  "duration_s": 5.46,
+  "rules": ["waterfall-entry"],
+  "exit": { "vector": "none, still at rest (slow scale push only, no positional exit)", "still_moving": true },
+  "entry": { "vector": "y +70px to 0, up, per-word cascade starting t=0.35s", "from_rest": false }
+}

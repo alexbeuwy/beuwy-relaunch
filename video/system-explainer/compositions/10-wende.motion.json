@@ -1,0 +1,7 @@
+{
+  "scene": "10-wende",
+  "duration_s": 3.39,
+  "rules": ["waterfall-entry", "css-marker-patterns"],
+  "exit": { "vector": "static, 0px/s — headline settled and highlighter held from t=2.47s", "still_moving": false },
+  "entry": { "vector": "words whip up from below (y 34-72px), power4.out, from rest on hard-cut white", "from_rest": true }
+}

@@ -1,0 +1,147 @@
+{
+ "id": "13-ergebnis",
+ "text": "Das Ergebnis: neun zusätzliche Mandate in den ersten drei Monaten. Bei vierhunderttausend Euro durchschnittlichem Hauspreis sind das rund zweihundertsiebenundfünfzigtausend Euro Courtage-Potenzial. Schon ein verkauftes Mandat bezahlt das System.",
+ "dauer": 14.072,
+ "woerter": [
+  {
+   "w": "Das",
+   "s": 0.0,
+   "e": 0.244
+  },
+  {
+   "w": "Ergebnis:",
+   "s": 0.36,
+   "e": 1.115
+  },
+  {
+   "w": "neun",
+   "s": 1.265,
+   "e": 1.521
+  },
+  {
+   "w": "zusätzliche",
+   "s": 1.567,
+   "e": 2.125
+  },
+  {
+   "w": "Mandate",
+   "s": 2.183,
+   "e": 2.635
+  },
+  {
+   "w": "in",
+   "s": 2.694,
+   "e": 2.763
+  },
+  {
+   "w": "den",
+   "s": 2.798,
+   "e": 2.914
+  },
+  {
+   "w": "ersten",
+   "s": 2.984,
+   "e": 3.344
+  },
+  {
+   "w": "drei",
+   "s": 3.367,
+   "e": 3.541
+  },
+  {
+   "w": "Monaten.",
+   "s": 3.599,
+   "e": 4.238
+  },
+  {
+   "w": "Bei",
+   "s": 4.331,
+   "e": 4.54
+  },
+  {
+   "w": "vierhunderttausend",
+   "s": 4.598,
+   "e": 5.387
+  },
+  {
+   "w": "Euro",
+   "s": 5.457,
+   "e": 5.7
+  },
+  {
+   "w": "durchschnittlichem",
+   "s": 5.747,
+   "e": 6.362
+  },
+  {
+   "w": "Hauspreis",
+   "s": 6.432,
+   "e": 6.989
+  },
+  {
+   "w": "sind",
+   "s": 7.047,
+   "e": 7.245
+  },
+  {
+   "w": "das",
+   "s": 7.268,
+   "e": 7.396
+  },
+  {
+   "w": "rund",
+   "s": 7.477,
+   "e": 7.697
+  },
+  {
+   "w": "zweihundertsiebenundfünfzigtausend",
+   "s": 7.814,
+   "e": 9.694
+  },
+  {
+   "w": "Euro",
+   "s": 9.764,
+   "e": 10.043
+  },
+  {
+   "w": "Courtage-Potenzial.",
+   "s": 10.124,
+   "e": 11.378
+  },
+  {
+   "w": "Schon",
+   "s": 11.494,
+   "e": 11.715
+  },
+  {
+   "w": "ein",
+   "s": 11.773,
+   "e": 11.854
+  },
+  {
+   "w": "verkauftes",
+   "s": 11.901,
+   "e": 12.377
+  },
+  {
+   "w": "Mandat",
+   "s": 12.435,
+   "e": 12.76
+  },
+  {
+   "w": "bezahlt",
+   "s": 12.818,
+   "e": 13.166
+  },
+  {
+   "w": "das",
+   "s": 13.236,
+   "e": 13.364
+  },
+  {
+   "w": "System.",
+   "s": 13.387,
+   "e": 14.072
+  }
+ ]
+}

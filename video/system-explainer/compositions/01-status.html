@@ -1,0 +1,123 @@
+<template>
+<style>
+  @font-face {
+    font-family: "Helvena";
+    src: url("assets/fonts/helvena.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "HelvenaBold";
+    src: url("assets/fonts/helvena-og-800.ttf") format("truetype");
+    font-weight: 800;
+  }
+  #root[data-composition-id="01-status"] {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Helvena", sans-serif;
+  }
+  #root[data-composition-id="01-status"] * {
+    box-sizing: border-box;
+  }
+  .f01-bg {
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+  }
+  .f01-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .f01-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 32px;
+    max-width: 1600px;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .f01-word {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 132px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #161613;
+    opacity: 0;
+    white-space: nowrap;
+  }
+  .f01-dot {
+    display: inline-block;
+    font-family: "HelvenaBold", sans-serif;
+    font-weight: 800;
+    font-size: 132px;
+    line-height: 1;
+    color: #161613;
+    opacity: 0;
+  }
+  .f01-tailgroup {
+    display: inline-block;
+    white-space: nowrap;
+  }
+</style>
+
+<script src="assets/vendor/gsap.min.js"></script>
+
+<div id="root" data-composition-id="01-status" data-width="1920" data-height="1080">
+  <div id="s01-status-f01-bg-1" class="f01-bg clip" data-start="0" data-duration="5.46" data-track-index="0"></div>
+
+  <div id="s01-status-f01-stage-2" class="f01-stage clip" data-start="0" data-duration="5.46" data-track-index="1">
+    <div class="f01-headline" id="f01-headline">
+      <span class="f01-word" id="f01-w1">Ihr</span><span class="f01-word" id="f01-w2">Geschäft</span><span class="f01-tailgroup"><span class="f01-word" id="f01-w3">läuft</span><span class="f01-dot" id="f01-w4">.</span></span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var F = 1 / 60;
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---- Scene 1 (0.0-2.0s): waterfall-entry, word by word on the voice cues ---- */
+
+      // "Ihr" — anchor / heaviest, first word, cue 0.35
+      tl.set("#f01-w1", { opacity: 1, y: 70 }, 0.35);
+      tl.to("#f01-w1", { y: 0, duration: 0.18, ease: "power4.out" }, 0.35);
+
+      // "Geschäft" — normal word, cue 0.55
+      tl.set("#f01-w2", { opacity: 1, y: 46 }, 0.55);
+      tl.to("#f01-w2", { y: 0, duration: 0.15, ease: "power4.out" }, 0.55);
+
+      // "läuft" — final word (split), cue 1.0, extra travel for climax
+      tl.set("#f01-w3", { opacity: 1, y: 66 }, 1.0);
+      tl.to("#f01-w3", { y: 0, duration: 0.15, ease: "power4.out" }, 1.0);
+
+      // "." — punctuation fragment, lightest/fastest, tight overlap
+      var tDot = 1.0 + 0.15 - F;
+      tl.set("#f01-w4", { opacity: 1, y: 44 }, tDot);
+      tl.to("#f01-w4", { y: 0, duration: 0.12, ease: "power4.out" }, tDot);
+
+      /* ---- Scene 2 (2.0-5.46s): headline stands, very slow push scale 1 -> 1.03 ---- */
+
+      tl.fromTo(
+        "#f01-headline",
+        { scale: 1 },
+        { scale: 1.03, duration: 3.4, ease: "none" },
+        2.0
+      );
+
+      window.__timelines["01-status"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</div>
+</template>
