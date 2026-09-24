@@ -1,0 +1,153 @@
+<title>beuwy Masterplan Website</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#fff;--ink:#161613;--muted:#5d5d58;--dim:#777772;--line:rgba(20,20,18,.1);--surface:#f7f7f5;--y:#f3e27f;--wash:#fbf5d6;--red:#b3261e;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121210;--ink:#f2f2ee;--muted:#b4b4ad;--dim:#8e8e87;--line:rgba(255,255,255,.12);--surface:#1c1c19;--wash:#2c2917;--red:#ef8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121210;--ink:#f2f2ee;--muted:#b4b4ad;--dim:#8e8e87;--line:rgba(255,255,255,.12);--surface:#1c1c19;--wash:#2c2917;--red:#ef8a80;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 "Schibsted Grotesk",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:44px 90px;display:flex;flex-direction:column;gap:64px}
+h1{font-weight:800;font-size:clamp(36px,6vw,64px);line-height:1.02;letter-spacing:-.03em;margin:0;text-wrap:balance}
+h2{font-weight:800;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance}
+h3{font-weight:700;font-size:19px;margin:0}
+p{margin:0;max-width:70ch}
+.eb{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.lead{font-size:19px;color:var(--muted);margin-top:14px}
+.hl{background:linear-gradient(transparent 58%,var(--y) 58%,var(--y) 92%,transparent 92%)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{background:var(--surface);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:74ch}
+.blocks{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;counter-reset:b}
+.blocks li{border:1px solid var(--line);border-radius:18px;padding:20px 22px 20px 70px;position:relative;display:flex;flex-direction:column;gap:6px;counter-increment:b}
+.blocks li::before{content:counter(b,decimal-leading-zero);position:absolute;left:22px;top:20px;font-weight:800;font-size:18px;color:var(--dim);font-variant-numeric:tabular-nums}
+.blocks .eb{margin-bottom:2px}
+.head{font-weight:800;font-size:23px;line-height:1.2;letter-spacing:-.015em}
+.sub{color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-size:13px;font-weight:600;padding:4px 11px;border-radius:99px;background:var(--surface);color:var(--muted)}
+.chip.y{background:var(--wash);color:var(--ink)}
+.chip.r{color:var(--red)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.tbl{overflow-x:auto}
+img{max-width:100%;border-radius:16px;display:block;background:#fff}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.blocks li{padding-left:22px;padding-top:50px}}
+</style>
+<div class="wrap">
+<header>
+  <div class="eb">beuwy · Website · Stand 24.09.2026</div>
+  <h1>Masterplan: Startseite und Markenseite auf Studio-Niveau</h1>
+  <p class="lead">Grundlage: Audit beider Seiten (Screenshots Desktop und Mobil), 15 Referenz-Websites von Top-Studios (Collins, Pentagram, Koto, Ragged Edge, Order, Linear, Stripe, Apple, Cash App u. a.), 12 Referenz-Bibliotheken, Probe-Serie 3D-Icons. Umsetzung erst nach deiner Freigabe.</p>
+</header>
+
+<section>
+  <h2>Die ehrliche Diagnose</h2>
+  <div class="grid2">
+    <div class="box"><h3>Was schon Weltklasse ist</h3><ul>
+      <li>Schrift, Weißraum, Gelb als einziger Akzent.</li>
+      <li>Die Hero-Headline „Was trennt Sie vom Marktführer Ihrer Stadt?“</li>
+      <li>Der Exposé-Vergleich mit echten RIEGEL-Reels. Der beste Moment der Seite.</li>
+      <li>Saubere Motion-Technik (Tokens, reduzierte Bewegung, Studio-Schalter).</li>
+    </ul></div>
+    <div class="box"><h3>Was ein 2-Mio-Studio sofort streichen würde</h3><ul>
+      <li><b>KI-Fotos</b> an der Kücheninsel, 9-mal dieselbe Szene. Und <b>ausgeschnittene KI-Gesichter</b> als „Makler vertrauen uns“.</li>
+      <li><b>Logos großer Maklerhäuser</b> ohne Freigabe.</li>
+      <li><b>Zwei leere Platzhalter</b> (Video, Podcast) mitten in der Dramaturgie.</li>
+      <li><b>Kein Angebot, keine Knappheit</b> auf der Startseite.</li>
+      <li><b>Doppelt so lang wie nötig</b> (mobil 28.000 px), der Ablauf wird viermal erklärt.</li>
+      <li><b>Keine echte Markenseite.</b> Es gibt nur eine SEO-Wissensseite ohne einziges Beispiel.</li>
+      <li><b>Widersprüche:</b> 4, 6 oder 4–6 Wochen; zwei oder vier Termine; 40+ oder 100+ Projekte.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Fünf Regeln, nach denen 2-Mio-Projekte gebaut werden</h2>
+  <ol>
+    <li><b>Beweis vor Behauptung.</b> Jede Aussage hat eine Zahl, ein echtes Bild oder eine echte Oberfläche daneben. Stripe zeigt Kennzahlen, Linear zeigt das echte Produkt.</li>
+    <li><b>Echt vor schön.</b> Keine KI-Menschen. Echte Fotos vom Shooting, echte Portal-UI, echte Vorher/Nachher-Bilder.</li>
+    <li><b>Ein Gedanke pro Bildschirm.</b> Die Seite wird halb so lang, jeder Abschnitt hat genau eine Aufgabe in der Verkaufskette.</li>
+    <li><b>Ein System statt Einzelteile.</b> Wie Cash App: zwei Farben plus eine eigene 3D-Icon-Bibliothek. Jede Leistung hat ihr Icon, überall gleich.</li>
+    <li><b>Bewegung nur mit Zweck.</b> Ein orchestrierter Moment pro Abschnitt. Kein Dauerwackeln, keine schwebende Deko.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Assets: eigene 3D-Icon-Bibliothek</h2>
+  <p class="sub" style="margin-bottom:16px">Probe-Serie mit GPT Image 2.5, 8 Icons, zusammen 12 Credits. Liegt in <code>public/icons3d/</code>. Weitere 30 Motive stehen als Auftrag für Codex bereit (<code>docs/assets/</code>).</p>
+  <img alt="Acht 3D-Icons in mattem Off-White mit je einem pastellgelben Teil: Haus, Rechner, Report, Glocke, Netz, Stempel, Lupe, Kalender" src="data:image/webp;base64,@@ICONS@@">
+  <div class="meta" style="margin-top:12px"><span class="chip y">Einsatz: 48–96 px, eine Farbe pro Icon gelb</span><span class="chip">Bewegung: einmal beim Einscrollen, ein Teil beim Hover</span><span class="chip">Später: kurze Loops als WebM mit Transparenz</span></div>
+</section>
+
+<section>
+  <h2>Neue Startseite · 12 Abschnitte, halbe Länge</h2>
+  <p class="sub" style="margin-bottom:18px">Dramaturgie wie im Film: Versprechen → Tag des Maklers → Wende → Mechanismus → Beweis → Angebot → Knappheit.</p>
+  <ol class="blocks">
+    <li><div class="eb">Hook</div><div class="head">Was trennt Sie vom Marktführer Ihrer Stadt? Sein System.</div><div class="sub">Darunter direkt das Stadt-Feld „Ist Ihre Stadt noch frei?“. Rechts die echte Portal-Oberfläche, die in 3D einfliegt, statt KI-Video.</div><div class="meta"><span class="chip y">Wow: Portal fliegt ein, 3D-Icons docken an</span><span class="chip">Mobil: Headline und Knopf im ersten Bildschirm</span></div></li>
+    <li><div class="eb">Beweis-Band</div><div class="head">Rund 2.100 Beurkundungen im Jahr laufen über unsere Systeme.</div><div class="sub">Drei Zählwerke: 2.100 Beurkundungen · +9 Mandate bei RIEGEL in 3 Monaten · Live in 6 Wochen. Nur freigegebene Logos.</div><div class="meta"><span class="chip y">Wow: Zählwerke wie im Film</span></div></li>
+    <li><div class="eb">Pain</div><div class="head">Ein ganz normaler Tag. Und drei Mandate, die Sie nie sehen.</div><div class="sub">Scroll-Geschichte mit Uhr: 23:50 Fantasiepreis per WhatsApp · 08:46 Nachfassen bleibt bei Krankmeldung liegen · 13:07 zehn neue Tools. Rote Zähler steigen.</div><div class="meta"><span class="chip y">Wow: Uhr rollt beim Scrollen</span></div></li>
+    <li><div class="eb">Wende</div><div class="head">Eine Sprachnachricht. Den Rest machen wir.</div><div class="sub">Pastellgelbe Fläche, Handy mit Sprachnachricht an beuwy und Antwort „Erledigt“.</div></li>
+    <li><div class="eb">Mechanismus</div><div class="head">Fünf Bausteine. Ein System. Unter Ihrem Namen.</div><div class="sub">Bento-Raster mit 3D-Icons: Marke · Portal · Rechner · Nachfassen · Sichtbarkeit bei Google und in KI-Antworten. Jede Kachel öffnet die echte Oberfläche.</div><div class="meta"><span class="chip y">Wow: Kachel klappt zur echten UI auf</span></div></li>
+    <li><div class="eb">Produkt zum Anfassen</div><div class="head">Probieren Sie es aus: So rechnen Ihre Eigentümer.</div><div class="sub">Der echte Rechner, eingebettet. Wunschpreis 890.000 rutscht auf Marktwert 720.000.</div></li>
+    <li><div class="eb">Vorher / Nachher</div><div class="head">Vorher Visitenkarte. Nachher Portal.</div><div class="sub">Der Exposé-Vergleich rückt nach oben, dazu ein Schieberegler Website alt/neu am echten RIEGEL-Beispiel.</div><div class="meta"><span class="chip y">Wow: Schieberegler</span></div></li>
+    <li><div class="eb">Dream State</div><div class="head">Montag, 8 Uhr, in einem Jahr.</div><div class="sub">Ihr Büro ganz oben bei Google und in der KI-Antwort · drei Eigentümer-Anrufe · ein Kollege fragt „Wie macht ihr das?“ · 18:00 Feierabend.</div></li>
+    <li><div class="eb">Case</div><div class="head">RIEGEL Immobilien: neun zusätzliche Mandate in drei Monaten.</div><div class="sub">Eine echte Case-Story mit Foto vom Inhaber, Zitat und dem Weg in 4 Schritten.</div><div class="meta"><span class="chip r">Braucht: Foto und Zitat von RIEGEL</span></div></li>
+    <li><div class="eb">Autorität</div><div class="head">Gebaut von Leuten, die selbst verkauft haben.</div><div class="sub">Großes echtes Gründerporträt, Projektentwickler und Makler, Marken für Königswege, Vision und acta, Events in Mallorca, Mailand und Frankfurt.</div><div class="meta"><span class="chip r">Braucht: neues Porträt-Shooting</span></div></li>
+    <li><div class="eb">Angebot und Risikoumkehr</div><div class="head">Was Sie bekommen. Was es kostet. Was wir garantieren.</div><div class="sub">Paket in einer Liste, „Investition ab X €“ plus 3 Faktoren, Live-Termin schriftlich. Nur für Entscheider mit echtem Wachstumsziel.</div><div class="meta"><span class="chip r">Braucht: Preisrahmen und Garantie</span></div></li>
+    <li><div class="eb">Knappheit und CTA</div><div class="head">Ein Büro pro Stadt. Ist Ihre noch frei?</div><div class="sub">Deutschlandkarte mit vergebenen Städten (nur echte), Stadt-Feld, gelber Knopf. Dazu ein mitlaufender Knopf auf Mobil.</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Neue Markenseite /marke · Schritt für Schritt</h2>
+  <p class="sub" style="margin-bottom:18px">Bauplan nach Collins, Koto und Ragged Edge: Symptome → Haltung → Programme → Prozess mit Wochen → Deliverables → Beweis → Investment → Kapazität.</p>
+  <ol class="blocks">
+    <li><div class="eb">Hero</div><div class="head">Eine Marke, bei der Eigentümer zuerst Sie anrufen.</div><div class="sub">Scroll-Moment: Ein schlichter Schriftzug „Ihr Büro“ baut sich zur kompletten Marke auf. Logo, Farbe, Visitenkarte, Schild, Exposé, Auto.</div><div class="meta"><span class="chip y">Wow: Marke entsteht beim Scrollen</span></div></li>
+    <li><div class="eb">Beweis-Zeile</div><div class="head">Marken für Königswege, Vision und acta. Jetzt für Makler.</div><div class="meta"><span class="chip r">Braucht: Freigabe der Namen</span></div></li>
+    <li><div class="eb">Symptome</div><div class="head">Fünf Zeichen, dass Ihre Marke Sie Mandate kostet.</div><div class="sub">Ihre Website sieht aus wie 200 andere · Ihr Exposé wie eine Vorlage · Eigentümer verhandeln über Ihre Provision · Bewerber gehen lieber zur Kette · Sie müssen sich bei jedem Termin neu erklären.</div></li>
+    <li><div class="eb">Haltung</div><div class="head">Eine Marke ist das, was Ihr Eigentümer beim Abendessen über Sie erzählt.</div></li>
+    <li><div class="eb">Programme</div><div class="head">Drei Wege, je nachdem, wo Ihr Büro heute steht.</div><div class="sub">Neu aufstellen (Gründung, Übernahme) · Schärfen (gut, aber austauschbar) · Platzhirsch werden (Marktführer der Stadt). Jedes Programm: Symptome, Ergebnis, Umfang, Dauer.</div></li>
+    <li><div class="eb">Prozess mit Wochen</div><div class="head">In sechs Wochen von der Visitenkarte zur Marke.</div><div class="sub">Woche 1 Gespräch und Analyse · 2 Strategie und Claim · 3 Logo und Gestaltungssystem · 4 Fotos und 3D · 5 Website, Exposé, Print · 6 Start. Ihr Aufwand: zwei Termine und Ihre Fotos.</div><div class="meta"><span class="chip y">Wow: Linie zieht sich beim Scrollen durch die Wochen</span><span class="chip r">Klären: zwei oder vier Termine</span></div></li>
+    <li><div class="eb">Deliverables</div><div class="head">Alles, was Ihre Marke braucht. In einem Paket.</div><div class="sub">Raster mit 24–30 Leistungen, jede mit eigenem 3D-Icon: Logo, Farbe, Schrift, Fotos, Drohne, 3D-Visualisierung, Exposé, Plakat, Auto, Visitenkarte, Website, Portal, Social, Anzeigen …</div><div class="meta"><span class="chip y">Wow: die Icon-Bibliothek als Inventar</span></div></li>
+    <li><div class="eb">Vorher / Nachher</div><div class="head">Gleiches Büro. Andere Liga.</div><div class="sub">Schieberegler an echten Arbeiten: Logo, Exposé, Website.</div><div class="meta"><span class="chip r">Braucht: echte Vorher-Bilder</span></div></li>
+    <li><div class="eb">Case</div><div class="head">RIEGEL Immobilien: neun zusätzliche Mandate in drei Monaten.</div></li>
+    <li><div class="eb">Zitat</div><div class="head">Ein großes Kundenzitat, eine Zeile, mit Name und Foto.</div><div class="meta"><span class="chip r">Braucht: echtes Zitat</span></div></li>
+    <li><div class="eb">Investment</div><div class="head">Was eine Marke kostet, die Mandate bringt.</div><div class="sub">„Investition ab X €“ plus drei Faktoren (Umfang, Fotos/3D, Anzahl Standorte). Im Studio pflegbar.</div></li>
+    <li><div class="eb">Team</div><div class="head">Der Kopf hinter den Marken.</div><div class="sub">Echtes Porträt, Werdegang, Arbeitsproben.</div></li>
+    <li><div class="eb">Kapazität</div><div class="head">Wir bauen pro Quartal nur [N] Marken. Und pro Stadt nur eine.</div><div class="meta"><span class="chip r">Braucht: echte Zahl N</span></div></li>
+    <li><div class="eb">FAQ und CTA</div><div class="head">Ist Ihre Stadt noch frei?</div><div class="sub">Stadt-Feld und Knopf wie auf /system.</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Bewegung: sechs Techniken, sonst nichts</h2>
+  <div class="tbl"><table><thead><tr><th>Technik</th><th>Wo</th><th>Aufwand</th></tr></thead><tbody>
+    <tr><td>Gelber Highlighter, der sich beim Scrollen zieht</td><td>Headlines</td><td>klein</td></tr>
+    <tr><td>Zeilenweiser Headline-Reveal</td><td>jeder Abschnitt</td><td>klein</td></tr>
+    <tr><td>Zählwerke (wie im Film)</td><td>Beweis-Band, Case</td><td>klein</td></tr>
+    <tr><td>Scroll-Uhr 23:50 → 08:46 → 13:07</td><td>Startseite Pain</td><td>mittel</td></tr>
+    <tr><td>Vorher/Nachher-Schieberegler</td><td>beide Seiten</td><td>mittel</td></tr>
+    <tr><td>Marke baut sich beim Scrollen auf</td><td>Hero /marke</td><td>groß</td></tr>
+  </tbody></table></div>
+  <p class="sub" style="margin-top:12px">Bewusst nicht: WebGL, Sound, schwebende Deko, Endlos-Leinwand. Das kostet Ladezeit und verwässert den einen Fokus pro Bildschirm.</p>
+</section>
+
+<section class="grid2">
+  <div class="box"><h3>Was ich von dir brauche</h3><ul>
+    <li><b>Freigabe dieses Plans</b> oder Änderungen je Abschnitt.</li>
+    <li><b>Shooting:</b> Gründerporträt und Team, echte Arbeitssituationen (1 Tag).</li>
+    <li><b>RIEGEL:</b> Foto vom Inhaber, ein Zitat, Vorher-Bilder.</li>
+    <li><b>Zahlen:</b> Preisrahmen „ab X €“, Kapazität N pro Quartal, 2 oder 4 Termine, 4 oder 6 Wochen.</li>
+    <li><b>Freigaben:</b> Namen Königswege, Vision, acta; die großen Makler-Logos raus, außer mit Freigabe.</li>
+    <li><b>Codex starten</b> für die 30 Icons (Anleitung in <code>docs/assets/CODEX-AUFTRAG.md</code>).</li>
+  </ul></div>
+  <div class="box"><h3>Reihenfolge der Umsetzung</h3><ol>
+    <li>Aufräumen: Fake-Avatare und nicht freigegebene Logos raus, Widersprüche angleichen, Platzhalter weg.</li>
+    <li>Icon-Bibliothek einbauen (Mechanismus, Deliverables).</li>
+    <li>Startseite neu ordnen und kürzen, Angebot und Knappheit dazu.</li>
+    <li>Markenseite /marke neu bauen, in Navigation und Footer verlinken.</li>
+    <li>Echte Fotos und Case einsetzen, sobald das Shooting da ist.</li>
+    <li>Pro Schritt: Studio-Keys, Build, Screenshots, Gate-Eintrag, erst dann Merge.</li>
+  </ol></div>
+</section>
+</div>
