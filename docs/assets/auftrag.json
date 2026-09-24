@@ -1,0 +1,242 @@
+[
+ {
+  "id": "marke-logo",
+  "objekt": "a stylized logo mark on a small pedestal",
+  "gelb": "the logo mark",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "farbpalette",
+  "objekt": "a fan of three rounded color swatch cards",
+  "gelb": "the front card",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "schrift",
+  "objekt": "a large rounded letter shape block (abstract, not a readable letter)",
+  "gelb": "the top edge",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "fotokamera",
+  "objekt": "a compact camera",
+  "gelb": "the shutter button",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "drohne",
+  "objekt": "a small quadcopter drone",
+  "gelb": "the camera gimbal",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "3d-visualisierung",
+  "objekt": "a small isometric building model on a cutting board",
+  "gelb": "the roof",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "expose",
+  "objekt": "an open brochure booklet",
+  "gelb": "the cover band",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "plakat",
+  "objekt": "a small billboard on two legs",
+  "gelb": "the poster area",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "autobeklebung",
+  "objekt": "a small compact car",
+  "gelb": "the door panel",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "visitenkarte",
+  "objekt": "two stacked business cards",
+  "gelb": "the top card edge",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "website",
+  "objekt": "a browser window with a simple layout",
+  "gelb": "the header bar",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "portal-konto",
+  "objekt": "a user profile card with an avatar circle",
+  "gelb": "the avatar circle",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "suchauftrag",
+  "objekt": "a bookmark tag attached to a small house",
+  "gelb": "the bookmark",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "mail-automatik",
+  "objekt": "an envelope with a small circular arrow",
+  "gelb": "the arrow",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "chat-sprachnachricht",
+  "objekt": "a speech bubble with a sound wave",
+  "gelb": "the sound wave",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "dashboard",
+  "objekt": "a small screen with a rising line chart",
+  "gelb": "the chart line",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "crm-sync",
+  "objekt": "two rounded blocks connected by a cable plug",
+  "gelb": "the plug",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "ki-antwort",
+  "objekt": "a speech bubble with a small sparkle",
+  "gelb": "the sparkle",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "google-ranking",
+  "objekt": "a podium with three steps",
+  "gelb": "the top step",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "anzeigen",
+  "objekt": "a megaphone",
+  "gelb": "the mouth of the megaphone",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "notar-vertrag",
+  "objekt": "a document with a fountain pen",
+  "gelb": "the pen nib",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "handshake-deal",
+  "objekt": "two rounded hands meeting in a handshake (no skin tones, off-white clay)",
+  "gelb": "one cuff",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "wachstum",
+  "objekt": "an upward arrow made of stacked blocks",
+  "gelb": "the arrow tip",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "stadt-pin",
+  "objekt": "a map pin standing on a small round city tile",
+  "gelb": "the pin head",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "event",
+  "objekt": "a small stage with a spotlight",
+  "gelb": "the spotlight beam",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "pokal",
+  "objekt": "a small trophy cup",
+  "gelb": "the cup",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "schild-sicher",
+  "objekt": "a shield",
+  "gelb": "the center emblem",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "uhr-zeit",
+  "objekt": "a round desk clock",
+  "gelb": "the hands",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "team",
+  "objekt": "three rounded pawn figures standing together",
+  "gelb": "the middle figure",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ },
+ {
+  "id": "schluessel",
+  "objekt": "a house key on a round tag",
+  "gelb": "the tag",
+  "format": "1024x1024 PNG transparent",
+  "status": "offen",
+  "prompt": ""
+ }
+]
