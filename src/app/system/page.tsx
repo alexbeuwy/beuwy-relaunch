@@ -85,7 +85,12 @@ export default async function VslPage() {
         <h1 className="t-display mx-auto mt-6 max-w-[20ch]">{rich(t("titel"))}</h1>
         <p className="t-body-lg mx-auto mt-5 max-w-[38rem]">{t("sub")}</p>
         <div className="mt-10 lg:mt-12">
-          <VslSlot format="breit" videoUrl={c["mk.vsl.url"]} platzhalterText={c["mk.vsl.platzhalter"]} />
+          <VslSlot
+            format="breit"
+            videoUrl={c["mk.vsl.system_url"]}
+            posterUrl={c["mk.vsl.system_poster"]}
+            platzhalterText={c["mk.vsl.platzhalter"]}
+          />
         </div>
         <div className="mt-10 lg:mt-12">
           <StadtCheck texte={stadtTexte} vergeben={vergeben} funnelTexte={funnelTexteAus(c)} />

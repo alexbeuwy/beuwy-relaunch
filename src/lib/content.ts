@@ -247,6 +247,8 @@ export const DEFAULTS: Record<string, string> = {
   "mk.stats.s4_label": "Wochen bis zum Livegang",
 
   "mk.vsl.url": "",
+  "mk.vsl.system_url": "/video/system-film.mp4",
+  "mk.vsl.system_poster": "/video/system-film-poster.webp",
 
   "mk.integrationen.label": "Angebunden an die Tools, die Sie schon nutzen",
   "mk.integrationen.namen": "onOffice|FLOWFACT|Propstack|JUSTIMMO|CasaOne",
@@ -323,6 +325,8 @@ export const FIELD_LABELS: Record<string, string> = {
   "mk.stats.s3_wert": "Makler · Zahl 3", "mk.stats.s3_label": "Makler · Zahl 3 · Text",
   "mk.stats.s4_wert": "Makler · Zahl 4", "mk.stats.s4_label": "Makler · Zahl 4 · Text",
   "mk.vsl.url": "Makler · VSL-Video-URL (leer = Platzhalter)",
+  "mk.vsl.system_url": "/system · Film-URL (mp4, 16:9; leer = Platzhalter)",
+  "mk.vsl.system_poster": "/system · Film-Vorschaubild (URL; leer = Hero-Poster)",
   "mk.integrationen.label": "Makler · Zeile über den Software-Wordmarks",
   "mk.integrationen.namen": "Makler · Software-Wordmarks, mit | getrennt",
   "mk.pm.quote": "Makler · Performance-Grafik · Quote (z. B. 5 %)",
