@@ -5,6 +5,7 @@ import { Logo } from "@/components/Logo";
 import { LogoSlot, MARKEN_SLUGS, slugifyMarke } from "@/components/MaklerElemente";
 import { rich } from "@/components/RichText";
 import { StadtCheck, StadtKnopf, StickyStadt } from "@/components/StadtCheck";
+import { SystemFilm } from "@/components/SystemFilm";
 import { VslSlot } from "@/components/VslSlot";
 import { getContent } from "@/lib/content";
 import { funnelTexteAus } from "@/lib/texte/anfrage-funnel";
@@ -85,12 +86,19 @@ export default async function VslPage() {
         <h1 className="t-display mx-auto mt-6 max-w-[20ch]">{rich(t("titel"))}</h1>
         <p className="t-body-lg mx-auto mt-5 max-w-[38rem]">{t("sub")}</p>
         <div className="mt-10 lg:mt-12">
-          <VslSlot
-            format="breit"
-            videoUrl={c["mk.vsl.system_url"]}
-            posterUrl={c["mk.vsl.system_poster"]}
-            platzhalterText={c["mk.vsl.platzhalter"]}
-          />
+          {c["mk.vsl.system_url"] ? (
+            <SystemFilm
+              videoUrl={c["mk.vsl.system_url"]}
+              posterUrl={c["mk.vsl.system_poster"] || undefined}
+              texte={{
+                ton: c["mk.vsl.system_ton"],
+                pause: c["mk.vsl.system_pause"],
+                weiter: c["mk.vsl.system_weiter"],
+              }}
+            />
+          ) : (
+            <VslSlot format="breit" videoUrl={c["mk.vsl.url"]} platzhalterText={c["mk.vsl.platzhalter"]} />
+          )}
         </div>
         <div className="mt-10 lg:mt-12">
           <StadtCheck texte={stadtTexte} vergeben={vergeben} funnelTexte={funnelTexteAus(c)} />
