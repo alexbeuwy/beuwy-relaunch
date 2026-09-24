@@ -74,3 +74,44 @@ Jeder Abschnitt öffnet mit einem Satz von höchstens 12 Wörtern und endet mit 
 - Hook 9: Minute beim Report einmal live messen.
 - Faden 7: zwei oder vier Termine?
 - Faden 10: Ø Courtage mit Quelle oder weglassen; Preis zeigen ja/nein.
+
+---
+
+# Runde 2 (verbindlich): Hooks als Szene mit Frage und Powersatz
+
+Aufbau jedes Hooks: 1) Bild, in dem der Makler sich erkennt · 2) offene oder
+rhetorische Frage · 3) Powersatz mit Traumzustand. Runde 1 oben ist verworfen.
+[ANZAHL] = echte Zahl aus dem RIEGEL-Dashboard einsetzen.
+
+## A · Während Sie schlafen (Film-Einstieg)
+„Sonntag, 23:48. Ein Eigentümer in Ihrer Stadt kann nicht schlafen. Er tippt: Was ist mein Haus wert? Wer antwortet ihm jetzt? Sie schlafen. Ihr System nicht. Um 23:49 hat er seinen Report. Mit Ihrem Logo.“
+Overlay: 23:48 → „Was ist mein Haus wert?“ → „Sie schlafen. Ihr System nicht.“ → „23:49. Ihr Logo.“
+
+## B · Der Küchentisch
+„Sie sitzen beim Eigentümer am Küchentisch. Zwei Stunden, Wertermittlung, alles richtig gemacht. Drei Tage später unterschreibt er beim Kollegen. Warum? Der war schon vor Ihnen da. Auf seinem Handy, um 23 Uhr. Was, wenn ab jetzt Sie dieser Makler sind?“
+Overlay: „2 Stunden Wertermittlung.“ → „Unterschrieben: beim Kollegen.“ → „Ab jetzt: Sie.“
+
+## C · Was trennt Sie vom Marktführer?
+„Was trennt Sie vom Marktführer Ihrer Stadt? Erfahrung haben Sie genug. Er hat ein System: Rechner, Portal, Report, alles unter seinem Namen. Was, wenn Sie das in sechs Wochen haben? Und er nicht mehr bekommen kann?“
+Overlay: „Was trennt Sie vom Marktführer?“ → „Erfahrung: Sie. System: er.“ → „In 6 Wochen: Sie.“
+
+## D · Die verschenkte Wertermittlung
+„Wie viele Wertermittlungen haben Sie dieses Jahr verschenkt? Sechs Stunden hier, acht Stunden da. Am Ende gewinnt, wer mehr verspricht. Stellen Sie sich vor, der Eigentümer kennt seinen Wert schon. Von Ihnen, mit Ihrem Logo. Bevor Sie klingeln.“
+Overlay: „Verschenkt: 6–8 Stunden pro Termin.“ → „Bevor Sie klingeln, kennt er Sie.“
+
+## E · Das Portal-Paradox
+„Jeden Monat bezahlen Sie für Anfragen. Und wem gehört der Eigentümer danach? Die gleiche Anfrage geht an bis zu drei Makler. Stellen Sie sich vor, Eigentümer kommen direkt zu Ihnen. Nur zu Ihnen. Jede Woche.“
+Overlay: „Bezahlt: Sie.“ → „Geteilt: bis zu 3 Makler.“ → „Ab jetzt: nur Sie.“
+
+## F · Montag, acht Uhr
+„Montag, acht Uhr. Sie öffnen den Laptop. Übers Wochenende haben [ANZAHL] Eigentümer ihr Haus bewertet. Auf Ihrer Seite, mit Ihrem Logo auf dem Report. Sie müssen nur noch anrufen. Klingt nach einem anderen Büro? In sechs Wochen ist es Ihres.“
+Overlay: „Montag, 8:00“ → „[ANZAHL] neue Bewertungen“ → „In 6 Wochen: Ihr Büro.“
+
+## G · Von selbst (Alex' Idee, belegt)
+„Was, wenn Eigentümer Sie anrufen? Jede Woche. Von selbst. Ohne neue Stelle, mit dreißig Minuten Abstimmung pro Woche. Bei RIEGEL Immobilien kamen so neun zusätzliche Mandate in drei Monaten.“
+Overlay: „Eigentümer rufen an. Von selbst.“ → „30 Min. pro Woche“ → „+9 Mandate in 3 Monaten“
+
+## Empfehlung
+- Film-Einstieg: A. Stärkstes Bild, Frage, Powersatz „Sie schlafen. Ihr System nicht.“
+- Direkt danach: B als Das-bin-ich-Moment, dann C als Konkurrenz-Druck.
+- Beweis in der Mitte: G. Anzeigen: C, D, E, G einzeln testen.
