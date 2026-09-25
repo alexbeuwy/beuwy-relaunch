@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>beuwy Film 5 · Storyboard-Frames</title>
+<style>
+  @font-face { font-family: "Helvena"; src: url("assets/fonts/helvena.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "HelvenaBold"; src: url("assets/fonts/helvena-og-800.ttf") format("truetype"); font-weight: 800; }
+  @font-face { font-family: "GeistMono"; src: url("assets/fonts/GeistMono-Bold.woff2") format("woff2"); font-weight: 700; }
+  @font-face { font-family: "GeistMono"; src: url("assets/fonts/GeistMono-Medium.woff2") format("woff2"); font-weight: 500; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #777; font-family: "Helvena", sans-serif; }
+  em, i { font-style: normal; }
+  .f { position: relative; width: 1920px; height: 1080px; overflow: hidden; margin-bottom: 40px; }
+  .W { background: #ffffff; color: #161613; } .Y { background: #efe683; color: #161613; } .D { background: #121211; color: #f5f5f2; }
+  .hb { font-family: "HelvenaBold", sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 0.95; }
+  .mono { font-family: "GeistMono", monospace; font-weight: 700; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .c { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+  .a { position: absolute; }
+  .lab { font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 28px; }
+  .g { color: #8a8a84; } .gy { color: #efe683; }
+  .mbx { filter: url(#mbx); } .mbx2 { filter: url(#mbx2); } .mby { filter: url(#mby); } .mby2 { filter: url(#mby2); } .mbr { filter: blur(10px); }
+  .hl { position: relative; display: inline-block; }
+  .hl::before { content: ""; position: absolute; left: -0.04em; right: -0.04em; top: 52%; height: 38%; background: #efe683; z-index: 0; }
+  .hl > span { position: relative; z-index: 1; }
+  .D .hl::before { background: rgba(239,230,131,0.9); } .D .hl > span { color: #161613; }
+  .ai { position: absolute; right: 12px; bottom: 12px; padding: 3px 9px; border-radius: 99px; background: rgba(0,0,0,0.3); color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .card { position: absolute; border-radius: 44px; background: #fff; box-shadow: 0 70px 130px -50px rgba(22,22,19,0.38), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .card.dk { background: #1c1c1a; box-shadow: 0 70px 130px -50px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.08); }
+  .pill { display: inline-flex; align-items: center; gap: 14px; padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: 28px; white-space: nowrap; }
+  .py { background: #efe683; color: #161613; } .pk { background: #161613; color: #efe683; } .pg { background: rgba(245,245,242,0.08); color: #cfcfc8; }
+  .logo svg { display: block; width: 100%; height: auto; fill: currentColor; }
+  .logo .cls-1 { fill: #efe683; } .logo path:nth-of-type(n+3) { fill: currentColor; }
+  /* Telefon */
+  .phone { position: absolute; width: 500px; height: 1020px; border-radius: 78px; padding: 14px; }
+  .phone.dk { background: #2a2a27; box-shadow: 0 90px 140px -50px rgba(0,0,0,0.85), inset 0 0 0 2px rgba(255,255,255,0.06); }
+  .phone.lt { background: #efefeb; box-shadow: 0 90px 140px -50px rgba(22,22,19,0.45), inset 0 0 0 2px rgba(20,20,18,0.06); }
+  .scr { position: relative; width: 472px; height: 992px; border-radius: 64px; overflow: hidden; }
+  .dk .scr { background: #0b0b0a; color: #f5f5f2; } .lt .scr { background: #fff; color: #161613; }
+  .island { position: absolute; left: 50%; top: 30px; width: 126px; height: 36px; margin-left: -63px; border-radius: 99px; background: #000; z-index: 5; }
+  .sb { position: absolute; left: 44px; right: 44px; top: 34px; display: flex; justify-content: space-between; font-weight: 700; font-size: 22px; }
+  /* Website-Wireframe */
+  .site { position: absolute; width: 380px; height: 640px; border-radius: 28px; background: #1d1d1b; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
+  .site.lt { background: #fff; box-shadow: 0 50px 90px -40px rgba(22,22,19,0.4), inset 0 0 0 1px rgba(20,20,18,0.08); }
+  .site .nav { height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
+  .site .nav i { display: block; height: 10px; border-radius: 5px; background: #3a3a36; }
+  .site.lt .nav i { background: #e4e4df; }
+  .site .img { position: relative; height: 250px; background: #2a2a27 center/cover; }
+  .site .ln { margin: 18px 22px 0; height: 14px; border-radius: 7px; background: #33332f; }
+  .site.lt .ln { background: #ececE7; }
+  .site .ln.h { height: 30px; border-radius: 10px; background: #4a4a45; width: 70%; }
+  .site.lt .ln.h { background: #161613; }
+  .site .tagl { position: absolute; left: 22px; bottom: 22px; font-weight: 700; font-size: 20px; color: #8a8a84; letter-spacing: 0.1em; text-transform: uppercase; }
+  /* UI allgemein */
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid rgba(20,20,18,0.08); font-weight: 600; font-size: 26px; }
+  .D .row, .dk .row { border-bottom-color: rgba(255,255,255,0.08); }
+  .chk { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #efe683; }
+  .chk svg { width: 22px; height: 22px; }
+  .logoBox { display: inline-flex; align-items: center; justify-content: center; background: #efe683; color: #161613; font-weight: 800; font-family: "HelvenaBold"; letter-spacing: 0.06em; border-radius: 14px; }
+  .bar { height: 12px; border-radius: 6px; background: #ececE7; }
+  .D .bar, .dk .bar { background: #2e2e2b; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="mbx" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="46 0"/></filter>
+  <filter id="mbx2" x="-20%" y="-10%" width="140%" height="120%"><feGaussianBlur stdDeviation="18 0"/></filter>
+  <filter id="mby" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="0 34"/></filter>
+  <filter id="mby2" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="0 12"/></filter>
+</svg>
+<svg width="0" height="0" style="position:absolute"><symbol id="ok" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#161613" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+
+<!-- 1 · Markt (Zwischenbild) -->
+<section class="f W" data-id="01a" data-t="0,4 s · Masken-Reveal mit vertikalem Motion Blur">
+  <div class="c hb mby" style="top:330px;font-size:330px;clip-path:inset(0 0 22% 0);transform:translateY(90px)">Markt.</div>
+</section>
+<!-- 1 · Markt -->
+<section class="f W" data-id="01b" data-t="1,4 s · gelandet, Haken gezeichnet">
+  <div class="c" style="top:360px;display:flex;justify-content:center;align-items:center;gap:60px">
+    <svg width="240" height="220" viewBox="0 0 240 220"><path d="M22 118 L92 186 L220 30" fill="none" stroke="#efe683" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="hb" style="font-size:330px">Markt.</div>
+  </div>
+</section>
+<!-- 2 · Empfehlen -->
+<section class="f W" data-id="02" data-t="Odometer-Wortwechsel, drei anonyme Nachrichten poppen">
+  <div class="a" style="right:120px;top:120px;display:flex;flex-direction:column;gap:22px;align-items:flex-end">
+    <div style="width:380px;padding:26px 30px;border-radius:30px 30px 30px 8px;background:#f2f2ee"><div class="bar" style="width:88%;background:#d9d9d3"></div><div class="bar" style="width:60%;margin-top:14px;background:#d9d9d3"></div></div>
+    <div style="width:330px;padding:26px 30px;border-radius:30px 30px 30px 8px;background:#f2f2ee;transform:translateX(-60px)"><div class="bar" style="width:78%;background:#d9d9d3"></div></div>
+    <div style="width:400px;padding:26px 30px;border-radius:30px 30px 30px 8px;background:#efe683;transform:scale(0.92);transform-origin:right"><div class="bar" style="width:92%;background:#d8cf6e"></div><div class="bar" style="width:50%;margin-top:14px;background:#d8cf6e"></div></div>
+  </div>
+  <div class="c hb" style="top:470px;font-size:270px">Empfehlen.</div>
+</section>
+<!-- 3 · Gut -->
+<section class="f Y" data-id="03" data-t="gelber Whip von links, „Gut.“ landet mit Overshoot">
+  <div class="c hb" style="top:250px;font-size:500px">Gut.</div>
+  <div class="c" style="top:820px;display:flex;justify-content:center;gap:40px">
+    <svg width="80" height="80" viewBox="0 0 24 24"><use href="#ok"/></svg><svg width="80" height="80" viewBox="0 0 24 24"><use href="#ok"/></svg><svg width="80" height="80" viewBox="0 0 24 24"><use href="#ok"/></svg>
+  </div>
+</section>
+<!-- 4 · Trotzdem woanders -->
+<section class="f D" data-id="04" data-t="harter Schnitt auf dunkel, „Gut.“ kippt weg, „woanders.“ verloren rechts unten">
+  <div style="position:absolute;inset:0;perspective:1400px">
+    <div class="c hb mby" style="top:80px;font-size:500px;color:#3a3a36;transform:rotateX(62deg) translateY(-120px);transform-origin:50% 0">Gut.</div>
+  </div>
+  <div class="a" style="left:120px;top:560px;font-size:64px;font-weight:600;color:#8a8a84">Trotzdem …</div>
+  <div class="a hb" style="right:140px;bottom:120px;font-size:88px;color:rgba(245,245,242,0.62)">woanders.</div>
+</section>
+<!-- 5 · Abends am Handy -->
+<section class="f D" data-id="05" data-t="3D-Karten-Whip im Screen, Uhr 22:14">
+  <div class="a mono" style="left:120px;top:90px;font-size:90px;color:#5b5b56">22:14</div>
+  <div class="phone dk" style="left:430px;top:110px;transform:rotate(-4deg)">
+    <div class="scr">
+      <div class="island"></div>
+      <div class="sb"><span>22:14</span><span>●●●</span></div>
+      <div class="site mbx2" style="left:-300px;top:180px;opacity:.5;transform:perspective(1200px) rotateY(38deg)"><div class="nav"><i style="width:60px"></i><i style="width:40px"></i></div><div class="img" style="background-image:url(assets/fotos/makler-7.webp)"></div><div class="ln h"></div><div class="ln"></div><div class="tagl">Auftritt A</div></div>
+      <div class="site" style="left:46px;top:180px"><div class="nav"><i style="width:70px"></i><i style="width:40px;margin-left:auto"></i><i style="width:40px"></i></div><div class="img" style="background-image:url(assets/fotos/makler-5.webp)"><span class="ai">AI Visual</span></div><div class="ln h"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:60%"></div><div class="tagl">Auftritt B</div></div>
+      <div class="site mbx2" style="left:392px;top:180px;opacity:.5;transform:perspective(1200px) rotateY(-38deg)"><div class="nav"><i style="width:60px"></i></div><div class="img"></div><div class="ln h"></div><div class="ln"></div><div class="tagl">Auftritt C</div></div>
+    </div>
+  </div>
+  <div class="a hb" style="left:1080px;top:360px;font-size:190px">Abends.</div>
+  <div class="a" style="left:1086px;top:580px;font-size:72px;font-weight:600;color:#8a8a84">Am Handy.</div>
+</section>
+<!-- 6 · besser aussieht -->
+<section class="f W" data-id="06" data-t="Zoom durch den Screen, Wort-für-Wort-Reveal, Highlighter läuft">
+  <div class="site lt" style="left:1500px;top:250px;opacity:.25;transform:rotate(6deg) scale(.9)"><div class="nav"><i style="width:60px"></i></div><div class="img"></div><div class="ln h"></div></div>
+  <div class="site lt" style="left:1380px;top:210px;transform:rotate(-3deg) scale(1.05)"><div class="nav"><i style="width:70px"></i><i style="width:40px;margin-left:auto"></i><i style="width:40px"></i></div><div class="img" style="background-image:url(assets/fotos/makler-5.webp)"><span class="ai">AI Visual</span></div><div class="ln h"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:60%"></div><div class="tagl">Auftritt B</div></div>
+  <div class="a hb" style="left:120px;top:340px;font-size:118px;line-height:1.05">Er ruft den an,<br>der <span class="hl"><span>besser aussieht.</span></span></div>
+</section>
+<!-- 7 · Stille -->
+<section class="f D" data-id="07" data-t="Stille. Ein gelber Punkt pulsiert einmal">
+  <div class="a" style="left:50%;top:50%;width:26px;height:26px;margin:-13px;border-radius:50%;background:#efe683;box-shadow:0 0 0 30px rgba(239,230,131,0.08)"></div>
+</section>
+<!-- 8 · Zwischenbild Uhr rollt -->
+<section class="f Y" data-id="08a" data-t="Punkt wird Fläche, Uhr läuft mit Blur zurück">
+  <div class="c hb" style="top:150px;font-size:96px">Jetzt der andere Tag.</div>
+  <div class="c mono mby" style="top:420px;font-size:420px;opacity:.35;transform:translateY(-160px)">22:59</div>
+  <div class="c mono mby" style="top:420px;font-size:420px;transform:translateY(60px)">23:31</div>
+</section>
+<!-- 8 · Uhr rastet -->
+<section class="f Y" data-id="08b" data-t="rastet auf 23:48 mit 2 % Overshoot · danach Drop">
+  <div class="c hb" style="top:150px;font-size:96px">Jetzt der <span class="hl" style="--x:0"><span>andere</span></span> Tag.</div>
+  <div class="c mono" style="top:380px;font-size:440px">23:48</div>
+</section>
+<!-- 9 · Rechner -->
+<section class="f D" data-id="09" data-t="Match-Cut aus der Uhr, Dolly um das Handy, Felder füllen sich">
+  <div class="a mono" style="left:120px;top:90px;font-size:90px">23:48</div>
+  <div class="a hb" style="left:120px;top:400px;font-size:110px;line-height:1.05">Er bewertet<br>sein Haus.</div>
+  <div class="a hb gy" style="left:120px;top:660px;font-size:110px">Auf Ihrer Seite.</div>
+  <div class="a" style="left:120px;bottom:70px;font-size:24px;font-weight:600;color:#6b6b66">Kalibriert mit 489 echten Abschlüssen + amtlichen Bodenrichtwerten · Case RIEGEL</div>
+  <div class="phone lt" style="left:1230px;top:40px;transform:perspective(1600px) rotateY(-10deg)">
+    <div class="scr">
+      <div class="island"></div>
+      <div class="sb"><span>23:48</span><span>●●●</span></div>
+      <div style="position:absolute;left:36px;right:36px;top:100px">
+        <div class="logoBox" style="width:170px;height:60px;font-size:18px">IHR LOGO</div>
+        <div class="hb" style="font-size:44px;margin-top:34px;line-height:1.05">Was ist Ihr Haus wert?</div>
+        <div style="margin-top:22px">
+          <div class="row"><span>Einfamilienhaus</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+          <div class="row"><span>148 m² Wohnfläche</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+          <div class="row"><span>Baujahr 1998</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+          <div class="row"><span>Zustand: gepflegt</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+        </div>
+        <div style="margin-top:30px;padding:28px;border-radius:28px;background:#161613;color:#f5f5f2">
+          <div class="lab" style="font-size:16px;color:#8a8a84">Marktwert, Spanne</div>
+          <div class="mono" style="font-size:52px;margin-top:10px;color:#efe683">612–668 T€</div>
+        </div>
+        <div class="pill py" style="margin-top:22px;width:100%;justify-content:center;font-size:24px">Report anfordern</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 10 · Report -->
+<section class="f W" data-id="10" data-t="Whip-Pan auf weiß, Report-Fächer aus der Tiefe, Push-in auf IHR LOGO">
+  <div class="a hb" style="left:120px;top:330px;font-size:140px;line-height:1.05">Sofort:<br>sein Report.</div>
+  <div class="a hb" style="left:120px;top:660px;font-size:84px"><span class="hl"><span>Mit Ihrem Logo.</span></span></div>
+  <div class="a" style="left:1080px;top:130px;width:620px;height:860px">
+    <div class="card" style="inset:0;border-radius:22px;transform:rotate(14deg) translate(120px,30px);opacity:.9"></div>
+    <div class="card" style="inset:0;border-radius:22px;transform:rotate(8deg) translate(70px,10px)"></div>
+    <div class="card" style="inset:0;border-radius:22px;transform:rotate(3deg) translate(30px,0)"></div>
+    <div class="card" style="inset:0;border-radius:22px;padding:44px">
+      <div class="logoBox" style="width:200px;height:70px;font-size:20px">IHR LOGO</div>
+      <div class="lab g" style="margin-top:40px;font-size:18px">Wertermittlung · Einfamilienhaus</div>
+      <div class="hb" style="font-size:58px;margin-top:12px">Ihr Zuhause, bewertet.</div>
+      <div style="position:relative;height:300px;margin-top:30px;border-radius:18px;background:url(assets/fotos/makler-5.webp) center/cover"><span class="ai">AI Visual</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:34px"><span class="lab g" style="font-size:16px">Marktwert</span><span class="mono" style="font-size:54px">612–668 T€</span></div>
+      <div class="bar" style="margin-top:26px;width:90%"></div><div class="bar" style="margin-top:14px;width:70%"></div>
+    </div>
+  </div>
+  <div class="a" style="right:60px;top:40px;width:470px;padding:20px 24px;border-radius:26px;background:rgba(242,242,238,.96);box-shadow:0 20px 50px -20px rgba(0,0,0,.25);display:flex;gap:16px;align-items:center">
+    <div class="logoBox" style="width:56px;height:56px;border-radius:14px;font-size:11px">LOGO</div>
+    <div><div style="font-weight:700;font-size:22px">Ihr Report ist fertig</div><div class="g" style="font-weight:600;font-size:18px">jetzt · Wertermittlung als PDF</div></div>
+  </div>
+</section>
+<!-- 11 · 08:10 Anruf -->
+<section class="f D" data-id="11" data-t="Odometer 23:48 → 08:10, Handy vibriert, „Bei Ihnen.“ mit Blur 12→0">
+  <div class="a mono" style="left:900px;top:130px;font-size:110px;color:#efe683">08:10</div>
+  <div class="phone dk" style="left:220px;top:40px;transform:rotate(-3deg) translateX(-6px)">
+    <div class="scr" style="background:#161615">
+      <div class="island"></div>
+      <div style="position:absolute;left:0;right:0;top:170px;text-align:center">
+        <div class="g" style="font-weight:600;font-size:26px">ruft an …</div>
+        <div class="hb" style="font-size:52px;margin-top:14px">Eigentümer</div>
+        <div style="font-weight:600;font-size:28px;margin-top:10px;color:#cfcfc8">Einfamilienhaus · Report 23:49</div>
+      </div>
+      <div style="position:absolute;left:60px;right:60px;bottom:120px;display:flex;justify-content:space-between">
+        <div style="width:120px;height:120px;border-radius:50%;background:#34342f"></div>
+        <div style="width:120px;height:120px;border-radius:50%;background:#efe683;box-shadow:0 0 0 22px rgba(239,230,131,.14)"></div>
+      </div>
+    </div>
+  </div>
+  <div class="a" style="left:900px;top:330px;font-size:60px;font-weight:600;color:#8a8a84">Er ruft an.</div>
+  <div class="a hb" style="left:890px;top:430px;font-size:300px">Bei Ihnen.</div>
+</section>
+<!-- 12 · kennt Sie schon -->
+<section class="f D" data-id="12" data-t="Ruhe. Wort-für-Wort, leichter Push-in">
+  <div class="c hb" style="top:300px;font-size:160px">Er kennt Sie <span style="color:#efe683">schon.</span></div>
+  <div class="card dk" style="left:610px;top:640px;width:700px;padding:34px 40px;display:flex;align-items:center;gap:26px">
+    <div class="logoBox" style="width:84px;height:84px;border-radius:20px;font-size:13px">LOGO</div>
+    <div><div style="font-weight:700;font-size:32px">Ihr Report von gestern Nacht</div><div class="g" style="font-weight:600;font-size:24px;margin-top:6px">geöffnet 23:49 · 3× angesehen</div></div>
+  </div>
+</section>
+<!-- 13 · Mandat beginnt -->
+<section class="f Y" data-id="13" data-t="Zoom durch das „o“, Zeilen auf den Downbeat, Unterstreichung zeichnet sich · Drop">
+  <div class="a hb" style="left:140px;top:210px;font-size:176px;line-height:1.02">Ihr nächstes Mandat<br>beginnt, während<br>Sie <span style="position:relative">schlafen.<i style="position:absolute;left:0;right:.35em;bottom:-.08em;height:16px;border-radius:8px;background:#161613"></i></span></div>
+</section>
+<!-- 14 · RIEGEL 9 -->
+<section class="f W" data-id="14" data-t="3D-Karten-Whip aus der Tiefe, Odometer 0→9">
+  <div class="a lab g" style="left:140px;top:150px">Kundenfall · Makler</div>
+  <div class="a hb" style="left:140px;top:210px;font-size:80px">RIEGEL Immobilien</div>
+  <div class="a mono" style="left:110px;top:300px;font-size:640px;line-height:1">9</div>
+  <div class="a hb" style="left:640px;top:520px;font-size:130px;line-height:1.02">zusätzliche<br>Mandate.</div>
+  <div class="a" style="left:648px;top:810px;font-size:54px;font-weight:600;color:#8a8a84">in 3 Monaten nach dem Relaunch</div>
+</section>
+<!-- 15 · Logo -->
+<section class="f D" data-id="15a" data-t="Wortmarke baut sich aus Masken-Strichen">
+  <div class="a logo" style="left:460px;top:360px;width:1000px;color:#f5f5f2">{{LOGO}}</div>
+  <div class="c" style="top:700px;font-size:36px;font-weight:600;color:#8a8a84">Das System dahinter baut beuwy.</div>
+</section>
+<section class="f D" data-id="15b" data-t="Zoom durch das „e“ in die weiße Welt (radialer Blur)">
+  <div class="a logo mbr" style="left:-2229px;top:-555px;width:7000px;color:#f5f5f2">{{LOGO}}</div>
+</section>
+<!-- 16 · Marke Portal Nachfass -->
+<section class="f W" data-id="16a" data-t="Beat 1 · „Marke.“ + Markenraster, Whip rein">
+  <div class="a hb" style="left:120px;top:400px;font-size:220px">Marke.</div>
+  <div class="a" style="left:980px;top:170px;display:grid;grid-template-columns:360px 360px;gap:28px;transform:perspective(1800px) rotateY(-14deg)">
+    <div class="card" style="position:relative;height:220px;border-radius:26px;display:grid;place-items:center"><div class="logoBox" style="width:200px;height:70px;font-size:20px">IHR LOGO</div></div>
+    <div class="card" style="position:relative;height:220px;border-radius:26px;background:#161613;display:grid;place-items:center"><div class="hb" style="color:#efe683;font-size:60px">Aa</div></div>
+    <div class="card" style="position:relative;height:340px;border-radius:26px;padding:30px"><div class="logoBox" style="width:120px;height:44px;font-size:14px">LOGO</div><div class="bar" style="margin-top:30px;width:90%"></div><div class="bar" style="margin-top:12px;width:70%"></div><div class="bar" style="margin-top:12px;width:80%"></div><div class="pill py" style="margin-top:40px;font-size:18px;padding:10px 18px">Termin</div></div>
+    <div class="card" style="position:relative;height:340px;border-radius:26px;overflow:hidden;background:url(assets/fotos/makler-7.webp) center/cover"><span class="ai">AI Visual</span><div class="logoBox" style="position:absolute;left:24px;top:24px;width:120px;height:44px;font-size:14px">LOGO</div></div>
+  </div>
+</section>
+<section class="f W" data-id="16b" data-t="Beat 2 · „Portal.“ + Kundenportal mit Suchauftrag (Whip mit Motion Blur)">
+  <div class="a hb" style="left:120px;top:400px;font-size:220px">Portal.</div>
+  <div class="card mbx2" style="left:960px;top:170px;width:880px;height:740px;border-radius:30px;overflow:hidden;transform:perspective(1800px) rotateY(-12deg) translateX(-30px)">
+    <div style="height:64px;background:#f2f2ee;display:flex;align-items:center;gap:10px;padding:0 24px"><i style="width:14px;height:14px;border-radius:50%;background:#d9d9d3;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#d9d9d3;display:block"></i><div style="margin-left:24px;height:30px;flex:1;border-radius:15px;background:#fff"></div></div>
+    <div style="padding:36px"><div class="logoBox" style="width:140px;height:48px;font-size:15px">IHR LOGO</div>
+      <div class="hb" style="font-size:52px;margin-top:26px">Ihr Suchauftrag</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:26px">
+        <div><div style="height:180px;border-radius:16px;background:url(assets/fotos/makler-5.webp) center/cover"></div><div class="bar" style="margin-top:14px;width:80%"></div></div>
+        <div><div style="height:180px;border-radius:16px;background:url(assets/fotos/makler-7.webp) center/cover"></div><div class="bar" style="margin-top:14px;width:70%"></div></div>
+        <div><div style="height:180px;border-radius:16px;background:url(assets/fotos/makler-13.webp) center/cover"></div><div class="bar" style="margin-top:14px;width:60%"></div></div>
+      </div>
+      <div class="pill py" style="margin-top:30px;font-size:22px">3 neue Treffer</div>
+    </div>
+  </div>
+</section>
+<section class="f W" data-id="16c" data-t="Beat 4 · „Nachfass.“ + Deal-Kanban, Karte wandert zu „Mandat“">
+  <div class="a hb" style="left:120px;top:400px;font-size:200px">Nachfass.</div>
+  <div class="a" style="left:1020px;top:190px;display:flex;gap:22px">
+    <div style="width:250px"><div class="lab g" style="font-size:18px">Bewertet</div><div class="card" style="position:relative;margin-top:16px;height:130px;border-radius:22px;padding:22px"><div class="bar" style="width:80%"></div><div class="bar" style="margin-top:12px;width:50%"></div></div><div class="card" style="position:relative;margin-top:16px;height:130px;border-radius:22px;padding:22px"><div class="bar" style="width:70%"></div></div></div>
+    <div style="width:250px"><div class="lab g" style="font-size:18px">Termin</div><div class="card mbx2" style="position:relative;margin-top:16px;height:130px;border-radius:22px;padding:22px;transform:translateX(90px) rotate(4deg);background:#efe683"><div class="bar" style="width:80%;background:#d8cf6e"></div><div class="bar" style="margin-top:12px;width:40%;background:#d8cf6e"></div></div></div>
+    <div style="width:250px"><div class="lab g" style="font-size:18px">Mandat</div><div class="card" style="position:relative;margin-top:16px;height:130px;border-radius:22px;padding:22px;background:#161613;color:#efe683"><div style="font-weight:700;font-size:22px">Einfamilienhaus</div><div style="font-weight:600;font-size:18px;color:#8a8a84;margin-top:8px">Alleinauftrag ✓</div></div></div>
+  </div>
+  <div class="a" style="left:1020px;top:560px;width:790px;padding:26px 30px;border-radius:24px;background:#f5f5f2;font-weight:600;font-size:24px;color:#5d5d58">Nachfass-Mail 2 von 3 · automatisch · morgen 09:00</div>
+</section>
+<!-- 17 · sechs Wochen -->
+<section class="f W" data-id="17" data-t="Kästchen füllen sich auf Achteln, Stempel knallt mit 2-px-Shake">
+  <div class="a hb" style="left:140px;top:170px;font-size:150px">Live in sechs Wochen.</div>
+  <div class="a" style="left:140px;top:430px;display:flex;gap:22px">
+    <div style="width:240px;height:150px;border-radius:26px;background:#efe683;padding:24px" class="mono"><span style="font-size:40px">W1</span></div>
+    <div style="width:240px;height:150px;border-radius:26px;background:#efe683;padding:24px" class="mono"><span style="font-size:40px">W2</span></div>
+    <div style="width:240px;height:150px;border-radius:26px;background:#efe683;padding:24px" class="mono"><span style="font-size:40px">W3</span></div>
+    <div style="width:240px;height:150px;border-radius:26px;background:#efe683;padding:24px" class="mono"><span style="font-size:40px">W4</span></div>
+    <div style="width:240px;height:150px;border-radius:26px;background:#efe683;padding:24px" class="mono"><span style="font-size:40px">W5</span></div>
+    <div style="width:240px;height:150px;border-radius:26px;background:#161613;color:#efe683;padding:24px" class="mono"><span style="font-size:40px">Live</span></div>
+  </div>
+  <div class="a" style="left:1150px;top:650px;transform:rotate(-7deg);padding:26px 40px;border:8px solid #161613;border-radius:22px" class="hb"><div class="hb" style="font-size:54px;letter-spacing:0.02em">TERMIN SCHRIFTLICH<br>ZUGESAGT</div></div>
+  <div class="a" style="left:140px;bottom:90px;font-size:26px;font-weight:600;color:#8a8a84">Angebunden an onOffice, FLOWFACT, Propstack, JUSTIMMO, CasaOne</div>
+</section>
+<!-- 18 · Projektentwickler -->
+<section class="f D" data-id="18" data-t="Karten-Whip von rechts, Pfeil zeichnet sich, Odometer 1.450">
+  <div class="a lab gy" style="left:140px;top:200px">Projektentwickler</div>
+  <div class="a hb" style="left:140px;top:260px;font-size:120px;line-height:1.04">Ein Auftritt<br>in Ihrer Größe.</div>
+  <div class="card dk" style="left:1010px;top:200px;width:780px;height:680px;padding:56px">
+    <div class="lab g" style="font-size:20px">Kundenfall</div>
+    <div class="hb" style="font-size:72px;margin-top:10px">Vision Group</div>
+    <div style="display:flex;align-items:center;gap:30px;margin-top:50px"><span class="mono" style="font-size:110px">3</span><svg width="120" height="40" viewBox="0 0 120 40"><path d="M4 20H108M92 6l16 14-16 14" stroke="#efe683" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono gy" style="font-size:110px">1.450</span></div>
+    <div class="g" style="font-weight:600;font-size:28px;margin-top:6px">Personen → Wohneinheiten</div>
+    <div style="font-weight:700;font-size:36px;margin-top:44px">160 Mio. € Joint Venture mit KKR</div>
+    <div class="pill pg" style="margin-top:40px;font-size:22px">Marke &amp; Auftritt: beuwy</div>
+  </div>
+</section>
+<!-- 19 · Vertriebe -->
+<section class="f W" data-id="19" data-t="Whip-Karte, Haken im Takt, Pill poppt">
+  <div class="a lab g" style="left:140px;top:200px">Vertriebe</div>
+  <div class="a hb" style="left:140px;top:260px;font-size:112px;line-height:1.04">Anleger<br>vorqualifiziert,<br><span class="hl"><span>bevor</span></span> Sie anrufen.</div>
+  <div class="card" style="left:1100px;top:200px;width:680px;height:680px;padding:52px">
+    <div class="lab g" style="font-size:20px">Anlegerprofil</div>
+    <div class="hb" style="font-size:56px;margin-top:10px">Neue Anfrage</div>
+    <div style="margin-top:26px">
+      <div class="row"><span>Eigenkapital</span><span style="display:flex;gap:18px;align-items:center"><span class="mono" style="font-size:28px">80 T€</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></span></div>
+      <div class="row"><span>Einkommen geprüft</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+      <div class="row"><span>Ziel: Kapitalanlage</span><span class="chk"><svg viewBox="0 0 24 24"><use href="#ok"/></svg></span></div>
+    </div>
+    <div class="pill py" style="margin-top:44px">● Vorqualifiziert</div>
+  </div>
+</section>
+<!-- 20 · Finanzvertriebe -->
+<section class="f Y" data-id="20" data-t="gelber Masken-Wipe, Zähler rollt, „+“ snappt auf den Beat">
+  <div class="a lab" style="left:140px;top:200px">Finanzvertriebe</div>
+  <div class="a hb" style="left:140px;top:260px;font-size:120px;line-height:1.04">Eine Marke,<br>die mitwächst.</div>
+  <div class="card" style="left:1010px;top:200px;width:780px;height:680px;padding:56px">
+    <div class="lab g" style="font-size:20px">Kundenfall</div>
+    <div class="hb" style="font-size:72px;margin-top:10px">Königswege</div>
+    <div class="g" style="font-weight:600;font-size:28px;margin-top:10px">Top 10 der deutschen Finanzvertriebe</div>
+    <div style="display:flex;align-items:center;gap:30px;margin-top:50px"><span class="mono" style="font-size:110px">60</span><svg width="120" height="40" viewBox="0 0 120 40"><path d="M4 20H108M92 6l16 14-16 14" stroke="#161613" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono" style="font-size:110px">2.300+</span></div>
+    <div class="g" style="font-weight:600;font-size:28px;margin-top:6px">Partner, unter derselben Marke</div>
+    <div class="pill py" style="margin-top:50px;font-size:22px">Marke: beuwy</div>
+  </div>
+</section>
+<!-- 21 · Gründer -->
+<section class="f D" data-id="21" data-t="Karten fächern weg, Odometer 0→380, langsamer Push-in">
+  <div class="a mono" style="left:120px;top:150px;font-size:420px;line-height:1">380</div>
+  <div class="a hb" style="left:130px;top:600px;font-size:96px;line-height:1.05">Wohnungen verkauft.<br><span class="gy">Mit eigenem Vertrieb.</span></div>
+  <div class="a" style="left:130px;bottom:100px;font-size:30px;font-weight:600;color:#8a8a84">Alexander Pütter · Gründer · 17 Jahre Markenarbeit · u. a. Bosch, Continental, Michelin</div>
+</section>
+<!-- 22 · Eins noch -->
+<section class="f D" data-id="22" data-t="totale Stille, nur Opacity">
+  <div class="c" style="top:490px;font-size:96px;font-weight:600">Eins noch.</div>
+</section>
+<!-- 23 · Städte-Walze -->
+<section class="f Y" data-id="23a" data-t="Städte-Walze mit starkem vertikalem Blur">
+  <div class="a hb" style="left:140px;top:110px;font-size:84px">Pro Stadt nur ein Maklerbüro.</div>
+  <div class="a hb mby" style="left:140px;top:300px;font-size:120px;line-height:1.15;color:rgba(22,22,19,.5)">Hamburg<br>Köln<br>Frankfurt<br>Stuttgart<br>Düsseldorf</div>
+</section>
+<section class="f Y" data-id="23b" data-t="rastet auf „Ihre Stadt.“, riesige 1 per Masken-Reveal">
+  <div class="a hb" style="left:140px;top:110px;font-size:84px">Pro Stadt nur ein Maklerbüro.</div>
+  <div class="a hb" style="left:140px;top:300px;font-size:120px;line-height:1.15"><span style="color:rgba(22,22,19,.22)">München</span><br><span style="color:rgba(22,22,19,.4)">Frankfurt</span><br>Ihre Stadt.<br><span style="color:rgba(22,22,19,.4)">Köln</span><br><span style="color:rgba(22,22,19,.22)">Hamburg</span></div>
+  <div class="a mono" style="right:150px;top:220px;font-size:760px;line-height:1">1</div>
+  <div class="a" style="right:170px;bottom:90px;font-size:30px;font-weight:700">Gebietsschutz für Makler</div>
+</section>
+<!-- 24 · noch frei -->
+<section class="f Y" data-id="24" data-t="keine Stimme · „noch frei?“ per Masken-Reveal, Bild atmet">
+  <div class="c hb" style="top:300px;font-size:210px;line-height:1.05">Ihre Stadt<br>noch frei?</div>
+</section>
+<!-- 25 · CTA -->
+<section class="f W" data-id="25" data-t="Wortmarke (Echo Sz. 15), Pill fährt hoch, Cursor-Klick · Logo-Sting">
+  <div class="a mono g" style="right:90px;top:70px;font-size:44px">23:49</div>
+  <div class="a logo" style="left:560px;top:270px;width:800px;color:#161613">{{LOGO}}</div>
+  <div class="c" style="top:520px;font-size:32px;font-weight:600;color:#8a8a84">Unternehmensberatung für Immobilienunternehmen</div>
+  <div class="c" style="top:640px"><span class="pill py" style="font-size:44px;padding:26px 56px;transform:scale(.97);display:inline-flex">Zusammenarbeit anfragen</span></div>
+  <svg class="a" style="left:1170px;top:700px" width="54" height="64" viewBox="0 0 18 22"><path d="M1 1v17l4.5-4 3 7 3-1.4-3-6.8H14Z" fill="#161613" stroke="#fff" stroke-width="1.2"/></svg>
+  <div class="c hb" style="top:840px;font-size:56px"><span class="hl"><span>beuwy.com</span></span></div>
+</section>
+</body>
+</html>
